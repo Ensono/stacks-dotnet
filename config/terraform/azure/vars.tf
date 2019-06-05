@@ -49,6 +49,8 @@ variable "resource_group_tags" {
 }
 
 locals {
+  // traffic_manager_name  = "${var.name_company}-${var.name_platform}-${var.name_project}-tm-gbl-${var.name_environment}"
+  // dns_record_address_tm = "${var.name_company}-${var.name_platform}-${var.name_project}-${var.name_environment}"
   resource_group_name   = "${var.name_company}-${var.name_platform}-${var.name_project}-rg-gbl-${var.name_environment}"
   cosmosdb_account_name = "${var.name_company}-${var.name_platform}-${var.name_project}-cdb-eun-${var.name_environment}"
 }
