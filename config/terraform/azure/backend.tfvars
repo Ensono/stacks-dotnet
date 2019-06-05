@@ -1,0 +1,5 @@
+arm_client_id = "#{azure_client_id}"
+arm_client_secret = "#{azure_client_secret}"
+arm_subscription_id = "#{azure_subscription_id}"
+arm_tenant_id = "#{azure_tenant_id}"
+storage_account_name = "#{storage_account_name}"

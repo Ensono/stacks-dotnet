@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.applicationVersion }}-configmap
+  labels:
+    name: {{ .Release.Name }}-{{ .Values.applicationVersion }}-configmap
+    chart: {{ template "dotnet.chart" . }}
+    release: {{ .Release.Name }}
+data:
+  THIS_DOES_NOTHING: {{ .Values.configMapValues.THIS_DOES_NOTHING }}
+  SO_DOES_THIS: {{ .Values.configMapValues.SO_DOES_THIS }}
