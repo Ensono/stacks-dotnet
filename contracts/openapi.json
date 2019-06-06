@@ -1,0 +1,310 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Menu API",
+    "description" : "This is an API to manage Menu in the restaurants",
+    "contact" : {
+      "email" : "stacks@amido.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "v1"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/guibirow/Test/v1",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "tags" : [ {
+    "name" : "Menu",
+    "description" : "Menu management service"
+  } ],
+  "paths" : {
+    "/menu/" : {
+      "get" : {
+        "tags" : [ "Menu" ],
+        "summary" : "Get or search a list of available menus",
+        "description" : "By passing in the appropriate options, you can search for\navailable menus in the system\n",
+        "operationId" : "searchMenu",
+        "parameters" : [ {
+          "name" : "restaurantId",
+          "in" : "query",
+          "description" : "restaurant to filter from",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "search",
+          "in" : "query",
+          "description" : "pass an optional search string for looking up menus",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "skip",
+          "in" : "query",
+          "description" : "number of records to skip for pagination",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Menu"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad request"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Menu" ],
+        "summary" : "Create a menu",
+        "description" : "Adds a menu",
+        "operationId" : "addMenu",
+        "requestBody" : {
+          "description" : "Menu being added",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Menu"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          },
+          "400" : {
+            "description" : "bad request"
+          },
+          "409" : {
+            "description" : "Conflict, an item already exists"
+          }
+        }
+      }
+    },
+    "/menu/{id}" : {
+      "get" : {
+        "tags" : [ "Menu" ],
+        "summary" : "Get a menu",
+        "description" : "By passing in the appropriate options, you can search for\navailable menus in the system\n",
+        "operationId" : "getMenu",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "menu id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Menu",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Menu"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Menu" ],
+        "summary" : "Update a menu",
+        "description" : "Update a menu with new information",
+        "operationId" : "updateMenu",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "menu id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Menu being added",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Menu"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No content"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Menu" ],
+        "summary" : "Removes a menu",
+        "description" : "Remove a menu from a restaurant",
+        "operationId" : "deleteMenu",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "menu id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No content"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "MenuItem" : {
+        "required" : [ "available", "id", "name", "price" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "CheeseBurguer"
+          },
+          "description" : {
+            "type" : "string",
+            "example" : "A delicious patty covered with melted cheddar"
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 1.50
+          },
+          "available" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Category" : {
+        "required" : [ "id", "items", "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Burguers"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/MenuItem"
+            }
+          }
+        }
+      },
+      "Menu" : {
+        "required" : [ "categories", "enabled", "id", "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Lunch Menu"
+          },
+          "categories" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Category"
+            }
+          },
+          "enabled" : {
+            "type" : "boolean"
+          }
+        }
+      }
+    }
+  }
+}
