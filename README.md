@@ -1,2 +1,46 @@
 # stacks-dotnet
 DotNet example application and scaffolding for Amido Stacks
+
+# Definitions:
+
+**Application**: 
+Throughout this document, the term application will refer to a set of services that 
+together form a component in a bigger solution. I.E: A front-end service that hosts 
+react application, dependeds on the API service that provides the endponts to the 
+front-end. We should avoid the term component because everything is a component of 
+a bigger solution and it makes harder to identify the context.
+                    
+**Service**: 
+Is the term we will use to describe a component into an application that provides a 
+specific set of feature in the applicaiton scope. ie:                
+UI is the front-end service that provides pages for users to navigate and access the application features. 
+API is a service that provides endpoints to interct with the application resources either by UI or by other applications.
+  
+  
+# Repository Structure
+```
+├── build
+│   ├── azDevOps: stores configuration, build steps and scripts used by azure dev ops only
+│   ├── jenkins: stores configuration, build steps and scripts used by azure dev ops only
+│   └── scripts: stores scripts used by build steps that can be resused by multiple 
+|                tools without changes. ie: Docker script for Container Image creation
+├── deploy
+|   ├── k8s: stores yaml files for k8s deployments. i.e: deployments, services, 
+|   |         configMap and related dependencies for each service in an application
+|   |   ├── ui: stores yaml for ui service
+|   |   ├── api: stores yaml for the api service and configuration files
+│   │   │   ├── base: store raw yaml used by k8s
+│   │   │   ├── kustomization: store kustomize files(for kubectl apply -k)
+│   │   │   │   ├── dev: configuration files for dev environment
+│   │   │   │   └── test: configuration files for test environment
+│   │   │   └── helm-chart: store helm chart files(if helm used)
+│   │   │       └── templates
+|   ├── scripts: deployment scripts shared by multiple tools. ie: Variable substitution
+|   ├── serviceFabric: scripts used to deploy applications on serviceFabric
+|   └── terraform: terraform scripts used to provision dependencies only needed by this application
+├── contracts: stores swagger specs, ui mocks and other documents describing the overall solution
+└── src
+    ├── services: stores back end service like apis and workers(i.e: queue listerner, scheduled jobs)
+    ├── tests: stores tests not built in other services solutions(functional tests, performance, etc)  
+    └── ui: stores the front end service and components
+```
