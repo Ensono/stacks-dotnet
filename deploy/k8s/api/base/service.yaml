@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: aspnetapp
+  namespace: default
+  labels:
+    app.kubernetes.io/name: aspnetapp
+    app.kubernetes.io/part-of: aspnetapp
+spec:
+#  externalTrafficPolicy: Local
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: aspnetapp
+    app.kubernetes.io/part-of: aspnetapp
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
