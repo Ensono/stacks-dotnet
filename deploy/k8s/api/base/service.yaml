@@ -1,18 +1,18 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name: aspnetapp
-  namespace: default
+  name: menuapi
   labels:
-    app.kubernetes.io/name: aspnetapp
-    app.kubernetes.io/part-of: aspnetapp
+    app.kubernetes.io/name: menuapi
+    app.kubernetes.io/component: api
+    app.kubernetes.io/part-of: menu
 spec:
-#  externalTrafficPolicy: Local
-  type: ClusterIP
-  selector:
-    app.kubernetes.io/name: aspnetapp
-    app.kubernetes.io/part-of: aspnetapp
+  type: NodePort    #NodePort for localhost devlopment. In the future the value should be ClusterIP only
   ports:
-    - name: http
-      port: 80
-      targetPort: http
+  - port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app.kubernetes.io/name: menuapi
+    app.kubernetes.io/component: api
+    app.kubernetes.io/part-of: menu
