@@ -1,7 +1,7 @@
 # stacks-dotnet
 DotNet example application and scaffolding for Amido Stacks
 
-Definitions:
+# Definitions:
 
 **Application**: 
 Throughout this document, the term application will refer to a set of services that 
