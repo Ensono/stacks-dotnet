@@ -1,29 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 resources:
 - namespace.yaml
 - deployment.yaml
 - service.yaml
-
 namespace: menu
-
 commonLabels:
-  app.kubernetes.io/name: menuapi
   app.kubernetes.io/component: api
+  app.kubernetes.io/name: menuapi
   app.kubernetes.io/part-of: menu
-  
 commonAnnotations:
-  projectID: stacks                           # overall project id. ie: eCommerce, stacks
-  applicationId: stacks-dotnet/menu           # id of application where this service belongs to
-  applicationName: menu                       # name of application where this service belongs to
-  version: 2019.06.07-1703                    # version number of binaries(image)
-  app.kubernetes.io/version: 2019.06.07-1703  # version number of binaries(image) using k8s recommended label name
-  release: 0.0.1                              # release number on CD pipeline
-  releasedOn: 2019-06-07T16:42:05Z            # Release date
-  environment: dev                            # dev, qa, staging, canary, production
-  stage: stable                               # stage/Phase: stable, canary
-  role: api                                   # ui/api/cache/database/auth/jobs/worker
-  tier: frontend                              # back-end for non-public acessible services
-  app.kubernetes.io/instance: manuapi         # A unique name identifying the instance of an application, useful when multiple instances can be executed side by side
-  app.kubernetes.io/managed-by: stacks-dotnet # team-name or team-name/user or project/team
-  owner: amido/dotnet                         # team-name or team-name/user or project/team
+  app.kubernetes.io/instance: manuapi
+  app.kubernetes.io/managed-by: stacks-dotnet
+  applicationId: stacks-dotnet/menu
+  applicationName: menu
   customerID: amido
-  addedBy: kustomize
+  environment: dev
+  owner: amido/dotnet
+  projectID: stacks
+  role: api
+  stage: stable
+  tier: frontend
+# release: 0.0.1
+# version: 2019.06.07-1703 #inserted by CD pipeline
+# app.kubernetes.io/version: 2019.06.07-1703
+# releasedOn: "2019-06-07T16:42:05Z"
+images:
+- name: menuapi
+  newName: amidostacksacrukstmp.azurecr.io/guibirow/xx-amido-xx.xx-stacks-xx.api
+  newTag: 2019.06.10-1819
