@@ -1,6 +1,10 @@
 variables:
 - group: amido-stacks-infra-credentials-nonprod
 - group: amido-stacks-dotnet-infra
+  Version.MajorMinor: 1.0
+  Version.Revision: $[counter(variables['Version.MajorMinor'], 0)]
+
+name: services-api-azure-$(build.buildnumber)
 
 resources:
 - repo: self
@@ -10,6 +14,9 @@ pool:
 
 steps:
 
+- script: echo '##vso[build.updatebuildnumber]$(Version.MajorMinor).$(Version.Revision)'
+  displayName: Update Build Number
+
 - script: |
     az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
     az account set -s $AZURE_SUBSCRIPTION_ID
@@ -18,14 +25,14 @@ steps:
   env:
     AZURE_CLIENT_SECRET: $(azure_client_secret)
 
-- script: |
-    docker run -v "$(pwd):/repo" gittools/gitversion | tee gitversion.json
-    export FULLSEMVER=$(cat gitversion.json | jq .FullSemVer -r)
-    export FULLSEMVERPARSED=$(echo $FULLSEMVER | sed "s/+/./g")
-    echo "##vso[build.updatebuildnumber]$FULLSEMVERPARSED"
-  displayName: GitVersion
-  workingDirectory: $(Build.SourcesDirectory)
-
+#  This is now a windows image, so can't run on hosted Linux build agents, commented out for now
+# - script: |
+#     docker run -v "$(pwd):/repo" gittools/gitversion | tee gitversion.json
+#     export FULLSEMVER=$(cat gitversion.json | jq .FullSemVer -r)
+#     export FULLSEMVERPARSED=$(echo $FULLSEMVER | sed "s/+/./g")
+#     echo "##vso[build.updatebuildnumber]$FULLSEMVERPARSED"
+#   displayName: GitVersion
+#   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
     echo $BUILD_BUILDNUMBER
