@@ -1,8 +1,10 @@
 variables:
 - group: amido-stacks-infra-credentials-nonprod
 - group: amido-stacks-dotnet-infra
-  Version.MajorMinor: 1.0
-  Version.Revision: $[counter(variables['Version.MajorMinor'], 0)]
+- name: Version.MajorMinor
+  value: 1.0
+- name: Version.Revision
+  value: $[counter(variables['Version.MajorMinor'], 0)]
 
 name: services-api-azure-$(build.buildnumber)
 
