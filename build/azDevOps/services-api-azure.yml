@@ -1,6 +1,8 @@
 variables:
 - group: amido-stacks-infra-credentials-nonprod
 - group: amido-stacks-dotnet-infra
+- group: amido-stacks-dotnet-services-api
+
 - name: Version.MajorMinor
   value: 1.0
 - name: Version.Revision
@@ -41,7 +43,7 @@ steps:
     docker build . -t dotnet:$BUILD_BUILDNUMBER -t $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet:$BUILD_BUILDNUMBER -t $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet:latest
     docker push $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet
   displayName: Docker Build and Push API container
-  workingDirectory: $(Build.SourcesDirectory)/src/services/api
+  workingDirectory: $(Build.SourcesDirectory)$(Docker.DockerfilePath)
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact - Deploy scripts
