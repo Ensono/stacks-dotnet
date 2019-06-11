@@ -21,8 +21,8 @@ spec:
     spec:
 ##      serviceAccountName: nginx-ingress-serviceaccount
       containers:
-        - name: aspnetapp
-          image: amidostacksacrukstmp.azurecr.io/guibirow/aspnetapp:2019.06.07-1703
+        - name: menuapi
+          image: repository/image:tag
 ##          args:
 ##            - /nginx-ingress-controller
 ##            - --configmap=$(POD_NAMESPACE)/nginx-configuration

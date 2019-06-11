@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace test.Controllers
 {
+    [Route("[controller]")]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -16,12 +17,6 @@ namespace test.Controllers
         {
 			List<string> variables = new List<string>() { "value1", "value2" };
 			
-			var enumerator = Environment.GetEnvironmentVariables().GetEnumerator();
-			while (enumerator.MoveNext())
-			{
-				variables.Add($"{enumerator.Key,30}:{enumerator.Value}");
-			} 
-
             return variables;
         }
 
