@@ -25,23 +25,11 @@ steps:
     echo $BUILD_BUILDNUMBER
     docker build . -t dotnet:$BUILD_BUILDNUMBER -t $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet:$BUILD_BUILDNUMBER -t $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet:latest
     docker push $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet
-  displayName: Docker build and push
-  workingDirectory: $(Build.SourcesDirectory)/source
-
-- script: | 
-    helm lint dotnet --values dotnet/values.dev.yaml
-    helm lint dotnet --values dotnet/values.test.yaml
-  displayName: helm lint
-  workingDirectory: $(Build.SourcesDirectory)/config/k8s/helm-chart
-
-- task: PublishBuildArtifacts@1
-  displayName: Publish Artifact - Helm Chart
-  inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/config/k8s/helm-chart'
-    ArtifactName: 'helm'
+  displayName: Docker Build and Push API container
+  workingDirectory: $(Build.SourcesDirectory)/src/services/api
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact - Deploy scripts
   inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/config/scripts'
+    PathtoPublish: '$(Build.SourcesDirectory)/deploy/scripts'
     ArtifactName: 'deploy'
