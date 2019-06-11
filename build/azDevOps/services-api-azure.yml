@@ -43,7 +43,7 @@ steps:
     docker build . -t dotnet:$BUILD_BUILDNUMBER -t $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet:$BUILD_BUILDNUMBER -t $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet:latest
     docker push $AZURE_ACR_NAME_NONPROD.azurecr.io/dotnet
   displayName: Docker Build and Push API container
-  workingDirectory: $(Build.SourcesDirectory)$(Docker.DockerfilePath)
+  workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact - Deploy scripts
