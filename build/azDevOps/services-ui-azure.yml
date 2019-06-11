@@ -1,9 +1,15 @@
+variables:
+- group: amido-stacks-infra-credentials-nonprod
+- group: amido-stacks-dotnet-infra
+
+
 resources:
 - repo: self
-queue:
-  name: Hosted Linux Preview
-steps:
 
+queue:
+  name: 'ubuntu-16.04'
+
+steps:
 - script: |
     az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
     az account set -s $AZURE_SUBSCRIPTION_ID
