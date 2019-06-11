@@ -1,0 +1,17 @@
+resources:
+- repo: self
+queue:
+  name: Hosted VS2017
+steps:
+- script: 'choco install terraform' 
+  displayName: Install binaries
+
+- script: 'terraform fmt' 
+  displayName: terraform fmt
+  workingDirectory: '$(Build.SourcesDirectory)\config\terraform\azure'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact - terraform_azure'
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)\config\terraform\azure'
+    ArtifactName: terraform_azure
