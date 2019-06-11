@@ -1,7 +1,14 @@
+variables:
+- group: amido-stacks-infra-credentials-nonprod
+- group: amido-stacks-dotnet-infra
+
+
 resources:
 - repo: self
+
 queue:
-  name: Hosted Linux Preview
+  name: 'ubuntu-16.04'
+
 steps:
 
 - script: |
