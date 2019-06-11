@@ -51,7 +51,7 @@ steps:
     PathtoPublish: '$(Build.SourcesDirectory)/deploy/scripts'
     ArtifactName: 'deploy'
 
-- task: PublishBuildArtifacts@2
+- task: PublishBuildArtifacts@1
   displayName: Publish Artifact - YML files 
   inputs:
     PathtoPublish: '$(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)'
