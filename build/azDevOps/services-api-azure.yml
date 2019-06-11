@@ -2,7 +2,6 @@ variables:
 - group: amido-stacks-infra-credentials-nonprod
 - group: amido-stacks-dotnet-infra
 
-
 resources:
 - repo: self
 
