@@ -1,0 +1,274 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/guibirow/Test/v1
+info:
+  description: This is an API to manage Menu in the restaurants
+  version: "v1"
+  title: Menu API
+  contact:
+    email: stacks@amido.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: Menu
+    description: Menu management service
+paths:
+  /menu/:
+    get:
+      tags: 
+      - Menu
+      summary: "Get or search a list of available menus"
+      operationId: searchMenu
+      description: |
+        By passing in the appropriate options, you can search for
+        available menus in the system
+      parameters:
+        - in: query
+          name: restaurantId
+          description: restaurant to filter from
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: search
+          description: pass an optional search string for looking up menus
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: skip
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      security:
+        - OpenID: [admin]
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        '400':
+          description: 'bad request'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      tags: 
+      - Menu
+      summary: "Create a menu"
+      operationId: addMenu
+      description: Adds a menu
+      security:
+        - OpenID: [admin]
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/ConflictItemExists'
+      requestBody:
+        description: Menu being added
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Menu'
+  /menu/{id}:
+    get:
+      tags: 
+      - Menu
+      summary: "Get a menu"
+      operationId: getMenu
+      description: |
+        By passing in the appropriate options, you can search for
+        available menus in the system
+      parameters:
+        - in: path
+          name: id
+          description: menu id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Menu
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: 
+      - Menu
+      summary: "Update a menu"
+      operationId: updateMenu
+      description: Update a menu with new information
+      parameters:
+        - in: path
+          name: id
+          description: menu id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - OpenID: [admin]
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Menu'
+        description: Menu being added
+    delete:
+      tags: 
+      - Menu
+      summary: "Removes a menu"
+      operationId: deleteMenu
+      description: Remove a menu from a restaurant
+      parameters:
+        - in: path
+          name: id
+          description: menu id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - OpenID: [admin]
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    MenuItem:
+      type: object
+      required:
+        - id
+        - name
+        - price
+        - available
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: CheeseBurguer
+        description:
+          type: string
+          example: A delicious patty covered with melted cheddar
+        price:
+          type: number
+          format: double
+          example: '1.50'
+        available:
+         type: boolean
+    Category:
+      type: object
+      required:
+        - id
+        - name
+        - items
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: Burguers
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuItem'
+    Menu:
+      type: object
+      required:
+        - id
+        - name
+        - categories
+        - enabled
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: Lunch Menu
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        enabled:
+          type: boolean
+  responses:
+    Created:
+      description: Resource created
+    NotFound:
+      description: Resource not found
+    NoContent:
+      description: No Content
+    BadRequest:
+      description: Bad Request
+    Unauthorized:
+      description: Access token is missing or invalid
+    Forbidden:
+      description: Forbidden, the user does not have permission to execute this operation
+    ConflictItemExists:
+      description: Conflict, an item already exists
+  securitySchemes:
+    OpenID:
+      type: openIdConnect
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes

@@ -1,1 +1,1 @@
-ab.exe -n 1000000 -c 500 -t 180 -s 5  https://localhost:5001/api/values
+ab.exe -n 1000000 -c 100 -t 180 -s 5  http://localhost:5001/api/values

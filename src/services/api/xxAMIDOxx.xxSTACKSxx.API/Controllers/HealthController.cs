@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
-    [Route("/")] //temporary, should redirect to swagger in the future
     [Route("/[controller]")]
     [ApiController]
     public class HealthController: ControllerBase
