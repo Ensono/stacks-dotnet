@@ -8,7 +8,7 @@ variables:
 - name: Version.Revision
   value: $[counter(variables['Version.MajorMinor'], 0)]
 
-name: menu-api-$(build.SourceBranchName)-$(build.buildnumber)
+name: menu-api-$(build.SourceBranchName)
 
 resources:
 - repo: self
@@ -18,7 +18,7 @@ pool:
 
 steps:
 
-- script: echo '##vso[build.updatebuildnumber]$(Version.MajorMinor).$(Version.Revision)'
+- script: echo '##vso[build.updatebuildnumber]menu-api-$(build.sourcebranchname)-(Version.MajorMinor).$(Version.Revision)'
   displayName: Update Build Number
 
 - script: |
