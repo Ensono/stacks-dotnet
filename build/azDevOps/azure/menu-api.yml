@@ -2,7 +2,7 @@ variables:
 - group: amido-stacks-infra-credentials-nonprod
 - group: amido-stacks-menu-api
 - group: amido-stacks-infra-nonprod
-
+- group: amido-stacks-global
 - name: Version.MajorMinor
   value: 1.0
 - name: Version.Revision
