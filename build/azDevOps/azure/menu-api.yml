@@ -8,7 +8,7 @@ variables:
 - name: Version.Revision
   value: $[counter(variables['Version.MajorMinor'], 0)]
 
-name: menu-api-$(build.SourceBranchName)
+name: $(Docker.ImageName)-$(build.SourceBranchName)
 
 resources:
 - repo: self
@@ -18,7 +18,7 @@ pool:
 
 steps:
 
-- script: echo '##vso[build.updatebuildnumber]menu-api-$(build.sourcebranchname)-(Version.MajorMinor).$(Version.Revision)'
+- script: echo '##vso[build.updatebuildnumber]$(Docker.ImageName)-$(Docker.ImageTag))'
   displayName: Update Build Number
 
 - script: |
@@ -40,8 +40,8 @@ steps:
 
 - script: |
     echo $BUILD_BUILDNUMBER
-    docker build . -t dotnet:$BUILD_BUILDNUMBER -t $ACR_NAME.azurecr.io/$DOCKER_CONTAINERNAME:$BUILD_BUILDNUMBER -t $ACR_NAME.azurecr.io/$DOCKER_CONTAINERNAME:latest
-    docker push $ACR_NAME.azurecr.io/$DOCKER_CONTAINERNAME
+    docker build . -t $DOCKER_IMAGENAME:$DOCKER_IMAGETAG -t $ACR_NAME.azurecr.io/$DOCKER_IMAGENAME:$DOCKER_IMAGETAG -t $ACR_NAME.azurecr.io/$DOCKER_IMAGENAME:latest
+    docker push $ACR_NAME.azurecr.io/$DOCKER_IMAGENAME
   displayName: Docker Build and Push container
   workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
