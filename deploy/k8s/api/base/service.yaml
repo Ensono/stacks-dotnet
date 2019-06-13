@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/component: api
     app.kubernetes.io/part-of: menu
 spec:
-  type: NodePort    #NodePort for localhost devlopment. In the future the value should be ClusterIP only
+  type: ClusterIP
   ports:
   - port: 80
     protocol: TCP

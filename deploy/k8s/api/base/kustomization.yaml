@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - deployment.yaml
 - service.yaml
+- ingress.yaml
 commonLabels:
   app.kubernetes.io/component: api
   app.kubernetes.io/name: menuapi
@@ -26,5 +27,6 @@ commonAnnotations:
 # releasedOn: "2019-06-07T16:42:05Z"
 images:
 - name: manuapi-image
-  newName: amidostacksacrukstmp.azurecr.io/guibirow/xx-amido-xx.xx-stacks-xx.api
-  newTag: 2019.06.10-1819
+  newName: amidostacksacrukstmp.azurecr.io/guibirow/xxamidoxx.xxstacksxx.api  
+  newTag: 2019.06.12-1523
+  
