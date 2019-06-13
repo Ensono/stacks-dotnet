@@ -19,7 +19,7 @@ rm -drf $DEVFOLDER  #clear temp folder before operation to avoid conflicts
 	cd $DEVFOLDER
 	
 	#set image
-	kustomize edit set image manuapi-image=amidostacksacrukstmp.azurecr.io/guibirow/xx-amido-xx.xx-stacks-xx.api:$TAG;
+	kustomize edit set image menuapi-image=amidostacksacrukstmp.azurecr.io/guibirow/xx-amido-xx.xx-stacks-xx.api:$TAG;
 
 	#set annotations
 	kustomize edit add annotation version:$TAG;
