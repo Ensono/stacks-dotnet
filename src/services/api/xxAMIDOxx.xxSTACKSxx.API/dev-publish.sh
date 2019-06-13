@@ -7,14 +7,13 @@ TAG=`date -u "+%Y.%m.%d-%H%M"`
 RELEASEDATE=`date --iso-8601=seconds`
 
 #push
-./docker-push.sh
+./docker-push.sh $TAG
 
-#kustomize - replace variables
-
+#temp folder
 DEVFOLDER=$GITROOT/deploy/k8s/api/localhost
-
 rm -drf $DEVFOLDER  #clear temp folder before operation to avoid conflicts
 
+#kustomize - replace variables
 (
 	cp -r $GITROOT/deploy/k8s/api/base $DEVFOLDER
 	cd $DEVFOLDER
