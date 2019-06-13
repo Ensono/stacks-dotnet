@@ -5,3 +5,11 @@ resources:
 namespace: dev-menu
 commonLabels:
   environment: dev
+patchesJson6902:
+- path: ingress_patch.json
+  target:
+    group: extensions
+    version: v1beta1
+    kind: Ingress
+    name: menuapi
+  
