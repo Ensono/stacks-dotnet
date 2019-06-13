@@ -6,7 +6,7 @@ namespace: dev-menu
 commonLabels:
   environment: dev
 patchesJson6902:
-- path: ingress_patch.json
+- path: ingress_patch.yaml
   target:
     group: extensions
     version: v1beta1
