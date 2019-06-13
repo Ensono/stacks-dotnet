@@ -1,0 +1,28 @@
+- op: replace
+  path: /spec/rules/0/host
+  value: dev.amidostacks.com
+
+#temporary routes while we don't have a domain
+#for any route to azure
+- op: add
+  path: /spec/rules/-
+  value:
+    host: ""
+    http:
+      paths:
+      - path: /api/menu(/|$)(.*)
+        backend:
+          serviceName: menuapi
+          servicePort: 80
+          
+#for test.localhost on localhost
+- op: add
+  path: /spec/rules/-
+  value:
+    host: "dev.localhost"
+    http:
+      paths:
+      - path: /api/menu(/|$)(.*)
+        backend:
+          serviceName: menuapi
+          servicePort: 80

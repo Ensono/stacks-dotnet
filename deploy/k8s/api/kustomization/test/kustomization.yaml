@@ -5,3 +5,11 @@ resources:
 namespace: test-menu
 commonLabels:
   environment: test
+patchesJson6902:
+- path: ingress_patch.yaml
+  target:
+    group: extensions
+    version: v1beta1
+    kind: Ingress
+    name: menuapi
+  
