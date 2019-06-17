@@ -2,6 +2,12 @@
   path: /spec/rules/0/host
   value: test.amidostacks.com
 
+- op: add
+  path: /spec/tls
+  value:
+    - hosts:
+      - test.amidostacks.com
+
 #temporary routes while we don't have a domain
 #for any route to azure
 - op: add

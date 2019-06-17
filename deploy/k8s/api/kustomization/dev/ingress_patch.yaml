@@ -2,6 +2,12 @@
   path: /spec/rules/0/host
   value: dev.amidostacks.com
 
+- op: add
+  path: /spec/tls
+  value:
+    - hosts:
+      - dev.amidostacks.com
+
 #temporary routes while we don't have a domain
 #for any route to azure
 - op: add
@@ -26,3 +32,4 @@
         backend:
           serviceName: menuapi
           servicePort: 80
+
