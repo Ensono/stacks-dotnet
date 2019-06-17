@@ -2,7 +2,18 @@
   path: /spec/rules/0/host
   value: test.amidostacks.com
 
-#temporary routes while we don't have a domain
+#temporary routes while we don't have the domain setup
+#alternative domain
+- op: add
+  path: /spec/rules/-
+  value:
+    host: "test.azure.amidostacks.com"
+    http:
+      paths:
+      - path: /api/menu(/|$)(.*)
+        backend:
+          serviceName: menuapi
+          servicePort: 80
 #for any route to azure
 - op: add
   path: /spec/rules/-

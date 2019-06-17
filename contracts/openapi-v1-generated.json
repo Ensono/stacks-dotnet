@@ -1,9 +1,12 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "title" : "Menu API",
+    "title" : "Yumido Menu API",
     "description" : "This is an API to manage Menu in the restaurants",
+    "termsOfService" : "http://www.amido.com/stacks/terms/",
     "contact" : {
+      "name" : "Amido",
+      "url" : "http://www.amido.com",
       "email" : "stacks@amido.com"
     },
     "license" : {
@@ -13,7 +16,7 @@
     "version" : "v1"
   },
   "servers" : [ {
-    "url" : "https://virtserver.swaggerhub.com/guibirow/Test/v1",
+    "url" : "https://virtserver.swaggerhub.com/guibirow/Yumido/v1",
     "description" : "SwaggerHub API Auto Mocking"
   } ],
   "tags" : [ {
@@ -90,8 +93,14 @@
           },
           "400" : {
             "description" : "bad request"
+          },
+          "404" : {
+            "description" : "Resource not found"
           }
-        }
+        },
+        "security" : [ {
+          "OpenID" : [ "admin" ]
+        } ]
       },
       "post" : {
         "tags" : [ "Menu" ],
@@ -110,15 +119,24 @@
         },
         "responses" : {
           "201" : {
-            "description" : "Created"
+            "description" : "Resource created"
           },
           "400" : {
-            "description" : "bad request"
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Forbidden, the user does not have permission to execute this operation"
           },
           "409" : {
             "description" : "Conflict, an item already exists"
           }
-        }
+        },
+        "security" : [ {
+          "OpenID" : [ "admin" ]
+        } ]
       }
     },
     "/menu/{id}" : {
@@ -145,19 +163,16 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Menu"
-                  }
+                  "$ref" : "#/components/schemas/Menu"
                 }
               }
             }
           },
           "400" : {
-            "description" : "Bad request"
+            "description" : "Bad Request"
           },
           "404" : {
-            "description" : "Not found"
+            "description" : "Resource not found"
           }
         }
       },
@@ -190,15 +205,24 @@
         },
         "responses" : {
           "204" : {
-            "description" : "No content"
+            "description" : "No Content"
           },
           "400" : {
-            "description" : "Bad request"
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Forbidden, the user does not have permission to execute this operation"
           },
           "404" : {
-            "description" : "Not found"
+            "description" : "Resource not found"
           }
-        }
+        },
+        "security" : [ {
+          "OpenID" : [ "admin" ]
+        } ]
       },
       "delete" : {
         "tags" : [ "Menu" ],
@@ -219,15 +243,24 @@
         } ],
         "responses" : {
           "204" : {
-            "description" : "No content"
+            "description" : "No Content"
           },
           "400" : {
-            "description" : "Bad request"
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Forbidden, the user does not have permission to execute this operation"
           },
           "404" : {
-            "description" : "Not found"
+            "description" : "Resource not found"
           }
-        }
+        },
+        "security" : [ {
+          "OpenID" : [ "admin" ]
+        } ]
       }
     }
   },
@@ -304,6 +337,40 @@
             "type" : "boolean"
           }
         }
+      }
+    },
+    "responses" : {
+      "Created" : {
+        "description" : "Resource created"
+      },
+      "NotFound" : {
+        "description" : "Resource not found"
+      },
+      "NoContent" : {
+        "description" : "No Content"
+      },
+      "BadRequest" : {
+        "description" : "Bad Request"
+      },
+      "Unauthorized" : {
+        "description" : "Access token is missing or invalid"
+      },
+      "Forbidden" : {
+        "description" : "Forbidden, the user does not have permission to execute this operation"
+      },
+      "ConflictItemExists" : {
+        "description" : "Conflict, an item already exists"
+      }
+    },
+    "securitySchemes" : {
+      "OpenID" : {
+        "type" : "openIdConnect",
+        "openIdConnectUrl" : "https://example.com/.well-known/openid-configuration"
+      },
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
       }
     }
   }
