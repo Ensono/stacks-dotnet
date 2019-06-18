@@ -25,6 +25,11 @@ namespace Amido.Stacks.E2e.Tests.Api.Builders
             category.name = name;
             return this;
         }
+        public CategoryBuilder WithNoItems()
+        {
+            category.items = new List<Item>();
+            return this;
+        }
 
         public CategoryBuilder WithItems(List<Item> items)
         {

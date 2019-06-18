@@ -26,6 +26,12 @@ namespace Amido.Stacks.E2e.Tests.Api.Builders
             return this;
         }
 
+        public MenuBuilder WithNoCategories()
+        {
+            menu.categories = new List<Category>();
+            return this;
+        }
+
         public MenuBuilder WithCategories(List<Category> categories)
         {
             menu.categories = categories;
