@@ -9,17 +9,17 @@ namespace Amido.Stacks.E2e.Tests.Api
 {
     public class CrudService
     {
-        private static HttpClient _httpClient = new HttpClient();
+        private HttpClient httpClient = new HttpClient();
 
         public CrudService(string baseUri)
         {
-            _httpClient.BaseAddress = new Uri(baseUri);
-            _httpClient.Timeout = new TimeSpan(0, 0, 30);
+            httpClient.BaseAddress = new Uri(baseUri);
+            httpClient.Timeout = new TimeSpan(0, 0, 30);
         }
 
         public async Task<HttpResponseMessage> Get(string path)
         {
-            return await _httpClient.GetAsync(path);
+            return await httpClient.GetAsync(path);
         }
 
         public async Task<HttpResponseMessage> PostJson(string path, string jsonBody)
@@ -28,7 +28,7 @@ namespace Amido.Stacks.E2e.Tests.Api
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            return await _httpClient.PostAsync(path, byteContent);
+            return await httpClient.PostAsync(path, byteContent);
         }
     }
 }
