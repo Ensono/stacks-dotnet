@@ -21,6 +21,27 @@ steps:
 - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
   displayName: Update Build Number
 
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: 2.2.3
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: './src/tests/Amido.Stacks.E2e.Tests'
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: './src/tests/Amido.Stacks.E2e.Tests'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+
 - script: |
     az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
     az account set -s $AZURE_SUBSCRIPTION_ID
