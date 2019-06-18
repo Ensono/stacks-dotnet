@@ -7,6 +7,8 @@ variables:
   value: 1.0
 - name: Version.Revision
   value: $[counter(variables['Version.MajorMinor'], 0)]
+- name: Test.FunctionalTestProjectPath
+  value: 'src/tests/Amido.Stacks.E2e.Tests'
 
 name: $(build.SourceBranchName)-init
 
@@ -52,11 +54,10 @@ steps:
     ArtifactName: 'deploy'
 
 - task: PublishBuildArtifacts@1
-  displayName: Publish Artifact - Test Suite
+  displayName: Publish Artifact - Functional Tests
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)'
     ArtifactName: 'tests'
-
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact - YML files 
