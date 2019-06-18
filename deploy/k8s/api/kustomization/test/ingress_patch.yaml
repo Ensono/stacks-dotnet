@@ -18,4 +18,3 @@
         backend:
           serviceName: menuapi
           servicePort: 80
-
