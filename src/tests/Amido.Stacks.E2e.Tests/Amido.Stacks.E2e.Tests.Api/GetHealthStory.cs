@@ -14,17 +14,17 @@ namespace Amido.Stacks.E2e.Tests.Api
         SoThat = "I can reduce sprint 0 duration")]
     public class GetHealth
     {
-        private CrudService _service;
+        private CrudService service;
         private HttpResponseMessage _response;
 
         void GivenIHaveATestEndpoint()
         {
-            _service = new CrudService("https://test.amidostacks.com");
+            service = new CrudService("https://test.amidostacks.com");
         }
 
         async Task WhenIMakeAGetRequestToTheEndpoint()
         {
-            _response = await _service.Get("/api/menu/health");
+            _response = await service.Get("/api/menu/health");
         }
 
         void ThenTheResultShouldIncludeAListOfEndpoints()
