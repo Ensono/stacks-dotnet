@@ -19,7 +19,7 @@ namespace Amido.Stacks.E2e.Tests.Api
 
         void GivenIHaveATestEndpoint()
         {
-            _service = new CrudService("http://52.151.102.150");
+            _service = new CrudService("https://dev.amidostacks.com");
         }
 
         async Task WhenIMakeAGetRequestToTheEndpoint()

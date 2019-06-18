@@ -7,6 +7,8 @@ variables:
   value: 1.0
 - name: Version.Revision
   value: $[counter(variables['Version.MajorMinor'], 0)]
+- name: Test.FunctionalTestProjectPath
+  value: 'src/tests/Amido.Stacks.E2e.Tests'
 
 name: $(build.SourceBranchName)-init
 
@@ -21,6 +23,15 @@ steps:
 - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
   displayName: Update Build Number
 
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish tests'
+  inputs:
+    command: publish
+    projects: './src/tests/Amido.Stacks.E2e.Tests'
+    publishWebProjects: False
+    arguments: ' --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
 - script: |
     az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
     az account set -s $AZURE_SUBSCRIPTION_ID
@@ -28,15 +39,6 @@ steps:
   displayName: Azure login
   env:
     AZURE_CLIENT_SECRET: $(azure_client_secret)
-
-#  This is now a windows image, so can't run on hosted Linux build agents, commented out for now
-# - script: |
-#     docker run -v "$(pwd):/repo" gittools/gitversion | tee gitversion.json
-#     export FULLSEMVER=$(cat gitversion.json | jq .FullSemVer -r)
-#     export FULLSEMVERPARSED=$(echo $FULLSEMVER | sed "s/+/./g")
-#     echo "##vso[build.updatebuildnumber]$FULLSEMVERPARSED"
-#   displayName: GitVersion
-#   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
     echo $BUILD_BUILDNUMBER
@@ -50,6 +52,12 @@ steps:
   inputs:
     PathtoPublish: '$(Build.SourcesDirectory)/deploy/scripts'
     ArtifactName: 'deploy'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact - Functional Tests
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)'
+    ArtifactName: 'tests'
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact - YML files 
