@@ -19,7 +19,7 @@ namespace Amido.Stacks.E2e.Tests.Api
 
         void GivenIHaveATestEndpoint()
         {
-            _service = new CrudService("http://52.151.102.150");
+            _service = new CrudService("https://test.amidostacks.com");
         }
 
         async Task WhenIMakeAGetRequestToTheEndpoint()
@@ -36,7 +36,10 @@ namespace Amido.Stacks.E2e.Tests.Api
         [Fact]
         public void HealthShouldBeOK()
         {
-            this.BDDfy();
+            this.Given(s => s.GivenIHaveATestEndpoint())
+               .When(s => s.WhenIMakeAGetRequestToTheEndpoint())
+               .Then(s => s.ThenTheResultShouldIncludeAListOfEndpoints())
+               .BDDfy();
         }
     }
 }
