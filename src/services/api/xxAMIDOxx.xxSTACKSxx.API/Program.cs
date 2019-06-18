@@ -19,6 +19,16 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    //config.SetBasePath(Directory.GetCurrentDirectory());
+
+                    //this config file will be injected in the /app/config dolder withing the container. Do not put a file in there
+                    //the sdk load the appsettings.json from the project root by default
+                    //this files will ovewriten the differences. In the future we might temove the root file
+                    //to avoid configuration conflicts 
+                    config.AddJsonFile($"config/appsettings.json", optional: true, reloadOnChange: false);
+                })
                 .UseStartup<Startup>();
     }
 }

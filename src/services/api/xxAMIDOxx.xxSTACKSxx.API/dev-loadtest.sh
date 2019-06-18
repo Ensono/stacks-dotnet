@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ $# -eq 0 ]; then PORT=5005; else PORT=$1; fi;
 
 URL="http://localhost:${PORT}/api/values"
