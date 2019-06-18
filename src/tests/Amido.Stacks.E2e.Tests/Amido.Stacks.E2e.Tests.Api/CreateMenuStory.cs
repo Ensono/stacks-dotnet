@@ -21,22 +21,21 @@ namespace Amido.Stacks.E2e.Tests.Api
         private Menu menu;
         private HttpResponseMessage response;
 
-        void GivenIHaveSpecfiedAMenuwithNoCategories()
+        void GivenIHaveSpecfiedAMenuWithNoCategories()
         {
             var builder = new MenuBuilder();
 
-            menu = builder.WithId(Guid.NewGuid())
-                .WithName("TestMenu")
-                .SetEnabled(true)
+            menu = builder.CreateTestMenu("Yumido Test Menu")
                 .WithNoCategories()
                 .Build();
         }
 
         async Task WhenICreateTheMenu()
         {
-            var json = JsonConvert.SerializeObject(menu);
+            var menuAsJson = JsonConvert.SerializeObject(menu);
+
             service = new CrudService("https://virtserver.swaggerhub.com");
-            response = await service.PostJson("/guibirow/Yumido/v1/menu/", json);
+            response = await service.PostJson("/guibirow/Yumido/v1/menu/", menuAsJson);
         }
 
         void ThenTheMenuHasBeenSuccessfullyPublished()
@@ -47,7 +46,7 @@ namespace Amido.Stacks.E2e.Tests.Api
         [Fact]
         public void UserCanCreateAMenuWithNoCategories()
         {
-            this.Given(s => s.GivenIHaveSpecfiedAMenuwithNoCategories())
+            this.Given(s => s.GivenIHaveSpecfiedAMenuWithNoCategories())
                 .When(s => s.WhenICreateTheMenu())
                 .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
                 .BDDfy();

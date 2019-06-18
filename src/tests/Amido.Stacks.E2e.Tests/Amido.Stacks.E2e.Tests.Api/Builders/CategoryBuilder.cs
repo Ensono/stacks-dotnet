@@ -14,6 +14,20 @@ namespace Amido.Stacks.E2e.Tests.Api.Builders
             category = new Category();
         }
 
+        public CategoryBuilder CreateTestCategory(string name)
+        {
+            var itemBuilder = new ItemBuilder();
+
+            category.id = Guid.NewGuid().ToString();
+            category.name = name;
+            category.items = new List<Item>()
+            {
+                itemBuilder.CreateTestItem("Burger")
+                .Build()
+            };
+            return this;
+        }
+
         public CategoryBuilder WithId(Guid id)
         {
             category.id = id.ToString();

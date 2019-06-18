@@ -14,6 +14,16 @@ namespace Amido.Stacks.E2e.Tests.Api.Builders
             item = new Item();
         }
 
+        public ItemBuilder CreateTestItem(string name)
+        {
+            item.id = Guid.NewGuid().ToString();
+            item.name = name;
+            item.description = "Description added automatically in tests";
+            item.available = true;
+            item.price = "1.99";
+            return this;
+        }
+
         public ItemBuilder WithId(Guid id)
         {
             item.id = id.ToString();

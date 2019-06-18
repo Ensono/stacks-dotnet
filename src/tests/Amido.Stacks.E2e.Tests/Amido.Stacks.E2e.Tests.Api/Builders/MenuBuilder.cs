@@ -14,6 +14,23 @@ namespace Amido.Stacks.E2e.Tests.Api.Builders
             menu = new Menu();
         }
 
+
+        public MenuBuilder CreateTestMenu(string name)
+        {
+            var categoryBuilder = new CategoryBuilder();
+
+            menu.id = Guid.NewGuid().ToString();
+            menu.name = name;
+            menu.enabled = true;
+            menu.categories = new List<Category>()
+            {
+                categoryBuilder.CreateTestCategory("Burgers")
+                .Build()
+            };
+
+            return this;
+        }
+
         public MenuBuilder WithId(Guid id)
         {
             menu.id = id.ToString();
