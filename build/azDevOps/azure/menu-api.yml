@@ -22,20 +22,13 @@ steps:
   displayName: Update Build Number
 
 - task: DotNetCoreCLI@2
+  displayName: 'dotnet publish tests'
   inputs:
-    command: 'restore'
+    command: publish
     projects: './src/tests/Amido.Stacks.E2e.Tests'
-    feedsToUse: 'select'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: './src/tests/Amido.Stacks.E2e.Tests'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
+    publishWebProjects: False
+    arguments: ' --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
 - script: |
     az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
@@ -44,15 +37,6 @@ steps:
   displayName: Azure login
   env:
     AZURE_CLIENT_SECRET: $(azure_client_secret)
-
-#  This is now a windows image, so can't run on hosted Linux build agents, commented out for now
-# - script: |
-#     docker run -v "$(pwd):/repo" gittools/gitversion | tee gitversion.json
-#     export FULLSEMVER=$(cat gitversion.json | jq .FullSemVer -r)
-#     export FULLSEMVERPARSED=$(echo $FULLSEMVER | sed "s/+/./g")
-#     echo "##vso[build.updatebuildnumber]$FULLSEMVERPARSED"
-#   displayName: GitVersion
-#   workingDirectory: $(Build.SourcesDirectory)
 
 - script: |
     echo $BUILD_BUILDNUMBER
@@ -66,6 +50,13 @@ steps:
   inputs:
     PathtoPublish: '$(Build.SourcesDirectory)/deploy/scripts'
     ArtifactName: 'deploy'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact - Test Suite
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'tests'
+
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact - YML files 
