@@ -30,6 +30,14 @@ namespace Amido.Stacks.E2e.Tests.Api
                 .Build();
         }
 
+        void GivenIHaveSpecfiedAFullMenu()
+        {
+            var builder = new MenuBuilder();
+
+            menu = builder.CreateTestMenu("Yumido Test Menu")
+                .Build();
+        }
+
         async Task WhenICreateTheMenu()
         {
             var menuAsJson = JsonConvert.SerializeObject(menu);
@@ -47,6 +55,15 @@ namespace Amido.Stacks.E2e.Tests.Api
         public void UserCanCreateAMenuWithNoCategories()
         {
             this.Given(s => s.GivenIHaveSpecfiedAMenuWithNoCategories())
+                .When(s => s.WhenICreateTheMenu())
+                .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
+                .BDDfy();
+        }
+
+        [Fact]
+        public void UserCanCreateAFullMenu()
+        {
+            this.Given(s => s.GivenIHaveSpecfiedAFullMenu())
                 .When(s => s.WhenICreateTheMenu())
                 .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
                 .BDDfy();
