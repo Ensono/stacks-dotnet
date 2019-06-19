@@ -63,11 +63,12 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
         }
 
         [Fact]
-        public void Admins_Can_Publish_A_New_Menu_Available_To_Users()
+        public void Admins_Can_Publish_A_New_Menu_To_Yumido()
         {
             this.Given(s => s.GivenIHaveSpecfiedAFullMenu())
                 .When(s => s.WhenICreateTheMenu())
                 .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
+                .And(s => s.AndTheMenuIsAvailableToUsers())
                 .BDDfy();
         }
 
