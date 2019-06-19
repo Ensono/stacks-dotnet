@@ -1,15 +1,13 @@
 ﻿using Amido.Stacks.E2e.Tests.Api.Builders;
 using Amido.Stacks.E2e.Tests.Api.Models;
+using Amido.Stacks.E2e.Tests.Api.Tests.Fixtures;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace Amido.Stacks.E2e.Tests.Api
+namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
 {
     [Story(
         AsA = "restaurant administrator",
@@ -20,20 +18,11 @@ namespace Amido.Stacks.E2e.Tests.Api
         private CrudService service;
         private Menu menu;
         private HttpResponseMessage response;
-        private MenuFixture menuFixture;
+        private readonly MenuFixture menuFixture;
 
         public CreateMenuStory(MenuFixture fixture)
         {
             this.menuFixture = fixture;
-        }
-
-        void GivenIHaveSpecfiedAMenuWithNoCategories()
-        {
-            var builder = new MenuBuilder();
-
-            menu = builder.CreateTestMenu("Yumido Test Menu")
-                .WithNoCategories()
-                .Build();
         }
 
         void GivenIHaveSpecfiedAFullMenu()
@@ -56,6 +45,7 @@ namespace Amido.Stacks.E2e.Tests.Api
 
         async Task WhenICreateTheMenu()
         {
+            //Todo: Add authentication to requests (bearer xyz)
             var menuAsJson = JsonConvert.SerializeObject(menu);
 
             service = new CrudService(menuFixture.configuration.BaseUrl);
@@ -67,28 +57,24 @@ namespace Amido.Stacks.E2e.Tests.Api
             Assert.True(response.StatusCode == System.Net.HttpStatusCode.Created);
         }
 
-        [Fact]
-        public void Admin_Can_Create_Menu_With_No_Categories()
+        void AndTheMenuIsAvailableToUsers()
         {
-            this.Given(s => s.GivenIHaveSpecfiedAMenuWithNoCategories())
-                .When(s => s.WhenICreateTheMenu())
-                .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
-                .BDDfy();
+            //ToDo: Call GET api as a user
         }
 
         [Fact]
-        public void Admin_Can_Create_A_Full_Menu()
-        {
-            this.Given(s => s.GivenIHaveADraftMenu())
-                .When(s => s.WhenICreateTheMenu())
-                .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
-                .BDDfy();
-        }
-
-        [Fact]
-        public void Admin_Can_Create_A_Draft_Menu()
+        public void Admins_Can_Publish_A_New_Menu_Available_To_Users()
         {
             this.Given(s => s.GivenIHaveSpecfiedAFullMenu())
+                .When(s => s.WhenICreateTheMenu())
+                .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
+                .BDDfy();
+        }
+
+        [Fact]
+        public void Admins_Can_Create_A_Draft_Menu()
+        {
+            this.Given(s => s.GivenIHaveADraftMenu())
                 .When(s => s.WhenICreateTheMenu())
                 .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
                 .BDDfy();

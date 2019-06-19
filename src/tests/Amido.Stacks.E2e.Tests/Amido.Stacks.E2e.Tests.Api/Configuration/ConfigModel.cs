@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Amido.Stacks.E2e.Tests.Api
+namespace Amido.Stacks.E2e.Tests.Api.Configuration
 {
-    public class AppConfig
+    public class ConfigModel
     {
         public string BaseUrl { get; set; }
     }

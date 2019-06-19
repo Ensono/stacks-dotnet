@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Amido.Stacks.E2e.Tests.Api
+namespace Amido.Stacks.E2e.Tests.Api.Configuration
 {
-    public class Configuration
+    public class ConfigAccessor
     {
         private static IConfigurationRoot GetIConfigurationRoot()
         {
@@ -17,9 +17,9 @@ namespace Amido.Stacks.E2e.Tests.Api
                 .Build();
         }
 
-        public static AppConfig GetApplicationConfiguration()
+        public static ConfigModel GetApplicationConfiguration()
         {
-            var configuration = new AppConfig();
+            var configuration = new ConfigModel();
 
             var iConfig = GetIConfigurationRoot();
 
