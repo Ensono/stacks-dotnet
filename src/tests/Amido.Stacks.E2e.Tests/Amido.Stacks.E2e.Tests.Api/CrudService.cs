@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -9,12 +8,15 @@ namespace Amido.Stacks.E2e.Tests.Api
 {
     public class CrudService
     {
-        private HttpClient httpClient = new HttpClient();
+        private HttpClient httpClient;
 
         public CrudService(string baseUri)
         {
-            httpClient.BaseAddress = new Uri(baseUri);
-            httpClient.Timeout = new TimeSpan(0, 0, 30);
+            httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(baseUri),
+                Timeout = new TimeSpan(0, 0, 30)
+            };
         }
 
         public async Task<HttpResponseMessage> Get(string path)

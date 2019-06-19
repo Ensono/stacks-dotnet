@@ -49,7 +49,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
             var menuAsJson = JsonConvert.SerializeObject(menu);
 
             service = new CrudService(menuFixture.configuration.BaseUrl);
-            response = await service.PostJson("/guibirow/Yumido/v1/menu/", menuAsJson);
+            response = await service.PostJson("v1/menu/", menuAsJson);
         }
 
         void ThenTheMenuHasBeenSuccessfullyPublished()
