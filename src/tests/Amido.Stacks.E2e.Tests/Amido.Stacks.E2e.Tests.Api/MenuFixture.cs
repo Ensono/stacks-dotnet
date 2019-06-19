@@ -13,6 +13,7 @@ namespace Amido.Stacks.E2e.Tests.Api
 
         public MenuFixture()
         {
+            //TFixture set up steps go here
             configuration = Configuration.GetApplicationConfiguration();
         }
 
@@ -25,7 +26,7 @@ namespace Amido.Stacks.E2e.Tests.Api
         {
             if(disposing)
             {
-                //teardown goes here
+                //Fixture teardown steps go here
             }
         }
     }
