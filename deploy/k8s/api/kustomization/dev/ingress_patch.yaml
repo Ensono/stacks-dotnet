@@ -18,3 +18,15 @@
         backend:
           serviceName: menuapi
           servicePort: 80
+
+#for localhost tests      
+- op: add
+  path: /spec/rules/-
+  value:
+    host: "dev.localhost"
+    http:
+      paths:
+      - path: /api/menu(/|$)(.*)
+        backend:
+          serviceName: menuapi
+          servicePort: 80

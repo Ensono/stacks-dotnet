@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
-namespace test.Controllers
+namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
     [Route("[controller]")]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        List<string> values = new List<string>() { "value1", "value2" };
+
+        string valueFromConfig = string.Empty;
+        public ValuesController(IConfiguration configuration, IOptionsMonitor<ValuesOptions> options)
+        {
+            values.Add(configuration.GetSection("TestConfig").Value);
+            
+            values.AddRange(options.CurrentValue.Items);
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
-        {
-			List<string> variables = new List<string>() { "value1", "value2" };
-			
-            return variables;
+        {			
+            return values;
         }
 
         // GET api/values/5
