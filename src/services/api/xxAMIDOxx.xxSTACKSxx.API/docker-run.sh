@@ -1,3 +1,5 @@
+#!/bin/bash
+
 IMAGE=`echo "${PWD##*/}" | tr '[:upper:]' '[:lower:]' | tr -d '\r'`;
 
 docker stop myapp
