@@ -15,11 +15,17 @@ namespace Amido.Stacks.E2e.Tests.Api
         AsA = "restaurant administrator",
         IWant = "to be able to create menus",
         SoThat = "customers know what we have on offer")]
-    public class CreateMenuStory
+    public class CreateMenuStory : IClassFixture<MenuFixture>
     {
         private CrudService service;
         private Menu menu;
         private HttpResponseMessage response;
+        private MenuFixture menuFixture;
+
+        public CreateMenuStory(MenuFixture fixture)
+        {
+            this.menuFixture = fixture;
+        }
 
         void GivenIHaveSpecfiedAMenuWithNoCategories()
         {
@@ -52,7 +58,7 @@ namespace Amido.Stacks.E2e.Tests.Api
         {
             var menuAsJson = JsonConvert.SerializeObject(menu);
 
-            service = new CrudService("https://virtserver.swaggerhub.com");
+            service = new CrudService(menuFixture.configuration.BaseUrl);
             response = await service.PostJson("/guibirow/Yumido/v1/menu/", menuAsJson);
         }
 
