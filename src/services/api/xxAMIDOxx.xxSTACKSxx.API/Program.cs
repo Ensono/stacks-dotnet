@@ -23,10 +23,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 {
                     //config.SetBasePath(Directory.GetCurrentDirectory());
 
-                    //this config file will be injected in the /app/config dolder withing the container. Do not put a file in there
-                    //the sdk load the appsettings.json from the project root by default
-                    //this files will ovewriten the differences. In the future we might temove the root file
-                    //to avoid configuration conflicts 
+                    //this config file will be injected in the /app/config folder in the container at runtime. Do not put any file in there
+                    //the appsettings.json is not added to the image to avoid configuration conflicts 
+                    //In the future we should set optional: false to force the user provide a config file
                     config.AddJsonFile($"config/appsettings.json", optional: true, reloadOnChange: false);
                 })
                 .UseStartup<Startup>();
