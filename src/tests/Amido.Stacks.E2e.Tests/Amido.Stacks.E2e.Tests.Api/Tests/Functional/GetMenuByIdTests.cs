@@ -1,14 +1,13 @@
 ﻿using Amido.Stacks.E2e.Tests.Api.Builders;
 using Amido.Stacks.E2e.Tests.Api.Models;
 using Amido.Stacks.E2e.Tests.Api.Tests.Fixtures;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
+namespace Amido.Stacks.E2e.Tests.Api.Tests.Functional
 {
     [Story(
         AsA = "user of the Yumido website",
@@ -26,26 +25,25 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
             Debug.WriteLine("GetMenu Constructor");
         }
 
-        async Task GivenAMenuAlreadyExists()
+        void GivenAMenuAlreadyExists()
         {
-            //ToDo: Inject to Database rather than use Post??
-            var menuBuilder = new MenuBuilder();
-
-            menu = menuBuilder
-                .CreateTestMenu("Test Menu")
+            var builder = new MenuBuilder();
+            menu = builder
+                .CreateTestMenu("Yumido Test Menu")
                 .Build();
 
-            var response2 = await fixture.service.PostJson("v1/menu", JsonConvert.SerializeObject(menu));
+            //ToDo: Inject menu into Database  
         }
 
         async Task WhenIGetAMenu()
         {
-            response = await fixture.service.Get("v1/menu/" + menu.id);
+            response = await fixture.service.Get($"v1/menu/{menu.id}");
         }
 
         void ThenICanViewTheMenu()
         {
             Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
+
             //Assert that the content of the Menu is the same as what was created in Given step
         }
 

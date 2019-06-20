@@ -11,12 +11,16 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Fixtures
         public ConfigModel config;
         public CrudService service;
 
+
+        //Fixture set up steps go in ctor
         public MenuFixture()
         {
-            //TFixture set up steps go here
+
+            //get test configuration
             config = ConfigAccessor.GetApplicationConfiguration();
             Debug.WriteLine("Fixture Constructor");
 
+            //set-up HttpClient to be used in tests
             service = new CrudService(config.BaseUrl);
         }
 

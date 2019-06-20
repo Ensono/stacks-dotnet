@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
+namespace Amido.Stacks.E2e.Tests.Api.Tests.Functional
 {
     [Story(
         AsA = "restaurant administrator",
@@ -55,11 +55,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
         void ThenTheMenuHasBeenSuccessfullyPublished()
         {
             Assert.True(response.StatusCode == System.Net.HttpStatusCode.Created);
-        }
-
-        void AndTheMenuIsAvailableToUsers()
-        {
-            //ToDo: Call GET api as a user
+            //Check the menu is in the DB
         }
 
         [Fact]
@@ -68,7 +64,6 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
             this.Given(s => s.GivenIHaveSpecfiedAFullMenu())
                 .When(s => s.WhenICreateTheMenu())
                 .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
-                .And(s => s.AndTheMenuIsAvailableToUsers())
                 .BDDfy();
         }
 
