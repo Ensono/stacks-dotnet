@@ -18,11 +18,11 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
         private CrudService service;
         private Menu menu;
         private HttpResponseMessage response;
-        private readonly MenuFixture menuFixture;
+        private readonly MenuFixture fixture;
 
         public CreateMenuStory(MenuFixture fixture)
         {
-            this.menuFixture = fixture;
+            this.fixture = fixture;
         }
 
         void GivenIHaveSpecfiedAFullMenu()
@@ -48,7 +48,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
             //Todo: Add authentication to requests (bearer xyz)
             var menuAsJson = JsonConvert.SerializeObject(menu);
 
-            service = new CrudService(menuFixture.configuration.BaseUrl);
+            service = new CrudService(fixture.configuration.BaseUrl);
             response = await service.PostJson("v1/menu/", menuAsJson);
         }
 
