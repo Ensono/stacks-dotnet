@@ -41,17 +41,17 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Functional
             response = await fixture.service.Get($"v1/menu/{menu.id}");
         }
 
-        void ThenICanViewTheMenu()
+        async Task ThenICanViewTheMenu()
         {
             Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK, $"Get menu request was not successful. Actual response: {response.StatusCode}");
-
-            var responseMenu = JsonConvert.DeserializeObject<Menu>(response.Content.ToString());
+            
+            var responseMenu = JsonConvert.DeserializeObject<Menu>(await response.Content.ReadAsStringAsync());
 
             Assert.Equal(menu.id, responseMenu.id);
             Assert.Equal(menu.name, responseMenu.name);
         }
 
-        //[Fact]
+        [Fact]
         public void Users_Can_View_Existing_Menus()
         {
             this.Given(s => s.GivenIAmAUser())
@@ -61,7 +61,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Functional
                 .BDDfy();
         }
 
-        //[Fact]
+        [Fact]
         public void Admins_Can_View_Existing_Menus()
         {
             this.Given(s => s.GivenIAmAnAdmin())
