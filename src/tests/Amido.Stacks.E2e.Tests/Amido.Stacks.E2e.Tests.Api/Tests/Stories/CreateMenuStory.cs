@@ -16,7 +16,6 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
         SoThat = "customers know what we have on offer")]
     public class CreateMenuStory : BaseStory, IClassFixture<MenuFixture>
     {
-        private CrudService service;
         private Menu menu;
         private HttpResponseMessage response;
         private readonly MenuFixture fixture;
@@ -50,8 +49,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
             //Todo: Add authentication to requests (bearer xyz)
             var menuAsJson = JsonConvert.SerializeObject(menu);
 
-            service = new CrudService(fixture.config.BaseUrl);
-            response = await service.PostJson("v1/menu/", menuAsJson);
+            response = await fixture.service.PostJson("v1/menu/", menuAsJson);
         }
 
         void ThenTheMenuHasBeenSuccessfullyPublished()

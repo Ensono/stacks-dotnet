@@ -9,12 +9,15 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Fixtures
     public class MenuFixture : IDisposable
     {
         public ConfigModel config;
+        public CrudService service;
 
         public MenuFixture()
         {
             //TFixture set up steps go here
             config = ConfigAccessor.GetApplicationConfiguration();
             Debug.WriteLine("Fixture Constructor");
+
+            service = new CrudService(config.BaseUrl);
         }
 
         public void Dispose()
