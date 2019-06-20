@@ -1,21 +1,20 @@
 ﻿using Amido.Stacks.E2e.Tests.Api.Configuration;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Diagnostics;
 
 namespace Amido.Stacks.E2e.Tests.Api.Tests.Fixtures
 {
+    //Fixture set up and tear down
     //Inherits IDisposable as this is where teardown will take place
     public class MenuFixture : IDisposable
     {
-        public ConfigModel configuration;
+        public ConfigModel config;
 
         public MenuFixture()
         {
             //TFixture set up steps go here
-            configuration = ConfigAccessor.GetApplicationConfiguration();
+            config = ConfigAccessor.GetApplicationConfiguration();
+            Debug.WriteLine("Fixture Constructor");
         }
 
         public void Dispose()
@@ -28,6 +27,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Fixtures
             if(disposing)
             {
                 //Fixture teardown steps go here
+                //I.e. Delete test users from DB
             }
         }
     }

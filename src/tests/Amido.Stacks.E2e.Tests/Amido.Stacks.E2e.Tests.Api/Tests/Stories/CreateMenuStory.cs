@@ -2,6 +2,7 @@
 using Amido.Stacks.E2e.Tests.Api.Models;
 using Amido.Stacks.E2e.Tests.Api.Tests.Fixtures;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
@@ -13,7 +14,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
         AsA = "restaurant administrator",
         IWant = "to be able to create menus",
         SoThat = "customers know what we have on offer")]
-    public class CreateMenuStory : IClassFixture<MenuFixture>
+    public class CreateMenuStory : BaseStory, IClassFixture<MenuFixture>
     {
         private CrudService service;
         private Menu menu;
@@ -23,6 +24,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
         public CreateMenuStory(MenuFixture fixture)
         {
             this.fixture = fixture;
+            Debug.WriteLine("CreateMenu Constructor");
         }
 
         void GivenIHaveSpecfiedAFullMenu()
@@ -48,7 +50,7 @@ namespace Amido.Stacks.E2e.Tests.Api.Tests.Stories
             //Todo: Add authentication to requests (bearer xyz)
             var menuAsJson = JsonConvert.SerializeObject(menu);
 
-            service = new CrudService(fixture.configuration.BaseUrl);
+            service = new CrudService(fixture.config.BaseUrl);
             response = await service.PostJson("v1/menu/", menuAsJson);
         }
 
