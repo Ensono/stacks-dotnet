@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
-    [Route("/")]
+    [Route("[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Samples")]
     public class RoutesController : ControllerBase
     {
         private readonly IActionDescriptorCollectionProvider _provider;
@@ -25,18 +26,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                 Action = x.RouteValues["Action"], 
                 Controller = x.RouteValues["Controller"], 
                 Name = x.AttributeRouteInfo.Name, 
-                Template = x.AttributeRouteInfo.Template 
+                Template = x.AttributeRouteInfo.Template
             }).ToList();
 
             return Ok(
                 routes
-                    .OrderBy(x => x.Controller)
-                    .ThenBy(x => x.Action)
-                    .ThenBy(x => x.Template)
-                    .Select(r => new {
-                        Method = r.Action.ToUpper(),
-                        Path = $"/{r.Template}"
-                    })
+                    .OrderBy(x => x.Template)
+                    .Select(r => $"/{r.Template}")
                 );
         }
     }
