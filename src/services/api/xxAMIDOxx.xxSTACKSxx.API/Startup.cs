@@ -64,8 +64,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                         //opts.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
                     });
 
-            //services.AddTransient<SwaggerDocumentTagger>();
-
             services
                 .AddSwaggerGen(c =>
                 {
@@ -185,9 +183,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 c.DisplayOperationId();
 
                 //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
-                c.SwaggerEndpoint("/swagger/all/swagger.json", "Menu (all)");
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Menu (version 1)");
-                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Menu (version 2)");
+                c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
+                c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
+                c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
 
                 //TODO: Or alternatively use the original Swagger contract that's included in the static files
                 // c.SwaggerEndpoint("/swagger-original.json", "Swagger Petstore Original");
