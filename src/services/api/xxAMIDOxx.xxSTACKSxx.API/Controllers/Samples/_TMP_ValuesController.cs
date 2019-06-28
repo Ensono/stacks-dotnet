@@ -9,8 +9,8 @@ using Microsoft.Extensions.Options;
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
     [Route("[controller]")]
-    [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Samples")]
     public class ValuesController : ControllerBase
     {
         List<string> values = new List<string>() { "value1", "value2" };
