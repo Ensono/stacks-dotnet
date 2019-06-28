@@ -22,20 +22,14 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 {
     public class Startup
     {
-        // public Startup(IConfiguration configuration)
-        // {
-        //     Configuration = configuration;
-        // }
-
+        public IConfiguration Configuration { get; }
+        private readonly IHostingEnvironment _hostingEnv;
 
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             _hostingEnv = env;
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
-        private readonly IHostingEnvironment _hostingEnv;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -44,10 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
             services
                 //.AddMvc()
-                .AddMvcCore(
-                //c =>
-                //c.Conventions.Add(new ApiExplorerGroupPerVersionConvention())
-                )
+                .AddMvcCore()
                 .AddApiExplorer()
                 .AddAuthorization()
                 .AddFormatterMappings()
@@ -57,11 +48,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 .AddJsonOptions(opts =>
                     {
                         opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                        opts.SerializerSettings.Converters.Add(new StringEnumConverter
-                        {
-                            CamelCaseText = true
-                        });
-                        //opts.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
+                        opts.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
                     });
 
             services
@@ -70,22 +57,22 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     c.SwaggerDoc("all", new Info
                     {
                         Version = "all",
-                        Title = "Swagger Petstore",
-                        Description = "Swagger Petstore (ASP.NET Core 2.0)",
+                        Title = "Menu API",
+                        Description = "APIs used to interact and manage menus for a restaurant",
                         Contact = new Contact()
                         {
-                            Name = "Swagger Codegen Contributors",
-                            Url = "https://github.com/swagger-api/swagger-codegen",
-                            Email = "apiteam@swagger.io"
+                            Name = "Amido",
+                            Url = "https://github.com/amido/stacks-dotnet",
+                            Email = "stacks@amido.com"
                         },
-                        TermsOfService = "http://swagger.io/terms/"
+                        TermsOfService = "http://www.amido.com/"
                     });
 
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
-                    
-                    // Sets the basePath property in the Swagger document generated
+
+                    // Show only operations where route starts with
                     //c.DocumentFilter<BasePathFilter>("/v1");
 
                     //Set default tags, shows on top, non defined tags appears at bottom
@@ -98,8 +85,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
-                    //c.OperationFilter<TagByApiExplorerSettingsOperationFilter>();
 
+                    //By Default, all endpoints are grouped by the controller name
+                    //We want to Group by Api Group first, then by controller name if not provided
                     c.TagActionsBy((api) => new[] { api.GroupName ?? api.ActionDescriptor.RouteValues["controller"] });
 
                     c.DocInclusionPredicate((docName, apiDesc) => { return true; });
@@ -108,17 +96,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 {
                     c.SwaggerDoc("v1", new Info
                     {
-                        Version = "v1",
-                        Title = "Swagger Petstore",
-                        Description = "Swagger Petstore (ASP.NET Core 2.0)",
+                        Version = "all",
+                        Title = "Menu API",
+                        Description = "APIs used to interact and manage menus for a restaurant",
                         Contact = new Contact()
                         {
-                            Name = "Swagger Codegen Contributors",
-                            Url = "https://github.com/swagger-api/swagger-codegen",
-                            Email = "apiteam@swagger.io"
+                            Name = "Amido",
+                            Url = "https://github.com/amido/stacks-dotnet",
+                            Email = "stacks@amido.com"
                         },
-                        TermsOfService = "http://swagger.io/terms/"
+                        TermsOfService = "http://www.amido.com/"
                     });
+
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
@@ -134,17 +123,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 {
                     c.SwaggerDoc("v2", new Info
                     {
-                        Version = "v2",
-                        Title = "Swagger Petstore",
-                        Description = "Swagger Petstore (ASP.NET Core 2.0)",
+                        Version = "all",
+                        Title = "Menu API",
+                        Description = "APIs used to interact and manage menus for a restaurant",
                         Contact = new Contact()
                         {
-                            Name = "Swagger Codegen Contributors",
-                            Url = "https://github.com/swagger-api/swagger-codegen",
-                            Email = "apiteam@swagger.io"
+                            Name = "Amido",
+                            Url = "https://github.com/amido/stacks-dotnet",
+                            Email = "stacks@amido.com"
                         },
-                        TermsOfService = "http://swagger.io/terms/"
+                        TermsOfService = "http://www.amido.com/"
                     });
+
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
@@ -178,18 +168,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                 {
-                //use root path to serve swagger
-                //c.RoutePrefix = string.Empty;
-                c.DisplayOperationId();
+                    c.DisplayOperationId();
 
-                //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
-                c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
-                c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
-                c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
-
-                //TODO: Or alternatively use the original Swagger contract that's included in the static files
-                // c.SwaggerEndpoint("/swagger-original.json", "Swagger Petstore Original");
-            });
+                    c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
+                    c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
+                    c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
+                });
         }
     }
 }
