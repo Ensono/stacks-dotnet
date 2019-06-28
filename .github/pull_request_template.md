@@ -15,15 +15,17 @@ More in-depth discussion of the change or implementation.
 #### 👀 Evidence
 		
 Screenshots / external resources / links / etc.
+Link to documentation updated with changes impacted in the PR
 		 
-#### ✅ Acceptance criteria
-
-- [ ] Code peer reviewed 
-- [ ] Passing all automated tests, including a successful deployment
-- [ ] Passing any exploratory testing 
-- [ ] Rebased/merged with latest changes from development and re-tested
-- [ ] Meeting the following Coding Standard
-
 #### 🕵️ How to test
 
 Notes for QA
+
+#### ✅ Acceptance criteria Checklist
+
+- [ ] Code peer reviewed?
+- [ ] Documentation has been updated to reflect the changes?
+- [ ] Passing all automated tests, including a successful deployment?
+- [ ] Passing any exploratory testing?
+- [ ] Rebased/merged with latest changes from development and re-tested?
+- [ ] Meeting the Coding Standards?

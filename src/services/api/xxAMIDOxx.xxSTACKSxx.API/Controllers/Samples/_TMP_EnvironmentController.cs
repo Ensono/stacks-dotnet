@@ -9,8 +9,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
     [Route("env")]
     [Route("[controller]")]
-    [Route("api/env")]
-    [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "Samples")]
     [ApiController]
     public class EnvironmentController : ControllerBase
     {

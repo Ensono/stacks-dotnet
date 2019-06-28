@@ -10,8 +10,8 @@ using Microsoft.Extensions.FileProviders;
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
     [Route("[controller]")]
-    [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Samples")]
     public class FilesController : ControllerBase
     {
         // GET api/values
