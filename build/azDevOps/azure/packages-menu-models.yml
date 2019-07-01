@@ -10,7 +10,10 @@ variables:
   value: $[counter(variables['Version.MajorMinor'], 0)]
 - name: Package.Path
   value: 'src/services/api/xxAMIDOxx.xxSTACKSxx.Models/'
-
+- name: Package.Feed
+  value: 'packages-menu'
+- name: BuildPipeline.Path
+  value: build/azDevOps/azure/packages-menu-models.yml
 name: $(build.SourceBranchName)-init
 
 resources:
@@ -20,6 +23,7 @@ trigger:
   paths:
     include:
     - $(Package.Path)
+    - $(BuildPipeline.Path)
 
 
 pool:
@@ -44,4 +48,4 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: push
-    publishVstsFeed: 'Temp'
+    publishVstsFeed: $(Package.Feed)
