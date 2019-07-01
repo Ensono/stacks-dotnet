@@ -14,8 +14,8 @@ name: $(build.SourceBranchName)-init
 
 trigger:
   paths:
-    include:
-    - src/services/api/xxAMIDOxx.xxSTACKSxx.API/*
+    exclude:
+    - src/services/api/xxAMIDOxx.xxSTACKSxx.Models
 
 
 resources:
