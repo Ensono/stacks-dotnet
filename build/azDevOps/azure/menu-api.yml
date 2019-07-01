@@ -12,11 +12,17 @@ variables:
 
 name: $(build.SourceBranchName)-init
 
+trigger:
+  paths:
+    exclude:
+    - src/services/api/xxAMIDOxx.xxSTACKSxx.Models
+
+
 resources:
 - repo: self
 
 pool:
-  vmImage: 'ubuntu-16.04'
+  vmImage: 'ubuntu-latest'
 
 steps:
 
@@ -27,7 +33,7 @@ steps:
   displayName: 'dotnet publish tests'
   inputs:
     command: publish
-    projects: './src/tests/Amido.Stacks.E2e.Tests'
+    projects: '$(Test.FunctionalTestProjectPath)'
     publishWebProjects: False
     arguments: ' --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True

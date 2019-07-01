@@ -1,0 +1,51 @@
+variables:
+# Versioning
+- name: Version.Major
+  value: 1
+- name: Version.Minor
+  value: 0
+- name: Version.MajorMinor
+  value: $(Version.Major).$(Version.Minor)
+- name: Version.Revision
+  value: $[counter(variables['Version.MajorMinor'], 0)]
+- name: Package.Path
+  value: 'src/services/api/xxAMIDOxx.xxSTACKSxx.Models/'
+- name: Package.Feed
+  value: 'packages-menu'
+- name: BuildPipeline.Path
+  value: build/azDevOps/azure/packages-menu-models.yml
+name: $(build.SourceBranchName)-init
+
+resources:
+- repo: self
+
+trigger:
+  paths:
+    include:
+    - $(Package.Path)
+    - $(BuildPipeline.Path)
+
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- script: echo '##vso[build.updatebuildnumber]$(Version.MajorMinor).$(Version.Revision)'
+  displayName: Update Build Number
+
+# Pack NuGet packages.
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    configuration: 'release'
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '$(Version.Major)'
+    minorVersion: '$(Version.Minor)'
+    patchVersion: '$(Version.Revision)'
+    packagesToPack: '$(Package.Path)/*.csproj'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: push
+    publishVstsFeed: $(Package.Feed)
