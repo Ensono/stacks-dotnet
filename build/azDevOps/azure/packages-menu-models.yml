@@ -16,6 +16,12 @@ name: $(build.SourceBranchName)-init
 resources:
 - repo: self
 
+trigger:
+  paths:
+    include:
+    - src/services/api/xxAMIDOxx.xxSTACKSxx.Models/*
+
+
 pool:
   vmImage: 'ubuntu-latest'
 
