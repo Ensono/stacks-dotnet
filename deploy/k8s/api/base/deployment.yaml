@@ -36,6 +36,8 @@ spec:
 ##             www-data -> 33
 ##            runAsUser: 33
           env:
+            - name: API_BASEPATH
+              value: /api/menu
             - name: POD_NAME
               valueFrom:
                 fieldRef:
