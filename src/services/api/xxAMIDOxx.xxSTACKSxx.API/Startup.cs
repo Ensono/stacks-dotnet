@@ -24,11 +24,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API
     {
         public IConfiguration Configuration { get; }
         private readonly IHostingEnvironment _hostingEnv;
+        private string pathBase = String.Empty;
 
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             _hostingEnv = env;
             Configuration = configuration;
+            pathBase = Environment.GetEnvironmentVariable("API_BASEPATH") ?? String.Empty;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -67,13 +69,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                         },
                         TermsOfService = "http://www.amido.com/"
                     });
-
+                    
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
 
                     // Show only operations where route starts with
                     //c.DocumentFilter<BasePathFilter>("/v1");
+                    // Sets the basePath property in the Swagger document generated
+                    c.DocumentFilter<BasePathFilter>(pathBase);
 
                     //Set default tags, shows on top, non defined tags appears at bottom
                     c.DocumentFilter<SwaggerDocumentTagger>(new Tag[] {
@@ -114,6 +118,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
                     // Show only operations where route starts with
                     c.DocumentFilter<VersionPathFilter>("/v1");
+                    // Sets the basePath property in the Swagger document generated
+                    c.DocumentFilter<BasePathFilter>(pathBase);
 
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
@@ -139,8 +145,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
 
-                    // Sets the basePath property in the Swagger document generated
+                    // Show only operations where route starts with
                     c.DocumentFilter<VersionPathFilter>("/v2");
+                    // Sets the basePath property in the Swagger document generated
+                    c.DocumentFilter<BasePathFilter>(pathBase);
 
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
@@ -164,12 +172,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             app.UseHttpsRedirection();
 
             app
+                .UsePathBase(pathBase)
                 .UseMvc()
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                 {
                     c.DisplayOperationId();
-
+                    
                     c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
                     c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
                     c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
