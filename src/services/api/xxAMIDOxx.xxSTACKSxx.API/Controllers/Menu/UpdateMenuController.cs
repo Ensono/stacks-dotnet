@@ -36,7 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="404">Resource not found</response>
         [HttpPut("/v1/menu/{id}")]
         [ValidateModelState]
-        public virtual IActionResult UpdateMenu([FromRoute][Required]Guid id, [FromBody]CreateOrUpdateMenu body)
+        public virtual IActionResult UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenu body)
         { 
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);

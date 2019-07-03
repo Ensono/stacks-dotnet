@@ -1,20 +1,17 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 namespace xxAMIDOxx.xxSTACKSxx.Models
 {
-    public partial class Category
+    public partial class UpdateMenu
     { 
-        [Required]
-        public Guid? Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         [Required]
-        public List<MenuItem> Items { get; set; }
+        public bool? Enabled { get; set; }
     }
 }

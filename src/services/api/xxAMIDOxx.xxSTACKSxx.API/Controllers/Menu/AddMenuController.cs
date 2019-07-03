@@ -36,7 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [HttpPost("/v1/menu/", Name = "AddMenu")]
         [ValidateModelState]
         [SwaggerResponse(statusCode: 201, type: typeof(ResourceCreated), description: "Resource created")]
-        public virtual IActionResult AddMenu([FromBody]CreateOrUpdateMenu body)
+        public virtual IActionResult AddMenu([FromBody]UpdateMenu body)
         { 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(InlineResponse201));

@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using xxAMIDOxx.xxSTACKSxx.Models;
@@ -36,9 +28,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/{id}/category/")]
         [ValidateModelState]
-        [SwaggerOperation("AddMenuCategory")]
         [SwaggerResponse(statusCode: 201, type: typeof(ResourceCreated), description: "Resource created")]
-        public virtual IActionResult AddMenuCategory([FromRoute][Required]Guid? id, [FromBody]CreateOrUpdateCategory body)
+        public virtual IActionResult AddMenuCategory([FromRoute][Required]Guid? id, [FromBody]CreateCategory body)
         { 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(InlineResponse201));

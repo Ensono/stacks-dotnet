@@ -39,7 +39,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [ValidateModelState]
         [SwaggerOperation("UpdateMenuCategory")]
         [SwaggerResponse(statusCode: 201, type: typeof(ResourceCreated), description: "Resource created")]
-        public virtual IActionResult UpdateMenuCategory([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromBody]CreateOrUpdateCategory body)
+        public virtual IActionResult UpdateMenuCategory([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromBody]UpdateCategory body)
         { 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(InlineResponse201));
