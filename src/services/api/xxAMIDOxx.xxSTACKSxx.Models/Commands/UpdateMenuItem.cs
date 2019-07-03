@@ -2,16 +2,18 @@ using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.Models
-{
-    public partial class CreateOrUpdateMenu
+{ 
+    public partial class UpdateMenuItem
     { 
         [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
         [Required]
-        public bool? Enabled { get; set; }
+        public double? Price { get; set; }
+
+        [Required]
+        public bool? Available { get; set; }
     }
 }

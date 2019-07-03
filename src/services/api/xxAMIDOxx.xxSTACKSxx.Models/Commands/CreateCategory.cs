@@ -2,15 +2,12 @@ using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.Models
-{ 
-    public partial class SearchResultItem
+{
+    public partial class CreateCategory
     { 
-        public Guid? Id { get; set; }
-
+        [Required]
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        public bool? Enabled { get; set; }
     }
 }

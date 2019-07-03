@@ -41,7 +41,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [ValidateModelState]
         [SwaggerOperation("UpdateMenuItem")]
         [SwaggerResponse(statusCode: 201, type: typeof(ResourceCreated), description: "Resource created")]
-        public virtual IActionResult UpdateMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromRoute][Required]Guid itemId, [FromBody]CreateOrUpdateMenuItem body)
+        public virtual IActionResult UpdateMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromRoute][Required]Guid itemId, [FromBody]UpdateMenuItem body)
         { 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(InlineResponse201));
