@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CommandHandlers
             this.applicationEventPublisher = applicationEventPublisher;
         }
 
-        public async Task Handle(CreateMenu command)
+        public async Task HandleAsync(CreateMenu command)
         {
             // TODO: Create a domain object
 

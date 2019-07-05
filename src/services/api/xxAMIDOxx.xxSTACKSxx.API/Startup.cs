@@ -11,7 +11,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.API.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
 {
@@ -81,7 +81,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateMenu).Assembly.GetName().Name}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateOrUpdateMenu).Assembly.GetName().Name}.xml");
 
                     // Sets the basePath property in the Swagger document generated
                     c.DocumentFilter<BasePathFilter>(pathBase);
@@ -191,20 +191,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
                     c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
                 });
-        }
-
-        private void SetupMediaTypes()
-        {
-            //var mediaType = new MediaTypeHeaderValue("application/json");
-
-            //var formatter = new JsonMediaTypeFormatter();
-            //formatter.SupportedMediaTypes.Clear();
-            //formatter.SupportedMediaTypes.Add(mediaType);
-
-            //Configuration.Fp
-            ////var config = new HttpConfiguration();
-            //Configuration.Formatters.Clear();
-            //Configuration.Formatters.Add(formatter);
         }
     }
 }
