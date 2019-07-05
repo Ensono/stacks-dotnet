@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\stacks\Amido.Stacks.Application.CQRS\Amido.Stacks.Application.CQRS.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Infrastructure\xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj" />
-    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Models\xxAMIDOxx.xxSTACKSxx.Models.csproj" />
   </ItemGroup>
 
 </Project>

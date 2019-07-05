@@ -1,13 +1,12 @@
 ﻿using Amido.Stacks.Application.CQRS;
 using System;
 using System.Threading.Tasks;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
-using xxAMIDOxx.xxSTACKSxx.Models;
-using xxAMIDOxx.xxSTACKSxx.Models.Queries;
 
 namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
 {
-    public class GetMenuByIdQueryHandler : IQueryHandler<GetMenuByIdQuery, Menu>
+    public class GetMenuByIdQueryHandler : IQueryHandler<GetMenuByIdQueryCriteria, Menu>
     {
         private IMenuRepository repository;
 
@@ -16,7 +15,7 @@ namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
             this.repository = repository;
         }
 
-        public Task<Menu> Execute(GetMenuByIdQuery criteria)
+        public Task<Menu> Execute(GetMenuByIdQueryCriteria criteria)
         {
             //TODO: get Menu from DB, map to result
             //var menu = repository.GetById(criteria.Id);

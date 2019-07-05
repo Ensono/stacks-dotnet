@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Exceptions\" />
     <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\stacks\Amido.Stacks.Domain\Amido.Stacks.Domain.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Exceptions\xxAMIDOxx.xxSTACKSxx.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

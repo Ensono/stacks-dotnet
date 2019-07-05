@@ -1,17 +1,20 @@
 ﻿using Amido.Stacks.Application.CQRS;
 using System.Threading.Tasks;
+using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
-using xxAMIDOxx.xxSTACKSxx.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.CommandHandlers
 {
     public class CreateMenuCommandHandler : ICommandHandler<CreateMenu>
     {
         private IMenuRepository repository;
+        private IApplicationEventPublisher applicationEventPublisher;
 
-        public CreateMenuCommandHandler(IMenuRepository repository)
+        public CreateMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
         {
             this.repository = repository;
+            this.applicationEventPublisher = applicationEventPublisher;
         }
 
         public async Task Handle(CreateMenu command)
@@ -20,6 +23,10 @@ namespace xxAMIDOxx.xxSTACKSxx.CommandHandlers
 
             // Apply the changes            
             //await repository.Save(new Domain.Menu());
+            //await Task.CompletedTask;
+            //IEventPublisher.Raise.MenuCreateEvent()
+
+            await applicationEventPublisher.PublishAsync(new MenuCreatedEvent());
         }
     }
 }

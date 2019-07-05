@@ -1,22 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Amido.Stacks.API.Swagger.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization; 
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using xxAMIDOxx.xxSTACKSxx.API.Filters;
-using System.Reflection;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
 {
@@ -40,7 +33,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
             services
                 //.AddMvc()
-                .AddMvcCore()
+                .AddMvcCore(
+                    options =>
+                    {
+                        options.AllowValidatingTopLevelNodes = true;
+                        options.InputFormatters.Clear();
+                    }
+                )
                 .AddApiExplorer()
                 .AddAuthorization()
                 .AddFormatterMappings()
@@ -69,7 +68,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                         },
                         TermsOfService = "http://www.amido.com/"
                     });
-                    
+
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
@@ -178,11 +177,25 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 .UseSwaggerUI(c =>
                 {
                     c.DisplayOperationId();
-                    
+
                     c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
                     c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
                     c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
                 });
+        }
+
+        private void SetupMediaTypes()
+        {
+            //var mediaType = new MediaTypeHeaderValue("application/json");
+
+            //var formatter = new JsonMediaTypeFormatter();
+            //formatter.SupportedMediaTypes.Clear();
+            //formatter.SupportedMediaTypes.Add(mediaType);
+
+            //Configuration.Fp
+            ////var config = new HttpConfiguration();
+            //Configuration.Formatters.Clear();
+            //Configuration.Formatters.Add(formatter);
         }
     }
 }
