@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -19,14 +16,14 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         public ValuesController(IConfiguration configuration, IOptionsMonitor<ValuesOptions> options)
         {
             values.Add(configuration.GetSection("TestConfig").Value);
-            
+
             values.AddRange(options.CurrentValue.Items);
         }
 
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
-        {			
+        {
             return values;
         }
 

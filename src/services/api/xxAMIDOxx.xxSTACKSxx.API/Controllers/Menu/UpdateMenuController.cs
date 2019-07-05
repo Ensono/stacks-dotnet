@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Annotations;
-using xxAMIDOxx.xxSTACKSxx.Models;
-using xxAMIDOxx.xxSTACKSxx.API.Attributes;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -21,8 +12,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// </summary>
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
+    [ApiController]
     public class UpdateMenuController : ControllerBase
-    { 
+    {
         /// <summary>
         /// Update a menu
         /// </summary>
@@ -34,10 +26,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="401">Unauthorized, Access token is missing or invalid</response>
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
-        [HttpPut("/v1/menu/{id}")]
         [ValidateModelState]
+        [HttpPut("/v1/menu/{id}")]
         public virtual IActionResult UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenu body)
-        { 
+        {
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);
 

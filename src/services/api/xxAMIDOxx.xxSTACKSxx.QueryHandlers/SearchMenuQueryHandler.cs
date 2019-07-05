@@ -1,25 +1,24 @@
-﻿using Amido.Stacks.Application.CQRS;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using xxAMIDOxx.xxSTACKSxx.Models;
-using xxAMIDOxx.xxSTACKSxx.Models.Queries;
+using Amido.Stacks.Application.CQRS;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 
 namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
 {
-    public class SearchMenuQueryHandler : IQueryHandler<SearchMenuQuery, SearchResult>
+    public class SearchMenuQueryHandler : IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult>
     {
-        public Task<SearchResult> Execute(SearchMenuQuery criteria)
+        public Task<SearchMenuResult> Execute(SearchMenuQueryCriteria criteria)
         {
             //TODO: get search menu from that matches the criteria and map to result
 
             return Task.FromResult(
-                new SearchResult()
+                new SearchMenuResult()
                 {
                     Offset = 0,
                     Size = 20,
-                    Results = new System.Collections.Generic.List<SearchResultItem>()
+                    Results = new System.Collections.Generic.List<SearchMenuResultItem>()
                     {
-                        new SearchResultItem()
+                        new SearchMenuResultItem()
                         {
                             Id = Guid.NewGuid(),
                             RestaurantId = Guid.NewGuid(),

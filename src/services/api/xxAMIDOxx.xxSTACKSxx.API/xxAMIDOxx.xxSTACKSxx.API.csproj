@@ -14,7 +14,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Models\xxAMIDOxx.xxSTACKSxx.Models.csproj" />
+    <ProjectReference Include="..\stacks\Amido.Stacks.API.Swagger\Amido.Stacks.API.Swagger.csproj" />
+    <ProjectReference Include="..\stacks\Amido.Stacks.API\Amido.Stacks.API.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
   </ItemGroup>
 
   <ItemGroup>

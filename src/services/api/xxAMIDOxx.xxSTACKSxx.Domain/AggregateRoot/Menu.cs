@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Amido.Stacks.Domain;
 using xxAMIDOxx.xxSTACKSxx.Domain.Entities;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain
 {
-    public class Menu
+    public class Menu: AggreagateRoot
     {
         private List<Category> categories;
 
