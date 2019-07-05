@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
@@ -11,6 +10,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// <summary>
     /// Item related operations
     /// </summary>
+    [Consumes("application/json")]
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "Item")]
     public class AddMenuItemController : ControllerBase
@@ -28,7 +28,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
         /// <response code="409">Conflict, an item already exists</response>
-        [ValidateModelState]
         [HttpPost("/v1/menu/{id}/category/{categoryId}/items/")]
         [ProducesResponseType(typeof(ResourceCreated), 201)]
         public virtual IActionResult AddMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromBody]CreateMenuItem body)

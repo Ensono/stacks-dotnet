@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
@@ -10,6 +9,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// Menu related operations
     /// </summary>
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
     public class SearchMenuController : ControllerBase
@@ -23,10 +23,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <param name="size">maximum number of records to return</param>
         /// <response code="200">search results matching criteria</response>
         /// <response code="400">bad request</response>
-        [ValidateModelState]
         [HttpGet("/v1/menu/")]
         [ProducesResponseType(typeof(SearchMenuResult), 200)]
-        public virtual IActionResult SearchMenu([FromQuery]string search, [FromQuery]int? offset = 0, [FromQuery][Range(0, 50)]int? size = 20)
+        public virtual IActionResult SearchMenu([FromQuery][Required]string search, [FromQuery]int? offset = 0, [FromQuery][Range(0, 50)]int? size = 20)
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(SearchResult));

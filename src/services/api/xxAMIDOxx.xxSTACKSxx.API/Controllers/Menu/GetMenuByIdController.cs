@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -11,6 +10,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// Menu related operations
     /// </summary>
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
     public class GetMenuController : ControllerBase
@@ -23,7 +23,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="200">Menu</response>
         /// <response code="400">Bad Request</response>
         /// <response code="404">Resource not found</response>
-        [ValidateModelState]
         [HttpGet("/v1/menu/{id}")]
         [ProducesResponseType(typeof(Menu), 200)]
         public virtual IActionResult GetMenu([FromRoute][Required]Guid id)
