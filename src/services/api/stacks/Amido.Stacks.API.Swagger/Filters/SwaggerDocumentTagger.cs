@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Text.RegularExpressions;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -28,6 +27,7 @@ namespace Amido.Stacks.API.Swagger.Filters
 
         public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
         {
+            //if a version is specified, only applies the rule to the version
             if (Versions != null && Versions.Length > 0 && !Versions.Any(v => v == swaggerDoc.Info.Version))
                 return;
 

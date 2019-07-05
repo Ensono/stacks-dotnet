@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -9,6 +8,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// <summary>
     /// Item related operations
     /// </summary>
+    [Consumes("application/json")]
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "Item")]
     public class DeleteMenuItemController : ControllerBase
@@ -25,7 +25,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="401">Unauthorized, Access token is missing or invalid</response>
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
-        [ValidateModelState]
         [HttpDelete("/v1/menu/{id}/category/{categoryId}/items/{itemId}")]
         public virtual IActionResult DeleteMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromRoute][Required]Guid itemId)
         {

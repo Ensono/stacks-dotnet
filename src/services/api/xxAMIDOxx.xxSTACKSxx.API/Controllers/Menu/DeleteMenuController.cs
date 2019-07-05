@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -25,7 +24,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="401">Unauthorized, Access token is missing or invalid</response>
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
-        [ValidateModelState]
         [HttpDelete("/v1/menu/{id}")]
         public virtual IActionResult DeleteMenu([FromRoute][Required]Guid id)
         {

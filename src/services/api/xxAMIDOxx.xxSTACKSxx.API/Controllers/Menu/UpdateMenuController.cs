@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
@@ -11,6 +10,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// Menu related operations
     /// </summary>
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
     public class UpdateMenuController : ControllerBase
@@ -26,7 +26,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="401">Unauthorized, Access token is missing or invalid</response>
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
-        [ValidateModelState]
         [HttpPut("/v1/menu/{id}")]
         public virtual IActionResult UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenu body)
         {

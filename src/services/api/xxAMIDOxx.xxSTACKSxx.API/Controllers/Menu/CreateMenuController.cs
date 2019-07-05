@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
@@ -26,7 +25,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="401">Unauthorized, Access token is missing or invalid</response>
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="409">Conflict, an item already exists</response>
-        [ValidateModelState]
         [HttpPost("/v1/menu/")]
         [ProducesResponseType(typeof(ResourceCreated), 201)]
         public virtual IActionResult CreateMenu([Required][FromBody]CreateMenu body)
