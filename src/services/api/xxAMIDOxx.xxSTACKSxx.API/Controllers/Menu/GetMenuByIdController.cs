@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
+using Query = xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -15,6 +18,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class GetMenuController : ControllerBase
     {
+        IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler;
+
+        public GetMenuController(IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler)
+        {
+            this.queryHandler = queryHandler;
+        }
+
         /// <summary>
         /// Get a menu
         /// </summary>
@@ -25,22 +35,17 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="404">Resource not found</response>
         [HttpGet("/v1/menu/{id}")]
         [ProducesResponseType(typeof(Menu), 200)]
-        public virtual IActionResult GetMenu([FromRoute][Required]Guid id)
+        public async Task<IActionResult> GetMenu([FromRoute][Required]Guid id)
         {
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Menu));
-
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
 
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
+            var result = await queryHandler.ExecuteAsync(new Query.GetMenuByIdQueryCriteria() { Id = id });
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Menu>(exampleJson)
-            : default(Menu);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            if (result == null)
+                return StatusCode(404);
+
+            return new ObjectResult(result);
         }
     }
 }

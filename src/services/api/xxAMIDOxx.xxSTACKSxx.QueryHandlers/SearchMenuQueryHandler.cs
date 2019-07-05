@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS;
+using Amido.Stacks.Application.CQRS.Queries;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 
 namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
 {
     public class SearchMenuQueryHandler : IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult>
     {
-        public Task<SearchMenuResult> Execute(SearchMenuQueryCriteria criteria)
+        public Task<SearchMenuResult> ExecuteAsync(SearchMenuQueryCriteria criteria)
         {
             //TODO: get search menu from that matches the criteria and map to result
 

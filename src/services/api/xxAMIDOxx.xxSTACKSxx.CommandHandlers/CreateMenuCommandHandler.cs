@@ -1,8 +1,9 @@
-﻿using Amido.Stacks.Application.CQRS;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.Commands;
+using Amido.Stacks.Application.CQRS.Events;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
-using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
+using xxAMIDOxx.xxSTACKSxx.Integration;
 
 namespace xxAMIDOxx.xxSTACKSxx.CommandHandlers
 {
@@ -22,8 +23,14 @@ namespace xxAMIDOxx.xxSTACKSxx.CommandHandlers
             // TODO: Create a domain object
 
             // Apply the changes            
-            //await repository.Save(new Domain.Menu());
-            //await Task.CompletedTask;
+            await repository.Save(new Domain.Menu()
+            {
+                Id = command.Id,
+                Name = command.Name,
+                Description = command.Description,
+                RestaurantId = System.Guid.NewGuid(),
+                Enabled = command.Enabled
+            });
             //IEventPublisher.Raise.MenuCreateEvent()
 
             await applicationEventPublisher.PublishAsync(new MenuCreatedEvent());

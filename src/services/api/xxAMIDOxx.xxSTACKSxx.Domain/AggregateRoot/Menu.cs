@@ -5,15 +5,16 @@ using xxAMIDOxx.xxSTACKSxx.Domain.Entities;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain
 {
-    public class Menu: AggreagateRoot
+    public class Menu : AggreagateRoot
     {
         private List<Category> categories;
 
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
-        public Guid RestaurantId { get; private set; }
-        public string Description { get; private set; }
+        //TODO: set properties to private
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public Guid RestaurantId { get; set; }
+        public string Description { get; set; }
         public IReadOnlyList<Category> Categories { get => categories?.AsReadOnly(); }
-        public bool? Enabled { get; private set; }
+        public bool? Enabled { get; set; }
     }
 }
