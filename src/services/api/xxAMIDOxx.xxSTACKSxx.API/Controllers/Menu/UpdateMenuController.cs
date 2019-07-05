@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.API.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -27,7 +27,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
         [HttpPut("/v1/menu/{id}")]
-        public virtual IActionResult UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenu body)
+        public virtual IActionResult UpdateMenu([FromRoute][Required]Guid id, [FromBody]CreateOrUpdateMenu body)
         {
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);

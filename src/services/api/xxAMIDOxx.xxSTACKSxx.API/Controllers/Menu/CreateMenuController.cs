@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
@@ -15,11 +18,20 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class CreateMenuController : ControllerBase
     {
+        ICommandHandler<CreateMenu> commandHandler;
+
+        public CreateMenuController(ICommandHandler<CreateMenu> commandHandler)
+        {
+            this.commandHandler = commandHandler;
+        }
+
+
+
         /// <summary>
         /// Create a menu
         /// </summary>
         /// <remarks>Adds a menu</remarks>
-        /// <param name="body">Menu being added</param>
+        /// <param name="body">Menu being created</param>
         /// <response code="201">Resource created</response>
         /// <response code="400">Bad Request</response>
         /// <response code="401">Unauthorized, Access token is missing or invalid</response>
@@ -27,7 +39,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/")]
         [ProducesResponseType(typeof(ResourceCreated), 201)]
-        public virtual IActionResult CreateMenu([Required][FromBody]CreateMenu body)
+        public async Task<IActionResult> CreateMenu([Required][FromBody]CreateOrUpdateMenu body)
         {
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(InlineResponse201));
@@ -44,13 +56,17 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             //TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(409);
 
-            string exampleJson = null;
+            var id = Guid.NewGuid();
+            await commandHandler.HandleAsync(
+                new CQRS.Commands.CreateMenu()
+                {
+                    Id = id,
+                    Name = body.Name,
+                    Description = body.Description,
+                    Enabled = body.Enabled
+                });
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<ResourceCreated>(exampleJson)
-            : default(ResourceCreated);            //TODO: Change the data returned
-
-            return new ObjectResult(example);
+            return new ObjectResult(new ResourceCreated(id));
         }
     }
 }

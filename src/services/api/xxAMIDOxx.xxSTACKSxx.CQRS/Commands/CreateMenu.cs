@@ -5,7 +5,8 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
     public partial class CreateMenu
     {
-        [Required]
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         [Required]
