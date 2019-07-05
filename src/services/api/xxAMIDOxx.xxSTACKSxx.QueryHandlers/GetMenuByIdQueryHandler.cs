@@ -1,8 +1,7 @@
-﻿using Amido.Stacks.Application.CQRS;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.Queries;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
-using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
+using xxAMIDOxx.xxSTACKSxx.Integration;
 
 namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
 {
@@ -15,22 +14,25 @@ namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
             this.repository = repository;
         }
 
-        public Task<Menu> Execute(GetMenuByIdQueryCriteria criteria)
+        public async Task<Menu> ExecuteAsync(GetMenuByIdQueryCriteria criteria)
         {
             //TODO: get Menu from DB, map to result
-            //var menu = repository.GetById(criteria.Id);
+            var menu = await repository.GetById(criteria.Id);
+
+            if (menu == null)
+                return null;
 
             //TODO: Convert domain to models
             var result = new Menu()
             {
-                Id = Guid.NewGuid(),
-                RestaurantId = Guid.NewGuid(),
-                Name = "Lunch Menu (dummy)",
-                Description = "This is a dummy item",
-                Enabled = true
+                Id = menu.Id,
+                RestaurantId = menu.RestaurantId,
+                Name = menu.Name,
+                Description = menu.Description,
+                Enabled = menu.Enabled
             };
 
-            return Task.FromResult(result);
+            return result;
         }
     }
 }

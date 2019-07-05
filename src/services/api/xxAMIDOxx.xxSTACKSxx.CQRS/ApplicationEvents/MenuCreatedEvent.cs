@@ -1,4 +1,4 @@
-﻿using Amido.Stacks.Application.CQRS;
+﻿using Amido.Stacks.Application.CQRS.Events;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents
 {

@@ -1,4 +1,4 @@
-﻿namespace Amido.Stacks.Application.CQRS
+﻿namespace Amido.Stacks.Application.CQRS.Events
 {
     public interface IApplicationEvent
     {

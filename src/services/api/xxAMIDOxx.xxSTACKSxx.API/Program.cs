@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Infrastructure;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
 {
@@ -21,6 +22,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     // In the future we should set optional: false to force the user provide a config file
                     config.AddJsonFile($"config/appsettings.json", optional: true, reloadOnChange: false);
                 })
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .ConfigureServices(DependencyRegistration.ConfigureServices)
+            ;
     }
 }

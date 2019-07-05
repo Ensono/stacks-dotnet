@@ -40,6 +40,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     {
                         options.AllowValidatingTopLevelNodes = true;
                         options.InputFormatters.Clear();
+
+                        //Add automatic validation of Models decorated with ValidationAttributes
+                        //Remove it if you planning to use FluentValidation
                         options.Filters.Add(new ValidateModelStateAttribute());
                     }
                 )
