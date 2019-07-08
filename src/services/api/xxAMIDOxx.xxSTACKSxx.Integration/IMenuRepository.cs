@@ -12,7 +12,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Integration
 
     public interface IMenuRepository
     {
-        Task<Menu> GetById(Guid id);
-        Task Save(Menu entity);
+        Task<Menu> GetByIdAsync(Guid id);
+        Task<bool> SaveAsync(Menu entity);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

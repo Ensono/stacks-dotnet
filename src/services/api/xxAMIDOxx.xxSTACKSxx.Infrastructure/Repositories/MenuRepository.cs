@@ -9,7 +9,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
     {
         static System.Collections.Generic.Dictionary<Guid, Menu> storage = new System.Collections.Generic.Dictionary<Guid, Menu>();
 
-        public async Task<Menu> GetById(Guid id)
+        public async Task<Menu> GetByIdAsync(Guid id)
         {
             if (storage.ContainsKey(id))
                 return await Task.FromResult(storage[id]);
@@ -17,15 +17,26 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
                 return await Task.FromResult((Menu)null);
         }
 
-        public async Task Save(Menu entity)
+        public async Task<bool> SaveAsync(Menu entity)
         {
             if (entity == null)
-                return;
+                return false;
 
             if (storage.ContainsKey(entity.Id))
                 storage[entity.Id] = entity;
             else
                 storage.Add(entity.Id, entity);
+
+            return true;
         }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            if (!storage.ContainsKey(id))
+                return false;
+
+            return storage.Remove(id);
+        }
+
     }
 }

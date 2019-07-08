@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
         public async Task<Menu> ExecuteAsync(GetMenuByIdQueryCriteria criteria)
         {
             //TODO: get Menu from DB, map to result
-            var menu = await repository.GetById(criteria.Id);
+            var menu = await repository.GetByIdAsync(criteria.Id);
 
             if (menu == null)
                 return null;

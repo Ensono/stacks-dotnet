@@ -13,6 +13,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
         public string Description { get; set; }
 
         [Required]
-        public bool? Enabled { get; set; }
+        public bool Enabled { get; set; }
     }
 }

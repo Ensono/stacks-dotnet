@@ -6,12 +6,15 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
     public partial class UpdateMenu
     {
         [Required]
+        public Guid Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         [Required]
         public string Description { get; set; }
 
         [Required]
-        public bool? Enabled { get; set; }
+        public bool Enabled { get; set; }
     }
 }
