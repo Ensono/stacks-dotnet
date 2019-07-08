@@ -16,5 +16,12 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
         public string Description { get; set; }
         public IReadOnlyList<Category> Categories { get => categories?.AsReadOnly(); }
         public bool? Enabled { get; set; }
+
+        public void Update(string name, string description, bool enabled)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.Enabled = Enabled;
+        }
     }
 }

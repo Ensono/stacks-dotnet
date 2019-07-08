@@ -3,9 +3,9 @@ using Amido.Stacks.Application.CQRS.Events;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents
 {
-    public class MenuCreatedEvent : IApplicationEvent
+    public class MenuDeletedEvent : IApplicationEvent
     {
-        public MenuCreatedEvent(Guid id)
+        public MenuDeletedEvent(Guid id)
         {
             Id = id;
         }

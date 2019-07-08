@@ -56,9 +56,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             var id = Guid.NewGuid();
             await commandHandler.HandleAsync(
-                new CQRS.Commands.CreateMenu()
+                new CreateMenu()
                 {
                     Id = id,
+                    RestaurantId = Guid.NewGuid(), //Should get the id from the user logged-in
                     Name = body.Name,
                     Description = body.Description,
                     Enabled = body.Enabled
