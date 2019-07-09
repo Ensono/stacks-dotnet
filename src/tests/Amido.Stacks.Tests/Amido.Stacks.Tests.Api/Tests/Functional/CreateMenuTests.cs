@@ -1,6 +1,6 @@
-﻿using Amido.Stacks.E2e.Tests.Api.Builders;
-using Amido.Stacks.E2e.Tests.Api.Models;
-using Amido.Stacks.E2e.Tests.Api.Tests.Fixtures;
+﻿using Amido.Stacks.Tests.Api.Builders;
+using Amido.Stacks.Tests.Api.Models;
+using Amido.Stacks.Tests.Api.Tests.Fixtures;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net.Http;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace Amido.Stacks.E2e.Tests.Api.Tests.Functional
+namespace Amido.Stacks.Tests.Api.Tests.Functional
 {
     [Story(
         AsA = "restaurant administrator",
