@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Amido.Stacks.Tests.Api
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
     public interface IBuilder<T>
     {

@@ -1,13 +1,13 @@
-﻿using Amido.Stacks.Tests.Api.Builders;
-using Amido.Stacks.Tests.Api.Models;
-using Amido.Stacks.Tests.Api.Tests.Fixtures;
+﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace Amido.Stacks.Tests.Api.Tests.Functional
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
     [Story(
         AsA = "user of the Yumido website",
