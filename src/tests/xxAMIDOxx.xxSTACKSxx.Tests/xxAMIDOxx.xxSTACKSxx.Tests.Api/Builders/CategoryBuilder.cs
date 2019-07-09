@@ -1,9 +1,9 @@
-﻿using Amido.Stacks.Tests.Api.Models;
+﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Amido.Stacks.Tests.Api.Builders
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
     public class CategoryBuilder : IBuilder<Category>
     {

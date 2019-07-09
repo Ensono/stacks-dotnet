@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Amido.Stacks.Tests.Api.Models
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Models
 {
     public class Menu
     {
