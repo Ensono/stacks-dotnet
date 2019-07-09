@@ -1,9 +1,7 @@
-﻿using Amido.Stacks.Tests.Api.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
-namespace Amido.Stacks.Tests.Api.Builders
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
     public class ItemBuilder : IBuilder<Item>
     {

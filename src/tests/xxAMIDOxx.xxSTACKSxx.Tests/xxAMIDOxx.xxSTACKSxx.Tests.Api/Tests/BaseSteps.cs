@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Amido.Stacks.Tests.Api.Tests
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests
 {
     //Shared test steps should be placed here
     public class BaseStory
