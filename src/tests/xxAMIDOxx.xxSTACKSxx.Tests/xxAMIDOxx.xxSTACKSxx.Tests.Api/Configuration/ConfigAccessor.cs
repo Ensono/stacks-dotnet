@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Amido.Stacks.Tests.Api.Configuration
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration
 {
     public class ConfigAccessor
     {

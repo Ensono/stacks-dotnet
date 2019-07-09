@@ -1,8 +1,8 @@
-﻿using Amido.Stacks.Tests.Api.Configuration;
+﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration;
 using System;
 using System.Diagnostics;
 
-namespace Amido.Stacks.Tests.Api.Tests.Fixtures
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
     //Fixture set up and tear down
     //Inherits IDisposable as this is where teardown will take place
