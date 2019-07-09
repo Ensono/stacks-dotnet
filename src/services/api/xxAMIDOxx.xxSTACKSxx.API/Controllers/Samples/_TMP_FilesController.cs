@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using IO = System.IO;
 using Microsoft.Extensions.FileProviders;
+using IO = System.IO;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -19,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         public ActionResult Get(string path = null)
         {
             Log($"Received Arg: {path}");
-            
+
             Log($"Current Directory: {IO.Directory.GetCurrentDirectory()}");
             if (string.IsNullOrEmpty(path))
                 path = IO.Directory.GetCurrentDirectory();
@@ -32,14 +29,14 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                 //Log($"Loading file: {relativePath}");
 
                 IFileProvider provider = null;
-                if(IO.Path.IsPathRooted(path))
+                if (IO.Path.IsPathRooted(path))
                     provider = new PhysicalFileProvider(IO.Path.GetPathRoot(path));
                 else
                     provider = new PhysicalFileProvider(IO.Directory.GetCurrentDirectory());
 
                 IFileInfo fileInfo = provider.GetFileInfo(path);
                 var readStream = fileInfo.CreateReadStream();
-                
+
                 return File(readStream, "text/plain");
             }
             else if (IO.Directory.Exists(path))

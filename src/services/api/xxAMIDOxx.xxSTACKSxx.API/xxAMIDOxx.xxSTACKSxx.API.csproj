@@ -10,11 +10,16 @@
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <!--<DocumentationFile>xxAMIDOxx.xxSTACKSxx.API.xml</DocumentationFile>-->
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Models\xxAMIDOxx.xxSTACKSxx.Models.csproj" />
+    <ProjectReference Include="..\stacks\Amido.Stacks.API.Swagger\Amido.Stacks.API.Swagger.csproj" />
+    <ProjectReference Include="..\stacks\Amido.Stacks.API\Amido.Stacks.API.csproj" />
+    <ProjectReference Include="..\stacks\Amido.Stacks.Application.CQRS\Amido.Stacks.Application.CQRS.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API.Models\xxAMIDOxx.xxSTACKSxx.API.Models.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Infrastructure\xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.QueryHandlers\xxAMIDOxx.xxSTACKSxx.QueryHandlers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

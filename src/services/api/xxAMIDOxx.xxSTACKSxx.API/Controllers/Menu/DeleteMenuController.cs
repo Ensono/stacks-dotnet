@@ -1,18 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Annotations;
-using xxAMIDOxx.xxSTACKSxx.Models;
-using xxAMIDOxx.xxSTACKSxx.API.Attributes;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -20,9 +12,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// Menu related operations
     /// </summary>
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
+    [ApiController]
     public class DeleteMenuController : ControllerBase
-    { 
+    {
+        ICommandHandler<DeleteMenu> commandHandler;
+
+        public DeleteMenuController(ICommandHandler<DeleteMenu> commandHandler)
+        {
+            this.commandHandler = commandHandler;
+        }
+
         /// <summary>
         /// Removes a menu with all its categories and items
         /// </summary>
@@ -34,12 +35,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
         [HttpDelete("/v1/menu/{id}")]
-        [ValidateModelState]
-        public virtual IActionResult DeleteMenu([FromRoute][Required]Guid? id)
-        { 
-            //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(204);
-
+        public async Task<IActionResult> DeleteMenu([FromRoute][Required]Guid id)
+        {
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
 
@@ -52,7 +49,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            throw new NotImplementedException();
+            await commandHandler.HandleAsync(new DeleteMenu(id));
+            return StatusCode(204);
         }
     }
 }
