@@ -1,18 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Annotations;
-using xxAMIDOxx.xxSTACKSxx.Models;
-using xxAMIDOxx.xxSTACKSxx.API.Attributes;
+using xxAMIDOxx.xxSTACKSxx.API.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -20,9 +10,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// Menu related operations
     /// </summary>
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
+    [ApiController]
     public class GetMenuV2Controller : ControllerBase
-    { 
+    {
         /// <summary>
         /// Get a menu
         /// </summary>
@@ -32,8 +24,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="404">Resource not found</response>
         [HttpGet("/v2/menu/{id}")]
-        [ValidateModelState]
-        [SwaggerResponse(statusCode: 200, type: typeof(Menu), description: "Menu")]
+        [ProducesResponseType(typeof(Menu), 200)]
         public virtual IActionResult GetMenuV2([FromRoute][Required]Guid id)
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

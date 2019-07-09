@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Annotations;
-using xxAMIDOxx.xxSTACKSxx.Models;
-using xxAMIDOxx.xxSTACKSxx.API.Attributes;
+using xxAMIDOxx.xxSTACKSxx.API.Models;
+using Query = xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -20,9 +13,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// Menu related operations
     /// </summary>
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
+    [ApiController]
     public class GetMenuController : ControllerBase
-    { 
+    {
+        IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler;
+
+        public GetMenuController(IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler)
+        {
+            this.queryHandler = queryHandler;
+        }
+
         /// <summary>
         /// Get a menu
         /// </summary>
@@ -32,24 +34,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="404">Resource not found</response>
         [HttpGet("/v1/menu/{id}")]
-        [ValidateModelState]
-        [SwaggerResponse(statusCode: 200, type: typeof(Menu), description: "Menu")]
-        public virtual IActionResult GetMenu([FromRoute][Required]Guid id)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Menu));
-
+        [ProducesResponseType(typeof(Menu), 200)]
+        public async Task<IActionResult> GetMenu([FromRoute][Required]Guid id)
+        {
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
 
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<Menu>(exampleJson)
-                        : default(Menu);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var result = await queryHandler.ExecuteAsync(new Query.GetMenuByIdQueryCriteria() { Id = id });
+
+            if (result == null)
+                return StatusCode(404);
+
+            return new ObjectResult(result);
         }
     }
 }
