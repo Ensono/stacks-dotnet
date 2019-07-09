@@ -1,376 +1,912 @@
 {
-  "openapi" : "3.0.0",
-  "info" : {
-    "title" : "Yumido Menu API",
-    "description" : "This is an API to manage Menu in the restaurants",
-    "termsOfService" : "http://www.amido.com/stacks/terms/",
-    "contact" : {
-      "name" : "Amido",
-      "url" : "http://www.amido.com",
-      "email" : "stacks@amido.com"
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "description": "SwaggerHub API Auto Mocking",
+      "url": "https://virtserver.swaggerhub.com/guibirow/Yumido/v1"
+    }
+  ],
+  "info": {
+    "description": "This is an API to manage Menu in the restaurants",
+    "version": "v1",
+    "title": "Menu API",
+    "contact": {
+      "email": "stacks@amido.com"
     },
-    "license" : {
-      "name" : "Apache 2.0",
-      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
-    "version" : "v1"
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
   },
-  "servers" : [ {
-    "url" : "https://virtserver.swaggerhub.com/guibirow/Yumido/v1",
-    "description" : "SwaggerHub API Auto Mocking"
-  } ],
-  "tags" : [ {
-    "name" : "Menu",
-    "description" : "Menu management service"
-  } ],
-  "paths" : {
-    "/menu/" : {
-      "get" : {
-        "tags" : [ "Menu" ],
-        "summary" : "Get or search a list of available menus",
-        "description" : "By passing in the appropriate options, you can search for\navailable menus in the system\n",
-        "operationId" : "searchMenu",
-        "parameters" : [ {
-          "name" : "restaurantId",
-          "in" : "query",
-          "description" : "restaurant to filter from",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "name" : "search",
-          "in" : "query",
-          "description" : "pass an optional search string for looking up menus",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "skip",
-          "in" : "query",
-          "description" : "number of records to skip for pagination",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "minimum" : 0,
-            "type" : "integer",
-            "format" : "int32"
-          }
-        }, {
-          "name" : "limit",
-          "in" : "query",
-          "description" : "maximum number of records to return",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "maximum" : 50,
-            "minimum" : 0,
-            "type" : "integer",
-            "format" : "int32"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "search results matching criteria",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Menu"
-                  }
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "bad request"
-          },
-          "404" : {
-            "description" : "Resource not found"
-          }
-        },
-        "security" : [ {
-          "OpenID" : [ "admin" ]
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Menu" ],
-        "summary" : "Create a menu",
-        "description" : "Adds a menu",
-        "operationId" : "addMenu",
-        "requestBody" : {
-          "description" : "Menu being added",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Menu"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Resource created"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Access token is missing or invalid"
-          },
-          "403" : {
-            "description" : "Forbidden, the user does not have permission to execute this operation"
-          },
-          "409" : {
-            "description" : "Conflict, an item already exists"
-          }
-        },
-        "security" : [ {
-          "OpenID" : [ "admin" ]
-        } ]
-      }
+  "tags": [
+    {
+      "name": "Menu",
+      "description": "Menu related operations"
     },
-    "/menu/{id}" : {
-      "get" : {
-        "tags" : [ "Menu" ],
-        "summary" : "Get a menu",
-        "description" : "By passing in the appropriate options, you can search for\navailable menus in the system\n",
-        "operationId" : "getMenu",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "menu id",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
+    {
+      "name": "Category",
+      "description": "Catalog related operations"
+    },
+    {
+      "name": "Item",
+      "description": "Item relate operations"
+    }
+  ],
+  "paths": {
+    "/menu/": {
+      "get": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Get or search a list of menus",
+        "operationId": "searchMenu",
+        "description": "By passing in the appropriate options, you can search for\navailable menus in the system\n",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "pass an optional search string for looking up menus",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "number of records to skip for pagination",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "maximum number of records to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 50
+            }
           }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Menu",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Menu"
+        ],
+        "responses": {
+          "200": {
+            "description": "search results matching criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResult"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Bad Request"
+          "400": {
+            "description": "bad request"
           },
-          "404" : {
-            "description" : "Resource not found"
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       },
-      "put" : {
-        "tags" : [ "Menu" ],
-        "summary" : "Update a menu",
-        "description" : "Update a menu with new information",
-        "operationId" : "updateMenu",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "menu id",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
+      "post": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Create a menu",
+        "operationId": "addMenu",
+        "description": "Adds a menu",
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
           }
-        } ],
-        "requestBody" : {
-          "description" : "Menu being added",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Menu"
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictItemExists"
+          }
+        },
+        "requestBody": {
+          "description": "Menu being added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateMenu"
               }
             }
           }
-        },
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Access token is missing or invalid"
-          },
-          "403" : {
-            "description" : "Forbidden, the user does not have permission to execute this operation"
-          },
-          "404" : {
-            "description" : "Resource not found"
+        }
+      }
+    },
+    "/menu/{id}": {
+      "get": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Get a menu",
+        "operationId": "getMenu",
+        "description": "By passing the menu id, you can get access to\navailable categories and items in the menu\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "menu id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
-        },
-        "security" : [ {
-          "OpenID" : [ "admin" ]
-        } ]
+        ],
+        "responses": {
+          "200": {
+            "description": "Menu",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Menu"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       },
-      "delete" : {
-        "tags" : [ "Menu" ],
-        "summary" : "Removes a menu",
-        "description" : "Remove a menu from a restaurant",
-        "operationId" : "deleteMenu",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "menu id",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
+      "put": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Update a menu",
+        "operationId": "updateMenu",
+        "description": "Update a menu with new information",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "menu id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
+        ],
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/NoContent"
           },
-          "400" : {
-            "description" : "Bad Request"
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           },
-          "401" : {
-            "description" : "Access token is missing or invalid"
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           },
-          "403" : {
-            "description" : "Forbidden, the user does not have permission to execute this operation"
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
           },
-          "404" : {
-            "description" : "Resource not found"
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         },
-        "security" : [ {
-          "OpenID" : [ "admin" ]
-        } ]
+        "requestBody": {
+          "description": "Menu being updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateMenu"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Removes a menu with all its categories and items",
+        "operationId": "deleteMenu",
+        "description": "Remove a menu from a restaurant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "menu id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/NoContent"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/menu/{id}/category/": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Create a category in the menu",
+        "operationId": "addMenuCategory",
+        "description": "Adds a category to menu",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "menu id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictItemExists"
+          }
+        },
+        "requestBody": {
+          "description": "Category being added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateCategory"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/menu/{id}/category/{categoryId}": {
+      "put": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Update a category in the menu",
+        "operationId": "updateMenuCategory",
+        "description": "Update a category to menu",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "menu id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "categoryId",
+            "description": "Id for Category being removed",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictItemExists"
+          }
+        },
+        "requestBody": {
+          "description": "Category being added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateCategory"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Removes a category and its items from menu",
+        "operationId": "deleteCategory",
+        "description": "Removes a category and its items from menu",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "menu id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "categoryId",
+            "description": "Id for Category being removed",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/NoContent"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/menu/{id}/category/{categoryId}/items/": {
+      "post": {
+        "tags": [
+          "Item"
+        ],
+        "summary": "Create an item to a category in the menu",
+        "operationId": "addMenuItem",
+        "description": "Adds a new item to a category in the menu",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "menu id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "categoryId",
+            "description": "Id for Category being removed",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictItemExists"
+          }
+        },
+        "requestBody": {
+          "description": "Category being added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateMenuItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/menu/{id}/category/{categoryId}/items/{itemId}": {
+      "put": {
+        "tags": [
+          "Item"
+        ],
+        "summary": "Update an item in the menu",
+        "operationId": "updateMenuItem",
+        "description": "Update an  item in the menu",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id for menu",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "categoryId",
+            "description": "Id for Category",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "Id for item being updated",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictItemExists"
+          }
+        },
+        "requestBody": {
+          "description": "Category being added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateMenuItem"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Item"
+        ],
+        "summary": "Removes an item from menu",
+        "operationId": "deleteMenuItem",
+        "description": "Removes an item from menu",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "menu id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "categoryId",
+            "description": "Category ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "Id for Item being removed",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "OpenID": [
+              "admin"
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/NoContent"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       }
     }
   },
-  "components" : {
-    "schemas" : {
-      "MenuItem" : {
-        "required" : [ "available", "id", "name", "price" ],
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid",
-            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+  "components": {
+    "schemas": {
+      "SearchResult": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "example": 10
           },
-          "name" : {
-            "type" : "string",
-            "example" : "CheeseBurguer"
+          "offset": {
+            "type": "integer",
+            "format": "int32",
+            "example": 0
           },
-          "description" : {
-            "type" : "string",
-            "example" : "A delicious patty covered with melted cheddar"
-          },
-          "price" : {
-            "type" : "number",
-            "format" : "double",
-            "example" : 1.50
-          },
-          "available" : {
-            "type" : "boolean"
-          }
-        }
-      },
-      "Category" : {
-        "required" : [ "id", "items", "name" ],
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid",
-            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
-          },
-          "name" : {
-            "type" : "string",
-            "example" : "Burguers"
-          },
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/MenuItem"
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchResultItem"
             }
           }
         }
       },
-      "Menu" : {
-        "required" : [ "categories", "enabled", "id", "name" ],
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid",
-            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      "SearchResultItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
           },
-          "name" : {
-            "type" : "string",
-            "example" : "Lunch Menu"
+          "name": {
+            "type": "string",
+            "example": "Lunch Menu"
           },
-          "categories" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Category"
+          "description": {
+            "type": "string",
+            "example": "A delicious food selection for lunch. Available mon to fri from 11am to 4pm"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Menu": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "categories",
+          "enabled"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name": {
+            "type": "string",
+            "example": "Lunch Menu"
+          },
+          "description": {
+            "type": "string",
+            "example": "A delicious food selection for lunch. Available mon to fri from 11am to 4pm"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
             }
           },
-          "enabled" : {
-            "type" : "boolean"
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "items"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name": {
+            "type": "string",
+            "example": "Burguers"
+          },
+          "description": {
+            "type": "string",
+            "example": "A delicious selection of burguers"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MenuItem"
+            }
+          }
+        }
+      },
+      "MenuItem": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "price",
+          "available"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name": {
+            "type": "string",
+            "example": "CheeseBurguer"
+          },
+          "description": {
+            "type": "string",
+            "example": "A delicious patty covered with melted cheddar"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "example": "1.50"
+          },
+          "available": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateOrUpdateMenu": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "enabled"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lunch Menu"
+          },
+          "description": {
+            "type": "string",
+            "example": "A delicious food selection for lunch. Available mon to fri from 11am to 4pm"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateOrUpdateCategory": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Burguers"
+          },
+          "description": {
+            "type": "string",
+            "example": "A delicious selection of burguers"
+          }
+        }
+      },
+      "CreateOrUpdateMenuItem": {
+        "type": "object",
+        "required": [
+          "name",
+          "price",
+          "available"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "CheeseBurguer"
+          },
+          "description": {
+            "type": "string",
+            "example": "A delicious patty covered with melted cheddar"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "example": "1.50"
+          },
+          "available": {
+            "type": "boolean"
           }
         }
       }
     },
-    "responses" : {
-      "Created" : {
-        "description" : "Resource created"
+    "responses": {
+      "Accepted": {
+        "description": "Accepted"
       },
-      "NotFound" : {
-        "description" : "Resource not found"
+      "Created": {
+        "description": "Resource created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                }
+              }
+            }
+          }
+        }
       },
-      "NoContent" : {
-        "description" : "No Content"
+      "NotFound": {
+        "description": "Resource not found"
       },
-      "BadRequest" : {
-        "description" : "Bad Request"
+      "NoContent": {
+        "description": "No Content"
       },
-      "Unauthorized" : {
-        "description" : "Access token is missing or invalid"
+      "BadRequest": {
+        "description": "Bad Request"
       },
-      "Forbidden" : {
-        "description" : "Forbidden, the user does not have permission to execute this operation"
+      "Unauthorized": {
+        "description": "Unauthorized, Access token is missing or invalid"
       },
-      "ConflictItemExists" : {
-        "description" : "Conflict, an item already exists"
+      "Forbidden": {
+        "description": "Forbidden, the user does not have permission to execute this operation"
+      },
+      "ConflictItemExists": {
+        "description": "Conflict, an item already exists"
       }
     },
-    "securitySchemes" : {
-      "OpenID" : {
-        "type" : "openIdConnect",
-        "openIdConnectUrl" : "https://example.com/.well-known/openid-configuration"
+    "securitySchemes": {
+      "OpenID": {
+        "type": "openIdConnect",
+        "openIdConnectUrl": "https://example.com/.well-known/openid-configuration"
       },
-      "bearerAuth" : {
-        "type" : "http",
-        "scheme" : "bearer",
-        "bearerFormat" : "JWT"
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
