@@ -1,26 +1,25 @@
-﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
     public class CategoryBuilder : IBuilder<Category>
     {
-        private Category model;
+        private Category category;
 
         public CategoryBuilder()
         {
-            model = new Category();
+            category = new Category();
         }
 
         public CategoryBuilder SetDefaultValues(string name)
         {
             var itemBuilder = new ItemBuilder();
 
-            model.id = Guid.NewGuid().ToString();
-            model.name = name;
-            model.items = new List<Item>()
+            category.id = Guid.NewGuid().ToString();
+            category.name = name;
+            category.items = new List<Item>()
             {
                 itemBuilder.SetDefaultValues("Burger")
                 .Build()
@@ -30,30 +29,30 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 
         public CategoryBuilder WithId(Guid id)
         {
-            model.id = id.ToString();
+            category.id = id.ToString();
             return this;
         }
 
         public CategoryBuilder WithName(string name)
         {
-            model.name = name;
+            category.name = name;
             return this;
         }
         public CategoryBuilder WithNoItems()
         {
-            model.items = new List<Item>();
+            category.items = new List<Item>();
             return this;
         }
 
         public CategoryBuilder WithItems(List<Item> items)
         {
-            model.items = items;
+            category.items = items;
             return this;
         }
 
         public Category Build()
         {
-            return model;
+            return category;
         }
     }
 }

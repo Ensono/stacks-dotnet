@@ -25,7 +25,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
         async Task WhenISendAnUpdateMenuRequest()
         {
-            var requestObject = new CreateOrUpdateMenuBuilder()
+            var requestObject = new MenuRequestBuilder()
                 .WithName("Updated Menu Name")
                 .WithDescription("Updated Description")
                 .SetEnabled(true)
@@ -33,7 +33,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
             var jsonRequest = JsonConvert.SerializeObject(requestObject);
 
-            response = await fixture.service.PutJson($"v1/menu/{menu.id}", jsonRequest);
+            response = await fixture.service.PutJson($"v1/menu/{existingMenu.id}", jsonRequest);
         }
 
         void ThenTheMenuIsUpdatedCorrectly()

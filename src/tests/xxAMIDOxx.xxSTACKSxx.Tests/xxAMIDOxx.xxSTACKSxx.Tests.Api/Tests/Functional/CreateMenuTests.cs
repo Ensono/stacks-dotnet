@@ -18,7 +18,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
     {
         private HttpResponseMessage response;
         private readonly MenuFixture fixture;
-        private CreateOrUpdateMenu createMenu;
+        private MenuRequest menu;
 
         public CreateMenuTests(MenuFixture fixture)
         {
@@ -28,17 +28,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
         void GivenIHaveSpecfiedAFullMenu()
         {
-            var builder = new CreateOrUpdateMenuBuilder();
+            var builder = new MenuRequestBuilder();
 
-            createMenu = builder.SetDefaultValues("Yumido Test Menu")
+            menu = builder.SetDefaultValues("Yumido Test Menu")
                 .Build();
         }
 
         void GivenIHaveADraftMenu()
         {
-            var builder = new CreateOrUpdateMenuBuilder();
+            var builder = new MenuRequestBuilder();
 
-            createMenu = builder.SetDefaultValues("Yumido Test Menu")
+            menu = builder.SetDefaultValues("Yumido Test Menu")
                 .SetEnabled(false)
                 .Build();
         }
@@ -47,7 +47,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         async Task WhenICreateTheMenu()
         {
             //Todo: Add authentication to requests (bearer xyz)
-            var menuAsJson = JsonConvert.SerializeObject(createMenu);
+            var menuAsJson = JsonConvert.SerializeObject(menu);
 
             response = await fixture.service.PostJson("v1/menu/", menuAsJson);
         }
