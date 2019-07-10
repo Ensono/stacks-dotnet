@@ -4,42 +4,42 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
     public class CreateOrUpdateMenuBuilder : IBuilder<CreateOrUpdateMenu>
     {
-        private CreateOrUpdateMenu createOrUpdateMenu;
+        private CreateOrUpdateMenu model;
 
         public CreateOrUpdateMenuBuilder()
         {
-            createOrUpdateMenu = new CreateOrUpdateMenu();
+            model = new CreateOrUpdateMenu();
         }
 
         public CreateOrUpdateMenuBuilder SetDefaultValues()
         {
-            createOrUpdateMenu.name = "Default test menu name";
-            createOrUpdateMenu.description = "This is the default create/update menu description";
-            createOrUpdateMenu.enabled = true;
+            model.name = "Default test menu name";
+            model.description = "This is the default create/update menu description";
+            model.enabled = true;
             return this;
         }
 
         public CreateOrUpdateMenuBuilder WithName(string name)
         {
-            createOrUpdateMenu.name = name;
+            model.name = name;
             return this;
         }
 
         public CreateOrUpdateMenuBuilder WithDescription(string description)
         {
-            createOrUpdateMenu.description = description;
+            model.description = description;
             return this;
         }
 
         public CreateOrUpdateMenuBuilder SetEnabled(bool enabled)
         {
-            createOrUpdateMenu.enabled = enabled;
+            model.enabled = enabled;
             return this;
         }
 
         public CreateOrUpdateMenu Build()
         {
-            return createOrUpdateMenu;
+            return model;
         }
     }
 }
