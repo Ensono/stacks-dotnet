@@ -14,7 +14,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
         public CreateOrUpdateMenuBuilder SetDefaultValues(string name)
         {
             model.name = name;
-            model.description = "This is the default create/update menu description";
+            model.description = "Updated menu description";
             model.enabled = true;
             return this;
         }

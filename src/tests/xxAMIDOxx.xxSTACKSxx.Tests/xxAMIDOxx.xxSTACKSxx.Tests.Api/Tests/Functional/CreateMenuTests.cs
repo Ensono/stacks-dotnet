@@ -14,13 +14,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         AsA = "restaurant administrator",
         IWant = "to be able to create menus",
         SoThat = "customers know what we have on offer")]
-    public class CreateMenuStory : BaseStory, IClassFixture<MenuFixture>
+    public class CreateMenuTests : BaseSteps, IClassFixture<MenuFixture>
     {
-        private CreateOrUpdateMenu menu;
         private HttpResponseMessage response;
         private readonly MenuFixture fixture;
+        private CreateOrUpdateMenu createMenu;
 
-        public CreateMenuStory(MenuFixture fixture)
+        public CreateMenuTests(MenuFixture fixture)
         {
             this.fixture = fixture;
             Debug.WriteLine("CreateMenu Constructor");
@@ -30,7 +30,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         {
             var builder = new CreateOrUpdateMenuBuilder();
 
-            menu = builder.SetDefaultValues("Yumido Test Menu")
+            createMenu = builder.SetDefaultValues("Yumido Test Menu")
                 .Build();
         }
 
@@ -38,7 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         {
             var builder = new CreateOrUpdateMenuBuilder();
 
-            menu = builder.SetDefaultValues("Yumido Test Menu")
+            createMenu = builder.SetDefaultValues("Yumido Test Menu")
                 .SetEnabled(false)
                 .Build();
         }
@@ -47,7 +47,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         async Task WhenICreateTheMenu()
         {
             //Todo: Add authentication to requests (bearer xyz)
-            var menuAsJson = JsonConvert.SerializeObject(menu);
+            var menuAsJson = JsonConvert.SerializeObject(createMenu);
 
             response = await fixture.service.PostJson("v1/menu/", menuAsJson);
         }
