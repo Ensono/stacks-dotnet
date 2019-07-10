@@ -1,13 +1,16 @@
 ﻿using System.Diagnostics;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests
 {
     //Shared test steps should be placed here
-    public class BaseStory
+    public class BaseSteps
     {
         public string authToken;
+        public Menu menu;
 
-        public BaseStory()
+        public BaseSteps()
         {
             Debug.WriteLine("Base Class constructor");
         }
@@ -20,6 +23,16 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests
         public void GivenIAmAnAdmin()
         {
             //get admin auth token
+        }
+
+        public void GivenAMenuAlreadyExists()
+        {
+            var builder = new MenuBuilder();
+            menu = builder
+                .SetDefaultValues("Yumido Test Menu")
+                .Build();
+
+            //ToDo: Inject menu into Database  
         }
     }
 }

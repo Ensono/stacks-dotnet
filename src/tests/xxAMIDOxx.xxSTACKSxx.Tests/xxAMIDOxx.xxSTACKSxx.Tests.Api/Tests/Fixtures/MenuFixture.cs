@@ -1,6 +1,6 @@
-﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration;
-using System;
+﻿using System;
 using System.Diagnostics;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
@@ -15,12 +15,12 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
         //Fixture set up steps go in ctor
         public MenuFixture()
         {
-
             //get test configuration
             config = ConfigAccessor.GetApplicationConfiguration();
             Debug.WriteLine("Fixture Constructor");
 
             //set-up HttpClient to be used in tests
+            //ToDo: I believe the way we are using HTTPClient causes tests run in parallel to fail
             service = new CrudService(config.BaseUrl);
         }
 
