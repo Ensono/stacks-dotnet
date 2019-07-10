@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 {
     /// <summary>
-    /// This class will generate the token to the user specified
+    /// This class will add the auth token to the client requests
+    /// By default static tokens with long expiration should be used
+    /// For dynamic generation, refactor it to retrieve the tokens from 
+    /// token provider
     /// </summary>
     public static class AuthTokenFixture
     {
@@ -34,10 +34,20 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         {
             AddTokenToClient(client, ExpiredToken);
         }
+        public static void AsUnauthenticatedUser(this HttpClient client)
+        {
+            RemoveTokenFromClient(client);
+        }
 
         private static void AddTokenToClient(HttpClient client, string token)
         {
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+        }
+
+        private static void RemoveTokenFromClient(HttpClient client)
+        {
+            if (client.DefaultRequestHeaders.Contains("Authorization"))
+                client.DefaultRequestHeaders.Remove("Authorization");
         }
     }
 }

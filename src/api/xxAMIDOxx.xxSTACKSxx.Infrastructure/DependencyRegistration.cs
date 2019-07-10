@@ -12,12 +12,24 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
 {
     public static class DependencyRegistration
     {
-        public static void ConfigureServices(IServiceCollection services)
+        /// <summary>
+        /// Register static services that does not change between environment or contexts(i.e: tests)
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureStaticServices(IServiceCollection services)
         {
-            services.AddTransient<IMenuRepository, MenuRepository>();
-
             AddCommandHandlers(services);
             AddQueryHandlers(services);
+        }
+
+        /// <summary>
+        /// Register dynamic services that changes between environments or context(i.e: tests)
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddTransient<IMenuRepository, MenuRepository>();
+            //TODO: Evaluate if event publishers should be generic
             AddEventPublishers(services);
         }
 
