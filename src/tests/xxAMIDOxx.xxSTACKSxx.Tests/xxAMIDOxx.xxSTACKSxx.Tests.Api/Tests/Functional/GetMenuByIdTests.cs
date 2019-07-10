@@ -29,7 +29,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         {
             var builder = new MenuBuilder();
             menu = builder
-                .CreateTestMenu("Yumido Test Menu")
+                .SetDefaultValues("Yumido Test Menu")
                 .Build();
 
             //ToDo: Inject menu into Database  
