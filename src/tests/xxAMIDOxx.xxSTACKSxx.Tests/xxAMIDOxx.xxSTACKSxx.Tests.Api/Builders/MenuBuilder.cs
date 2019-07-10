@@ -14,7 +14,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
         }
 
 
-        public MenuBuilder CreateTestMenu(string name)
+        public MenuBuilder SetDefaultValues(string name)
         {
             var categoryBuilder = new CategoryBuilder();
 
@@ -24,7 +24,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
             menu.enabled = true;
             menu.categories = new List<Category>()
             {
-                categoryBuilder.CreateTestCategory("Burgers")
+                categoryBuilder.SetDefaultValues("Burgers")
                 .Build()
             };
 

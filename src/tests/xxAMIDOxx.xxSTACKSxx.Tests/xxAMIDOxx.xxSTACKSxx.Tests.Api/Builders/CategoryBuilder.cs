@@ -14,7 +14,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
             category = new Category();
         }
 
-        public CategoryBuilder CreateTestCategory(string name)
+        public CategoryBuilder SetDefaultValues(string name)
         {
             var itemBuilder = new ItemBuilder();
 
@@ -22,7 +22,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
             category.name = name;
             category.items = new List<Item>()
             {
-                itemBuilder.CreateTestItem("Burger")
+                itemBuilder.SetDefaultValues("Burger")
                 .Build()
             };
             return this;

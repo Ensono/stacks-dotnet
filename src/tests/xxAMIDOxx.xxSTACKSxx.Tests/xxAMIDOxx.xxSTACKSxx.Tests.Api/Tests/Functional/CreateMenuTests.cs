@@ -30,7 +30,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         {
             var builder = new MenuBuilder();
 
-            menu = builder.CreateTestMenu("Yumido Test Menu")
+            menu = builder.SetDefaultValues("Yumido Test Menu")
                 .Build();
         }
 
@@ -38,7 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         {
             var builder = new MenuBuilder();
 
-            menu = builder.CreateTestMenu("Yumido Test Menu")
+            menu = builder.SetDefaultValues("Yumido Test Menu")
                 .SetEnabled(false)
                 .Build();
         }
