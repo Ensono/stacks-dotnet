@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\stacks\Amido.Stacks.Domain\Amido.Stacks.Domain.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
   </ItemGroup>
 
 </Project>

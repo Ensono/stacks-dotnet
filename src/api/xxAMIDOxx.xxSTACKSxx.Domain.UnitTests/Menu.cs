@@ -6,13 +6,15 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.UnitTests
     [Trait("TestType", "UnitTests")]
     public class MenuTests
     {
-        //[Theory, AutoData]
+        [Theory, AutoData]
 
-        //public void Update(xxAMIDOxx.xxSTACKSxx.Domain.Menu menu, string name, string description, bool enabled)
-        //{
-        //    Assert.Equal(name, menu.Name);
-        //    Assert.Equal(description, menu.Description);
-        //    Assert.Equal(enabled, menu.Enabled);
-        //}
+        public void Update(Menu menu, string name, string description, bool enabled)
+        {
+            menu.Update(name, description, enabled);
+
+            Assert.Equal(name, menu.Name);
+            Assert.Equal(description, menu.Description);
+            Assert.Equal(enabled, menu.Enabled);
+        }
     }
 }
