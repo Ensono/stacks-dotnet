@@ -1,12 +1,12 @@
-﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         SoThat = "customers know what we have on offer")]
     public class CreateMenuStory : BaseStory, IClassFixture<MenuFixture>
     {
-        private Menu menu;
+        private CreateOrUpdateMenu menu;
         private HttpResponseMessage response;
         private readonly MenuFixture fixture;
 
@@ -28,7 +28,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
         void GivenIHaveSpecfiedAFullMenu()
         {
-            var builder = new MenuBuilder();
+            var builder = new CreateOrUpdateMenuBuilder();
 
             menu = builder.SetDefaultValues("Yumido Test Menu")
                 .Build();
@@ -36,7 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
         void GivenIHaveADraftMenu()
         {
-            var builder = new MenuBuilder();
+            var builder = new CreateOrUpdateMenuBuilder();
 
             menu = builder.SetDefaultValues("Yumido Test Menu")
                 .SetEnabled(false)
