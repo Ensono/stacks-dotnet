@@ -7,20 +7,20 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
     public class CategoryBuilder : IBuilder<Category>
     {
-        private Category category;
+        private Category model;
 
         public CategoryBuilder()
         {
-            category = new Category();
+            model = new Category();
         }
 
         public CategoryBuilder SetDefaultValues(string name)
         {
             var itemBuilder = new ItemBuilder();
 
-            category.id = Guid.NewGuid().ToString();
-            category.name = name;
-            category.items = new List<Item>()
+            model.id = Guid.NewGuid().ToString();
+            model.name = name;
+            model.items = new List<Item>()
             {
                 itemBuilder.SetDefaultValues("Burger")
                 .Build()
@@ -30,30 +30,30 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 
         public CategoryBuilder WithId(Guid id)
         {
-            category.id = id.ToString();
+            model.id = id.ToString();
             return this;
         }
 
         public CategoryBuilder WithName(string name)
         {
-            category.name = name;
+            model.name = name;
             return this;
         }
         public CategoryBuilder WithNoItems()
         {
-            category.items = new List<Item>();
+            model.items = new List<Item>();
             return this;
         }
 
         public CategoryBuilder WithItems(List<Item> items)
         {
-            category.items = items;
+            model.items = items;
             return this;
         }
 
         public Category Build()
         {
-            return category;
+            return model;
         }
     }
 }
