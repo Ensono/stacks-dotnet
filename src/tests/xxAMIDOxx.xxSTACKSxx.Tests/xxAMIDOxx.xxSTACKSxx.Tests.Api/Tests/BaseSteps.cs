@@ -8,7 +8,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests
     public class BaseSteps
     {
         public string authToken;
-        public Menu menu;
+        public Menu existingMenu;
 
         public BaseSteps()
         {
@@ -28,7 +28,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests
         public void GivenAMenuAlreadyExists()
         {
             var builder = new MenuBuilder();
-            menu = builder
+            existingMenu = builder
                 .SetDefaultValues("Yumido Test Menu")
                 .Build();
 

@@ -26,7 +26,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
         async Task WhenIGetAMenu()
         {
-            response = await fixture.service.Get($"v1/menu/{menu.id}");
+            response = await fixture.service.Get($"v1/menu/{existingMenu.id}");
         }
 
         async Task ThenICanViewTheMenu()

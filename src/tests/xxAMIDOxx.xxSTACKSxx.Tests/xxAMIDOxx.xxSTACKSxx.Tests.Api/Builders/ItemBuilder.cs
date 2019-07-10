@@ -5,50 +5,50 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
     public class ItemBuilder : IBuilder<Item>
     {
-        private Item model;
+        private Item item;
 
         public ItemBuilder()
         {
-            model = new Item();
+            item = new Item();
         }
 
         public ItemBuilder SetDefaultValues(string name)
         {
-            model.id = Guid.NewGuid().ToString();
-            model.name = name;
-            model.description = "Description added automatically in tests";
-            model.available = true;
-            model.price = "1.99";
+            item.id = Guid.NewGuid().ToString();
+            item.name = name;
+            item.description = "Description added automatically in tests";
+            item.available = true;
+            item.price = "1.99";
             return this;
         }
 
         public ItemBuilder WithId(Guid id)
         {
-            model.id = id.ToString();
+            item.id = id.ToString();
             return this;
         }
 
         public ItemBuilder WithName(string name)
         {
-            model.name = name;
+            item.name = name;
             return this;
         }
 
         public ItemBuilder WithDescription(string description)
         {
-            model.description = description;
+            item.description = description;
             return this;
         }
 
         public ItemBuilder WithPrice(string price)
         {
-            model.price = price;
+            item.price = price;
             return this;
         }
 
         public Item Build()
         {
-            return model;
+            return item;
         }
     }
 }

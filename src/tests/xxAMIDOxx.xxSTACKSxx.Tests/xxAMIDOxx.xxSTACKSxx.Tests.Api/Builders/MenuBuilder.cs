@@ -6,11 +6,11 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
     public class MenuBuilder : IBuilder<Menu>
     {
-        private Menu model;
+        private Menu menu;
 
         public MenuBuilder()
         {
-            model = new Menu();
+            menu = new Menu();
         }
 
 
@@ -18,11 +18,11 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
         {
             var categoryBuilder = new CategoryBuilder();
 
-            model.id = Guid.NewGuid().ToString();
-            model.name = name;
-            model.description = "Default test menu description";
-            model.enabled = true;
-            model.categories = new List<Category>()
+            menu.id = Guid.NewGuid().ToString();
+            menu.name = name;
+            menu.description = "Default test menu description";
+            menu.enabled = true;
+            menu.categories = new List<Category>()
             {
                 categoryBuilder.SetDefaultValues("Burgers")
                 .Build()
@@ -33,43 +33,43 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 
         public MenuBuilder WithId(Guid id)
         {
-            model.id = id.ToString();
+            menu.id = id.ToString();
             return this;
         }
         
         public MenuBuilder WithName(string name)
         {
-            model.name = name;
+            menu.name = name;
             return this;
         }
 
         public MenuBuilder WithDescription(string description)
         {
-            model.description = description;
+            menu.description = description;
             return this;
         }
 
         public MenuBuilder WithNoCategories()
         {
-            model.categories = new List<Category>();
+            menu.categories = new List<Category>();
             return this;
         }
 
         public MenuBuilder WithCategories(List<Category> categories)
         {
-            model.categories = categories;
+            menu.categories = categories;
             return this;
         }
 
         public MenuBuilder SetEnabled(bool enabled)
         {
-            model.enabled = enabled;
+            menu.enabled = enabled;
             return this;
         }
 
         public Menu Build()
         {
-            return model;
+            return menu;
         }
     }
 }
