@@ -5,6 +5,7 @@ using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxAMIDOxx.xxSTACKSxx.Common.UnitTests
 {
+    [Trait("TestType", "UnitTests")]
     public class OperationIdTests
     {
         [Fact]

@@ -5,7 +5,7 @@ using xxAMIDOxx.xxSTACKSxx.Domain.Entities;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain
 {
-    public class Menu : AggreagateRoot
+    public class Menu : AggregateRoot
     {
         private List<Category> categories;
 
@@ -15,13 +15,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
         public Guid RestaurantId { get; set; }
         public string Description { get; set; }
         public IReadOnlyList<Category> Categories { get => categories?.AsReadOnly(); }
-        public bool? Enabled { get; set; }
+        public bool Enabled { get; set; }
 
         public void Update(string name, string description, bool enabled)
         {
             this.Name = name;
             this.Description = description;
-            this.Enabled = Enabled;
+            this.Enabled = enabled;
         }
     }
 }

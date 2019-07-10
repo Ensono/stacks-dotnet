@@ -1,14 +1,18 @@
-using System;
+﻿using AutoFixture.Xunit2;
 using Xunit;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.UnitTests
 {
-    public class UnitTest1
+    [Trait("TestType", "UnitTests")]
+    public class MenuTests
     {
-        [Fact]
-        public void Test1()
-        {
+        //[Theory, AutoData]
 
-        }
+        //public void Update(xxAMIDOxx.xxSTACKSxx.Domain.Menu menu, string name, string description, bool enabled)
+        //{
+        //    Assert.Equal(name, menu.Name);
+        //    Assert.Equal(description, menu.Description);
+        //    Assert.Equal(enabled, menu.Enabled);
+        //}
     }
 }

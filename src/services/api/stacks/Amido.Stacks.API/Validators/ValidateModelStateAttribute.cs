@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -20,7 +19,6 @@ namespace Amido.Stacks.API.Validators
         /// <param name="context"></param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            // Per https://blog.markvincze.com/how-to-validate-action-parameters-with-dataannotation-attributes/
             if (context.ActionDescriptor is ControllerActionDescriptor descriptor)
             {
                 foreach (var parameter in descriptor.MethodInfo.GetParameters())
@@ -57,6 +55,10 @@ namespace Amido.Stacks.API.Validators
                 }
                 else if (attributeInstance is FromBodyAttribute bindingAttribute)
                 {
+                    // event though objects can be mapped using FromQuery, 
+                    // we expect to received them in body
+                    // each QueryString should match to one action parameter
+                    // This way it will be validated by the logic above
                     ValidateModel(parameter, obj, modelState);
                 }
             }

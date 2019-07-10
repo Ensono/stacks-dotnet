@@ -18,6 +18,6 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
         public string Description { get; set; }
 
         [Required]
-        public bool? Enabled { get; set; }
+        public bool Enabled { get; set; }
     }
 }
