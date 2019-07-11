@@ -56,7 +56,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         public async Task<HttpResponseMessage> CreateMenu(CreateOrUpdateMenu menu)
         {
-            //LastResponse = await base.httpClient.PostAsync("/v1/menu", CreateHttpContent<CreateOrUpdateMenu>(menu));
             return await SendAsync<CreateOrUpdateMenu>(HttpMethod.Post, "/v1/menu", menu);
         }
 
