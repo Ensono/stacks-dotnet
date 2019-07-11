@@ -13,27 +13,25 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         private const string AdminToken = "";
         private const string EmployeeToken = "";
         private const string CustomerToken = "";
-        private const string ExpiredToken = "";
 
         public static void AsAdmin(this HttpClient client)
         {
+            RemoveTokenFromClient(client);
             AddTokenToClient(client, AdminToken);
         }
 
         public static void AsEmployee(this HttpClient client)
         {
+            RemoveTokenFromClient(client);
             AddTokenToClient(client, EmployeeToken);
         }
 
         public static void AsCustomer(this HttpClient client)
         {
+            RemoveTokenFromClient(client);
             AddTokenToClient(client, CustomerToken);
         }
 
-        public static void AsUserWithExpiredToken(this HttpClient client)
-        {
-            AddTokenToClient(client, ExpiredToken);
-        }
         public static void AsUnauthenticatedUser(this HttpClient client)
         {
             RemoveTokenFromClient(client);

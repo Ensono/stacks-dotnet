@@ -12,14 +12,13 @@ namespace Amido.Stacks.DependencyInjection
         /// </summary>
         /// <param name="assembly">Assembly containing the implementations of the interface</param>
         /// <param name="openGenericType">The interface being implemented</param>
-        /// <returns></returns>
         public static List<(Type interfaceVariation, Type implementation)> GetImplementationsOf(this Assembly assembly, Type openGenericType)
         {
             List<(Type, Type)> implementations = new List<(Type, Type)>();
             foreach (var type in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface))
             {
                 foreach (var implementedInterface in type.GetInterfaces()
-                                                         .Where(x => x == openGenericType || 
+                                                         .Where(x => x == openGenericType ||
                                                                       (
                                                                           x.IsGenericType &&
                                                                           x.GetGenericTypeDefinition() == openGenericType

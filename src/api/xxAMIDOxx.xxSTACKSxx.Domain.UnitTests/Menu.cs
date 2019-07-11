@@ -15,6 +15,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.UnitTests
             Assert.Equal(name, menu.Name);
             Assert.Equal(description, menu.Description);
             Assert.Equal(enabled, menu.Enabled);
+
+            //TODO: When DDD story is complete, check if the events are raised
         }
     }
 }

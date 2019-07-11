@@ -22,13 +22,11 @@ namespace xxAMIDOxx.xxSTACKSxx.CommandHandlers
 
         public async Task HandleAsync(CreateMenu command)
         {
-            // TODO: Create a domain object
             var menu = await repository.GetByIdAsync(command.Id);
 
             if (menu != null)
                 MenuAlreadyExistsException.Raise(OperationId.CreateMenu, command.Id);
 
-            // Apply the changes            
             await repository.SaveAsync(new Domain.Menu()
             {
                 Id = command.Id,
