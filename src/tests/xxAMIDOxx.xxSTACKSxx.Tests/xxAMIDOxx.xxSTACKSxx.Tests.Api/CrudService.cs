@@ -44,6 +44,11 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api
             return await httpClient.PutAsync(path, byteContent);
         }
 
+        public async Task<HttpResponseMessage> Delete(string path)
+        {
+            return await httpClient.DeleteAsync(path);
+        }
+
         private ByteArrayContent CreateJsonRequest(string jsonBody)
         {
             var buffer = Encoding.UTF8.GetBytes(jsonBody);
