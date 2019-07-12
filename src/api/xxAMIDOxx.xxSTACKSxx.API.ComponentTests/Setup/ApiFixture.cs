@@ -32,6 +32,17 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
         /// <summary>
         /// Send the request and set the LastReponse
         /// </summary>
+        /// <param name="method">Http method used in the request</param>
+        /// <param name="url">relative url for API resource</param>
+        /// <returns></returns>
+        protected async Task<HttpResponseMessage> SendAsync(HttpMethod method, string url)
+        {
+            return await SendAsync(method, url, (string)null);
+        }
+
+        /// <summary>
+        /// Send the request and set the LastReponse
+        /// </summary>
         /// <typeparam name="TBody">Type of bdy being sent</typeparam>
         /// <param name="method">Http method used in the request</param>
         /// <param name="url">relative url for API resource</param>
@@ -48,6 +59,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
 
             return LastResponse;
         }
+
 
         /// <summary>
         /// Configure WebHost(if needed) before the API Startup is added to the pipeline

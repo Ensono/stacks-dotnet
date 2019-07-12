@@ -43,14 +43,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
             "And the menu is not submitted to the database".x(fixture.ThenTheMenuIsNotSubmittedToDatabase);
-            $"And no event of type {typeof(MenuCreatedEvent).Name} is raised".x(fixture.ThenAMenuCreatedEventIsNotRaised);
+            $"And an event of type {typeof(MenuCreatedEvent).Name} should not be raised".x(fixture.ThenAMenuCreatedEventIsNotRaised);
         }
 
         [Scenario(Skip = "Only works when Auth is implemented")]
         [InlineAutoData("Employee")]
         [InlineAutoData("Customer")]
         [InlineAutoData("UnauthenticatedUser")]
-
         public void CreateMenuAsNonAdminForValidMenuShouldFail(string role, CreateMenuFixture fixture)
         {
             $"As {role}".x(() => fixture.AsRole(role));
@@ -59,7 +58,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a Forbidden response is returned".x(fixture.ThenAForbiddenResponseIsReturned);
             "And the menu is not submitted to the database".x(fixture.ThenTheMenuIsNotSubmittedToDatabase);
-            $"And no event of type {typeof(MenuCreatedEvent).Name} is raised".x(fixture.ThenAMenuCreatedEventIsNotRaised);
+            $"And an event of type {typeof(MenuCreatedEvent).Name} should not be raised".x(fixture.ThenAMenuCreatedEventIsNotRaised);
         }
     }
 }
