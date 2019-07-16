@@ -92,7 +92,7 @@ stages:
       displayName: Update Build Number
   
   # Commented
-  
+
   #  - task: DotNetCoreCLI@2
   #    displayName: 'dotnet publish tests'
   #    inputs:
@@ -136,6 +136,14 @@ stages:
         filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
         arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
         failOnStderr: true 
+
+### TEMP
+    - bash: | 
+        echo $(pwd)
+        ls -lp1
+      displayName: List files in SourceDirectory
+      workingDirectory: $(Build.SourcesDirectory)
+#### TEMP
 
     - task: Bash@3
       displayName: Docker Build and Push
