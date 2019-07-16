@@ -11,6 +11,8 @@ resources:
 variables:
 - group: amido-stacks-infra-credentials-nonprod
 - group: amido-stacks-infra-nonprod
+- name: system.debug
+  value: true
 
 # Global Config:
 - name: name_company
@@ -32,11 +34,11 @@ variables:
 
 # Tests
 - name: Test.FunctionalTestProjectSourcePath
-  value: 'src/tests/Amido.Stacks.E2e.Tests'
+  value: '$(Build.SourcesDirectory)/src/tests/Amido.Stacks.E2e.Tests'
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(System.DefaultWorkingDirectory)/build/tests/Amido.Stacks.E2e.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)/Amido.Stacks.E2e.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: $(Release.DefinitionName)/$(Release.ReleaseName)-$(Release.EnvironmentName)-$(Release.AttemptNumber).html
 - name: Test.FunctionalTestReportStorageAccountRG
