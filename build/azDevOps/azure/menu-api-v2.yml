@@ -34,7 +34,7 @@ variables:
 
 # Tests
 - name: Test.FunctionalTestProjectSourcePath
-  value: '$(Build.SourcesDirectory)/src/tests/xxAmidoxx.xxStacksxx.Tests'
+  value: '$(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'  
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
