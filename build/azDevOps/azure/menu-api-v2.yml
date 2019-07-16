@@ -182,7 +182,7 @@ stages:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
               arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-            failOnStderr: true 
+              failOnStderr: true 
 
           - task: Bash@3
             displayName: Login to Kubernetes Cluster via AZCLI
