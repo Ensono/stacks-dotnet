@@ -74,9 +74,9 @@ variables:
 - name: Kubernetes.KustomizeDownloadPath
   value: https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64
 - name: Package.File
-  value: #TODO
+  value: scripts-0.0.6-master.tar.gz
 - name: Package.SAS
-  value: #TODO
+  value: 'sp=r&st=2019-07-16T13:53:37Z&se=2019-11-07T22:53:37Z&spr=https&sv=2018-03-28&sig=CM%2BgcrE7Zcs3Fo%2BFW08J3Oqt51%2FYzVuWGnJc0syNkas%3D&sr=b'
 
 stages:
 - stage: Build
