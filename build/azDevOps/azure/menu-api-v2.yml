@@ -50,7 +50,7 @@ variables:
 
 # Docker Config
 - name: Docker.DockerfilePath
-  value: src/api/
+  value: src/services/api/
 - name: Docker.ImageName
   value: menu-api
 - name: Docker.ImageTag
@@ -137,15 +137,7 @@ stages:
         arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
         failOnStderr: true 
 
-### TEMP
-    - bash: | 
-        echo $(pwd)
-        ls -lp1
-        cd src
-        ls -lp1
-      displayName: List files in SourceDirectory
-      workingDirectory: $(Build.SourcesDirectory)
-#### TEMP
+
 
     - task: Bash@3
       displayName: Docker Build and Push
