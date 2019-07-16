@@ -151,6 +151,7 @@ stages:
 # This is problematic because it doesn't inherit the Azure login information
 
     - bash: |
+        az acr login --name $(Docker.ContainerRegistry)
         docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
         docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
       displayName: Docker Build and Push
