@@ -144,7 +144,7 @@ stages:
       inputs:
         targetType: 'filePath'
         filePath: $(Build.BinariesDirectory)/DevOps/Docker/docker-build-and-push.sh
-        arguments: $(Docker.ImageName) $(Docker.ImageTag) $(Docker.ImageName) $(Docker.ContainerRegistry)
+        arguments: $(Docker.ImageName) $(Docker.ImageTag) $(Docker.ContainerRegistry)
         failOnStderr: true 
         workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
