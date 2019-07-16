@@ -131,14 +131,14 @@ stages:
 
 # This is problematic because it doesn't inherit the Azure login information
 #
-#    - task: Bash@3
-#      displayName: Azure Login
-#      inputs:
-#        targetType: 'filePath'
-#        filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
-#        arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-#        failOnStderr: true 
-#
+    - task: Bash@3
+      displayName: Azure Login
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
+        arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
+        failOnStderr: true 
+
 #    - task: Bash@3
 #      displayName: Docker Build and Push
 #      inputs:
@@ -151,9 +151,7 @@ stages:
 # This is problematic because it doesn't inherit the Azure login information
 
     - bash: |
-        az login --service-principal --username $(azure_client_id) --password $(azure_client_secret) --tenant $(azure_tenant_id)
-        az account set -s $(azure_subscription_id)
-        az acr login --name $(Docker.ContainerRegistry)
+        az acr login --name amidouksstacksacrnp # this is super annoying
         docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
         docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
       displayName: Docker Build and Push to Az ACR
