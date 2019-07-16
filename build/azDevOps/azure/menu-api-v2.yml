@@ -90,15 +90,17 @@ stages:
     steps:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
-    
-    - task: DotNetCoreCLI@2
-      displayName: 'dotnet publish tests'
-      inputs:
-        command: publish
-        projects: '$(Test.FunctionalTestProjectSourcePath)'
-        publishWebProjects: False
-        arguments: ' --output $(Test.FunctionalTestProjectBuildPath)'
-        zipAfterPublish: True
+  
+  # Commented
+  
+  #  - task: DotNetCoreCLI@2
+  #    displayName: 'dotnet publish tests'
+  #    inputs:
+  #      command: publish
+  #      projects: '$(Test.FunctionalTestProjectSourcePath)'
+  #      publishWebProjects: False
+  #      arguments: ' --output $(Test.FunctionalTestProjectBuildPath)'
+  #      zipAfterPublish: True
     
           # Not currently supported, should be ready August 2019
           # - template: ./build/azDevOps/azure/templates/get-extract-targz.yml
@@ -224,21 +226,21 @@ stages:
 
 
 #### Testing
-          - task: DotNetCoreCLI@2
-            displayName: 'Run Functional Tests'
-            inputs:
-              command: test
-              projects: '**/*.csproj'
-              arguments: '-v n'
-              testRunTitle: 'E2E Tests'
-          
-          - task: Bash@3
-            displayName: 'Upload Test Results'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
-              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-              failOnStderr: true 
+#         - task: DotNetCoreCLI@2
+#           displayName: 'Run Functional Tests'
+#           inputs:
+#             command: test
+#             projects: '**/*.csproj'
+#             arguments: '-v n'
+#             testRunTitle: 'E2E Tests'
+#         
+#         - task: Bash@3
+#           displayName: 'Upload Test Results'
+#           inputs:
+#             targetType: 'filePath'
+#             filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
+#             arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
+#             failOnStderr: true 
 
 - stage: TestX
   variables: 
