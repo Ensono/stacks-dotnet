@@ -25,8 +25,8 @@ variables:
 # Versioning
 - name: Version.Major
   value: 1
-- name: Version.Major
-  value: 1
+- name: Version.Minor
+  value: 2
 - name: Version.MajorMinor
   value: $(Version.Major).$(Version.Minor)
 - name: Version.Revision
