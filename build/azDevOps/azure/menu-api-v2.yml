@@ -1,3 +1,13 @@
+name: $(build.SourceBranchName)-init
+
+trigger:
+  paths:
+    exclude:
+    - src/services/api/xxAMIDOxx.xxSTACKSxx.Models
+
+resources:
+- repo: self
+
 variables:
 - group: amido-stacks-infra-credentials-nonprod
 - group: amido-stacks-infra-nonprod
@@ -67,19 +77,6 @@ variables:
   value: #TODO
 - name: Package.SAS
   value: #TODO
-
-name: $(build.SourceBranchName)-init
-
-trigger:
-  paths:
-    exclude:
-    - src/services/api/xxAMIDOxx.xxSTACKSxx.Models
-
-resources:
-- repo: self
-
-pool:
-  vmImage: 'ubuntu-latest'
 
 stages:
 - stage: Build
