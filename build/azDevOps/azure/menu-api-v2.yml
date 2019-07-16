@@ -1,0 +1,336 @@
+variables:
+- group: amido-stacks-infra-credentials-nonprod
+- group: amido-stacks-infra-nonprod
+
+# Global Config:
+- name: name_company
+  value: amido
+- name: name_environment
+  value: $(Release.EnvironmentName)
+- name: name_platform
+  value: stacks
+
+# Versioning
+- name: Version.Major
+  value: 1
+- name: Version.Major
+  value: 1
+- name: Version.MajorMinor
+  value: $(Version.Major).$(Version.Minor)
+- name: Version.Revision
+  value: $[counter(variables['Version.MajorMinor'], 0)]
+
+# Tests
+- name: Test.FunctionalTestProjectSourcePath
+  value: 'src/tests/Amido.Stacks.E2e.Tests'
+- name: Test.FunctionalTestProjectBuildPath
+  value: $(Build.BinariesDirectory)
+- name: Test.FunctionalTestReportSourcePath
+  value: $(System.DefaultWorkingDirectory)/build/tests/Amido.Stacks.E2e.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
+- name: Test.FunctionalTestReportTargetName
+  value: $(Release.DefinitionName)/$(Release.ReleaseName)-$(Release.EnvironmentName)-$(Release.AttemptNumber).html
+- name: Test.FunctionalTestReportStorageAccountRG
+  value: amido-stacks-testresult-rg
+- name: Test.FunctionalTestReportStorageAccountName
+  value: amidostackstestsuksdev
+- name: Test.FunctionalTestReportStorageContainerName
+  value: testresults
+
+# Docker Config
+- name: Docker.DockerfilePath
+  value: src/api/
+- name: Docker.ImageName
+  value: menu-api
+- name: Docker.ImageTag
+  value: $(Version.MajorMinor).$(Version.Revision)-$(build.sourcebranchname)
+- name: Docker.ContainerRegistry
+  value: amidouksstacksacrnp.azurecr.io
+
+# Kubernetes Config:
+- name: Kubernetes.ArtifactHelmpath
+  value: helm-chart/
+- name: Kubernetes.ArtifactKustomizePath
+  value: base/
+- name: Kubernetes.UseHelm
+  value: false
+- name: Kubernetes.UseKustomize
+  value: true
+- name: Kubernetes.YMLfilepath
+  value: deploy/k8s/api
+
+# Packages Config:
+- name: Kubernetes.KustomizeBinaryPath
+  value: $(System.DefaultWorkingDirectory)/kustomize
+- name: Kubernetes.KustomizeDownloadPath
+  value: https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64
+- name: Package.File
+  value: #TODO
+- name: Package.SAS
+  value: #TODO
+
+name: $(build.SourceBranchName)-init
+
+trigger:
+  paths:
+    exclude:
+    - src/services/api/xxAMIDOxx.xxSTACKSxx.Models
+
+resources:
+- repo: self
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    continueOnError: False
+    steps:
+    - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
+      displayName: Update Build Number
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet publish tests'
+      inputs:
+        command: publish
+        projects: '$(Test.FunctionalTestProjectSourcePath)'
+        publishWebProjects: False
+        arguments: ' --output $(Test.FunctionalTestProjectBuildPath)'
+        zipAfterPublish: True
+    
+          # Not currently supported, should be ready August 2019
+          # - template: ./build/azDevOps/azure/templates/get-extract-targz.yml
+          #  parameters:
+          #    Package.File: 'scripts-0.0.5-master.tar.gz'
+          #    Package.SAS: 'sp=r&st=2019-07-03T13:01:26Z&se=2019-09-12T21:01:26Z&spr=https&sv=2018-03-28&sig=mD3vQOn3dEe4t%2BhZOGPoil5OIn0td7iEpEbKXunhJpA%3D&sr=b'
+          #    Package.FriendlyName: 'DevOpsTemplate'
+          #    Package.StorageAccount: 'amidostackspkgukstmp'
+          #    Package.StorageContainer: 'packages'
+
+    - bash: | 
+        wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
+      displayName: Get DevOps Scripts
+      workingDirectory: $(Build.BinariesDirectory)
+    
+    - task: ExtractFiles@1
+      inputs:
+        archiveFilePatterns: '$(Build.BinariesDirectory)/$(Package.File)' 
+        destinationFolder: $(Build.BinariesDirectory)/DevOps
+      displayName: Extract DevOps Scripts
+
+    - task: Bash@3
+      displayName: Install CICD Prereqs
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
+        arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
+
+    - task: Bash@3
+      displayName: Azure Login
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
+        arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
+        failOnStderr: true 
+
+    - task: Bash@3
+      displayName: Docker Build and Push
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Build.BinariesDirectory)/DevOps/Docker/docker-build-and-push.sh
+        arguments: $(Docker.ImageName) $(Docker.ImageTag) $(Docker.ImageName) $(Docker.ContainerRegistry)
+        failOnStderr: true 
+        workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
+
+    
+      
+- stage: DevX
+  variables: 
+  # Credentials
+  - group: amido-stacks-infra-credentials-nonprod
+  # AKS Cluster Info
+  - name: Kubernetes.ClusterRG
+    value: amido-stacks-rg-uks-dev
+  - name:  Kubernetes.ClusterName
+    value: amido-stacks-cluster-uks-dev
+
+  jobs:
+  - deployment: Apply # This should be made into a meta-template when it's available! 
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: devx
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+#### Prerequisites
+          - bash: | 
+              wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
+            displayName: Get DevOps Scripts
+            workingDirectory: $(Build.BinariesDirectory)
+          
+          - task: ExtractFiles@1
+            inputs:
+              archiveFilePatterns: '$(Build.BinariesDirectory)/$(Package.File)' 
+              destinationFolder: $(Build.BinariesDirectory)/DevOps
+            displayName: Extract DevOps Scripts
+
+          - task: Bash@3
+            displayName: Azure Login
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
+              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
+            failOnStderr: true 
+
+          - task: Bash@3
+            displayName: Login to Kubernetes Cluster via AZCLI
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-aks-context.sh
+              arguments: $(Kubernetes.ClusterRG) $(Kubernetes.ClusterName)
+              failOnStderr: true 
+
+#### Kustomization
+          - task: Bash@3
+            displayName:  Kustomize Standard Version Annotation
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Kustomize/kustomize-annotate-version.sh
+              arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
+              workingDirectory: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
+              failOnStderr: true 
+
+          - bash: |
+             echo "Setting image tag to $(Docker.ImageTag)"
+             $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
+            workingDirectory: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
+            displayName: Kustomize Application Deployment Customisation 
+            failOnStderr: true 
+
+#### Deployment
+          - task: Bash@3
+            displayName:  Kubectl Apply (with Kustomize)
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
+              arguments: ./kustomization/$(Release.EnvironmentName)
+              workingDirectory: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
+              failOnStderr: true 
+
+
+
+#### Testing
+          - task: DotNetCoreCLI@2
+            displayName: 'Run Functional Tests'
+            inputs:
+              command: test
+              projects: '**/*.csproj'
+              arguments: '-v n'
+              testRunTitle: 'E2E Tests'
+          
+          - task: Bash@3
+            displayName: 'Upload Test Results'
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
+              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
+              failOnStderr: true 
+
+- stage: TestX
+  variables: 
+  # Credentials
+  - group: amido-stacks-infra-credentials-nonprod
+  # AKS Cluster Info
+  - name: Kubernetes.ClusterRG
+    value: amido-stacks-rg-uks-dev
+  - name:  Kubernetes.ClusterName
+    value: amido-stacks-cluster-uks-dev
+
+  jobs:
+  - deployment: Apply # This should be made into a meta-template when it's available! 
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: testx
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+#### Prerequisites
+          - bash: | 
+              wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
+            displayName: Get DevOps Scripts
+            workingDirectory: $(Build.BinariesDirectory)
+          
+          - task: ExtractFiles@1
+            inputs:
+              archiveFilePatterns: '$(Build.BinariesDirectory)/$(Package.File)' 
+              destinationFolder: $(Build.BinariesDirectory)/DevOps
+            displayName: Extract DevOps Scripts
+
+          - task: Bash@3
+            displayName: Azure Login
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
+              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
+            failOnStderr: true 
+
+          - task: Bash@3
+            displayName: Login to Kubernetes Cluster via AZCLI
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-aks-context.sh
+              arguments: $(Kubernetes.ClusterRG) $(Kubernetes.ClusterName)
+              failOnStderr: true 
+
+#### Kustomization
+          - task: Bash@3
+            displayName:  Kustomize Standard Version Annotation
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Kustomize/kustomize-annotate-version.sh
+              arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
+              workingDirectory: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
+              failOnStderr: true 
+
+          - bash: |
+             echo "Setting image tag to $(Docker.ImageTag)"
+             $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
+            workingDirectory: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
+            displayName: Kustomize Application Deployment Customisation 
+            failOnStderr: true 
+
+#### Deployment
+          - task: Bash@3
+            displayName:  Kubectl Apply (with Kustomize)
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
+              arguments: ./kustomization/$(Release.EnvironmentName)
+              workingDirectory: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
+              failOnStderr: true 
+
+
+
+#### Testing
+          - task: DotNetCoreCLI@2
+            displayName: 'Run Functional Tests'
+            inputs:
+              command: test
+              projects: '**/*.csproj'
+              arguments: '-v n'
+              testRunTitle: 'E2E Tests'
+          
+          - task: Bash@3
+            displayName: 'Upload Test Results'
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
+              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
+              failOnStderr: true 
