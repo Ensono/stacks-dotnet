@@ -19,7 +19,6 @@
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API.Models\xxAMIDOxx.xxSTACKSxx.API.Models.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Infrastructure\xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj" />
-    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.QueryHandlers\xxAMIDOxx.xxSTACKSxx.QueryHandlers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

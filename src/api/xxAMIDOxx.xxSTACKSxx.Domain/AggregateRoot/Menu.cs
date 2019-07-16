@@ -10,6 +10,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
         private List<Category> categories;
 
         //TODO: set properties to private
+
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid RestaurantId { get; set; }

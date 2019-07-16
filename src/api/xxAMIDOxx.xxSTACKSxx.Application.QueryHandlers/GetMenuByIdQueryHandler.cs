@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
+using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
-using xxAMIDOxx.xxSTACKSxx.Integration;
 
-namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
+namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
 {
     public class GetMenuByIdQueryHandler : IQueryHandler<GetMenuByIdQueryCriteria, Menu>
     {

@@ -3,10 +3,10 @@ using Amido.Stacks.Application.CQRS.Events;
 using Amido.Stacks.Application.CQRS.Queries;
 using Amido.Stacks.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using xxAMIDOxx.xxSTACKSxx.CommandHandlers;
+using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
+using xxAMIDOxx.xxSTACKSxx.Application.Integration;
+using xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
-using xxAMIDOxx.xxSTACKSxx.Integration;
-using xxAMIDOxx.xxSTACKSxx.QueryHandlers;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
 {

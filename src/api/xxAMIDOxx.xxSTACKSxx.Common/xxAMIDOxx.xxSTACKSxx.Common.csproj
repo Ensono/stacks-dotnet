@@ -8,4 +8,8 @@
     <ProjectReference Include="..\stacks\Amido.Stacks.Core\Amido.Stacks.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
+
 </Project>

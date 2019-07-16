@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure;
-using xxAMIDOxx.xxSTACKSxx.Integration;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 {

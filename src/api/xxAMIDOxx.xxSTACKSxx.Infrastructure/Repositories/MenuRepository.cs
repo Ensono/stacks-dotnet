@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Domain;
-using xxAMIDOxx.xxSTACKSxx.Integration;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
 {
@@ -20,14 +20,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
         public async Task<bool> SaveAsync(Menu entity)
         {
             if (entity == null)
-                return false;
+                return await Task.FromResult(false);
 
             if (storage.ContainsKey(entity.Id))
                 storage[entity.Id] = entity;
             else
                 storage.Add(entity.Id, entity);
 
-            return true;
+            return await Task.FromResult(true);
         }
 
         public async Task<bool> DeleteAsync(Guid id)
@@ -35,7 +35,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
             if (!storage.ContainsKey(id))
                 return false;
 
-            return storage.Remove(id);
+            return await Task.FromResult(storage.Remove(id));
         }
 
     }

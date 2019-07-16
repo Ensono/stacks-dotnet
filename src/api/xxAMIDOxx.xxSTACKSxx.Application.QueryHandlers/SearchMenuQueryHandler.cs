@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 
-namespace xxAMIDOxx.xxSTACKSxx.QueryHandlers
+namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
 {
     public class SearchMenuQueryHandler : IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult>
     {

@@ -11,11 +11,11 @@
   <ItemGroup>
     <ProjectReference Include="..\stacks\Amido.Stacks.Application.CQRS\Amido.Stacks.Application.CQRS.csproj" />
     <ProjectReference Include="..\stacks\Amido.Stacks.DependencyInjection\Amido.Stacks.DependencyInjection.csproj" />
-    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CommandHandlers\xxAMIDOxx.xxSTACKSxx.CommandHandlers.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers\xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.Integration\xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers\xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
-    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Integration\xxAMIDOxx.xxSTACKSxx.Integration.csproj" />
-    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.QueryHandlers\xxAMIDOxx.xxSTACKSxx.QueryHandlers.csproj" />
   </ItemGroup>
 
 </Project>
