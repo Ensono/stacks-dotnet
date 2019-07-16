@@ -9,7 +9,7 @@ variables:
 - name: Version.Revision
   value: $[counter(variables['Version.MajorMinor'], 0)]
 - name: Package.Path
-  value: 'src/services/api/xxAMIDOxx.xxSTACKSxx.API.Models/'
+  value: 'src/api/xxAMIDOxx.xxSTACKSxx.API.Models/'
 - name: Package.Feed
   value: 'packages-menu'
 - name: BuildPipeline.Path

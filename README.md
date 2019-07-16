@@ -30,7 +30,7 @@ features in the application scope. ie:
 |   ├── k8s: stores yaml files for k8s deployments. i.e: deployments, services, 
 |   |   |     configMap and related dependencies for each service in an application
 |   |   ├── ui: stores yaml for ui service
-|   |   ├── api: stores yaml for the api service and configuration files
+|   |   └── api: stores yaml for the api service and configuration files
 │   │       ├── base: store raw yaml used by k8s
 │   │       ├── kustomization: store kustomize files(for kubectl apply -k)
 │   │       │   ├── dev: configuration files for dev environment
@@ -42,7 +42,8 @@ features in the application scope. ie:
 |   └── scripts: deployment scripts shared by multiple tools. ie: Variable substitution
 ├── contracts: stores swagger specs, ui mocks and other documents describing the overall solution
 └── src
-    ├── services: stores back end service like apis and workers(i.e: queue listerner, scheduled jobs)
+    ├── api: stores the solution for the api 
+    ├── services (i.e: queue listerner, scheduled jobs) [TBD]
     ├── tests: stores tests not built in other services solutions(functional tests, performance, etc)  
     └── ui: stores the front end service and components
 ```
