@@ -34,11 +34,11 @@ variables:
 
 # Tests
 - name: Test.FunctionalTestProjectSourcePath
-  value: '$(Build.SourcesDirectory)/src/tests/Amido.Stacks.E2e.Tests'
+  value: '$(Build.SourcesDirectory)/src/tests/xxAmidoxx.xxStacksxx.Tests'
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)/Amido.Stacks.E2e.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)/xAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: $(Release.DefinitionName)/$(Release.ReleaseName)-$(Release.EnvironmentName)-$(Release.AttemptNumber).html
 - name: Test.FunctionalTestReportStorageAccountRG
