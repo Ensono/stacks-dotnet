@@ -226,13 +226,13 @@ stages:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Kustomize/kustomize-annotate-version.sh
               arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
-              workingDirectory: $(Pipeline.Workspace)/build
+              workingDirectory: $(Pipeline.Workspace)/build/base
               failOnStderr: true 
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
              $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
-            workingDirectory: $(Pipeline.Workspace)/build
+            workingDirectory: $(Pipeline.Workspace)/build/base
             displayName: Kustomize Application Deployment Customisation 
             failOnStderr: true 
 
