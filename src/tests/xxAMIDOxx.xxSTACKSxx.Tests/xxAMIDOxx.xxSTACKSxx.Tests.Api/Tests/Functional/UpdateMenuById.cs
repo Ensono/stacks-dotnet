@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using TestStack.BDDfy;
+﻿using TestStack.BDDfy;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
 

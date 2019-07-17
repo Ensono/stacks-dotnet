@@ -15,6 +15,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
     {
         private MenuRequest menuRequest;
         private HttpResponseMessage lastResponse;
+        private MenuRequest updateMenuRequest;
         public string existingMenuId;
 
         public async Task GivenAMenuAlreadyExists()
@@ -51,18 +52,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
         public async Task WhenISendAnUpdateMenuRequest()
         {
-            var requestObject = new MenuRequestBuilder()
+            updateMenuRequest = new MenuRequestBuilder()
                 .WithName("Updated Menu Name")
                 .WithDescription("Updated Description")
                 .SetEnabled(true)
                 .Build();
 
-            lastResponse = await UpdateMenu(requestObject, existingMenuId);
+            lastResponse = await UpdateMenu(updateMenuRequest, existingMenuId);
         }
 
         public async Task WhenICreateTheMenu()
         {
-            //Todo: Add authentication to requests (bearer xyz)
             lastResponse = await CreateMenu(menuRequest);
         }
 
@@ -76,29 +76,51 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             lastResponse = await GetMenuById(existingMenuId);
         }
 
-        public void ThenTheMenuHasBeenSuccessfullyPublished()
+        public async Task ThenTheMenuHasBeenCreated()
         {
-            Assert.True(lastResponse.StatusCode == System.Net.HttpStatusCode.OK);
-            //Check the menu is in the DB
+            Assert.True(lastResponse.StatusCode == HttpStatusCode.OK);
+
+            var response = JsonConvert.DeserializeObject<CreateMenuResponse>(await lastResponse.Content.ReadAsStringAsync());
+            Assert.True(Guid.TryParse(response.id, out Guid result));
         }
 
         public void ThenTheMenuHasBeenDeleted()
         {
             Assert.Equal(HttpStatusCode.NoContent, lastResponse.StatusCode);
-
-            //ToDo: Assert the DB
         }
 
-        public void ThenICanViewTheMenu()
+        public async Task ThenICanViewTheMenu()
         {
             Assert.True(lastResponse.StatusCode == HttpStatusCode.OK);
+
+            var menu = JsonConvert.DeserializeObject<Menu>(await lastResponse.Content.ReadAsStringAsync());
+
+            Assert.Equal(menuRequest.name, menu.name);
+            Assert.Equal(menuRequest.description, menu.description);
+            Assert.Equal(menuRequest.enabled, menu.enabled);
         }
 
-        public void ThenTheMenuIsUpdatedCorrectly()
+        public async Task ThenTheMenuIsUpdatedCorrectly()
         {
             Assert.Equal(HttpStatusCode.NoContent, lastResponse.StatusCode);
 
-            //ToDo: Check menu is in Database with updated values
+            var updatedResponse = await GetMenuById(existingMenuId);
+
+            if(updatedResponse.StatusCode == HttpStatusCode.OK)
+            {
+                var menu = JsonConvert.DeserializeObject<Menu>(await updatedResponse.Content.ReadAsStringAsync());
+
+                Assert.Equal(updateMenuRequest.name, menu.name);
+                Assert.Equal(updateMenuRequest.description, menu.description);
+                Assert.Equal(updateMenuRequest.enabled, menu.enabled);
+            }
+            else
+            {
+                //throw exception rather than use assertions if the GET request fails as it is not the subject of the test
+                //Assertions should only be used on the subject of the test
+                throw new Exception($"Could not retrieve the updated menu using GET /menu/{existingMenuId}");
+            }
+
         }
 
         #region Dispose/teardown logic
