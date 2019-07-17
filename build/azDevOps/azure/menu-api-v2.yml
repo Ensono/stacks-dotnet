@@ -17,7 +17,7 @@ variables:
 - name: name_company
   value: amido
 - name: name_environment
-  value: $(Release.EnvironmentName)
+  value: $(Release.Environment)
 - name: name_platform
   value: stacks
 
@@ -39,7 +39,7 @@ variables:
 - name: Test.FunctionalTestReportSourcePath
   value: $(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)/xAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
-  value: $(Release.DefinitionName)/$(Release.ReleaseName)-$(Release.EnvironmentName)-$(Release.AttemptNumber).html
+  value: $(Release.DefinitionName)/$(Release.ReleaseName)-$(Release.Environment)-$(Release.AttemptNumber).html
 - name: Test.FunctionalTestReportStorageAccountRG
   value: amido-stacks-testresult-rg
 - name: Test.FunctionalTestReportStorageAccountName
@@ -162,6 +162,8 @@ stages:
 
 - stage: DevX
   variables: 
+  - name: Release.Environment
+    value: dev
   # Credentials
   - group: amido-stacks-infra-credentials-nonprod
   # AKS Cluster Info
@@ -242,7 +244,7 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Release.EnvironmentName)
+              arguments: ./kustomization/$(Release.Environment)
               workingDirectory: $(Pipeline.Workspace)/build
               failOnStderr: true 
 
