@@ -90,25 +90,22 @@ stages:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
   
-  # Commented
+  
+    #- task: DotNetCoreCLI@2
+    #  displayName: Build Functional Tests
+    #  displayName: 'dotnet publish tests'
+    #  inputs:
+    #    command: publish
+    #    projects: '$(Test.FunctionalTestProjectSourcePath)'
+    #    publishWebProjects: False
+    #    arguments: ' --output $(Test.FunctionalTestProjectBuildPath)'
+    #    zipAfterPublish: True
 
-  #  - task: DotNetCoreCLI@2
-  #    displayName: 'dotnet publish tests'
-  #    inputs:
-  #      command: publish
-  #      projects: '$(Test.FunctionalTestProjectSourcePath)'
-  #      publishWebProjects: False
-  #      arguments: ' --output $(Test.FunctionalTestProjectBuildPath)'
-  #      zipAfterPublish: True
-    
-          # Not currently supported, should be ready August 2019
-          # - template: ./build/azDevOps/azure/templates/get-extract-targz.yml
-          #  parameters:
-          #    Package.File: 'scripts-0.0.5-master.tar.gz'
-          #    Package.SAS: 'sp=r&st=2019-07-03T13:01:26Z&se=2019-09-12T21:01:26Z&spr=https&sv=2018-03-28&sig=mD3vQOn3dEe4t%2BhZOGPoil5OIn0td7iEpEbKXunhJpA%3D&sr=b'
-          #    Package.FriendlyName: 'DevOpsTemplate'
-          #    Package.StorageAccount: 'amidostackspkgukstmp'
-          #    Package.StorageContainer: 'packages'
+    - task: PublishBuildArtifacts@1
+      displayName: Publish Artifact - Functional Tests
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)'
+        ArtifactName: 'tests'
 
     - bash: | 
         wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
@@ -187,6 +184,10 @@ stages:
             displayName: Download Build Artefacts
             artifact: build
 
+          - download: current
+            displayName: Download Test Artefacts
+            artifact: tests
+
           - bash: | 
               wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
             displayName: Get DevOps Scripts
@@ -251,18 +252,17 @@ stages:
 
 
 #### Testing
-#         - task: DotNetCoreCLI@2
-#           displayName: 'Run Functional Tests'
-#           inputs:
-#             command: test
-#             projects: '**/*.csproj'
-#             arguments: '-v n'
-#             testRunTitle: 'E2E Tests'
-#         
-#         - task: Bash@3
-#           displayName: 'Upload Test Results'
-#           inputs:
-#             targetType: 'filePath'
-#             filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
-#             arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-#             failOnStderr: true 
+         - task: DotNetCoreCLI@2
+           displayName: 'Run Functional Tests'
+           inputs:
+             command: test
+             projects: '**/*.csproj'
+             arguments: '-v n'
+             testRunTitle: 'Functional Tests'
+         
+         - task: Bash@3
+           displayName: 'Upload Test Results'
+           inputs:
+             targetType: 'filePath'
+             filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
+             arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
