@@ -22,7 +22,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         {
             this.Given(step => fixture.GivenIHaveSpecfiedAFullMenu())
                 .When(step => fixture.WhenICreateTheMenu())
-                .Then(step => fixture.ThenTheMenuHasBeenSuccessfullyPublished())
+                .Then(step => fixture.ThenTheMenuHasBeenCreated())
                 .BDDfy();
         }
     }
