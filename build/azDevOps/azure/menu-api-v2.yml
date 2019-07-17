@@ -104,7 +104,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact - Functional Tests
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)'
+        PathtoPublish: '$(Test.FunctionalTestProjectSourcePath)'
         ArtifactName: 'tests'
 
     - bash: | 
