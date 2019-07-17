@@ -49,6 +49,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
                 .Build();
         }
 
+        public async Task WhenISendAnUpdateMenuRequest()
+        {
+            var requestObject = new MenuRequestBuilder()
+                .WithName("Updated Menu Name")
+                .WithDescription("Updated Description")
+                .SetEnabled(true)
+                .Build();
+
+            lastResponse = await UpdateMenu(requestObject, existingMenuId);
+        }
+
         public async Task WhenICreateTheMenu()
         {
             //Todo: Add authentication to requests (bearer xyz)
@@ -81,6 +92,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
         public void ThenICanViewTheMenu()
         {
             Assert.True(lastResponse.StatusCode == HttpStatusCode.OK);
+        }
+
+        public void ThenTheMenuIsUpdatedCorrectly()
+        {
+            Assert.Equal(HttpStatusCode.NoContent, lastResponse.StatusCode);
+
+            //ToDo: Check menu is in Database with updated values
         }
 
         #region Dispose/teardown logic

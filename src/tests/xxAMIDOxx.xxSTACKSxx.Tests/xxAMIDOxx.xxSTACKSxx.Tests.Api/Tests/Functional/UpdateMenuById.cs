@@ -1,9 +1,6 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using TestStack.BDDfy;
 using Xunit;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
@@ -12,42 +9,23 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         IWant = "To be able to update existing menus",
         SoThat = "I the menus are always showing our latest offerings"
         )]
-    public class UpdateMenuById : BaseSteps, IClassFixture<ClientFixture>
+    public class UpdateMenuById : IClassFixture<MenuFixture>
     {
-        private readonly ClientFixture fixture;
-        private HttpResponseMessage response;
+        private readonly MenuFixture fixture;
 
-        public UpdateMenuById(ClientFixture fixture)
+        public UpdateMenuById(MenuFixture fixture)
         {
             this.fixture = fixture;
         }
 
-        async Task WhenISendAnUpdateMenuRequest()
+        [Fact]
+        public void Admins_Can_Update_Existing_Menus()
         {
-            var requestObject = new MenuRequestBuilder()
-                .WithName("Updated Menu Name")
-                .WithDescription("Updated Description")
-                .SetEnabled(true)
-                .Build();
-
-            response = await fixture.UpdateMenu(requestObject, existingMenu.id);
+            this.Given(s => fixture.GivenAnAdmin())
+                .And(s => fixture.GivenAMenuAlreadyExists())
+                .When(s => fixture.WhenISendAnUpdateMenuRequest())
+                .Then(s => fixture.ThenTheMenuIsUpdatedCorrectly())
+                .BDDfy();
         }
-
-        void ThenTheMenuIsUpdatedCorrectly()
-        {
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-
-            //ToDo: Check menu is in Database with updated values
-        }
-
-        //[Fact]
-        //public void Admins_Can_Update_Existing_Menus()
-        //{
-        //    this.Given(s => s.GivenIAmAnAdmin())
-        //        .And(s => s.GivenAMenuAlreadyExists())
-        //        .When(s => s.WhenISendAnUpdateMenuRequest())
-        //        .Then(s => s.ThenTheMenuIsUpdatedCorrectly())
-        //        .BDDfy();
-        //}
     }
 }
