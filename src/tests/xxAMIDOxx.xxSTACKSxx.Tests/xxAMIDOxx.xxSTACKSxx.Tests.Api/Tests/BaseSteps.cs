@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests
@@ -25,14 +24,5 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests
             //get admin auth token
         }
 
-        public void GivenAMenuAlreadyExists()
-        {
-            var builder = new MenuBuilder();
-            existingMenu = builder
-                .SetDefaultValues("Yumido Test Menu")
-                .Build();
-
-            //ToDo: Inject menu into Database  
-        }
     }
 }

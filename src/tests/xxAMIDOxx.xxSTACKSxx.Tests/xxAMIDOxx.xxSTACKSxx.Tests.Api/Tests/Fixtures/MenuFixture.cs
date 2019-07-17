@@ -1,29 +1,89 @@
-﻿using System;
-using System.Diagnostics;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration;
+﻿using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
     //Fixture set up and tear down
     //Inherits IDisposable as this is where teardown will take place
-    public class MenuFixture : IDisposable
+    public class MenuFixture : ClientFixture, IDisposable
     {
-        public ConfigModel config;
-        public CrudService service;
+        private MenuRequest menuRequest;
+        private HttpResponseMessage lastResponse;
+        public string existingMenuId;
 
-
-        //Fixture set up steps go in ctor
-        public MenuFixture()
+        public async Task GivenAMenuAlreadyExists()
         {
-            //get test configuration
-            config = ConfigAccessor.GetApplicationConfiguration();
-            Debug.WriteLine("Fixture Constructor");
+            menuRequest = new MenuRequestBuilder()
+                .SetDefaultValues("Yumido Test Menu")
+                .Build();
 
-            //set-up HttpClient to be used in tests
-            //ToDo: I believe the way we are using HTTPClient causes tests run in parallel to fail
-            service = new CrudService(config.BaseUrl);
+            try
+            {
+                lastResponse = await CreateMenu(menuRequest);
+
+                if(lastResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    existingMenuId = JsonConvert.DeserializeObject<CreateMenuResponse>(await lastResponse.Content.ReadAsStringAsync()).id;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Menu could not be created. innerException: {ex.InnerException}");
+            }
         }
 
+        public void GivenIHaveSpecfiedAFullMenu()
+        {
+            menuRequest = new MenuRequestBuilder()
+                .SetDefaultValues("Yumido Test Menu")
+                .Build();
+        }
+
+        public async Task WhenICreateTheMenu()
+        {
+            //Todo: Add authentication to requests (bearer xyz)
+            lastResponse = await CreateMenu(menuRequest);
+        }
+
+        public async Task WhenIDeleteAMenu()
+        {
+            lastResponse = await DeleteMenu(existingMenuId);
+        }
+
+        public async Task WhenIGetAMenu()
+        {
+            lastResponse = await GetMenuById(existingMenuId);
+        }
+
+        public void ThenTheMenuHasBeenSuccessfullyPublished()
+        {
+            Assert.True(lastResponse.StatusCode == System.Net.HttpStatusCode.OK);
+            //Check the menu is in the DB
+        }
+
+        public void ThenTheMenuHasBeenDeleted()
+        {
+            Assert.Equal(HttpStatusCode.NoContent, lastResponse.StatusCode);
+
+            //ToDo: Assert the DB
+        }
+
+        public void ThenICanViewTheMenu()
+        {
+            Assert.True(lastResponse.StatusCode == HttpStatusCode.OK);
+        }
+
+        #region Dispose/teardown logic
         public void Dispose()
         {
             Dispose(true);
@@ -37,5 +97,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
                 //I.e. Delete test users from DB
             }
         }
+        #endregion
     }
 }
