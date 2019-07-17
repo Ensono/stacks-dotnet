@@ -13,20 +13,25 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
     //Inherits IDisposable as this is where teardown will take place
     public class MenuFixture : ClientFixture, IDisposable
     {
-        private MenuRequest menuRequest;
-        private HttpResponseMessage lastResponse;
+        private MenuRequest createMenuRequest;
         private MenuRequest updateMenuRequest;
+        private HttpResponseMessage lastResponse;
         public string existingMenuId;
+
+        public MenuFixture()
+        {
+            //Add menu test setup here
+        }
 
         public async Task GivenAMenuAlreadyExists()
         {
-            menuRequest = new MenuRequestBuilder()
+            createMenuRequest = new MenuRequestBuilder()
                 .SetDefaultValues("Yumido Test Menu")
                 .Build();
 
             try
             {
-                lastResponse = await CreateMenu(menuRequest);
+                lastResponse = await CreateMenu(createMenuRequest);
 
                 if(lastResponse.StatusCode == HttpStatusCode.OK)
                 {
@@ -45,7 +50,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
         public void GivenIHaveSpecfiedAFullMenu()
         {
-            menuRequest = new MenuRequestBuilder()
+            createMenuRequest = new MenuRequestBuilder()
                 .SetDefaultValues("Yumido Test Menu")
                 .Build();
         }
@@ -63,7 +68,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
         public async Task WhenICreateTheMenu()
         {
-            lastResponse = await CreateMenu(menuRequest);
+            lastResponse = await CreateMenu(createMenuRequest);
         }
 
         public async Task WhenIDeleteAMenu()
@@ -95,9 +100,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
             var menu = JsonConvert.DeserializeObject<Menu>(await lastResponse.Content.ReadAsStringAsync());
 
-            Assert.Equal(menuRequest.name, menu.name);
-            Assert.Equal(menuRequest.description, menu.description);
-            Assert.Equal(menuRequest.enabled, menu.enabled);
+            Assert.Equal(createMenuRequest.name, menu.name);
+            Assert.Equal(createMenuRequest.description, menu.description);
+            Assert.Equal(createMenuRequest.enabled, menu.enabled);
         }
 
         public async Task ThenTheMenuIsUpdatedCorrectly()
