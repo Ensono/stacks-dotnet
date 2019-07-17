@@ -1,20 +1,25 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration
 {
     public class ConfigAccessor
     {
+        static IConfigurationRoot root;
+
         private static IConfigurationRoot GetIConfigurationRoot()
         {
-            return new ConfigurationBuilder()
+            if(root == null)
+            {
+                root = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true)
+                .AddJsonFile("appsettings.json", optional: false)
                 .AddEnvironmentVariables()
                 .Build();
+            }
+
+            return root;
+            
         }
 
         public static ConfigModel GetApplicationConfiguration()
