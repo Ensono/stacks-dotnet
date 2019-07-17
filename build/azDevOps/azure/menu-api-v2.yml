@@ -197,6 +197,13 @@ stages:
             displayName: Extract DevOps Scripts
 
           - task: Bash@3
+            displayName: Install CICD Prereqs
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
+              arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
+
+          - task: Bash@3
             displayName: Azure Login
             inputs:
               targetType: 'filePath'
