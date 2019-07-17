@@ -37,9 +37,9 @@ variables:
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Build.SourcesDirectory)/$(Test.FunctionalTestProjectPath)/xAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Build.SourcesDirectory)/$(Test.FunctionalTestProjectSourcePath)/xAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
-  value: $(Release.DefinitionName)/$(Release.ReleaseName)-$(Release.Environment)-$(Release.AttemptNumber).html
+  value: menu-api/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
   value: amido-stacks-testresult-rg
 - name: Test.FunctionalTestReportStorageAccountName
@@ -249,8 +249,6 @@ stages:
               workingDirectory: $(Pipeline.Workspace)/build
               failOnStderr: true 
 
-
-
 #### Testing
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
@@ -259,6 +257,7 @@ stages:
               projects: '**/*.csproj'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
+              workingDirectory: $(Pipeline.Workspace)/tests
           
           - task: Bash@3
             displayName: 'Upload Test Results'
