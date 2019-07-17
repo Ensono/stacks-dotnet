@@ -9,10 +9,9 @@ resources:
 - repo: self
 
 variables:
-- group: amido-stacks-infra-credentials-nonprod
-- group: amido-stacks-infra-nonprod
-- name: system.debug
-  value: true
+# testing new variable group
+# - group: amido-stacks-infra-credentials-nonprod
+- group: amido-stacks-credentials-azure-nonprod
 
 # Global Config:
 - name: name_company
@@ -155,7 +154,6 @@ stages:
         docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
         docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
       displayName: Docker Build and Push to Az ACR
-      failOnStderr: true 
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
 - stage: DevX
