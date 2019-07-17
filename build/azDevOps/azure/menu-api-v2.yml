@@ -3,7 +3,7 @@ name: $(build.SourceBranchName)-init
 trigger:
   paths:
     exclude:
-    - src/services/api/xxAMIDOxx.xxSTACKSxx.Models
+    - src/api/xxAMIDOxx.xxSTACKSxx.Models
 
 resources:
 - repo: self
@@ -49,7 +49,7 @@ variables:
 
 # Docker Config
 - name: Docker.DockerfilePath
-  value: src/services/api/
+  value: src/api/
 - name: Docker.ImageName
   value: menu-api
 - name: Docker.ImageTag
