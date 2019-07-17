@@ -9,9 +9,9 @@ resources:
 - repo: self
 
 variables:
+- group: amido-stacks-infra-credentials-nonprod
 # testing new variable group
-# - group: amido-stacks-infra-credentials-nonprod
-- group: amido-stacks-credentials-azure-nonprod
+# - group: amido-stacks-credentials-azure-nonprod
 
 # Global Config:
 - name: name_company
