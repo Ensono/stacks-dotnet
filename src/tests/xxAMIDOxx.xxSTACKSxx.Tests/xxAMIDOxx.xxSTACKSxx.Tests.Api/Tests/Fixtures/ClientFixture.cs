@@ -5,7 +5,7 @@ using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
-    public abstract class ClientFixture : ApiFixture
+    public class ClientFixture : ApiFixture
     {
         public ConfigModel config;
 

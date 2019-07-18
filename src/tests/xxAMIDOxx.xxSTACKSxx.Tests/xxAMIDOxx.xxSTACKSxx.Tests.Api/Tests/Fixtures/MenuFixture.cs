@@ -13,7 +13,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
     /// Fixtures contain all test step definitions for the story related to it (I.e. Menu)
     /// This also contains the step up and tear down for the fixture
     /// </summary>
-    public abstract class MenuFixture : ClientFixture, IDisposable
+    public class MenuFixture : ClientFixture, IDisposable
     {
         private MenuRequest createMenuRequest;
         private MenuRequest updateMenuRequest;
