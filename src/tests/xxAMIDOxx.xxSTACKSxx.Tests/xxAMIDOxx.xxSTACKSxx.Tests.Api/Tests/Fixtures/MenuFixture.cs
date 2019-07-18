@@ -9,9 +9,11 @@ using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
-    //Fixture set up and tear down
-    //Inherits IDisposable as this is where teardown will take place
-    public class MenuFixture : ClientFixture, IDisposable
+    /// <summary>
+    /// Fixtures contain all test step definitions for the story related to it (I.e. Menu)
+    /// This also contains the step up and tear down for the fixture
+    /// </summary>
+    public abstract class MenuFixture : ClientFixture, IDisposable
     {
         private MenuRequest createMenuRequest;
         private MenuRequest updateMenuRequest;
@@ -20,9 +22,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
         public MenuFixture()
         {
-            //Add menu test setup here
+            //Add any fixture set up logic here
         }
 
+        #region Step Definitions
         public async Task GivenAMenuAlreadyExists()
         {
             createMenuRequest = new MenuRequestBuilder()
@@ -100,6 +103,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
             var menu = JsonConvert.DeserializeObject<Menu>(await lastResponse.Content.ReadAsStringAsync());
 
+            //compare the initial request sent to the API against the actual response
             Assert.Equal(createMenuRequest.name, menu.name);
             Assert.Equal(createMenuRequest.description, menu.description);
             Assert.Equal(createMenuRequest.enabled, menu.enabled);
@@ -121,12 +125,12 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             }
             else
             {
-                //throw exception rather than use assertions if the GET request fails as it is not the subject of the test
+                //throw exception rather than use assertions if the GET request fails as GET is not the subject of the test
                 //Assertions should only be used on the subject of the test
                 throw new Exception($"Could not retrieve the updated menu using GET /menu/{existingMenuId}");
             }
-
         }
+        #endregion Step Definitions
 
         #region Dispose/teardown logic
         public void Dispose()
@@ -139,7 +143,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             if(disposing)
             {
                 //Fixture teardown steps go here
-                //I.e. Delete test users from DB
             }
         }
         #endregion

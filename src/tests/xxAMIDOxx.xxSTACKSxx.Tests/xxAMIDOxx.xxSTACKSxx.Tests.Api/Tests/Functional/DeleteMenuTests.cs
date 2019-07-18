@@ -4,6 +4,7 @@ using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
+    //Define the story/feature being tested
     [Story(AsA = "Administrator of a restaurant",
         IWant = "To be able to delete old menus",
         SoThat = "Customers do not see out of date options")]
@@ -16,6 +17,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
             this.menuFixture = menuFixture;
         }
 
+        //Add all tests that make up the story to this class.
+        //Steps should be taken from the fixture
         [Fact]
         public void Admins_Can_Delete_Menus()
         {

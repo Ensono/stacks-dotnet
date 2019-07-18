@@ -4,6 +4,7 @@ using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
+    //Define the story/feature being tested
     [Story(
         AsA = "user of the Yumido website",
         IWant = "to be able to view specific menus",
@@ -17,6 +18,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
             this.fixture = fixture;
         }
 
+        //Add all tests that make up the story to this class.
+        //Steps should be taken from the fixture
         [Fact]
         public void Users_Can_View_Existing_Menus()
         {
