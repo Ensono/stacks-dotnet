@@ -32,6 +32,8 @@ variables:
   value: $[counter(variables['Version.MajorMinor'], 0)]
 
 # Tests
+- name: Test.FunctionalTestProjectFile
+  value: xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj
 - name: Test.FunctionalTestProjectSourcePath
   value: $(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api
 - name: Test.FunctionalTestProjectBuildPath
@@ -251,20 +253,13 @@ stages:
 
 #### Testing
 
-          - bash: |
-             ls -lp1
-            workingDirectory: $(Pipeline.Workspace)/tests
-            displayName: owo whats dis
-            failOnStderr: true 
-            
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: 'xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj'
+              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
-              workingDirectory: $(Pipeline.Workspace)/tests
           
           - task: Bash@3
             displayName: 'Upload Test Results'
