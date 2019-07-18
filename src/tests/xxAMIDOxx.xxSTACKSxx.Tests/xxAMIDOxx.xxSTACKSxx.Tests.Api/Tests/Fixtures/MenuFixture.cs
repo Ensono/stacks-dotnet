@@ -45,9 +45,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
                     throw new Exception();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception($"Menu could not be created. innerException: {ex.InnerException}");
+                throw new Exception($"Menu could not be created. API response: {await lastResponse.Content.ReadAsStringAsync()}");
             }
         }
 
