@@ -250,11 +250,18 @@ stages:
               failOnStderr: true 
 
 #### Testing
+
+          - bash: |
+             ls -lp1
+            workingDirectory: $(Pipeline.Workspace)/tests
+            displayName: owo whats dis
+            failOnStderr: true 
+            
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: '**/*.csproj'
+              projects: 'xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
               workingDirectory: $(Pipeline.Workspace)/tests
