@@ -5,10 +5,11 @@ using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
-    public class ClientFixture : ApiFixture
+    public abstract class ClientFixture : ApiFixture
     {
         public ConfigModel config;
 
+        //Create a new HttpClient using the configuration base url
         public override HttpClient BuildHttpClient()
         {
             config = ConfigAccessor.GetApplicationConfiguration();
@@ -18,7 +19,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             };
         }
         
-        //todo: move hardcoded paths to config/enum/consts
+        //API clients
         public async Task<HttpResponseMessage> CreateMenu(MenuRequest request)
         {
             return await SendAsync(HttpMethod.Post, "v1/menu/", request);
