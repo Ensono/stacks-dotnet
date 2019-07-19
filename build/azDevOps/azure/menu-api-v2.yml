@@ -253,7 +253,7 @@ stages:
 
 #### Testing
           - script: |
-              echo "##vso[task.setvariable variable=BaseUrl]http://dev.azure.amidostacks.com/api/menu/"
+              echo "##vso[task.setvariable variable=BaseUrl]http://thiswillnotwork.azure.amidostacks.com/api/menu/"
             displayName: set environment variable for subsequent steps
 
           - task: DotNetCoreCLI@2
