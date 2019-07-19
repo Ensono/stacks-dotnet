@@ -86,12 +86,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
         public void ThenTheMenuHasBeenCreated()
         {
-            LastResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
+            LastResponse.StatusCode.Should().Be(HttpStatusCode.OK, 
+                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
         }
 
         public void ThenTheMenuHasBeenDeleted()
         {
-            LastResponse.StatusCode.Should().Be(HttpStatusCode.NoContent, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
+            LastResponse.StatusCode.Should().Be(HttpStatusCode.NoContent, 
+                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
         }
 
         public async Task ThenICanViewTheMenuICreated()
@@ -101,15 +103,20 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             var responseMenu = JsonConvert.DeserializeObject<Menu>(await lastResponse.Content.ReadAsStringAsync());
 
             //compare the initial request sent to the API against the actual response
+            responseMenu.name.Should().Be(createMenuRequest.name, 
+                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
 
-            responseMenu.name.Should().Be(createMenuRequest.name, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
-            responseMenu.description.Should().Be(createMenuRequest.description, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
-            responseMenu.enabled.Should().Be(createMenuRequest.enabled, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+            responseMenu.description.Should().Be(createMenuRequest.description, 
+                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+
+            responseMenu.enabled.Should().Be(createMenuRequest.enabled, 
+                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
         }
 
         public async Task ThenTheMenuIsUpdatedCorrectly()
         {
-            LastResponse.StatusCode.Should().Be(HttpStatusCode.NoContent, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
+            LastResponse.StatusCode.Should().Be(HttpStatusCode.NoContent, 
+                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
 
             var updatedResponse = await GetMenuById(existingMenuId);
 
@@ -117,9 +124,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             {
                 var updateMenuResponse = JsonConvert.DeserializeObject<Menu>(await updatedResponse.Content.ReadAsStringAsync());
 
-                updateMenuResponse.name.Should().Be(updateMenuRequest.name, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
-                updateMenuResponse.description.Should().Be(updateMenuRequest.description, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
-                updateMenuResponse.enabled.Should().Be(updateMenuRequest.enabled, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+                updateMenuResponse.name.Should().Be(updateMenuRequest.name, 
+                    $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+
+                updateMenuResponse.description.Should().Be(updateMenuRequest.description, 
+                    $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+
+                updateMenuResponse.enabled.Should().Be(updateMenuRequest.enabled, 
+                    $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
             }
             else
             {
