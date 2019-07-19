@@ -365,14 +365,17 @@ stages:
               failOnStderr: true 
 
 #### Testing
+          - script: |
+              echo "##vso[task.setvariable variable=BaseUrl]http://test.azure.amidostacks.com/api/menu/"
+            displayName: set environment variable for subsequent steps
+
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: '**/*.csproj'
+              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
-              workingDirectory: $(Pipeline.Workspace)/tests
           
           - task: Bash@3
             displayName: 'Upload Test Results'
