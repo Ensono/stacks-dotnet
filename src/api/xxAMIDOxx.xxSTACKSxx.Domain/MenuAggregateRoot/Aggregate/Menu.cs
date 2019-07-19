@@ -16,9 +16,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
         public Guid Id { get; set; }
 
         public string Name { get; set; }
+
         public Guid RestaurantId { get; set; }
+
         public string Description { get; set; }
+
         public IReadOnlyList<Category> Categories { get => categories?.AsReadOnly(); }
+
         public bool Enabled { get; set; }
 
         public void Update(string name, string description, bool enabled)
@@ -27,7 +31,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
             this.Description = description;
             this.Enabled = enabled;
 
-            Emit(new MenuUpdated());
+            Emit(new MenuChanged());
         }
 
         public void AddCategory(string name, string description)
@@ -52,7 +56,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
                                     double Price,
                                     bool Available,
                                     Cuisine Cuisine,
-                                    ItemClass Class,
+                                    string Class,
                                     List<Ingredient> Ingredients)
         {
 
@@ -65,7 +69,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
                             double Price,
                             bool Available,
                             Cuisine Cuisine,
-                            ItemClass Class,
+                            string Class,
                             List<Ingredient> Ingredients)
         {
 

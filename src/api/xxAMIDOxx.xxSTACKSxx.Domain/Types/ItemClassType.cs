@@ -1,6 +1,6 @@
 ﻿namespace xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects
 {
-    public enum ItemClass
+    public enum ItemClassType
     {
         Food,
         Beverage,
