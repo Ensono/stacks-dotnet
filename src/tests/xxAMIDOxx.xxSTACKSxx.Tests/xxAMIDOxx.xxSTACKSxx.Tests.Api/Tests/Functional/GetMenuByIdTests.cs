@@ -26,7 +26,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
             this.Given(s => fixture.GivenAUser())
                 .And(s => fixture.GivenAMenuAlreadyExists())
                 .When(s => fixture.WhenIGetAMenu())
-                .Then(s => fixture.ThenICanViewTheMenu())
+                .Then(s => fixture.ThenICanViewTheMenuICreated())
                 .BDDfy();
         }
 
@@ -36,7 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
             this.Given(s => fixture.GivenAnAdmin())
                 .And(s => fixture.GivenAMenuAlreadyExists())
                 .When(s => fixture.WhenIGetAMenu())
-                .Then(s => fixture.ThenICanViewTheMenu())
+                .Then(s => fixture.ThenICanViewTheMenuICreated())
                 .BDDfy();
         }
     }
