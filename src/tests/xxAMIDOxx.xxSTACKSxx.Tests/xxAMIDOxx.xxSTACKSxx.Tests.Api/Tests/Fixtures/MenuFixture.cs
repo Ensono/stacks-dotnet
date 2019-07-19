@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Shouldly;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -86,37 +86,37 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
         public void ThenTheMenuHasBeenCreated()
         {
-            LastResponse.StatusCode.Should().Be(HttpStatusCode.OK, 
-                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
+            LastResponse.StatusCode.ShouldBe(HttpStatusCode.OK, 
+                $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
         }
 
         public void ThenTheMenuHasBeenDeleted()
         {
-            LastResponse.StatusCode.Should().Be(HttpStatusCode.NoContent, 
-                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
+            LastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
+                $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
         }
 
-        public async Task ThenICanViewTheMenuICreated()
+        public async Task ThenICanReadTheMenuReturned()
         {
-            LastResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
+            LastResponse.StatusCode.ShouldBe(HttpStatusCode.OK, $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
             var responseMenu = JsonConvert.DeserializeObject<Menu>(await lastResponse.Content.ReadAsStringAsync());
 
             //compare the initial request sent to the API against the actual response
-            responseMenu.name.Should().Be(createMenuRequest.name, 
-                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+            responseMenu.name.ShouldBe(createMenuRequest.name, 
+                $"{lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} did not create the menu as expected");
 
-            responseMenu.description.Should().Be(createMenuRequest.description, 
-                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+            responseMenu.description.ShouldBe(createMenuRequest.description, 
+                $"{lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} did not create the menu as expected");
 
-            responseMenu.enabled.Should().Be(createMenuRequest.enabled, 
-                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+            responseMenu.enabled.ShouldBe(createMenuRequest.enabled, 
+                $"{lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} did not create the menu as expected");
         }
 
         public async Task ThenTheMenuIsUpdatedCorrectly()
         {
-            LastResponse.StatusCode.Should().Be(HttpStatusCode.NoContent, 
-                $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should be a successful request");
+            LastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
+                $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
             var updatedResponse = await GetMenuById(existingMenuId);
 
@@ -124,14 +124,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             {
                 var updateMenuResponse = JsonConvert.DeserializeObject<Menu>(await updatedResponse.Content.ReadAsStringAsync());
 
-                updateMenuResponse.name.Should().Be(updateMenuRequest.name, 
-                    $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+                updateMenuResponse.name.ShouldBe(updateMenuRequest.name, 
+                    $"{lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} did not create the menu as expected");
 
-                updateMenuResponse.description.Should().Be(updateMenuRequest.description, 
-                    $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+                updateMenuResponse.description.ShouldBe(updateMenuRequest.description, 
+                    $"{lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} did not create the menu as expected");
 
-                updateMenuResponse.enabled.Should().Be(updateMenuRequest.enabled, 
-                    $"because {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} should have created the menu");
+                updateMenuResponse.enabled.ShouldBe(updateMenuRequest.enabled, 
+                    $"{lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} did not create the menu as expected");
             }
             else
             {

@@ -20,6 +20,10 @@ This contains classes used to manage the configuration for the tests.
 
 - `ConfigModel.cs` is a POCO (Plain Old CLR Object) representation of the json in `appsettings.json`
 - `ConfigAccessor.cs` contains the logic required to obtain the JSON from `appsettings.json` and bind it to the `ConfigModel.cs` object. This allows the configuration to be used as a simple object.
+
+The ConfigAccessor will automatically replace any configuration setting values with the values set in the Environment Variables on the machine running the tests. 
+
+E.g. in `appsettings.json` we are using the configuration setting (key-value pair) `"BaseUrl":"http://dev.azure.amidostacks.com/api/menu/"`. If there is an Environment Variable set on the current machine/build agent using `BaseUrl` key, the value in `appsettings.json` will be replaced.
 ##### Models
 These are POCO (Plain Old CLR Object) representations of entities that are used in API requests (E.g. Request body, response body). The builder classes are used to create instances of these models.
 ##### Tests
