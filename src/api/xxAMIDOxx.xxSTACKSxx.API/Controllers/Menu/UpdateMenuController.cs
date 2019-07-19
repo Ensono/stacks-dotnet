@@ -64,7 +64,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             await commandHandler.HandleAsync(
                 new UpdateMenu()
                 {
-                    Id = id,
+                    MenuId = id,
                     Name = body.Name,
                     Description = body.Description,
                     Enabled = body.Enabled

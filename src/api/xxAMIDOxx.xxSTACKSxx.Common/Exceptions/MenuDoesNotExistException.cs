@@ -8,26 +8,24 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
     {
         private MenuDoesNotExistException(
             ExceptionCode exceptionCode,
-            OperationId operationId,
+            OperationCode operationCode,
+            Guid correlationId,
             string message
-        ) : base((int)exceptionCode, (int)operationId, message)
+        ) : base((int)exceptionCode, (int)operationCode, correlationId, message)
         {
         }
 
-        public static void Raise(OperationId operationId, Guid menuId)
+        public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId, string message)
         {
-            var exception = new MenuDoesNotExistException(Exceptions.ExceptionCode.MenuDoesNotExist,
-                                                          operationId,
-                                                          $"A menu with id '{menuId}' does not exist.");
+            var exception = new MenuDoesNotExistException(Exceptions.ExceptionCode.MenuDoesNotExist, operationCode, correlationId, message);
             exception.Data["MenuId"] = menuId;
             throw exception;
         }
 
-        public static void Raise(OperationId operationId, Guid menuId, string message)
+        public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId)
         {
-            var exception = new MenuDoesNotExistException(Exceptions.ExceptionCode.MenuDoesNotExist, operationId, message);
-            exception.Data["MenuId"] = menuId;
-            throw exception;
+            Raise(operationCode, correlationId, menuId, $"A menu with id '{menuId}' does not exist.");
         }
+
     }
 }

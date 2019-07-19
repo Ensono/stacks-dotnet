@@ -1,37 +1,32 @@
-﻿using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Application.CQRS.Events;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
-using xxAMIDOxx.xxSTACKSxx.Common.Exceptions;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
-    public class DeleteMenuCommandHandler : ICommandHandler<DeleteMenu>
+    public class DeleteMenuCommandHandler : MenuCommandHandlerBase<DeleteMenu>
     {
-        IMenuRepository repository;
-        IApplicationEventPublisher applicationEventPublisher;
-
         public DeleteMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
+            : base(repository, applicationEventPublisher)
         {
-            this.repository = repository;
-            this.applicationEventPublisher = applicationEventPublisher;
         }
 
-        public async Task HandleAsync(DeleteMenu command)
+        public override async Task HandleCommandAsync(Menu menu, DeleteMenu command)
         {
-            var menu = await repository.GetByIdAsync(command.Id);
+            //TODO: Check if the user is the owner of the resource
 
-            if (menu == null)
-                MenuDoesNotExistException.Raise(OperationId.DeleteMenu, command.Id);
-
-            //TODO: Check if the user has permission(Is the owner of the resource) 
-
-            await repository.DeleteAsync(command.Id);
-
-            await applicationEventPublisher.PublishAsync(new MenuDeletedEvent(command.Id));
+            await base.repository.DeleteAsync(command.MenuId);
         }
+
+        public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, DeleteMenu command)
+        {
+            return new[] { new MenuDeleted((OperationCode)command.OperationCode, command.CorrelationId, command.MenuId) };
+        }
+
     }
 }

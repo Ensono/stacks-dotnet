@@ -8,25 +8,25 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
     {
         private MenuAlreadyExistsException(
             ExceptionCode exceptionCode,
-            OperationId operationId,
+            OperationCode operationCode,
+            Guid correlationId,
             string message
-        ) : base((int)exceptionCode, (int)operationId, message)
+        ) : base((int)exceptionCode, (int)operationCode, correlationId, message)
         {
         }
 
-        public static void Raise(OperationId operationId, Guid menuId)
+        public static void Raise(Guid correlationId, OperationCode operationCode, Guid menuId, string message)
         {
-            var exception = new MenuAlreadyExistsException(Exceptions.ExceptionCode.MenuAlreadyExists, operationId, $"A menu with id '{menuId}' already exists.");
+            var exception = new MenuAlreadyExistsException(Exceptions.ExceptionCode.MenuAlreadyExists, operationCode, correlationId, message);
             exception.Data["MenuId"] = menuId;
             throw exception;
         }
 
-        public static void Raise(OperationId operationId, Guid menuId, string message)
+        public static void Raise(Guid correlationId, OperationCode operationCode, Guid menuId)
         {
-            var exception = new MenuAlreadyExistsException(Exceptions.ExceptionCode.MenuAlreadyExists, operationId, message);
-            exception.Data["MenuId"] = menuId;
-            throw exception;
+            Raise(correlationId, operationCode, menuId, $"A menu with id '{menuId}' already exists.");
         }
+
 
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Events;
+using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
@@ -86,12 +86,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         internal void ThenAMenuCreatedEventIsRaised()
         {
-            applicationEventPublisher.Received(1).PublishAsync(Arg.Any<MenuCreatedEvent>());
+            applicationEventPublisher.Received(1).PublishAsync(Arg.Any<MenuCreated>());
         }
 
         internal void ThenAMenuCreatedEventIsNotRaised()
         {
-            applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<MenuCreatedEvent>());
+            applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<MenuCreated>());
         }
 
         internal void ThenAForbiddenResponseIsReturned()
