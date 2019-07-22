@@ -21,7 +21,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
         private HttpResponseMessage lastResponse;
         public string existingMenuId;
 
-        public MenuFixture(IHttpClientFactory clientFactory) : base(clientFactory)
+        public MenuFixture()
         {
             //Add any fixture set up logic here
             Debug.WriteLine("Menu Fixture constructor");

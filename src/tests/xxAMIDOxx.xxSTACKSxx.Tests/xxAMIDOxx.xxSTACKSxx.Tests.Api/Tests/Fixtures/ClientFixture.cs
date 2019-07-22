@@ -21,18 +21,16 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
         {
             Debug.WriteLine("BuildHttpClient");
             config = ConfigAccessor.GetApplicationConfiguration();
-
             
+            SocketsHttpHandler handler = new SocketsHttpHandler
+            {
+                PooledConnectionIdleTimeout = new TimeSpan(5000)
+            };
 
-            var client = clientFactory.CreateClient();
-            client.BaseAddress = new Uri(config.BaseUrl);
-            return client;
-
-            //return new HttpClient()
-            //{
-            //    BaseAddress = new System.Uri(config.BaseUrl)
-            //};
-
+            return new HttpClient(handler)
+            {
+                BaseAddress = new Uri(config.BaseUrl)
+            };
         }
 
         //API clients

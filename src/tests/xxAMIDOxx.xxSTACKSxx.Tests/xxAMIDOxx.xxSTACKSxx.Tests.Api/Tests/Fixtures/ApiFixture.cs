@@ -21,7 +21,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
         {
             Debug.WriteLine("API Fixture constructor");
             //Create the factory here
-            httpClient = BuildHttpClient();
+            if(httpClient == null)
+            {
+                httpClient = BuildHttpClient();
+            }
         }
 
         public abstract HttpClient BuildHttpClient();
