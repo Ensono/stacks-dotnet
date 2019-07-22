@@ -1,5 +1,6 @@
 ﻿using System;
 using Amido.Stacks.Core.Exceptions;
+using Amido.Stacks.Core.Operations;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
@@ -17,15 +18,19 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
 
         public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId, string message)
         {
-            var exception = new MenuDoesNotExistException(Exceptions.ExceptionCode.MenuDoesNotExist, operationCode, correlationId, message);
+            var exception = new MenuDoesNotExistException(
+                Exceptions.ExceptionCode.MenuDoesNotExist,
+                operationCode,
+                correlationId,
+                message ?? $"A menu with id '{menuId}' does not exist."
+            );
             exception.Data["MenuId"] = menuId;
             throw exception;
         }
 
-        public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId)
+        public static void Raise(IOperationContext context, Guid menuId)
         {
-            Raise(operationCode, correlationId, menuId, $"A menu with id '{menuId}' does not exist.");
+            Raise((OperationCode)context.OperationCode, context.CorrelationId, menuId, null);
         }
-
     }
 }

@@ -5,14 +5,13 @@ namespace Amido.Stacks.Domain
 {
     public class AggregateRoot : IAggregateRoot
     {
-        //TODO: Add event list
         //TODO: Add state machine for state transition
 
-        List<IDomainEvent> events = new List<IDomainEvent>();
+        List<IDomainEvent> uncommittedEvents = new List<IDomainEvent>();
 
         protected void Emit(IDomainEvent domainEvent)
         {
-            events.Add(domainEvent);
+            uncommittedEvents.Add(domainEvent);
             //RaiseEvent(domainEvent);
         }
 

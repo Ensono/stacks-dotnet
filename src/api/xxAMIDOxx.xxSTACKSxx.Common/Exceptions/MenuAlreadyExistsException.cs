@@ -1,5 +1,6 @@
 ﻿using System;
 using Amido.Stacks.Core.Exceptions;
+using Amido.Stacks.Core.Operations;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
@@ -15,18 +16,21 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
         {
         }
 
-        public static void Raise(Guid correlationId, OperationCode operationCode, Guid menuId, string message)
+        public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId, string message)
         {
-            var exception = new MenuAlreadyExistsException(Exceptions.ExceptionCode.MenuAlreadyExists, operationCode, correlationId, message);
+            var exception = new MenuAlreadyExistsException(
+                Exceptions.ExceptionCode.MenuAlreadyExists,
+                operationCode,
+                correlationId,
+                message ?? $"A menu with id '{menuId}' already exists."
+            );
             exception.Data["MenuId"] = menuId;
             throw exception;
         }
 
-        public static void Raise(Guid correlationId, OperationCode operationCode, Guid menuId)
+        public static void Raise(IOperationContext context, Guid menuId)
         {
-            Raise(correlationId, operationCode, menuId, $"A menu with id '{menuId}' already exists.");
+            Raise((OperationCode)context.OperationCode, context.CorrelationId, menuId, null);
         }
-
-
     }
 }

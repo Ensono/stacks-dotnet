@@ -1,32 +1,39 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using Amido.Stacks.Application.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
-using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
-    public class DeleteMenuCommandHandler : MenuCommandHandlerBase<DeleteMenu>
+    public class DeleteMenuCommandHandler : ICommandHandler<DeleteMenu>
     {
+        IMenuRepository repository;
+        IApplicationEventPublisher applicationEventPublisher;
+
         public DeleteMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
-            : base(repository, applicationEventPublisher)
         {
+            this.repository = repository;
+            this.applicationEventPublisher = applicationEventPublisher;
         }
 
-        public override async Task HandleCommandAsync(Menu menu, DeleteMenu command)
+        public async Task HandleAsync(DeleteMenu command)
         {
+            var menu = repository.GetByIdAsync(command.MenuId);
+
             //TODO: Check if the user is the owner of the resource
+            //if(command.User.RestaurantId != menu.RestaurantId)
+            //{
+            //    throw Exception
+            //}
 
-            await base.repository.DeleteAsync(command.MenuId);
+            await repository.DeleteAsync(command.MenuId);
+
+            await applicationEventPublisher.PublishAsync(
+                new MenuDeleted((OperationCode)command.OperationCode, command.CorrelationId, command.MenuId)
+            );
         }
-
-        public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, DeleteMenu command)
-        {
-            return new[] { new MenuDeleted((OperationCode)command.OperationCode, command.CorrelationId, command.MenuId) };
-        }
-
     }
 }

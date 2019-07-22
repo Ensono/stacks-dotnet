@@ -18,7 +18,6 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
     public class EventsTests
     {
         [Fact]
-
         public void EventsShouldHaveUniqueIds()
         {
             var assembly = typeof(MenuCreated).Assembly;

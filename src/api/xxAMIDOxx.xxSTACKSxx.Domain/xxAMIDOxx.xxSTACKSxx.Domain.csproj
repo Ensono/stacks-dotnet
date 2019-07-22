@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\stacks\Amido.Stacks.Domain\Amido.Stacks.Domain.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Common\xxAMIDOxx.xxSTACKSxx.Common.csproj" />
   </ItemGroup>
 
 </Project>

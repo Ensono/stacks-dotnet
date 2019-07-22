@@ -1,14 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using xxAMIDOxx.xxSTACKSxx.Application.Integration;
-using xxAMIDOxx.xxSTACKSxx.Domain;
-
-namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
+﻿namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
 {
     //public class MenuRepository : IMenuRepository
     //{
     //    static System.Collections.Generic.Dictionary<Guid, Menu> storage = new System.Collections.Generic.Dictionary<Guid, Menu>();
 
+    //    private Object _lock = new Object();
     //    public async Task<Menu> GetByIdAsync(Guid id)
     //    {
     //        if (storage.ContainsKey(id))
@@ -22,21 +18,31 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
     //        if (entity == null)
     //            return await Task.FromResult(false);
 
-    //        if (storage.ContainsKey(entity.Id))
-    //            storage[entity.Id] = entity;
-    //        else
-    //            storage.Add(entity.Id, entity);
+    //        lock (_lock)
+    //        {
+    //            if (storage.ContainsKey(entity.Id))
+    //                storage[entity.Id] = entity;
+    //            else
+    //                storage.Add(entity.Id, entity);
+    //        }
 
     //        return await Task.FromResult(true);
     //    }
 
     //    public async Task<bool> DeleteAsync(Guid id)
     //    {
-    //        if (!storage.ContainsKey(id))
-    //            return false;
+    //        bool result;
+    //        lock (_lock)
+    //        {
+    //            if (!storage.ContainsKey(id))
+    //                return false;
 
-    //        return await Task.FromResult(storage.Remove(id));
+    //            result = storage.Remove(id);
+    //        }
+
+    //        return await Task.FromResult(result);
     //    }
 
     //}
 }
+

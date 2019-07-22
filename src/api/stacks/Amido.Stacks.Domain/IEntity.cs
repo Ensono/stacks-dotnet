@@ -1,7 +1,7 @@
 ﻿namespace Amido.Stacks.Domain
 {
-    public interface IEntity<TId>
+    public interface IEntity<TIdentity>
     {
-        TId Id { get; }
+        TIdentity Id { get; }
     }
 }
