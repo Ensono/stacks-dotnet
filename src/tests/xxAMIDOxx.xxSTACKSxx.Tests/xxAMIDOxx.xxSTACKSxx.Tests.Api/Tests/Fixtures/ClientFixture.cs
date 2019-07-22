@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
@@ -9,16 +11,30 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
     {
         public ConfigModel config;
 
+        public ClientFixture()
+        {
+            Debug.WriteLine("Client Fixture constructor");
+        }
+
         //Create a new HttpClient using the configuration base url
         public override HttpClient BuildHttpClient()
         {
+            Debug.WriteLine("BuildHttpClient");
             config = ConfigAccessor.GetApplicationConfiguration();
-            return new HttpClient()
-            {
-                BaseAddress = new System.Uri(config.BaseUrl)
-            };
+
+            
+
+            var client = clientFactory.CreateClient();
+            client.BaseAddress = new Uri(config.BaseUrl);
+            return client;
+
+            //return new HttpClient()
+            //{
+            //    BaseAddress = new System.Uri(config.BaseUrl)
+            //};
+
         }
-        
+
         //API clients
         public async Task<HttpResponseMessage> CreateMenu(MenuRequest request)
         {

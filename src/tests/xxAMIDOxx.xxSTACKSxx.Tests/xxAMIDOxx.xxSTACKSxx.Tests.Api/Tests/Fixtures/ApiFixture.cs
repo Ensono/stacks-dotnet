@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -14,12 +15,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
     /// </summary>
     public abstract class ApiFixture
     {
-        protected HttpClient httpClient;
-        public HttpResponseMessage LastResponse { get; protected set; }
+        private static HttpClient httpClient;
 
         public ApiFixture()
         {
-            this.httpClient = BuildHttpClient();
+            Debug.WriteLine("API Fixture constructor");
+            //Create the factory here
+            httpClient = BuildHttpClient();
         }
 
         public abstract HttpClient BuildHttpClient();
@@ -34,9 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
         {
             HttpRequestMessage msg = new HttpRequestMessage(method, url);
 
-            LastResponse = await httpClient.SendAsync(msg);
-
-            return LastResponse;
+            return await httpClient.SendAsync(msg);
         }
 
         /// <summary>
@@ -54,9 +54,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             if (body != null)
                 msg.Content = CreateHttpContent<TBody>(body);
 
-            LastResponse = await httpClient.SendAsync(msg);
-
-            return LastResponse;
+            return await httpClient.SendAsync(msg);
         }
 
         protected HttpContent CreateHttpContent<TContent>(TContent content)

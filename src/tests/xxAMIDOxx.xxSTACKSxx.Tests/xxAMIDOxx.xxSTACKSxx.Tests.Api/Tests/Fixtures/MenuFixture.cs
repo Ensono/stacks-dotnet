@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Shouldly;
 using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,9 +21,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
         private HttpResponseMessage lastResponse;
         public string existingMenuId;
 
-        public MenuFixture()
+        public MenuFixture(IHttpClientFactory clientFactory) : base(clientFactory)
         {
             //Add any fixture set up logic here
+            Debug.WriteLine("Menu Fixture constructor");
         }
 
         #region Step Definitions
@@ -47,7 +49,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             }
             catch
             {
-                throw new Exception($"Menu could not be created. API response: {await lastResponse.Content.ReadAsStringAsync()}");
+                throw new Exception($"Menu could not be created. API response: {lastResponse.Content.ToString()}");
             }
         }
 
@@ -86,19 +88,19 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
         public void ThenTheMenuHasBeenCreated()
         {
-            LastResponse.StatusCode.ShouldBe(HttpStatusCode.OK, 
+            lastResponse.StatusCode.ShouldBe(HttpStatusCode.OK, 
                 $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
         }
 
         public void ThenTheMenuHasBeenDeleted()
         {
-            LastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
+            lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
                 $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
         }
 
         public async Task ThenICanReadTheMenuReturned()
         {
-            LastResponse.StatusCode.ShouldBe(HttpStatusCode.OK, $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
+            lastResponse.StatusCode.ShouldBe(HttpStatusCode.OK, $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
             var responseMenu = JsonConvert.DeserializeObject<Menu>(await lastResponse.Content.ReadAsStringAsync());
 
@@ -115,7 +117,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
         public async Task ThenTheMenuIsUpdatedCorrectly()
         {
-            LastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
+            lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
                 $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
             var updatedResponse = await GetMenuById(existingMenuId);
