@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using Xunit;
+using Xunit.Abstractions;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes;
 
@@ -15,6 +18,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
     [Trait("TestType", "IntegrationTests")]
     public class InMemoryMenuRepositoryTests
     {
+        private readonly ITestOutputHelper output;
+
+        public InMemoryMenuRepositoryTests(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         //GetByIdTest will be tested as part of Save+Get OR Get+Delete+Get
         //public void GetByIdTest() { }
 
@@ -25,7 +35,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
         [Theory, AutoData]
         public async Task SaveAndGetTest(InMemoryMenuRepository repository, Menu menu)
         {
+            output.WriteLine($"Creating the menu '{menu.Id}' in the repository");
             await repository.SaveAsync(menu);
+            output.WriteLine($"Retrieving the menu '{menu.Id}' from the repository");
             var dbItem = await repository.GetByIdAsync(menu.Id);
 
             Assert.Equal(dbItem.Id, menu.Id);
@@ -43,13 +55,37 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
         [Theory, AutoData]
         public async Task DeleteTest(InMemoryMenuRepository repository, Menu menu)
         {
+            output.WriteLine($"Creating the menu '{menu.Id}' in the repository");
             await repository.SaveAsync(menu);
+            output.WriteLine($"Retrieving the menu '{menu.Id}' from the repository");
             var dbItem = await repository.GetByIdAsync(menu.Id);
             Assert.NotNull(dbItem);
 
+            output.WriteLine($"Removing the menu '{menu.Id}' from the repository");
             await repository.DeleteAsync(menu.Id);
+            output.WriteLine($"Retrieving the menu '{menu.Id}' from the repository");
             dbItem = await repository.GetByIdAsync(menu.Id);
             Assert.Null(dbItem);
+        }
+
+
+        [Theory, AutoData]
+        public async Task ParallelRunTest(InMemoryMenuRepository repository)
+        {
+            Task[] tasks = new Task[100];
+
+            Fixture fixture = new Fixture();
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                tasks[i] = Task.Run(async () => await SaveAndGetTest(repository, fixture.Create<Menu>()));
+            }
+
+            await Task.WhenAll(tasks);
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                Assert.False(tasks[i].IsFaulted, tasks[i].Exception.Message);
+            }
         }
     }
 }
