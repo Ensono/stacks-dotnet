@@ -47,7 +47,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
         private static HttpContent CreateHttpContent<TContent>(TContent content)
         {
             //If the content is empty then create empty HttpContent
-            if (EqualityComparer<TContent>.Default.Equals(content, default))
+            if (EqualityComparer<TContent>.Default.Equals(content, default(TContent)))
             {
                 return new ByteArrayContent(new byte[0]);
             }
