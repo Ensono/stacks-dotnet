@@ -1,5 +1,6 @@
 ﻿using System;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using Amido.Stacks.Core.Operations;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents
@@ -12,6 +13,14 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents
             CorrelationId = correlationId;
             MenuId = menuId;
         }
+
+        public MenuCreated(IOperationContext context, Guid menuId)
+        {
+            OperationCode = context.OperationCode;
+            CorrelationId = context.CorrelationId;
+            MenuId = menuId;
+        }
+
 
         public int EventCode => (int)Common.Events.EventCode.MenuCreated;
 

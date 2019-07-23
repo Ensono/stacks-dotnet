@@ -15,6 +15,11 @@ namespace Amido.Stacks.Domain
             //RaiseEvent(domainEvent);
         }
 
+        public void ClearEvents()
+        {
+            uncommittedEvents.Clear();
+        }
+
         //TODO: Decide how link Events to Handlers
         // https://docs.microsoft.com/en-us/visualstudio/code-quality/ca1003-use-generic-event-handler-instances?view=vs-2019
         //private void RaiseEvent(IDomainEvent domainEvent)

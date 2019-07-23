@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -14,6 +16,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Item")]
     public class AddMenuItemController : ControllerBase
     {
+        ICommandHandler<CreateMenuItem, Guid> commandHandler;
+
+        public AddMenuItemController(ICommandHandler<CreateMenuItem, Guid> commandHandler)
+        {
+            this.commandHandler = commandHandler;
+        }
+
         /// <summary>
         /// Create an item to a category in the menu
         /// </summary>

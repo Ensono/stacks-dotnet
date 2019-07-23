@@ -11,7 +11,7 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
-    public abstract class MenuCommandHandlerBase<TCommand> : ICommandHandler<TCommand> where TCommand : IMenuCommand
+    public abstract class MenuCommandHandlerBase<TCommand, TResult> : ICommandHandler<TCommand, TResult> where TCommand : IMenuCommand
     {
         protected IMenuRepository repository;
         private IApplicationEventPublisher applicationEventPublisher;
@@ -22,8 +22,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             this.applicationEventPublisher = applicationEventPublisher;
         }
 
-        public async Task HandleAsync(TCommand command)
+        public async Task<TResult> HandleAsync(TCommand command)
         {
+            TResult result = default(TResult);
+
             var menu = await repository.GetByIdAsync(command.MenuId);
 
             if (menu == null)
@@ -31,9 +33,12 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
             //TODO: Check if the user has permission(Is the owner of the resource) 
             // to do after OIDC is setup, requires design
+
             try
             {
-                await HandleCommandAsync(menu, command);
+                result = await HandleCommandAsync(menu, command);
+
+                await repository.SaveAsync(menu);
 
                 foreach (var appEvent in RaiseApplicationEvents(menu, command))
                 {
@@ -52,6 +57,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
                 throw ex;
             }
+
+
+            return result;
         }
 
         /// <summary>
@@ -60,7 +68,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
         /// <param name="menu"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public abstract Task HandleCommandAsync(Menu menu, TCommand command);
+        public abstract Task<TResult> HandleCommandAsync(Menu menu, TCommand command);
 
         /// <summary>
         /// Application events that should be raised when the command succeed.
@@ -70,5 +78,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
         /// <param name="command"></param>
         /// <returns>Application events to be published in the message bus</returns>
         public abstract IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, TCommand command);
+
     }
 }

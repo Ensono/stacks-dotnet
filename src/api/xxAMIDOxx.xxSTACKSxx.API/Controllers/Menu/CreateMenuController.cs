@@ -63,7 +63,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                     Enabled = body.Enabled
                 });
 
-            return new ObjectResult(new ResourceCreated(id));
+            return new CreatedAtActionResult(
+                "GetMenu", "GetMenuById", new { id = id }, new ResourceCreated(id)
+            );
         }
     }
 }

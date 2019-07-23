@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Xunit;
@@ -40,6 +39,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
             output.WriteLine($"Retrieving the menu '{menu.Id}' from the repository");
             var dbItem = await repository.GetByIdAsync(menu.Id);
 
+            Assert.NotNull(dbItem);
             Assert.Equal(dbItem.Id, menu.Id);
             Assert.Equal(dbItem.Name, menu.Name);
             Assert.Equal(dbItem.RestaurantId, menu.RestaurantId);
@@ -68,7 +68,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
             Assert.Null(dbItem);
         }
 
-
+        /// <summary>
+        /// This test will run 100 operations concurrently to test concurrency issues
+        /// </summary>
         [Theory, AutoData]
         public async Task ParallelRunTest(InMemoryMenuRepository repository)
         {
@@ -77,14 +79,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
             Fixture fixture = new Fixture();
             for (int i = 0; i < tasks.Length; i++)
             {
-                tasks[i] = Task.Run(async () => await SaveAndGetTest(repository, fixture.Create<Menu>()));
+                if (i % 2 == 0)
+                    tasks[i] = Task.Run(async () => await SaveAndGetTest(repository, fixture.Create<Menu>()));
+                else
+                    tasks[i] = Task.Run(async () => await DeleteTest(repository, fixture.Create<Menu>()));
             }
 
             await Task.WhenAll(tasks);
 
             for (int i = 0; i < tasks.Length; i++)
             {
-                Assert.False(tasks[i].IsFaulted, tasks[i].Exception.Message);
+                Assert.False(tasks[i].IsFaulted, tasks[i].Exception?.Message);
             }
         }
     }

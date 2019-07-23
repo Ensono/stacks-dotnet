@@ -31,6 +31,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
             "And the menu does not does not exist".x(fixture.GivenTheMenuDoesNotExist);
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a successful response is returned".x(fixture.ThenASuccessfulResponseIsReturned);
+            "And the response code is CREATED".x(fixture.ThenACreatedResponseIsReturned);
+            "And the id of the new menu is returned".x(fixture.ThenTheResourceCreatedResponseIsReturned);
             "And the menu data is submitted correctly to the database".x(fixture.ThenTheMenuIsSubmittedToDatabase);
             $"And an event of type {typeof(MenuCreated).Name} is raised".x(fixture.ThenAMenuCreatedEventIsRaised);
         }

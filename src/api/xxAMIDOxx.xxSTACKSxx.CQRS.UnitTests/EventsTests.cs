@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using Amido.Stacks.Core.Operations;
 using Amido.Stacks.DependencyInjection;
 using AutoFixture;
 using AutoFixture.Kernel;
+using NSubstitute;
 using Shouldly;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Common.Events;
@@ -56,7 +58,9 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
 
         private int GetEventCode(Type eventType)
         {
-            var cmd = new SpecimenContext(new Fixture()).Resolve(eventType);
+            var fixture = new Fixture();
+            fixture.Register<IOperationContext>(() => Substitute.For<IOperationContext>());
+            var cmd = new SpecimenContext(fixture).Resolve(eventType);
             return ((IApplicationEvent)cmd).EventCode;
         }
 

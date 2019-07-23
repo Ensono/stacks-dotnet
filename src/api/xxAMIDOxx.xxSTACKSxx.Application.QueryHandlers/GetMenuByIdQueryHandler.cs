@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -22,6 +23,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
             if (menu == null)
                 return null;
 
+
+
             //TODO: Convert domain to models
             var result = new Menu()
             {
@@ -29,7 +32,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
                 RestaurantId = menu.RestaurantId,
                 Name = menu.Name,
                 Description = menu.Description,
-                Enabled = menu.Enabled
+                Enabled = menu.Enabled,
+                Categories = menu.Categories.Select(c => new Category() { Id = c.Id, Name = c.Name, Description = c.Description }).ToList()
             };
 
             return result;

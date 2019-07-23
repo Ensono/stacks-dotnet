@@ -1,5 +1,8 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Shouldly;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
@@ -77,5 +80,51 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
             return await SendAsync<CreateOrUpdateMenu>(HttpMethod.Post, "/v1/menu", menu);
         }
 
+        /// <summary>
+        /// Send a POST Http request to the API CreateCategory endpoint passing the menu id and category being created
+        /// </summary>
+        /// <param name="category">Category being created</param>
+        public async Task<HttpResponseMessage> CreateCategory(Guid menuId, CreateOrUpdateCategory category)
+        {
+            return await SendAsync<CreateOrUpdateCategory>(HttpMethod.Post, $"/v1/menu/{menuId}/category", category);
+        }
+
+        internal void ThenASuccessfulResponseIsReturned()
+        {
+            LastResponse.IsSuccessStatusCode.ShouldBeTrue();
+        }
+
+        internal void ThenAFailureResponseIsReturned()
+        {
+            LastResponse.IsSuccessStatusCode.ShouldBeFalse();
+        }
+
+        internal void ThenAForbiddenResponseIsReturned()
+        {
+            LastResponse.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+        }
+
+        internal void ThenACreatedResponseIsReturned()
+        {
+            LastResponse.StatusCode.ShouldBe(HttpStatusCode.Created);
+        }
+
+
+        internal async Task ThenTheResourceCreatedResponseIsReturned()
+        {
+            var responseObject = await GetResponseObject<ResourceCreated>();
+
+            responseObject.ShouldNotBeNull();
+            responseObject.Id.ShouldNotBe(default(Guid));
+        }
+
+        object lastResponseObject;
+        internal async Task<TBody> GetResponseObject<TBody>()
+        {
+            if (lastResponseObject == null)
+                lastResponseObject = await LastResponse.Content.ReadAsAsync<TBody>();
+
+            return (TBody)lastResponseObject;
+        }
     }
 }

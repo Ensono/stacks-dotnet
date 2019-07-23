@@ -2,15 +2,13 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class CreateCategory : ICategoryCommand
+    public partial class CreateCategory : IMenuCommand
     {
         public int OperationCode => (int)Common.Operations.OperationCode.CreateCategory;
 
-        public Guid CorrelationId { get; }
+        public Guid CorrelationId { get; set; }
 
         public Guid MenuId { get; set; }
-
-        public Guid CategoryId { get; set; }
 
         public string Name { get; set; }
 

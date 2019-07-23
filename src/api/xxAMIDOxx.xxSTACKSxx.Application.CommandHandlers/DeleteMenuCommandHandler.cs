@@ -2,7 +2,6 @@
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Application.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
-using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
@@ -32,7 +31,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             await repository.DeleteAsync(command.MenuId);
 
             await applicationEventPublisher.PublishAsync(
-                new MenuDeleted((OperationCode)command.OperationCode, command.CorrelationId, command.MenuId)
+                new MenuDeleted(command, command.MenuId)
             );
         }
     }

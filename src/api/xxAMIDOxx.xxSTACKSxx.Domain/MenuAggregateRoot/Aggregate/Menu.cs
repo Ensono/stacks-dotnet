@@ -11,7 +11,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
 {
     public class Menu : AggregateRoot, IEntity<Guid>
     {
-        private List<Category> categories;
+        private List<Category> categories = new List<Category>();
 
         //TODO: set properties to private
 

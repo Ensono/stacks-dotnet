@@ -44,7 +44,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
             await repository.SaveAsync(newMenu);
 
-            await applicationEventPublisher.PublishAsync(new MenuCreated((OperationCode)command.OperationCode, command.CorrelationId, id));
+            await applicationEventPublisher.PublishAsync(new MenuCreated(command, id));
 
             return id;
         }

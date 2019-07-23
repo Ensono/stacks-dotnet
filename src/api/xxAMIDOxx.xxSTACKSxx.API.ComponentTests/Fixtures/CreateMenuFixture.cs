@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using Shouldly;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
@@ -60,15 +58,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
             await CreateMenu(newMenu);
         }
 
-        internal void ThenASuccessfulResponseIsReturned()
-        {
-            LastResponse.IsSuccessStatusCode.ShouldBeTrue();
-        }
-
-        internal void ThenAFailureResponseIsReturned()
-        {
-            LastResponse.IsSuccessStatusCode.ShouldBeFalse();
-        }
 
         internal void ThenGetMenuByIdIsCalled()
         {
@@ -92,11 +81,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         internal void ThenAMenuCreatedEventIsNotRaised()
         {
             applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<MenuCreated>());
-        }
-
-        internal void ThenAForbiddenResponseIsReturned()
-        {
-            LastResponse.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
         }
     }
 }

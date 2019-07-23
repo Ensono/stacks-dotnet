@@ -1,0 +1,57 @@
+﻿using AutoFixture.Xunit2;
+using Xbehave;
+using xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
+
+namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
+{
+    public class CreateCategoryFeature
+    {
+        /* SCENARIOS: Create a category in the menu
+          
+             Examples: 
+             ---------------------------------------------------------------------------------
+            | AsRole              | Existing Menu | Existing Category  | Outcome              |
+            |---------------------|---------------|--------------------|----------------------|
+            | Admin               | Yes           | No                 | 200 OK               |
+            | Employee            | Yes           | No                 | 200 OK               |
+            | Admin               | No            | No                 | 404 Not Found        |
+            | Admin               | Yes           | Yes                | 409 Conflict         |
+            | Customer            | Yes           | No                 | 403 Forbidden        |
+            | UnauthenticatedUser | Yes           | No                 | 403 Forbidden        |
+
+        */
+
+        [Scenario]
+        [InlineAutoData("Admin")]
+        [InlineAutoData("Employee")]
+        public void CreateCategoryShouldSucceed(string role, CreateCategoryFixture fixture)
+        {
+            $"As {role}".x(() => fixture.AsRole(role));
+            "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            "And the category being created does not exist in the menu".x(fixture.GivenTheCategoryDoesNotExist);
+            "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
+            "Then a successful response is returned".x(fixture.ThenASuccessfulResponseIsReturned);
+            "And the menu is loaded from the storage".x(fixture.ThenMenuIsLoadedFromStorage);
+            "And the id of the new category is returned".x(fixture.ThenTheResourceCreatedResponseIsReturned);
+            "And the category is added to the menu".x(fixture.ThenTheCategoryIsAddedToMenu);
+            "And the menu is persisted to the storage".x(fixture.ThenTheMenuShouldBePersisted);
+            "And the event MenuUpdate is Raised".x(fixture.ThenAMenuUpdatedEventIsRaised);
+            "And the event CategoryCreated is Raised".x(fixture.ThenACategoryCreatedEventIsRaised);
+        }
+
+        [Scenario(Skip = "Disabled until security is implemented")]
+        [InlineAutoData("Customer")]
+        [InlineAutoData("UnauthenticatedUser")]
+        public void CreateCategoryShouldFailWithForbidden(string role, CreateCategoryFixture fixture)
+        {
+            $"As {role}".x(() => fixture.AsRole(role));
+            "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            "And the category being created does not exist in the menu".x(fixture.GivenTheCategoryDoesNotExist);
+            "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
+            "Then a Forbidden response is returned".x(fixture.ThenAForbiddenResponseIsReturned);
+            "And the menu is not persisted to the storage".x(fixture.ThenTheMenuShouldNotBePersisted);
+            "And the event MenuUpdate is NOT Raised".x(fixture.ThenAMenuUpdatedEventIsNotRaised);
+            "And the event CategoryCreated is NOT Raised".x(fixture.ThenACategoryCreatedEventIsNotRaised);
+        }
+    }
+}

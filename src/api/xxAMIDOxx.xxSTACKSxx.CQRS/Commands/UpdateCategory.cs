@@ -15,5 +15,14 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public UpdateCategory(Guid correlationId, Guid menuId, Guid categoryId, string name, string description)
+        {
+            CorrelationId = correlationId;
+            MenuId = menuId;
+            CategoryId = categoryId;
+            Name = name;
+            Description = description;
+        }
     }
 }
