@@ -13,19 +13,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
     public class CreateMenuTests : IClassFixture<AuthFixture>
     {
-        //ToDo: Should I inherit from IDispose to end HttpClient connection?
-
         private readonly MenuSteps steps;
         private readonly AuthFixture fixture;
 
         public CreateMenuTests(AuthFixture fixture)
         {
+            //Get instances of the fixture and steps required for the test
             this.fixture = fixture;
             steps = new MenuSteps();
         }
 
         //Add all tests that make up the story to this class.
-        //Steps should be taken from the fixture
         [Fact]
         public void Create_a_menu()
         {

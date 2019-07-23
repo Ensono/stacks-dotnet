@@ -1,20 +1,18 @@
 ﻿using Newtonsoft.Json;
 using Shouldly;
 using System;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Factories;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps
 {
     /// <summary>
-    /// Fixtures contain all test step definitions for the story related to it (I.e. Menu)
-    /// This also contains the step up and tear down for the fixture
+    /// These are the steps required for testing the Menu endpoints
     /// </summary>
     public class MenuSteps
     {
@@ -24,11 +22,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps
         public string existingMenuId;
         private ConfigModel config;
         private string baseUrl;
+        private const string menuPath = "v1/menu/";
 
         public MenuSteps()
         {
-            //Add any fixture set up logic here
-            Debug.WriteLine("Menu Fixture constructor");
             config = ConfigAccessor.GetApplicationConfiguration();
             baseUrl = config.BaseUrl;
         }
@@ -42,7 +39,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps
 
             try
             {
-                lastResponse = await HttpRequestFactory.Post(baseUrl, "v1/menu/", createMenuRequest);
+                lastResponse = await HttpRequestFactory.Post(baseUrl, menuPath, createMenuRequest);
 
                 if(lastResponse.StatusCode == HttpStatusCode.OK)
                 {
@@ -74,22 +71,22 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps
                 .SetEnabled(true)
                 .Build();
 
-            lastResponse = await HttpRequestFactory.Put(baseUrl, $"v1/menu/{existingMenuId}", updateMenuRequest);
+            lastResponse = await HttpRequestFactory.Put(baseUrl, $"{menuPath}{existingMenuId}", updateMenuRequest);
         }
 
         public async Task WhenICreateTheMenu()
         {
-            lastResponse = await HttpRequestFactory.Post(baseUrl, "v1/menu/", createMenuRequest);
+            lastResponse = await HttpRequestFactory.Post(baseUrl, menuPath, createMenuRequest);
         }
 
         public async Task WhenIDeleteAMenu()
         {
-            lastResponse = await HttpRequestFactory.Delete(baseUrl, $"v1/menu/{existingMenuId}");
+            lastResponse = await HttpRequestFactory.Delete(baseUrl, $"{menuPath}{existingMenuId}");
         }
 
         public async Task WhenIGetAMenu()
         {
-            lastResponse = await HttpRequestFactory.Get(baseUrl, $"v1/menu/{existingMenuId}");
+            lastResponse = await HttpRequestFactory.Get(baseUrl, $"{menuPath}{existingMenuId}");
         }
 
         public void ThenTheMenuHasBeenCreated()
@@ -126,9 +123,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps
             lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
                 $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
-            var updatedResponse = await HttpRequestFactory.Get(baseUrl, $"v1/menu/{existingMenuId}");
+            var updatedResponse = await HttpRequestFactory.Get(baseUrl, $"{menuPath}{existingMenuId}");
 
-            if(updatedResponse.StatusCode == HttpStatusCode.OK)
+            if (updatedResponse.StatusCode == HttpStatusCode.OK)
             {
                 var updateMenuResponse = JsonConvert.DeserializeObject<Menu>(await updatedResponse.Content.ReadAsStringAsync());
 
@@ -149,20 +146,5 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps
             }
         }
         #endregion Step Definitions
-
-        #region Dispose/teardown logic
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if(disposing)
-            {
-                //Fixture teardown steps go here
-            }
-        }
-        #endregion
     }
 }

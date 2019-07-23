@@ -1,6 +1,8 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
+﻿using System;
+
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
-    public class AuthFixture
+    public class AuthFixture : IDisposable
     {
         public void GivenAUser()
         {
@@ -10,6 +12,19 @@
         public void GivenAnAdmin()
         {
             //ToDo: implement givenanadmin
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                //fixture tear down goes here
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }

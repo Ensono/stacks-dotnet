@@ -17,12 +17,12 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
         public UpdateMenuById(AuthFixture fixture)
         {
+            //Get instances of the fixture and steps required for the test
             this.fixture = fixture;
             steps = new MenuSteps();
         }
 
-        //Add all tests that make up the story to this class.
-        //Steps should be taken from the fixture
+        //Add all tests that make up the story to this class
         [Fact]
         public void Admins_Can_Update_Existing_Menus()
         {

@@ -1,62 +1,60 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
 
-namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
 {
     public class HttpRequestFactory
     {
-        public static async Task<HttpResponseMessage> Get(string baseUrl, string requestUri)
+        public static async Task<HttpResponseMessage> Get(string baseUrl, string path)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Get)
-                                .AddRequestUri(baseUrl, requestUri)
+                                .AddRequestUri(baseUrl, path)
                                 .SendAsync();
         }
 
-
-        public static async Task<HttpResponseMessage> Post(string baseUrl, string requestUri, object body)
+        public static async Task<HttpResponseMessage> Post(string baseUrl, string path, object body)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Post)
-                                .AddRequestUri(baseUrl, requestUri)
+                                .AddRequestUri(baseUrl, path)
                                 .AddContent(CreateHttpContent(body))
                                 .SendAsync();
         }
 
-        public static async Task<HttpResponseMessage> Put(string baseUrl, string requestUri, object body)
+        public static async Task<HttpResponseMessage> Put(string baseUrl, string path, object body)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Put)
-                                .AddRequestUri(baseUrl, requestUri)
+                                .AddRequestUri(baseUrl, path)
                                 .AddContent(CreateHttpContent(body))
                                 .SendAsync();
         }
 
-        public static async Task<HttpResponseMessage> Delete(string baseUrl, string requestUri)
+        public static async Task<HttpResponseMessage> Delete(string baseUrl, string path)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Delete)
-                                .AddRequestUri(baseUrl, requestUri)
+                                .AddRequestUri(baseUrl, path)
                                 .SendAsync();
         }
 
+        //Creates HttpContent from the object provided
         private static HttpContent CreateHttpContent<TContent>(TContent content)
         {
-            if (EqualityComparer<TContent>.Default.Equals(content, default(TContent)))
+            //If the content is empty then create empty HttpContent
+            if (EqualityComparer<TContent>.Default.Equals(content, default))
             {
-                Console.WriteLine($"API Fixture serialized request of type {typeof(TContent).Name} as empty");
                 return new ByteArrayContent(new byte[0]);
             }
+            //if the content is not empty, then create HttpContent with the Accept header set to 'application/json'
             else
             {
                 var json = JsonConvert.SerializeObject(content);
-                Console.WriteLine($"API Fixture serialized request of type {typeof(TContent).Name} into {json}");
                 var result = new ByteArrayContent(Encoding.UTF8.GetBytes(json));
                 result.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 return result;
