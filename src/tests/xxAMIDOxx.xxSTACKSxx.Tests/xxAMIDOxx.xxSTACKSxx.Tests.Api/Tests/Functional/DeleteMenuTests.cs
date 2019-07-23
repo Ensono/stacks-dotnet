@@ -8,13 +8,15 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
     [Story(AsA = "Administrator of a restaurant",
         IWant = "To be able to delete old menus",
         SoThat = "Customers do not see out of date options")]
-    public class DeleteMenuTests : IClassFixture<MenuFixture>
+    public class DeleteMenuTests : IClassFixture<AuthFixture>
     {
-        private readonly MenuFixture menuFixture;
+        private readonly MenuSteps steps;
+        private readonly AuthFixture fixture;
 
-        public DeleteMenuTests(MenuFixture menuFixture)
+        public DeleteMenuTests(AuthFixture fixture)
         {
-            this.menuFixture = menuFixture;
+            this.fixture = fixture;
+            steps = new MenuSteps();
         }
 
         //Add all tests that make up the story to this class.
@@ -22,10 +24,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         [Fact]
         public void Admins_Can_Delete_Menus()
         {
-            this.Given(s => menuFixture.GivenAUser())
-                .And(s => menuFixture.GivenAMenuAlreadyExists())
-                .When(s => menuFixture.WhenIDeleteAMenu())
-                .Then(s => menuFixture.ThenTheMenuHasBeenDeleted())
+            this.Given(step => fixture.GivenAUser())
+                .And(step => steps.GivenAMenuAlreadyExists())
+                .When(step => steps.WhenIDeleteAMenu())
+                .Then(step => steps.ThenTheMenuHasBeenDeleted())
                 .BDDfy();
         }
     }

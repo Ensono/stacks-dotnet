@@ -7,6 +7,7 @@ using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
+    [Obsolete("Not used anymore")]
     public class ClientFixture : ApiFixture
     {
         public ConfigModel config;

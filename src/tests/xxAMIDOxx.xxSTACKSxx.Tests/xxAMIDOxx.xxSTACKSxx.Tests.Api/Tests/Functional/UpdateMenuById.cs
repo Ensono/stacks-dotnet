@@ -9,13 +9,15 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         IWant = "To be able to update existing menus",
         SoThat = "I the menus are always showing our latest offerings"
         )]
-    public class UpdateMenuById : IClassFixture<MenuFixture>
+    public class UpdateMenuById : IClassFixture<AuthFixture>
     {
-        private readonly MenuFixture fixture;
+        private readonly AuthFixture fixture;
+        private readonly MenuSteps steps;
 
-        public UpdateMenuById(MenuFixture fixture)
+        public UpdateMenuById(AuthFixture fixture)
         {
             this.fixture = fixture;
+            steps = new MenuSteps();
         }
 
         //Add all tests that make up the story to this class.
@@ -24,9 +26,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         public void Admins_Can_Update_Existing_Menus()
         {
             this.Given(s => fixture.GivenAnAdmin())
-                .And(s => fixture.GivenAMenuAlreadyExists())
-                .When(s => fixture.WhenISendAnUpdateMenuRequest())
-                .Then(s => fixture.ThenTheMenuIsUpdatedCorrectly())
+                .And(s => steps.GivenAMenuAlreadyExists())
+                .When(s => steps.WhenISendAnUpdateMenuRequest())
+                .Then(s => steps.ThenTheMenuIsUpdatedCorrectly())
                 .BDDfy();
         }
     }

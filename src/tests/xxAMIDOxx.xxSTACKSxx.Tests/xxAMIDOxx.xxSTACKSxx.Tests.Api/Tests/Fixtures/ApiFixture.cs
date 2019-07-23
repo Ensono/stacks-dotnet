@@ -13,6 +13,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
     /// ApiFixture will handle the HttpClient creation for the test scenarios.
     /// Each fixture talking to the API should inherit from this class
     /// </summary>
+    [Obsolete("Not used anymore")]
     public abstract class ApiFixture
     {
         private static HttpClient httpClient;

@@ -2,14 +2,14 @@
 {
     public class AuthFixture
     {
-        public string GetUserToken()
+        public void GivenAUser()
         {
-            return "test";
+            //todo: implement givenauser
         }
 
-        public string GetAdmingToken()
+        public void GivenAnAdmin()
         {
-            return "test";
+            //ToDo: implement givenanadmin
         }
     }
 }

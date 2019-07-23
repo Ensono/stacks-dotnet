@@ -14,14 +14,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
     /// Fixtures contain all test step definitions for the story related to it (I.e. Menu)
     /// This also contains the step up and tear down for the fixture
     /// </summary>
-    public class MenuFixture : ClientFixture, IDisposable
+    public class MenuSteps
     {
         private MenuRequest createMenuRequest;
         private MenuRequest updateMenuRequest;
         private HttpResponseMessage lastResponse;
         public string existingMenuId;
 
-        public MenuFixture()
+        public MenuSteps()
         {
             //Add any fixture set up logic here
             Debug.WriteLine("Menu Fixture constructor");
@@ -36,7 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
             try
             {
-                lastResponse = await CreateMenu(createMenuRequest);
+                lastResponse = await HttpRequestFactory.Post("v1/menu/", createMenuRequest);
 
                 if(lastResponse.StatusCode == HttpStatusCode.OK)
                 {
@@ -68,22 +68,22 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
                 .SetEnabled(true)
                 .Build();
 
-            lastResponse = await UpdateMenu(updateMenuRequest, existingMenuId);
+            lastResponse = await HttpRequestFactory.Put($"v1/menu/{existingMenuId}", updateMenuRequest);
         }
 
         public async Task WhenICreateTheMenu()
         {
-            lastResponse = await CreateMenu(createMenuRequest);
+            lastResponse = await HttpRequestFactory.Post("v1/menu/", createMenuRequest);
         }
 
         public async Task WhenIDeleteAMenu()
         {
-            lastResponse = await DeleteMenu(existingMenuId);
+            lastResponse = await HttpRequestFactory.Delete($"v1/menu/{existingMenuId}");
         }
 
         public async Task WhenIGetAMenu()
         {
-            lastResponse = await GetMenuById(existingMenuId);
+            lastResponse = await HttpRequestFactory.Get($"v1/menu/{existingMenuId}");
         }
 
         public void ThenTheMenuHasBeenCreated()
@@ -120,7 +120,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
                 $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
-            var updatedResponse = await GetMenuById(existingMenuId);
+            var updatedResponse = await HttpRequestFactory.Get($"v1/menu/{existingMenuId}");
 
             if(updatedResponse.StatusCode == HttpStatusCode.OK)
             {
