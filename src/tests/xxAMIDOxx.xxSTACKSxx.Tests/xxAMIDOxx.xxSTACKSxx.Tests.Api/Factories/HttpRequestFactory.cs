@@ -5,43 +5,44 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
 
-namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Factories
 {
     public class HttpRequestFactory
     {
-        public static async Task<HttpResponseMessage> Get(string requestUri)
+        public static async Task<HttpResponseMessage> Get(string baseUrl, string requestUri)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Get)
-                                .AddRequestUri(requestUri)
+                                .AddRequestUri(baseUrl, requestUri)
                                 .SendAsync();
         }
 
 
-        public static async Task<HttpResponseMessage> Post(string requestUri, object body)
+        public static async Task<HttpResponseMessage> Post(string baseUrl, string requestUri, object body)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Post)
-                                .AddRequestUri(requestUri)
+                                .AddRequestUri(baseUrl, requestUri)
                                 .AddContent(CreateHttpContent(body))
                                 .SendAsync();
         }
 
-        public static async Task<HttpResponseMessage> Put(string requestUri, object body)
+        public static async Task<HttpResponseMessage> Put(string baseUrl, string requestUri, object body)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Put)
-                                .AddRequestUri(requestUri)
+                                .AddRequestUri(baseUrl, requestUri)
                                 .AddContent(CreateHttpContent(body))
                                 .SendAsync();
         }
 
-        public static async Task<HttpResponseMessage> Delete(string requestUri)
+        public static async Task<HttpResponseMessage> Delete(string baseUrl, string requestUri)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Delete)
-                                .AddRequestUri(requestUri)
+                                .AddRequestUri(baseUrl, requestUri)
                                 .SendAsync();
         }
 

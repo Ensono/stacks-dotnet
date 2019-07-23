@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
@@ -10,17 +10,11 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
     {
         private HttpMethod method;
         private string requestUri;
+        private string baseUrl;
         private HttpContent content;
         private string bearerToken;
         private string acceptHeader;
         private TimeSpan timeout;
-        private ConfigModel config;
-
-
-        public HttpRequestBuilder()
-        {
-            config = ConfigAccessor.GetApplicationConfiguration();
-        }
 
         public HttpRequestBuilder AddMethod(HttpMethod method)
         {
@@ -28,9 +22,11 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
             return this;
         }
 
-        public HttpRequestBuilder AddRequestUri(string requestUri)
+        public HttpRequestBuilder AddRequestUri(string baseUrl, string requestUri)
         {
-            this.requestUri = config.BaseUrl + requestUri;
+            this.baseUrl = baseUrl;
+            this.requestUri = requestUri;
+
             return this;
         }
 
@@ -63,26 +59,41 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
             var request = new HttpRequestMessage
             {
                 Method = this.method,
-                RequestUri = new Uri(this.requestUri)
+                RequestUri = new Uri($"{this.baseUrl}{this.requestUri}")
             };
 
-            if(this.content != null)
+            if (this.content != null)
             {
                 request.Content = this.content;
             }
 
-            if(!string.IsNullOrEmpty(this.bearerToken))
+            if (!string.IsNullOrEmpty(this.bearerToken))
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("bearer " + this.bearerToken);
             }
 
             request.Headers.Accept.Clear();
-            if(!string.IsNullOrEmpty(this.acceptHeader))
+            if (!string.IsNullOrEmpty(this.acceptHeader))
             {
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(this.acceptHeader));
             }
 
-            return await new HttpClient().SendAsync(request);
+            var httpClient = HttpClientFactory.GetHttpClientInstance(baseUrl);
+
+            return await httpClient.SendAsync(request);
+        }
+    }
+
+    public static class HttpClientFactory
+    {
+        private static ConcurrentDictionary<string, HttpClient> httpClientList = new ConcurrentDictionary<string, HttpClient>();
+
+        public static HttpClient GetHttpClientInstance(string baseUrl)
+        {
+            if (!httpClientList.ContainsKey(baseUrl))
+                httpClientList.TryAdd(baseUrl, new HttpClient());
+
+            return httpClientList[baseUrl];
         }
     }
 }

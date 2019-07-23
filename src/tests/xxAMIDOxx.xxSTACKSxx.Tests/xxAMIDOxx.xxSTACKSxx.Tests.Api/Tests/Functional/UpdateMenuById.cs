@@ -1,6 +1,7 @@
 ﻿using TestStack.BDDfy;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {

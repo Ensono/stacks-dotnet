@@ -6,9 +6,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Factories;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
-namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps
 {
     /// <summary>
     /// Fixtures contain all test step definitions for the story related to it (I.e. Menu)
@@ -20,11 +22,15 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
         private MenuRequest updateMenuRequest;
         private HttpResponseMessage lastResponse;
         public string existingMenuId;
+        private ConfigModel config;
+        private string baseUrl;
 
         public MenuSteps()
         {
             //Add any fixture set up logic here
             Debug.WriteLine("Menu Fixture constructor");
+            config = ConfigAccessor.GetApplicationConfiguration();
+            baseUrl = config.BaseUrl;
         }
 
         #region Step Definitions
@@ -36,7 +42,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 
             try
             {
-                lastResponse = await HttpRequestFactory.Post("v1/menu/", createMenuRequest);
+                lastResponse = await HttpRequestFactory.Post(baseUrl, "v1/menu/", createMenuRequest);
 
                 if(lastResponse.StatusCode == HttpStatusCode.OK)
                 {
@@ -49,7 +55,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             }
             catch
             {
-                throw new Exception($"Menu could not be created. API response: {lastResponse.Content.ToString()}");
+                throw new Exception($"Menu could not be created. API response: {await lastResponse.Content.ReadAsStringAsync()}");
             }
         }
 
@@ -68,22 +74,22 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
                 .SetEnabled(true)
                 .Build();
 
-            lastResponse = await HttpRequestFactory.Put($"v1/menu/{existingMenuId}", updateMenuRequest);
+            lastResponse = await HttpRequestFactory.Put(baseUrl, $"v1/menu/{existingMenuId}", updateMenuRequest);
         }
 
         public async Task WhenICreateTheMenu()
         {
-            lastResponse = await HttpRequestFactory.Post("v1/menu/", createMenuRequest);
+            lastResponse = await HttpRequestFactory.Post(baseUrl, "v1/menu/", createMenuRequest);
         }
 
         public async Task WhenIDeleteAMenu()
         {
-            lastResponse = await HttpRequestFactory.Delete($"v1/menu/{existingMenuId}");
+            lastResponse = await HttpRequestFactory.Delete(baseUrl, $"v1/menu/{existingMenuId}");
         }
 
         public async Task WhenIGetAMenu()
         {
-            lastResponse = await HttpRequestFactory.Get($"v1/menu/{existingMenuId}");
+            lastResponse = await HttpRequestFactory.Get(baseUrl, $"v1/menu/{existingMenuId}");
         }
 
         public void ThenTheMenuHasBeenCreated()
@@ -120,7 +126,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
             lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent, 
                 $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
-            var updatedResponse = await HttpRequestFactory.Get($"v1/menu/{existingMenuId}");
+            var updatedResponse = await HttpRequestFactory.Get(baseUrl, $"v1/menu/{existingMenuId}");
 
             if(updatedResponse.StatusCode == HttpStatusCode.OK)
             {

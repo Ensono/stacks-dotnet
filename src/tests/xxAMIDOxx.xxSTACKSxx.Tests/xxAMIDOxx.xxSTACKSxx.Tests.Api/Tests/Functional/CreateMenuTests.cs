@@ -1,6 +1,7 @@
 ﻿using TestStack.BDDfy;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
@@ -12,7 +13,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 
     public class CreateMenuTests : IClassFixture<AuthFixture>
     {
-        //ToDo: Should I inherit from IDispose to end HttpClient connection?S
+        //ToDo: Should I inherit from IDispose to end HttpClient connection?
 
         private readonly MenuSteps steps;
         private readonly AuthFixture fixture;
