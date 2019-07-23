@@ -1,7 +1,6 @@
-﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
@@ -15,16 +14,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
         }
 
 
-        public MenuBuilder CreateTestMenu(string name)
+        public MenuBuilder SetDefaultValues(string name)
         {
             var categoryBuilder = new CategoryBuilder();
 
             menu.id = Guid.NewGuid().ToString();
             menu.name = name;
+            menu.description = "Default test menu description";
             menu.enabled = true;
             menu.categories = new List<Category>()
             {
-                categoryBuilder.CreateTestCategory("Burgers")
+                categoryBuilder.SetDefaultValues("Burgers")
                 .Build()
             };
 
@@ -40,6 +40,12 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
         public MenuBuilder WithName(string name)
         {
             menu.name = name;
+            return this;
+        }
+
+        public MenuBuilder WithDescription(string description)
+        {
+            menu.description = description;
             return this;
         }
 
