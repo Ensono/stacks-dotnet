@@ -12,14 +12,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         /* SCENARIOS: Create a menu
           
              Examples: 
-             -----------------------------------------------------------
-            | AsRole              | Validation   | Outcome              |
-            |---------------------|--------------|----------------------|
-            | Admin               | Valid Menu   | 201 Resource Create  |
-            | Admin               | Invalid Menu | 400 Bad  Request     |
-            | Employee            | Valid Menu   | 403 Forbidden        |
-            | Customer            | Valid Menu   | 403 Forbidden        |
-            | UnauthenticatedUser | Valid Menu   | 403 Forbidden        |
+             -----------------------------------------------------------------
+            | AsRole              | Menu Condition     | Outcome              |
+            |---------------------|--------------------|----------------------|
+            | Admin               | Valid Menu         | 201 Resource Create  |
+            | Admin               | Invalid Menu       | 400 Bad  Request     |
+            | Employee, Customer,                                             |
+            | UnauthenticatedUser | Valid Menu         | 403 Forbidden        |
 
         */
 
@@ -28,7 +27,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         {
             "As Admin".x(fixture.AsAdmin);
             "Given a valid menu being submitted".x(fixture.GivenAValidMenu);
-            "And the menu does not does not exist".x(fixture.GivenTheMenuDoesNotExist);
+            "And the menu does not does not exist".x(fixture.GivenAMenuDoesNotExist);
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a successful response is returned".x(fixture.ThenASuccessfulResponseIsReturned);
             "And the response code is CREATED".x(fixture.ThenACreatedResponseIsReturned);
@@ -42,7 +41,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         {
             "As Admin".x(fixture.AsAdmin);
             "Given a valid menu being submitted".x(fixture.GivenAInvalidMenu);
-            "And the menu does not does not exist".x(fixture.GivenTheMenuDoesNotExist);
+            "And the menu does not does not exist".x(fixture.GivenAMenuDoesNotExist);
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
             "And the menu is not submitted to the database".x(fixture.ThenTheMenuIsNotSubmittedToDatabase);
@@ -57,7 +56,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         {
             $"As {role}".x(() => fixture.AsRole(role));
             "Given a valid menu being submitted".x(fixture.GivenAValidMenu);
-            "And the menu does not does not exist".x(fixture.GivenTheMenuDoesNotExist);
+            "And the menu does not does not exist".x(fixture.GivenAMenuDoesNotExist);
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a Forbidden response is returned".x(fixture.ThenAForbiddenResponseIsReturned);
             "And the menu is not submitted to the database".x(fixture.ThenTheMenuIsNotSubmittedToDatabase);

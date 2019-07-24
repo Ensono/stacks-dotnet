@@ -56,6 +56,18 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
             }
         }
 
+        [Fact]
+
+        public void EventCodeShouldHaveOneImplementation()
+        {
+            var definitions = typeof(MenuCreated).Assembly.GetImplementationsOf(typeof(IApplicationEvent));
+            foreach (EventCode code in Enum.GetValues(typeof(EventCode)))
+            {
+                var implementation = definitions.Select(d => d.implementation).SingleOrDefault(o => GetEventCode(o) == (int)code);
+                implementation.ShouldNotBeNull($"The event '{(int)code}-{code.ToString()}' does not have an implementation");
+            }
+        }
+
         private int GetEventCode(Type eventType)
         {
             var fixture = new Fixture();

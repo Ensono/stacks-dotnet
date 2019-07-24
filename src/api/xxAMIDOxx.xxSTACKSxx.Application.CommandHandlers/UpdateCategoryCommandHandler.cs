@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
         public override Task<bool> HandleCommandAsync(Menu menu, UpdateCategory command)
         {
-            menu.RemoveCategory(command.CategoryId);
+            menu.UpdateCategory(command.CategoryId, command.Name, command.Description);
 
             return Task.FromResult(true);
         }

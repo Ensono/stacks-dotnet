@@ -109,6 +109,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
             LastResponse.StatusCode.ShouldBe(HttpStatusCode.Created);
         }
 
+        internal void ThenANotFoundResponseIsReturned()
+        {
+            LastResponse.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        }
+
+        internal void ThenAConflictResponseIsReturned()
+        {
+            LastResponse.StatusCode.ShouldBe(HttpStatusCode.Conflict);
+        }
 
         internal async Task ThenTheResourceCreatedResponseIsReturned()
         {
@@ -116,15 +125,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
             responseObject.ShouldNotBeNull();
             responseObject.Id.ShouldNotBe(default(Guid));
-        }
-
-        object lastResponseObject;
-        internal async Task<TBody> GetResponseObject<TBody>()
-        {
-            if (lastResponseObject == null)
-                lastResponseObject = await LastResponse.Content.ReadAsAsync<TBody>();
-
-            return (TBody)lastResponseObject;
         }
     }
 }

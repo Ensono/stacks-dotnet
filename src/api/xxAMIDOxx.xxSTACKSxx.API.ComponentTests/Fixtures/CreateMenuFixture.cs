@@ -34,6 +34,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
             collection.AddTransient(IoC => applicationEventPublisher);
         }
 
+
+        /****** GIVEN ******************************************************/
+
         internal void GivenAValidMenu()
         {
             // Don't need to do anything here assuming the
@@ -47,17 +50,21 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         }
 
 
-        internal void GivenTheMenuDoesNotExist()
+        internal void GivenAMenuDoesNotExist()
         {
             repository.GetByIdAsync(id: Arg.Any<Guid>())
                         .Returns((Domain.Menu)null);
         }
+
+
+        /****** WHEN ******************************************************/
 
         internal async Task WhenTheMenuCreationIsSubmitted()
         {
             await CreateMenu(newMenu);
         }
 
+        /****** THEN ******************************************************/
 
         internal void ThenGetMenuByIdIsCalled()
         {

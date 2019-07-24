@@ -6,6 +6,7 @@ using Amido.Stacks.Core.Operations;
 using Amido.Stacks.DependencyInjection;
 using AutoFixture;
 using AutoFixture.Kernel;
+using NSubstitute;
 using Shouldly;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
@@ -57,6 +58,18 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
 
         [Fact]
 
+        public void OperationCodeShouldHaveOneImplementation()
+        {
+            var definitions = typeof(CreateMenu).Assembly.GetImplementationsOf(typeof(IOperationContext));
+            foreach (OperationCode code in Enum.GetValues(typeof(OperationCode)))
+            {
+                var implementation = definitions.Select(d => d.implementation).SingleOrDefault(o => GetOperationCode(o) == (int)code);
+                implementation.ShouldNotBeNull($"The operation '{(int)code}-{code.ToString()}' does not have an implementation");
+            }
+        }
+
+        [Fact]
+
         public void QueriesNameShouldMatchOperationName()
         {
             var definitions = typeof(GetMenuByIdQueryCriteria).Assembly.GetImplementationsOf(typeof(IQueryCriteria));
@@ -69,9 +82,17 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
             }
         }
 
+        [Fact(Skip = "Implement check to avoid zombie commands poluting the code")]
+
+        public void CommandsAndQueriesShouldHaveAHandler()
+        {
+        }
+
+
         private int GetOperationCode(Type commandType)
         {
             var fixture = new Fixture();
+            fixture.Register<IOperationContext>(() => Substitute.For<IOperationContext>());
             var cmd = new SpecimenContext(fixture).Resolve(commandType);
             return ((IOperationContext)cmd).OperationCode;
         }

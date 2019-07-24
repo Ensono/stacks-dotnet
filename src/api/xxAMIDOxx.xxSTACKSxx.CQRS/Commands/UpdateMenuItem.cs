@@ -18,8 +18,20 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 
         public string Description { get; set; }
 
-        public double? Price { get; set; }
+        public double Price { get; set; }
 
-        public bool? Available { get; set; }
+        public bool Available { get; set; }
+
+        public UpdateMenuItem(Guid correlationId, Guid menuId, Guid categoryId, Guid menuItemId, string name, string description, double price, bool available)
+        {
+            CorrelationId = correlationId;
+            MenuId = menuId;
+            CategoryId = categoryId;
+            MenuItemId = menuItemId;
+            Name = name;
+            Description = description;
+            Price = price;
+            Available = available;
+        }
     }
 }

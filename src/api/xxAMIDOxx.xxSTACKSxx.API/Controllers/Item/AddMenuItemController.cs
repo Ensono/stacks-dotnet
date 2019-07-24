@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,7 +15,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Consumes("application/json")]
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "Item")]
-    public class AddMenuItemController : ControllerBase
+    public class AddMenuItemController : ApiControllerBase
     {
         ICommandHandler<CreateMenuItem, Guid> commandHandler;
 
@@ -38,7 +39,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/{id}/category/{categoryId}/items/")]
         [ProducesResponseType(typeof(ResourceCreated), 201)]
-        public virtual IActionResult AddMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromBody]CreateOrUpdateMenuItem body)
+        public async Task<IActionResult> AddMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromBody]CreateOrUpdateMenuItem body)
         {
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(InlineResponse201));
@@ -54,12 +55,19 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             //TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(409);
-            string exampleJson = null;
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<ResourceCreated>(exampleJson)
-            : default(ResourceCreated);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var menuItemId = await commandHandler.HandleAsync(
+                new CreateMenuItem()
+                {
+                    CorrelationId = base.CorrellationId,
+                    MenuId = id,
+                    CategoryId = categoryId,
+                    Name = body.Name,
+                    Description = body.Description,
+                    Price = body.Price
+                });
+
+            return new OkObjectResult(new ResourceCreated(menuItemId));
         }
     }
 }

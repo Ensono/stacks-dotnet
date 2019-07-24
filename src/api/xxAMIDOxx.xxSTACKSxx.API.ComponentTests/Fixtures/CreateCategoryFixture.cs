@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using Amido.Stacks.Tests.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
@@ -15,6 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
     public class CreateCategoryFixture : ApiClientFixture
     {
         Domain.Menu existingMenu;
+        Guid userRestaurantId = Guid.Parse("2AA18D86-1A4C-4305-95A7-912C7C0FC5E1");
         CreateOrUpdateCategory newCategory;
 
         IMenuRepository repository;
@@ -39,15 +41,33 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
             collection.AddTransient(IoC => applicationEventPublisher);
         }
 
+        /****** GIVEN ******************************************************/
+
         internal void GivenAnExistingMenu()
         {
             repository.GetByIdAsync(id: Arg.Is<Guid>(id => id == existingMenu.Id))
                         .Returns(existingMenu);
         }
 
+        internal void GivenAMenuDoesNotExist()
+        {
+            repository.GetByIdAsync(id: Arg.Any<Guid>())
+                        .Returns((Domain.Menu)null);
+        }
+
+        internal void GivenTheMenuBelongsToUserRestaurant()
+        {
+            existingMenu.With(m => m.RestaurantId, userRestaurantId);
+        }
+
+        internal void GivenTheMenuDoesNotBelongToUserRestaurant()
+        {
+            existingMenu.With(m => m.RestaurantId, Guid.NewGuid());
+        }
+
         internal void GivenTheCategoryDoesNotExist()
         {
-            if (existingMenu.Categories == null)
+            if (existingMenu == null || existingMenu.Categories == null)
                 return;
 
             //Ensure in the future menu is not created with categories
@@ -58,17 +78,20 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
             existingMenu.ClearEvents();
         }
 
-        internal void GivenTheMenuDoesNotExist()
+        internal void GivenTheCategoryAlreadyExist()
         {
-            repository.GetByIdAsync(id: Arg.Any<Guid>())
-                        .Returns((Domain.Menu)null);
+            existingMenu.AddCategory(Guid.NewGuid(), newCategory.Name, "Some description");
+            existingMenu.ClearEvents();
         }
 
+        /****** WHEN ******************************************************/
 
         internal async Task WhenTheCategoryIsSubmitted()
         {
             await CreateCategory(existingMenu.Id, newCategory);
         }
+
+        /****** THEN ******************************************************/
 
         internal async Task ThenTheCategoryIsAddedToMenu()
         {
@@ -117,51 +140,5 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         {
             applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<CategoryCreated>());
         }
-
-
-        //internal async Task WhenTheMenuCreationIsSubmitted()
-        //{
-        //    await CreateMenu(newMenu);
-        //}
-
-        //internal void ThenASuccessfulResponseIsReturned()
-        //{
-        //    LastResponse.IsSuccessStatusCode.ShouldBeTrue();
-        //}
-
-        //internal void ThenAFailureResponseIsReturned()
-        //{
-        //    LastResponse.IsSuccessStatusCode.ShouldBeFalse();
-        //}
-
-        //internal void ThenGetMenuByIdIsCalled()
-        //{
-        //    repository.Received(1).GetByIdAsync(Arg.Any<Guid>());
-        //}
-
-        //internal void ThenTheMenuIsSubmittedToDatabase()
-        //{
-        //    repository.Received(1).SaveAsync(Arg.Is<Domain.Menu>(menu => menu.Name == newMenu.Name));
-        //}
-
-        //internal void ThenTheMenuIsNotSubmittedToDatabase()
-        //{
-        //    repository.DidNotReceive().SaveAsync(Arg.Any<Domain.Menu>());
-        //}
-
-        //internal void ThenAMenuCreatedEventIsRaised()
-        //{
-        //    applicationEventPublisher.Received(1).PublishAsync(Arg.Any<MenuCreated>());
-        //}
-
-        //internal void ThenAMenuCreatedEventIsNotRaised()
-        //{
-        //    applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<MenuCreated>());
-        //}
-
-        //internal void ThenAForbiddenResponseIsReturned()
-        //{
-        //    LastResponse.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
-        //}
     }
 }

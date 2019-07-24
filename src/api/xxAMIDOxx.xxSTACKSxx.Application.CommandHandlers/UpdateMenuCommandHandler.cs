@@ -24,7 +24,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
         public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, UpdateMenu command)
         {
-            return new[] { new MenuUpdated(command, command.MenuId) };
+            return new IApplicationEvent[] {
+                new MenuUpdated(command, command.MenuId)
+            };
         }
     }
 }

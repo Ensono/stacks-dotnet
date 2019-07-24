@@ -28,6 +28,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         {
             $"As {role}".x(() => fixture.AsRole(role));
             "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            "And the menu belongs to the user restaurant".x(fixture.GivenTheMenuBelongsToUserRestaurant);
             "And the category being created does not exist in the menu".x(fixture.GivenTheCategoryDoesNotExist);
             "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
             "Then a successful response is returned".x(fixture.ThenASuccessfulResponseIsReturned);
@@ -37,6 +38,37 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
             "And the menu is persisted to the storage".x(fixture.ThenTheMenuShouldBePersisted);
             "And the event MenuUpdate is Raised".x(fixture.ThenAMenuUpdatedEventIsRaised);
             "And the event CategoryCreated is Raised".x(fixture.ThenACategoryCreatedEventIsRaised);
+        }
+
+        [Scenario(Skip = "Disable until exception handling in API is implemented")]
+        [InlineAutoData("Admin")]
+        public void CreateCategoryShouldFailWhenMenuDoesNotExist(string role, CreateCategoryFixture fixture)
+        {
+            $"As {role}".x(() => fixture.AsRole(role));
+            "Given a menu does not exist".x(fixture.GivenAMenuDoesNotExist);
+            "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
+            "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
+            "And the response code is NotFound".x(fixture.ThenANotFoundResponseIsReturned);
+            "And the menu is loaded from the storage".x(fixture.ThenMenuIsLoadedFromStorage);
+            "And the menu is not persisted to the storage".x(fixture.ThenTheMenuShouldNotBePersisted);
+            "And the event MenuUpdate should not be Raised".x(fixture.ThenAMenuUpdatedEventIsNotRaised);
+            "And the event CategoryCreated should not be Raised".x(fixture.ThenACategoryCreatedEventIsNotRaised);
+        }
+
+        [Scenario(Skip = "Disable until exception handling in API is implemented")]
+        [InlineAutoData("Admin")]
+        public void CreateCategoryShouldFailWhenCategoryAlreadyExists(string role, CreateCategoryFixture fixture)
+        {
+            $"As {role}".x(() => fixture.AsRole(role));
+            "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            "And the menu belongs to the user restaurant".x(fixture.GivenTheMenuBelongsToUserRestaurant);
+            "And the category being created already exist in the menu".x(fixture.GivenTheCategoryAlreadyExist);
+            "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
+            "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
+            "And the response code is Conflict".x(fixture.ThenAConflictResponseIsReturned);
+            "And the menu is NOT persisted to the storage".x(fixture.ThenTheMenuShouldNotBePersisted);
+            "And the event MenuUpdate is NOT Raised".x(fixture.ThenAMenuUpdatedEventIsRaised);
+            "And the event CategoryCreated is NOT Raised".x(fixture.ThenACategoryCreatedEventIsNotRaised);
         }
 
         [Scenario(Skip = "Disabled until security is implemented")]
@@ -53,5 +85,24 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
             "And the event MenuUpdate is NOT Raised".x(fixture.ThenAMenuUpdatedEventIsNotRaised);
             "And the event CategoryCreated is NOT Raised".x(fixture.ThenACategoryCreatedEventIsNotRaised);
         }
+
+
+        [Scenario(Skip = "Disabled until security is implemented")]
+        [InlineAutoData("Admin")]
+        [InlineAutoData("Employee")]
+        public void CreateCategoryShouldFailWhenMenuDoesNotBelongToUser(string role, CreateCategoryFixture fixture)
+        {
+            $"As {role}".x(() => fixture.AsRole(role));
+            "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            "And the menu does not belong to users restaurant".x(fixture.GivenTheMenuDoesNotBelongToUserRestaurant);
+            "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
+            "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
+            "And the response code is NotFound".x(fixture.ThenANotFoundResponseIsReturned);
+            "And the menu is loaded from the storage".x(fixture.ThenMenuIsLoadedFromStorage);
+            "And the menu is not persisted to the storage".x(fixture.ThenTheMenuShouldNotBePersisted);
+            "And the event MenuUpdate should not be Raised".x(fixture.ThenAMenuUpdatedEventIsNotRaised);
+            "And the event CategoryCreated should not be Raised".x(fixture.ThenACategoryCreatedEventIsNotRaised);
+        }
+
     }
 }

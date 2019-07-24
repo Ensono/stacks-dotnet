@@ -98,8 +98,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
                             string description,
                             double price,
                             bool available,
-                            Cuisine cuisine,
                             string itemClass,
+                            Cuisine cuisine,
                             List<Ingredient> ingredients)
         {
             var category = GetCategory(categoryId);
