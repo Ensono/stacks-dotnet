@@ -18,9 +18,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class UpdateMenuController : ControllerBase
     {
-        ICommandHandler<UpdateMenu> commandHandler;
+        ICommandHandler<UpdateMenu, bool> commandHandler;
 
-        public UpdateMenuController(ICommandHandler<UpdateMenu> commandHandler)
+        public UpdateMenuController(ICommandHandler<UpdateMenu, bool> commandHandler)
         {
             this.commandHandler = commandHandler;
         }
@@ -64,7 +64,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             await commandHandler.HandleAsync(
                 new UpdateMenu()
                 {
-                    Id = id,
+                    MenuId = id,
                     Name = body.Name,
                     Description = body.Description,
                     Enabled = body.Enabled

@@ -1,22 +1,27 @@
 ﻿using System;
+using Amido.Stacks.Core.Operations;
 
 namespace Amido.Stacks.Core.Exceptions
 {
-    public abstract class ApplicationExceptionBase : Exception
+    public abstract class ApplicationExceptionBase : Exception, IOperationContext
     {
-        public ApplicationExceptionBase(int exceptionCode, int operationId, string message) : this(exceptionCode, operationId, message, null) { }
+        public ApplicationExceptionBase(int exceptionCode, int operationCode, Guid correlationId, string message) : this(exceptionCode, operationCode, correlationId, message, null) { }
 
-        public ApplicationExceptionBase(int exceptionCode, int operationId, string message, Exception innerException) : base(message, innerException)
+        public ApplicationExceptionBase(int exceptionCode, int operationCode, Guid correlationId, string message, Exception innerException) : base(message, innerException)
         {
             ExceptionCode = exceptionCode;
-            OperationId = operationId;
+            OperationCode = operationCode;
+            CorrelationId = correlationId;
 
-            Data["ExceptionId"] = exceptionCode;
-            Data["OperationId"] = operationId;
+            Data["ExceptionCode"] = ExceptionCode;
+            Data["OperationCode"] = OperationCode;
+            Data["CorrelationId"] = CorrelationId;
         }
 
-        public int? ExceptionCode { get; set; }
+        public int ExceptionCode { get; }
 
-        public int? OperationId { get; set; }
+        public int OperationCode { get; }
+
+        public Guid CorrelationId { get; }
     }
 }

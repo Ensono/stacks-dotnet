@@ -13,7 +13,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
-    public class GetMenuV2Controller : ControllerBase
+    public class GetMenuByIdV2Controller : ControllerBase
     {
         /// <summary>
         /// Get a menu

@@ -16,11 +16,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
-    public class GetMenuController : ControllerBase
+    public class GetMenuByIdController : ControllerBase
     {
         IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler;
 
-        public GetMenuController(IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler)
+        public GetMenuByIdController(IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler)
         {
             this.queryHandler = queryHandler;
         }

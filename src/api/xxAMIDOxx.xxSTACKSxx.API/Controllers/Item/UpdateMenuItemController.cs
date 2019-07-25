@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -12,8 +15,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Consumes("application/json")]
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "Item")]
-    public class UpdateMenuItemController : ControllerBase
+    public class UpdateMenuItemController : ApiControllerBase
     {
+        ICommandHandler<UpdateMenuItem, bool> commandHandler;
+
+        public UpdateMenuItemController(ICommandHandler<UpdateMenuItem, bool> commandHandler)
+        {
+            this.commandHandler = commandHandler;
+        }
+
         /// <summary>
         /// Update an item in the menu
         /// </summary>
@@ -28,7 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
         [HttpPut("/v1/menu/{id}/category/{categoryId}/items/{itemId}")]
-        public virtual IActionResult UpdateMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromRoute][Required]Guid itemId, [FromBody]CreateOrUpdateMenuItem body)
+        public async Task<IActionResult> UpdateMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromRoute][Required]Guid itemId, [FromBody]CreateOrUpdateMenuItem body)
         {
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(InlineResponse201));
@@ -44,12 +54,21 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             //TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(409);
-            string exampleJson = null;
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<ResourceCreated>(exampleJson)
-            : default(ResourceCreated);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            await commandHandler.HandleAsync(
+                new UpdateMenuItem(
+                    correlationId: base.CorrellationId,
+                    menuId: id,
+                    categoryId: categoryId,
+                    menuItemId: itemId,
+                    name: body.Name,
+                    description: body.Description,
+                    price: body.Price,
+                    available: body.Available
+                )
+            );
+
+            return StatusCode(204);
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Application.CQRS.Events;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
-using xxAMIDOxx.xxSTACKSxx.Common.Exceptions;
-using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
@@ -22,16 +20,19 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
         public async Task HandleAsync(DeleteMenu command)
         {
-            var menu = await repository.GetByIdAsync(command.Id);
+            var menu = repository.GetByIdAsync(command.MenuId);
 
-            if (menu == null)
-                MenuDoesNotExistException.Raise(OperationId.DeleteMenu, command.Id);
+            //TODO: Check if the user is the owner of the resource
+            //if(command.User.RestaurantId != menu.RestaurantId)
+            //{
+            //    throw Exception
+            //}
 
-            //TODO: Check if the user has permission(Is the owner of the resource) 
+            await repository.DeleteAsync(command.MenuId);
 
-            await repository.DeleteAsync(command.Id);
-
-            await applicationEventPublisher.PublishAsync(new MenuDeletedEvent(command.Id));
+            await applicationEventPublisher.PublishAsync(
+                new MenuDeleted(command, command.MenuId)
+            );
         }
     }
 }
