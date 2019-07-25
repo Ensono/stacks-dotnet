@@ -12,8 +12,6 @@ using PactNet.Infrastructure.Outputters;
 using Xunit;
 using Xunit.Abstractions;
 using xxAMIDOxx.xxSTACKSxx.API;
-using xxAMIDOxx.xxSTACKSxx.Application.Integration;
-using xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures;
 
@@ -47,7 +45,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
             ProviderWebHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(ProviderUri)
                 .UseStartup<Startup>()
-                //.ConfigureServices(DependencyRegistration.ConfigureStaticServices)
                 .ConfigureServices(ConfigureDependencies)
                 .Build();
 
@@ -57,30 +54,23 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
 
         private void ConfigureDependencies(IServiceCollection services)
         {
-            var getMenuIdQueryCriteria = Substitute.For<IQueryHandler<GetMenuByIdQueryCriteria, CQRS.Queries.GetMenuById.Menu>>();
-            var repository = Substitute.For<IMenuRepository>();
-            //var getMenuIdQueryCriteria = Substitute.For<GetMenuByIdQueryHandler>();
+            var getMenuIdQueryCriteria = Substitute.For<IQueryHandler<GetMenuByIdQueryCriteria, Menu>>();
 
-            //getMenuIdQueryCriteria.ExecuteAsync(Arg.Any<GetMenuByIdQueryCriteria>()).Returns(ReturnDummyResult);
-            repository.GetByIdAsync(Arg.Any<Guid>()).Returns(ReturnDummyResult);
+            getMenuIdQueryCriteria.ExecuteAsync(Arg.Any<GetMenuByIdQueryCriteria>()).Returns(FakeResponse);
 
-            services.AddSingleton(x => repository);
-            services.AddSingleton<IQueryHandler<GetMenuByIdQueryCriteria, CQRS.Queries.GetMenuById.Menu>>(x => new GetMenuByIdQueryHandler(repository));
-            //services.AddSingleton<IQueryHandler<GetMenuByIdQueryCriteria, CQRS.Queries.GetMenuById.Menu>>();
+            services.AddTransient(x => getMenuIdQueryCriteria);
         }
 
-        private Task<Domain.Menu> ReturnDummyResult(CallInfo arg)
+        private Task<Menu> FakeResponse(CallInfo arg)
         {
-            var menu = new Domain.Menu
+            var menu = new Menu
             {
                 Id = Guid.Parse("9dbffe96-daa5-4adc-a888-34e41dc205d4"),
                 Name = "menu tuga",
                 Description = "pastel de nata",
-                Enabled = true
-                //Categories = null
+                Enabled = true,
+                Categories = null
             };
-
-            //throw new Exception("DUMMY EXCEPTION");
 
             return Task.FromResult(menu);
         }
