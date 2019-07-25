@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
@@ -61,21 +61,23 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
             var repository = Substitute.For<IMenuRepository>();
             //var getMenuIdQueryCriteria = Substitute.For<GetMenuByIdQueryHandler>();
 
-            getMenuIdQueryCriteria.ExecuteAsync(Arg.Any<GetMenuByIdQueryCriteria>()).Returns(ReturnDummyResult);
+            //getMenuIdQueryCriteria.ExecuteAsync(Arg.Any<GetMenuByIdQueryCriteria>()).Returns(ReturnDummyResult);
+            repository.GetByIdAsync(Arg.Any<Guid>()).Returns(ReturnDummyResult);
 
             services.AddSingleton(x => repository);
             services.AddSingleton<IQueryHandler<GetMenuByIdQueryCriteria, CQRS.Queries.GetMenuById.Menu>>(x => new GetMenuByIdQueryHandler(repository));
+            //services.AddSingleton<IQueryHandler<GetMenuByIdQueryCriteria, CQRS.Queries.GetMenuById.Menu>>();
         }
 
-        private Task<CQRS.Queries.GetMenuById.Menu> ReturnDummyResult(CallInfo arg)
+        private Task<Domain.Menu> ReturnDummyResult(CallInfo arg)
         {
-            var menu = new CQRS.Queries.GetMenuById.Menu
+            var menu = new Domain.Menu
             {
                 Id = Guid.Parse("9dbffe96-daa5-4adc-a888-34e41dc205d4"),
                 Name = "menu tuga",
                 Description = "pastel de nata",
-                Enabled = true,
-                Categories = null
+                Enabled = true
+                //Categories = null
             };
 
             //throw new Exception("DUMMY EXCEPTION");

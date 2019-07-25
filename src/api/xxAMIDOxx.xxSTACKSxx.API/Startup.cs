@@ -180,7 +180,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app
                 .UsePathBase(pathBase)

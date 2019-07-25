@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -51,7 +51,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Consumer.PactTests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = $"/api/v1/menu/{menuId}"
+                    Path = $"/v1/menu/{menuId}"
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
@@ -71,7 +71,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Consumer.PactTests
                 });
 
             var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync($"{_mockProviderServiceBaseUri}/api/v1/menu/{menuId}");
+            var response = await httpClient.GetAsync($"{_mockProviderServiceBaseUri}/v1/menu/{menuId}");
             var json = await response.Content.ReadAsStringAsync();
             var menuResult = JsonConvert.DeserializeObject<Menu>(json);
 
