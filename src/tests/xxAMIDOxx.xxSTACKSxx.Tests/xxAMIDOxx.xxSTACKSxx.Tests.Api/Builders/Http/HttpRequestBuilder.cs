@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
         private HttpContent content;
         private string bearerToken;
         private string acceptHeader;
+        private Dictionary<string, string> parameters = null;
+        private Dictionary<string, string> headers = null;
 
         public HttpRequestBuilder AddMethod(HttpMethod method)
         {
@@ -29,9 +32,21 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
             return this;
         }
 
+        public HttpRequestBuilder AddParameters(Dictionary<string, string> parameters)
+        {
+            this.parameters = parameters;
+            return this;
+        }
+
         public HttpRequestBuilder AddContent(HttpContent content)
         {
             this.content = content;
+            return this;
+        }
+
+        public HttpRequestBuilder AddCustomHeaders(Dictionary<string, string> headers)
+        {
+            this.headers = headers;
             return this;
         }
 
@@ -56,6 +71,22 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
                 RequestUri = new Uri($"{this.baseUrl}{this.path}")
             };
 
+            //Add parameters to Uri
+            if(parameters != null)
+            {
+                var queryString = QueryString(parameters);
+                request.RequestUri = new Uri($"{this.baseUrl}{this.path}?{queryString}");
+            }
+
+            //Add any custom headers
+            if(headers != null)
+            {
+                foreach(KeyValuePair<string, string> header in this.headers)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
+
             //Add content if present in the request
             if (this.content != null)
             {
@@ -79,6 +110,16 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
             var httpClient = HttpClientFactory.GetHttpClientInstance(baseUrl);
 
             return await httpClient.SendAsync(request);
+        }
+
+        private static string QueryString(IDictionary<string, string> dict)
+        {
+            var list = new List<string>();
+            foreach (var item in dict)
+            {
+                list.Add($"{item.Key}={item.Value}");
+            }
+            return string.Join("&", list);
         }
     }
 

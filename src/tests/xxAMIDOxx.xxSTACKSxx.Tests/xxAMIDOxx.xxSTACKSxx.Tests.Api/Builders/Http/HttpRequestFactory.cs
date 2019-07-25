@@ -17,12 +17,51 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
                                 .SendAsync();
         }
 
+        public static async Task<HttpResponseMessage> Get(string baseUrl, string path, Dictionary<string, string> headers)
+        {
+            return await new HttpRequestBuilder()
+                                .AddMethod(HttpMethod.Get)
+                                .AddRequestUri(baseUrl, path)
+                                .AddCustomHeaders(headers)
+                                .SendAsync();
+        }
+
+        public static async Task<HttpResponseMessage> Get(string baseUrl, string path, Dictionary<string, string> headers, Dictionary<string,string> parameters = null)
+        {
+            return await new HttpRequestBuilder()
+                                .AddMethod(HttpMethod.Get)
+                                .AddRequestUri(baseUrl, path)
+                                .AddCustomHeaders(headers)
+                                .AddParameters(parameters)
+                                .SendAsync();
+        }
+
         public static async Task<HttpResponseMessage> Post(string baseUrl, string path, object body)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Post)
                                 .AddRequestUri(baseUrl, path)
                                 .AddContent(CreateHttpContent(body))
+                                .SendAsync();
+        }
+
+        public static async Task<HttpResponseMessage> Post(string baseUrl, string path, object body, Dictionary<string, string> parameters)
+        {
+            return await new HttpRequestBuilder()
+                                .AddMethod(HttpMethod.Post)
+                                .AddRequestUri(baseUrl, path)
+                                .AddContent(CreateHttpContent(body))
+                                .AddParameters(parameters)
+                                .SendAsync();
+        }
+
+        public static async Task<HttpResponseMessage> Post(string baseUrl, string path, object body, Dictionary<string, string> headers, Dictionary<string, string> parameters = null)
+        {
+            return await new HttpRequestBuilder()
+                                .AddMethod(HttpMethod.Post)
+                                .AddRequestUri(baseUrl, path)
+                                .AddContent(CreateHttpContent(body))
+                                .AddParameters(parameters)
                                 .SendAsync();
         }
 
