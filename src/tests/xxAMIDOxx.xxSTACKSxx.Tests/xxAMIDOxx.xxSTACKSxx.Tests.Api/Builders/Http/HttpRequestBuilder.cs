@@ -95,7 +95,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
             //Add bearer token if present in the request
             if (!string.IsNullOrEmpty(this.bearerToken))
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("bearer " + this.bearerToken);
+                request.Headers.Add("Authorization", "bearer " + this.bearerToken);
             }
 
             //Clear then add the Accept header if if exists in the request
