@@ -32,7 +32,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
         {
             OutputHelper = output;
 
-            PactServiceUri = "http://localhost:9001";
+            PactServiceUri = "http://localhost:9002";
 
             ProviderStateHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(PactServiceUri)
