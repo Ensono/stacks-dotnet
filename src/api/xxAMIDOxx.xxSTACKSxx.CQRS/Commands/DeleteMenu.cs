@@ -2,13 +2,17 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class DeleteMenu
+    public partial class DeleteMenu : IMenuCommand
     {
-        public DeleteMenu(Guid id)
-        {
-            this.Id = id;
-        }
+        public int OperationCode => (int)Common.Operations.OperationCode.DeleteMenu;
 
-        public Guid Id { get; set; }
+        public Guid CorrelationId { get; }
+
+        public Guid MenuId { get; set; }
+
+        public DeleteMenu(Guid menuId)
+        {
+            this.MenuId = menuId;
+        }
     }
 }

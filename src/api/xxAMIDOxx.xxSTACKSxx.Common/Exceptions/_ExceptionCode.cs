@@ -11,6 +11,7 @@
         ForbiddenOperation = 403,
         BadRequest = 400,
         NotFound = 404,
+        Conflict = 409,
 
 
         // GENERIC EXCEPTION CODES (Generic for application and infrastructe related issues)
@@ -26,8 +27,16 @@
         CircuitBreakerEnabled = 1001,
 
 
-        //SPECIFIC EXCEPTION CODES (Use values above 10000)
+        //SPECIFIC EXCEPTION CODES (Use values above 10000 to make easier to create codes in between)
+        //MENU
         MenuAlreadyExists = 10409,
-        MenuDoesNotExist = 10404
+        MenuDoesNotExist = 10404,
+        //CATEGORY
+        CategoryAlreadyExists = 11409,
+        CategoryDoesNotExist = 11404,
+        //MENUITEM
+        MenuItemAlreadyExists = 12409,
+        MenuItemDoesNotExist = 12404,
+        MenuItemPriceMustNotBeZero = 12500
     }
 }

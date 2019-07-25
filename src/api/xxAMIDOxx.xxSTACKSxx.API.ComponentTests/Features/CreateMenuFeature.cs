@@ -9,15 +9,16 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
     [Trait("TestType", "ComponentTests")]
     public class CreateMenuFeature
     {
-        /* SCENARIOs: Create a menu
-
-            | AsRole              | Validation   | Outcome              |
-            |---------------------|--------------|----------------------|
-            | Admin               | Valid Menu   | 201 Resource Create  |
-            | Admin               | Invalid Menu | 400 Bad  Request     |
-            | Employee            | Valid Menu   | 403 Forbidden        |
-            | Customer            | Valid Menu   | 403 Forbidden        |
-            | UnauthenticatedUser | Valid Menu   | 403 Forbidden        |
+        /* SCENARIOS: Create a menu
+          
+             Examples: 
+             -----------------------------------------------------------------
+            | AsRole              | Menu Condition     | Outcome              |
+            |---------------------|--------------------|----------------------|
+            | Admin               | Valid Menu         | 201 Resource Create  |
+            | Admin               | Invalid Menu       | 400 Bad  Request     |
+            | Employee, Customer,                                             |
+            | UnauthenticatedUser | Valid Menu         | 403 Forbidden        |
 
         */
 
@@ -26,12 +27,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         {
             "As Admin".x(fixture.AsAdmin);
             "Given a valid menu being submitted".x(fixture.GivenAValidMenu);
-            "And the menu does not does not exist".x(fixture.GivenTheMenuDoesNotExist);
+            "And the menu does not does not exist".x(fixture.GivenAMenuDoesNotExist);
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a successful response is returned".x(fixture.ThenASuccessfulResponseIsReturned);
-            "And a check for existing menu is called".x(fixture.ThenGetMenuByIdIsCalled);
+            "And the response code is CREATED".x(fixture.ThenACreatedResponseIsReturned);
+            "And the id of the new menu is returned".x(fixture.ThenTheResourceCreatedResponseIsReturned);
             "And the menu data is submitted correctly to the database".x(fixture.ThenTheMenuIsSubmittedToDatabase);
-            $"And an event of type {typeof(MenuCreatedEvent).Name} is raised".x(fixture.ThenAMenuCreatedEventIsRaised);
+            $"And an event of type {typeof(MenuCreated).Name} is raised".x(fixture.ThenAMenuCreatedEventIsRaised);
         }
 
         [Scenario, AutoData]
@@ -39,11 +41,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         {
             "As Admin".x(fixture.AsAdmin);
             "Given a valid menu being submitted".x(fixture.GivenAInvalidMenu);
-            "And the menu does not does not exist".x(fixture.GivenTheMenuDoesNotExist);
+            "And the menu does not does not exist".x(fixture.GivenAMenuDoesNotExist);
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
             "And the menu is not submitted to the database".x(fixture.ThenTheMenuIsNotSubmittedToDatabase);
-            $"And an event of type {typeof(MenuCreatedEvent).Name} should not be raised".x(fixture.ThenAMenuCreatedEventIsNotRaised);
+            $"And an event of type {typeof(MenuCreated).Name} should not be raised".x(fixture.ThenAMenuCreatedEventIsNotRaised);
         }
 
         [Scenario(Skip = "Only works when Auth is implemented")]
@@ -54,11 +56,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         {
             $"As {role}".x(() => fixture.AsRole(role));
             "Given a valid menu being submitted".x(fixture.GivenAValidMenu);
-            "And the menu does not does not exist".x(fixture.GivenTheMenuDoesNotExist);
+            "And the menu does not does not exist".x(fixture.GivenAMenuDoesNotExist);
             "When the menu is submitted".x(fixture.WhenTheMenuCreationIsSubmitted);
             "Then a Forbidden response is returned".x(fixture.ThenAForbiddenResponseIsReturned);
             "And the menu is not submitted to the database".x(fixture.ThenTheMenuIsNotSubmittedToDatabase);
-            $"And an event of type {typeof(MenuCreatedEvent).Name} should not be raised".x(fixture.ThenAMenuCreatedEventIsNotRaised);
+            $"And an event of type {typeof(MenuCreated).Name} should not be raised".x(fixture.ThenAMenuCreatedEventIsNotRaised);
         }
     }
 }

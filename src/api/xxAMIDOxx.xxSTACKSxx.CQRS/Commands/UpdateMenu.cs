@@ -1,20 +1,20 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class UpdateMenu
+    public partial class UpdateMenu : IMenuCommand
     {
-        [Required]
-        public Guid Id { get; set; }
+        public int OperationCode => (int)Common.Operations.OperationCode.UpdateMenu;
 
-        [Required]
+        public Guid CorrelationId { get; }
+
+        public Guid MenuId { get; set; }
+
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
-        [Required]
         public bool Enabled { get; set; }
     }
+
 }

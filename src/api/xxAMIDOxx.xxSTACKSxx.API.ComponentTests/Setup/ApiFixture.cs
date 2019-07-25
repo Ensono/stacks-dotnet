@@ -50,6 +50,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
         /// <returns></returns>
         protected async Task<HttpResponseMessage> SendAsync<TBody>(HttpMethod method, string url, TBody body)
         {
+            lastResponseObject = null;
+
             HttpRequestMessage msg = new HttpRequestMessage(method, url);
 
             if (body != null)
@@ -86,6 +88,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
                 result.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 return result;
             }
+        }
+
+        object lastResponseObject;
+        internal async Task<TBody> GetResponseObject<TBody>()
+        {
+            if (lastResponseObject == null)
+                lastResponseObject = await LastResponse.Content.ReadAsAsync<TBody>();
+
+            return (TBody)lastResponseObject;
         }
     }
 }

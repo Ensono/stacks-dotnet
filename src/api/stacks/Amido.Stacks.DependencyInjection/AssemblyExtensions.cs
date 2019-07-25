@@ -12,22 +12,22 @@ namespace Amido.Stacks.DependencyInjection
         /// </summary>
         /// <param name="assembly">Assembly containing the implementations of the interface</param>
         /// <param name="openGenericType">The interface being implemented</param>
-        public static List<(Type interfaceVariation, Type implementation)> GetImplementationsOf(this Assembly assembly, Type openGenericType)
+        public static List<(Type interfaceVariation, Type implementation)> GetImplementationsOf(this Assembly assembly, params Type[] openGenericTypes)
         {
             List<(Type, Type)> implementations = new List<(Type, Type)>();
-            foreach (var type in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface))
+            foreach (var openGenericType in openGenericTypes)
             {
-                foreach (var implementedInterface in type.GetInterfaces()
-                                                         .Where(x => x == openGenericType ||
-                                                                      (
-                                                                          x.IsGenericType &&
-                                                                          x.GetGenericTypeDefinition() == openGenericType
-                                                                      )))
+                foreach (var type in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface))
                 {
-                    // Make sure we can resolve both the ICommandHandler and the specific type
-                    //services.AddTransient(implementedInterface, type);
-                    //services.AddTransient(type);
-                    implementations.Add((implementedInterface, type));
+                    foreach (var implementedInterface in type.GetInterfaces()
+                                                             .Where(x => x == openGenericType ||
+                                                                          (
+                                                                              x.IsGenericType &&
+                                                                              x.GetGenericTypeDefinition() == openGenericType
+                                                                          )))
+                    {
+                        implementations.Add((implementedInterface, type));
+                    }
                 }
             }
 

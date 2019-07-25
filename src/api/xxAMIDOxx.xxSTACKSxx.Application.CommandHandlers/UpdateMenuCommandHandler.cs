@@ -1,37 +1,32 @@
-﻿using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Application.CQRS.Events;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
-using xxAMIDOxx.xxSTACKSxx.Common.Exceptions;
-using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
-    public class UpdateMenuCommandHandler : ICommandHandler<UpdateMenu>
+    public class UpdateMenuCommandHandler : MenuCommandHandlerBase<UpdateMenu, bool>
     {
-        private IMenuRepository repository;
-        private IApplicationEventPublisher applicationEventPublisher;
-
         public UpdateMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
+            : base(repository, applicationEventPublisher)
         {
-            this.repository = repository;
-            this.applicationEventPublisher = applicationEventPublisher;
         }
 
-        public async Task HandleAsync(UpdateMenu command)
+        public override Task<bool> HandleCommandAsync(Menu menu, UpdateMenu command)
         {
-            var menu = await repository.GetByIdAsync(command.Id);
-
-            if (menu == null)
-                MenuDoesNotExistException.Raise(OperationId.UpdateMenu, command.Id);
-
             menu.Update(command.Name, command.Description, command.Enabled);
 
-            await repository.SaveAsync(menu);
+            return Task.FromResult(true);
+        }
 
-            await applicationEventPublisher.PublishAsync(new MenuUpdatedEvent(command.Id));
+        public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, UpdateMenu command)
+        {
+            return new IApplicationEvent[] {
+                new MenuUpdated(command, command.MenuId)
+            };
         }
     }
 }

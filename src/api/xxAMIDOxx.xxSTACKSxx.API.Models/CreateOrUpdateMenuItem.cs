@@ -13,9 +13,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
 
         /// <example>1.50</example>
         [Required]
-        public double? Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
-        public bool? Available { get; set; }
+        public bool Available { get; set; }
     }
 }

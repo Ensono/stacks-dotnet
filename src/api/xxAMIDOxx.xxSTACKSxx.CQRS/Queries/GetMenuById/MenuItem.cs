@@ -14,9 +14,9 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById
         public string Description { get; set; }
 
         [Required]
-        public double? Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
-        public bool? Available { get; set; }
+        public bool Available { get; set; }
     }
 }

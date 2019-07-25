@@ -1,7 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -11,8 +14,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Consumes("application/json")]
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "Item")]
-    public class DeleteMenuItemController : ControllerBase
+    public class DeleteMenuItemController : ApiControllerBase
     {
+        ICommandHandler<DeleteMenuItem, bool> commandHandler;
+
+        public DeleteMenuItemController(ICommandHandler<DeleteMenuItem, bool> commandHandler)
+        {
+            this.commandHandler = commandHandler;
+        }
+
         /// <summary>
         /// Removes an item from menu
         /// </summary>
@@ -26,7 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
         [HttpDelete("/v1/menu/{id}/category/{categoryId}/items/{itemId}")]
-        public virtual IActionResult DeleteMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromRoute][Required]Guid itemId)
+        public async Task<IActionResult> DeleteMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromRoute][Required]Guid itemId)
         {
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);
@@ -43,7 +53,16 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            throw new NotImplementedException();
+            await commandHandler.HandleAsync(
+                new DeleteMenuItem(
+                    base.CorrellationId,
+                    id,
+                    categoryId,
+                    itemId
+                )
+            );
+
+            return StatusCode(204);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System.Threading.Tasks;
-using AutoFixture.Xunit2;
-using Xunit;
-using xxAMIDOxx.xxSTACKSxx.Domain;
-using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
+﻿using Xunit;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
 {
@@ -18,6 +14,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
         //GetByIdTest will be tested as part of Save+Get OR Get+Delete+Get
         //public void GetByIdTest() { }
 
+        /*
         /// <summary>
         /// Ensure the implementation of MenuRepository.Save() submit 
         /// the menu information and is retrieved properly
@@ -51,5 +48,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
             dbItem = await repository.GetByIdAsync(menu.Id);
             Assert.Null(dbItem);
         }
+        */
     }
 }

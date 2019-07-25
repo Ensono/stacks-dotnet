@@ -35,6 +35,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             string exampleJson = null;
 
+            //TODO Implement it when CosmosDB is implemented
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<SearchMenuResult>(exampleJson)
             : default(SearchMenuResult);            //TODO: Change the data returned

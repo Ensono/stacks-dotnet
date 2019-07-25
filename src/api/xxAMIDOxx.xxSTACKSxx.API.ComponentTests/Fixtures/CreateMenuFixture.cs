@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Events;
+using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using Shouldly;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
@@ -36,6 +34,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
             collection.AddTransient(IoC => applicationEventPublisher);
         }
 
+
+        /****** GIVEN ******************************************************/
+
         internal void GivenAValidMenu()
         {
             // Don't need to do anything here assuming the
@@ -49,26 +50,21 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         }
 
 
-        internal void GivenTheMenuDoesNotExist()
+        internal void GivenAMenuDoesNotExist()
         {
             repository.GetByIdAsync(id: Arg.Any<Guid>())
                         .Returns((Domain.Menu)null);
         }
+
+
+        /****** WHEN ******************************************************/
 
         internal async Task WhenTheMenuCreationIsSubmitted()
         {
             await CreateMenu(newMenu);
         }
 
-        internal void ThenASuccessfulResponseIsReturned()
-        {
-            LastResponse.IsSuccessStatusCode.ShouldBeTrue();
-        }
-
-        internal void ThenAFailureResponseIsReturned()
-        {
-            LastResponse.IsSuccessStatusCode.ShouldBeFalse();
-        }
+        /****** THEN ******************************************************/
 
         internal void ThenGetMenuByIdIsCalled()
         {
@@ -86,17 +82,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         internal void ThenAMenuCreatedEventIsRaised()
         {
-            applicationEventPublisher.Received(1).PublishAsync(Arg.Any<MenuCreatedEvent>());
+            applicationEventPublisher.Received(1).PublishAsync(Arg.Any<MenuCreated>());
         }
 
         internal void ThenAMenuCreatedEventIsNotRaised()
         {
-            applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<MenuCreatedEvent>());
-        }
-
-        internal void ThenAForbiddenResponseIsReturned()
-        {
-            LastResponse.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+            applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<MenuCreated>());
         }
     }
 }

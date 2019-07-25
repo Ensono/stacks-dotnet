@@ -1,12 +1,12 @@
-﻿using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Application.CQRS.Events;
+﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using Amido.Stacks.Application.CQRS.Commands;
 using Amido.Stacks.Application.CQRS.Queries;
 using Amido.Stacks.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers;
-using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
+using xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
 {
@@ -28,15 +28,16 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
         /// <param name="services"></param>
         public static void ConfigureProductionServices(IServiceCollection services)
         {
-            services.AddTransient<IMenuRepository, MenuRepository>();
-            //TODO: Evaluate if event publishers should be generic
+            //TODO: Evaluate if event publishers should be generic, probably not, EventHandler are generic tough
             AddEventPublishers(services);
+
+            services.AddTransient<IMenuRepository, InMemoryMenuRepository>();
         }
 
-        public static void AddCommandHandlers(IServiceCollection services)
+        private static void AddCommandHandlers(IServiceCollection services)
         {
             System.Console.WriteLine($"Loading implementations of  {typeof(ICommandHandler<>).Name}");
-            var definitions = typeof(CreateMenuCommandHandler).Assembly.GetImplementationsOf(typeof(ICommandHandler<>));
+            var definitions = typeof(CreateMenuCommandHandler).Assembly.GetImplementationsOf(typeof(ICommandHandler<>), typeof(ICommandHandler<,>));
             foreach (var definition in definitions)
             {
                 System.Console.WriteLine($"Registering '{definition.implementation.FullName}' as implementation of '{definition.interfaceVariation.FullName}'");
@@ -44,7 +45,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
             }
         }
 
-        public static void AddQueryHandlers(IServiceCollection services)
+        private static void AddQueryHandlers(IServiceCollection services)
         {
             System.Console.WriteLine($"Loading implementations of  {typeof(IQueryHandler<,>).Name}");
             var definitions = typeof(GetMenuByIdQueryHandler).Assembly.GetImplementationsOf(typeof(IQueryHandler<,>));
