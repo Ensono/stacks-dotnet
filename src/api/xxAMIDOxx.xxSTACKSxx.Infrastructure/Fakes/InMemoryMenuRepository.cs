@@ -8,9 +8,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes
 {
     public class InMemoryMenuRepository : IMenuRepository
     {
-        static Dictionary<Guid, Menu> storage = new Dictionary<Guid, Menu>();
+        private static Object _lock = new Object();
+        private static Dictionary<Guid, Menu> storage = new Dictionary<Guid, Menu>();
 
-        private Object _lock = new Object();
         public async Task<Menu> GetByIdAsync(Guid id)
         {
             if (storage.ContainsKey(id))
