@@ -9,76 +9,68 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
 {
     public class HttpRequestFactory
     {
-        public static async Task<HttpResponseMessage> Get(string baseUrl, string path)
+        public static async Task<HttpResponseMessage> Get(string baseUrl, 
+            string path, 
+            string authToken = null, 
+            Dictionary<string, string> headers = null, 
+            Dictionary<string,string> parameters = null)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Get)
                                 .AddRequestUri(baseUrl, path)
-                                .SendAsync();
-        }
-
-        public static async Task<HttpResponseMessage> Get(string baseUrl, string path, Dictionary<string, string> headers)
-        {
-            return await new HttpRequestBuilder()
-                                .AddMethod(HttpMethod.Get)
-                                .AddRequestUri(baseUrl, path)
-                                .AddCustomHeaders(headers)
-                                .SendAsync();
-        }
-
-        public static async Task<HttpResponseMessage> Get(string baseUrl, string path, Dictionary<string, string> headers, Dictionary<string,string> parameters = null)
-        {
-            return await new HttpRequestBuilder()
-                                .AddMethod(HttpMethod.Get)
-                                .AddRequestUri(baseUrl, path)
+                                .AddBearerToken(authToken)
                                 .AddCustomHeaders(headers)
                                 .AddParameters(parameters)
                                 .SendAsync();
         }
 
-        public static async Task<HttpResponseMessage> Post(string baseUrl, string path, object body)
+        public static async Task<HttpResponseMessage> Post(
+            string baseUrl, 
+            string path, 
+            object body, 
+            string authToken = null, 
+            Dictionary<string, string> headers = null, 
+            Dictionary<string, string> parameters = null)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Post)
                                 .AddRequestUri(baseUrl, path)
+                                .AddBearerToken(authToken)
                                 .AddContent(CreateHttpContent(body))
-                                .SendAsync();
-        }
-
-        public static async Task<HttpResponseMessage> Post(string baseUrl, string path, object body, Dictionary<string, string> parameters)
-        {
-            return await new HttpRequestBuilder()
-                                .AddMethod(HttpMethod.Post)
-                                .AddRequestUri(baseUrl, path)
-                                .AddContent(CreateHttpContent(body))
+                                .AddCustomHeaders(headers)
                                 .AddParameters(parameters)
                                 .SendAsync();
         }
 
-        public static async Task<HttpResponseMessage> Post(string baseUrl, string path, object body, Dictionary<string, string> headers, Dictionary<string, string> parameters = null)
-        {
-            return await new HttpRequestBuilder()
-                                .AddMethod(HttpMethod.Post)
-                                .AddRequestUri(baseUrl, path)
-                                .AddContent(CreateHttpContent(body))
-                                .AddParameters(parameters)
-                                .SendAsync();
-        }
-
-        public static async Task<HttpResponseMessage> Put(string baseUrl, string path, object body)
+        public static async Task<HttpResponseMessage> Put(
+            string baseUrl, 
+            string path, 
+            object body, 
+            string authToken = null, 
+            Dictionary<string,string> headers = null, 
+            Dictionary<string,string> parameters = null)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Put)
                                 .AddRequestUri(baseUrl, path)
+                                .AddBearerToken(authToken)
                                 .AddContent(CreateHttpContent(body))
+                                .AddCustomHeaders(headers)
+                                .AddParameters(parameters)
                                 .SendAsync();
         }
 
-        public static async Task<HttpResponseMessage> Delete(string baseUrl, string path)
+        public static async Task<HttpResponseMessage> Delete(
+            string baseUrl, 
+            string path, 
+            string authToken = null, 
+            Dictionary<string,string> headers = null)
         {
             return await new HttpRequestBuilder()
                                 .AddMethod(HttpMethod.Delete)
                                 .AddRequestUri(baseUrl, path)
+                                .AddBearerToken(authToken)
+                                .AddCustomHeaders(headers)
                                 .SendAsync();
         }
 

@@ -74,8 +74,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
             //Add parameters to Uri
             if(parameters != null)
             {
-                var queryString = QueryString(parameters);
-                request.RequestUri = new Uri($"{this.baseUrl}{this.path}?{queryString}");
+                request.RequestUri = new Uri($"{this.baseUrl}{this.path}?{CreateQueryString(parameters)}");
             }
 
             //Add any custom headers
@@ -112,7 +111,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http
             return await httpClient.SendAsync(request);
         }
 
-        private static string QueryString(IDictionary<string, string> dict)
+        //Creates a querystring. E.g. dictKey1=dictValue1&dictKey2=dictValue2
+        private static string CreateQueryString(IDictionary<string, string> dict)
         {
             var list = new List<string>();
             foreach (var item in dict)
