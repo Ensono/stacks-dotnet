@@ -12,7 +12,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
             item = new Item();
         }
 
-        public ItemBuilder CreateTestItem(string name)
+        public ItemBuilder SetDefaultValues(string name)
         {
             item.id = Guid.NewGuid().ToString();
             item.name = name;

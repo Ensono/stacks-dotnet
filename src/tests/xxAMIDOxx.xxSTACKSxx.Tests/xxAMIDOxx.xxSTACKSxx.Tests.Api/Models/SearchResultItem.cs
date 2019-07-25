@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Models
+﻿namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Models
 {
-    public class Menu
+    public class SearchResultItem
     {
         public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
-        public List<Category> categories { get; set; }
         public bool enabled { get; set; }
     }
 }
