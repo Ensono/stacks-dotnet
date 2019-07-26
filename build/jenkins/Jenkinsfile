@@ -42,24 +42,24 @@ pipeline {
                 sh 'docker push $docker_containerRegistry/$docker_imageName'
             }
         }
-        stage('Kustomize') {
-            steps {
-                sh 'cd $WORKSPACE/deploy/k8s/api/base'
-                sh '/home/jenkins/DevOps/Kustomize/kustomize-annotate-version.sh /usr/local/bin/kustomize $docker_imageTag'
-                sh '/usr/local/bin/kustomize edit set image menuapi-image=$docker_containerRegistry/$docker_imageName:docker_imageTag'
-            }
-        }
-        stage('Apply-Dev') {
-            steps {
-                sh '/home/jenkins/DevOps/Azure/apply-with-kustomize.sh dev'
-            }
-        }
-        stage ('Test-Dev') {
-            steps {
-                sh 'cd $WORKSPACE/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'
-                sh 'dotnet test **/*.csproj -v n'
-                sh '/home/jenkins/DevOps/Azure/upload-azstorage-blob.sh $test_FunctionalTestReportStorageAccountRG $test_FunctionalTestReportSourcePath $test_FunctionalTestReportStorageAccountName $test_FunctionalTestReportStorageContainerName $test_FunctionalTestReportTargetName'
-            }
-        }          
+ //       stage('Kustomize') {
+ //           steps {
+ //               sh 'cd $WORKSPACE/deploy/k8s/api/base'
+ //               sh '/home/jenkins/DevOps/Kustomize/kustomize-annotate-version.sh /usr/local/bin/kustomize $docker_imageTag'
+ //               sh '/usr/local/bin/kustomize edit set image menuapi-image=$docker_containerRegistry/$docker_imageName:docker_imageTag'
+ //           }
+ //       }
+ //       stage('Apply-Dev') {
+ //           steps {
+ //               sh '/home/jenkins/DevOps/Azure/apply-with-kustomize.sh dev'
+ //           }
+ //       }
+ //       stage ('Test-Dev') {
+ //           steps {
+ //               sh 'cd $WORKSPACE/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'
+ //               sh 'dotnet test **/*.csproj -v n'
+ //               sh '/home/jenkins/DevOps/Azure/upload-azstorage-blob.sh $test_FunctionalTestReportStorageAccountRG $test_FunctionalTestReportSourcePath $test_FunctionalTestReportStorageAccountName $test_FunctionalTestReportStorageContainerName $test_FunctionalTestReportTargetName'
+ //           } 
+ //       }          
     }
 }
