@@ -5,18 +5,18 @@ pipeline {
             azure_tenant_id = credentials('azure_tenant_id')
             azure_subscription_id = credentials('azure_subscription_id')
             docker_dockerfilePath = './src/api'
-            docker_imageName = 'menu-api'
-            docker_imageTag = "0.0.${BUILD_ID}-jenkins"
+            docker_imageName = 'menu-api-j'
+            docker_imageTag = "0.0.${BUILD_ID}"
             docker_containerRegistry = "${docker_containerRegistryName}.azurecr.io"
             docker_containerRegistryName = 'amidostacksacrukstmp'
             kubernetes_ClusterRG = 'amido-stacks-rg-uks-dev'
             kubernetes_ClusterName = 'amido-stacks-cluster-uks-dev'
-            //test_FunctionalTestProjectSourcePath = '/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'  
-            //test_FunctionalTestReportSourcePath = "${test_FunctionalTestProjectSourcePath}/xxAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html"
-            //test_FunctionalTestReportTargetName = "menu-api/${docker-imageTag}-jenkins.html"
-            //test_FunctionalTestReportStorageAccountRG = 'amido-stacks-testresult-rg'
-            //test_FunctionalTestReportStorageAccountName = 'amidostackstestsuksdev'
-            //test_FunctionalTestReportStorageContainerName = 'testresults'
+            test_FunctionalTestProjectSourcePath = '/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'  
+            test_FunctionalTestReportSourcePath = "${test_FunctionalTestProjectSourcePath}/xxAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html"
+            test_FunctionalTestReportTargetName = "menu-api/${docker_imageTag}-jenkins.html"
+            test_FunctionalTestReportStorageAccountRG = 'amido-stacks-testresult-rg'
+            test_FunctionalTestReportStorageAccountName = 'amidostackstestsuksdev'
+            test_FunctionalTestReportStorageContainerName = 'testresults'
             }
     stages {
         stage('Acquire Scripts Package') {
@@ -37,7 +37,8 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 sh 'cd $docker_dockerfilePath'
-                sh 'echo "docker build . -t $docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:latest"'
+                sh 'pwd'
+                sh 'ls -lp1'
                 sh 'docker build . -t $docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:latest'
                 sh 'docker push $docker_containerRegistry/$docker_imageName'
             }
