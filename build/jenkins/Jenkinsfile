@@ -36,10 +36,7 @@ pipeline {
         }
         stage('Docker Build & Push') {
             steps {
-                sh 'cd $docker_dockerfilePath'
-                sh 'pwd'
-                sh 'ls -lp1'
-                sh 'docker build . -t $docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:latest'
+                sh 'cd $docker_dockerfilePath && docker build . -t $docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:latest'
                 sh 'docker push $docker_containerRegistry/$docker_imageName'
             }
         }
