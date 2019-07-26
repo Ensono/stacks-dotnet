@@ -1,23 +1,23 @@
 pipeline {
     agent any
         environment {
-        azure_client    = credentials('terraform')
-        azure_tenant_id = credentials('azure_tenant_id')
-        azure_subscription_id = credentials('azure_subscription_id')
-        docker_dockerfilePath = './'
-        docker_imageName = 'menu-api'
-        docker_imageTag = "0.0.${BUILD_ID}-jenkins"
-        docker_containerRegistry = "${docker_containerRegistryName}.azurecr.io"
-        docker_containerRegistryName = 'amidostacksacrukstmp'
-        kubernetes_ClusterRG = 'amido-stacks-rg-uks-dev'
-        kubernetes_ClusterName = 'amido-stacks-cluster-uks-dev'
-        test_FunctionalTestProjectSourcePath = '/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'  
-        test_FunctionalTestReportSourcePath = "${test_FunctionalTestProjectSourcePath}/xxAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html"
-        test_FunctionalTestReportTargetName = "menu-api/${docker-imageTag}-jenkins.html"
-        test_FunctionalTestReportStorageAccountRG = 'amido-stacks-testresult-rg'
-        test_FunctionalTestReportStorageAccountName = 'amidostackstestsuksdev'
-        test_FunctionalTestReportStorageContainerName = 'testresults'
-    }
+            azure_client    = credentials('terraform')
+            azure_tenant_id = credentials('azure_tenant_id')
+            azure_subscription_id = credentials('azure_subscription_id')
+            docker_dockerfilePath = './src/api'
+            docker_imageName = 'menu-api'
+            docker_imageTag = "0.0.${BUILD_ID}-jenkins"
+            docker_containerRegistry = "${docker_containerRegistryName}.azurecr.io"
+            docker_containerRegistryName = 'amidostacksacrukstmp'
+            kubernetes_ClusterRG = 'amido-stacks-rg-uks-dev'
+            kubernetes_ClusterName = 'amido-stacks-cluster-uks-dev'
+            //test_FunctionalTestProjectSourcePath = '/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'  
+            //test_FunctionalTestReportSourcePath = "${test_FunctionalTestProjectSourcePath}/xxAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html"
+            //test_FunctionalTestReportTargetName = "menu-api/${docker-imageTag}-jenkins.html"
+            //test_FunctionalTestReportStorageAccountRG = 'amido-stacks-testresult-rg'
+            //test_FunctionalTestReportStorageAccountName = 'amidostackstestsuksdev'
+            //test_FunctionalTestReportStorageContainerName = 'testresults'
+            }
     stages {
         stage('Acquire Scripts Package') {
             steps {
