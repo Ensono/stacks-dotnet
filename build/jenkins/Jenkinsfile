@@ -69,7 +69,9 @@ pipeline {
            steps {
                sh '''
                cd $WORKSPACE/src/tests/xxAMIDOxx.xxSTACKSxx.Tests \
-               && dotnet test **/*.csproj -v n
+               && dotnet test **/*.csproj -v diag \
+               && echo finished dotnet-testing \
+               && /home/jenkins/DevOps/Azure/upload-azstorage-blob.sh $test_FunctionalTestReportStorageAccountRG $test_FunctionalTestReportSourcePath $test_FunctionalTestReportStorageAccountName $test_FunctionalTestReportStorageContainerName $test_FunctionalTestReportTargetName
                '''
            } 
        }          
