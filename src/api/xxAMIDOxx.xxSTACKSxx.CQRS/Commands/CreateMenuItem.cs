@@ -1,19 +1,23 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class CreateMenuItem
+    public partial class CreateMenuItem : ICategoryCommand
     {
-        [Required]
+        public int OperationCode => (int)Common.Operations.OperationCode.CreateMenuItem;
+
+        public Guid CorrelationId { get; set; }
+
+        public Guid MenuId { get; set; }
+
+        public Guid CategoryId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        [Required]
-        public double? Price { get; set; }
+        public double Price { get; set; }
 
-        [Required]
-        public bool? Available { get; set; }
+        public bool Available { get; set; }
     }
 }
