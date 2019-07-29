@@ -6,7 +6,8 @@ pipeline {
             azure_subscription_id = credentials('azure_subscription_id')
             docker_dockerfilePath = './src/api'
             docker_imageName = 'menu-api-j'
-            docker_imageTag = "0.0.${BUILD_ID}"
+            docker_imageTag = "0.0.${BUILD_ID}-${git_branch_split}"
+            git_branch_split = "${GIT_BRANCH.split('/').last()}"
             docker_containerRegistry = "${docker_containerRegistryName}.azurecr.io"
             docker_containerRegistryName = 'amidostacksacrukstmp'
             kubernetes_ClusterRG = 'amido-stacks-rg-uks-dev'
@@ -59,7 +60,7 @@ pipeline {
        stage('Apply-Dev') {
            steps {
                sh '''
-               cd $WORKSPACE/deploy/k8s/api/base \
+               cd $WORKSPACE/deploy/k8s/api \
                && /home/jenkins/DevOps/Kubectl/apply-with-kustomize.sh ./kustomization/dev
                '''
            }
