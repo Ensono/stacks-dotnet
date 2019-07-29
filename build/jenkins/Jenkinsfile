@@ -12,7 +12,7 @@ pipeline {
             docker_containerRegistryName = 'amidostacksacrukstmp'
             kubernetes_ClusterRG = 'amido-stacks-rg-uks-dev'
             kubernetes_ClusterName = 'amido-stacks-cluster-uks-dev'
-            kubernetes_KustomizeFilePath ='./kustomization/dev'
+            kubernetes_KustomizeFilePath ='./kustomization'
             test_FunctionalTestProjectSourcePath = '/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'
             test_FunctionalTestProjectSourceFilePath = './xxAMIDOxx.xxSTACKSxx.Tests.Api/xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj'  
             test_FunctionalTestReportSourcePath = "${test_FunctionalTestProjectSourcePath}/xxAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html"
@@ -64,15 +64,34 @@ pipeline {
                '''
            }
        }
-       stage('Apply-Dev') {
+       stage('Dev-Apply') {
            steps {
                sh '''
                cd $WORKSPACE/deploy/k8s/api \
-               && $package_localpath/Kubectl/apply-with-kustomize.sh $kubernetes_KustomizeFilePath
+               && $package_localpath/Kubectl/apply-with-kustomize.sh $kubernetes_KustomizeFilePath/dev
                '''
            }
        }
-       stage ('Test-Dev') {
+       stage ('Dev-Tests') {
+           steps {
+               sh '''
+               cd $WORKSPACE$test_FunctionalTestProjectSourcePath \
+               && dotnet build $test_FunctionalTestProjectSourceFilePath -v diag \
+               && dotnet test **/*.csproj --no-build -v diag \
+               && echo finished dotnet-testing \
+               && $package_localpath/Azure/upload-azstorage-blob.sh $test_FunctionalTestReportStorageAccountRG $test_FunctionalTestReportSourcePath $test_FunctionalTestReportStorageAccountName $test_FunctionalTestReportStorageContainerName $test_FunctionalTestReportTargetName
+               '''
+           } 
+       }
+       stage('Test-Apply') {
+           steps {
+               sh '''
+               cd $WORKSPACE/deploy/k8s/api \
+               && $package_localpath/Kubectl/apply-with-kustomize.sh $kubernetes_KustomizeFilePath/test
+               '''
+           }
+       }
+       stage ('Test-Tests') {
            steps {
                sh '''
                cd $WORKSPACE$test_FunctionalTestProjectSourcePath \
