@@ -30,7 +30,7 @@ pipeline {
         stage('Acquire Scripts Package') {
             steps {
                 sh '''
-                wget -O ~/$package_filename  "https://$package_storageaccount.blob.core.windows.net/$package_storagep$package_filename?$package_filesaskey" \
+                wget -O ~/$package_filename  "https://$package_storageaccount.blob.core.windows.net/$package_storagepath$package_filename?$package_filesaskey" \
                 && mkdir $package_localpath \
                 && tar -xvzf ~/package_filename -C $package_localpath \
                 && chmod +x -R $package_localpath
