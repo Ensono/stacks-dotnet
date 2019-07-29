@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Amido.Stacks.API.Swagger.Filters;
-using Amido.Stacks.API.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -43,11 +42,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
                         //Add automatic validation of Models decorated with ValidationAttributes
                         //Remove it if you planning to use FluentValidation
-                        options.Filters.Add(new ValidateModelStateAttribute());
+                        //options.Filters.Add(new ValidateModelStateAttribute());
                     }
                 )
                 .AddApiExplorer()
                 .AddAuthorization()
+                .AddDataAnnotations()
                 .AddFormatterMappings()
                 .AddJsonFormatters(options => options.ContractResolver = new CamelCasePropertyNamesContractResolver())
                 .AddCors()
