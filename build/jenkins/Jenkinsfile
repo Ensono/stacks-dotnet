@@ -33,8 +33,8 @@ pipeline {
             steps {
                 sh '''
                 /home/jenkins/DevOps/Azure/set-azure-context.sh $azure_tenant_id $azure_subscription_id $azure_client_USR $azure_client_PSW \
-                && sh 'az acr login --name $docker_containerRegistryName \
-                && sh '/home/jenkins/DevOps/Azure/set-aks-context.sh $kubernetes_ClusterRG $kubernetes_ClusterName
+                && az acr login --name $docker_containerRegistryName \
+                && /home/jenkins/DevOps/Azure/set-aks-context.sh $kubernetes_ClusterRG $kubernetes_ClusterName
                 '''
             }
         }
