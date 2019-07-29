@@ -21,43 +21,54 @@ pipeline {
     stages {
         stage('Acquire Scripts Package') {
             steps {
-                sh 'wget -O ~/scripts-0.0.10-master.tar.gz  "https://amidostackspkgukstmp.blob.core.windows.net/packages/scripts-0.0.10-master.tar.gz?se=2019-08-17T10%3A45Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=U/kiUqhl2HZ%2BnVM2xjalg420yjH3bHQuDbwOTYzNcs4%3D"'
-                sh 'mkdir ~/DevOps'
-                sh 'tar -xvzf ~/scripts-0.0.10-master.tar.gz -C /home/jenkins/DevOps'
-                sh 'chmod +x -R /home/jenkins/DevOps'
+                sh '''
+                wget -O ~/scripts-0.0.10-master.tar.gz  "https://amidostackspkgukstmp.blob.core.windows.net/packages/scripts-0.0.10-master.tar.gz?se=2019-08-17T10%3A45Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=U/kiUqhl2HZ%2BnVM2xjalg420yjH3bHQuDbwOTYzNcs4%3D" \
+                && mkdir ~/DevOps \
+                && tar -xvzf ~/scripts-0.0.10-master.tar.gz -C /home/jenkins/DevOps \
+                && chmod +x -R /home/jenkins/DevOps
+                '''
             }
         }
         stage('Logins') {
             steps {
-                sh '/home/jenkins/DevOps/Azure/set-azure-context.sh $azure_tenant_id $azure_subscription_id $azure_client_USR $azure_client_PSW'
-                sh 'az acr login --name $docker_containerRegistryName'
-                sh '/home/jenkins/DevOps/Azure/set-aks-context.sh $kubernetes_ClusterRG $kubernetes_ClusterName'
+                sh '''
+                /home/jenkins/DevOps/Azure/set-azure-context.sh $azure_tenant_id $azure_subscription_id $azure_client_USR $azure_client_PSW \
+                && sh 'az acr login --name $docker_containerRegistryName \
+                && sh '/home/jenkins/DevOps/Azure/set-aks-context.sh $kubernetes_ClusterRG $kubernetes_ClusterName
+                '''
             }
         }
         stage('Docker Build & Push') {
             steps {
-                sh 'cd $docker_dockerfilePath && docker build . -t $docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:latest'
-                sh 'docker push $docker_containerRegistry/$docker_imageName'
+                sh '''
+                cd $docker_dockerfilePath \
+                && docker build . -t $docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:latest \
+                && docker push $docker_containerRegistry/$docker_imageName
+                '''
             }
         }
- //       stage('Kustomize') {
- //           steps {
- //               sh 'cd $WORKSPACE/deploy/k8s/api/base'
- //               sh '/home/jenkins/DevOps/Kustomize/kustomize-annotate-version.sh /usr/local/bin/kustomize $docker_imageTag'
- //               sh '/usr/local/bin/kustomize edit set image menuapi-image=$docker_containerRegistry/$docker_imageName:docker_imageTag'
- //           }
- //       }
- //       stage('Apply-Dev') {
- //           steps {
- //               sh '/home/jenkins/DevOps/Azure/apply-with-kustomize.sh dev'
- //           }
- //       }
- //       stage ('Test-Dev') {
- //           steps {
- //               sh 'cd $WORKSPACE/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'
- //               sh 'dotnet test **/*.csproj -v n'
- //               sh '/home/jenkins/DevOps/Azure/upload-azstorage-blob.sh $test_FunctionalTestReportStorageAccountRG $test_FunctionalTestReportSourcePath $test_FunctionalTestReportStorageAccountName $test_FunctionalTestReportStorageContainerName $test_FunctionalTestReportTargetName'
- //           } 
- //       }          
+       stage('Kustomize') {
+           steps {
+               sh '''
+               cd $WORKSPACE/deploy/k8s/api/base \
+               && /home/jenkins/DevOps/Kustomize/kustomize-annotate-version.sh /usr/local/bin/kustomize $docker_imageTag \
+               && /usr/local/bin/kustomize edit set image menuapi-image=$docker_containerRegistry/$docker_imageName:docker_imageTag
+               '''
+           }
+       }
+       stage('Apply-Dev') {
+           steps {
+               sh '/home/jenkins/DevOps/Azure/apply-with-kustomize.sh dev'
+           }
+       }
+       stage ('Test-Dev') {
+           steps {
+               sh '''
+               cd $WORKSPACE/src/tests/xxAMIDOxx.xxSTACKSxx.Tests \ 
+               && dotnet test **/*.csproj -v n \
+               && /home/jenkins/DevOps/Azure/upload-azstorage-blob.sh $test_FunctionalTestReportStorageAccountRG $test_FunctionalTestReportSourcePath $test_FunctionalTestReportStorageAccountName $test_FunctionalTestReportStorageContainerName $test_FunctionalTestReportTargetName
+               '''
+           } 
+       }          
     }
 }
