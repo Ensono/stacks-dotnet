@@ -32,7 +32,7 @@ pipeline {
                 sh '''
                 wget -O ~/$package_filename  "https://$package_storageaccount.blob.core.windows.net/$package_storagepath$package_filename?$package_filesaskey" \
                 && mkdir $package_localpath \
-                && tar -xvzf ~/package_filename -C $package_localpath \
+                && tar -xvzf ~/$package_filename -C $package_localpath \
                 && chmod +x -R $package_localpath
                 '''
             }
