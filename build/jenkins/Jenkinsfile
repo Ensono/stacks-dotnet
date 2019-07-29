@@ -60,7 +60,7 @@ pipeline {
            steps {
                sh '''
                cd $WORKSPACE/deploy/k8s/api/base \
-               && /home/jenkins/DevOps/Kubectl/apply-with-kustomize.sh dev
+               && /home/jenkins/DevOps/Kubectl/apply-with-kustomize.sh ./kustomization/dev
                '''
            }
        }
