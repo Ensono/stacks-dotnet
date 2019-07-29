@@ -1,25 +1,24 @@
 # stacks-dotnet
+
 DotNet example application and scaffolding for Amido Stacks
 
-# Definitions:
+## Definitions
 
-**Application**: 
-Throughout this document, the term application will refer to a set of services that 
-together form a component in a bigger solution. I.E: 
- - An e-commerce portal, will have multiple small applications like catalog, checkout,
-composed of services
-like front-end, APIs, cache, worker. 
-*We should avoid the term component because everything is a component of a bigger 
-solution and it makes harder to identify the context.*
-                    
-**Service**: 
-Is the term we will use to describe a component that provides a specific set of 
-features in the application scope. ie:                
+### Application
+
+Throughout this document, the term application will refer to a set of services that together form a component in a bigger solution. I.E: An e-commerce portal, will have multiple small applications like catalog, checkout,
+composed of services like front-end, APIs, cache, worker. *We should avoid the term component because everything is a component of a bigger solution and it makes harder to identify the context.*
+
+### Service
+
+Is the term we will use to describe a component that provides a specific set of
+features in the application scope. ie:
+
 - ***UI** is the front-end service that provides pages for users to navigate and access the application features.*
 - ***API** is a service that provides endpoints to interact with the application resources either by UI or by other applications.*
   
-  
-# Repository Structure
+## Repository Structure
+
 ```
 ├── build
 │   ├── azDevOps: stores configuration, build steps and scripts used by azure dev ops only
@@ -47,3 +46,7 @@ features in the application scope. ie:
     ├── tests: stores tests not built in other services solutions(functional tests, performance, etc)  
     └── ui: stores the front end service and components
 ```
+
+## Deploying this application
+
+This solution has two build pipelines files one each for Azure DevOps and Jenkins, located under `./build/azDevOps/azure` and `./build/Jenkins/` respectively. To deploy this application, fork it into your desired source control system and point your Jenkins or Azure DevOps instance at those pipeline files. There are a number of prerequisite variables (such as credentials) and various paths that must be populated, all of which are listed at the head of the file (if global) or in the relevant environment section (if per-environment). Please refer to the `stacks-infrastructure` repository for more information around the provisioning of the underlying infrastructure.
