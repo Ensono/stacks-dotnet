@@ -58,7 +58,7 @@ pipeline {
        }
        stage('Apply-Dev') {
            steps {
-               sh '/home/jenkins/DevOps/Azure/apply-with-kustomize.sh dev'
+               sh '/home/jenkins/DevOps/Kubectl/apply-with-kustomize.sh dev'
            }
        }
        stage ('Test-Dev') {
