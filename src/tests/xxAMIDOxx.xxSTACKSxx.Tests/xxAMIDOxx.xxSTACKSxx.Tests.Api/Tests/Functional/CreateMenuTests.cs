@@ -1,78 +1,36 @@
-﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
-using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
-using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
-using TestStack.BDDfy;
+﻿using TestStack.BDDfy;
 using Xunit;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
+    //Define the story/feature being tested
     [Story(
         AsA = "restaurant administrator",
         IWant = "to be able to create menus",
         SoThat = "customers know what we have on offer")]
-    public class CreateMenuStory : BaseStory, IClassFixture<MenuFixture>
+
+    public class CreateMenuTests : IClassFixture<AuthFixture>
     {
-        private Menu menu;
-        private HttpResponseMessage response;
-        private readonly MenuFixture fixture;
+        private readonly MenuSteps steps;
+        private readonly AuthFixture fixture;
 
-        public CreateMenuStory(MenuFixture fixture)
+        public CreateMenuTests(AuthFixture fixture)
         {
+            //Get instances of the fixture and steps required for the test
             this.fixture = fixture;
-            Debug.WriteLine("CreateMenu Constructor");
+            steps = new MenuSteps();
         }
 
-        void GivenIHaveSpecfiedAFullMenu()
-        {
-            var builder = new MenuBuilder();
-
-            menu = builder.CreateTestMenu("Yumido Test Menu")
-                .Build();
-        }
-
-        void GivenIHaveADraftMenu()
-        {
-            var builder = new MenuBuilder();
-
-            menu = builder.CreateTestMenu("Yumido Test Menu")
-                .SetEnabled(false)
-                .Build();
-        }
-
-
-        async Task WhenICreateTheMenu()
-        {
-            //Todo: Add authentication to requests (bearer xyz)
-            var menuAsJson = JsonConvert.SerializeObject(menu);
-
-            response = await fixture.service.PostJson("v1/menu/", menuAsJson);
-        }
-
-        void ThenTheMenuHasBeenSuccessfullyPublished()
-        {
-            Assert.True(response.StatusCode == System.Net.HttpStatusCode.Created);
-            //Check the menu is in the DB
-        }
-
+        //Add all tests that make up the story to this class.
         [Fact]
-        public void Admins_Can_Publish_A_New_Menu_To_Yumido()
+        public void Create_a_menu()
         {
-            this.Given(s => s.GivenIHaveSpecfiedAFullMenu())
-                .When(s => s.WhenICreateTheMenu())
-                .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
-                .BDDfy();
-        }
-
-        [Fact]
-        public void Admins_Can_Create_A_Draft_Menu()
-        {
-            this.Given(s => s.GivenIHaveADraftMenu())
-                .When(s => s.WhenICreateTheMenu())
-                .Then(s => s.ThenTheMenuHasBeenSuccessfullyPublished())
+            this.Given(step => fixture.GivenAUser())
+                .Given(step => steps.GivenIHaveSpecfiedAFullMenu())
+                .When(step => steps.WhenICreateTheMenu())
+                .Then(step => steps.ThenTheMenuHasBeenCreated())
                 .BDDfy();
         }
     }

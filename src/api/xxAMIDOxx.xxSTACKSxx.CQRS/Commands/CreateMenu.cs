@@ -1,23 +1,21 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using Amido.Stacks.Application.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class CreateMenu
+    public partial class CreateMenu : ICommand
     {
-        [Required]
-        public Guid Id { get; set; }
+        public int OperationCode => (int)Common.Operations.OperationCode.CreateMenu;
 
-        [Required]
+        public Guid CorrelationId { get; }
+
         public Guid RestaurantId { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
-        [Required]
         public bool Enabled { get; set; }
+
     }
 }

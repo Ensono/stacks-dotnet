@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Amido.Stacks.Core\Amido.Stacks.Core.csproj" />
+  </ItemGroup>
+
 </Project>

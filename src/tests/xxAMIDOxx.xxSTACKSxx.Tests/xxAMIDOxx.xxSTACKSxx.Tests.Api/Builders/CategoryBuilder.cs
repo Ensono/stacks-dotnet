@@ -1,7 +1,6 @@
-﻿using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
 {
@@ -14,7 +13,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
             category = new Category();
         }
 
-        public CategoryBuilder CreateTestCategory(string name)
+        public CategoryBuilder SetDefaultValues(string name)
         {
             var itemBuilder = new ItemBuilder();
 
@@ -22,7 +21,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders
             category.name = name;
             category.items = new List<Item>()
             {
-                itemBuilder.CreateTestItem("Burger")
+                itemBuilder.SetDefaultValues("Burger")
                 .Build()
             };
             return this;
