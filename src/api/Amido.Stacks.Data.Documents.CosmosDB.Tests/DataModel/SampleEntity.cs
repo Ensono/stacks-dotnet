@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -15,11 +16,11 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; }
         public Guid OwnerId { get; }
-        public string Name { get; }
-        public int Age { get; }
+        public string Name { get; private set; }
+        public int Age { get; private set; }
         public DateTime DateOfBirth { get; }
-        public DateTimeOffset ExpiryDate { get; }
-        public string[] emailAddresses { get; }
+        public DateTimeOffset ExpiryDate { get; private set; }
+        public string[] EmailAddresses { get; }
         public List<Person> Siblings { get; }
         public bool Active { get; }
 
@@ -31,14 +32,20 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel
             Age = age;
             DateOfBirth = dateOfBirth;
             ExpiryDate = expiryDate;
-            this.emailAddresses = emailAddresses;
+            EmailAddresses = emailAddresses;
             Siblings = siblings;
             Active = active;
         }
 
+        public void SetNewValues(string newName, int newAge, DateTimeOffset newExpiryDate)
+        {
+            Name = newName;
+            Age = newAge;
+            ExpiryDate = newExpiryDate;
+        }
     }
 
-    public class Person
+    public class Person : IEqualityComparer, IEqualityComparer<Person>
     {
         public string Name { get; }
         public List<Child> Children { get; }
@@ -47,6 +54,27 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel
         {
             Name = name;
             Children = children;
+        }
+
+        public bool Equals(Person x, Person y)
+        {
+            return x.Name == y.Name;
+
+        }
+        public new bool Equals(object x, object y)
+        {
+            return Equals((Person)x, (Person)y);
+        }
+
+
+        public int GetHashCode(Person obj)
+        {
+            return Name.GetHashCode();
+        }
+
+        public int GetHashCode(object obj)
+        {
+            return GetHashCode((Person)obj);
         }
     }
 

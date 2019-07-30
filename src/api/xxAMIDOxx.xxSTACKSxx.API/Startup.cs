@@ -4,6 +4,7 @@ using Amido.Stacks.API.Swagger.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -28,6 +29,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // Add dependent service required by the application
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ValuesOptions>(Configuration.GetSection("Values"));
@@ -56,7 +58,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
-                });
+                })
+            ;
+
+            //Access HttpContext in ASP.NET Core: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-2.2
+            services.AddHttpContextAccessor();
 
             AddSwagger(services);
         }
@@ -169,6 +175,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Configure the pipeline with middlewares
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

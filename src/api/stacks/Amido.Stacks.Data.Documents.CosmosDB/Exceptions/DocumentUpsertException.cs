@@ -2,9 +2,9 @@
 
 namespace Amido.Stacks.Data.Documents.CosmosDB.Exceptions
 {
-    public class DocumentHasChangedException : CosmosDBException
+    public class DocumentUpsertException : CosmosDBException
     {
-        public DocumentHasChangedException(
+        public DocumentUpsertException(
             int exceptionCode,
             string message,
             string databaseAccountUri, string databaseName, string containerName, string partitionKey, string itemId, string eTag,
@@ -20,12 +20,12 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Exceptions
 
         public static void Raise(string databaseAccountUri, string databaseName, string containerName, string partitionKey, string itemId, string eTag, Exception exception = null)
         {
-            throw new DocumentHasChangedException(
+            throw new DocumentUpsertException(
                 (int)ExceptionIds.DocumentHasChanged,
-                $"ETag '{eTag}' doesn't match the current value for document '{itemId}' on partitionKey {partitionKey}' of collection '{containerName}'",
+                $"Failed to upsert the document '{itemId}' on partitionKey {partitionKey}' of collection '{containerName}'. {exception?.Message}",
                 databaseAccountUri, databaseName, containerName, partitionKey, itemId, eTag,
                 exception
-                );
+            );
         }
     }
 }
