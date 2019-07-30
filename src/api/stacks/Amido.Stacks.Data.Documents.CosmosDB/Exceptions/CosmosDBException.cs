@@ -6,9 +6,11 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
     public abstract class CosmosDBException : InfrastructureExceptionBase
     {
         public CosmosDBException(
-            int exceptionCode, int operationCode, Guid correlationId, string message,
+            int exceptionCode, 
+            string message,
             string databaseAccountUri, string databaseName, string containerName, string partitionKey, string itemId,
-            Exception innerException) : base(exceptionCode, operationCode, correlationId, message, innerException)
+            Exception innerException
+        ) : base(exceptionCode, message, innerException)
         {
             DatabaseAccountUri = databaseAccountUri;
             DatabaseName = databaseName;

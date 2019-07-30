@@ -2,11 +2,11 @@
 
 namespace Amido.Stacks.Data.Documents
 {
-    public interface IDocumentRepository<TEntity, in TEntityIdentyType> //where TEntity : class, IEntity<TEntityIdentifier>
+    public interface IDocumentRepository<TEntity, in TEntityIdentityType> //where TEntity : class, IEntity<TEntityIdentifier>
     {
-        Task<bool> SaveAsync(TEntity document, string partitionKey, string eTag);
-        Task<TEntity> GetByIdAsync(TEntityIdentyType identifier, string partitionKey);
-        Task<bool> DeleteAsync(TEntityIdentyType identifier, string partitionKey);
+        Task<OperationResult<TEntity>> SaveAsync(TEntityIdentityType identifier, string partitionKey, TEntity document, string eTag);
+        Task<OperationResult<TEntity>> GetByIdAsync(TEntityIdentityType identifier, string partitionKey);
+        Task<OperationResult> DeleteAsync(TEntityIdentityType identifier, string partitionKey);
 
         //TODO: Decide about partition scan and cross partition scan
         //Task<IEnumerable<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> searchPredicate, int queryLimit = -1);

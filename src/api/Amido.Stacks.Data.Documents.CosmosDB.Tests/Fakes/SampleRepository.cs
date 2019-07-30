@@ -8,6 +8,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Fakes
     {
         CosmosDbDocumentRepository<SampleEntity, Guid> repository;
 
+        //this is a simple and dummy repository for testing
+        //it shall not be used as reference implementation
         public SampleRepository(CosmosDbDocumentRepository<SampleEntity, Guid> repository)
         {
             this.repository = repository;
@@ -15,17 +17,17 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Fakes
 
         public async Task<SampleEntity> GetByIdAsync(Guid id, string partition)
         {
-            return await repository.GetByIdAsync(id, partition);
+            return (await repository.GetByIdAsync(id, partition)).Content;
         }
 
-        public async Task<bool> SaveAsync(SampleEntity entity, string partition, string eTag)
+        public async Task<bool> SaveAsync(string partition, SampleEntity entity, string eTag)
         {
-            return await repository.SaveAsync(entity, partition, eTag);
+            return (await repository.SaveAsync(entity.Id, partition, entity, eTag)).IsSuccessful;
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id, string partition)
         {
-            throw new NotImplementedException();
+            return (await repository.DeleteAsync(id, partition)).IsSuccessful;
         }
     }
 }
