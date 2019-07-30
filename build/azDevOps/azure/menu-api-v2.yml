@@ -129,15 +129,6 @@ stages:
         filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
         arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Run Consumer Contract Tests'
-      inputs:
-        command: test
-        projects: '$(Test.ConsumerContractTestProjectSourcePath)/*.csproj'
-        arguments: '-v n'
-        testRunTitle: 'Consumer Contract Tests'
-        #workingDirectory: $(Pipeline.Workspace)/tests #IDK what to set this to
-
 # This is problematic because it doesn't inherit the Azure login information
 #
     - task: Bash@3
@@ -165,6 +156,24 @@ stages:
         docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
       displayName: Docker Build and Push to Az ACR
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Run Consumer Contract Tests'
+      inputs:
+        command: test
+        projects: '$(Test.ConsumerContractTestProjectSourcePath)/*.csproj'
+        arguments: '-v n'
+        testRunTitle: 'Consumer Contract Tests'
+        #workingDirectory: $(Pipeline.Workspace)/tests #IDK what to set this to
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Run Provider Contract Tests'
+      inputs:
+        command: test
+        projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
+        arguments: '-v n'
+        testRunTitle: 'Provider Contract Tests'
+        #workingDirectory: $(Pipeline.Workspace)/tests #IDK what to set this to
 
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
