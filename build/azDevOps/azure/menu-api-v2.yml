@@ -46,6 +46,10 @@ variables:
   value: amidostackstestsuksdev
 - name: Test.FunctionalTestReportStorageContainerName
   value: testresults
+- name: Test.ConsumerContractTestProjectSourcePath
+  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.Consumer.PactTests'  
+- name: Test.ProviderContractTestProjectSourcePath
+  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.Provider.PactTests'  
 
 # Docker Config
 - name: Docker.DockerfilePath
@@ -124,6 +128,15 @@ stages:
         targetType: 'filePath'
         filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
         arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Run Consumer Contract Tests'
+      inputs:
+        command: test
+        projects: '$(Test.ConsumerContractTestProjectSourcePath)/*.csproj'
+        arguments: '-v n'
+        testRunTitle: 'Consumer Contract Tests'
+        #workingDirectory: $(Pipeline.Workspace)/tests #IDK what to set this to
 
 # This is problematic because it doesn't inherit the Azure login information
 #
