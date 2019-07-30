@@ -1,6 +1,7 @@
 ﻿using TestStack.BDDfy;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
@@ -9,24 +10,26 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         IWant = "To be able to update existing menus",
         SoThat = "I the menus are always showing our latest offerings"
         )]
-    public class UpdateMenuById : IClassFixture<MenuFixture>
+    public class UpdateMenuById : IClassFixture<AuthFixture>
     {
-        private readonly MenuFixture fixture;
+        private readonly AuthFixture fixture;
+        private readonly MenuSteps steps;
 
-        public UpdateMenuById(MenuFixture fixture)
+        public UpdateMenuById(AuthFixture fixture)
         {
+            //Get instances of the fixture and steps required for the test
             this.fixture = fixture;
+            steps = new MenuSteps();
         }
 
-        //Add all tests that make up the story to this class.
-        //Steps should be taken from the fixture
+        //Add all tests that make up the story to this class
         [Fact]
         public void Admins_Can_Update_Existing_Menus()
         {
             this.Given(s => fixture.GivenAnAdmin())
-                .And(s => fixture.GivenAMenuAlreadyExists())
-                .When(s => fixture.WhenISendAnUpdateMenuRequest())
-                .Then(s => fixture.ThenTheMenuIsUpdatedCorrectly())
+                .And(s => steps.GivenAMenuAlreadyExists())
+                .When(s => steps.WhenISendAnUpdateMenuRequest())
+                .Then(s => steps.ThenTheMenuIsUpdatedCorrectly())
                 .BDDfy();
         }
     }

@@ -9,7 +9,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Configuration
 
         private static IConfigurationRoot GetIConfigurationRoot()
         {
-            if(root == null)
+            if (root == null)
             {
                 root = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

@@ -1,0 +1,106 @@
+pipeline {
+    agent any
+        environment {
+            azure_client    = credentials('terraform')
+            azure_tenant_id = credentials('azure_tenant_id')
+            azure_subscription_id = credentials('azure_subscription_id')
+            docker_dockerfilePath = './src/api'
+            docker_imageName = 'menu-api-j'
+            docker_imageTag = "0.0.${BUILD_ID}-${git_branch_split}"
+            git_branch_split = "${GIT_BRANCH.split('/').last()}"
+            docker_containerRegistry = "${docker_containerRegistryName}.azurecr.io"
+            docker_containerRegistryName = 'amidostacksacrukstmp'
+            kubernetes_ClusterRG = 'amido-stacks-rg-uks-dev'
+            kubernetes_ClusterName = 'amido-stacks-cluster-uks-dev'
+            kubernetes_KustomizeFilePath ='./kustomization'
+            test_FunctionalTestProjectSourcePath = '/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'
+            test_FunctionalTestProjectSourceFilePath = './xxAMIDOxx.xxSTACKSxx.Tests.Api/xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj'  
+            test_FunctionalTestReportSourcePath = "${test_FunctionalTestProjectSourcePath}/xxAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html"
+            test_FunctionalTestReportTargetName = "menu-api/${docker_imageTag}-jenkins.html"
+            test_FunctionalTestReportStorageAccountRG = 'amido-stacks-rg-uks'
+            test_FunctionalTestReportStorageAccountName = 'amidostackstestsgbl'
+            test_FunctionalTestReportStorageContainerName = 'testresults'
+            package_filename = 'scripts-0.0.10-master.tar.gz'
+            package_localpath = '/home/jenkins/DevOps'
+            package_storageaccount = 'amidostackspkgukstmp'
+            package_storagepath = 'packages/'
+            package_filesaskey = 'se=2019-08-17T10%3A45Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=U/kiUqhl2HZ%2BnVM2xjalg420yjH3bHQuDbwOTYzNcs4%3D'
+            }
+    stages {
+        stage('Acquire Scripts Package') {
+            steps {
+                sh '''
+                wget -O ~/$package_filename  "https://$package_storageaccount.blob.core.windows.net/$package_storagepath$package_filename?$package_filesaskey" \
+                && mkdir $package_localpath \
+                && tar -xvzf ~/$package_filename -C $package_localpath \
+                && chmod +x -R $package_localpath
+                '''
+            }
+        }
+        stage('Logins') {
+            steps {
+                sh '''
+                $package_localpath/Azure/set-azure-context.sh $azure_tenant_id $azure_subscription_id $azure_client_USR $azure_client_PSW \
+                && az acr login --name $docker_containerRegistryName \
+                && $package_localpath/Azure/set-aks-context.sh $kubernetes_ClusterRG $kubernetes_ClusterName
+                '''
+            }
+        }
+        stage('Docker Build & Push') {
+            steps {
+                sh '''
+                cd $docker_dockerfilePath \
+                && docker build . -t $docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:$docker_imageTag -t $docker_containerRegistry/$docker_imageName:latest \
+                && docker push $docker_containerRegistry/$docker_imageName
+                '''
+            }
+        }
+       stage('Kustomize') {
+           steps {
+               sh '''
+               cd $WORKSPACE/deploy/k8s/api/base \
+               && $package_localpath/Kustomize/kustomize-annotate-version.sh /usr/local/bin/kustomize $docker_imageTag \
+               && /usr/local/bin/kustomize edit set image menuapi-image=$docker_containerRegistry/$docker_imageName:docker_imageTag
+               '''
+           }
+       }
+       stage('Dev-Apply') {
+           steps {
+               sh '''
+               cd $WORKSPACE/deploy/k8s/api \
+               && $package_localpath/Kubectl/apply-with-kustomize.sh $kubernetes_KustomizeFilePath/dev
+               '''
+           }
+       }
+       stage ('Dev-Tests') {
+           steps {
+               sh '''
+               cd $WORKSPACE$test_FunctionalTestProjectSourcePath \
+               && dotnet build $test_FunctionalTestProjectSourceFilePath -v diag \
+               && dotnet test **/*.csproj --no-build -v diag \
+               && echo finished dotnet-testing \
+               && $package_localpath/Azure/upload-azstorage-blob.sh $test_FunctionalTestReportStorageAccountRG $test_FunctionalTestReportSourcePath $test_FunctionalTestReportStorageAccountName $test_FunctionalTestReportStorageContainerName $test_FunctionalTestReportTargetName
+               '''
+           } 
+       }
+       stage('Test-Apply') {
+           steps {
+               sh '''
+               cd $WORKSPACE/deploy/k8s/api \
+               && $package_localpath/Kubectl/apply-with-kustomize.sh $kubernetes_KustomizeFilePath/test
+               '''
+           }
+       }
+       stage ('Test-Tests') {
+           steps {
+               sh '''
+               cd $WORKSPACE$test_FunctionalTestProjectSourcePath \
+               && dotnet build $test_FunctionalTestProjectSourceFilePath -v diag \
+               && dotnet test **/*.csproj --no-build -v diag \
+               && echo finished dotnet-testing \
+               && $package_localpath/Azure/upload-azstorage-blob.sh $test_FunctionalTestReportStorageAccountRG $test_FunctionalTestReportSourcePath $test_FunctionalTestReportStorageAccountName $test_FunctionalTestReportStorageContainerName $test_FunctionalTestReportTargetName
+               '''
+           } 
+       }          
+    }
+}

@@ -1,15 +1,30 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
+﻿using System;
+
+namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures
 {
-    public class AuthFixture
+    public class AuthFixture : IDisposable
     {
-        public string GetUserToken()
+        public void GivenAUser()
         {
-            return "test";
+            //todo: implement givenauser
         }
 
-        public string GetAdmingToken()
+        public void GivenAnAdmin()
         {
-            return "test";
+            //ToDo: implement givenanadmin
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                //fixture tear down goes here
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }

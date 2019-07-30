@@ -111,7 +111,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 {
                     c.SwaggerDoc("v1", new Info
                     {
-                        Version = "all",
+                        Version = "v1",
                         Title = "Menu API",
                         Description = "APIs used to interact and manage menus for a restaurant",
                         Contact = new Contact()
@@ -141,7 +141,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 {
                     c.SwaggerDoc("v2", new Info
                     {
-                        Version = "all",
+                        Version = "v2",
                         Title = "Menu API",
                         Description = "APIs used to interact and manage menus for a restaurant",
                         Contact = new Contact()

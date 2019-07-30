@@ -1,6 +1,7 @@
 ﻿using TestStack.BDDfy;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
@@ -9,24 +10,26 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         AsA = "user of the Yumido website",
         IWant = "to be able to view specific menus",
         SoThat = "I can choose what to eat")]
-    public class GetMenuByIdTests : IClassFixture<MenuFixture>
+    public class GetMenuByIdTests : IClassFixture<AuthFixture>
     {
-        private readonly MenuFixture fixture;
+        private readonly AuthFixture fixture;
+        private readonly MenuSteps steps;
 
-        public GetMenuByIdTests(MenuFixture fixture)
+        public GetMenuByIdTests(AuthFixture fixture)
         {
+            //Get instances of the fixture and steps required for the test
             this.fixture = fixture;
+            steps = new MenuSteps();
         }
 
         //Add all tests that make up the story to this class.
-        //Steps should be taken from the fixture
         [Fact]
         public void Users_Can_View_Existing_Menus()
         {
             this.Given(s => fixture.GivenAUser())
-                .And(s => fixture.GivenAMenuAlreadyExists())
-                .When(s => fixture.WhenIGetAMenu())
-                .Then(s => fixture.ThenICanViewTheMenu())
+                .And(s => steps.GivenAMenuAlreadyExists())
+                .When(s => steps.WhenIGetAMenu())
+                .Then(s => steps.ThenICanReadTheMenuReturned())
                 .BDDfy();
         }
 
@@ -34,9 +37,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
         public void Admins_Can_View_Existing_Menus()
         {
             this.Given(s => fixture.GivenAnAdmin())
-                .And(s => fixture.GivenAMenuAlreadyExists())
-                .When(s => fixture.WhenIGetAMenu())
-                .Then(s => fixture.ThenICanViewTheMenu())
+                .And(s => steps.GivenAMenuAlreadyExists())
+                .When(s => steps.WhenIGetAMenu())
+                .Then(s => steps.ThenICanReadTheMenuReturned())
                 .BDDfy();
         }
     }

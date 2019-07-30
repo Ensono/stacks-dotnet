@@ -1,6 +1,7 @@
 ﻿using TestStack.BDDfy;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Fixtures;
+using xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.steps;
 
 namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
 {
@@ -8,24 +9,26 @@ namespace xxAMIDOxx.xxSTACKSxx.Tests.Api.Tests.Functional
     [Story(AsA = "Administrator of a restaurant",
         IWant = "To be able to delete old menus",
         SoThat = "Customers do not see out of date options")]
-    public class DeleteMenuTests : IClassFixture<MenuFixture>
+    public class DeleteMenuTests : IClassFixture<AuthFixture>
     {
-        private readonly MenuFixture menuFixture;
+        private readonly MenuSteps steps;
+        private readonly AuthFixture fixture;
 
-        public DeleteMenuTests(MenuFixture menuFixture)
+        public DeleteMenuTests(AuthFixture fixture)
         {
-            this.menuFixture = menuFixture;
+            //Get instances of the fixture and steps required for the test
+            this.fixture = fixture;
+            steps = new MenuSteps();
         }
 
-        //Add all tests that make up the story to this class.
-        //Steps should be taken from the fixture
+        //Add all tests that make up the story to this class
         [Fact]
         public void Admins_Can_Delete_Menus()
         {
-            this.Given(s => menuFixture.GivenAUser())
-                .And(s => menuFixture.GivenAMenuAlreadyExists())
-                .When(s => menuFixture.WhenIDeleteAMenu())
-                .Then(s => menuFixture.ThenTheMenuHasBeenDeleted())
+            this.Given(step => fixture.GivenAUser())
+                .And(step => steps.GivenAMenuAlreadyExists())
+                .When(step => steps.WhenIDeleteAMenu())
+                .Then(step => steps.ThenTheMenuHasBeenDeleted())
                 .BDDfy();
         }
     }

@@ -18,9 +18,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class CreateMenuController : ControllerBase
     {
-        ICommandHandler<CreateMenu> commandHandler;
+        ICommandHandler<CreateMenu, Guid> commandHandler;
 
-        public CreateMenuController(ICommandHandler<CreateMenu> commandHandler)
+        public CreateMenuController(ICommandHandler<CreateMenu, Guid> commandHandler)
         {
             this.commandHandler = commandHandler;
         }
@@ -54,18 +54,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             //TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(409);
 
-            var id = Guid.NewGuid();
-            await commandHandler.HandleAsync(
+            var id = await commandHandler.HandleAsync(
                 new CreateMenu()
                 {
-                    Id = id,
                     RestaurantId = Guid.NewGuid(), //Should get the id from the user logged-in
                     Name = body.Name,
                     Description = body.Description,
                     Enabled = body.Enabled
                 });
 
-            return new ObjectResult(new ResourceCreated(id));
+            return new CreatedAtActionResult(
+                "GetMenu", "GetMenuById", new { id = id }, new ResourceCreated(id)
+            );
         }
     }
 }

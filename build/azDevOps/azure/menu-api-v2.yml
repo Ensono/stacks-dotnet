@@ -32,12 +32,14 @@ variables:
   value: $[counter(variables['Version.MajorMinor'], 0)]
 
 # Tests
+- name: Test.FunctionalTestProjectFile
+  value: xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj
 - name: Test.FunctionalTestProjectSourcePath
-  value: '$(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'  
+  value: $(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Build.SourcesDirectory)/$(Test.FunctionalTestProjectSourcePath)/xxAmidoxx.xxStacksxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Test.FunctionalTestProjectSourcePath)/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: menu-api/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
@@ -272,14 +274,17 @@ stages:
               failOnStderr: true 
 
 #### Testing
+          - script: |
+              echo "##vso[task.setvariable variable=BaseUrl]http://dev.azure.amidostacks.com/api/menu/"
+            displayName: set environment variable for subsequent steps
+
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: '**/*.csproj'
+              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
-              workingDirectory: $(Pipeline.Workspace)/tests
           
           - task: Bash@3
             displayName: 'Upload Test Results'
@@ -382,14 +387,17 @@ stages:
               failOnStderr: true 
 
 #### Testing
+          - script: |
+              echo "##vso[task.setvariable variable=BaseUrl]http://test.azure.amidostacks.com/api/menu/"
+            displayName: set environment variable for subsequent steps
+
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: '**/*.csproj'
+              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
-              workingDirectory: $(Pipeline.Workspace)/tests
           
           - task: Bash@3
             displayName: 'Upload Test Results'
