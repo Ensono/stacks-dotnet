@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
 using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
@@ -108,6 +110,37 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
 
             var dbItem = await GetItem(entity);
             Assert.Null(dbItem);
+        }
+
+        [Theory, AutoData]
+        public async Task SearchTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            foreach (var entity in entities)
+            {
+                await SaveItem(entity);
+            }
+
+
+            //TEST 1
+            var age = entities.First().Age;
+            var result = await repository.Search(filter => filter.Age == age);
+            Assert.Contains(result.Content, i => i.Id == entities.First().Id);
+
+            //TEST 2
+            var expiry = entities.Last().ExpiryDate;
+            var result2 = await repository.Search(filter => filter.ExpiryDate == expiry);
+            Assert.Contains(result2.Content, i => i.ExpiryDate == entities.Last().ExpiryDate);
+
+            //TEST 3 - Multilpe results
+            var result3 = await repository.Search(filter => filter.Age > 1, pageSize: 1);
+            Assert.Contains(result3.Content, i => i.Age > 1);
+        }
+
+
+        [Theory, AutoData]
+        public async Task SearchSqlQueryTest(List<SampleEntity> entities)
+        {
         }
 
 

@@ -11,5 +11,27 @@
         //public bool ReturnETags { get; set; }
 
         //public bool ReturnRequestCharge { get; set; }
+
+        /// <summary>
+        /// Max query concurrency:
+        ///  -1 = Dynamic, defined by server
+        ///   0 = Serial 
+        ///  +1 = 1 or more dedicated asynchronous tasks to continuously make REST calls, returns out of order results
+        /// </summary>
+        public int MaxConcurrency { get; set; } = 1;
+
+        /// <summary>
+        /// Max results returned per batch when result size is not specified
+        /// Default to a small number to save RU's, should be passed in the query if need bigger of by configuration
+        /// </summary>
+        public int MaxItemCountPerBatch { get; set; } = 20;
+
+        public bool AllowSynchronousQueryExecution { get; set; } = false;
+
+        public int? MaxBufferedItemCount { get; set; }
+
+        //public int? ResponseContinuationTokenLimitInKb
+        //public bool? EnableScanInQuery
+        //public bool? EnableLowPrecisionOrderBy
     }
 }
