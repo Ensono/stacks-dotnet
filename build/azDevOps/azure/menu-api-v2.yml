@@ -185,7 +185,7 @@ stages:
     - bash: |
         pactVersion=${pactUnformattedTag%-*}  # retain the part before the colon
         pactTag=${pactUnformattedTag#*-}  # retain the part after the last slash
-        pactTemplateUrl=$pactBroker/pacts/provider/$pactProvider/consumer/$pactConsumer/version/$pactVersion
+        pactTemplateUrl=$pactBroker/pacts/provider/$pactProvider/consumer/$pactConsumer/pact-version/$pactVersion
         pactTagTemplateUrl=$pactBroker/pacticipants/$pactConsumer/versions/$pactVersion/tags/$pactTag
         echo pactVersion is $pactVersion 
         echo pactTag is $pactTag
