@@ -10,6 +10,7 @@ resources:
 
 variables:
 - group: amido-stacks-infra-credentials-nonprod
+- group: amido-stacks-pact-credentials
 # testing new variable group
 # - group: amido-stacks-credentials-azure-nonprod
 
@@ -183,7 +184,7 @@ stages:
 
     - bash: |
         pactVersion=${pactUnformattedTag%-*}  # retain the part before the colon
-        pactTag=${NAME#*-}  # retain the part after the last slash
+        pactTag=${pactUnformattedTag#*-}  # retain the part after the last slash
         pactTemplateUrl=$pactBroker/pacts/provider/$pactProvider/consumer/$pactConsumer/version/$pactVersion
         pactTagTemplateUrl=$$pactBroker/pacticipants/:consumer/versions/$pactVersion/tags/$pactTag
         echo pactVersion is $pactVersion 
@@ -198,6 +199,7 @@ stages:
         curl -v -XPUT \
         -H "Content-Type: application/json" \
         -d@$pactContract \
+        --user $pactUser:$pactPassword \
         $pactTemplateUrl
       displayName: Publish Consumer Contract Tests
       failOnStderr: true 
@@ -207,6 +209,8 @@ stages:
         pactBroker: https://amido-stacks.pact.dius.com.au/
         pactConsumer: GenericMenuConsumer
         pactProvider: MenuAPI
+        pactUser: $(Test.PactUser)
+        pactPassword: ($Test.PactPassword)
 
 
     - task: DotNetCoreCLI@2
