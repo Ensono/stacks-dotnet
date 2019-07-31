@@ -176,7 +176,7 @@ stages:
       inputs:
         targetType: 'filePath' # Optional. Options: filePath, inline
         filePath: $(Build.SourcesDirectory)/src/api/pact-publish.ps1
-        arguments: -pactBroker "https://amido-stacks.pact.dius.com.au/" -buildMetadataFile "genericmenuconsumer-menuapi.json" -workingDir "$(Build.SourcesDirectory)/src/api/"
+        arguments: -pactBroker "https://amido-stacks.pact.dius.com.au/" -buildMetadataFile "genericmenuconsumer-menuapi.json" -workingDir "$(Build.SourcesDirectory)/src/api/pacts"
         errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
         failOnStderr: true # Optional
         workingDirectory: $(Build.SourcesDirectory)/src/api/
