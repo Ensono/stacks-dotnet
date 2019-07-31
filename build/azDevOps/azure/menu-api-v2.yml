@@ -202,7 +202,6 @@ stages:
         -d@$pactContract \
         $pactTemplateUrl
       displayName: Publish Consumer Contract Tests
-      failOnStderr: true 
       env:
         pactUnformattedTag: $(Docker.ImageTag)
         pactContract: $(Build.SourcesDirectory)/src/api/pacts/genericmenuconsumer-menuapi.json
