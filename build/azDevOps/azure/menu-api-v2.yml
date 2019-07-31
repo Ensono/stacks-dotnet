@@ -186,7 +186,7 @@ stages:
         pactVersion=${pactUnformattedTag%-*}  # retain the part before the colon
         pactTag=${pactUnformattedTag#*-}  # retain the part after the last slash
         pactTemplateUrl=$pactBroker/pacts/provider/$pactProvider/consumer/$pactConsumer/version/$pactVersion
-        pactTagTemplateUrl=$$pactBroker/pacticipants/:consumer/versions/$pactVersion/tags/$pactTag
+        pactTagTemplateUrl=$$pactBroker/pacticipants/$pactConsumer/versions/$pactVersion/tags/$pactTag
         echo pactVersion is $pactVersion 
         echo pactTag is $pactTag
         echo pactUnformattedTag is $pactUnformattedTag
@@ -198,22 +198,21 @@ stages:
         echo pactTagTemplateUrl is $pactTagTemplateUrl
         curl -v -XPUT \
         -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $pactToken" \
         -d@$pactContract \
-        --user $pactUser:$pactPassword \
         $pactTemplateUrl
       displayName: Publish Consumer Contract Tests
       failOnStderr: true 
       env:
         pactUnformattedTag: $(Docker.ImageTag)
         pactContract: $(Build.SourcesDirectory)/src/api/pacts/genericmenuconsumer-menuapi.json
-        pactBroker: https://amido-stacks.pact.dius.com.au/
+        pactBroker: https://amido-stacks.pact.dius.com.au
         pactConsumer: GenericMenuConsumer
         pactProvider: MenuAPI
         pactUser: $(Test.PactUser)
         pactPassword: $(Test.PactPassword)
         pactToken: $(Test.PactBearerToken)
 
-# -H "Authorization: Bearer $Test.PactBearerToken" \
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
       inputs:
