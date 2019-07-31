@@ -210,9 +210,10 @@ stages:
         pactConsumer: GenericMenuConsumer
         pactProvider: MenuAPI
         pactUser: $(Test.PactUser)
-        pactPassword: ($Test.PactPassword)
+        pactPassword: $(Test.PactPassword)
+        pactToken: $(Test.PactBearerToken)
 
-
+# -H "Authorization: Bearer $Test.PactBearerToken" \
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
       inputs:
