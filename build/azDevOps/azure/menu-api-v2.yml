@@ -159,6 +159,8 @@ stages:
       displayName: Docker Build and Push to Az ACR
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
+
+### These two steps need to be moved out into the consumer repository after PoC is completed
     - task: DotNetCoreCLI@2
       displayName: 'Run Consumer Contract Tests'
       inputs:
@@ -167,6 +169,17 @@ stages:
         arguments: '-v n'
         testRunTitle: 'Consumer Contract Tests'
         #workingDirectory: $(Pipeline.Workspace)/tests #IDK what to set this to
+
+### These two steps need to be moved out into the consumer repository after PoC is completed
+    - task: PowerShell@2
+      displayName: 'Publish Consumer Contract Tests'
+      inputs:
+        targetType: 'filePath' # Optional. Options: filePath, inline
+        filePath: $(Build.SourcesDirectory)/src/api/pact-publish.ps1
+        arguments: -pactBroker "https://amido-stacks.pact.dius.com.au/" -buildMetadataFile "package.json"
+        errorActionPreference: 'stop' # Optional. Options: stop, continue, silentlyContinue
+        failOnStderr: true # Optional
+        workingDirectory: # $(Pipeline.Workspace)/tests/
 
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
@@ -292,7 +305,6 @@ stages:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-
 
 - stage: Test
   variables: 
