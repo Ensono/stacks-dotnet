@@ -52,7 +52,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
 
             ProviderWebHost.Start();
 
-            config = ConfigurationAccessor.GetApplicationConfiguration();
+            Config = ConfigurationAccessor.GetApplicationConfiguration();
         }
 
 
