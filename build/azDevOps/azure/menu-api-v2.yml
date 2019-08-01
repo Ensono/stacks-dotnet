@@ -50,7 +50,7 @@ variables:
 - name: Test.FunctionalTestReportStorageContainerName
   value: testresults 
 - name: Test.ProviderContractTestProjectSourcePath
-  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.Provider.PactTests'  
+  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'  
 
 # Pact Broker Info
 - name: Test.PactBrokerUrl
