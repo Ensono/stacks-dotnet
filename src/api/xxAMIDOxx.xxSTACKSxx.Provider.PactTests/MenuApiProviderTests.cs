@@ -86,7 +86,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
         {
             //This is the build number for the PROVIDER, not the consumer or broker.
             var buildNumber = Config.Build_Number;
-            var brokerBaseUrl = Config.Broker_Url;
 
             // Arrange
             var config = new PactVerifierConfig
@@ -117,8 +116,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
                 .ServiceProvider("MenuAPI", ProviderUri)
                 .HonoursPactWith("GenericMenuConsumer")
                 //.PactUri(@"..\..\..\..\pacts\genericmenuconsumer-menuapi.json")
-                .PactUri($"{brokerBaseUrl}/pacts/provider/MenuAPI/consumer/GenericMenuConsumer/latest", options)
+                .PactUri($"{CreatePactUri("GenericConsumerName", "MenuAPI")}", options)
                 .Verify();
+        }
+
+        private string CreatePactUri(string consumerName, string providerName)
+        {
+            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest"
         }
 
         #region IDisposable Support
