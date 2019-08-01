@@ -89,4 +89,34 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel
             Age = age;
         }
     }
+
+
+    /// <summary>
+    /// PartialEntity used for custom queries
+    /// </summary>
+    public class PartialEntity
+    {
+
+        [JsonProperty(PropertyName = "id")]
+        public Guid Id { get; }
+        public Guid OwnerId { get; }
+        public string Name { get; private set; }
+        public int Age { get; private set; }
+        public DateTime DateOfBirth { get; }
+        public DateTimeOffset ExpiryDate { get; private set; }
+        public string[] EmailAddresses { get; }
+        public bool Active { get; }
+
+        public PartialEntity(Guid id, Guid ownerId, string name, int age, DateTime dateOfBirth, DateTimeOffset expiryDate, string[] emailAddresses, bool active)
+        {
+            Id = id;
+            OwnerId = ownerId;
+            Name = name;
+            Age = age;
+            DateOfBirth = dateOfBirth;
+            ExpiryDate = expiryDate;
+            EmailAddresses = emailAddresses;
+            Active = active;
+        }
+    }
 }

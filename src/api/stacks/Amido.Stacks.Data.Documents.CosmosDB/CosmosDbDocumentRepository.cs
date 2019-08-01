@@ -168,18 +168,54 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             }
         }
 
-
         public async Task<OperationResult<IEnumerable<TEntity>>> Search(
             Expression<Func<TEntity, bool>> searchPredicate,
-            //Expression<Func<TEntity, TKey>> orderPredicate = null,
-            //bool isAscending = true,
             string partitionKey = null,
-            int? pageSize = null,
+            int pageSize = 20,
             int pageNumber = 1
             )
         {
+            return await Search<TEntity, string>(
+                searchPredicate: searchPredicate,
+                orderPredicate: null,
+                isAscendingOrder: true,
+                partitionKey: partitionKey,
+                pageSize: pageSize,
+                pageNumber: pageNumber
+            );
+        }
+
+        public async Task<OperationResult<IEnumerable<TResult>>> Search<TResult>(
+            Expression<Func<TResult, bool>> searchPredicate,
+            string partitionKey = null,
+            int pageSize = 20,
+            int pageNumber = 1
+            )
+        {
+            return await Search<TResult, string>(
+                searchPredicate: searchPredicate,
+                orderPredicate: null,
+                isAscendingOrder: true,
+                partitionKey: partitionKey,
+                pageSize: pageSize,
+                pageNumber: pageNumber
+            );
+        }
+
+        public async Task<OperationResult<IEnumerable<TResult>>> Search<TResult, TOrderKey>(
+        Expression<Func<TResult, bool>> searchPredicate,
+        Expression<Func<TResult, TOrderKey>> orderPredicate = null,
+        bool isAscendingOrder = true,
+        string partitionKey = null,
+        int pageSize = 20,
+        int pageNumber = 1
+        )
+        {
             if (pageNumber < 1)
                 throw new Exception("Must be higher than 0");
+
+            if (searchPredicate == null)
+                throw new Exception("A search predicate is required");
 
             var options = GetQueryRequestOptions(pageSize);
 
@@ -187,39 +223,27 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 options.PartitionKey = new PartitionKey(partitionKey);
 
             var collectionQuery =
-                container.Value.GetItemLinqQueryable<TEntity>(
+                container.Value.GetItemLinqQueryable<TResult>(
                         configuration.Value.AllowSynchronousQueryExecution,
                         options
                 );
 
-            FeedIterator<TEntity> queryResultSetIterator = null;
+            if (orderPredicate != null)
+            {
+                if (isAscendingOrder)
+                    collectionQuery = collectionQuery.OrderBy(orderPredicate);
+                else
+                    collectionQuery = collectionQuery.OrderByDescending(orderPredicate);
+            }
 
-            //TODO: Implement ordering
-
-            //if (searchPredicate != null && orderPredicate == null)
-            //{
-            //    queryResultSetIterator = collectionQuery.Where(searchPredicate).ToFeedIterator();
-            //}
-            //else if (searchPredicate == null && orderPredicate != null)
-            //{
-            //    if(isAscending)
-            //        queryResultSetIterator = collectionQuery.Where(searchPredicate).ToFeedIterator();
-            //    else
-            //        queryResultSetIterator = collectionQuery.Where(searchPredicate).OrderBy ToFeedIterator();
-            //}
-            //else
-            //{
-            //    queryResultSetIterator = collectionQuery.ToFeedIterator();
-            //}
-
-            queryResultSetIterator =
+            FeedIterator<TResult> queryResultSetIterator =
                 collectionQuery
                 .Where(searchPredicate)
-                .Skip((pageNumber - 1) * options.MaxItemCount.Value)
-                .Take(options.MaxItemCount.Value)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToFeedIterator();
 
-            return await ParseFeedIterator<TEntity>(queryResultSetIterator);
+            return await ParseFeedIterator<TResult>(queryResultSetIterator);
         }
 
         public async Task<OperationResult<IEnumerable<TResult>>> RunSQLQueryAsync<TResult>(string sqlQuery, Dictionary<string, string> parameters = null, string partitionKey = null, int? MaxItemCount = null)
@@ -238,7 +262,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             {
                 foreach (var param in parameters)
                 {
-                    queryDefinition.WithParameter($"@{param.Key}", param.Value);
+                    queryDefinition = queryDefinition.WithParameter($"@{param.Key}", param.Value);
                 }
             }
 
