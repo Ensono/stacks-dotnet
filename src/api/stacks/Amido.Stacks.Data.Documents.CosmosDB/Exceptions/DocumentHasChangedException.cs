@@ -4,7 +4,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Exceptions
 {
     public class DocumentHasChangedException : CosmosDBException
     {
-        public DocumentHasChangedException(
+        private DocumentHasChangedException(
             int exceptionCode,
             string message,
             string databaseAccountUri, string databaseName, string containerName, string partitionKey, string itemId, string eTag,

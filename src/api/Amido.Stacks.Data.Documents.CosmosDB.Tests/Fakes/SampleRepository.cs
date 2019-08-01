@@ -6,11 +6,11 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Fakes
 {
     public class SampleRepository
     {
-        CosmosDbDocumentRepository<SampleEntity, Guid> repository;
+        CosmosDbDocumentStorage<SampleEntity, Guid> repository;
 
         //this is a simple and dummy repository for testing
         //it shall not be used as reference implementation
-        public SampleRepository(CosmosDbDocumentRepository<SampleEntity, Guid> repository)
+        public SampleRepository(CosmosDbDocumentStorage<SampleEntity, Guid> repository)
         {
             this.repository = repository;
         }

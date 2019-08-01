@@ -9,7 +9,6 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Settings
         private static IConfiguration LoadConfiguration()
         {
             return new ConfigurationBuilder()
-            //.SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false)
             //.AddEnvironmentVariables()
             .Build();
