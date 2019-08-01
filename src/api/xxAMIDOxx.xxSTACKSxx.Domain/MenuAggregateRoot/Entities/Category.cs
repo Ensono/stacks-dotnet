@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amido.Stacks.Domain;
 using xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities
 {
-    public class Category
+    public class Category: IEntity<Guid>
     {
         private List<MenuItem> items = new List<MenuItem>();
 

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Amido.Stacks.Domain;
 using xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities
 {
-    public class MenuItem
+    public class MenuItem : IEntity<Guid>
     {
         public MenuItem(Guid id, string name, string description, double price, bool available, string itemClass, Cuisine cuisine, List<Ingredient> ingredients)
         {

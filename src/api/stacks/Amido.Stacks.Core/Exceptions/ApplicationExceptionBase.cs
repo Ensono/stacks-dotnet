@@ -3,7 +3,7 @@ using Amido.Stacks.Core.Operations;
 
 namespace Amido.Stacks.Core.Exceptions
 {
-    public abstract class ApplicationExceptionBase : Exception, IOperationContext
+    public abstract class ApplicationExceptionBase : Exception, IException, IOperationContext
     {
         public ApplicationExceptionBase(int exceptionCode, int operationCode, Guid correlationId, string message) : this(exceptionCode, operationCode, correlationId, message, null) { }
 

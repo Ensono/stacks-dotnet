@@ -9,13 +9,11 @@ using xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain
 {
-    public class Menu : AggregateRoot, IEntity<Guid>
+    public class Menu : AggregateRoot<Guid>, IEntity<Guid>
     {
         private List<Category> categories = new List<Category>();
 
         //TODO: set properties to private
-
-        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
