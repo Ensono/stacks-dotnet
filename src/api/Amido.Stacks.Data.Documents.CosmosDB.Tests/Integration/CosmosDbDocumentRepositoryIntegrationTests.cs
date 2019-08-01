@@ -113,36 +113,176 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
         }
 
         [Theory, AutoData]
-        public async Task SearchTest(List<SampleEntity> entities)
+        public async Task SearchSingleFieldTest(List<SampleEntity> entities)
         {
             //ARRANGE
-            foreach (var entity in entities)
-            {
-                await SaveItem(entity);
-            }
-
-
-            //TEST 1
+            await SaveItems(entities);
             var age = entities.First().Age;
+
+            //ACT
             var result = await repository.Search(filter => filter.Age == age);
+
+            //ASSERT
             Assert.Contains(result.Content, i => i.Id == entities.First().Id);
+        }
 
-            //TEST 2
+        [Theory, AutoData]
+        public async Task SearchSingleFieldWithCustomReturnTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            await SaveItems(entities);
+            var age = entities.First().Age;
+
+            //ACT
+            var result = await repository.Search<PartialEntity>(filter => filter.Age == age);
+
+            //ASSERT
+            Assert.Contains(result.Content, i => i.Id == entities.First().Id);
+        }
+
+        [Theory, AutoData]
+        public async Task SearchMultiplefieldsTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            await SaveItems(entities);
+
+            var age = entities.Last().Age;
             var expiry = entities.Last().ExpiryDate;
-            var result2 = await repository.Search(filter => filter.ExpiryDate == expiry);
-            Assert.Contains(result2.Content, i => i.ExpiryDate == entities.Last().ExpiryDate);
 
-            //TEST 3 - Multilpe results
-            var result3 = await repository.Search(filter => filter.Age > 1, pageSize: 1);
-            Assert.Contains(result3.Content, i => i.Age > 1);
+            //ACT
+            var result = await repository.Search(filter => filter.Age == age && filter.ExpiryDate == expiry);
+
+            //ASSERT
+            Assert.Contains(result.Content, i => i.Id == entities.Last().Id);
+        }
+
+        [Theory, AutoData]
+        public async Task SearchSingleFieldWithLimitTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            await SaveItems(entities);
+            var id = entities.First().Id;
+
+            //ACT
+            var result = await repository.Search(filter => filter.Id == id, pageSize: 10);
+
+            //ASSERT
+            Assert.Single(result.Content);
+            Assert.Contains(result.Content, i => i.Id == id);
+        }
+
+        [Theory, AutoData]
+        public async Task SearchSingleFieldOrderedAscWithLimitTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            await SaveItems(entities);
+            var id = entities.First().Id;
+
+            //ACT
+            var result = await repository.Search<SampleEntity, int>(
+                filter => filter.Age > 1,
+                order => order.Age,
+                pageSize: 10);
+
+            //ASSERT
+            var items = result.Content.ToList();
+            for (int i = 1; i < items.Count(); i++)
+            {
+                //Ensure current age is bigger or equal previous
+                Assert.True(items[i].Age >= items[i - 1].Age);
+            }
         }
 
 
         [Theory, AutoData]
-        public async Task SearchSqlQueryTest(List<SampleEntity> entities)
+        public async Task SearchSingleFieldOrderedDescWithLimitTest(List<SampleEntity> entities)
         {
+            //ARRANGE
+            await SaveItems(entities);
+            var id = entities.First().Id;
+
+            //ACT
+            var result = await repository.Search<SampleEntity, int>(
+                filter => filter.Age > 1,
+                order => order.Age,
+                isAscendingOrder: false,
+                pageSize: 10);
+
+            //ASSERT
+            var items = result.Content.ToList();
+            for (int i = 1; i < items.Count(); i++)
+            {
+                //Ensure current age is bigger or equal previous
+                Assert.True(items[i].Age <= items[i - 1].Age);
+            }
         }
 
+        [Theory, AutoData]
+        public async Task SearchSingleFieldWithPartitionTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            await SaveItems(entities);
+            var owner = entities.First().OwnerId;
+
+            //ACT
+            var result = await repository.Search(
+                filter => true,
+                partitionKey: owner.ToString(),
+                pageSize: 10);
+
+            //ASSERT
+            Assert.All(result.Content, r =>
+                Assert.Equal(r.OwnerId, owner)
+            );
+        }
+
+        [Theory, AutoData]
+        public async Task SearchSqlQueryTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            await SaveItems(entities);
+            var OwnerId = entities.First().OwnerId;
+
+            //ACT
+
+            var result = await repository.RunSQLQueryAsync<PartialEntity>($"SELECT * FROM c WHERE c.OwnerId = '{OwnerId}'");
+
+            //At least one
+            Assert.Contains(result.Content, r =>
+                r.OwnerId == OwnerId
+            );
+
+            //All should have same OwnerId
+            Assert.All(result.Content, r =>
+                Assert.Equal(r.OwnerId, OwnerId)
+            );
+        }
+
+        [Theory, AutoData]
+        public async Task SearchSqlQueryWithParameterTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            await SaveItems(entities);
+            var OwnerId = entities.First().OwnerId;
+
+            var param = new Dictionary<string, string>()
+            {
+                { "OwnerId", OwnerId.ToString() }
+            };
+
+            //ACT
+            var result = await repository.RunSQLQueryAsync<PartialEntity>($"SELECT * FROM c WHERE c.OwnerId = @OwnerId", param);
+
+            //At least one
+            Assert.Contains(result.Content, r =>
+                r.OwnerId == OwnerId
+            );
+
+            //All should have same OwnerId
+            Assert.All(result.Content, r =>
+                Assert.Equal(r.OwnerId, OwnerId)
+            );
+        }
 
         //SUPPORT METHODS
 
@@ -157,6 +297,12 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
         {
             output.WriteLine($"Saving the entity '{entity.Id}' in the repository");
             return await repository.SaveAsync(entity.Id, GetPartitionKey(entity), entity, eTag);
+        }
+
+        private async Task SaveItems(List<SampleEntity> entities)
+        {
+            foreach (var entity in entities)
+                await SaveItem(entity);
         }
 
         private async Task<OperationResult> CreateAndUpdateEntity(SampleEntity entity, string eTag)
