@@ -47,11 +47,13 @@ variables:
 - name: Test.FunctionalTestReportStorageAccountName
   value: amidostackstestsuksdev
 - name: Test.FunctionalTestReportStorageContainerName
-  value: testresults
-- name: Test.ConsumerContractTestProjectSourcePath
-  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.Consumer.PactTests'  
+  value: testresults 
 - name: Test.ProviderContractTestProjectSourcePath
   value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.Provider.PactTests'  
+- name: Test.PactBrokerUrl
+  value: https://amido-stacks.pact.dius.com.au
+- name: Test.PactApiToken
+  value: r2xlwu-YY3_sl0o0s03O3g
 
 # Docker Config
 - name: Docker.DockerfilePath
@@ -159,14 +161,11 @@ stages:
       displayName: Docker Build and Push to Az ACR
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Run Consumer Contract Tests'
-      inputs:
-        command: test
-        projects: '$(Test.ConsumerContractTestProjectSourcePath)/*.csproj'
-        arguments: '-v n'
-        testRunTitle: 'Consumer Contract Tests'
-        #workingDirectory: $(Pipeline.Workspace)/tests #IDK what to set this to
+    - script: |
+        echo "##vso[task.setvariable variable=BUILD_NUMBER]$(Version.MajorMinor).$(Version.Revision)-$(build.sourcebranchname)"
+        echo "##vso[task.setvariable variable=BROKER_URL]&(Test.PactBrokerUrl)"
+        echo "##vso[task.setvariable variable=BROKER_TOKEN]$(Test.PactApiToken)"
+      displayName: set environment variable for subsequent steps
 
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
@@ -175,7 +174,6 @@ stages:
         projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
         arguments: '-v n'
         testRunTitle: 'Provider Contract Tests'
-        #workingDirectory: $(Pipeline.Workspace)/tests #IDK what to set this to
 
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
