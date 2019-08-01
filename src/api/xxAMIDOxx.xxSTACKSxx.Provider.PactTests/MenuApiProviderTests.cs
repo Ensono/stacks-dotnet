@@ -116,13 +116,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
                 .ServiceProvider("MenuAPI", ProviderUri)
                 .HonoursPactWith("GenericMenuConsumer")
                 //.PactUri(@"..\..\..\..\pacts\genericmenuconsumer-menuapi.json")
-                .PactUri($"{CreatePactUri("GenericConsumerName", "MenuAPI")}", options)
+                .PactUri($"{CreatePactUri("GenericMenuConsumer", "MenuAPI")}", options)
                 .Verify();
         }
 
         private string CreatePactUri(string consumerName, string providerName)
         {
-            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest"
+            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest";
         }
 
         #region IDisposable Support
