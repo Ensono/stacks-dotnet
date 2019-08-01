@@ -11,14 +11,14 @@ using Microsoft.Extensions.Options;
 namespace Amido.Stacks.Data.Documents.CosmosDB
 {
     //TODO: Cosmos SDK assume string for identity, we might not need the generic anymore
-    public class CosmosDbDocumentRepository<TEntity, TEntityIdentityType> : IDocumentRepository<TEntity, TEntityIdentityType>
+    public class CosmosDbDocumentStorage<TEntity, TEntityIdentityType> : IDocumentStorage<TEntity, TEntityIdentityType>, IDocumentSearch<TEntity> where TEntity : class
     {
         //private readonly IOptionsMonitor<CosmosDbConfiguration> configuration;
         private readonly IOptions<CosmosDbConfiguration> configuration;
 
         Lazy<Container> container;
 
-        public CosmosDbDocumentRepository(IOptions<CosmosDbConfiguration> configuration)
+        public CosmosDbDocumentStorage(IOptions<CosmosDbConfiguration> configuration)
         {
             this.configuration = configuration;
 
@@ -79,11 +79,6 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                     ex
                 );
             }
-
-
-            //TODO: check results if failed throw exception
-            //Maybe return the content
-
 
             var isSuccessfull =
                 response?.StatusCode == System.Net.HttpStatusCode.OK ||
@@ -212,10 +207,10 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
         )
         {
             if (pageNumber < 1)
-                throw new Exception("Must be higher than 0");
+                InvalidSearchParameterException.Raise(configuration.Value.DatabaseAccountUri, configuration.Value.DatabaseName, container.Value.Id, partitionKey, null, nameof(pageNumber), pageNumber.ToString(), "value > 0");
 
             if (searchPredicate == null)
-                throw new Exception("A search predicate is required");
+                InvalidSearchParameterException.Raise(configuration.Value.DatabaseAccountUri, configuration.Value.DatabaseName, container.Value.Id, partitionKey, null, nameof(searchPredicate), null, "a valid search expression");
 
             var options = GetQueryRequestOptions(pageSize);
 
@@ -246,15 +241,16 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             return await ParseFeedIterator<TResult>(queryResultSetIterator);
         }
 
-        public async Task<OperationResult<IEnumerable<TResult>>> RunSQLQueryAsync<TResult>(string sqlQuery, Dictionary<string, string> parameters = null, string partitionKey = null, int? MaxItemCount = null)
+        public async Task<OperationResult<IEnumerable<TResult>>> RunSQLQueryAsync<TResult>(string sqlQuery, Dictionary<string, object> parameters = null, string partitionKey = null, int? MaxItemCount = null, string continuationToken = null)
         {
             var options = GetQueryRequestOptions(MaxItemCount);
 
             if (partitionKey != null)
                 options.PartitionKey = new PartitionKey(partitionKey);
 
-            //sample:
+            //samples:
             //var sqlQuery = "SELECT * FROM c WHERE c.LastName = 'Andersen'";
+            //var sqlQuery = "SELECT * FROM c WHERE c.LastName = @LastName";
 
             QueryDefinition queryDefinition = new QueryDefinition(sqlQuery);
 
@@ -266,11 +262,10 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 }
             }
 
-            FeedIterator<TResult> queryResultSetIterator = this.container.Value.GetItemQueryIterator<TResult>(queryDefinition, null, options);
+            FeedIterator<TResult> queryResultSetIterator = this.container.Value.GetItemQueryIterator<TResult>(queryDefinition, continuationToken, options);
 
             return await ParseFeedIterator(queryResultSetIterator);
         }
-
 
 
         //PRIVATE METHODS
@@ -282,6 +277,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 IfMatchEtag = eTag
             };
         }
+
         private QueryRequestOptions GetQueryRequestOptions(int? MaxItemCount)
         {
             return new QueryRequestOptions()
@@ -310,25 +306,42 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             //}
         }
 
-        private async Task<OperationResult<IEnumerable<TResult>>> ParseFeedIterator<TResult>(FeedIterator<TResult> queryResultSetIterator)
+        private async Task<OperationResult<IEnumerable<TResult>>> ParseFeedIterator<TResult>(FeedIterator<TResult> queryResultSetIterator, bool loadAllResults = false)
         {
             List<TResult> results = new List<TResult>();
             var dict = new Dictionary<string, string>();
 
             double currentCharge = 0;
-
-            while (queryResultSetIterator.HasMoreResults)
+            try
             {
-                FeedResponse<TResult> currentResultSet = await queryResultSetIterator.ReadNextAsync();
-                foreach (TResult item in currentResultSet)
+                while (queryResultSetIterator.HasMoreResults)
                 {
-                    results.Add(item);
+                    FeedResponse<TResult> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                    foreach (TResult item in currentResultSet)
+                    {
+                        results.Add(item);
+                    }
+
+                    currentCharge += currentResultSet.RequestCharge;
+
+                    dict["RequestCharge"] = currentCharge.ToString();
+                    dict["ContinuationToken"] = currentResultSet.ContinuationToken;
+
+                    if (!loadAllResults)
+                        break;
                 }
+            }
+            catch (Exception ex) when (ex.Message.Contains("Resource Not Found"))
+            {
+                ResourceNotFoundException.Raise(
+                    configuration.Value.DatabaseAccountUri,
+                    configuration.Value.DatabaseName,
+                    container.Value.Id,
+                    null,
+                    container.Value.Id,
+                    ex
+                );
 
-                currentCharge += currentResultSet.RequestCharge;
-
-                dict["RequestCharge"] = currentCharge.ToString();
-                //TODO: Consider adding continuationToken, check how to use it
             }
 
             //TODO: Calculate request charge

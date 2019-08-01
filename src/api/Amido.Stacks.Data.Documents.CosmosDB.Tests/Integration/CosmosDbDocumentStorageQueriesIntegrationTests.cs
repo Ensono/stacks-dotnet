@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
 using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
 using Amido.Stacks.Data.Documents.CosmosDB.Tests.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,19 +14,19 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
 {
     /// <summary>
     /// The purpose of this integration test is to validate the implementation
-    /// of CosmosDBRepository againt the data store at development\integration
+    /// of CosmosDbDocumentStorage against the data store at development\integration
     /// It is intended to test:
     /// - Communitation with CosmosDB
     /// - Encoding and Parsing of data
     /// - ...
     /// </summary>
     [Trait("TestType", "IntegrationTests")]
-    public class CosmosDbDocumentRepositoryIntegrationTests
+    public class CosmosDbDocumentStorageQueriesIntegrationTests
     {
         private readonly ITestOutputHelper output;
-        CosmosDbDocumentRepository<SampleEntity, Guid> repository;
+        CosmosDbDocumentStorage<SampleEntity, Guid> repository;
 
-        public CosmosDbDocumentRepositoryIntegrationTests(ITestOutputHelper output)
+        public CosmosDbDocumentStorageQueriesIntegrationTests(ITestOutputHelper output)
         {
             this.output = output;
             Fixture fixture = new Fixture();
@@ -37,79 +35,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
             );
 
             //var test = fixture.Create<IOptions<CosmosDbConfiguration>>();
-            repository = fixture.Create<CosmosDbDocumentRepository<SampleEntity, Guid>>();
-        }
-
-        [Theory, AutoData]
-        public async Task SaveAndGetTest(SampleEntity entity)
-        {
-            await SaveItem(entity);
-
-            var dbItem = await GetItem(entity);
-
-            Assert.NotNull(dbItem);
-            Assert.Equal(dbItem.Id, entity.Id);
-            Assert.Equal(dbItem.Name, entity.Name);
-            Assert.Equal(dbItem.OwnerId, entity.OwnerId);
-            Assert.Equal(dbItem.Age, entity.Age);
-            Assert.Equal(dbItem.DateOfBirth, entity.DateOfBirth);
-            Assert.Equal(dbItem.ExpiryDate, entity.ExpiryDate);
-            Assert.Equal(dbItem.EmailAddresses, entity.EmailAddresses);
-            Assert.Equal(dbItem.Active, entity.Active);
-
-            Assert.Equal(
-                JsonConvert.SerializeObject(dbItem.Siblings),
-                JsonConvert.SerializeObject(entity.Siblings)
-            );
-        }
-
-        [Theory, AutoData]
-        public async Task UpdateWithoutETagTest(SampleEntity entity)
-        {
-            await CreateAndUpdateEntity(entity, null);
-        }
-
-        [Theory, AutoData]
-        public async Task UpdateWithValidETagTest(SampleEntity entity)
-        {
-            var result = await CreateAndUpdateEntity(entity, null);
-
-            entity.SetNewValues("name", 33, DateTimeOffset.UtcNow);
-
-            var updateResult = await SaveItem(entity, result.Attributes["ETag"]);
-
-            Assert.True(updateResult.IsSuccessful);
-
-            var dbItem = await GetItem(entity);
-            Assert.NotNull(dbItem);
-            Assert.Equal(entity.Name, dbItem.Name);
-            Assert.Equal(entity.Age, dbItem.Age);
-            Assert.Equal(entity.ExpiryDate, dbItem.ExpiryDate);
-            //Check non changed attributes
-            Assert.Equal(dbItem.Id, entity.Id);
-            Assert.Equal(dbItem.OwnerId, entity.OwnerId);
-            Assert.Equal(dbItem.DateOfBirth, entity.DateOfBirth);
-            Assert.Equal(dbItem.EmailAddresses, entity.EmailAddresses);
-            Assert.Equal(dbItem.Active, entity.Active);
-
-        }
-
-        [Theory, AutoData]
-        public async Task UpdateWithInvalidETagTest(SampleEntity entity, string eTag)
-        {
-            await Assert.ThrowsAsync<DocumentHasChangedException>(async () => await CreateAndUpdateEntity(entity, eTag));
-        }
-
-        [Theory, AutoData]
-        public async Task DeleteTest(SampleEntity entity)
-        {
-            await SaveItem(entity);
-
-            var result = await repository.DeleteAsync(entity.Id, GetPartitionKey(entity));
-            Assert.True(result.IsSuccessful);
-
-            var dbItem = await GetItem(entity);
-            Assert.Null(dbItem);
+            repository = fixture.Create<CosmosDbDocumentStorage<SampleEntity, Guid>>();
         }
 
         [Theory, AutoData]
@@ -265,7 +191,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
             await SaveItems(entities);
             var OwnerId = entities.First().OwnerId;
 
-            var param = new Dictionary<string, string>()
+            var param = new Dictionary<string, object>()
             {
                 { "OwnerId", OwnerId.ToString() }
             };
@@ -284,14 +210,74 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
             );
         }
 
-        //SUPPORT METHODS
-
-        private async Task<SampleEntity> GetItem(SampleEntity entity)
+        [Theory, AutoData]
+        public async Task SearchSqlQueryWithContinuationParameterTest(List<SampleEntity> entities)
         {
-            output.WriteLine($"Retrieving the entity '{entity.Id}' from the repository");
-            var dbItem = await repository.GetByIdAsync(entity.Id, GetPartitionKey(entity));
-            return dbItem.Content;
+            //ARRANGE
+            await SaveItems(entities);
+            var Age = 1;
+
+            var param = new Dictionary<string, object>()
+            {
+                { "Age", Age }
+            };
+
+            //ACT
+            var result = await repository.RunSQLQueryAsync<SampleEntity>($"SELECT * FROM c WHERE c.Age > @Age", param);
+
+            //At least one
+            Assert.Contains(result.Content, r =>
+                r.Age > 1
+            );
+
+            //All should have age > 1
+            Assert.All(result.Content, r =>
+                Assert.True(r.Age > 1)
+            );
+
+            var resultContinuation = await repository.RunSQLQueryAsync<SampleEntity>($"SELECT * FROM c WHERE c.Age > @Age", param, null, null, result.Attributes["ContinuationToken"]);
+
+            //Does not contain results returned on previous query
+            Assert.DoesNotContain(resultContinuation.Content, c =>
+                result.Content.Any(r => r.Id == c.Id)
+            );
         }
+
+        [Theory, AutoData]
+        public async Task SearchSqlQueryWithContinuationParameterAndLimitResultsTest(List<SampleEntity> entities)
+        {
+            //ARRANGE
+            await SaveItems(entities);
+            var Age = 1;
+
+            var param = new Dictionary<string, object>()
+            {
+                { "Age", Age }
+            };
+
+            //ACT
+            var result = await repository.RunSQLQueryAsync<SampleEntity>($"SELECT * FROM c WHERE c.Age > @Age", param, null, 2, null);
+
+            //At least one
+            Assert.Contains(result.Content, r =>
+                r.Age > 1
+            );
+
+            //All should have age > 1
+            Assert.All(result.Content, r =>
+                Assert.True(r.Age > 1)
+            );
+
+            //GEt continuation results
+            var resultContinuation = await repository.RunSQLQueryAsync<SampleEntity>($"SELECT * FROM c WHERE c.Age > @Age", param, null, 2, result.Attributes["ContinuationToken"]);
+
+            //Does not contain results returned on previous query
+            Assert.DoesNotContain(resultContinuation.Content, c =>
+                result.Content.Any(r => r.Id == c.Id)
+            );
+        }
+
+        //SUPPORT METHODS
 
         private async Task<OperationResult> SaveItem(SampleEntity entity, string eTag = null)
         {
@@ -303,33 +289,6 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
         {
             foreach (var entity in entities)
                 await SaveItem(entity);
-        }
-
-        private async Task<OperationResult> CreateAndUpdateEntity(SampleEntity entity, string eTag)
-        {
-            //Arrange
-            await SaveItem(entity);
-            var dbItem = await GetItem(entity);
-            Assert.NotNull(dbItem);
-
-            Fixture fixture = new Fixture();
-            var newName = fixture.Create<string>();
-            var newAge = fixture.Create<int>();
-            var newExpiryDate = fixture.Create<DateTimeOffset>();
-
-            //ACT
-            dbItem.SetNewValues(newName, newAge, newExpiryDate);
-
-            var result = await SaveItem(dbItem, eTag);
-
-            //ASSERT
-            var dbItemModified = await GetItem(entity);
-
-            Assert.Equal(newName, dbItemModified.Name);
-            Assert.Equal(newAge, dbItemModified.Age);
-            Assert.Equal(newExpiryDate, dbItemModified.ExpiryDate);
-
-            return result;
         }
 
         private string GetPartitionKey(SampleEntity entity)
