@@ -28,6 +28,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
 
         private ITestOutputHelper OutputHelper { get; }
 
+        private ConfigModel Config;
+
         public MenuApiProviderTests(ITestOutputHelper output)
         {
             OutputHelper = output;
@@ -49,11 +51,15 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
                 .Build();
 
             ProviderWebHost.Start();
+
+            config = ConfigurationAccessor.GetApplicationConfiguration();
         }
 
 
         private void ConfigureDependencies(IServiceCollection services)
         {
+
+            //Move the following 3 lines into GET by ID method. Configure Dependencies should contain dependencies for ALL APIs
             var getMenuIdQueryCriteria = Substitute.For<IQueryHandler<GetMenuByIdQueryCriteria, Menu>>();
 
             getMenuIdQueryCriteria.ExecuteAsync(Arg.Any<GetMenuByIdQueryCriteria>()).Returns(FakeResponse);
@@ -78,6 +84,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
         [Fact]
         public void EnsureProviderApiHonoursPactWithConsumer()
         {
+            //This is the build number for the PROVIDER, not the consumer or broker.
+            var buildNumber = Config.Build_Number;
+            var brokerBaseUrl = Config.Broker_Url;
+
             // Arrange
             var config = new PactVerifierConfig
             {
@@ -91,15 +101,23 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
                 },
 
                 // Output verbose verification logs to the test output
-                Verbose = true
+                Verbose = true,
+
+                ProviderVersion = !string.IsNullOrEmpty(buildNumber) ? buildNumber : null,
+                PublishVerificationResults = !string.IsNullOrEmpty(buildNumber)
             };
+
+            //This token is taken from within the broker UI (See settings > Read/write token (CI))
+            var options = new PactUriOptions(Config.Broker_Token);
 
             //Act / Assert
             IPactVerifier pactVerifier = new PactVerifier(config);
-            pactVerifier.ProviderState($"{PactServiceUri}/provider-states")
+            pactVerifier
+                .ProviderState($"{PactServiceUri}/provider-states")
                 .ServiceProvider("MenuAPI", ProviderUri)
                 .HonoursPactWith("GenericMenuConsumer")
-                .PactUri(@"..\..\..\..\pacts\genericmenuconsumer-menuapi.json")
+                //.PactUri(@"..\..\..\..\pacts\genericmenuconsumer-menuapi.json")
+                .PactUri($"{brokerBaseUrl}/pacts/provider/MenuAPI/consumer/GenericMenuConsumer/latest", options)
                 .Verify();
         }
 
