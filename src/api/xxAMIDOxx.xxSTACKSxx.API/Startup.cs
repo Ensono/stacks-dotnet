@@ -70,7 +70,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         private void AddSwagger(IServiceCollection services)
         {
             services
-
                 //Add swagger for all endpoints without any filter
                 .AddSwaggerGen(c =>
                 {
