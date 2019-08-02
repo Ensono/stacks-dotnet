@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All">
+      <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
+      <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NSubstitute" Version="4.2.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <PackageReference Include="PactNet.Windows" Version="2.4.6" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' &#xD;&#xA;             and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)'=='X86'">
+    <PackageReference Include="PactNet.Linux.x86" Version="2.4.6" />
+    <None Include="pact-unix/**" Link="pact-linux-x86\bin\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' &#xD;&#xA;             and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)'=='X64' ">
+    <PackageReference Include="PactNet.Linux.x64" Version="2.4.6" />
+    <None Include="pact-unix/**" Link="pact-linux-x86_64\bin\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
+    <PackageReference Include="PactNet.OSX" Version="2.4.6" />
+    <None Include="pact-unix/**" Link="pact-osx\bin\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fixtures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API\xxAMIDOxx.xxSTACKSxx.API.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Properties\launchSettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

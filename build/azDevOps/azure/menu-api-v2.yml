@@ -10,6 +10,7 @@ resources:
 
 variables:
 - group: amido-stacks-infra-credentials-nonprod
+- group: amido-stacks-pact-credentials
 # testing new variable group
 # - group: amido-stacks-credentials-azure-nonprod
 
@@ -47,7 +48,15 @@ variables:
 - name: Test.FunctionalTestReportStorageAccountName
   value: amidostackstestsuksdev
 - name: Test.FunctionalTestReportStorageContainerName
-  value: testresults
+  value: testresults 
+- name: Test.ProviderContractTestProjectSourcePath
+  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'  
+
+# Pact Broker Info
+- name: Test.PactBrokerUrl
+  value: https://amido-stacks.pact.dius.com.au
+- name: Test.PactApiToken
+  value: r2xlwu-YY3_sl0o0s03O3g
 
 # Docker Config
 - name: Docker.DockerfilePath
@@ -154,6 +163,20 @@ stages:
         docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
       displayName: Docker Build and Push to Az ACR
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
+
+    - script: |
+        echo "##vso[task.setvariable variable=BROKER_URL]$(Test.PactBrokerUrl)"
+        echo "##vso[task.setvariable variable=BUILD_NUMBER]$(Docker.ImageTag)"
+        echo "##vso[task.setvariable variable=BROKER_TOKEN]$(Test.PactApiToken)"
+      displayName: set environment variable for subsequent steps
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Run Provider Contract Tests'
+      inputs:
+        command: test
+        projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
+        arguments: '-v n'
+        testRunTitle: 'Provider Contract Tests'
 
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
@@ -270,7 +293,6 @@ stages:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-
 
 - stage: Test
   variables: 
