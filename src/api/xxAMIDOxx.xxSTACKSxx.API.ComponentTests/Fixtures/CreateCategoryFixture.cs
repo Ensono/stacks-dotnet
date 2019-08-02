@@ -71,9 +71,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
                 return;
 
             //Ensure in the future menu is not created with categories
-            foreach (var category in existingMenu.Categories)
+            for (int i = 0; i < existingMenu.Categories.Count(); i++)
             {
-                existingMenu.RemoveCategory(category.Id);
+                existingMenu.RemoveCategory(existingMenu.Categories.First().Id);
             }
             existingMenu.ClearEvents();
         }

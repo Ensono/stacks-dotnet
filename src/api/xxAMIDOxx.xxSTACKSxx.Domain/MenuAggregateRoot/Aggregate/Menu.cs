@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Amido.Stacks.Domain;
+using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.Domain.Entities;
 using xxAMIDOxx.xxSTACKSxx.Domain.Events;
 using xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
@@ -11,9 +12,20 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
 {
     public class Menu : AggregateRoot<Guid>, IEntity<Guid>
     {
-        private List<Category> categories = new List<Category>();
-
         //TODO: set properties to private
+
+        [JsonProperty("Categories")]
+        private List<Category> categories;
+
+        public Menu(Guid id, string name, Guid restaurantId, string description, bool enabled, List<Category> categories = null)
+        {
+            Id = id;
+            Name = name;
+            RestaurantId = restaurantId;
+            Description = description;
+            this.categories = categories ?? new List<Category>(); ;
+            Enabled = enabled;
+        }
 
         public string Name { get; set; }
 
@@ -21,7 +33,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
 
         public string Description { get; set; }
 
-        public IReadOnlyList<Category> Categories { get => categories?.AsReadOnly(); }
+        [JsonIgnore]
+        public IReadOnlyList<Category> Categories { get => categories?.AsReadOnly(); private set => categories = value.ToList(); }
 
         public bool Enabled { get; set; }
 
