@@ -13,6 +13,7 @@ using Xunit;
 using Xunit.Abstractions;
 using xxAMIDOxx.xxSTACKSxx.API;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures;
 
 namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
@@ -65,6 +66,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
             getMenuIdQueryCriteria.ExecuteAsync(Arg.Any<GetMenuByIdQueryCriteria>()).Returns(FakeResponse);
 
             services.AddTransient(x => getMenuIdQueryCriteria);
+
+
+            //Move the following 3 lines into GET by ID method. Configure Dependencies should contain dependencies for ALL APIs
+            var searchMenuQueryCriteria = Substitute.For<IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult>>();
+
+            searchMenuQueryCriteria.ExecuteAsync(Arg.Any<SearchMenuQueryCriteria>()).Returns(FakeSearchResponse);
+
+            services.AddTransient(x => searchMenuQueryCriteria);
         }
 
         private Task<Menu> FakeResponse(CallInfo arg)
@@ -79,6 +88,28 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
             };
 
             return Task.FromResult(menu);
+        }
+
+        private Task<SearchMenuResult> FakeSearchResponse(CallInfo arg)
+        {
+            var searchMenuResult = new SearchMenuResult
+            {
+                Offset = 0,
+                Size = 20,
+                Results =
+                {
+                    new SearchMenuResultItem
+                    {
+                        Id = Guid.Parse("9dbffe96-daa5-4adc-a888-34e41dc205d4"),
+                        Name = "menu tuga",
+                        Description = "pastel de nata",
+                        Enabled = true,
+                        RestaurantId = Guid.Parse("159f42c2-672f-44c1-8652-7ae0bfb7dc78")
+                    }
+                }
+            };
+
+            return Task.FromResult(searchMenuResult);
         }
 
         [Fact]
