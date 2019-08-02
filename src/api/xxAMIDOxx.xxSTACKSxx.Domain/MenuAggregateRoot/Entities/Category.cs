@@ -2,24 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using Amido.Stacks.Domain;
+using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities
 {
-    public class Category: IEntity<Guid>
+    public class Category : IEntity<Guid>
     {
-        private List<MenuItem> items = new List<MenuItem>();
-
-        public Category(Guid id, string name, string description)
+        public Category(Guid id, string name, string description, List<MenuItem> items = null)
         {
             Id = id;
             Name = name;
             Description = description;
+            this.items = items ?? new List<MenuItem>();
         }
+
+        [JsonProperty("Items")]
+        private List<MenuItem> items;
+
 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        [JsonIgnore]
         public IReadOnlyList<MenuItem> Items { get => items?.AsReadOnly(); }
 
 

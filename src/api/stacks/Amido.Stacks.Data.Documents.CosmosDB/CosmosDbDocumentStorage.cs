@@ -39,9 +39,13 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
         {
             ItemResponse<TEntity> response = null;
 
+            PartitionKey? pkey = null;
+            if (!string.IsNullOrEmpty(partitionKey))
+                pkey = new PartitionKey(partitionKey);
+
             try
             {
-                response = await container.Value.UpsertItemAsync<TEntity>(document, new PartitionKey(partitionKey), GetRequestOptions(eTag));
+                response = await container.Value.UpsertItemAsync<TEntity>(document, pkey, GetRequestOptions(eTag));
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
             {
@@ -93,9 +97,22 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
         public async Task<OperationResult<TEntity>> GetByIdAsync(TEntityIdentityType identity, string partitionKey)
         {
+            if (string.IsNullOrEmpty(partitionKey))
+                PartitionKeyRequiredException.Raise(
+                    configuration.Value.DatabaseAccountUri,
+                    configuration.Value.DatabaseName,
+                    container.Value.Id,
+                    partitionKey,
+                    identity.ToString()
+                );
+
             try
             {
-                var response = await container.Value.ReadItemAsync<TEntity>(identity.ToString(), new PartitionKey(partitionKey), GetRequestOptions(null));
+                var response = await container.Value.ReadItemAsync<TEntity>(
+                    identity.ToString(),
+                    new PartitionKey(partitionKey),
+                    GetRequestOptions(null)
+                );
 
                 var isSuccessfull = response?.StatusCode == System.Net.HttpStatusCode.OK;
 
@@ -107,6 +124,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             }
             catch (CosmosException ex)
             {
+                //TODO: log the exception
+
                 return new OperationResult<TEntity>(
                         false,
                         default(TEntity),
@@ -130,6 +149,15 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
         public async Task<OperationResult> DeleteAsync(TEntityIdentityType identity, string partitionKey)
         {
+            if (string.IsNullOrEmpty(partitionKey))
+                PartitionKeyRequiredException.Raise(
+                    configuration.Value.DatabaseAccountUri,
+                    configuration.Value.DatabaseName,
+                    container.Value.Id,
+                    partitionKey,
+                    identity.ToString()
+                );
+
             try
             {
                 var response = await container.Value.DeleteItemAsync<TEntity>(identity.ToString(), new PartitionKey(partitionKey), null);
@@ -142,6 +170,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             }
             catch (CosmosException ex)
             {
+                //TODO: log the exception
+
                 return new OperationResult<TEntity>(
                         false,
                         default(TEntity),
