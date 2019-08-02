@@ -6,6 +6,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="appsettings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="appsettings.json">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents.CosmosDB\Amido.Stacks.Data.Documents.CosmosDB.csproj" />
+        <ProjectReference Include="..\stacks\Amido.Stacks.Tests\Amido.Stacks.Tests.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Infrastructure\xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj" />
     </ItemGroup>
 

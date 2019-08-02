@@ -1,48 +1,45 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
+﻿using System;
+using System.Threading.Tasks;
+using Amido.Stacks.Data.Documents;
+using xxAMIDOxx.xxSTACKSxx.Application.Integration;
+using xxAMIDOxx.xxSTACKSxx.Domain;
+
+namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
 {
-    //public class MenuRepository : IMenuRepository
-    //{
-    //    static System.Collections.Generic.Dictionary<Guid, Menu> storage = new System.Collections.Generic.Dictionary<Guid, Menu>();
+    public class MenuRepository : IMenuRepository
+    {
+        IDocumentStorage<Menu, Guid> documentStorage;
 
-    //    private Object _lock = new Object();
-    //    public async Task<Menu> GetByIdAsync(Guid id)
-    //    {
-    //        if (storage.ContainsKey(id))
-    //            return await Task.FromResult(storage[id]);
-    //        else
-    //            return await Task.FromResult((Menu)null);
-    //    }
+        public MenuRepository(IDocumentStorage<Menu, Guid> documentStorage)
+        {
+            this.documentStorage = documentStorage;
+        }
 
-    //    public async Task<bool> SaveAsync(Menu entity)
-    //    {
-    //        if (entity == null)
-    //            return await Task.FromResult(false);
+        public async Task<Menu> GetByIdAsync(Guid id)
+        {
+            var result = await documentStorage.GetByIdAsync(id, id.ToString());
 
-    //        lock (_lock)
-    //        {
-    //            if (storage.ContainsKey(entity.Id))
-    //                storage[entity.Id] = entity;
-    //            else
-    //                storage.Add(entity.Id, entity);
-    //        }
+            //TODO: Publish request charge results
 
-    //        return await Task.FromResult(true);
-    //    }
+            return result.Content;
+        }
 
-    //    public async Task<bool> DeleteAsync(Guid id)
-    //    {
-    //        bool result;
-    //        lock (_lock)
-    //        {
-    //            if (!storage.ContainsKey(id))
-    //                return false;
+        public async Task<bool> SaveAsync(Menu entity)
+        {
+            //TODO: Handle etag
+            //TODO: Publish request charge results
 
-    //            result = storage.Remove(id);
-    //        }
+            var result = await documentStorage.SaveAsync(entity.Id, entity.Id.ToString(), entity, null);
+            return result.IsSuccessful;
+        }
 
-    //        return await Task.FromResult(result);
-    //    }
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            //TODO: Publish request charge results
 
-    //}
+            var result = await documentStorage.DeleteAsync(id, id.ToString());
+            return result.IsSuccessful;
+        }
+    }
 }
 

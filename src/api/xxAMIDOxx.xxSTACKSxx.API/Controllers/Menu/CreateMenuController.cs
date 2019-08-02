@@ -57,7 +57,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             var id = await commandHandler.HandleAsync(
                 new CreateMenu()
                 {
-                    RestaurantId = Guid.NewGuid(), //Should get the id from the user logged-in
+                    RestaurantId = body.RestaurantId, //Should check if user logged-in owns it
                     Name = body.Name,
                     Description = body.Description,
                     Enabled = body.Enabled

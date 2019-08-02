@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Models
 {
@@ -14,5 +15,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
 
         [Required]
         public bool Enabled { get; set; }
+
+        /// <example>d290f1ee-6c54-4b01-90e6-d701748f0851</example>
+        [Required]
+        public Guid RestaurantId { get; set; }
     }
 }

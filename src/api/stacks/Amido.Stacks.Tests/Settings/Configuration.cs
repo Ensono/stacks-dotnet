@@ -2,24 +2,29 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Settings
+namespace Amido.Stacks.Tests.Settings
 {
     public static class Configuration
     {
+
+        private readonly static Lazy<IConfiguration> configuration = new Lazy<IConfiguration>(LoadConfiguration);
+
+        /// <summary>
+        /// Do not call directly. Initialization method used for lazy loading
+        /// </summary>
         private static IConfiguration LoadConfiguration()
         {
             return new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false)
             //.AddEnvironmentVariables()
             .Build();
-
         }
 
         public static T For<T>(string section)
         {
             var result = Activator.CreateInstance<T>();
 
-            var config = LoadConfiguration().GetSection(section);
+            var config = configuration.Value.GetSection(section);
 
             config.Bind(result);
 

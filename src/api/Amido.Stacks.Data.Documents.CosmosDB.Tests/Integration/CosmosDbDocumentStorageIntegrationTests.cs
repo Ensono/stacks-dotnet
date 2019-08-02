@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
 using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
-using Amido.Stacks.Data.Documents.CosmosDB.Tests.Settings;
+using Amido.Stacks.Tests.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Options;
@@ -34,7 +34,6 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
                 Configuration.For<CosmosDbConfiguration>("CosmosDB").AsOption<CosmosDbConfiguration>()
             );
 
-            //var test = fixture.Create<IOptions<CosmosDbConfiguration>>();
             repository = fixture.Create<CosmosDbDocumentStorage<SampleEntity, Guid>>();
         }
 

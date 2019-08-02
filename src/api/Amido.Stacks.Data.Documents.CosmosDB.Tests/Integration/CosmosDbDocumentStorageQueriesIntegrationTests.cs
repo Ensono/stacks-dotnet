@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
-using Amido.Stacks.Data.Documents.CosmosDB.Tests.Settings;
+using Amido.Stacks.Tests.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Options;

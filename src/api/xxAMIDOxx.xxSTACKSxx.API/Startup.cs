@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using Amido.Stacks.API.Swagger.Filters;
+using Amido.Stacks.Data.Documents.CosmosDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -32,7 +32,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         // Add dependent service required by the application
         public void ConfigureServices(IServiceCollection services)
         {
+            //TODO: non API configurations should be instrastructure concerns, need refactoring
             services.Configure<ValuesOptions>(Configuration.GetSection("Values"));
+            services.Configure<CosmosDbConfiguration>(Configuration.GetSection("CosmosDB"));
 
             services
                 //.AddMvc()
@@ -70,6 +72,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         private void AddSwagger(IServiceCollection services)
         {
             services
+
                 //Add swagger for all endpoints without any filter
                 .AddSwaggerGen(c =>
                 {

@@ -7,7 +7,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities
 {
     public class MenuItem : IEntity<Guid>
     {
-        public MenuItem(Guid id, string name, string description, double price, bool available, string itemClass, Cuisine cuisine, List<Ingredient> ingredients)
+        public MenuItem(Guid id, string name, string description, double price, bool available, string itemClass, Cuisine cuisine, List<Ingredient> ingredients = null)
         {
             Id = id;
             Name = name;
@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities
             Available = available;
             ItemClass = itemClass;
             Cuisine = cuisine;
-            Ingredients = ingredients;
+            Ingredients = ingredients ?? new List<Ingredient>();
         }
 
         public Guid Id { get; set; }

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Application.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
-using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.Domain;
@@ -33,14 +32,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
 
             //TODO: use a factory method for domain creation
-            var newMenu = new Menu()
-            {
-                Id = id,
-                Name = command.Name,
-                Description = command.Description,
-                RestaurantId = command.RestaurantId,
-                Enabled = command.Enabled
-            };
+            var newMenu = new Menu(
+                id: id,
+                name: command.Name,
+                restaurantId: command.RestaurantId,
+                description: command.Description,
+                categories: null,
+                enabled: command.Enabled
+            );
 
             await repository.SaveAsync(newMenu);
 

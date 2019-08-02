@@ -1,6 +1,7 @@
 ﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Application.CQRS.Commands;
 using Amido.Stacks.Application.CQRS.Queries;
+using Amido.Stacks.Data.Documents.CosmosDB.Extensions;
 using Amido.Stacks.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
@@ -31,6 +32,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
             //TODO: Evaluate if event publishers should be generic, probably not, EventHandler are generic tough
             AddEventPublishers(services);
 
+            services.AddCosmosDB();
+
+            //services.AddTransient<IMenuRepository, MenuRepository>(); //disabled until we sort out the DB in the cluster and configuration
             services.AddTransient<IMenuRepository, InMemoryMenuRepository>();
         }
 

@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\stacks\Amido.Stacks.Application.CQRS\Amido.Stacks.Application.CQRS.csproj" />
+    <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents.CosmosDB\Amido.Stacks.Data.Documents.CosmosDB.csproj" />
+    <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents\Amido.Stacks.Data.Documents.csproj" />
     <ProjectReference Include="..\stacks\Amido.Stacks.DependencyInjection\Amido.Stacks.DependencyInjection.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers\xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.Integration\xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj" />
