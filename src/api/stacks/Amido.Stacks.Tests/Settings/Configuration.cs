@@ -22,13 +22,7 @@ namespace Amido.Stacks.Tests.Settings
 
         public static T For<T>(string section)
         {
-            var result = Activator.CreateInstance<T>();
-
-            var config = configuration.Value.GetSection(section);
-
-            config.Bind(result);
-
-            return result;
+            return configuration.Value.GetSection(section).Get<T>();
         }
 
         public static IOptions<T> AsOption<T>(this T content) where T : class, new()
