@@ -2,7 +2,7 @@
 {
     public interface ISecretResolver<T>
     {
-        void AddSource(ISecretSource<T> source);
+        void AddSource(ISecretSource source);
         T ResolveSecret(Secret secret);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Amido.Stacks.Configuration
 {
-    public class EnvironmentSecretSource : ISecretSource<string>
+    public class EnvironmentSecretSource : ISecretSource
     {
         public string Source { get; }
 

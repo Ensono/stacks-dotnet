@@ -5,7 +5,7 @@ namespace Amido.Stacks.Configuration
 {
     public class SecretResolver : ISecretResolver<string>
     {
-        Dictionary<string, ISecretSource<string>> sources = new Dictionary<string, ISecretSource<string>>();
+        Dictionary<string, ISecretSource> sources = new Dictionary<string, ISecretSource>();
 
         public SecretResolver()
         {
@@ -13,7 +13,7 @@ namespace Amido.Stacks.Configuration
             AddSource(new FileSecretSource());
         }
 
-        public void AddSource(ISecretSource<string> source)
+        public void AddSource(ISecretSource source)
         {
             sources.Add(source.Source.ToUpperInvariant(), source);
         }

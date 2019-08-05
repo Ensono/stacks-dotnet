@@ -1,9 +1,9 @@
 ﻿namespace Amido.Stacks.Configuration
 {
-    public interface ISecretSource<T>
+    public interface ISecretSource
     {
         string Source { get; }
 
-        T Resolve(Secret secret);
+        string Resolve(Secret secret);
     }
 }
