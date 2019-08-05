@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
+namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
 {
     public class ConfigurationAccessor
     {

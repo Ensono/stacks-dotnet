@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using xxAMIDOxx.xxSTACKSxx.API;
-using xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 
-namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures
+namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
 
     public class TestStartup : Startup

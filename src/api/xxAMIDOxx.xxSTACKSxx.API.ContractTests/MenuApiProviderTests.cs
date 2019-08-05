@@ -6,10 +6,10 @@ using PactNet;
 using PactNet.Infrastructure.Outputters;
 using Xunit;
 using Xunit.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure;
-using xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures;
 
-namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
+namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
 {
     public class MenuApiProviderTests : IDisposable
     {

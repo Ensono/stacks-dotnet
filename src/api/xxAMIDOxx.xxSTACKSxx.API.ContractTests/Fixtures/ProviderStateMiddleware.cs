@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using NSubstitute;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Domain;
-using xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
