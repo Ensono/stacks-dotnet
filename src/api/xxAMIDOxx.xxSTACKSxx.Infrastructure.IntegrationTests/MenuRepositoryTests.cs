@@ -1,4 +1,15 @@
-﻿using Xunit;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Amido.Stacks.Data.Documents;
+using Amido.Stacks.Data.Documents.CosmosDB;
+using Amido.Stacks.Tests.Settings;
+using AutoFixture;
+using AutoFixture.Xunit2;
+using Microsoft.Extensions.Options;
+using Xunit;
+using xxAMIDOxx.xxSTACKSxx.Domain;
+using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
 {
@@ -11,33 +22,41 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
     [Trait("TestType", "IntegrationTests")]
     public class MenuRepositoryTests
     {
+
         //GetByIdTest will be tested as part of Save+Get OR Get+Delete+Get
         //public void GetByIdTest() { }
 
-        /*
         /// <summary>
         /// Ensure the implementation of MenuRepository.Save() submit 
         /// the menu information and is retrieved properly
         /// </summary>
-        [Theory, AutoData]
+        [Theory, MenuRepositoryAutoData]
         public async Task SaveAndGetTest(MenuRepository repository, Menu menu)
         {
             await repository.SaveAsync(menu);
             var dbItem = await repository.GetByIdAsync(menu.Id);
 
+            //Assert the values returned from DB matches the values sent
             Assert.Equal(dbItem.Id, menu.Id);
             Assert.Equal(dbItem.Name, menu.Name);
             Assert.Equal(dbItem.RestaurantId, menu.RestaurantId);
             Assert.Equal(dbItem.Description, menu.Description);
             Assert.Equal(dbItem.Enabled, menu.Enabled);
-            Assert.Equal(dbItem.Categories, menu.Categories);
+            Assert.All(menu.Categories, c =>
+                dbItem.Categories.Any(d =>
+                    c.Id == d.Id &&
+                    c.Name == d.Name &&
+                    c.Description == d.Description &&
+                    c.Items == d.Items
+                )
+            );
         }
 
         /// <summary>
         /// Ensure the implementation of MenuRepository.Delete() 
         /// removes an existing menu and is not retrieved when requested
         /// </summary>
-        [Theory, AutoData]
+        [Theory, MenuRepositoryAutoData]
         public async Task DeleteTest(MenuRepository repository, Menu menu)
         {
             await repository.SaveAsync(menu);
@@ -48,6 +67,18 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
             dbItem = await repository.GetByIdAsync(menu.Id);
             Assert.Null(dbItem);
         }
-        */
+    }
+
+    public class MenuRepositoryAutoData : AutoDataAttribute
+    {
+        public MenuRepositoryAutoData() : base(Customizations) { }
+
+        public static IFixture Customizations()
+        {
+            IFixture fixture = new Fixture();
+            fixture.Register<IOptions<CosmosDbConfiguration>>(() => Configuration.For<CosmosDbConfiguration>("CosmosDB").AsOption());
+            fixture.Register<IDocumentStorage<Menu, Guid>>(() => fixture.Create<CosmosDbDocumentStorage<Menu, Guid>>());
+            return fixture;
+        }
     }
 }
