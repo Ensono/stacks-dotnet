@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Queries;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using NSubstitute;
-using NSubstitute.Core;
 using PactNet;
 using PactNet.Infrastructure.Outputters;
 using Xunit;
 using Xunit.Abstractions;
-using xxAMIDOxx.xxSTACKSxx.API;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
+using xxAMIDOxx.xxSTACKSxx.Infrastructure;
 using xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures;
 
 namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
@@ -22,95 +15,30 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
     {
         private string ProviderUri { get; }
 
-        private string PactServiceUri { get; }
-
-        private IWebHost ProviderStateHost { get; }
         private IWebHost ProviderWebHost { get; }
 
         private ITestOutputHelper OutputHelper { get; }
 
-        private ConfigModel Config;
+        private readonly ConfigModel Config;
 
         public MenuApiProviderTests(ITestOutputHelper output)
         {
-            OutputHelper = output;
-
-            PactServiceUri = "http://localhost:9002";
-
-            ProviderStateHost = WebHost.CreateDefaultBuilder()
-                .UseUrls(PactServiceUri)
-                .UseStartup<TestStartup>()
-                .Build();
-
-            ProviderStateHost.Start();
-
+            OutputHelper = output;          
+            
+            //Create mock API service for the provider's API
             ProviderUri = "http://localhost:6001";
             ProviderWebHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(ProviderUri)
-                .UseStartup<Startup>()
-                .ConfigureServices(ConfigureDependencies)
+                .UseStartup<TestStartup>()
+                .ConfigureServices(DependencyRegistration.ConfigureStaticServices)
                 .Build();
 
             ProviderWebHost.Start();
 
+            //Get application configuration
             Config = ConfigurationAccessor.GetApplicationConfiguration();
         }
 
-
-        private void ConfigureDependencies(IServiceCollection services)
-        {
-
-            //Move the following 3 lines into GET by ID method. Configure Dependencies should contain dependencies for ALL APIs
-            var getMenuIdQueryCriteria = Substitute.For<IQueryHandler<GetMenuByIdQueryCriteria, Menu>>();
-
-            getMenuIdQueryCriteria.ExecuteAsync(Arg.Any<GetMenuByIdQueryCriteria>()).Returns(FakeResponse);
-
-            services.AddTransient(x => getMenuIdQueryCriteria);
-
-
-            //Move the following 3 lines into GET by ID method. Configure Dependencies should contain dependencies for ALL APIs
-            var searchMenuQueryCriteria = Substitute.For<IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult>>();
-
-            searchMenuQueryCriteria.ExecuteAsync(Arg.Any<SearchMenuQueryCriteria>()).Returns(FakeSearchResponse);
-
-            services.AddTransient(x => searchMenuQueryCriteria);
-        }
-
-        private Task<Menu> FakeResponse(CallInfo arg)
-        {
-            var menu = new Menu
-            {
-                Id = Guid.Parse("9dbffe96-daa5-4adc-a888-34e41dc205d4"),
-                Name = "menu tuga",
-                Description = "pastel de nata",
-                Enabled = true,
-                Categories = null
-            };
-
-            return Task.FromResult(menu);
-        }
-
-        private Task<SearchMenuResult> FakeSearchResponse(CallInfo arg)
-        {
-            var searchMenuResult = new SearchMenuResult
-            {
-                Offset = 0,
-                Size = 20,
-                Results =
-                {
-                    new SearchMenuResultItem
-                    {
-                        Id = Guid.Parse("9dbffe96-daa5-4adc-a888-34e41dc205d4"),
-                        Name = "menu tuga",
-                        Description = "pastel de nata",
-                        Enabled = true,
-                        RestaurantId = Guid.Parse("159f42c2-672f-44c1-8652-7ae0bfb7dc78")
-                    }
-                }
-            };
-
-            return Task.FromResult(searchMenuResult);
-        }
 
         [Fact]
         public void EnsureProviderApiHonoursPactWithConsumer()
@@ -133,6 +61,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
                 // Output verbose verification logs to the test output
                 Verbose = true,
 
+                //If build number is present, results will be published back to the broker
                 ProviderVersion = !string.IsNullOrEmpty(buildNumber) ? buildNumber : null,
                 PublishVerificationResults = !string.IsNullOrEmpty(buildNumber)
             };
@@ -143,10 +72,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
             //Act / Assert
             IPactVerifier pactVerifier = new PactVerifier(config);
             pactVerifier
-                .ProviderState($"{PactServiceUri}/provider-states")
+                .ProviderState($"{ProviderUri}/provider-states")
                 .ServiceProvider("MenuAPI", ProviderUri)
                 .HonoursPactWith("GenericMenuConsumer")
-                //.PactUri(@"..\..\..\..\pacts\genericmenuconsumer-menuapi.json")
                 .PactUri($"{CreatePactUri("GenericMenuConsumer", "MenuAPI")}", options)
                 .Verify();
         }
@@ -165,9 +93,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
             {
                 if (disposing)
                 {
-                    ProviderStateHost.StopAsync().GetAwaiter().GetResult();
-                    ProviderStateHost.Dispose();
-
                     ProviderWebHost.StopAsync().GetAwaiter().GetResult();
                     ProviderWebHost.Dispose();
                 }

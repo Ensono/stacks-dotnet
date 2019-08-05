@@ -1,30 +1,42 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+using xxAMIDOxx.xxSTACKSxx.API;
+using xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures;
+using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 
 namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures
 {
-    public class TestStartup
+
+    public class TestStartup : Startup
     {
-        public TestStartup(IConfiguration configuration)
+        public TestStartup(IHostingEnvironment env, IConfiguration configuration) : base(env, configuration)
         {
-            Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddSingleton<ProviderStateMiddleware>();
+
+            AddMocks(services);
+
+            base.ConfigureServices(services);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public override void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMiddleware<ProviderStateMiddleware>();
-            app.UseMvc();
+            base.Configure(app, env);
+        }
+
+        public void AddMocks(IServiceCollection services)
+        {
+            services.AddSingleton<IMenuRepository>((svc) => Substitute.For<IMenuRepository>());
+            services.AddSingleton<IApplicationEventPublisher>((svc) => Substitute.For<IApplicationEventPublisher>());
         }
     }
 }
