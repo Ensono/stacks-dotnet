@@ -6,7 +6,6 @@ namespace Amido.Stacks.Tests.Settings
 {
     public static class Configuration
     {
-
         private readonly static Lazy<IConfiguration> configuration = new Lazy<IConfiguration>(LoadConfiguration);
 
         /// <summary>
@@ -20,9 +19,12 @@ namespace Amido.Stacks.Tests.Settings
             .Build();
         }
 
-        public static T For<T>(string section)
+        public static T For<T>(string section = null)
         {
-            return configuration.Value.GetSection(section).Get<T>();
+            if (string.IsNullOrEmpty(section))
+                return configuration.Value.Get<T>();
+            else
+                return configuration.Value.GetSection(section).Get<T>();
         }
 
         public static IOptions<T> AsOption<T>(this T content) where T : class, new()
