@@ -259,15 +259,12 @@ stages:
               failOnStderr: true 
 
           - bash: |
-             echo "Setting $COSMOSDBKEY in $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key"
-             echo $COSMOSDBKEY > $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key
-             cat $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/secrets/cosmosdb/key
-            workingDirectory: $(Pipeline.Workspace)/build
-            displayName: Setting CosmosDB Connection Secret Value
+             echo $KEY > $VALUE
+            displayName: Setting Key-Value - CosmosDB Connection
             failOnStderr: true
             env:
-              COSMOSDBKEY: $(CosmosDB.Key)
-              ENVIRONMENT: $(Release.Environment)
+              KEY: $(CosmosDB.Key)
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Release.Environment)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
@@ -382,15 +379,12 @@ stages:
               failOnStderr: true 
 
           - bash: |
-             echo "Setting $COSMOSDBKEY in $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/secrets/cosmosdb/key"
-             echo $COSMOSDBKEY > $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key
-             cat $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key
-            workingDirectory: $(Pipeline.Workspace)/build
-            displayName: Setting CosmosDB Connection Secret Value
+             echo $KEY > $VALUE
+            displayName: Setting Key-Value - CosmosDB Connection
             failOnStderr: true
             env:
-              COSMOSDBKEY: $(CosmosDB.Key)
-              ENVIRONMENT: $(Release.Environment)
+              KEY: $(CosmosDB.Key)
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Release.Environment)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
