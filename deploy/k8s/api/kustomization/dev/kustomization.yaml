@@ -20,3 +20,9 @@ configMapGenerator:
 - name: appsettings
   files:
     - appsettings.json
+secretGenerator:
+- name: cosmosdb
+  behavior: replace
+  files:
+  - secrets/cosmosdb/key
+  

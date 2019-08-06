@@ -5,70 +5,60 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using NSubstitute;
+using xxAMIDOxx.xxSTACKSxx.Application.Integration;
+using xxAMIDOxx.xxSTACKSxx.Domain;
 
-namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures
+namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
-    public class ProviderStateMiddleware
+    public class ProviderStateMiddleware : IMiddleware
     {
-        private const string ConsumerName = "GenericMenuConsumer";
-        private readonly RequestDelegate _next;
         private readonly IDictionary<string, Action> _providerStates;
+        IMenuRepository repository;
 
-        public ProviderStateMiddleware(RequestDelegate next)
+        public ProviderStateMiddleware(IMenuRepository repository)
         {
-            _next = next;
+            this.repository = repository;
+
+            //Provider states are from the Given clause in the consumer tests
             _providerStates = new Dictionary<string, Action>
             {
                 {
-                    "There is no data",
-                    RemoveAllData
+                    "An existing menu",
+                    ExistingMenu
                 },
                 {
-                    "There is data",
-                    AddData
-                }
-                ,
-                {
-                    "Existing menu",
-                    AddData
+                    "A menu does not exist",
+                    MenuDoesNotExist
                 }
             };
         }
 
-        private void RemoveAllData()
+        private void ExistingMenu()
         {
-            //string path = Path.Combine(Directory.GetCurrentDirectory(), @"../../../../data");
-            //var deletePath = Path.Combine(path, "somedata.txt");
+            var menu = new Fixture().Create<Menu>();
 
-            //if (File.Exists(deletePath))
-            //{
-            //    File.Delete(deletePath);
-            //}
+            repository.GetByIdAsync(Arg.Any<Guid>()).Returns(Task.FromResult(menu));
         }
 
-        private void AddData()
+        private void MenuDoesNotExist()
         {
-            //string path = Path.Combine(Directory.GetCurrentDirectory(), @"../../../../data");
-            //var writePath = Path.Combine(path, "somedata.txt");
-
-            //if (!File.Exists(writePath))
-            //{
-            //    File.Create(writePath);
-            //}
+            repository.GetByIdAsync(Arg.Any<Guid>()).Returns(Task.FromResult((Menu)null));
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             if (context.Request.Path.Value == "/provider-states")
             {
-                this.HandleProviderStatesRequest(context);
-                await context.Response.WriteAsync(String.Empty);
+                HandleProviderStatesRequest(context);
+                await context.Response.WriteAsync(string.Empty);
             }
             else
             {
-                await this._next(context);
+                await next(context);
             }
         }
 
@@ -79,7 +69,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures
             if (context.Request.Method.ToUpper() == HttpMethod.Post.ToString().ToUpper() &&
                 context.Request.Body != null)
             {
-                string jsonRequestBody = String.Empty;
+                var jsonRequestBody = string.Empty;
                 using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8))
                 {
                     jsonRequestBody = reader.ReadToEnd();
@@ -88,12 +78,12 @@ namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures
                 var providerState = JsonConvert.DeserializeObject<ProviderState>(jsonRequestBody);
 
                 //A null or empty provider state key must be handled
-                if (providerState != null && !String.IsNullOrEmpty(providerState.State) &&
-                    providerState.Consumer == ConsumerName)
+                if (providerState != null && !string.IsNullOrEmpty(providerState.State))
                 {
                     _providerStates[providerState.State].Invoke();
                 }
             }
         }
+
     }
 }
