@@ -29,4 +29,3 @@ secretGenerator:
 - name: cosmosdb
   files:
   - secrets/cosmosdb/key
-  
