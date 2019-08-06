@@ -16,7 +16,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
     public class ProviderStateMiddleware : IMiddleware
     {
-        private const string ConsumerName = "GenericMenuConsumer";
         private readonly IDictionary<string, Action> _providerStates;
         IMenuRepository repository;
 
@@ -79,8 +78,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
                 var providerState = JsonConvert.DeserializeObject<ProviderState>(jsonRequestBody);
 
                 //A null or empty provider state key must be handled
-                if (providerState != null && !string.IsNullOrEmpty(providerState.State) &&
-                    providerState.Consumer == ConsumerName)
+                if (providerState != null && !string.IsNullOrEmpty(providerState.State))
                 {
                     _providerStates[providerState.State].Invoke();
                 }

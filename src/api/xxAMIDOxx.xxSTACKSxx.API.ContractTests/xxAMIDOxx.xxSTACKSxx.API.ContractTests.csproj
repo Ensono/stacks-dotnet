@@ -42,6 +42,7 @@
     <Folder Include="Fixtures\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\stacks\Amido.Stacks.Tests\Amido.Stacks.Tests.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API\xxAMIDOxx.xxSTACKSxx.API.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Amido.Stacks.Tests.Settings;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using PactNet;
@@ -11,45 +11,28 @@ using xxAMIDOxx.xxSTACKSxx.Infrastructure;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
 {
-    public class MenuApiProviderTests : IDisposable
+    public class MenuApiProviderTests
     {
         private string ProviderUri { get; }
-
-        private IWebHost ProviderWebHost { get; }
-
         private ITestOutputHelper OutputHelper { get; }
 
         private readonly ConfigModel Config;
+        private const string ProviderName = "MenuAPI";
+        private readonly PactVerifierConfig PactConfig;
 
         public MenuApiProviderTests(ITestOutputHelper output)
         {
-            OutputHelper = output;          
-            
-            //Create mock API service for the provider's API
-            ProviderUri = "http://localhost:6001";
-            ProviderWebHost = WebHost.CreateDefaultBuilder()
-                .UseUrls(ProviderUri)
-                .UseStartup<TestStartup>()
-                .ConfigureServices(DependencyRegistration.ConfigureStaticServices)
-                .Build();
+            OutputHelper = output;
 
-            ProviderWebHost.Start();
+            ProviderUri = "http://localhost:6001";
 
             //Get application configuration
-            Config = ConfigurationAccessor.GetApplicationConfiguration();
-        }
+            //This depends on another stacks project. Just reusing Pact would mean creating your own configuration accessor
+            Config = Configuration.For<ConfigModel>();
 
-
-        [Fact]
-        public void EnsureProviderApiHonoursPactWithConsumer()
-        {
-            //This is the build number for the PROVIDER, not the consumer or broker.
-            var buildNumber = Config.Build_Number;
-
-            // Arrange
-            var config = new PactVerifierConfig
+            //Set up the Pact configuration to be used in tests
+            PactConfig = new PactVerifierConfig
             {
-
                 // NOTE: We default to using a ConsoleOutput,
                 // however xUnit 2 does not capture the console output,
                 // so a custom outputter is required.
@@ -62,20 +45,38 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
                 Verbose = true,
 
                 //If build number is present, results will be published back to the broker
-                ProviderVersion = !string.IsNullOrEmpty(buildNumber) ? buildNumber : null,
-                PublishVerificationResults = !string.IsNullOrEmpty(buildNumber)
+                ProviderVersion = !string.IsNullOrEmpty(Config.Build_Number) ? Config.Build_Number : null,
+                PublishVerificationResults = !string.IsNullOrEmpty(Config.Build_Number)
             };
+        }
 
+        [Theory]
+        [InlineData("GenericMenuConsumer")]
+        public void EnsureProviderApiHonoursPactWithConsumer(string consumerName)
+        {
             //This token is taken from within the broker UI (See settings > Read/write token (CI))
             var options = new PactUriOptions(Config.Broker_Token);
 
-            //Act / Assert
+            using(var ProviderWebHost = WebHost.CreateDefaultBuilder()
+                .UseUrls(ProviderUri)
+                .UseStartup<TestStartup>()
+                .ConfigureServices(DependencyRegistration.ConfigureStaticServices)
+                .Build())
+            {
+                ProviderWebHost.Start();
+
+                VerifyPactFor(consumerName, PactConfig, options);
+            }
+        }
+
+        private void VerifyPactFor(string consumerName, PactVerifierConfig config, PactUriOptions options)
+        {
             IPactVerifier pactVerifier = new PactVerifier(config);
             pactVerifier
                 .ProviderState($"{ProviderUri}/provider-states")
-                .ServiceProvider("MenuAPI", ProviderUri)
-                .HonoursPactWith("GenericMenuConsumer")
-                .PactUri($"{CreatePactUri("GenericMenuConsumer", "MenuAPI")}", options)
+                .ServiceProvider(ProviderName, ProviderUri)
+                .HonoursPactWith(consumerName)
+                .PactUri($"{CreatePactUri(consumerName, ProviderName)}", options)
                 .Verify();
         }
 
@@ -83,30 +84,5 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
         {
             return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest";
         }
-
-        #region IDisposable Support
-        private bool _disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    ProviderWebHost.StopAsync().GetAwaiter().GetResult();
-                    ProviderWebHost.Dispose();
-                }
-
-                _disposedValue = true;
-            }
-        }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-        }
-        #endregion
     }
 }
