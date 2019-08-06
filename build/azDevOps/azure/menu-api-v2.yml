@@ -447,6 +447,7 @@ stages:
 
           - task: Bash@3
             displayName: 'Upload Release Notes'
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
@@ -464,6 +465,7 @@ stages:
 
           - task: Bash@3
             displayName: 'Retrieve URL for Release Notes'
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
