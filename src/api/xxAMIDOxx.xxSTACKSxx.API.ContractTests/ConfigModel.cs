@@ -1,4 +1,4 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests
+﻿namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
 {
     public class ConfigModel
     {

@@ -1,7 +1,7 @@
 ﻿using PactNet.Infrastructure.Outputters;
 using Xunit.Abstractions;
 
-namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures
+namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
     public class XUnitOutput : IOutput
     {

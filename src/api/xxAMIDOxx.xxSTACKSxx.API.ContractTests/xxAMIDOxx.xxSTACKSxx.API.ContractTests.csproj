@@ -7,6 +7,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.All">
       <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
@@ -41,6 +42,7 @@
     <Folder Include="Fixtures\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\stacks\Amido.Stacks.Tests\Amido.Stacks.Tests.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API\xxAMIDOxx.xxSTACKSxx.API.csproj" />
   </ItemGroup>
   <ItemGroup>

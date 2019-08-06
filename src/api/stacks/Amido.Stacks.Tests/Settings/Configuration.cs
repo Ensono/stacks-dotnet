@@ -20,15 +20,12 @@ namespace Amido.Stacks.Tests.Settings
             .Build();
         }
 
-        public static T For<T>(string section)
+        public static T For<T>(string section = null)
         {
-            var result = Activator.CreateInstance<T>();
-
-            var config = configuration.Value.GetSection(section);
-
-            config.Bind(result);
-
-            return result;
+            if(string.IsNullOrEmpty(section))
+                return configuration.Value.Get<T>();
+            else
+                return configuration.Value.GetSection(section).Get<T>();
         }
 
         public static IOptions<T> AsOption<T>(this T content) where T : class, new()
