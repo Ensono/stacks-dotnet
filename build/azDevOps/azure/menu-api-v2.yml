@@ -439,7 +439,7 @@ stages:
             displayName: 'Retrieve URL for Test Results'
             inputs:
               targetType: 'filePath'
-              filePath: deploy/scripts/DevOps/Azure/get-azstorage-sasurl.sh
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
               failOnStderr: true 
 
@@ -448,7 +448,7 @@ stages:
             displayName: 'Retrieve URL for Release Notes'
             inputs:
               targetType: 'filePath'
-              filePath: deploy/scripts/DevOps/Azure/get-azstorage-sasurl.sh
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
               arguments: $(ReleaseNote.StorageAccountRG) $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
               failOnStderr: true 
 
