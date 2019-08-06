@@ -13,6 +13,7 @@ variables:
 - group: amido-stacks-pact-credentials
 # testing new variable group
 # - group: amido-stacks-credentials-azure-nonprod
+- group: amido-stacks-menu-credentials
 
 # Global Config:
 - name: name_company
@@ -258,6 +259,17 @@ stages:
               failOnStderr: true 
 
           - bash: |
+             echo "Setting $COSMOSDBKEY in ./kustomization/$ENVIRONMENT/cosmosdb/key"
+             echo $COSMOSDBKEY > ./kustomization/$ENVIRONMENT/cosmosdb/key
+             cat ./kustomization/$ENVIRONMENT/cosmosdb/key
+            workingDirectory: $(Pipeline.Workspace)/build
+            displayName: Setting CosmosDB Connection Secret Value
+            failOnStderr: true
+            env:
+              COSMOSDBKEY: ($CosmosDB.Key)
+              ENVIRONMENT: $(Release.Environment)
+
+          - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
              $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
             workingDirectory: $(Pipeline.Workspace)/build/base
@@ -368,6 +380,17 @@ stages:
               arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
               workingDirectory: $(Pipeline.Workspace)/build/base
               failOnStderr: true 
+
+          - bash: |
+             echo "Setting $COSMOSDBKEY in ./kustomization/$ENVIRONMENT/cosmosdb/key"
+             echo $COSMOSDBKEY > ./kustomization/$ENVIRONMENT/cosmosdb/key
+             cat ./kustomization/$ENVIRONMENT/cosmosdb/key
+            workingDirectory: $(Pipeline.Workspace)/build
+            displayName: Setting CosmosDB Connection Secret Value
+            failOnStderr: true
+            env:
+              COSMOSDBKEY: ($CosmosDB.Key)
+              ENVIRONMENT: $(Release.Environment)
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
