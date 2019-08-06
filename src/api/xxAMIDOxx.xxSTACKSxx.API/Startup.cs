@@ -30,7 +30,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // Add dependent service required by the application
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             //TODO: non API configurations should be instrastructure concerns, need refactoring
             services.Configure<ValuesOptions>(Configuration.GetSection("Values"));
@@ -178,7 +178,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         // Configure the pipeline with middlewares
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

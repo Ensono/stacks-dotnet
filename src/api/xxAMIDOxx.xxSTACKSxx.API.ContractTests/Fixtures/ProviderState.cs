@@ -1,4 +1,4 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Provider.PactTests.Fixtures
+﻿namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
     public class ProviderState
     {
