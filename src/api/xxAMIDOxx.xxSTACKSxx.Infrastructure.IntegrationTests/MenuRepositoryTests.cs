@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Amido.Stacks.Configuration;
 using Amido.Stacks.Data.Documents;
 using Amido.Stacks.Data.Documents.CosmosDB;
 using Amido.Stacks.Tests.Settings;
@@ -13,6 +14,7 @@ using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
 {
+
     /// <summary>
     /// The purpose of this integration test is to validate the implementation
     /// of MenuRepository againt the data store at development\integration
@@ -75,9 +77,16 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
 
         public static IFixture Customizations()
         {
+            //Use local emulator on dev when no ENV is defined
+            if (Environment.GetEnvironmentVariable("COSMOSDBKEY") == null)
+                Environment.SetEnvironmentVariable("COSMOSDBKEY", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
+
             IFixture fixture = new Fixture();
+
+            fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
             fixture.Register<IOptions<CosmosDbConfiguration>>(() => Configuration.For<CosmosDbConfiguration>("CosmosDB").AsOption());
             fixture.Register<IDocumentStorage<Menu, Guid>>(() => fixture.Create<CosmosDbDocumentStorage<Menu, Guid>>());
+
             return fixture;
         }
     }

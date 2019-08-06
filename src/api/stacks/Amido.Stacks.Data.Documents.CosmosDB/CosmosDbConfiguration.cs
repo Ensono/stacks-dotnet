@@ -1,4 +1,6 @@
-﻿namespace Amido.Stacks.Data.Documents.CosmosDB
+﻿using Amido.Stacks.Configuration;
+
+namespace Amido.Stacks.Data.Documents.CosmosDB
 {
     public class CosmosDbConfiguration
     {
@@ -6,7 +8,8 @@
 
         public string DatabaseName { get; set; }
 
-        public string SecurityKey { get; set; }
+        //public string SecurityKey { get; set; }
+        public Secret SecurityKeySecret { get; set; }
 
         //public bool ReturnETags { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Amido.Stacks.Configuration;
 using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
 using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
 using Amido.Stacks.Tests.Settings;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
+using config = Amido.Stacks.Tests.Settings.Configuration;
 
 namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
 {
@@ -29,10 +31,16 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
         public CosmosDbDocumentStorageIntegrationTests(ITestOutputHelper output)
         {
             this.output = output;
+
+            //Use local emulator on dev when no ENV is defined
+            if (Environment.GetEnvironmentVariable("COSMOSDBKEY") == null)
+                Environment.SetEnvironmentVariable("COSMOSDBKEY", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
+
             Fixture fixture = new Fixture();
+            fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
             fixture.Register<IOptions<CosmosDbConfiguration>>(() =>
-                Configuration.For<CosmosDbConfiguration>("CosmosDB").AsOption<CosmosDbConfiguration>()
-            );
+                 config.For<CosmosDbConfiguration>("CosmosDB").AsOption()
+             );
 
             repository = fixture.Create<CosmosDbDocumentStorage<SampleEntity, Guid>>();
         }

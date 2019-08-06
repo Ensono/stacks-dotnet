@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Amido.Stacks.Configuration;
 using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
@@ -15,12 +16,14 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
     {
         //private readonly IOptionsMonitor<CosmosDbConfiguration> configuration;
         private readonly IOptions<CosmosDbConfiguration> configuration;
+        private readonly ISecretResolver<string> secretResolver;
 
         Lazy<Container> container;
 
-        public CosmosDbDocumentStorage(IOptions<CosmosDbConfiguration> configuration)
+        public CosmosDbDocumentStorage(IOptions<CosmosDbConfiguration> configuration, ISecretResolver<string> secretResolver)
         {
             this.configuration = configuration;
+            this.secretResolver = secretResolver;
 
             container = new Lazy<Container>(BuildContainer);
         }
@@ -30,7 +33,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
         /// </summary>
         private Container BuildContainer()
         {
-            CosmosClient client = new CosmosClient(configuration.Value.DatabaseAccountUri, configuration.Value.SecurityKey);
+            CosmosClient client = new CosmosClient(configuration.Value.DatabaseAccountUri, secretResolver.ResolveSecret(configuration.Value.SecurityKeySecret));
             Database database = client.GetDatabase(configuration.Value.DatabaseName);
             return database.GetContainer(typeof(TEntity).Name);
         }

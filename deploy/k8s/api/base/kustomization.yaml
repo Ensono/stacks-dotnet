@@ -25,3 +25,8 @@ commonAnnotations:
 # version: 2019.06.07-1703 #inserted by CD pipeline
 # app.kubernetes.io/version: 2019.06.07-1703
 # releasedOn: "2019-06-07T16:42:05Z"
+secretGenerator:
+- name: cosmosdb
+  files:
+  - secrets/cosmosdb/key
+  
