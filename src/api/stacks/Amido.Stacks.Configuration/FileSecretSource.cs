@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Amido.Stacks.Configuration
 {
-    public class FileSecretSource : ISecretSource
+    public class FileSecretSource : ISecretSource<string>
     {
         public string Source { get; }
 
