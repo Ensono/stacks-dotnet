@@ -261,7 +261,7 @@ stages:
           - bash: |
              echo "Setting $COSMOSDBKEY in $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key"
              echo $COSMOSDBKEY > $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key
-             cat $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key
+             cat $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/secrets/cosmosdb/key
             workingDirectory: $(Pipeline.Workspace)/build
             displayName: Setting CosmosDB Connection Secret Value
             failOnStderr: true
@@ -382,7 +382,7 @@ stages:
               failOnStderr: true 
 
           - bash: |
-             echo "Setting $COSMOSDBKEY in $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key"
+             echo "Setting $COSMOSDBKEY in $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/secrets/cosmosdb/key"
              echo $COSMOSDBKEY > $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key
              cat $(Pipeline.Workspace)/build/kustomization/$ENVIRONMENT/cosmosdb/key
             workingDirectory: $(Pipeline.Workspace)/build
