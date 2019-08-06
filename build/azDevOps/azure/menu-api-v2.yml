@@ -188,6 +188,7 @@ stages:
     value: dev
   # Credentials
   - group: amido-stacks-infra-credentials-nonprod
+  - group: amido-stacks-menu-credentials-dev
   # AKS Cluster Info
   - name: Kubernetes.ClusterRG
     value: amido-stacks-rg-uks-dev
@@ -258,6 +259,14 @@ stages:
               failOnStderr: true 
 
           - bash: |
+             echo $KEY > $VALUE
+            displayName: Setting Key-Value - CosmosDB Connection
+            failOnStderr: true
+            env:
+              KEY: $(CosmosDB.Key)
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Release.Environment)/secrets/cosmosdb/key
+
+          - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
              $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
             workingDirectory: $(Pipeline.Workspace)/build/base
@@ -300,6 +309,7 @@ stages:
     value: test
   # Credentials
   - group: amido-stacks-infra-credentials-nonprod
+  - group: amido-stacks-menu-credentials-test
   # AKS Cluster Info
   - name: Kubernetes.ClusterRG
     value: amido-stacks-rg-uks-dev
@@ -368,6 +378,14 @@ stages:
               arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
               workingDirectory: $(Pipeline.Workspace)/build/base
               failOnStderr: true 
+
+          - bash: |
+             echo $KEY > $VALUE
+            displayName: Setting Key-Value - CosmosDB Connection
+            failOnStderr: true
+            env:
+              KEY: $(CosmosDB.Key)
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Release.Environment)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
