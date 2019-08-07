@@ -22,7 +22,7 @@ resource "azurerm_cosmosdb_account" "db" {
   location            = azurerm_resource_group.env.location
   resource_group_name = azurerm_resource_group.env.name
   offer_type          = "Standard"
-  kind                = "GlobalDocumentDB"
+  kind                = "MongoDB"
 
   enable_automatic_failover = true
 
