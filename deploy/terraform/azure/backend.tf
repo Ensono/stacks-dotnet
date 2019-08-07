@@ -1,7 +1,9 @@
 terraform {
   backend "azurerm" {
-    resource_group_name = "tfstate"
-    container_name      = "tfstate"
-    key                 = "amido/nodejs/react"
+    storage_account_name = "amidostackstfstatetmp"
+    resource_group_name  = "amido-stacks-infra-tfstate-rg-uks"
+    container_name       = "tfstate"
+    # key                  = "dev/stacks-v2"
   }
 }
+
