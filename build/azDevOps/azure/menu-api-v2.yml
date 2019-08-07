@@ -3,7 +3,8 @@ name: $(build.SourceBranchName)-init
 trigger:
   paths:
     exclude:
-    - src/api/xxAMIDOxx.xxSTACKSxx.Models
+    - src/api/xxAMIDOxx.xxSTACKSxx.API.Models
+    - deploy/terraform
 
 resources:
 - repo: self

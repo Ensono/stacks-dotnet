@@ -3,6 +3,13 @@ name: $(build.SourceBranchName)-init
 resources:
 - repo: self
 
+trigger:
+  paths:
+    include:
+    - deploy/terraform/*
+    - build/azDevOps/azure/menu-provisioning.yml
+
+
 variables:
 - name: system.debug
   value: true
@@ -20,6 +27,7 @@ variables:
   value: $(Version.MajorMinor).$(Version.Revision)-$(build.sourcebranchname)
 
 # Package Info
+- name: Package.File
   value: scripts-0.0.28-master.tar.gz
 - name: Package.SAS
   value: 'se=2019-09-06T12%3A23Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=lcr6/x7rq04FpRlNfFXd%2BRq0S0A1QEyQH/0wDi48Y6M%3D'
