@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "env" {
 resource "azurerm_cosmosdb_table" "table" {
   name                = local.cosmosdb_table_name
   resource_group_name = azurerm_cosmosdb_account.db.resource_group_name
-  account_name        = data.azurerm_cosmosdb_account.db.name
+  account_name        = azurerm_cosmosdb_account.db.name
 }
 
 
