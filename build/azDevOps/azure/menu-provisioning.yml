@@ -71,13 +71,10 @@ stages:
 
       - bash: 'terraform fmt' 
         displayName: terraform fmt
-        workingDirectory: '$(Build.SourcesDirectory)/deploy/terraform/azure'
+        workingDirectory: '$(Build.SourcesDirectory)/deploy/terraform/azure' 
 
       - publish: $(Build.SourcesDirectory)/deploy/terraform/azure
         artifact: terraform
-
-      - publish: $(Build.SourcesDirectory)/deploy/policies
-        artifact: policies
 
 - stage: DevX
   variables: 
