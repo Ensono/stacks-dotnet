@@ -56,6 +56,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
         public void EnsureProviderApiHonoursPactWithConsumer(string consumerName)
         {
             //This token is taken from within the broker UI (See settings > Read/write token (CI))
+            //This is used to authenticate requests to the pact broker as part of the PactVerifier
             var options = new PactUriOptions(Config.Broker_Token);
 
             //Create the mocked provider service
