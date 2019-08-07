@@ -36,7 +36,9 @@ variables:
 - name: TF_VAR_name_company
   value: amido
 - name: TF_VAR_name_platform
-  value: stacks-menu
+  value: stacks
+- name: TF_VAR_name_component
+  value: menu
 - name: TF_VAR_resource_group_tags
   value: "{}"
 - name: TF_VAR_resource_group_location_env
@@ -50,10 +52,10 @@ variables:
 - name: TF_STATE_CONTAINERNAME
   value: tfstate
 - name: TF_STATE_KEY
-  value: $(TF_VAR_name_company)-$(TF_VAR_name_platform)-menu
+  value: $(TF_VAR_name_company)-$(TF_VAR_name_platform)-$(TF_VAR_name_component)
 
 - name: TF_WORKSPACE_NAME
-  value: $(TF_VAR_name_company)-$(TF_VAR_name_platform)-$(TF_VAR_name_environment)-menu
+  value: $(TF_VAR_name_company)-$(TF_VAR_name_platform)-$(TF_VAR_name_component)-$(TF_VAR_name_environment)
 # Override these on a per-environment basis if neccesary
 
 
@@ -153,6 +155,7 @@ stages:
               TF_VAR_name_company: $(TF_VAR_name_company)
               TF_VAR_name_platform: $(TF_VAR_name_platform)   
               TF_VAR_name_environment: $(TF_VAR_name_environment)
+              TF_VAR_name_component: $(TF_VAR_name_component)
               # Resource Group
               TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
               TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
@@ -251,6 +254,7 @@ stages:
               # Terraform 
               TF_VAR_name_company: $(TF_VAR_name_company)
               TF_VAR_name_platform: $(TF_VAR_name_platform)   
+              TF_VAR_name_component: $(TF_VAR_name_component)
               TF_VAR_name_environment: $(TF_VAR_name_environment)
               # Resource Group
               TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
