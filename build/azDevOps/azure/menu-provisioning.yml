@@ -76,12 +76,12 @@ stages:
       - publish: $(Build.SourcesDirectory)/deploy/terraform/azure
         artifact: terraform
 
-- stage: DevX
+- stage: Dev
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
   - group: amido-stacks-infra-nonprod # Used for Terraform secrets and Cluster SPN
   - name: TF_VAR_name_environment
-    value: devx
+    value: dev
 
   jobs:
   - deployment: infrastructure # This should be made into a meta-template when it's available! 
@@ -186,7 +186,7 @@ stages:
   - deployment: infrastructure # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
-    environment: Test
+    environment: test
     strategy:
       runOnce:
         deploy:
