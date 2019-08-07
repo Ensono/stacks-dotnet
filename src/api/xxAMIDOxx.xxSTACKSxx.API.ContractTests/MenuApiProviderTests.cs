@@ -27,7 +27,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             ProviderUri = "http://localhost:6001";
 
             //Get application configuration
-            //This depends on another stacks project. Just reusing Pact would mean creating your own configuration accessor
             Config = Configuration.For<ConfigModel>();
 
             //Set up the Pact configuration to be used in tests
@@ -50,13 +49,16 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             };
         }
 
+        //If there are additional consumers, add extra inline data with the consumer name
         [Theory]
         [InlineData("GenericMenuConsumer")]
+        //[InlineData("OtherConsumer")]
         public void EnsureProviderApiHonoursPactWithConsumer(string consumerName)
         {
             //This token is taken from within the broker UI (See settings > Read/write token (CI))
             var options = new PactUriOptions(Config.Broker_Token);
 
+            //Create the mocked provider service
             using(var ProviderWebHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(ProviderUri)
                 .UseStartup<TestStartup>()
@@ -69,6 +71,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             }
         }
 
+        //This verifies the pact and .Verify() publishes the results back to the broker (specified in .PactUri())
         private void VerifyPactFor(string consumerName, PactVerifierConfig config, PactUriOptions options)
         {
             IPactVerifier pactVerifier = new PactVerifier(config);

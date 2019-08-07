@@ -8,7 +8,6 @@ using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
-
     public class TestStartup : Startup
     {
         public TestStartup(IHostingEnvironment env, IConfiguration configuration) : base(env, configuration)

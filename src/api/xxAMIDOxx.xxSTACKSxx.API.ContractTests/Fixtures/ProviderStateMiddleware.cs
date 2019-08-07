@@ -27,7 +27,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
             _providerStates = new Dictionary<string, Action>
             {
                 {
-                    "An existing menu",
+                    //These are case sensitive. Consumer and Provider should share list of states when states are required
+                    "An existing menu", 
                     ExistingMenu
                 },
                 {
@@ -37,6 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
             };
         }
 
+        //These functions set up the mocked provider API state by mocking the response the repository gives
         private void ExistingMenu()
         {
             var menu = new Fixture().Create<Menu>();
