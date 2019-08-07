@@ -53,9 +53,6 @@ variable "resource_group_tags" {
 # COSMOSDB INFORMATION
 ############################################
 
-variable "cosmosdb_failover_location" {
-  default = "euw"
-}
 ###########################
 
 locals {

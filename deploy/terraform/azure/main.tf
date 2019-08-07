@@ -37,8 +37,4 @@ resource "azurerm_cosmosdb_account" "db" {
     failover_priority = 0
   }
 
-  geo_location {
-    location          = var.cosmosdb_failover_location
-    failover_priority = 1
-  }
 }
