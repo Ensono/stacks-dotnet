@@ -210,6 +210,12 @@ stages:
     value: amido-stacks-rg-uks-devx
   - name:  Kubernetes.ClusterName
     value: amido-stacks-aks-uks-devx
+  - name: Kubernetes.KustomizeFilePath
+    value: dev
+# Above defined for mismatched app/pipeline config, this is a typical configuration:
+#  - name: Kubernetes.KustomizeFilePath
+#    value: $(Release.Environment)
+
     # Application Secret Retrieval
   - name: CosmosDB.accountName
     value: amidostacksmenucdauksdev
@@ -285,14 +291,14 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
               arguments: $(CosmosDB.accountName)
 
-            # This step consumes the preceding key variables to populate the secret -- NOTE THE STATIC DEFINITION OF 'DEV' TEMPORARY DUE TO CLUSTER FAILURE! 
+            # This step consumes the preceding key variables to populate the secret
           - bash: |
              echo $KEY > $VALUE
             displayName: Set CosmosDB Key in Kubernetes Resource
             failOnStderr: true
             env:
               KEY: $(CosmosDB.key)
-              VALUE: $(Pipeline.Workspace)/build/kustomization/dev/secrets/cosmosdb/key
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
@@ -307,7 +313,7 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Release.Environment)
+              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
               workingDirectory: $(Pipeline.Workspace)/build
               failOnStderr: true 
 
@@ -343,6 +349,11 @@ stages:
     value: amido-stacks-rg-uks-devx
   - name:  Kubernetes.ClusterName
     value: amido-stacks-aks-uks-devx
+  - name: Kubernetes.KustomizeFilePath
+    value: test
+# Above defined for mismatched app/pipeline config, this is a typical configuration:
+#  - name: Kubernetes.KustomizeFilePath
+#    value: $(Release.Environment)
     # Application Secret Retrieval
   - name: CosmosDB.accountName
     value: amidostacksmenucdaukstest
@@ -418,14 +429,14 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
               arguments: $(CosmosDB.accountName)
 
-            # This step consumes the preceding key variables to populate the secret -- NOTE THE STATIC DEFINITION OF 'DEV' TEMPORARY DUE TO CLUSTER FAILURE! 
+            # This step consumes the preceding key variables to populate the secret 
           - bash: |
              echo $KEY > $VALUE
             displayName: Set CosmosDB Key in Kubernetes Resource
             failOnStderr: true
             env:
               KEY: $(CosmosDB.key)
-              VALUE: $(Pipeline.Workspace)/build/kustomization/test/secrets/cosmosdb/key
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
@@ -440,7 +451,7 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Release.Environment)
+              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
               workingDirectory: $(Pipeline.Workspace)/build
               failOnStderr: true 
 
