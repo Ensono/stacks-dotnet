@@ -216,7 +216,7 @@ stages:
 
     # Application Secret Retrieval
   - name: CosmosDB.accountName
-    value: amidostacksmenucdauksdev
+    value: amidostacksmenucdauksdevx
   
   jobs:
   - deployment: Apply # This should be made into a meta-template when it's available! 
@@ -352,7 +352,7 @@ stages:
 
     # Application Secret Retrieval
   - name: CosmosDB.accountName
-    value: amidostacksmenucdaukstest
+    value: amidostacksmenucdaukstestx
   
   jobs:
   - deployment: Apply # This should be made into a meta-template when it's available! 
