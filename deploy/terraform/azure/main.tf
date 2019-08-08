@@ -10,14 +10,14 @@ resource "azurerm_resource_group" "env" {
 ##################################################
 # CosmosDB Resource
 
-resource "azurerm_cosmosdb_table" "table" {
-  name                = local.cosmosdb_table_name
-  resource_group_name = azurerm_cosmosdb_account.db.resource_group_name
-  account_name        = data.azurerm_cosmosdb_account.db.name
+
+resource "azurerm_cosmosdb_sql_database" "db" {
+  name                = var.cosmosDBdatabaseName
+  resource_group_name = azurerm_cosmosdb_account.account.resource_group_name
+  account_name        = azurerm_cosmosdb_account.account.name
 }
 
-
-resource "azurerm_cosmosdb_account" "db" {
+resource "azurerm_cosmosdb_account" "account" {
   name                = local.cosmosdb_account_name
   location            = azurerm_resource_group.env.location
   resource_group_name = azurerm_resource_group.env.name
@@ -37,8 +37,4 @@ resource "azurerm_cosmosdb_account" "db" {
     failover_priority = 0
   }
 
-  geo_location {
-    location          = var.cosmosdb_failover_location
-    failover_priority = 1
-  }
 }
