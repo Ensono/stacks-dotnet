@@ -1,8 +1,10 @@
-﻿namespace Amido.Stacks.Configuration
+﻿using System.Threading.Tasks;
+
+namespace Amido.Stacks.Configuration
 {
     public interface ISecretResolver<T>
     {
         void AddSource(ISecretSource<T> source);
-        T ResolveSecret(Secret secret);
+        Task<T> ResolveSecretAsync(Secret secret);
     }
 }
