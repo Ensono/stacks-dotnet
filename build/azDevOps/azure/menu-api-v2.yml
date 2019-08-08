@@ -207,9 +207,9 @@ stages:
   - group: amido-stacks-menu-credentials-dev
   # AKS Cluster Info
   - name: Kubernetes.ClusterRG
-    value: amido-stacks-rg-uks-dev
+    value: amido-stacks-rg-uks-devx
   - name:  Kubernetes.ClusterName
-    value: amido-stacks-cluster-uks-dev
+    value: amido-stacks-aks-uks-devx
     # Application Secret Retrieval
   - name: CosmosDB.accountName
     value: amidostacksmenucdauksdev
@@ -340,9 +340,9 @@ stages:
   # - group: amido-stacks-menu-credentials-test
   # AKS Cluster Info
   - name: Kubernetes.ClusterRG
-    value: amido-stacks-rg-uks-dev
+    value: amido-stacks-rg-uks-devx
   - name:  Kubernetes.ClusterName
-    value: amido-stacks-cluster-uks-dev
+    value: amido-stacks-aks-uks-devx
     # Application Secret Retrieval
   - name: CosmosDB.accountName
     value: amidostacksmenucdaukstest
