@@ -1,0 +1,22 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: menuapi
+spec:
+  template:
+    spec:
+      containers:
+        - name: menuapi
+          env:
+          - name: SETTINGS
+            valueFrom:
+              configMapKeyRef:
+                name: appsettings
+                key: appsettings.json
+          volumeMounts:
+          - name: appsettings
+            mountPath: /app/config
+      volumes:
+        - name: appsettings
+          configMap:
+            name: appsettings

@@ -1,0 +1,32 @@
+- op: replace
+  path: /spec/rules/0/host
+  value: testx.amidostacks.com
+
+- op: add
+  path: /spec/tls
+  value:
+    - hosts:
+      - testx.amidostacks.com
+
+- op: add
+  path: /spec/rules/-
+  value:
+    host: "testx.azure.amidostacks.com"
+    http:
+      paths:
+      - path: /api/menu(/|$)(.*)
+        backend:
+          serviceName: menuapi
+          servicePort: 80
+
+#for localhost testxs
+- op: add
+  path: /spec/rules/-
+  value:
+    host: "testx.localhost"
+    http:
+      paths:
+      - path: /api/menu(/|$)(.*)
+        backend:
+          serviceName: menuapi
+          servicePort: 80
