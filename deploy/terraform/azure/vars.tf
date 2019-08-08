@@ -55,10 +55,6 @@ variable "resource_group_tags" {
 
 variable "cosmosDBdatabaseName" {
 }
-variable "cosmosDBcollectionName" {
-}
-variable "cosmosDBcollectionPartitionKey" {
-}
 ###########################
 
 locals {
