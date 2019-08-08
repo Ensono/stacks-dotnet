@@ -219,7 +219,7 @@ stages:
 - stage: TestX
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
-  - group: amido-stacks-infra-nonprod # Used for Terraform secrets and Cluster SPN
+  - group: amido-stacks-infra-nonprod # Used for Terraform secrets and Cluster SPN #
   - name: TF_VAR_name_environment
     value: testx
 
