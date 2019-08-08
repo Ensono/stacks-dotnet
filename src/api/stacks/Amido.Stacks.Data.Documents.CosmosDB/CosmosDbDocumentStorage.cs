@@ -12,10 +12,10 @@ using Microsoft.Extensions.Options;
 
 namespace Amido.Stacks.Data.Documents.CosmosDB
 {
-    //TODO: Cosmos SDK assume string for identity, we might not need the generic anymore
+    // TODO: Cosmos SDK assume string for identity, we might not need the generic anymore, 
+    // but might be useful if reused with other sdks like Table Storage or MongoDB
     public class CosmosDbDocumentStorage<TEntity, TEntityIdentityType> : IDocumentStorage<TEntity, TEntityIdentityType>, IDocumentSearch<TEntity> where TEntity : class
     {
-        //private readonly IOptionsMonitor<CosmosDbConfiguration> configuration;
         private readonly IOptions<CosmosDbConfiguration> configuration;
         private readonly ISecretResolver<string> secretResolver;
 
