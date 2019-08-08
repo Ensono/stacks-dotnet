@@ -216,7 +216,7 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/new-cosmosdb-collection.sh
-              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(azure_client_secret)
+              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionPartitionKey)
               failOnStderr: true 
           
 
@@ -351,6 +351,6 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/new-cosmosdb-collection.sh
-              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(azure_client_secret)
+              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionPartitionKey)
               failOnStderr: true 
           
