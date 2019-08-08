@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Amido.Stacks.Configuration
 {
@@ -13,7 +14,7 @@ namespace Amido.Stacks.Configuration
             Source = source;
         }
 
-        public string Resolve(Secret secret)
+        public async Task<string> ResolveAsync(Secret secret)
         {
             if (secret == null)
                 throw new ArgumentNullException($"The parameter {nameof(secret)} cann't be null");
@@ -27,7 +28,7 @@ namespace Amido.Stacks.Configuration
             var result = Environment.GetEnvironmentVariable(secret.Identifier);
 
             if (result != null)
-                return result.Trim();
+                return await Task.FromResult(result.Trim());
 
             if (secret.Optional)
                 return default;
