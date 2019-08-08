@@ -335,7 +335,7 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
-- stage: Test
+- stage: Testx
   variables: 
   - name: Release.Environment
     value: testx
