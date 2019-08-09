@@ -129,10 +129,17 @@ stages:
   
 
     - bash: | 
+        pwd
+        echo "scanner home $SONAR_SCANNER_HOME"
+        echo "sonar home $SONAR_HOME"
+        echo "scanner version $SONAR_SCANNER_VERSION"
         rm -rf $SONAR_SCANNER_HOME
         mkdir -p $SONAR_SCANNER_HOME
         curl -sSLo $SONAR_HOME/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/$SONAR_SCANNER_VERSION/sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip
         unzip $SONAR_HOME/sonar-scanner.zip -d $SONAR_HOME
+        ls -lp $SONAR_HOME
+        ls -lp $SONAR_SCANNER_HOME
+        ls -lp $SONAR_SCANNER_HOME/bin
         rm $SONAR_HOME/sonar-scanner.zip
         $SONAR_SCANNER_HOME/bin/sonar-scanner \
           -Dsonar.projectKey=$(Test.sonarProjectKey) \
