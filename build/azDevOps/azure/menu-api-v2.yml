@@ -53,7 +53,10 @@ variables:
   value: testresults 
 - name: Test.ProviderContractTestProjectSourcePath
   value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'  
- 
+# Used in Functional Tests
+- name: BaseUrl
+  value: http://$(Release.Environment).azure.amidostacks.com/api/menu/
+
 # Release Notes
 - name: ReleaseNote.LocalPath
   value: $(Pipeline.Workspace)/build/release.json
@@ -316,10 +319,6 @@ stages:
               failOnStderr: true 
 
 #### Testing
-          - script: |
-              echo "##vso[task.setvariable variable=BaseUrl]http://devx.azure.amidostacks.com/api/menu/"
-            displayName: set environment variable for subsequent steps
-
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
@@ -349,7 +348,6 @@ stages:
     value: amido-stacks-aks-uks-devx
   - name: Kubernetes.KustomizeFilePath
     value: $(Release.Environment)
-
     # Application Secret Retrieval
   - name: CosmosDB.accountName
     value: amidostacksmenucdaukstestx
@@ -453,7 +451,7 @@ stages:
 
 #### Testing
           - script: |
-              echo "##vso[task.setvariable variable=BaseUrl]http://test.azure.amidostacks.com/api/menu/"
+              echo "##vso[task.setvariable variable=]"
             displayName: set environment variable for subsequent steps
 
           - task: DotNetCoreCLI@2
