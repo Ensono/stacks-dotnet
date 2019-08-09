@@ -119,14 +119,42 @@ variables:
 stages:
 - stage: Build
   jobs:
-  - job: Build
+  - job: Analyse
     pool:
       vmImage: 'ubuntu-latest'
     continueOnError: False
     steps:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'amido-sonarcloud'
+        organization: 'amido'
+        scannerMode: 'MSBuild'
+        projectKey: 'stacks-dotnet'
+        projectName: 'menu-api'
+        projectVersion: $(Docker.ImageTag)
+      displayName: Prepare for SonarCloud Analysis
 
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        configuration: Release
+      workingDirectory: /src/api
+
+    - task: SonarCloudAnalyze@1
+      displayName: Anaylse Code via SonarCloud 
+
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+      displayName: Publish SonarCloud Results
+
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    continueOnError: False
+    steps:
     - task: SonarCloudPrepare@1
       inputs:
         SonarCloud: 'amido-sonarcloud'
@@ -144,31 +172,6 @@ stages:
       inputs:
         pollingTimeoutSec: '300'
       displayName: Publish SonarCloud Results
-
-
-   # - bash: | 
-   #     rm -rf $SONAR_HOME
-   #     mkdir -p $SONAR_HOME
-   #     curl -sSLo $SONAR_HOME/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/3.3.0.1492/sonar-scanner-cli-3.3.0.1492.zip
-   #     unzip $SONAR_HOME/sonar-scanner.zip -d $SONAR_HOME
-   #     rm $SONAR_HOME/sonar-scanner.zip
-   #     echo "Downloaded Scanner, Running Scan"
-   #     $SONAR_HOME/sonar-scanner-3.3.0.1492/bin/sonar-scanner \
-   #       -Dsonar.projectKey=$SONAR_PROJECTKEY \
-   #       -Dsonar.organization=$SONAR_ORG \
-   #       -Dsonar.sources=$SONAR_SCANDIR \
-   #       -Dsonar.host.url=$SONAR_URL \
-   #       -Dsonar.login=$SONAR_TOKEN
-   #   displayName: Download & Run SonarCloud Agent
-   #   workingDirectory: $(Build.SourcesDirectory)
-   #   env:
-   #     SONAR_HOME: $(Build.BinariesDirectory)/sonar
-   #     SONAR_SCANNER_OPTS: "-server"
-   #     SONAR_PROJECTKEY: $(Test.sonarProjectKey)
-   #     SONAR_ORG: $(Global.Company)
-   #     SONAR_URL: https://sonarcloud.io
-   #     SONAR_SCANDIR: $(Build.SourcesDirectory)/src/api
-   #     SONAR_TOKEN: $(Test.sonarCloudToken)
 
     #- task: DotNetCoreCLI@2
     #  displayName: Build Functional Tests
@@ -244,6 +247,7 @@ stages:
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
       displayName: Publish Build Artefacts
+
 
 - stage: DevX
   variables: 
