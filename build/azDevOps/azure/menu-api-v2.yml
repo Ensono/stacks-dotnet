@@ -135,7 +135,7 @@ stages:
         unzip $SONAR_HOME/sonar-scanner.zip -d $SONAR_HOME
         rm $SONAR_HOME/sonar-scanner.zip
         echo "Downloaded Scanner, Running Scan"
-        $SONAR_HOME/sonar/sonar-scanner-3.3.0.1492/bin/sonar-scanner \
+        $SONAR_HOME/sonar-scanner-3.3.0.1492/bin/sonar-scanner \
           -Dsonar.projectKey=$SONAR_PROJECTKEY \
           -Dsonar.organization=$SONAR_ORG \
           -Dsonar.sources=$SONAR_SCANDIR \
