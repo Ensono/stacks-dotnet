@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Amido.Stacks.Configuration.Exceptions;
 
 namespace Amido.Stacks.Configuration
@@ -14,9 +15,8 @@ namespace Amido.Stacks.Configuration
             Source = source;
         }
 
-        public string Resolve(Secret secret)
+        public async Task<string> ResolveAsync(Secret secret)
         {
-
             if (secret == null)
                 SecretNotDefinedException.Raise();
 
@@ -37,7 +37,11 @@ namespace Amido.Stacks.Configuration
                 return default;
             }
 
-            return File.ReadAllText(secret.Identifier).Trim();
+            using (var reader = File.OpenText(secret.Identifier))
+            {
+                var fileContents = await reader.ReadToEndAsync();
+                return fileContents.Trim();
+            }
         }
     }
 }

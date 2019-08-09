@@ -3,24 +3,22 @@ name: $(build.SourceBranchName)-init
 trigger:
   paths:
     exclude:
-    - src/api/xxAMIDOxx.xxSTACKSxx.Models
+    - src/api/xxAMIDOxx.xxSTACKSxx.API.Models
+    - deploy/terraform
 
 resources:
 - repo: self
 
 variables:
 - group: amido-stacks-infra-credentials-nonprod
-- group: amido-stacks-pact-credentials
-# testing new variable group
-# - group: amido-stacks-credentials-azure-nonprod
 
 # Global Config:
-- name: name_company
+- name: Global.Company
   value: amido
-- name: name_environment
-  value: $(Release.Environment)
-- name: name_platform
+- name: Global.Platform
   value: stacks
+- name: Global.Component
+  value: dotnet
 
 # Versioning
 - name: Version.Major
@@ -44,19 +42,43 @@ variables:
 - name: Test.FunctionalTestReportTargetName
   value: menu-api/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
-  value: amido-stacks-testresult-rg
+  value: amido-stacks-rg-uks
 - name: Test.FunctionalTestReportStorageAccountName
-  value: amidostackstestsuksdev
+  value: amidostackstestsgbl
 - name: Test.FunctionalTestReportStorageContainerName
   value: testresults 
 - name: Test.ProviderContractTestProjectSourcePath
   value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'  
+# Used in Functional Tests as ENV VAR
+- name: BaseUrl
+  value: http://$(Release.Environment).azure.amidostacks.com/api/menu/
+
+# Release Notes
+- name: ReleaseNote.LocalPath
+  value: $(Pipeline.Workspace)/build/release.json
+- name: ReleaseNote.TargetName
+  value: menu-api/$(Build.BuildNumber).json
+- name: ReleaseNote.StorageAccountRG
+  value: amido-stacks-rg-uks
+- name: ReleaseNote.StorageAccountName
+  value: amidostackstestsgbl
+- name: ReleaseNote.StorageContainerName
+  value: releases 
+
+# SonarCloud Info
+- name: Test.sonarProjectKey
+  value: stacks-dotnet
 
 # Pact Broker Info
 - name: Test.PactBrokerUrl
   value: https://amido-stacks.pact.dius.com.au
-- name: Test.PactApiToken
-  value: r2xlwu-YY3_sl0o0s03O3g
+# Specific Pact Contract Test Variables as ENV VAR
+- name: BROKER_URL
+  value: $(Test.PactBrokerUrl)
+- name: BUILD_NUMBER
+  value: $(Docker.ImageTag)
+- name: BROKER_TOKEN
+  value: $(Test.PactBearerToken)
 
 # Docker Config
 - name: Docker.DockerfilePath
@@ -85,10 +107,14 @@ variables:
   value: $(System.DefaultWorkingDirectory)/kustomize
 - name: Kubernetes.KustomizeDownloadPath
   value: https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64
+
+# Package Info
 - name: Package.File
-  value: scripts-0.0.10-master.tar.gz
+  value: scripts-0.0.32-master.tar.gz
 - name: Package.SAS
-  value: 'se=2019-08-17T10%3A45Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=U/kiUqhl2HZ%2BnVM2xjalg420yjH3bHQuDbwOTYzNcs4%3D'
+  value: 'se=2019-09-08T10%3A15Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=EP4xmbIf3pcJK4dbUrmxwLP9gFXVVyDV2FNYSTvAdR4%3D'
+- name: 'Package.URI'
+  value: https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)
 
 stages:
 - stage: Build
@@ -101,6 +127,30 @@ stages:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
   
+
+    - bash: | 
+        rm -rf $SONAR_HOME
+        mkdir -p $SONAR_HOME
+        curl -sSLo $SONAR_HOME/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/3.3.0.1492/sonar-scanner-cli-3.3.0.1492.zip
+        unzip $SONAR_HOME/sonar-scanner.zip -d $SONAR_HOME
+        rm $SONAR_HOME/sonar-scanner.zip
+        echo "Downloaded Scanner, Running Scan"
+        $SONAR_HOME/sonar-scanner-3.3.0.1492/bin/sonar-scanner \
+          -Dsonar.projectKey=$SONAR_PROJECTKEY \
+          -Dsonar.organization=$SONAR_ORG \
+          -Dsonar.sources=$SONAR_SCANDIR \
+          -Dsonar.host.url=$SONAR_URL \
+          -Dsonar.login=$SONAR_TOKEN
+      displayName: Download & Run SonarCloud Agent
+      workingDirectory: $(Build.SourcesDirectory)
+      env:
+        SONAR_HOME: $(Build.BinariesDirectory)/sonar
+        SONAR_SCANNER_OPTS: "-server"
+        SONAR_PROJECTKEY: $(Test.sonarProjectKey)
+        SONAR_ORG: $(Global.Company)
+        SONAR_URL: https://sonarcloud.io
+        SONAR_SCANDIR: .
+        SONAR_TOKEN: $(Test.sonarCloudToken)
   
     #- task: DotNetCoreCLI@2
     #  displayName: Build Functional Tests
@@ -119,7 +169,7 @@ stages:
         ArtifactName: 'tests'
 
     - bash: | 
-        wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
+        wget -O $(Build.BinariesDirectory)/$(Package.File)  '$(Package.URI)'
       displayName: Get DevOps Scripts
       workingDirectory: $(Build.BinariesDirectory)
     
@@ -164,12 +214,6 @@ stages:
       displayName: Docker Build and Push to Az ACR
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
-    - script: |
-        echo "##vso[task.setvariable variable=BROKER_URL]$(Test.PactBrokerUrl)"
-        echo "##vso[task.setvariable variable=BUILD_NUMBER]$(Docker.ImageTag)"
-        echo "##vso[task.setvariable variable=BROKER_TOKEN]$(Test.PactApiToken)"
-      displayName: set environment variable for subsequent steps
-
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
       inputs:
@@ -177,29 +221,36 @@ stages:
         projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
         arguments: '-v n'
         testRunTitle: 'Provider Contract Tests'
-
+      continueOnError: true
+    
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
       displayName: Publish Build Artefacts
 
-- stage: Dev
+- stage: DevX
   variables: 
   - name: Release.Environment
-    value: dev
+    value: devx
   # Credentials
   - group: amido-stacks-infra-credentials-nonprod
-  - group: amido-stacks-menu-credentials-dev
+  #  - group: amido-stacks-menu-credentials-dev
   # AKS Cluster Info
   - name: Kubernetes.ClusterRG
-    value: amido-stacks-rg-uks-dev
+    value: amido-stacks-rg-uks-devx
   - name:  Kubernetes.ClusterName
-    value: amido-stacks-cluster-uks-dev
+    value: amido-stacks-aks-uks-devx
+  - name: Kubernetes.KustomizeFilePath
+    value: $(Release.Environment)
 
+    # Application Secret Retrieval
+  - name: CosmosDB.accountName
+    value: amidostacksmenucdauksdevx
+  
   jobs:
   - deployment: Apply # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
-    environment: dev
+    environment: devx
     strategy:
       runOnce:
         deploy:
@@ -258,13 +309,22 @@ stages:
               workingDirectory: $(Pipeline.Workspace)/build/base
               failOnStderr: true 
 
+            # This step writes to cosmosDB.key and cosmosDB.endoint for consumption later in the pipeline
+          - task: Bash@3
+            displayName: Get CosmosDB Key and Endpoint
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
+              arguments: $(CosmosDB.accountName)
+
+            # This step consumes the preceding key variables to populate the secret
           - bash: |
              echo $KEY > $VALUE
-            displayName: Setting Key-Value - CosmosDB Connection
+            displayName: Set CosmosDB Key in Kubernetes Resource
             failOnStderr: true
             env:
-              KEY: $(CosmosDB.Key)
-              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Release.Environment)/secrets/cosmosdb/key
+              KEY: $(CosmosDB.key)
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
@@ -279,15 +339,11 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Release.Environment)
+              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
               workingDirectory: $(Pipeline.Workspace)/build
               failOnStderr: true 
 
 #### Testing
-          - script: |
-              echo "##vso[task.setvariable variable=BaseUrl]http://dev.azure.amidostacks.com/api/menu/"
-            displayName: set environment variable for subsequent steps
-
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
@@ -303,24 +359,29 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
-- stage: Test
+- stage: Testx
   variables: 
   - name: Release.Environment
-    value: test
+    value: testx
   # Credentials
   - group: amido-stacks-infra-credentials-nonprod
-  - group: amido-stacks-menu-credentials-test
+  # - group: amido-stacks-menu-credentials-test
   # AKS Cluster Info
   - name: Kubernetes.ClusterRG
-    value: amido-stacks-rg-uks-dev
+    value: amido-stacks-rg-uks-devx
   - name:  Kubernetes.ClusterName
-    value: amido-stacks-cluster-uks-dev
-
+    value: amido-stacks-aks-uks-devx
+  - name: Kubernetes.KustomizeFilePath
+    value: $(Release.Environment)
+    # Application Secret Retrieval
+  - name: CosmosDB.accountName
+    value: amidostacksmenucdaukstestx
+  
   jobs:
   - deployment: Apply # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
-    environment: test
+    environment: testx
     strategy:
       runOnce:
         deploy:
@@ -378,14 +439,23 @@ stages:
               arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
               workingDirectory: $(Pipeline.Workspace)/build/base
               failOnStderr: true 
+            
+            # This step writes to cosmosDB.key and cosmosDB.endoint for consumption later in the pipeline
+          - task: Bash@3
+            displayName: Get CosmosDB Key and Endpoint
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
+              arguments: $(CosmosDB.accountName)
 
+            # This step consumes the preceding key variables to populate the secret 
           - bash: |
              echo $KEY > $VALUE
-            displayName: Setting Key-Value - CosmosDB Connection
+            displayName: Set CosmosDB Key in Kubernetes Resource
             failOnStderr: true
             env:
-              KEY: $(CosmosDB.Key)
-              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Release.Environment)/secrets/cosmosdb/key
+              KEY: $(CosmosDB.key)
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
@@ -400,15 +470,11 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Release.Environment)
+              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
               workingDirectory: $(Pipeline.Workspace)/build
               failOnStderr: true 
 
 #### Testing
-          - script: |
-              echo "##vso[task.setvariable variable=BaseUrl]http://test.azure.amidostacks.com/api/menu/"
-            displayName: set environment variable for subsequent steps
-
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
@@ -423,3 +489,40 @@ stages:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
+
+          - task: Bash@3
+            displayName: 'Create Release Notes'
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/ReleaseNotes/create-releasenotes-from-github-pr.sh
+              arguments: $(Build.BuildNumber) $(ReleaseNote.GitHubToken) $(ReleaseNote.GitHubUsername) $(Global.Company) $(Global.Platform)-$(Global.Component) $(ReleaseNote.LocalPath)
+
+
+          - task: Bash@3
+            displayName: 'Upload Release Notes'
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
+              arguments: $(ReleaseNote.StorageAccountRG) $(ReleaseNote.LocalPath) $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
+
+
+          - task: Bash@3
+            displayName: 'Retrieve URL for Test Results'
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
+              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
+              failOnStderr: true 
+
+
+          - task: Bash@3
+            displayName: 'Retrieve URL for Release Notes'
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
+              arguments: $(ReleaseNote.StorageAccountRG) $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
+              failOnStderr: true 
+
+

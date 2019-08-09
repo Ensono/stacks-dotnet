@@ -1,56 +1,67 @@
 ############################################
 # AUTHENTICATION
 ############################################
-variable "client_id" {}
-
-variable "client_secret" {}
-variable "subscription_id" {}
-variable "tenant_id" {}
-
 ############################################
 # NAMING
 ############################################
 
 variable "name_company" {
-  default = "amido"
 }
 
 variable "name_environment" {
-  default = "dev"
 }
 
 variable "name_platform" {
-  default = "dotnet"
 }
 
-variable "name_project" {
-  default = "menu"
+variable "name_component" {
+  
 }
 
 # Each region must have corresponding a shortend name for resource naming purposes 
-variable "cluster_ingress_address" {
-  type = "map"
+variable "location_name_map" {
+  type = map(string)
 
-  default = {}
+  default = {
+    northeurope   = "eun"
+    westeurope    = "euw"
+    uksouth       = "uks"
+    ukwest        = "ukw"
+    eastus        = "use"
+    eastus2       = "use2"
+    westus        = "usw"
+    eastasia      = "ase"
+    southeastasia = "asse"
+  }
 }
 
 ############################################
 # RESOURCE GROUP INFORMATION
 ############################################
 
-variable "resource_group_location" {
-  default = "northeurope"
+variable "resource_group_location_env" {
+  default = "uksouth"
 }
 
 variable "resource_group_tags" {
-  type = "map"
+  type = map(string)
 
   default = {}
 }
 
-locals {
-  // traffic_manager_name  = "${var.name_company}-${var.name_platform}-${var.name_project}-tm-gbl-${var.name_environment}"
-  // dns_record_address_tm = "${var.name_company}-${var.name_platform}-${var.name_project}-${var.name_environment}"
-  resource_group_name   = "${var.name_company}-${var.name_platform}-${var.name_project}-rg-gbl-${var.name_environment}"
-  cosmosdb_account_name = "${var.name_company}-${var.name_platform}-${var.name_project}-cdb-eun-${var.name_environment}"
+############################################
+# COSMOSDB INFORMATION
+############################################
+
+variable "cosmosDBdatabaseName" {
 }
+###########################
+
+locals {
+  cosmosdb_account_name            = "${var.name_company}${var.name_platform}${var.name_component}cda${var.location_name_map[var.resource_group_location_env]}${var.name_environment}"
+  cosmosdb_table_name             = "${var.name_company}${var.name_platform}${var.name_component}cdt${var.location_name_map[var.resource_group_location_env]}${var.name_environment}"
+  cosmosdb_db_name             = "${var.name_company}${var.name_platform}${var.name_component}cdb${var.location_name_map[var.resource_group_location_env]}${var.name_environment}"
+  resource_group_name_env      = "${var.name_company}-${var.name_platform}-${var.name_component}-rg-${var.location_name_map[var.resource_group_location_env]}-${var.name_environment}"
+
+}
+

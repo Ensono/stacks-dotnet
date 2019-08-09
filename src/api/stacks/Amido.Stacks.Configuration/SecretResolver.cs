@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Amido.Stacks.Configuration.Exceptions;
 
 namespace Amido.Stacks.Configuration
@@ -18,7 +19,7 @@ namespace Amido.Stacks.Configuration
             sources.Add(source.Source.ToUpperInvariant(), source);
         }
 
-        public string ResolveSecret(Secret secret)
+        public async Task<string> ResolveSecretAsync(Secret secret)
         {
             if (secret == null)
                 SecretNotDefinedException.Raise();
@@ -35,7 +36,7 @@ namespace Amido.Stacks.Configuration
             var source = sources[secret.Source.ToUpperInvariant()];
 
 
-            var result = source.Resolve(secret);
+            var result = await source.ResolveAsync(secret);
 
             if (result != null)
                 return result;
