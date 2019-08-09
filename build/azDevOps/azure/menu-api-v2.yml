@@ -155,34 +155,6 @@ stages:
       vmImage: 'ubuntu-latest'
     continueOnError: False
     steps:
-    - task: SonarCloudPrepare@1
-      inputs:
-        SonarCloud: 'amido-sonarcloud'
-        organization: 'amido'
-        scannerMode: 'MSBuild'
-        projectKey: 'stacks-dotnet'
-        projectName: 'menu-api'
-        projectVersion: $(Docker.ImageTag)
-      displayName: Prepare for SonarCloud Analysis
-
-    - task: SonarCloudAnalyze@1
-      displayName: Anaylse Code via SonarCloud 
-
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '300'
-      displayName: Publish SonarCloud Results
-
-    #- task: DotNetCoreCLI@2
-    #  displayName: Build Functional Tests
-    #  displayName: 'dotnet publish tests'
-    #  inputs:
-    #    command: publish
-    #    projects: '$(Test.FunctionalTestProjectSourcePath)'
-    #    publishWebProjects: False
-    #    arguments: ' --output $(Test.FunctionalTestProjectBuildPath)'
-    #    zipAfterPublish: True
-
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact - Functional Tests
       inputs:
