@@ -124,7 +124,7 @@ stages:
       vmImage: 'ubuntu-latest'
     continueOnError: False
     steps:
-    - script: echo '##vso[build.updatebuildnumber]
+    - script: echo '##vso[build.updatebuildnumber]'
       displayName: Update Build Number
 
     - task: SonarCloudPrepare@1
