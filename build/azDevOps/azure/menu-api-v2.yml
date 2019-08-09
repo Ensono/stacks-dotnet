@@ -149,7 +149,7 @@ stages:
         SONAR_PROJECTKEY: $(Test.sonarProjectKey)
         SONAR_ORG: $(Global.Company)
         SONAR_URL: https://sonarcloud.io
-        SONAR_SCANDIR: .
+        SONAR_SCANDIR: $(Build.SourcesDirectory)/src/api
         SONAR_TOKEN: $(Test.sonarCloudToken)
   
     #- task: DotNetCoreCLI@2
