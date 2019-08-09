@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Amido.Stacks.Tests.Settings;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -56,6 +58,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
         {
             //This token is taken from within the broker UI (See settings > Read/write token (CI))
             var options = new PactUriOptions(Config.Broker_Token);
+
+            Console.WriteLine("##########JACK TESTING STUFF##########");
+            Console.WriteLine(PactConfig.ProviderVersion);
+            Debug.WriteLine("##########JACK TESTING STUFF##########");
+            Debug.WriteLine(PactConfig.ProviderVersion);
 
             using(var ProviderWebHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(ProviderUri)
