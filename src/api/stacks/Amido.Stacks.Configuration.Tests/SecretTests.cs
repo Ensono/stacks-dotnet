@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Amido.Stacks.Configuration.Exceptions;
 using AutoFixture.Xunit2;
 using Xunit;
 using Xunit.Abstractions;
@@ -109,13 +110,13 @@ namespace Amido.Stacks.Configuration.Tests
         [Theory, AutoData]
         public void NonExistentRequiredEnvironmentSecretTest(SecretResolver secretResolver)
         {
-            Assert.Throws<Exception>(() => secretResolver.ResolveSecret(config.NonExistentRequiredEnvironmentSecret));
+            Assert.Throws<SecretNotFoundException>(() => secretResolver.ResolveSecret(config.NonExistentRequiredEnvironmentSecret));
         }
 
         [Theory, AutoData]
         public void NonExistentRequiredFileSecretTest(SecretResolver secretResolver)
         {
-            Assert.Throws<Exception>(() => secretResolver.ResolveSecret(config.NonExistentRequiredFileSecret));
+            Assert.Throws<SecretNotFoundException>(() => secretResolver.ResolveSecret(config.NonExistentRequiredFileSecret));
         }
 
         [Theory, AutoData]

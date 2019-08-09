@@ -1,4 +1,5 @@
 ﻿using System;
+using Amido.Stacks.Configuration.Exceptions;
 
 namespace Amido.Stacks.Configuration
 {
@@ -16,23 +17,26 @@ namespace Amido.Stacks.Configuration
         public string Resolve(Secret secret)
         {
             if (secret == null)
-                throw new ArgumentNullException($"The parameter {nameof(secret)} cann't be null");
+                SecretNotDefinedException.Raise();
 
-            if (secret.Source.ToUpperInvariant() != Source)
-                throw new InvalidOperationException($"The source {secret.Source} does not match the source {Source}");
+            if (string.IsNullOrWhiteSpace(secret.Source))
+                InvalidSecretDefinitionException.Raise(secret.Source, secret.Identifier);
 
             if (string.IsNullOrWhiteSpace(secret.Identifier))
-                throw new ArgumentException($"The value '{secret.Identifier ?? "(null)"}' provided as identifiers is not valid");
+                InvalidSecretDefinitionException.Raise(secret.Source, secret.Identifier);
+
+            if (secret.Source.ToUpperInvariant() != Source)
+                SecretNotFoundException.Raise(secret.Source, secret.Identifier);
 
             var result = Environment.GetEnvironmentVariable(secret.Identifier);
 
             if (result != null)
                 return result.Trim();
 
-            if (secret.Optional)
-                return default;
-            else
-                throw new Exception($"No value found for Secret '{secret.Identifier}' on source '{secret.Source}'.");
+            if (!secret.Optional)
+                SecretNotFoundException.Raise(secret.Source, secret.Identifier);
+
+            return default;
         }
     }
 }
