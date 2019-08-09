@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using Xunit;
 using Xunit.Abstractions;
@@ -23,34 +24,34 @@ namespace Amido.Stacks.Configuration.Tests
 
 
         [Theory, AutoData]
-        public void EnvironmentBasedSecretTest(SecretResolver secretResolver)
+        public async Task EnvironmentBasedSecretTest(SecretResolver secretResolver)
         {
-            var secret = secretResolver.ResolveSecret(config.EnvironmentSecret);
+            var secret = await secretResolver.ResolveSecretAsync(config.EnvironmentSecret);
 
             Assert.Equal("PleaseDontTellAnyone", secret);
             Assert.Equal("TestString", config.TextValue);
         }
 
         [Theory, AutoData]
-        public void ImplicitEnvironmentBasedSecretTest(SecretResolver secretResolver)
+        public async Task ImplicitEnvironmentBasedSecretTest(SecretResolver secretResolver)
         {
-            var secret = secretResolver.ResolveSecret(config.ImplicitEnvironmentSecret);
+            var secret = await secretResolver.ResolveSecretAsync(config.ImplicitEnvironmentSecret);
 
             Assert.Equal("PleaseDontTellAnyone", secret);
             Assert.Equal("TestString", config.TextValue);
         }
 
         [Theory, AutoData]
-        public void FilenameFileSecretTest(SecretResolver secretResolver)
+        public async Task FilenameFileSecretTest(SecretResolver secretResolver)
         {
-            var secret = secretResolver.ResolveSecret(config.FilenameFileSecret);
+            var secret = await secretResolver.ResolveSecretAsync(config.FilenameFileSecret);
 
             Assert.Equal("C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==", secret);
             Assert.Equal("TestString", config.TextValue);
         }
 
         [Theory, AutoData]
-        public void RelativeFilenameFileSecretTest(SecretResolver secretResolver)
+        public async Task RelativeFilenameFileSecretTest(SecretResolver secretResolver)
         {
             var tmpFile = "subfolder/secretfile.txt";
 
@@ -60,7 +61,7 @@ namespace Amido.Stacks.Configuration.Tests
 
             try
             {
-                var secret = secretResolver.ResolveSecret(config.RelativeFilenameFileSecret);
+                var secret = await secretResolver.ResolveSecretAsync(config.RelativeFilenameFileSecret);
 
                 Assert.Equal("C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==", secret);
             }
@@ -72,7 +73,7 @@ namespace Amido.Stacks.Configuration.Tests
 
 
         [Theory, AutoData]
-        public void FullPathFileSecretTest(SecretResolver secretResolver)
+        public async Task FullPathFileSecretTest(SecretResolver secretResolver)
         {
             var tmpFile = "secretfile.txt";
 
@@ -93,9 +94,9 @@ namespace Amido.Stacks.Configuration.Tests
                 var secret = string.Empty;
 
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                    secret = secretResolver.ResolveSecret(config.WindowsFullPathFileSecret);
+                    secret = await secretResolver.ResolveSecretAsync(config.WindowsFullPathFileSecret);
                 else
-                    secret = secretResolver.ResolveSecret(config.LinuxFullPathFileSecret);
+                    secret = await secretResolver.ResolveSecretAsync(config.LinuxFullPathFileSecret);
 
                 Assert.Equal("C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==", secret);
                 Assert.Equal("TestString", config.TextValue);
@@ -107,29 +108,29 @@ namespace Amido.Stacks.Configuration.Tests
         }
 
         [Theory, AutoData]
-        public void NonExistentRequiredEnvironmentSecretTest(SecretResolver secretResolver)
+        public async Task NonExistentRequiredEnvironmentSecretTest(SecretResolver secretResolver)
         {
-            Assert.Throws<Exception>(() => secretResolver.ResolveSecret(config.NonExistentRequiredEnvironmentSecret));
+            await Assert.ThrowsAsync<Exception>(async () => await secretResolver.ResolveSecretAsync(config.NonExistentRequiredEnvironmentSecret));
         }
 
         [Theory, AutoData]
-        public void NonExistentRequiredFileSecretTest(SecretResolver secretResolver)
+        public async Task NonExistentRequiredFileSecretTest(SecretResolver secretResolver)
         {
-            Assert.Throws<Exception>(() => secretResolver.ResolveSecret(config.NonExistentRequiredFileSecret));
+            await Assert.ThrowsAsync<Exception>(async () => await secretResolver.ResolveSecretAsync(config.NonExistentRequiredFileSecret));
         }
 
         [Theory, AutoData]
-        public void NonExistentOptionalEnvironmentSecretTest(SecretResolver secretResolver)
+        public async Task NonExistentOptionalEnvironmentSecretTest(SecretResolver secretResolver)
         {
-            var secret = secretResolver.ResolveSecret(config.NonExistentOptionalEnvironmentSecret);
+            var secret = await secretResolver.ResolveSecretAsync(config.NonExistentOptionalEnvironmentSecret);
 
             Assert.Null(secret);
         }
 
         [Theory, AutoData]
-        public void NonExistentOptionalFileSecretTest(SecretResolver secretResolver)
+        public async Task NonExistentOptionalFileSecretTest(SecretResolver secretResolver)
         {
-            var secret = secretResolver.ResolveSecret(config.NonExistentOptionalFileSecret);
+            var secret = await secretResolver.ResolveSecretAsync(config.NonExistentOptionalFileSecret);
 
             Assert.Null(secret);
         }
