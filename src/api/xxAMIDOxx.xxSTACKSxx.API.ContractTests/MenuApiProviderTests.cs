@@ -61,7 +61,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
 
             Console.WriteLine("##########JACK TESTING STUFF########## " + PactConfig.ProviderVersion);
             Console.WriteLine(PactConfig.ProviderVersion);
-            Debug.WriteLine("##########JACK TESTING STUFF########## " + PactConfig.ProviderVersion));
+            Debug.WriteLine("##########JACK TESTING STUFF########## " + PactConfig.ProviderVersion);
             Debug.WriteLine(PactConfig.ProviderVersion);
 
             using(var ProviderWebHost = WebHost.CreateDefaultBuilder()
