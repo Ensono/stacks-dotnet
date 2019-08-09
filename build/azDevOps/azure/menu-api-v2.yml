@@ -129,28 +129,25 @@ stages:
   
 
     - bash: | 
-        local SONAR_SCANNER_VERSION=3.3.0.1492
-        export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION
         rm -rf $SONAR_SCANNER_HOME
         mkdir -p $SONAR_SCANNER_HOME
-        curl -sSLo $HOME/.sonar/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/$SONAR_SCANNER_VERSION/sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip
-        unzip $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-        rm $HOME/.sonar/sonar-scanner.zip
-        export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-        export SONAR_SCANNER_OPTS="-server"      
-      displayName: Download SonarCloud Agent
-      workingDirectory: $(Build.BinariesDirectory)
-    
-    - bash: | 
-        sonar-scanner \
+        curl -sSLo $SONAR_HOME/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/$SONAR_SCANNER_VERSION/sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip
+        unzip $SONAR_HOME/sonar-scanner.zip -d $SONAR_HOME
+        rm $SONAR_HOME/sonar-scanner.zip
+        $SONAR_SCANNER_HOME/bin/sonar-scanner \
           -Dsonar.projectKey=$(Test.sonarProjectKey) \
           -Dsonar.organization=$(Global.Company) \
           -Dsonar.sources=. \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=$(Test.sonarCloudToken)
-      displayName: Run SonarCloud Analysis
-      workingDirectory: $(Build.SourcesDirectory)
-    
+      displayName: Download & Run SonarCloud Agent
+      workingDirectory: $(Build.BinariesDirectory)
+      env:
+        SONAR_SCANNER_VERSION: 3.3.0.1492
+        SONAR_HOME: $(Build.BinariesDirectory)/sonar
+        SONAR_SCANNER_HOME: $SONAR_HOME/sonar-scanner-$SONAR_SCANNER_VERSION
+        SONAR_SCANNER_OPTS: "-server"
+
   
     #- task: DotNetCoreCLI@2
     #  displayName: Build Functional Tests
