@@ -3,7 +3,8 @@ name: $(build.SourceBranchName)-init
 trigger:
   paths:
     exclude:
-    - src/api/xxAMIDOxx.xxSTACKSxx.Models
+    - src/api/xxAMIDOxx.xxSTACKSxx.API.Models
+    - deploy/terraform
 
 resources:
 - repo: self
@@ -52,6 +53,9 @@ variables:
   value: testresults 
 - name: Test.ProviderContractTestProjectSourcePath
   value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'  
+# Used in Functional Tests
+- name: BaseUrl
+  value: http://$(Release.Environment).azure.amidostacks.com/api/menu/
 
 # Release Notes
 - name: ReleaseNote.LocalPath
@@ -98,10 +102,20 @@ variables:
   value: $(System.DefaultWorkingDirectory)/kustomize
 - name: Kubernetes.KustomizeDownloadPath
   value: https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64
+
+# Package Info
 - name: Package.File
-  value: scripts-0.0.28-master.tar.gz
+  value: scripts-0.0.32-master.tar.gz
 - name: Package.SAS
-  value: 'se=2019-09-06T12%3A23Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=lcr6/x7rq04FpRlNfFXd%2BRq0S0A1QEyQH/0wDi48Y6M%3D'
+  value: 'se=2019-09-08T10%3A15Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=EP4xmbIf3pcJK4dbUrmxwLP9gFXVVyDV2FNYSTvAdR4%3D'
+
+# Specific Contract Test Variable Declarations
+- name: BROKER_URL
+  value: $(Test.PactBrokerUrl)
+- name: BUILD_NUMBER
+  value: $(Docker.ImageTag)
+- name: BROKER_TOKEN
+  value: $(Test.PactApiToken)
 
 stages:
 - stage: Build
@@ -177,12 +191,6 @@ stages:
       displayName: Docker Build and Push to Az ACR
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
-    - script: |
-        echo "##vso[task.setvariable variable=BROKER_URL]$(Test.PactBrokerUrl)"
-        echo "##vso[task.setvariable variable=BUILD_NUMBER]$(Docker.ImageTag)"
-        echo "##vso[task.setvariable variable=BROKER_TOKEN]$(Test.PactApiToken)"
-      displayName: set environment variable for subsequent steps
-
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
       inputs:
@@ -190,29 +198,36 @@ stages:
         projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
         arguments: '-v n'
         testRunTitle: 'Provider Contract Tests'
-
+      continueOnError: true
+    
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
       displayName: Publish Build Artefacts
 
-- stage: Dev
+- stage: DevX
   variables: 
   - name: Release.Environment
-    value: dev
+    value: devx
   # Credentials
   - group: amido-stacks-infra-credentials-nonprod
-  - group: amido-stacks-menu-credentials-dev
+  #  - group: amido-stacks-menu-credentials-dev
   # AKS Cluster Info
   - name: Kubernetes.ClusterRG
-    value: amido-stacks-rg-uks-dev
+    value: amido-stacks-rg-uks-devx
   - name:  Kubernetes.ClusterName
-    value: amido-stacks-cluster-uks-dev
+    value: amido-stacks-aks-uks-devx
+  - name: Kubernetes.KustomizeFilePath
+    value: $(Release.Environment)
 
+    # Application Secret Retrieval
+  - name: CosmosDB.accountName
+    value: amidostacksmenucdauksdevx
+  
   jobs:
   - deployment: Apply # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
-    environment: dev
+    environment: devx
     strategy:
       runOnce:
         deploy:
@@ -271,13 +286,22 @@ stages:
               workingDirectory: $(Pipeline.Workspace)/build/base
               failOnStderr: true 
 
+            # This step writes to cosmosDB.key and cosmosDB.endoint for consumption later in the pipeline
+          - task: Bash@3
+            displayName: Get CosmosDB Key and Endpoint
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
+              arguments: $(CosmosDB.accountName)
+
+            # This step consumes the preceding key variables to populate the secret
           - bash: |
              echo $KEY > $VALUE
-            displayName: Setting Key-Value - CosmosDB Connection
+            displayName: Set CosmosDB Key in Kubernetes Resource
             failOnStderr: true
             env:
-              KEY: $(CosmosDB.Key)
-              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Release.Environment)/secrets/cosmosdb/key
+              KEY: $(CosmosDB.key)
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
@@ -292,15 +316,11 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Release.Environment)
+              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
               workingDirectory: $(Pipeline.Workspace)/build
               failOnStderr: true 
 
 #### Testing
-          - script: |
-              echo "##vso[task.setvariable variable=BaseUrl]http://dev.azure.amidostacks.com/api/menu/"
-            displayName: set environment variable for subsequent steps
-
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
@@ -316,24 +336,29 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
-- stage: Test
+- stage: Testx
   variables: 
   - name: Release.Environment
-    value: test
+    value: testx
   # Credentials
   - group: amido-stacks-infra-credentials-nonprod
-  - group: amido-stacks-menu-credentials-test
+  # - group: amido-stacks-menu-credentials-test
   # AKS Cluster Info
   - name: Kubernetes.ClusterRG
-    value: amido-stacks-rg-uks-dev
+    value: amido-stacks-rg-uks-devx
   - name:  Kubernetes.ClusterName
-    value: amido-stacks-cluster-uks-dev
-
+    value: amido-stacks-aks-uks-devx
+  - name: Kubernetes.KustomizeFilePath
+    value: $(Release.Environment)
+    # Application Secret Retrieval
+  - name: CosmosDB.accountName
+    value: amidostacksmenucdaukstestx
+  
   jobs:
   - deployment: Apply # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
-    environment: test
+    environment: testx
     strategy:
       runOnce:
         deploy:
@@ -391,14 +416,23 @@ stages:
               arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
               workingDirectory: $(Pipeline.Workspace)/build/base
               failOnStderr: true 
+            
+            # This step writes to cosmosDB.key and cosmosDB.endoint for consumption later in the pipeline
+          - task: Bash@3
+            displayName: Get CosmosDB Key and Endpoint
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
+              arguments: $(CosmosDB.accountName)
 
+            # This step consumes the preceding key variables to populate the secret 
           - bash: |
              echo $KEY > $VALUE
-            displayName: Setting Key-Value - CosmosDB Connection
+            displayName: Set CosmosDB Key in Kubernetes Resource
             failOnStderr: true
             env:
-              KEY: $(CosmosDB.Key)
-              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Release.Environment)/secrets/cosmosdb/key
+              KEY: $(CosmosDB.key)
+              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets/cosmosdb/key
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
@@ -413,15 +447,11 @@ stages:
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Release.Environment)
+              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
               workingDirectory: $(Pipeline.Workspace)/build
               failOnStderr: true 
 
 #### Testing
-          - script: |
-              echo "##vso[task.setvariable variable=BaseUrl]http://test.azure.amidostacks.com/api/menu/"
-            displayName: set environment variable for subsequent steps
-
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:

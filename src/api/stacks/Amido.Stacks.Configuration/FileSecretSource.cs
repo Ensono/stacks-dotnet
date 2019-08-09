@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Amido.Stacks.Configuration
 {
@@ -14,7 +15,7 @@ namespace Amido.Stacks.Configuration
             Source = source;
         }
 
-        public string Resolve(Secret secret)
+        public async Task<string> ResolveAsync(Secret secret)
         {
             if (secret == null)
                 throw new ArgumentNullException($"The parameter {nameof(secret)} cann't be null");
@@ -33,7 +34,11 @@ namespace Amido.Stacks.Configuration
                     throw new Exception($"No value found for Secret '{secret.Identifier}' on source '{secret.Source}'.");
             }
 
-            return File.ReadAllText(secret.Identifier).Trim();
+            using (var reader = File.OpenText(secret.Identifier))
+            {
+                var fileContents = await reader.ReadToEndAsync();
+                return fileContents.Trim();
+            }
         }
     }
 }
