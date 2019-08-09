@@ -129,32 +129,28 @@ stages:
   
 
     - bash: | 
-        pwd
-        echo "scanner home $SONAR_SCANNER_HOME"
-        echo "sonar home $SONAR_HOME"
-        echo "scanner version $SONAR_SCANNER_VERSION"
-        rm -rf $SONAR_SCANNER_HOME
-        mkdir -p $SONAR_SCANNER_HOME
-        curl -sSLo $SONAR_HOME/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/$SONAR_SCANNER_VERSION/sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip
+        rm -rf $SONAR_HOME
+        mkdir -p $SONAR_HOME
+        curl -sSLo $SONAR_HOME/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/3.3.0.1492/sonar-scanner-cli-3.3.0.1492.zip
         unzip $SONAR_HOME/sonar-scanner.zip -d $SONAR_HOME
-        ls -lp $SONAR_HOME
-        ls -lp $SONAR_SCANNER_HOME
-        ls -lp $SONAR_SCANNER_HOME/bin
         rm $SONAR_HOME/sonar-scanner.zip
-        $SONAR_SCANNER_HOME/bin/sonar-scanner \
-          -Dsonar.projectKey=$(Test.sonarProjectKey) \
-          -Dsonar.organization=$(Global.Company) \
-          -Dsonar.sources=. \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=$(Test.sonarCloudToken)
+        echo "Downloaded Scanner, Running Scan"
+        $SONAR_HOME/sonar/sonar-scanner-3.3.0.1492/bin/sonar-scanner \
+          -Dsonar.projectKey=$SONAR_PROJECTKEY \
+          -Dsonar.organization=$SONAR_ORG \
+          -Dsonar.sources=$SONAR_SCANDIR \
+          -Dsonar.host.url=$SONAR_URL \
+          -Dsonar.login=$SONAR_TOKEN
       displayName: Download & Run SonarCloud Agent
-      workingDirectory: $(Build.BinariesDirectory)
+      workingDirectory: $(Build.SourcesDirectory)
       env:
-        SONAR_SCANNER_VERSION: 3.3.0.1492
         SONAR_HOME: $(Build.BinariesDirectory)/sonar
-        SONAR_SCANNER_HOME: $(Build.BinariesDirectory)/sonar/sonar-scanner-3.3.0.1492
         SONAR_SCANNER_OPTS: "-server"
-
+        SONAR_PROJECTKEY: $(Test.sonarProjectKey)
+        SONAR_ORG: $(Global.Company)
+        SONAR_URL: https://sonarcloud.io
+        SONAR_SCANDIR: .
+        SONAR_TOKEN: $(Test.sonarCloudToken)
   
     #- task: DotNetCoreCLI@2
     #  displayName: Build Functional Tests
