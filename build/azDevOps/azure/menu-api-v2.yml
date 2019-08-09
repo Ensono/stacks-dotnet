@@ -152,7 +152,7 @@ stages:
       env:
         SONAR_SCANNER_VERSION: 3.3.0.1492
         SONAR_HOME: $(Build.BinariesDirectory)/sonar
-        SONAR_SCANNER_HOME: $SONAR_HOME/sonar-scanner-$SONAR_SCANNER_VERSION
+        SONAR_SCANNER_HOME: $(Build.BinariesDirectory)/sonar/sonar-scanner-3.3.0.1492
         SONAR_SCANNER_OPTS: "-server"
 
   
