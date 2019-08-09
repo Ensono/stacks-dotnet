@@ -59,9 +59,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             //This token is taken from within the broker UI (See settings > Read/write token (CI))
             var options = new PactUriOptions(Config.Broker_Token);
 
-            Console.WriteLine("##########JACK TESTING STUFF##########");
+            Console.WriteLine("##########JACK TESTING STUFF########## " + PactConfig.ProviderVersion);
             Console.WriteLine(PactConfig.ProviderVersion);
-            Debug.WriteLine("##########JACK TESTING STUFF##########");
+            Debug.WriteLine("##########JACK TESTING STUFF########## " + PactConfig.ProviderVersion));
             Debug.WriteLine(PactConfig.ProviderVersion);
 
             using(var ProviderWebHost = WebHost.CreateDefaultBuilder()

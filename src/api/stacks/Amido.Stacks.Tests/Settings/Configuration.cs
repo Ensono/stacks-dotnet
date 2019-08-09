@@ -15,7 +15,7 @@ namespace Amido.Stacks.Tests.Settings
         {
             return new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false)
-            //.AddEnvironmentVariables()
+            .AddEnvironmentVariables()
             .Build();
         }
 
