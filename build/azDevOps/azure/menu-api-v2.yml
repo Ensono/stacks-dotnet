@@ -140,7 +140,7 @@ stages:
       inputs:
         command: 'publish'
         configuration: Release
-      workingDirectory: /src/api
+        workingDirectory: /src/api
 
     - task: SonarCloudAnalyze@1
       displayName: Anaylse Code via SonarCloud 
