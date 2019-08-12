@@ -53,6 +53,20 @@ variables:
 - name: BaseUrl
   value: http://$(Release.Environment).azure.amidostacks.com/api/menu/
 
+
+- name: Sonar.serviceConnection
+  value: 'amido-sonarcloud'
+- name: Sonar.organization
+  value: 'amido'
+- name: Sonar.scannerMode
+  value: 'MSBuild'
+- name: Sonar.projectKey
+  value: 'stacks-dotnet'
+- name: Sonar.projectName
+  value: 'menu-api'
+- name: Sonar.projectVersion
+  value: $(Docker.ImageTag)
+
 # Release Notes
 - name: ReleaseNote.LocalPath
   value: $(Pipeline.Workspace)/build/release.json
@@ -126,14 +140,15 @@ stages:
     steps:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
+      
     - task: SonarCloudPrepare@1
       inputs:
-        SonarCloud: 'amido-sonarcloud'
-        organization: 'amido'
-        scannerMode: 'MSBuild'
-        projectKey: 'stacks-dotnet'
-        projectName: 'menu-api'
-        projectVersion: $(Docker.ImageTag)
+        SonarCloud: $(Sonar.serviceConnection)
+        organization: $(Sonar.organization)
+        scannerMode: $(Sonar.scannerMode)
+        projectKey: $(Sonar.projectKey)
+        projectName: $(Sonar.projectName)
+        projectVersion: $(Sonar.projectVersion)
       displayName: Prepare for SonarCloud Analysis
 
     - task: DotNetCoreCLI@2
