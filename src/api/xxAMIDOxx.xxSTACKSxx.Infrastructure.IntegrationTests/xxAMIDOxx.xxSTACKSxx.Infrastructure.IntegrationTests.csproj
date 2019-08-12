@@ -1,34 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
-        <LangVersion>7.3</LangVersion>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <None Remove="appsettings.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="appsettings.json">
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents.CosmosDB\Amido.Stacks.Data.Documents.CosmosDB.csproj" />
-        <ProjectReference Include="..\stacks\Amido.Stacks.Tests\Amido.Stacks.Tests.csproj" />
-        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Infrastructure\xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.11.0" />
-        <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
-        <PackageReference Include="xunit" Version="2.4.0" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    </ItemGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <IsPackable>false</IsPackable>
+    <ProjectGuid>{218971A2-E8AD-486D-A359-13F945B98B5F}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents.CosmosDB\Amido.Stacks.Data.Documents.CosmosDB.csproj" />
+    <ProjectReference Include="..\stacks\Amido.Stacks.Tests\Amido.Stacks.Tests.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Infrastructure\xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.11.0" />
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
 </Project>

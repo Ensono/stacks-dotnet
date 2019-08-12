@@ -1,20 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
-        <LangVersion>7.3</LangVersion>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
-        <PackageReference Include="xunit" Version="2.4.0" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
-    </ItemGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <IsPackable>false</IsPackable>
+    <ProjectGuid>{6AEE7E8A-2244-4D36-B8A1-0C4F3420A185}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
+  </ItemGroup>
 </Project>

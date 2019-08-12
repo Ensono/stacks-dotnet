@@ -1,14 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>7.3</LangVersion>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-    </ItemGroup>
-
-
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProjectGuid>{13A921E3-A079-4AAD-87EB-590B53492390}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+  </ItemGroup>
 </Project>

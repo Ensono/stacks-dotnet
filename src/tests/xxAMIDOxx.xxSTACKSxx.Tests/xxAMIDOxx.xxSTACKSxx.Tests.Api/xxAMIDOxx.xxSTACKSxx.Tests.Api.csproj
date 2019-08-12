@@ -1,21 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
     <AssemblyName>xxAMIDOxx.xxSTACKSxx.Tests.Api</AssemblyName>
-
     <RootNamespace>xxAMIDOxx.xxSTACKSxx.Tests.Api</RootNamespace>
+    <ProjectGuid>{1AE6753F-17F8-4842-97AB-0D61BA273056}</ProjectGuid>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Tests\E2E\**" />
     <EmbeddedResource Remove="Tests\E2E\**" />
     <None Remove="Tests\E2E\**" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
@@ -32,11 +27,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>

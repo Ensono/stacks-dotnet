@@ -1,16 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>7.3</LangVersion>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\stacks\Amido.Stacks.Application.CQRS\Amido.Stacks.Application.CQRS.csproj" />
-        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.Integration\xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj" />
-        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Common\xxAMIDOxx.xxSTACKSxx.Common.csproj" />
-        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
-        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
-    </ItemGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <ProjectGuid>{4938F145-7C58-45B5-A528-8A44860D52A6}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\stacks\Amido.Stacks.Application.CQRS\Amido.Stacks.Application.CQRS.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.Integration\xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Common\xxAMIDOxx.xxSTACKSxx.Common.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
+  </ItemGroup>
 </Project>
