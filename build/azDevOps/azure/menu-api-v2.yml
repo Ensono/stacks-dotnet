@@ -141,30 +141,29 @@ stages:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
       
-#    - task: SonarCloudPrepare@1
-#      inputs:
-#        SonarCloud: $(Sonar.serviceConnection)
-#        organization: $(Sonar.organization)
-#        scannerMode: $(Sonar.scannerMode)
-#        projectKey: $(Sonar.projectKey)
-#        projectName: $(Sonar.projectName)
-#        projectVersion: $(Sonar.projectVersion)
-#      displayName: Prepare for SonarCloud Analysis
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: $(Sonar.serviceConnection)
+        organization: $(Sonar.organization)
+        scannerMode: $(Sonar.scannerMode)
+        projectKey: $(Sonar.projectKey)
+        projectName: $(Sonar.projectName)
+        projectVersion: $(Sonar.projectVersion)
+      displayName: Prepare for SonarCloud Analysis
 
     - task: DotNetCoreCLI@2
       inputs:
-        command: 'publish'
-        configuration: Release
+        command: 'build'
         workingDirectory: $(Build.SourcesDirectory)/src/api
-#
-#    - task: SonarCloudAnalyze@1
-#      displayName: Anaylse Code via SonarCloud 
-#
-#    - task: SonarCloudPublish@1
-#      inputs:
-#        pollingTimeoutSec: '300'
-#      displayName: Publish SonarCloud Results
-#
+
+    - task: SonarCloudAnalyze@1
+      displayName: Anaylse Code via SonarCloud 
+
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+      displayName: Publish SonarCloud Results
+
   - job: Build
     pool:
       vmImage: 'ubuntu-latest'
