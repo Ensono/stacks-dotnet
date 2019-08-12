@@ -207,13 +207,6 @@ stages:
 #
 # This is problematic because it doesn't inherit the Azure login information
 
-    - bash: |
-        az acr login --name amidouksstacksacrnp # this is super annoying
-        docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
-        docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
-      displayName: Docker Build and Push to Az ACR
-      workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
-
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
       inputs:
@@ -223,6 +216,13 @@ stages:
         testRunTitle: 'Provider Contract Tests'
       continueOnError: true
     
+    - bash: |
+        az acr login --name amidouksstacksacrnp # this is super annoying
+        docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
+        docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
+      displayName: Docker Build and Push to Az ACR
+      workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
+
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
       displayName: Publish Build Artefacts
