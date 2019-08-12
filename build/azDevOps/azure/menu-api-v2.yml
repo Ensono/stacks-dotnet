@@ -194,7 +194,6 @@ stages:
         projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
         arguments: '-v n'
         testRunTitle: 'Provider Contract Tests'
-      continueOnError: true
     
     - bash: |
         az acr login --name amidouksstacksacrnp # this is super annoying
