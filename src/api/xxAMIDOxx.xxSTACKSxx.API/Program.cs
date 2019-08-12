@@ -23,8 +23,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     config.AddJsonFile($"config/appsettings.json", optional: true, reloadOnChange: false);
                 })
                 .UseStartup<Startup>()
-                .ConfigureServices(DependencyRegistration.ConfigureStaticServices)
-                .ConfigureServices(DependencyRegistration.ConfigureProductionServices)
+                .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
+                .ConfigureServices(DependencyRegistration.ConfigureProductionDependencies)
             ;
     }
 }
