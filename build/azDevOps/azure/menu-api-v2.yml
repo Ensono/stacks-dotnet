@@ -506,15 +506,13 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/ReleaseNotes/create-releasenotes-from-github-pr.sh
               arguments: $(Build.BuildNumber) $(ReleaseNote.GitHubToken) $(ReleaseNote.GitHubUsername) $(Global.Company) $(Global.Platform)-$(Global.Component) $(ReleaseNote.LocalPath)
 
-
           - task: Bash@3
             displayName: 'Upload Release Notes'
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')),and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')))
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(ReleaseNote.StorageAccountRG) $(ReleaseNote.LocalPath) $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
-
 
           - task: Bash@3
             displayName: 'Retrieve URL for Test Results'
@@ -527,7 +525,7 @@ stages:
 
           - task: Bash@3
             displayName: 'Retrieve URL for Release Notes'
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')),and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')))
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
