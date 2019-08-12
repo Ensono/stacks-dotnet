@@ -126,42 +126,35 @@ stages:
     steps:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
-  
+      
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: $(Sonar.serviceConnection)
+        organization: $(Sonar.organization)
+        scannerMode: $(Sonar.scannerMode)
+        projectKey: $(Sonar.projectKey)
+        projectName: $(Sonar.projectName)
+        projectVersion: $(Sonar.projectVersion)
+      displayName: Prepare for SonarCloud Analysis
 
-    - bash: | 
-        rm -rf $SONAR_HOME
-        mkdir -p $SONAR_HOME
-        curl -sSLo $SONAR_HOME/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/3.3.0.1492/sonar-scanner-cli-3.3.0.1492.zip
-        unzip $SONAR_HOME/sonar-scanner.zip -d $SONAR_HOME
-        rm $SONAR_HOME/sonar-scanner.zip
-        echo "Downloaded Scanner, Running Scan"
-        $SONAR_HOME/sonar-scanner-3.3.0.1492/bin/sonar-scanner \
-          -Dsonar.projectKey=$SONAR_PROJECTKEY \
-          -Dsonar.organization=$SONAR_ORG \
-          -Dsonar.sources=$SONAR_SCANDIR \
-          -Dsonar.host.url=$SONAR_URL \
-          -Dsonar.login=$SONAR_TOKEN
-      displayName: Download & Run SonarCloud Agent
-      workingDirectory: $(Build.SourcesDirectory)
-      env:
-        SONAR_HOME: $(Build.BinariesDirectory)/sonar
-        SONAR_SCANNER_OPTS: "-server"
-        SONAR_PROJECTKEY: $(Test.sonarProjectKey)
-        SONAR_ORG: $(Global.Company)
-        SONAR_URL: https://sonarcloud.io
-        SONAR_SCANDIR: .
-        SONAR_TOKEN: $(Test.sonarCloudToken)
-  
-    #- task: DotNetCoreCLI@2
-    #  displayName: Build Functional Tests
-    #  displayName: 'dotnet publish tests'
-    #  inputs:
-    #    command: publish
-    #    projects: '$(Test.FunctionalTestProjectSourcePath)'
-    #    publishWebProjects: False
-    #    arguments: ' --output $(Test.FunctionalTestProjectBuildPath)'
-    #    zipAfterPublish: True
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        workingDirectory: $(Build.SourcesDirectory)/src/api
 
+    - task: SonarCloudAnalyze@1
+      displayName: Anaylse Code via SonarCloud 
+
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+      displayName: Publish SonarCloud Results
+
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    continueOnError: False
+    steps:
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact - Functional Tests
       inputs:
@@ -186,8 +179,6 @@ stages:
         filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
         arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
 
-# This is problematic because it doesn't inherit the Azure login information
-#
     - task: Bash@3
       displayName: Azure Login
       inputs:
@@ -195,17 +186,6 @@ stages:
         filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
         arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
         failOnStderr: true 
-
-#    - task: Bash@3
-#      displayName: Docker Build and Push
-#      inputs:
-#        targetType: 'filePath'
-#        filePath: $(Build.BinariesDirectory)/DevOps/Docker/docker-build-and-push.sh
-#        arguments: $(Docker.ImageName) $(Docker.ImageTag) $(Docker.ContainerRegistry)
-#        failOnStderr: true 
-#        workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
-#
-# This is problematic because it doesn't inherit the Azure login information
 
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
