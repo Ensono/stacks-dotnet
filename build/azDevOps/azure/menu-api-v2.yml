@@ -38,7 +38,7 @@ variables:
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Test.FunctionalTestProjectSourcePath)/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Pipeline.Workspace)/tests/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: menu-api/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
