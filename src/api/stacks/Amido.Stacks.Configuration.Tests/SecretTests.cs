@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Amido.Stacks.Configuration.Exceptions;
 using AutoFixture.Xunit2;
 using Xunit;
 using Xunit.Abstractions;
@@ -110,13 +111,13 @@ namespace Amido.Stacks.Configuration.Tests
         [Theory, AutoData]
         public async Task NonExistentRequiredEnvironmentSecretTest(SecretResolver secretResolver)
         {
-            await Assert.ThrowsAsync<Exception>(async () => await secretResolver.ResolveSecretAsync(config.NonExistentRequiredEnvironmentSecret));
+            await Assert.ThrowsAsync<SecretNotFoundException>(async () => await secretResolver.ResolveSecretAsync(config.NonExistentRequiredEnvironmentSecret));
         }
 
         [Theory, AutoData]
         public async Task NonExistentRequiredFileSecretTest(SecretResolver secretResolver)
         {
-            await Assert.ThrowsAsync<Exception>(async () => await secretResolver.ResolveSecretAsync(config.NonExistentRequiredFileSecret));
+            await Assert.ThrowsAsync<SecretNotFoundException>(async () => await secretResolver.ResolveSecretAsync(config.NonExistentRequiredFileSecret));
         }
 
         [Theory, AutoData]

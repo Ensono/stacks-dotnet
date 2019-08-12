@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -12,12 +10,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     {
         List<string> values = new List<string>() { "value1", "value2" };
 
-        string valueFromConfig = string.Empty;
-        public ValuesController(IConfiguration configuration, IOptionsMonitor<ValuesOptions> options)
+        public ValuesController()
         {
-            values.Add(configuration.GetSection("TestConfig").Value);
-
-            values.AddRange(options.CurrentValue.Items);
         }
 
         // GET api/values
@@ -34,22 +28,5 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             return "value";
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

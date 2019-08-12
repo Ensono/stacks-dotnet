@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Amido.Stacks.API.Swagger.Filters;
-using Amido.Stacks.Data.Documents.CosmosDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -32,10 +31,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         // Add dependent service required by the application
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            //TODO: non API configurations should be instrastructure concerns, need refactoring
-            services.Configure<ValuesOptions>(Configuration.GetSection("Values"));
-            services.Configure<CosmosDbConfiguration>(Configuration.GetSection("CosmosDB"));
-
             services
                 //.AddMvc()
                 .AddMvcCore(
@@ -43,10 +38,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     {
                         options.AllowValidatingTopLevelNodes = true;
                         options.InputFormatters.Clear();
-
-                        //Add automatic validation of Models decorated with ValidationAttributes
-                        //Remove it if you planning to use FluentValidation
-                        //options.Filters.Add(new ValidateModelStateAttribute());
                     }
                 )
                 .AddApiExplorer()
