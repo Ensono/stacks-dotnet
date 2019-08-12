@@ -4,7 +4,6 @@
     <IsPackable>false</IsPackable>
     <AssemblyName>xxAMIDOxx.xxSTACKSxx.Tests.Api</AssemblyName>
     <RootNamespace>xxAMIDOxx.xxSTACKSxx.Tests.Api</RootNamespace>
-    <ProjectGuid>{1AE6753F-17F8-4842-97AB-0D61BA273056}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Tests\E2E\**" />

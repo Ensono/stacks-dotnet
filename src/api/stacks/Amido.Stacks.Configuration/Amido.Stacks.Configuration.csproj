@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
-    <ProjectGuid>{F9EE4175-DB21-4416-8C0C-0273ACB53E50}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />

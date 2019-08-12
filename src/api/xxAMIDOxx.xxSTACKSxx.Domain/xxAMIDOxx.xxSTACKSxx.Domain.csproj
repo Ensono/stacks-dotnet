@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
-    <ProjectGuid>{42316338-FDE8-4C8A-AE94-6D13EB3C9511}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\stacks\Amido.Stacks.Domain\Amido.Stacks.Domain.csproj" />
