@@ -53,6 +53,20 @@ variables:
 - name: BaseUrl
   value: http://$(Release.Environment).azure.amidostacks.com/api/menu/
 
+
+- name: Sonar.serviceConnection
+  value: 'amido-sonarcloud'
+- name: Sonar.organization
+  value: 'amido'
+- name: Sonar.scannerMode
+  value: 'MSBuild'
+- name: Sonar.projectKey
+  value: 'stacks-dotnet'
+- name: Sonar.projectName
+  value: 'menu-api'
+- name: Sonar.projectVersion
+  value: $(Docker.ImageTag)
+
 # Release Notes
 - name: ReleaseNote.LocalPath
   value: $(Pipeline.Workspace)/build/release.json
