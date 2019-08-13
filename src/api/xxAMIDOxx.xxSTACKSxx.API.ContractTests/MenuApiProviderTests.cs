@@ -86,7 +86,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
 
         private string CreatePactUri(string consumerName, string providerName)
         {
-            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest";
+            //This is set to tests against the LATEST version of the contracts in the broker
+            //Future enhancement is to use tags on contracts and target specific contracts by using Tags in the URL below
+            //(NB: I imagine the tag will be fed in from environment variables in the pipeline)
+            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest"; 
         }
     }
 }
