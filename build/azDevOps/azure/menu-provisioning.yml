@@ -8,7 +8,10 @@ trigger:
     include:
     - deploy/terraform/*
     - build/azDevOps/azure/menu-provisioning.yml
-
+    exclude:
+    - '*'
+pr:
+- master
 
 variables:
 - name: system.debug
