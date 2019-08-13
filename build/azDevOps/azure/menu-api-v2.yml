@@ -24,7 +24,7 @@ variables:
 - name: Version.Major
   value: 1
 - name: Version.Minor
-  value: 2
+  value: 3
 - name: Version.MajorMinor
   value: $(Version.Major).$(Version.Minor)
 - name: Version.Revision
@@ -38,7 +38,7 @@ variables:
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Test.FunctionalTestProjectSourcePath)/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Pipeline.Workspace)/tests/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: menu-api/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
@@ -52,6 +52,20 @@ variables:
 # Used in Functional Tests as ENV VAR
 - name: BaseUrl
   value: http://$(Release.Environment).azure.amidostacks.com/api/menu/
+
+
+- name: Sonar.serviceConnection
+  value: 'amido-sonarcloud'
+- name: Sonar.organization
+  value: 'amido'
+- name: Sonar.scannerMode
+  value: 'MSBuild'
+- name: Sonar.projectKey
+  value: 'stacks-dotnet'
+- name: Sonar.projectName
+  value: 'menu-api'
+- name: Sonar.projectVersion
+  value: $(Docker.ImageTag)
 
 # Release Notes
 - name: ReleaseNote.LocalPath
@@ -119,49 +133,42 @@ variables:
 stages:
 - stage: Build
   jobs:
-  - job: Build
+  - job: Analyse
     pool:
       vmImage: 'ubuntu-latest'
     continueOnError: False
     steps:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
-  
+      
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: $(Sonar.serviceConnection)
+        organization: $(Sonar.organization)
+        scannerMode: $(Sonar.scannerMode)
+        projectKey: $(Sonar.projectKey)
+        projectName: $(Sonar.projectName)
+        projectVersion: $(Sonar.projectVersion)
+      displayName: Prepare for SonarCloud Analysis
 
-    - bash: | 
-        rm -rf $SONAR_HOME
-        mkdir -p $SONAR_HOME
-        curl -sSLo $SONAR_HOME/sonar-scanner.zip http://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/3.3.0.1492/sonar-scanner-cli-3.3.0.1492.zip
-        unzip $SONAR_HOME/sonar-scanner.zip -d $SONAR_HOME
-        rm $SONAR_HOME/sonar-scanner.zip
-        echo "Downloaded Scanner, Running Scan"
-        $SONAR_HOME/sonar-scanner-3.3.0.1492/bin/sonar-scanner \
-          -Dsonar.projectKey=$SONAR_PROJECTKEY \
-          -Dsonar.organization=$SONAR_ORG \
-          -Dsonar.sources=$SONAR_SCANDIR \
-          -Dsonar.host.url=$SONAR_URL \
-          -Dsonar.login=$SONAR_TOKEN
-      displayName: Download & Run SonarCloud Agent
-      workingDirectory: $(Build.SourcesDirectory)
-      env:
-        SONAR_HOME: $(Build.BinariesDirectory)/sonar
-        SONAR_SCANNER_OPTS: "-server"
-        SONAR_PROJECTKEY: $(Test.sonarProjectKey)
-        SONAR_ORG: $(Global.Company)
-        SONAR_URL: https://sonarcloud.io
-        SONAR_SCANDIR: .
-        SONAR_TOKEN: $(Test.sonarCloudToken)
-  
-    #- task: DotNetCoreCLI@2
-    #  displayName: Build Functional Tests
-    #  displayName: 'dotnet publish tests'
-    #  inputs:
-    #    command: publish
-    #    projects: '$(Test.FunctionalTestProjectSourcePath)'
-    #    publishWebProjects: False
-    #    arguments: ' --output $(Test.FunctionalTestProjectBuildPath)'
-    #    zipAfterPublish: True
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        workingDirectory: $(Build.SourcesDirectory)/src/api
 
+    - task: SonarCloudAnalyze@1
+      displayName: Anaylse Code via SonarCloud 
+
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+      displayName: Publish SonarCloud Results
+
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    continueOnError: False
+    steps:
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact - Functional Tests
       inputs:
@@ -186,8 +193,6 @@ stages:
         filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
         arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
 
-# This is problematic because it doesn't inherit the Azure login information
-#
     - task: Bash@3
       displayName: Azure Login
       inputs:
@@ -196,17 +201,6 @@ stages:
         arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
         failOnStderr: true 
 
-#    - task: Bash@3
-#      displayName: Docker Build and Push
-#      inputs:
-#        targetType: 'filePath'
-#        filePath: $(Build.BinariesDirectory)/DevOps/Docker/docker-build-and-push.sh
-#        arguments: $(Docker.ImageName) $(Docker.ImageTag) $(Docker.ContainerRegistry)
-#        failOnStderr: true 
-#        workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
-#
-# This is problematic because it doesn't inherit the Azure login information
-
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
       inputs:
@@ -214,13 +208,17 @@ stages:
         projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
         arguments: '-v n'
         testRunTitle: 'Provider Contract Tests'
-      continueOnError: true
     
     - bash: |
         az acr login --name amidouksstacksacrnp # this is super annoying
         docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
+      displayName: Build Container Image 
+      workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
+
+    - bash: |
+        az acr login --name amidouksstacksacrnp # this is super annoying
         docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
-      displayName: Docker Build and Push to Az ACR
+      displayName: Push Container Image to Azure Container Registry
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
@@ -497,15 +495,13 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/ReleaseNotes/create-releasenotes-from-github-pr.sh
               arguments: $(Build.BuildNumber) $(ReleaseNote.GitHubToken) $(ReleaseNote.GitHubUsername) $(Global.Company) $(Global.Platform)-$(Global.Component) $(ReleaseNote.LocalPath)
 
-
           - task: Bash@3
             displayName: 'Upload Release Notes'
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')),and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')))
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(ReleaseNote.StorageAccountRG) $(ReleaseNote.LocalPath) $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
-
 
           - task: Bash@3
             displayName: 'Retrieve URL for Test Results'
@@ -518,7 +514,7 @@ stages:
 
           - task: Bash@3
             displayName: 'Retrieve URL for Release Notes'
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')),and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')))
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
