@@ -3,9 +3,13 @@ name: $(build.SourceBranchName)-init
 trigger:
   paths:
     exclude:
-    - src/api/xxAMIDOxx.xxSTACKSxx.API.Models
-    - deploy/terraform
+    - src/api/xxAMIDOxx.xxSTACKSxx.API.Models/*
+    - deploy/terraform/*
 
+# Only build PR's into Master (i.e. 'going live')
+pr:
+- master
+    
 resources:
 - repo: self
 
@@ -24,11 +28,9 @@ variables:
 - name: Version.Major
   value: 1
 - name: Version.Minor
-  value: 3
-- name: Version.MajorMinor
-  value: $(Version.Major).$(Version.Minor)
+  value: 4
 - name: Version.Revision
-  value: $[counter(variables['Version.MajorMinor'], 0)]
+  value: $[counter(variables['Version.Minor'], 0)]
 
 # Tests
 - name: Test.FunctionalTestProjectFile
@@ -69,7 +71,7 @@ variables:
 
 # Release Notes
 - name: ReleaseNote.LocalPath
-  value: $(Pipeline.Workspace)/build/release.json
+  value: $(System.DefaultWorkingDirectory)/release.json
 - name: ReleaseNote.TargetName
   value: menu-api/$(Build.BuildNumber).json
 - name: ReleaseNote.StorageAccountRG
@@ -100,7 +102,7 @@ variables:
 - name: Docker.ImageName
   value: menu-api
 - name: Docker.ImageTag
-  value: $(Version.MajorMinor).$(Version.Revision)-$(build.sourcebranchname)
+  value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
 - name: Docker.ContainerRegistry
   value: amidouksstacksacrnp.azurecr.io
 
@@ -224,6 +226,18 @@ stages:
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
       displayName: Publish Build Artefacts
+
+    - task: Bash@3
+      displayName: 'Create Release Notes'
+      condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Build.BinariesDirectory)/DevOps/ReleaseNotes/create-releasenotes-from-github-pr.sh
+        arguments: $(Build.BuildNumber) $(ReleaseNote.GitHubToken) $(ReleaseNote.GitHubUsername) $(Global.Company) $(Global.Platform)-$(Global.Component) $(ReleaseNote.LocalPath)
+
+    - publish: $(ReleaseNote.LocalPath)
+      artifact: releasenotes
+      displayName: Publish Release Notes Artefacts        
 
 - stage: DevX
   variables: 
@@ -358,6 +372,8 @@ stages:
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
 - stage: Testx
+  # Only run if on master or a result of a PR into master (set in pr: block at head)
+  condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')),and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')))
   variables: 
   - name: Release.Environment
     value: testx
@@ -489,28 +505,32 @@ stages:
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
           - task: Bash@3
-            displayName: 'Create Release Notes'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/ReleaseNotes/create-releasenotes-from-github-pr.sh
-              arguments: $(Build.BuildNumber) $(ReleaseNote.GitHubToken) $(ReleaseNote.GitHubUsername) $(Global.Company) $(Global.Platform)-$(Global.Component) $(ReleaseNote.LocalPath)
-
-          - task: Bash@3
-            displayName: 'Upload Release Notes'
-            condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')),and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')))
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
-              arguments: $(ReleaseNote.StorageAccountRG) $(ReleaseNote.LocalPath) $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
-
-          - task: Bash@3
             displayName: 'Retrieve URL for Test Results'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-              failOnStderr: true 
 
+### Release Notes
+
+#          - task: Bash@3
+#            displayName: 'Create Release Notes'
+#            condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')),and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')))
+#            inputs:
+#              targetType: 'filePath'
+#              filePath: $(Build.BinariesDirectory)/DevOps/ReleaseNotes/create-releasenotes-from-github-pr.sh
+#              arguments: $(Build.BuildNumber) $(ReleaseNote.GitHubToken) $(ReleaseNote.GitHubUsername) $(Global.Company) $(Global.Platform)-$(Global.Component) $(ReleaseNote.LocalPath)
+
+          - download: current
+            displayName: Download Release Notes Artefact
+            artifact: releasenotes
+
+          - task: Bash@3
+            displayName: 'Upload Release Notes'
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
+              arguments: $(ReleaseNote.StorageAccountRG) $(Pipeline.Workspace)/releasenotes/release.json $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
 
           - task: Bash@3
             displayName: 'Retrieve URL for Release Notes'
