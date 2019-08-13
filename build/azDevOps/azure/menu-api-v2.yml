@@ -133,7 +133,7 @@ variables:
 stages:
 - stage: Build
   jobs:
-  - job: Build
+  - job: Analyse
     pool:
       vmImage: 'ubuntu-latest'
     continueOnError: False
@@ -212,8 +212,13 @@ stages:
     - bash: |
         az acr login --name amidouksstacksacrnp # this is super annoying
         docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
+      displayName: Build Container Image 
+      workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
+
+    - bash: |
+        az acr login --name amidouksstacksacrnp # this is super annoying
         docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
-      displayName: Docker Build and Push to Az ACR
+      displayName: Push Container Image to Azure Container Registry
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
