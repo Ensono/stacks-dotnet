@@ -1,10 +1,14 @@
 name: $(build.SourceBranchName)-init
 
 trigger:
+  branches:
+    include:
+    - '*'
   paths:
     exclude:
     - src/api/xxAMIDOxx.xxSTACKSxx.API.Models/*
     - deploy/terraform/*
+  
 
 # Only build PR's into Master (i.e. 'going live')
 pr:
@@ -104,7 +108,10 @@ variables:
 - name: Docker.ImageTag
   value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
 - name: Docker.ContainerRegistry
-  value: amidouksstacksacrnp.azurecr.io
+  value: $(Docker.ContainerRegistryName).azurecr.io
+- name: Docker.ContainerRegistryName
+  value: amidouksstacksacrnp
+  
 
 # Kubernetes Config:
 - name: Kubernetes.ArtifactHelmpath
@@ -212,13 +219,12 @@ stages:
         testRunTitle: 'Provider Contract Tests'
     
     - bash: |
-        az acr login --name amidouksstacksacrnp # this is super annoying
         docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
       displayName: Build Container Image 
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
     - bash: |
-        az acr login --name amidouksstacksacrnp # this is super annoying
+        az acr login --name $(Docker.ContainerRegistryName) # this is super annoying
         docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
       displayName: Push Container Image to Azure Container Registry
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
@@ -535,7 +541,6 @@ stages:
 
           - task: Bash@3
             displayName: 'Retrieve URL for Release Notes'
-            condition: or(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')),and(succeeded(), eq(variables['Build.Reason'], 'PullRequest')))
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
