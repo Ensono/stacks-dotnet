@@ -146,7 +146,7 @@ stages:
     continueOnError: False
     steps:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
-      displayName: Update Build Number
+      displayName: 'Update: Build Number'
       
     - task: SonarCloudPrepare@1
       inputs:
@@ -169,7 +169,7 @@ stages:
     - task: SonarCloudPublish@1
       inputs:
         pollingTimeoutSec: '300'
-      displayName: Publish SonarCloud Results
+      displayName: 'Publish: SonarCloud Results'
 
   - job: Build
     pool:
@@ -177,14 +177,14 @@ stages:
     continueOnError: False
     steps:
     - task: PublishBuildArtifacts@1
-      displayName: Publish Artifact - Functional Tests
+      displayName: 'Publish: Functional Tests Artifact'
       inputs:
         PathtoPublish: '$(Test.FunctionalTestProjectSourcePath)'
         ArtifactName: 'tests'
 
     - bash: | 
         wget -O $(Build.BinariesDirectory)/$(Package.File)  '$(Package.URI)'
-      displayName: Get DevOps Scripts
+      displayName:  'Download: DevOps Tools'
       workingDirectory: $(Build.BinariesDirectory)
     
     - task: ExtractFiles@1
@@ -194,14 +194,14 @@ stages:
       displayName: Extract DevOps Scripts
 
     - task: Bash@3
-      displayName: Install CICD Prereqs
+      displayName:  'Install: DevOps Tools'
       inputs:
         targetType: 'filePath'
         filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
         arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
 
     - task: Bash@3
-      displayName: Azure Login
+      displayName: 'Login: Azure'
       inputs:
         targetType: 'filePath'
         filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
@@ -229,7 +229,7 @@ stages:
 
     - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
       artifact: build
-      displayName: Publish Build Artefacts
+      displayName: 'Publish: Build Artefacts'
 
     - task: Bash@3
       displayName: 'Create Release Notes'
@@ -237,14 +237,12 @@ stages:
       inputs:
         targetType: 'filePath'
         filePath: $(Build.BinariesDirectory)/DevOps/ReleaseNotes/create-releasenotes-from-github-pr.sh
-        arguments: $(Build.BuildNumber) $(ReleaseNote.GitHubUsername) $(ReleaseNote.GitHubToken) $(Global.Company) $(Global.Platform)-$(Global.Component) $(Build.ArtifactStagingDirectory)/release.json false
-
+        arguments: $(Docker.ImageTag) $(ReleaseNote.GitHubUsername) $(ReleaseNote.GitHubToken) $(Global.Company) $(Global.Platform)-$(Global.Component) $(Build.ArtifactStagingDirectory)/release.json false
 
     - publish: $(Build.ArtifactStagingDirectory)
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       artifact: releasenotes
-      displayName: Publish Release Notes Artefacts        
-
+      displayName: 'Publish: Release Notes Artefacts'
 - stage: DevX
   variables: 
   - name: Release.Environment
@@ -276,16 +274,16 @@ stages:
 
 #### Prerequisites
           - download: current
-            displayName: Download Build Artefacts
+            displayName: 'Download: Build Artefacts'
             artifact: build
 
           - download: current
-            displayName: Download Test Artefacts
+            displayName: 'Download: Test Artefacts'
             artifact: tests
 
           - bash: | 
               wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
-            displayName: Get DevOps Scripts
+            displayName: 'Download: DevOps Tools'
             workingDirectory: $(Build.BinariesDirectory)
           
           - task: ExtractFiles@1
@@ -295,14 +293,14 @@ stages:
             displayName: Extract DevOps Scripts
 
           - task: Bash@3
-            displayName: Install CICD Prereqs
+            displayName: 'Install: DevOps Tools'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
               arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
 
           - task: Bash@3
-            displayName: Azure Login
+            displayName: 'Login: Azure'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
@@ -310,7 +308,7 @@ stages:
               failOnStderr: true 
 
           - task: Bash@3
-            displayName: Login to Kubernetes Cluster via AZCLI
+            displayName: 'Login: Kubernetes'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-aks-context.sh
@@ -371,7 +369,7 @@ stages:
               testRunTitle: 'Functional Tests'
           
           - task: Bash@3
-            displayName: 'Upload Test Results'
+            displayName: 'Upload: Test Results'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
@@ -409,16 +407,16 @@ stages:
 
 #### Prerequisites
           - download: current
-            displayName: Download Build Artefacts
+            displayName: 'Download: Build Artefacts'
             artifact: build
 
           - download: current
-            displayName: Download Test Artefacts
+            displayName: 'Download: Test Artefacts'
             artifact: tests
 
           - bash: | 
               wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
-            displayName: Get DevOps Scripts
+            displayName: 'Download: DevOps Tools'
             workingDirectory: $(Build.BinariesDirectory)
           
           - task: ExtractFiles@1
@@ -428,14 +426,14 @@ stages:
             displayName: Extract DevOps Scripts
 
           - task: Bash@3
-            displayName: Install CICD Prereqs
+            displayName: 'Install: DevOps Tools'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Bootstrap/install-cicd-prereqs.sh
               arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
 
           - task: Bash@3
-            displayName: Azure Login
+            displayName: 'Login: Azure'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-azure-context.sh
@@ -443,7 +441,7 @@ stages:
               failOnStderr: true 
 
           - task: Bash@3
-            displayName: Login to Kubernetes Cluster via AZCLI
+            displayName: 'Login: Kubernetes'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/set-aks-context.sh
@@ -504,26 +502,26 @@ stages:
               testRunTitle: 'Functional Tests'
           
           - task: Bash@3
-            displayName: 'Upload Test Results'
+            displayName: 'Upload: Test Results'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
           - task: Bash@3
-            displayName: 'Retrieve URL for Test Results'
+            displayName: 'Retrieve URL: Test Results'
             inputs:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
           - download: current
-            displayName: Download Release Notes Artefact
+            displayName: 'Download: Release Notes Artefact'
             artifact: releasenotes
             condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
           - task: Bash@3
-            displayName: 'Upload Release Notes'
+            displayName: 'Upload: Release Notes'
             condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
             inputs:
               targetType: 'filePath'
@@ -531,7 +529,7 @@ stages:
               arguments: $(ReleaseNote.StorageAccountRG) $(Pipeline.Workspace)/releasenotes/release.json $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
 
           - task: Bash@3
-            displayName: 'Retrieve URL for Release Notes'
+            displayName: 'Retrieve URL: Release Notes'
             condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
             inputs:
               targetType: 'filePath'
