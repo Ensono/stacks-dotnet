@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
@@ -16,21 +17,28 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        static ILogger log = Log.Logger;
+
+        private IConfiguration Configuration { get; }
         private readonly IHostingEnvironment _hostingEnv;
-        private string pathBase = String.Empty;
+        private readonly string pathBase = String.Empty;
+        private readonly bool useAppInsights = false;
 
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             _hostingEnv = env;
             Configuration = configuration;
-            pathBase = Environment.GetEnvironmentVariable("API_BASEPATH") ?? String.Empty;
+            pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? String.Empty;
+            useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // Add dependent service required by the application
         public virtual void ConfigureServices(IServiceCollection services)
         {
+            if (useAppInsights)
+                services.AddApplicationInsightsTelemetry();
+
             services
                 //.AddMvc()
                 .AddMvcCore(
@@ -171,30 +179,21 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         // Configure the pipeline with middlewares
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
+            //if (!useAppInsights)
+            //app.UseSerilogRequestLogging(); // Requires serilog v3 still in preview, not required when using App Insights
 
             app
-                .UsePathBase(pathBase)
-                .UseMvc()
-                .UseSwagger()
-                .UseSwaggerUI(c =>
-                {
-                    c.DisplayOperationId();
+            .UsePathBase(pathBase)
+            .UseMvc()
+            .UseSwagger()
+            .UseSwaggerUI(c =>
+            {
+                c.DisplayOperationId();
 
-                    c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
-                    c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
-                    c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
-                });
+                c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
+                c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
+                c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
+            });
         }
     }
 }

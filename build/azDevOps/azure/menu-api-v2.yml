@@ -389,7 +389,7 @@ stages:
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
+             $(Kubernetes.KustomizeBinaryPath) edit set image api-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
             workingDirectory: $(Pipeline.Workspace)/build/base
             displayName: Kustomize Application Deployment Customisation 
             failOnStderr: true 
@@ -511,7 +511,7 @@ stages:
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
+             $(Kubernetes.KustomizeBinaryPath) edit set image api-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
             workingDirectory: $(Pipeline.Workspace)/build/base
             displayName: Kustomize Application Deployment Customisation 
             failOnStderr: true 

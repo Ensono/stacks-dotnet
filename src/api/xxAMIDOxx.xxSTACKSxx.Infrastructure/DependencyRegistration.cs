@@ -7,6 +7,7 @@ using Amido.Stacks.Data.Documents.CosmosDB.Extensions;
 using Amido.Stacks.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers;
@@ -17,6 +18,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
 {
     public static class DependencyRegistration
     {
+        static ILogger log = Log.Logger;
+
         /// <summary>
         /// Register static services that does not change between environment or contexts(i.e: tests)
         /// </summary>
@@ -47,33 +50,33 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
 
         private static void AddCommandHandlers(IServiceCollection services)
         {
-            System.Console.WriteLine($"Loading implementations of  {typeof(ICommandHandler<>).Name}");
+            log.Information("Loading implementations of {interface}", typeof(ICommandHandler<>).Name);
             var definitions = typeof(CreateMenuCommandHandler).Assembly.GetImplementationsOf(typeof(ICommandHandler<>), typeof(ICommandHandler<,>));
             foreach (var definition in definitions)
             {
-                System.Console.WriteLine($"Registering '{definition.implementation.FullName}' as implementation of '{definition.interfaceVariation.FullName}'");
+                log.Information("Registering '{implementation}' as implementation of '{interface}'", definition.implementation.FullName, definition.interfaceVariation.FullName);
                 services.AddTransient(definition.interfaceVariation, definition.implementation);
             }
         }
 
         private static void AddQueryHandlers(IServiceCollection services)
         {
-            System.Console.WriteLine($"Loading implementations of  {typeof(IQueryHandler<,>).Name}");
+            log.Information("Loading implementations of {interface}", typeof(IQueryHandler<,>).Name);
             var definitions = typeof(GetMenuByIdQueryHandler).Assembly.GetImplementationsOf(typeof(IQueryHandler<,>));
             foreach (var definition in definitions)
             {
-                System.Console.WriteLine($"Registering '{definition.implementation.FullName}' as implementation of '{definition.interfaceVariation.FullName}'");
+                log.Information("Registering '{implementation}' as implementation of '{interface}'", definition.implementation.FullName, definition.interfaceVariation.FullName);
                 services.AddTransient(definition.interfaceVariation, definition.implementation);
             }
         }
 
         private static void AddEventPublishers(IServiceCollection services)
         {
-            System.Console.WriteLine($"Loading implementations of  {typeof(IApplicationEventPublisher).Name}");
+            log.Information("Loading implementations of {interface}", typeof(IApplicationEventPublisher).Name);
             var definitions = typeof(DummyEventPublisher).Assembly.GetImplementationsOf(typeof(IApplicationEventPublisher));
             foreach (var definition in definitions)
             {
-                System.Console.WriteLine($"Registering '{definition.implementation.FullName}' as implementation of '{definition.interfaceVariation.FullName}'");
+                log.Information("Registering '{implementation}' as implementation of '{interface}'", definition.implementation.FullName, definition.interfaceVariation.FullName);
                 //TODO: maybe this should be singleton
                 services.AddTransient(definition.interfaceVariation, definition.implementation);
             }
