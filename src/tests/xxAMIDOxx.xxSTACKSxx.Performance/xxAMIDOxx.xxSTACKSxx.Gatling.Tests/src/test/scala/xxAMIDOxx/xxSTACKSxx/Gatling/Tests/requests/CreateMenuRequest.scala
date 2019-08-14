@@ -4,6 +4,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import xxAMIDOxx.xxSTACKSxx.Gatling.Tests.config.Config.app_url
+import java.util.UUID.randomUUID
 
 object CreateMenuRequest {
   var create_menu: HttpRequestBuilder = http("Create Menu")

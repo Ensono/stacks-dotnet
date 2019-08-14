@@ -48,6 +48,20 @@
         <version>${gatling-maven-plugin.version}</version>
           <configuration>
             <runMultipleSimulations>true</runMultipleSimulations>
+            <includes>
+              <param>xxAMIDOxx.xxSTACKSxx.Gatling.Tests.simulations.GetMenuSimulation</param>
+            </includes>
+            <excludes>
+              <param>xxAMIDOxx.xxSTACKSxx.Gatling.Tests.simulations.CreateMenuSimulation</param>
+            </excludes>
+            <jvmArgs>
+              <jvmArg>-Dconstantusers=${constantusers}</jvmArg>
+              <jvmArg>-Dmaxusers=${maxusers}</jvmArg>
+              <jvmArg>-Drampup=${rampup}</jvmArg>
+              <jvmArg>-Dthroughput=${throughput}</jvmArg>
+              <jvmArg>-Dduration=${duration}</jvmArg>
+            </jvmArgs>
+            <!--<propagateSystemProperties>true</propagateSystemProperties>-->
           </configuration>
       </plugin>
     </plugins>
