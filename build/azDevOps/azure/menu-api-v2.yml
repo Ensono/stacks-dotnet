@@ -227,8 +227,8 @@ stages:
         targetType: 'filePath'
         filePath: $(Build.BinariesDirectory)/DevOps/Docker/new-image-scan.sh
         arguments: $(Docker.ImageName) $(Docker.ImageTag)
+        workingDirectory: $(Build.ArtifactStagingDirectory)
       continueOnError: true
-      workingDirectory: $(Build.ArtifactStagingDirectory)
 
     - bash: |
         az acr login --name $(Docker.ContainerRegistryName) # this is super annoying
