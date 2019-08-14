@@ -225,7 +225,7 @@ stages:
       displayName: 'Vulnerability Scan'
       inputs:
         targetType: 'filePath'
-        filePath: $(Build.BinariesDirectory)/Docker/new-image-scan.sh
+        filePath: $(Build.BinariesDirectory)/DevOps/Docker/new-image-scan.sh
         arguments: $(Docker.ImageName) $(Docker.ImageTag)
       continueOnError: true
 
