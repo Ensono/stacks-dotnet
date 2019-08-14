@@ -235,7 +235,7 @@ stages:
     - publish: $(Build.ArtifactStagingDirectory)/results.json
       artifact: scanresults
       displayName: 'Publish: Vulnerability Scan Result Artefact'
-      continueonError: true
+      continueOnError: true
 
 #### Vulnerability Scanning
 
