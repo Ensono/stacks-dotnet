@@ -131,9 +131,9 @@ variables:
 
 # Package Info
 - name: Package.File
-  value: scripts-0.0.34-master.tar.gz
+  value: scripts-0.0.35-master.tar.gz
 - name: Package.SAS
-  value: 'se=2019-09-13T11%3A11Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=4yhtQig8V9BAL3GdJHCkdeH0hACI8l6VqyZlHsCKGUo%3D'
+  value: 'se=2019-09-14T13%3A19Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=qsPPHhSERbVPppmTgrpkiaTV20rd/cvss5zXPvT59Kc%3D'
 - name: 'Package.URI'
   value: https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)
 
@@ -221,13 +221,13 @@ stages:
       displayName: Build Container Image 
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
-    - bash: |
-        wget https://github.com/knqyf263/trivy/releases/download/v0.1.4/trivy_0.1.4_Linux-64bit.tar.gz
-        tar zxvf trivy_0.1.4_Linux-64bit.tar.gz
-        ./trivy --exit-code 0 --severity HIGH --quiet --auto-refresh $(Docker.ImageName):$(Docker.ImageTag)
-        ./trivy --exit-code 1 --severity CRITICAL --quiet --auto-refresh $(Docker.ImageName):$(Docker.ImageTag)
-      displayName: Vulnerability Scan 
-      workingDirectory: $(Build.BinariesDirectory)
+    - task: Bash@3
+      displayName: 'Vulnerability Scan'
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Build.BinariesDirectory)/Docker/new-image-scan.sh
+        arguments: $(Docker.ImageName) $(Docker.ImageTag)
+      continueOnError: true
 
     - bash: |
         az acr login --name $(Docker.ContainerRegistryName) # this is super annoying
