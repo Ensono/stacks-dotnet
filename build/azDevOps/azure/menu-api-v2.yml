@@ -222,13 +222,12 @@ stages:
       workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
 
     - bash: |
-        export VERSION=$(curl --silent "https://api.github.com/repos/knqyf263/trivy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-        wget https://github.com/knqyf263/trivy/releases/download/v$VERSION/trivy_$VERSION_Linux-64bit.tar.gz
-        tar zxvf trivy_$VERSION_Linux-64bit.tar.gz
+        wget https://github.com/knqyf263/trivy/releases/download/v0.1.4/trivy_0.1.4_Linux-64bit.tar.gz
+        tar zxvf trivy_v0.1.4_Linux-64bit.tar.gz
         ./trivy --exit-code 0 --severity HIGH --quiet --auto-refresh $(Docker.ImageName):$(Docker.ImageTag)
         ./trivy --exit-code 1 --severity CRITICAL --quiet --auto-refresh $(Docker.ImageName):$(Docker.ImageTag)
       displayName: Vulnerability Scan 
-      workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
+      workingDirectory: $(Build.BinariesDirectory)
 
     - bash: |
         az acr login --name $(Docker.ContainerRegistryName) # this is super annoying
