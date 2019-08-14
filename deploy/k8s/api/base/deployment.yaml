@@ -21,8 +21,8 @@ spec:
     spec:
 ##      serviceAccountName: nginx-ingress-serviceaccount
       containers:
-        - name: menuapi
-          image: menuapi-image:tag
+        - name: api
+          image: api-image:tag
 ##          args:
 ##            - /nginx-ingress-controller
 ##            - --configmap=$(POD_NAMESPACE)/nginx-configuration
@@ -58,11 +58,16 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.annotations['release']
-            - name: COSMOSDBKEY
+            - name: COSMOSDB_KEY
               valueFrom:
                 secretKeyRef:
                   name: cosmosdb
                   key: key
+            - name: APPINSIGHTS_INSTRUMENTATIONKEY
+              valueFrom:
+                secretKeyRef:
+                  name: appinsights
+                  key: instrumentationkey
           ports:
             - name: http
               containerPort: 80

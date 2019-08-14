@@ -29,4 +29,7 @@ secretGenerator:
 - name: cosmosdb
   files:
   - secrets/cosmosdb/key
+- name: appinsights
+  files:
+  - secrets/appinsights/instrumentationkey
   

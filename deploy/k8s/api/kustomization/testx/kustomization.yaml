@@ -25,4 +25,8 @@ secretGenerator:
   behavior: replace
   files:
   - secrets/cosmosdb/key
+- name: appinsights
+  behavior: replace
+  files:
+  - secrets/appinsights/instrumentationkey
   

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Application.CQRS.Commands;
+using Amido.Stacks.Core.Exceptions;
 using Amido.Stacks.Domain;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Common.Exceptions;
@@ -38,7 +39,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             {
                 result = await HandleCommandAsync(menu, command);
 
-                await repository.SaveAsync(menu);
+                var issuccessful = await repository.SaveAsync(menu);
+
+                if (!issuccessful)
+                    throw new Exception("Unable to complete operation");
 
                 foreach (var appEvent in RaiseApplicationEvents(menu, command))
                 {
@@ -47,6 +51,18 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             }
             catch (DomainException ex)
             {
+                DomainRuleViolationException.Raise(command, command.MenuId, ex);
+            }
+            catch (ApplicationExceptionBase ex)
+            {
+                //TODO: Change to an applicaiton exception handling
+                //poossible failures is calling external dependencies like other services
+                DomainRuleViolationException.Raise(command, command.MenuId, ex);
+            }
+            catch (InfrastructureExceptionBase ex)
+            {
+                //TODO: Change to an infrastructure exception handling
+                //possible failures is calling database, queue or any other dependency
                 DomainRuleViolationException.Raise(command, command.MenuId, ex);
             }
             catch (Exception ex)
