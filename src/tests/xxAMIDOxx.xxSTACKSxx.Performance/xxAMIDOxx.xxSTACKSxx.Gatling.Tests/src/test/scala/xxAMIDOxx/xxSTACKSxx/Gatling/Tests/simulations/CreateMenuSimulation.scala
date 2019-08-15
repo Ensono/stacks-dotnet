@@ -7,7 +7,7 @@ import xxAMIDOxx.xxSTACKSxx.Gatling.Tests.scenarios.CreateMenuScenario
 
 class CreateMenuSimulation extends Simulation {
   private val createMenuRampExec = CreateMenuScenario.createMenuScenario
-    .inject(rampUsers(maxusers) during(rampup seconds))
+    .inject(rampUsers(users) during(rampup seconds))
 
   setUp(createMenuRampExec)
 }

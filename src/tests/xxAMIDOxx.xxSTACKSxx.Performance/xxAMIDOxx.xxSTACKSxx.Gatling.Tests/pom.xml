@@ -41,6 +41,7 @@
   </dependencies>
 
   <build>
+    <testSourceDirectory>src/test/scala/</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>io.gatling</groupId>
@@ -55,11 +56,8 @@
               <param>xxAMIDOxx.xxSTACKSxx.Gatling.Tests.simulations.CreateMenuSimulation</param>
             </excludes>
             <jvmArgs>
-              <jvmArg>-Dconstantusers=${constantusers}</jvmArg>
-              <jvmArg>-Dmaxusers=${maxusers}</jvmArg>
+              <jvmArg>-Dusers=${users}</jvmArg>
               <jvmArg>-Drampup=${rampup}</jvmArg>
-              <jvmArg>-Dthroughput=${throughput}</jvmArg>
-              <jvmArg>-Dduration=${duration}</jvmArg>
             </jvmArgs>
             <!--<propagateSystemProperties>true</propagateSystemProperties>-->
           </configuration>

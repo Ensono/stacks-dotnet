@@ -11,9 +11,9 @@ import xxAMIDOxx.xxSTACKSxx.Gatling.Tests.config.Config._
 class GetMenuSimulation extends Simulation {
   private val getMenuRampExec = GetMenuScenario.getMenuScenario
     .inject(
-      //rampConcurrentUsers(constantusers) to (maxusers) during (rampUp seconds),
-      //constantConcurrentUsers(constantusers) during (duration seconds),
-      rampUsers(maxusers) during (rampup seconds)
+      //rampConcurrentUsers(users) to (users + 10) during (rampup seconds),
+      //constantConcurrentUsers(users) during (rampup seconds),
+      rampUsers(users) during (rampup seconds)
       //nothingFor(4 seconds),
       //atOnceUsers(10),
       //rampUsers(10) during (5 seconds),
