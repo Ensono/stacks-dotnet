@@ -1,9 +1,11 @@
-﻿namespace Amido.Stacks.Configuration
+﻿using System.Threading.Tasks;
+
+namespace Amido.Stacks.Configuration
 {
     public interface ISecretSource<T>
     {
         string Source { get; }
 
-        T Resolve(Secret secret);
+        Task<T> ResolveAsync(Secret secret);
     }
 }

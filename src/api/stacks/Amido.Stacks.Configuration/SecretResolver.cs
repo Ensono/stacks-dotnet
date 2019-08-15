@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Amido.Stacks.Configuration.Exceptions;
 
 namespace Amido.Stacks.Configuration
 {
@@ -18,34 +19,32 @@ namespace Amido.Stacks.Configuration
             sources.Add(source.Source.ToUpperInvariant(), source);
         }
 
-        public string ResolveSecret(Secret secret)
+        public async Task<string> ResolveSecretAsync(Secret secret)
         {
             if (secret == null)
-                throw new ArgumentNullException($"The parameter {nameof(secret)} cann't be null");
+                SecretNotDefinedException.Raise();
 
             if (string.IsNullOrWhiteSpace(secret.Source))
-                throw new InvalidOperationException($"A valid secret source must be provided.");
+                InvalidSecretDefinitionException.Raise(secret.Source, secret.Identifier);
 
             if (string.IsNullOrWhiteSpace(secret.Identifier))
-                throw new ArgumentException($"The value '{secret.Identifier ?? "(null)"}' provided as identifiers is not valid");
+                InvalidSecretDefinitionException.Raise(secret.Source, secret.Identifier);
 
             if (!sources.ContainsKey(secret.Source.ToUpperInvariant()))
-            {
-                throw new Exception($"Secret source '{secret.Source}' not found");
-            }
+                InvalidSecretSourceException.Raise(secret.Source, secret.Identifier);
 
             var source = sources[secret.Source.ToUpperInvariant()];
 
 
-            var result = source.Resolve(secret);
+            var result = await source.ResolveAsync(secret);
 
             if (result != null)
                 return result;
 
-            if (secret.Optional)
-                return default;
-            else
-                throw new Exception($"No value found for Secret '{secret.Identifier}' on source '{secret.Source}'.");
+            if (!secret.Optional)
+                SecretNotFoundException.Raise(secret.Source, secret.Identifier);
+
+            return default;
         }
     }
 }
