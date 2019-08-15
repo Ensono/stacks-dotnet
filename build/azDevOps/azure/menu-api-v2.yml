@@ -40,13 +40,11 @@ variables:
 - name: Test.FunctionalTestProjectFile
   value: xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj
 - name: Test.FunctionalTestProjectSourcePath
-  value: $(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api
-- name: Test.TestFolder
-  value: $(Build.SourcesDirectory)/src/tests/
+  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Pipeline.Workspace)/tests/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: menu-api/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
@@ -56,7 +54,11 @@ variables:
 - name: Test.FunctionalTestReportStorageContainerName
   value: testresults 
 - name: Test.ProviderContractTestProjectSourcePath
-  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'  
+  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'
+- name: Test.TestsSourcePath
+  value: $(Build.SourcesDirectory)/src/tests/
+- name: Test.PerformanceTestProjectSourcePath
+  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Performance/xxAMIDOxx.xxSTACKSxx.Gatling.Tests
 # Used in Functional Tests as ENV VAR
 - name: BaseUrl
   value: http://$(Release.Environment).azure.amidostacks.com/api/menu/
@@ -181,7 +183,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish: Functional Tests Artifact'
       inputs:
-        PathtoPublish: '$(Test.TestFolder)'
+        PathtoPublish: '$(Test.TestsSourcePath)'
         ArtifactName: 'tests'
 
     - bash: | 
@@ -384,13 +386,13 @@ stages:
           - bash: | 
               mvn clean gatling:test -Dusers=5 -Drampup=1
             displayName: Run Performance Tests
-            workingDirectory: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Performance/xxAMIDOxx.xxSTACKSxx.Gatling.Tests
+            workingDirectory: '$(Test.PerformanceTestProjectSourcePath)'
 
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: '$(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api/$(Test.FunctionalTestProjectFile)'
+              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
           
@@ -525,7 +527,7 @@ stages:
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
+              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
           
