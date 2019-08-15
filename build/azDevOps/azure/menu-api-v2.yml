@@ -297,6 +297,11 @@ stages:
               failOnStderr: true 
 
 #### Testing
+          - bash: | 
+              mvn clean gatling:test -Dusers=5 -Drampup=1
+            displayName: Run Performance Tests
+            workingDirectory: $(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Performance/xxAMIDOxx.xxSTACKSxx.Gatling.Tests
+
           - script: |
               echo "##vso[task.setvariable variable=BaseUrl]http://dev.azure.amidostacks.com/api/menu/"
             displayName: set environment variable for subsequent steps
