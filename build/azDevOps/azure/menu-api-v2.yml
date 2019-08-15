@@ -353,7 +353,7 @@ stages:
             displayName:  Inject Secrets from Environment Vars
             inputs:
               targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/inject-secrets-to-env-var.sh
+              filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/inject-secrets-from-env-var.sh
               arguments: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets
               failOnStderr: true 
             env:
@@ -488,8 +488,8 @@ stages:
           - task: Bash@3
             displayName:  Inject Secrets from Environment Vars
             inputs:
-              targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/inject-secrets-to-env-var.sh
+              targetType: 'filePath' 
+              filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/inject-secrets-from-env-var.sh
               arguments: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets
               failOnStderr: true 
             env:
