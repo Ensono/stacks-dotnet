@@ -131,9 +131,9 @@ variables:
 
 # Package Info
 - name: Package.File
-  value: scripts-0.0.40-master.tar.gz
+  value: scripts-1.1.0-master.tar.gz
 - name: Package.SAS
-  value: 'se=2019-09-15T08%3A53Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=uIUNDy4zpelPcRgFBIVzabi0VISGuJcCre46mZv7Cdo%3D'
+  value: 'se=2019-09-15T09%3A49Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=ae8P6fVNYsFbb7NEidTcC58OG6Pk%2BWk0E6xbqdKpy3k%3D'
 - name: 'Package.URI'
   value: https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)
 
@@ -485,14 +485,16 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
               arguments: $(CosmosDB.accountName)
 
-            # This step consumes the preceding key variables to populate the secret 
-          - bash: |
-             echo $KEY > $VALUE
-            displayName: Set CosmosDB Key in Kubernetes Resource
-            failOnStderr: true
+          - task: Bash@3
+            displayName:  Inject Secrets from Environment Vars
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Build.BinariesDirectory)/DevOps/Kubectl/inject-secrets-to-env-var.sh
+              arguments: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets
+              failOnStderr: true 
             env:
-              KEY: $(CosmosDB.key)
-              VALUE: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets/cosmosdb/key
+              cosmosdb_key: $(CosmosDB.key)
+              appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
 
           - bash: |
              echo "Setting image tag to $(Docker.ImageTag)"
