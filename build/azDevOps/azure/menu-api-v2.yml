@@ -41,6 +41,8 @@ variables:
   value: xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj
 - name: Test.FunctionalTestProjectSourcePath
   value: $(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api
+- name: Test.TestFolder
+  value: $(Build.SourcesDirectory)/src/tests/
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
@@ -179,7 +181,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish: Functional Tests Artifact'
       inputs:
-        PathtoPublish: '$(Test.FunctionalTestProjectSourcePath)'
+        PathtoPublish: '$(Test.TestFolder)'
         ArtifactName: 'tests'
 
     - bash: | 
@@ -382,7 +384,7 @@ stages:
           - bash: | 
               mvn clean gatling:test -Dusers=5 -Drampup=1
             displayName: Run Performance Tests
-            workingDirectory: $(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Performance/xxAMIDOxx.xxSTACKSxx.Gatling.Tests
+            workingDirectory: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Performance/xxAMIDOxx.xxSTACKSxx.Gatling.Tests
 
           - task: DotNetCoreCLI@2
             displayName: 'Run Functional Tests'
