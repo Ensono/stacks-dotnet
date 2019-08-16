@@ -55,10 +55,10 @@
             <excludes>
               <param>xxAMIDOxx.xxSTACKSxx.Gatling.Tests.simulations.CreateMenuSimulation</param>
             </excludes>
-            <jvmArgs>
+            <!--<jvmArgs>
               <jvmArg>-Dusers=${users}</jvmArg>
               <jvmArg>-Drampup=${rampup}</jvmArg>
-            </jvmArgs>
+            </jvmArgs>-->
             <!--<propagateSystemProperties>true</propagateSystemProperties>-->
           </configuration>
       </plugin>
