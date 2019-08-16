@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 set -x #echo on for commands
 
 GITROOT=`git rev-parse --show-toplevel`
