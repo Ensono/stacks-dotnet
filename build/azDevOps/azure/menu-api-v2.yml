@@ -385,6 +385,7 @@ stages:
 
 #### Testing
           - bash: | 
+              echo "-Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)"
               mvn clean gatling:test -Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)
             displayName: Run Performance Tests
             workingDirectory: '$(Test.PerformanceTestProjectSourcePath)'
