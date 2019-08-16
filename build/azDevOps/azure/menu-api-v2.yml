@@ -19,6 +19,7 @@ resources:
 
 variables:
 - group: amido-stacks-infra-credentials-nonprod
+- group: amido-stacks-testing
 
 # Global Config:
 - name: Global.Company
@@ -384,7 +385,7 @@ stages:
 
 #### Testing
           - bash: | 
-              mvn clean gatling:test -Dusers=5 -Drampup=1
+              mvn clean gatling:test -Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)
             displayName: Run Performance Tests
             workingDirectory: '$(Test.PerformanceTestProjectSourcePath)'
 
