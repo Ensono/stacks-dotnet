@@ -5,30 +5,37 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Amido.Stacks.Configuration;
 using Amido.Stacks.Core.Utilities;
+using Amido.Stacks.Data.Documents.CosmosDB.Events;
 using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Amido.Stacks.Data.Documents.CosmosDB
 {
     // TODO: Cosmos SDK assume string for identity, we might not need the generic anymore, 
     // but might be useful if reused with other sdks like Table Storage or MongoDB
-    public class CosmosDbDocumentStorage<TEntity, TEntityIdentityType> : IDocumentStorage<TEntity, TEntityIdentityType>, IDocumentSearch<TEntity> where TEntity : class
+    public class CosmosDbDocumentStorage<TEntity> : IDocumentStorage<TEntity>, IDocumentSearch<TEntity> where TEntity : class
     {
+        ILogger logger;
+
         private readonly IOptions<CosmosDbConfiguration> configuration;
         private readonly ISecretResolver<string> secretResolver;
 
         private string containerName;
         AsyncLazy<Container> container;
 
-        public CosmosDbDocumentStorage(IOptions<CosmosDbConfiguration> configuration, ISecretResolver<string> secretResolver)
+
+        public CosmosDbDocumentStorage(IOptions<CosmosDbConfiguration> configuration, ISecretResolver<string> secretResolver, ILoggerFactory loggerFactory)
         {
             this.configuration = configuration;
             this.secretResolver = secretResolver;
             this.containerName = typeof(TEntity).Name;
 
             container = new AsyncLazy<Container>(BuildContainer);
+
+            logger = loggerFactory.CreateLogger(this.GetType());
         }
 
         /// <summary>
@@ -45,7 +52,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             return database.GetContainer(containerName);
         }
 
-        public async Task<OperationResult<TEntity>> SaveAsync(TEntityIdentityType identifier, string partitionKey, TEntity document, string eTag)
+        public async Task<OperationResult<TEntity>> SaveAsync(string identity, string partitionKey, TEntity document, string eTag)
         {
             ItemResponse<TEntity> response = null;
 
@@ -55,40 +62,49 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
             try
             {
+                logger.SaveRequested(containerName, partitionKey, identity.ToString());
+
                 response = await (await container).UpsertItemAsync<TEntity>(document, pkey, GetRequestOptions(eTag));
+
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
             {
+                logger.SaveFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
+
                 DocumentHasChangedException.Raise(
                     configuration.Value.DatabaseAccountUri,
                     configuration.Value.DatabaseName,
                     containerName,
                     partitionKey,
-                    identifier.ToString(),
+                    identity.ToString(),
                     eTag
                 );
 
             }
             catch (CosmosException ex)
             {
+                logger.SaveFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
+
                 DocumentUpsertException.Raise(
                     configuration.Value.DatabaseAccountUri,
                     configuration.Value.DatabaseName,
                     containerName,
                     partitionKey,
-                    identifier.ToString(),
+                    identity.ToString(),
                     eTag,
                     ex
                 );
             }
             catch (Exception ex)
             {
+                logger.SaveFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
+
                 DocumentUpsertException.Raise(
                     configuration.Value.DatabaseAccountUri,
                     configuration.Value.DatabaseName,
                     containerName,
                     partitionKey,
-                    identifier.ToString(),
+                    identity.ToString(),
                     eTag,
                     ex
                 );
@@ -98,6 +114,12 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 response?.StatusCode == System.Net.HttpStatusCode.OK ||
                 response?.StatusCode == System.Net.HttpStatusCode.Created;
 
+            if (isSuccessfull)
+                logger.SaveCompleted(containerName, partitionKey, identity.ToString(), response.RequestCharge);
+            else
+                logger.SaveFailed(containerName, partitionKey, identity.ToString(), $"Response code is {response?.StatusCode}", null);
+
+
             return new OperationResult<TEntity>(
                     isSuccessfull,
                     isSuccessfull ? response.Resource : default,
@@ -105,7 +127,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 );
         }
 
-        public async Task<OperationResult<TEntity>> GetByIdAsync(TEntityIdentityType identity, string partitionKey)
+        public async Task<OperationResult<TEntity>> GetByIdAsync(string identity, string partitionKey)
         {
             if (string.IsNullOrEmpty(partitionKey))
                 PartitionKeyRequiredException.Raise(
@@ -118,6 +140,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
             try
             {
+                logger.GetByIdRequested(containerName, partitionKey, identity.ToString());
+
                 var response = await (await container).ReadItemAsync<TEntity>(
                     identity.ToString(),
                     new PartitionKey(partitionKey),
@@ -125,6 +149,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 );
 
                 var isSuccessfull = response?.StatusCode == System.Net.HttpStatusCode.OK;
+
+                logger.GetByIdCompleted(containerName, partitionKey, identity.ToString(), response.RequestCharge);
 
                 return new OperationResult<TEntity>(
                         isSuccessfull,
@@ -134,7 +160,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             }
             catch (CosmosException ex)
             {
-                //TODO: log the exception
+                logger.GetByIdFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
 
                 return new OperationResult<TEntity>(
                         false,
@@ -144,6 +170,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             }
             catch (Exception ex)
             {
+                logger.GetByIdFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
+
                 DocumentRetrievalException.Raise(
                     configuration.Value.DatabaseAccountUri,
                     configuration.Value.DatabaseName,
@@ -157,7 +185,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             }
         }
 
-        public async Task<OperationResult> DeleteAsync(TEntityIdentityType identity, string partitionKey)
+        public async Task<OperationResult> DeleteAsync(string identity, string partitionKey)
         {
             if (string.IsNullOrEmpty(partitionKey))
                 PartitionKeyRequiredException.Raise(
@@ -170,17 +198,26 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
             try
             {
+                logger.DeleteRequested(containerName, partitionKey, identity.ToString());
+
                 var response = await (await container).DeleteItemAsync<TEntity>(identity.ToString(), new PartitionKey(partitionKey), null);
 
+                bool isSuccessful = response?.StatusCode == System.Net.HttpStatusCode.NoContent;
+
+                if (isSuccessful)
+                    logger.DeleteCompleted(containerName, partitionKey, identity.ToString(), response.RequestCharge);
+                else
+                    logger.DeleteFailed(containerName, partitionKey, identity.ToString(), $"Response code is {response?.StatusCode}", null);
+
                 return new OperationResult(
-                        response.StatusCode == System.Net.HttpStatusCode.NoContent,
-                        GetAttributes(response)
-                    );
+                            isSuccessful,
+                            GetAttributes(response)
+                        );
 
             }
             catch (CosmosException ex)
             {
-                //TODO: log the exception
+                logger.DeleteFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
 
                 return new OperationResult<TEntity>(
                         false,
@@ -190,6 +227,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             }
             catch (Exception ex)
             {
+                logger.DeleteFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
+
                 DocumentDeletionException.Raise(
                     configuration.Value.DatabaseAccountUri,
                     configuration.Value.DatabaseName,
@@ -257,6 +296,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             if (partitionKey != null)
                 options.PartitionKey = new PartitionKey(partitionKey);
 
+
             var collectionQuery =
                 (await container).GetItemLinqQueryable<TResult>(
                         configuration.Value.AllowSynchronousQueryExecution,
@@ -271,6 +311,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                     collectionQuery = collectionQuery.OrderByDescending(orderPredicate);
             }
 
+            logger.SearchRequested(containerName, partitionKey);
+
             FeedIterator<TResult> queryResultSetIterator =
                 collectionQuery
                 .Where(searchPredicate)
@@ -278,7 +320,11 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 .Take(pageSize)
                 .ToFeedIterator();
 
-            return await ParseFeedIterator<TResult>(queryResultSetIterator);
+            var result = await ParseFeedIterator<TResult>(queryResultSetIterator);
+
+            logger.SearchCompleted(containerName, partitionKey, result.RequestCharge);
+
+            return result;
         }
 
         public async Task<OperationResult<IEnumerable<TResult>>> RunSQLQueryAsync<TResult>(string sqlQuery, Dictionary<string, object> parameters = null, string partitionKey = null, int? MaxItemCount = null, string continuationToken = null)
@@ -332,6 +378,10 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
         private Dictionary<string, string> GetAttributes(Response<TEntity> response)
         {
             var dict = new Dictionary<string, string>();
+
+            if (response == null)
+                return dict;
+
             dict["ETag"] = response.ETag;
             dict["RequestCharge"] = response.RequestCharge.ToString();
             dict["ActivityId"] = response.ActivityId;
@@ -346,7 +396,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             //}
         }
 
-        private async Task<OperationResult<IEnumerable<TResult>>> ParseFeedIterator<TResult>(FeedIterator<TResult> queryResultSetIterator, bool loadAllResults = false)
+        private async Task<CosmosOperationResult<IEnumerable<TResult>>> ParseFeedIterator<TResult>(FeedIterator<TResult> queryResultSetIterator, bool loadAllResults = false)
         {
             List<TResult> results = new List<TResult>();
             var dict = new Dictionary<string, string>();
@@ -384,12 +434,11 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
             }
 
-            //TODO: Calculate request charge
-
-            return new OperationResult<IEnumerable<TResult>>(
+            return new CosmosOperationResult<IEnumerable<TResult>>(
                     true,
                     results,
-                    dict
+                    dict,
+                    currentCharge
                 );
         }
     }

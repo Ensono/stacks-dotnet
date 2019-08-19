@@ -21,7 +21,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
         public async Task HandleAsync(DeleteMenu command)
         {
-            var menu = repository.GetByIdAsync(command.MenuId);
+            var menu = await repository.GetByIdAsync(command.MenuId);
 
             if (menu == null)
                 MenuDoesNotExistException.Raise(command, command.MenuId);

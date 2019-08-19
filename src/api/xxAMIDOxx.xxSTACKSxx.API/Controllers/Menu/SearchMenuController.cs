@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Amido.Stacks.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -12,20 +14,29 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
-    public class SearchMenuController : ControllerBase
+    public class SearchMenuController : ApiControllerBase
     {
+        IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult> queryHandler;
+
+        public SearchMenuController(IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult> queryHandler)
+        {
+            this.queryHandler = queryHandler;
+        }
+
+
         /// <summary>
         /// Get or search a list of menus
         /// </summary>
         /// <remarks>By passing in the appropriate options, you can search for available menus in the system </remarks>
-        /// <param name="search">pass an optional search string for looking up menus</param>
-        /// <param name="offset">number of records to skip for pagination</param>
-        /// <param name="size">maximum number of records to return</param>
+        /// <param name="searchTerm">pass an optional search string for looking up menus</param>
+        /// <param name="RestaurantId">id of restaurant to look up for menu's</param>
+        /// <param name="pageNumber">page number</param>
+        /// <param name="pageSize">maximum number of records to return per page</param>
         /// <response code="200">search results matching criteria</response>
         /// <response code="400">bad request</response>
         [HttpGet("/v1/menu/")]
         [ProducesResponseType(typeof(SearchMenuResult), 200)]
-        public virtual IActionResult SearchMenu([FromQuery][Required]string search, [FromQuery]int? offset = 0, [FromQuery][Range(0, 50)]int? size = 20)
+        public async Task<IActionResult> SearchMenu([FromQuery]string searchTerm, [FromQuery]Guid? RestaurantId, [FromQuery][Range(0, 50)]int? pageSize = 20, [FromQuery]int? pageNumber = 1)
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(SearchResult));
@@ -33,13 +44,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
 
-            string exampleJson = null;
+            var criteria = new SearchMenuQueryCriteria(CorrellationId, searchTerm, RestaurantId, pageSize, pageNumber);
 
-            //TODO Implement it when CosmosDB is implemented
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<SearchMenuResult>(exampleJson)
-            : default(SearchMenuResult);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var results = await queryHandler.ExecuteAsync(criteria);
+
+            return new ObjectResult(results); //TOOD: we need a mapping here
         }
     }
 }

@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
-    public class CreateMenuController : ControllerBase
+    public class CreateMenuController : ApiControllerBase
     {
         ICommandHandler<CreateMenu, Guid> commandHandler;
 
