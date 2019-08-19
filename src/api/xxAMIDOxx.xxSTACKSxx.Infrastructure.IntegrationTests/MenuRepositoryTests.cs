@@ -7,7 +7,9 @@ using Amido.Stacks.Data.Documents.CosmosDB;
 using Amido.Stacks.Tests.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NSubstitute;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
@@ -83,9 +85,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
 
             IFixture fixture = new Fixture();
 
+            var loggerFactory = Substitute.For<ILoggerFactory>();
+            loggerFactory.CreateLogger(Arg.Any<string>()).Returns(new Logger<CosmosDbDocumentStorage<Menu>>(loggerFactory));
+
+            fixture.Register<ILoggerFactory>(() => loggerFactory);
             fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
             fixture.Register<IOptions<CosmosDbConfiguration>>(() => Configuration.For<CosmosDbConfiguration>("CosmosDB").AsOption());
-            fixture.Register<IDocumentStorage<Menu, Guid>>(() => fixture.Create<CosmosDbDocumentStorage<Menu, Guid>>());
+            fixture.Register<IDocumentStorage<Menu>>(() => fixture.Create<CosmosDbDocumentStorage<Menu>>());
 
             return fixture;
         }

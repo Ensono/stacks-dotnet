@@ -15,7 +15,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
-    public class DeleteMenuController : ControllerBase
+    public class DeleteMenuController : ApiControllerBase
     {
         ICommandHandler<DeleteMenu> commandHandler;
 

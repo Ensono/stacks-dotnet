@@ -45,7 +45,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                .Enrich.FromLogContext()
                //TODO: Configure from file
+               // https://github.com/serilog/serilog-settings-configuration
                .WriteTo.ApplicationInsights(TelemetryConfiguration.Active, TelemetryConverter.Traces)
+               //.WriteTo.ApplicationInsights(TelemetryConfiguration.Active, new CustomConverter())
                .WriteTo.Console()
                .CreateLogger();
         }
