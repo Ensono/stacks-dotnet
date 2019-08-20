@@ -488,7 +488,7 @@ stages:
     environment: prod
     variables:
     - name: TF_VAR_name_environment
-    value: prod
+      value: prod
     strategy:
       runOnce:
         deploy:
