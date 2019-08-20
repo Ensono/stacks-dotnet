@@ -9,7 +9,10 @@ trigger:
     - deploy/terraform/*
     - build/azDevOps/azure/menu-provisioning.yml
     exclude:
-    - '*'
+    - deploy/*
+    - src/*
+    - contracts/*
+    - build/*
 pr:
 - master
 
@@ -38,7 +41,7 @@ variables:
   value: amidostacksuksprod
 - name: Package.RG
   value: amido-stacks-rg-uks-prod
-  
+
 # Terraform Global Variables:
 - name: TF_VAR_name_company
   value: amido
@@ -249,7 +252,7 @@ stages:
     environment: testx
     variables:
     - name: TF_VAR_name_environment
-    value: testx
+      value: testx
     strategy:
       runOnce:
         deploy:
@@ -371,7 +374,7 @@ stages:
     environment: perf
     variables:  
     - name: TF_VAR_name_environment
-    value: perf
+      value: perf
     strategy:
       runOnce:
         deploy:
