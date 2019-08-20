@@ -124,7 +124,7 @@ stages:
         displayName: Extract DevOps Scripts
 
       - publish: $(Build.BinariesDirectory)/DevOps
-        artifact: DevOps§
+        artifact: DevOps
   
 - stage: NonProduction
   variables: 
