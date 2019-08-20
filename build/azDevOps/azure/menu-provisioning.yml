@@ -126,7 +126,7 @@ stages:
       - publish: $(Build.BinariesDirectory)/DevOps
         artifact: DevOps§
   
-- stage: Non-Production
+- stage: NonProduction
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
   - group: amido-stacks-infra-nonprod # Used for Terraform secrets and Cluster SPN
