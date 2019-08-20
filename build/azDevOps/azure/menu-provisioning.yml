@@ -363,6 +363,7 @@ stages:
 
 
 - stage: Production
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables: 
   - group: amido-stacks-infra-credentials-prod
   - group: amido-stacks-infra-nonprod # Used for Terraform secrets and Cluster SPN
