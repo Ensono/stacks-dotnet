@@ -138,7 +138,7 @@ stages:
     environment: devx
     variables:  
     - name: TF_VAR_name_environment
-    value: devx
+      value: devx
     strategy:
       runOnce:
         deploy:
