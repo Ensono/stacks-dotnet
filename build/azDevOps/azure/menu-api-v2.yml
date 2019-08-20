@@ -418,6 +418,7 @@ stages:
 
 
   - deployment: TestX # This should be made into a meta-template when it's available! 
+    dependsOn: DevX
     pool:
       vmImage: 'ubuntu-latest'
     environment: testx
@@ -695,6 +696,7 @@ stages:
   - deployment: Prod # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
+    dependsOn: Perf
     environment: prod
     variables: 
     - name: Release.Environment
