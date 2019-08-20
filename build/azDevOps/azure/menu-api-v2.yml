@@ -552,8 +552,7 @@ stages:
 - stage: Promotion
   variables:
   - group: amido-stacks-infra-credentials-prod
-  # TODO: The below needs to be uncommented before merge is completed, it is commented out to validate this step.
-  # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - job: PromoteImage
     pool:
@@ -577,8 +576,7 @@ stages:
   - group: amido-stacks-infra-credentials-prod
   - name: Docker.ContainerRegistryName
     value: $(Docker.ContainerRegistryNameProd)
-  # TODO: This condition must be removed before merging to master!
-  # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: Perf # This should be made into a meta-template when it's available! 
     pool:
