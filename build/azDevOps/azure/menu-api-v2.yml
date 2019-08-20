@@ -55,7 +55,7 @@ variables:
   value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'  
 # Used in Functional Tests as ENV VAR
 - name: BaseUrl
-  value: http://$(Release.Environment).azure.amidostacks.com/api/menu/
+  value: https://$(Release.Environment).amidostacks.com/api/menu/
 
 
 - name: Sonar.serviceConnection
@@ -676,20 +676,6 @@ stages:
               failOnStderr: true 
 
 #### Testing
-          - task: DotNetCoreCLI@2
-            displayName: 'Run Functional Tests'
-            inputs:
-              command: test
-              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
-              arguments: '-v n'
-              testRunTitle: 'Functional Tests'
-          
-          - task: Bash@3
-            displayName: 'Upload: Test Results'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/upload-azstorage-blob.sh
-              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
 ### TODO: Performance Testing Step goes here
 
