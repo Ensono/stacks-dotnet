@@ -38,11 +38,11 @@ variables:
 - name: Test.FunctionalTestProjectFile
   value: xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj
 - name: Test.FunctionalTestProjectSourcePath
-  value: $(Build.SourcesDirectory)/src/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api
+  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Pipeline.Workspace)/tests/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: menu-api/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
@@ -52,7 +52,11 @@ variables:
 - name: Test.FunctionalTestReportStorageContainerName
   value: testresults 
 - name: Test.ProviderContractTestProjectSourcePath
-  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'  
+  value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'
+- name: Test.TestsSourcePath
+  value: $(Build.SourcesDirectory)/src/tests/
+- name: Test.PerformanceTestProjectSourcePath
+  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Performance/xxAMIDOxx.xxSTACKSxx.Gatling.Tests
 # Used in Functional Tests as ENV VAR
 - name: BaseUrl
   value: https://$(Release.Environment).amidostacks.com/api/menu/
@@ -216,7 +220,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish: Functional Tests Artifact'
       inputs:
-        PathtoPublish: '$(Test.FunctionalTestProjectSourcePath)'
+        PathtoPublish: '$(Test.TestsSourcePath)'
         ArtifactName: 'tests'
 
     - download: current
@@ -405,7 +409,7 @@ stages:
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
+              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
           
@@ -527,7 +531,7 @@ stages:
             displayName: 'Run Functional Tests'
             inputs:
               command: test
-              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
+              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
           
@@ -548,7 +552,7 @@ stages:
 - stage: Promotion
   variables:
   - group: amido-stacks-infra-credentials-prod
-  # The below needs to be uncommented before merge is completed, it is commented out to validate this step.
+  # TODO: The below needs to be uncommented before merge is completed, it is commented out to validate this step.
   # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - job: PromoteImage
@@ -573,7 +577,8 @@ stages:
   - group: amido-stacks-infra-credentials-prod
   - name: Docker.ContainerRegistryName
     value: $(Docker.ContainerRegistryNameProd)
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  # TODO: This condition must be removed before merging to master!
+  # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: Perf # This should be made into a meta-template when it's available! 
     pool:
@@ -681,8 +686,12 @@ stages:
               failOnStderr: true 
 
 #### Testing
-
-### TODO: Performance Testing Step goes here
+          - bash: | 
+              echo "-Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)"
+              mvn clean gatling:test -Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)
+            workingDirectory: '$(Test.PerformanceTestProjectSourcePath)'
+            displayName: Run Performance Tests
+            
 
   - deployment: Prod # This should be made into a meta-template when it's available! 
     pool:
