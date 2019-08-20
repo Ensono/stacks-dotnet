@@ -285,7 +285,7 @@ stages:
 
 
       
-- stage: Non-Production
+- stage: NonProduction
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
   
@@ -416,7 +416,6 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     environment: testx
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables: 
     - name: Release.Environment
       value: testx
@@ -539,35 +538,11 @@ stages:
               targetType: 'filePath'
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-
-          - download: current
-            displayName: 'Download: Release Notes Artefact'
-            artifact: releasenotes
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
-          - task: Bash@3
-            displayName: 'Upload: Release Notes'
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
-              arguments: $(ReleaseNote.StorageAccountRG) $(Pipeline.Workspace)/releasenotes/release.json $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
-
-          - task: Bash@3
-            displayName: 'Retrieve URL: Release Notes'
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
-              arguments: $(ReleaseNote.StorageAccountRG) $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
-
-
-
       
 - stage: Production
   variables: 
   - group: amido-stacks-infra-credentials-prod
-  
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: Perf # This should be made into a meta-template when it's available! 
     pool:
@@ -585,7 +560,7 @@ stages:
       value: $(Release.Environment)
       # Application Secret Retrieval
     - name: CosmosDB.accountName
-      value: amidostacksmenucdauksprod
+      value: amidostacksmenucdauksperf
     strategy:
       runOnce:
         deploy:
@@ -690,12 +665,12 @@ stages:
               filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
+### TODO: Performance Testing Step goes here
 
   - deployment: Prod # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
     environment: prod
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables: 
     - name: Release.Environment
       value: prod
@@ -797,28 +772,6 @@ stages:
               failOnStderr: true 
 
 #### Testing
-          - task: DotNetCoreCLI@2
-            displayName: 'Run Functional Tests'
-            inputs:
-              command: test
-              projects: '$(Pipeline.Workspace)/tests/$(Test.FunctionalTestProjectFile)'
-              arguments: '-v n'
-              testRunTitle: 'Functional Tests'
-          
-          - task: Bash@3
-            displayName: 'Upload: Test Results'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/Azure/upload-azstorage-blob.sh
-              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-
-          - task: Bash@3
-            displayName: 'Retrieve URL: Test Results'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Build.BinariesDirectory)/DevOps/Azure/get-azstorage-sasurl.sh
-              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-
           - download: current
             displayName: 'Download: Release Notes Artefact'
             artifact: releasenotes
