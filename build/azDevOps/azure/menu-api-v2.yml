@@ -545,7 +545,7 @@ stages:
               filePath: $(Pipeline.Workspace)/DevOps/Azure/get-azstorage-sasurl.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
-- stage: PromoteImage
+- stage: Promotion
   variables:
   - group: amido-stacks-infra-credentials-prod
   # The below needs to be uncommented before merge is completed, it is commented out to validate this step.
@@ -556,6 +556,11 @@ stages:
       vmImage: 'ubuntu-latest'
     continueOnError: False
     steps:
+
+          - download: current
+            displayName: Download DevOps Artefacts
+            artifact: DevOps
+  
           - task: Bash@3
             displayName: 'Promote Image'
             inputs:
