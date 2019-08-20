@@ -105,9 +105,11 @@ variables:
   value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
 - name: Docker.ContainerRegistry
   value: $(Docker.ContainerRegistryName).azurecr.io
-- name: Docker.ContainerRegistryName
-  value: amidouksstacksacrnp
-  
+- name: Docker.ContainerRegistryNameNonProd
+  value: amidouksstacksacrdevx
+- name: Docker.ContainerRegistryNameProd
+  value: amidouksstacksacrprod
+
 
 # Kubernetes Config:
 - name: Kubernetes.ArtifactHelmpath
@@ -139,10 +141,12 @@ variables:
 
 stages:
 - stage: Build
+  variables:
+  - group: amido-stacks-infra-credentials-nonprod
+  - name: Docker.ContainerRegistryName
+    value: $(Docker.ContainerRegistryNameNonProd)
   jobs:
   - job: GetDevOpsScripts
-    variables:
-    - group: amido-stacks-infra-credentials-nonprod
     pool:
       vmImage: 'ubuntu-latest'
     continueOnError: False
@@ -288,7 +292,8 @@ stages:
 - stage: NonProduction
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
-  
+  - name: Docker.ContainerRegistryName
+    value: $(Docker.ContainerRegistryNameNonProd)
   jobs:
   - deployment: DevX # This should be made into a meta-template when it's available! 
     pool:
@@ -538,10 +543,30 @@ stages:
               targetType: 'filePath'
               filePath: $(Pipeline.Workspace)/DevOps/Azure/get-azstorage-sasurl.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-      
+
+- stage: PromoteImage
+  variables:
+  - group: amido-stacks-infra-credentials-prod
+  # The below needs to be uncommented before merge is completed, it is commented out to validate this step.
+  # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: PromoteImage
+    pool:
+      vmImage: 'ubuntu-latest'
+    continueOnError: False
+    steps:
+          - task: Bash@3
+            displayName: 'Promote Image'
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Pipeline.Workspace)/DevOps/Azure/promote-acr-image.sh
+              arguments:  $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret) $(Docker.ContainerRegistryNameNonProd) $(Docker.ContainerRegistryNameProd) $(Docker.ImageName) $(Docker.ImageTag)
+
 - stage: Production
   variables: 
   - group: amido-stacks-infra-credentials-prod
+  - name: Docker.ContainerRegistryName
+    value: $(Docker.ContainerRegistryNameProd)
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: Perf # This should be made into a meta-template when it's available! 
