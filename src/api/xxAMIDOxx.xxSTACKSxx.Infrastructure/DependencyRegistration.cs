@@ -1,4 +1,5 @@
-﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
+﻿using System;
+using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Application.CQRS.Commands;
 using Amido.Stacks.Application.CQRS.Queries;
 using Amido.Stacks.Configuration.Extensions;
@@ -11,7 +12,9 @@ using Serilog;
 using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers;
+using xxAMIDOxx.xxSTACKSxx.Domain;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes;
+using xxAMIDOxx.xxSTACKSxx.Infrastructure.HealthChecks;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
@@ -44,8 +47,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
             //TODO: Evaluate if event publishers should be generic, probably not, EventHandler are generic tough
             AddEventPublishers(services);
 
-            services.AddTransient<IMenuRepository, MenuRepository>();
-            //services.AddTransient<IMenuRepository, InMemoryMenuRepository>();
+            if (Environment.GetEnvironmentVariable("USE_MEMORY_STORAGE") == null)
+                services.AddTransient<IMenuRepository, MenuRepository>();
+            else
+                services.AddTransient<IMenuRepository, InMemoryMenuRepository>();
+
+            var healthChecks = services.AddHealthChecks();
+            healthChecks.AddCheck<CosmosDbDocumentStorage<Menu>>("CosmosDB");
+            healthChecks.AddCheck<CustomHealthCheck>("Sample");//This is a sample health check, remove if not needed
         }
 
         private static void AddCommandHandlers(IServiceCollection services)
@@ -81,6 +90,5 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
                 services.AddTransient(definition.interfaceVariation, definition.implementation);
             }
         }
-
     }
 }

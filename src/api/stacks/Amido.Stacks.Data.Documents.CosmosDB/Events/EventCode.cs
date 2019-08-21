@@ -17,5 +17,9 @@
         SearchRequested = 123456831,
         SearchCompleted = 123456832,
         SearchFailed = 123456833,
+
+        SQLQueryRequested = 123456841,
+        SQLQueryCompleted = 123456842,
+        SQLQueryFailed = 123456843,
     }
 }

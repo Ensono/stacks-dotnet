@@ -43,7 +43,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             var result = await queryHandler.ExecuteAsync(new Query.GetMenuByIdQueryCriteria() { Id = id });
 
             if (result == null)
-                return StatusCode(404);
+                return NotFound();
 
             return new ObjectResult(result);
         }
