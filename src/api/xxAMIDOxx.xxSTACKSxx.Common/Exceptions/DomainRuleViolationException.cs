@@ -17,6 +17,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
         {
         }
 
+        public override int HttpStatusCode => (int)System.Net.HttpStatusCode.BadRequest;
+
         public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId, Exception domainException)
         {
             var exception = new DomainRuleViolationException(

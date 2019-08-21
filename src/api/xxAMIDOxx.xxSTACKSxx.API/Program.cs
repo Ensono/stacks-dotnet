@@ -51,9 +51,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                .WriteTo.Console()
                .CreateLogger();
         }
-
     }
 
+
+    //TODO: We might need a custom Concerter when handling message queues
     public class CustomConverter : TraceTelemetryConverter
     {
         public override IEnumerable<ITelemetry> Convert(LogEvent logEvent, IFormatProvider formatProvider)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Amido.Stacks.Configuration;
 using Amido.Stacks.Core.Utilities;
@@ -9,6 +10,7 @@ using Amido.Stacks.Data.Documents.CosmosDB.Events;
 using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -16,7 +18,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 {
     // TODO: Cosmos SDK assume string for identity, we might not need the generic anymore, 
     // but might be useful if reused with other sdks like Table Storage or MongoDB
-    public class CosmosDbDocumentStorage<TEntity> : IDocumentStorage<TEntity>, IDocumentSearch<TEntity> where TEntity : class
+    public class CosmosDbDocumentStorage<TEntity> : IDocumentStorage<TEntity>, IDocumentSearch<TEntity>, IHealthCheck where TEntity : class
     {
         ILogger logger;
 
@@ -43,13 +45,22 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
         /// </summary>
         private async Task<Container> BuildContainer()
         {
+            var options = new CosmosClientOptions();
+            options.RequestTimeout = configuration.Value.RequestTimeout;
+
             CosmosClient client =
                 new CosmosClient(
                     configuration.Value.DatabaseAccountUri,
-                    await secretResolver.ResolveSecretAsync(configuration.Value.SecurityKeySecret)
+                    await secretResolver.ResolveSecretAsync(configuration.Value.SecurityKeySecret),
+                    options
                 );
+
+            client.ClientOptions.RequestTimeout = TimeSpan.FromSeconds(30);
+
             Database database = client.GetDatabase(configuration.Value.DatabaseName);
-            return database.GetContainer(containerName);
+            Container container = database.GetContainer(containerName);
+
+            return container;
         }
 
         public async Task<OperationResult<TEntity>> SaveAsync(string identity, string partitionKey, TEntity document, string eTag)
@@ -158,7 +169,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                         GetAttributes(response)
                     );
             }
-            catch (CosmosException ex)
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 logger.GetByIdFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
 
@@ -311,8 +322,6 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                     collectionQuery = collectionQuery.OrderByDescending(orderPredicate);
             }
 
-            logger.SearchRequested(containerName, partitionKey);
-
             FeedIterator<TResult> queryResultSetIterator =
                 collectionQuery
                 .Where(searchPredicate)
@@ -320,9 +329,18 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 .Take(pageSize)
                 .ToFeedIterator();
 
-            var result = await ParseFeedIterator<TResult>(queryResultSetIterator);
-
-            logger.SearchCompleted(containerName, partitionKey, result.RequestCharge);
+            CosmosOperationResult<IEnumerable<TResult>> result;
+            try
+            {
+                logger.SearchRequested(containerName, partitionKey);
+                result = result = await ParseFeedIterator<TResult>(queryResultSetIterator, true);
+                logger.SearchCompleted(containerName, partitionKey, result.RequestCharge);
+            }
+            catch (Exception ex)
+            {
+                logger.SQLQueryFailed(containerName, partitionKey, ex.Message, ex);
+                throw;
+            }
 
             return result;
         }
@@ -336,7 +354,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
             //samples:
             //var sqlQuery = "SELECT * FROM c WHERE c.LastName = 'Andersen'";
-            //var sqlQuery = "SELECT * FROM c WHERE c.LastName = @LastName";
+            //var sqlQuery = "SELECT * FROM c WHERE c.LastName = @LastName"; //prefered approach
 
             QueryDefinition queryDefinition = new QueryDefinition(sqlQuery);
 
@@ -350,7 +368,20 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
             FeedIterator<TResult> queryResultSetIterator = (await container).GetItemQueryIterator<TResult>(queryDefinition, continuationToken, options);
 
-            return await ParseFeedIterator(queryResultSetIterator);
+            CosmosOperationResult<IEnumerable<TResult>> result;
+            try
+            {
+                logger.SQLQueryRequested(containerName, partitionKey);
+                result = await ParseFeedIterator(queryResultSetIterator);
+                logger.SQLQueryCompleted(containerName, partitionKey, result.RequestCharge);
+            }
+            catch (Exception ex)
+            {
+                logger.SQLQueryFailed(containerName, partitionKey, ex.Message, ex);
+                throw;
+            }
+
+            return result;
         }
 
 
@@ -389,11 +420,6 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
             dict["CurrentResourceQuotaUsage"] = response.Headers?.GetHeaderValue<string>("x-ms-resource-usage");
 
             return dict;
-
-            //foreach (string headerName in response.Headers)
-            //{
-            //    var val = response.Headers?.GetHeaderValue<string>(headerName);
-            //}
         }
 
         private async Task<CosmosOperationResult<IEnumerable<TResult>>> ParseFeedIterator<TResult>(FeedIterator<TResult> queryResultSetIterator, bool loadAllResults = false)
@@ -431,7 +457,6 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                     containerName,
                     ex
                 );
-
             }
 
             return new CosmosOperationResult<IEnumerable<TResult>>(
@@ -440,6 +465,16 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                     dict,
                     currentCharge
                 );
+        }
+
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        {
+            var result = await (await container).ReadContainerAsync(null, cancellationToken);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                return await Task.FromResult(HealthCheckResult.Healthy($"{nameof(CosmosDbDocumentStorage<TEntity>)}: Ok"));
+            else
+                return await Task.FromResult(HealthCheckResult.Unhealthy($"{nameof(CosmosDbDocumentStorage<TEntity>)}: Failed"));
         }
     }
 }

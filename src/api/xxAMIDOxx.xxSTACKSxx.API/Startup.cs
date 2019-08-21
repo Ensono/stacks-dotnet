@@ -1,33 +1,38 @@
 ﻿using System;
 using System.IO;
+using Amido.Stacks.API.Middleware;
 using Amido.Stacks.API.Swagger.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Serilog;
+//using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using xxAMIDOxx.xxSTACKSxx.API.Handlers;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
 {
     public class Startup
     {
-        static ILogger log = Log.Logger;
+        private readonly ILogger logger;// = Log.Logger;
 
-        private IConfiguration Configuration { get; }
-        private readonly IHostingEnvironment _hostingEnv;
+        private IConfiguration configuration { get; }
+        private readonly IHostingEnvironment hostingEnv;
         private readonly string pathBase = String.Empty;
         private readonly bool useAppInsights = false;
 
-        public Startup(IHostingEnvironment env, IConfiguration configuration)
+        public Startup(IHostingEnvironment env, IConfiguration configuration, ILogger<Startup> logger)
         {
-            _hostingEnv = env;
-            Configuration = configuration;
+            this.hostingEnv = env;
+            this.configuration = configuration;
+            this.logger = logger;
+
             pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? String.Empty;
             useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
         }
@@ -38,6 +43,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         {
             if (useAppInsights)
                 services.AddApplicationInsightsTelemetry();
+
+            services.AddHealthChecks();
 
             services
                 //.AddMvc()
@@ -91,7 +98,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{hostingEnv.ApplicationName}.xml");
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateOrUpdateMenu).Assembly.GetName().Name}.xml");
 
                     // Sets the basePath property in the Swagger document generated
@@ -133,7 +140,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{hostingEnv.ApplicationName}.xml");
 
                     // Show only operations where route starts with
                     c.DocumentFilter<VersionPathFilter>("/v1");
@@ -163,7 +170,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{hostingEnv.ApplicationName}.xml");
 
                     // Show only operations where route starts with
                     c.DocumentFilter<VersionPathFilter>("/v2");
@@ -182,9 +189,14 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             //if (!useAppInsights)
             //app.UseSerilogRequestLogging(); // Requires serilog v3 still in preview, not required when using App Insights
 
+            app.UseCustomExceptionHandler(logger);
+            app.UseCorrelationId();
+
             app
             .UsePathBase(pathBase)
+            .UseHealthChecks("/health")
             .UseMvc()
+
             .UseSwagger()
             .UseSwaggerUI(c =>
             {

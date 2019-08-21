@@ -6,9 +6,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     /// <summary>
     /// Category related operations
     /// </summary>
+    [ApiController]
     [Consumes("application/json")]
     [Produces("application/json")]
-    [ApiExplorerSettings(GroupName = "Category")]
     public class ApiControllerBase : ControllerBase
     {
         //TODO: populate correlation from headers

@@ -96,6 +96,29 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
                 "CosmosDB: Search failed for document {ResourceType}(Partition:{Partition}). Reason: {Reason}"
             );
 
+        //SQLQuery
+
+        private static readonly Action<ILogger, string, string, Exception> sqlQueryRequested =
+            LoggerMessage.Define<string, string>(
+                LogLevel.Information,
+                new EventId((int)EventCode.SQLQueryRequested, nameof(EventCode.SQLQueryRequested)),
+                "CosmosDB: SQLQuery requested for document {ResourceType}(Partition:{Partition})"
+            );
+
+        private static readonly Action<ILogger, string, string, double, Exception> sqlQueryCompleted =
+            LoggerMessage.Define<string, string, double>(
+                LogLevel.Information,
+                new EventId((int)EventCode.SQLQueryCompleted, nameof(EventCode.SQLQueryCompleted)),
+                "CosmosDB: SQLQuery completed for document {ResourceType}(Partition:{Partition}). Request Charge: {RequestCharge}."
+            );
+
+        private static readonly Action<ILogger, string, string, string, Exception> sqlQueryFailed =
+            LoggerMessage.Define<string, string, string>(
+                LogLevel.Warning,
+                new EventId((int)EventCode.SQLQueryFailed, nameof(EventCode.SQLQueryFailed)),
+                "CosmosDB: SQLQuery failed for document {ResourceType}(Partition:{Partition}). Reason: {Reason}"
+            );
+
         // GETById
 
         public static void GetByIdRequested(this ILogger logger, string containerName, string partitionKey, string itemId)
@@ -161,6 +184,23 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
         public static void SearchFailed(this ILogger logger, string containerName, string partitionKey, string reason, Exception ex)
         {
             searchFailed(logger, containerName, partitionKey, reason, ex);
+        }
+
+        // SQL Query
+
+        public static void SQLQueryRequested(this ILogger logger, string containerName, string partitionKey)
+        {
+            sqlQueryRequested(logger, containerName, partitionKey, null);
+        }
+
+        public static void SQLQueryCompleted(this ILogger logger, string containerName, string partitionKey, double requestCharge)
+        {
+            sqlQueryCompleted(logger, containerName, partitionKey, requestCharge, null);
+        }
+
+        public static void SQLQueryFailed(this ILogger logger, string containerName, string partitionKey, string reason, Exception ex)
+        {
+            sqlQueryFailed(logger, containerName, partitionKey, reason, ex);
         }
     }
 }
