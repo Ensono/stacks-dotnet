@@ -44,7 +44,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
 
-            var criteria = new SearchMenuQueryCriteria(CorrellationId, searchTerm, RestaurantId, pageSize, pageNumber);
+            var criteria = new SearchMenuQueryCriteria(
+                correlationId: CorrelationId,
+                searchText: searchTerm,
+                restaurantId: RestaurantId,
+                pageSize: pageSize,
+                pageNumber: pageNumber
+            );
 
             var results = await queryHandler.ExecuteAsync(criteria);
 
