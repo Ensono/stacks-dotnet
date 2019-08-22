@@ -17,5 +17,13 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 
         public bool Enabled { get; set; }
 
+        public CreateMenu(Guid correlationId, Guid restaurantId, string name, string description, bool enabled)
+        {
+            CorrelationId = correlationId;
+            RestaurantId = restaurantId;
+            Name = name;
+            Description = description;
+            Enabled = enabled;
+        }
     }
 }

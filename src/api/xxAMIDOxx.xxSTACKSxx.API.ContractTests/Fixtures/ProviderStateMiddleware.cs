@@ -42,6 +42,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
             var menu = new Fixture().Create<Menu>();
 
             repository.GetByIdAsync(Arg.Any<Guid>()).Returns(Task.FromResult(menu));
+            repository.SaveAsync(Arg.Any<Menu>()).Returns(true);
         }
 
         private void MenuDoesNotExist()

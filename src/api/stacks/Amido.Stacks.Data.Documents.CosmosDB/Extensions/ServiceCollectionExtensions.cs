@@ -13,9 +13,9 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Extensions
             // CosmosDB components are thread safe and should be singleton to avoid opening new 
             // connections on every request, similar to HttpCliient
 
-            services.AddSingleton(typeof(IDocumentStorage<,>), typeof(CosmosDbDocumentStorage<,>));
-            services.AddSingleton(typeof(IDocumentSearch<>), typeof(CosmosDbDocumentStorage<,>));
-            services.AddSingleton(typeof(CosmosDbDocumentStorage<,>));
+            services.AddSingleton(typeof(IDocumentStorage<>), typeof(CosmosDbDocumentStorage<>));
+            services.AddSingleton(typeof(IDocumentSearch<>), typeof(CosmosDbDocumentStorage<>));
+            services.AddSingleton(typeof(CosmosDbDocumentStorage<>));
             return services;
         }
     }

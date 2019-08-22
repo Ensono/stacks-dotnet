@@ -55,10 +55,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             await commandHandler.HandleAsync(
                 new DeleteMenuItem(
-                    base.CorrellationId,
-                    id,
-                    categoryId,
-                    itemId
+                    correlationId: CorrelationId,
+                    menuId: id,
+                    categoryId: categoryId,
+                    menuItemId: itemId
                 )
             );
 

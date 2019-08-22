@@ -9,8 +9,21 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu
 
         public Guid CorrelationId { get; }
 
-        public int SearchText { get; set; }
+        public string SearchText { get; }
 
-        public Guid? RestaurantId { get; set; }
+        public Guid? RestaurantId { get; }
+
+        public int? PageSize { get; }
+
+        public int? PageNumber { get; }
+
+        public SearchMenuQueryCriteria(Guid correlationId, string searchText, Guid? restaurantId, int? pageSize, int? pageNumber)
+        {
+            CorrelationId = correlationId;
+            SearchText = searchText;
+            RestaurantId = restaurantId;
+            PageSize = pageSize;
+            PageNumber = pageNumber;
+        }
     }
 }

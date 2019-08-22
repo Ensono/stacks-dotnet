@@ -23,5 +23,7 @@ namespace Amido.Stacks.Core.Exceptions
         public int OperationCode { get; }
 
         public Guid CorrelationId { get; }
+
+        public virtual int HttpStatusCode => 500;
     }
 }

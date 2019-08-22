@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Produces("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
-    public class CreateMenuController : ControllerBase
+    public class CreateMenuController : ApiControllerBase
     {
         ICommandHandler<CreateMenu, Guid> commandHandler;
 
@@ -55,16 +55,20 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             // return StatusCode(409);
 
             var id = await commandHandler.HandleAsync(
-                new CreateMenu()
-                {
-                    RestaurantId = body.RestaurantId, //Should check if user logged-in owns it
-                    Name = body.Name,
-                    Description = body.Description,
-                    Enabled = body.Enabled
-                });
+                new CreateMenu(
+                        correlationId: CorrelationId,
+                        restaurantId: body.RestaurantId, //Should check if user logged-in owns it
+                        name: body.Name,
+                        description: body.Description,
+                        enabled: body.Enabled
+                    )
+                );
 
             return new CreatedAtActionResult(
-                "GetMenu", "GetMenuById", new { id = id }, new ResourceCreated(id)
+                    "GetMenu", "GetMenuById", new
+                    {
+                        id = id
+                    }, new ResourceCreated(id)
             );
         }
     }

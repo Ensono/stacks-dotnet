@@ -22,6 +22,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
             if (menu == null)
                 return null;
 
+            //You might prefer using AutoMapper in here
             var result = new Menu()
             {
                 Id = menu.Id,

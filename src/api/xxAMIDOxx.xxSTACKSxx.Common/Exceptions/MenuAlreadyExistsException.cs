@@ -16,6 +16,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
         {
         }
 
+        public override int HttpStatusCode => (int)System.Net.HttpStatusCode.Conflict;
+
         public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId, string message)
         {
             var exception = new MenuAlreadyExistsException(

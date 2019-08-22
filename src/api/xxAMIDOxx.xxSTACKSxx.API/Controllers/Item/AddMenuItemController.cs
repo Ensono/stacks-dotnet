@@ -57,15 +57,16 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             // return StatusCode(409);
 
             var menuItemId = await commandHandler.HandleAsync(
-                new CreateMenuItem()
-                {
-                    CorrelationId = base.CorrellationId,
-                    MenuId = id,
-                    CategoryId = categoryId,
-                    Name = body.Name,
-                    Description = body.Description,
-                    Price = body.Price
-                });
+                new CreateMenuItem(
+                    correlationId: CorrelationId,
+                    menuId: id,
+                    categoryId: categoryId,
+                    name: body.Name,
+                    description: body.Description,
+                    price: body.Price,
+                    available: body.Available
+                )
+            );
 
             return new OkObjectResult(new ResourceCreated(menuItemId));
         }
