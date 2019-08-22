@@ -135,7 +135,7 @@ variables:
 
 # Package Info
 - name: Package.File
-  value: scripts-1.1.1-master.tar.gz
+  value: scripts-1.1.2-master.tar.gz
 - name: Package.Container
   value: packages
 - name: Package.storageAccount
