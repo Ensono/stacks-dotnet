@@ -3,15 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
-    /// <summary>
-    /// Category related operations
-    /// </summary>
     [ApiController]
     [Consumes("application/json")]
     [Produces("application/json")]
     public class ApiControllerBase : ControllerBase
     {
-        //TODO: populate correlation from headers
-        public Guid CorrellationId { get; set; }
+        public Guid CorrelationId
+        {
+            get
+            {
+                var correlationIdProvided = this.HttpContext.Request.Headers.TryGetValue("x-correlation-id", out var correlationId);
+
+                if (!correlationIdProvided)
+                    throw new ArgumentException("The correlation id couldn't be loaded");
+
+                return Guid.Parse(correlationId.ToString());
+            }
+        }
     }
 }

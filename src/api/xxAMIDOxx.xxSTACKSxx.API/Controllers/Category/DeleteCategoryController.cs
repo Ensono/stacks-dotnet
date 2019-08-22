@@ -55,9 +55,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             await commandHandler.HandleAsync(
                 new DeleteCategory(
-                    base.CorrellationId,
-                    id,
-                    categoryId
+                    correlationId: CorrelationId,
+                    menuId: id,
+                    categoryId: categoryId
                 )
             );
 

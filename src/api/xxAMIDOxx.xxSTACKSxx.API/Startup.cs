@@ -10,17 +10,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-//using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using xxAMIDOxx.xxSTACKSxx.API.Handlers;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
 {
     public class Startup
     {
-        private readonly ILogger logger;// = Log.Logger;
+        private readonly ILogger logger;
 
         private IConfiguration configuration { get; }
         private readonly IHostingEnvironment hostingEnv;

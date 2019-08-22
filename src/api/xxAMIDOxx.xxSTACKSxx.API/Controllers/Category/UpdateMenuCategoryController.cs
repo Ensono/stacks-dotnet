@@ -57,7 +57,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             await commandHandler.HandleAsync(
                 new UpdateCategory(
-                    correlationId: base.CorrellationId,
+                    correlationId: CorrelationId,
                     menuId: id,
                     categoryId: categoryId,
                     name: body.Name,

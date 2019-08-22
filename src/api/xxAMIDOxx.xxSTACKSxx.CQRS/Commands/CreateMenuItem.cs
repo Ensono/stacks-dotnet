@@ -19,5 +19,16 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
         public double Price { get; set; }
 
         public bool Available { get; set; }
+
+        public CreateMenuItem(Guid correlationId, Guid menuId, Guid categoryId, string name, string description, double price, bool available)
+        {
+            CorrelationId = correlationId;
+            MenuId = menuId;
+            CategoryId = categoryId;
+            Name = name;
+            Description = description;
+            Price = price;
+            Available = available;
+        }
     }
 }
