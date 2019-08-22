@@ -181,6 +181,7 @@ stages:
 
 
   - job: Analyse
+    continueOnError: true
     pool:
       vmImage: 'ubuntu-latest'
     continueOnError: False
@@ -197,7 +198,7 @@ stages:
         projectName: $(Sonar.projectName)
         projectVersion: $(Sonar.projectVersion)
       displayName: Prepare for SonarCloud Analysis
-
+      
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
