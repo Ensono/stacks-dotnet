@@ -44,7 +44,7 @@ variables:
 - name: Test.FunctionalTestReportSourcePath
   value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
-  value: menu-api/$(Build.BuildNumber)-$(Release.Environment).html
+  value: $(Docker.ImageName)/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
   value: amido-stacks-rg-uks-prod
 - name: Test.FunctionalTestReportStorageAccountName
@@ -71,13 +71,13 @@ variables:
 - name: Sonar.projectKey
   value: 'stacks-dotnet'
 - name: Sonar.projectName
-  value: 'menu-api'
+  value: $(Docker.ImageName)
 - name: Sonar.projectVersion
   value: $(Docker.ImageTag)
 
 # Release Notes
 - name: ReleaseNote.TargetName
-  value: menu-api/$(Build.BuildNumber).json
+  value: $(Docker.ImageName)/$(Build.BuildNumber).json
 - name: ReleaseNote.StorageAccountRG
   value: amido-stacks-rg-uks-prod
 - name: ReleaseNote.StorageAccountName
@@ -104,7 +104,7 @@ variables:
 - name: Docker.DockerfilePath
   value: src/api/
 - name: Docker.ImageName
-  value: menu-api
+  value: api-image
 - name: Docker.ImageTag
   value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
 - name: Docker.ContainerRegistry
@@ -388,8 +388,8 @@ stages:
 
 
           - bash: |
-             echo "Setting image tag to $(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image api-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
+             echo "Setting image to $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag)"
+             $(Kubernetes.KustomizeBinaryPath) edit set image $(Docker.ImageName)=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
             workingDirectory: $(Pipeline.Workspace)/build/base
             displayName: Kustomize Application Deployment Customisation 
             failOnStderr: true 
@@ -510,8 +510,8 @@ stages:
               appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
 
           - bash: |
-             echo "Setting image tag to $(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image api-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
+             echo "Setting image to $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag)"
+             $(Kubernetes.KustomizeBinaryPath) edit set image $(Docker.ImageName)=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
             workingDirectory: $(Pipeline.Workspace)/build/base
             displayName: Kustomize Application Deployment Customisation 
             failOnStderr: true 
@@ -667,8 +667,8 @@ stages:
 
 
           - bash: |
-             echo "Setting image tag to $(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
+             echo "Setting image to $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag)"
+             $(Kubernetes.KustomizeBinaryPath) edit set image $(Docker.ImageName)=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
             workingDirectory: $(Pipeline.Workspace)/build/base
             displayName: Kustomize Application Deployment Customisation 
             failOnStderr: true 
@@ -780,8 +780,8 @@ stages:
               appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
 
           - bash: |
-             echo "Setting image tag to $(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image menuapi-image=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
+             echo "Setting image to $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag)"
+             $(Kubernetes.KustomizeBinaryPath) edit set image $(Docker.ImageName)=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
             workingDirectory: $(Pipeline.Workspace)/build/base
             displayName: Kustomize Application Deployment Customisation 
             failOnStderr: true 
