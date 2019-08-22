@@ -8,16 +8,16 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
 {
     public class MenuRepository : IMenuRepository
     {
-        IDocumentStorage<Menu, Guid> documentStorage;
+        IDocumentStorage<Menu> documentStorage;
 
-        public MenuRepository(IDocumentStorage<Menu, Guid> documentStorage)
+        public MenuRepository(IDocumentStorage<Menu> documentStorage)
         {
             this.documentStorage = documentStorage;
         }
 
         public async Task<Menu> GetByIdAsync(Guid id)
         {
-            var result = await documentStorage.GetByIdAsync(id, id.ToString());
+            var result = await documentStorage.GetByIdAsync(id.ToString(), id.ToString());
 
             //TODO: Publish request charge results
 
@@ -29,7 +29,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
             //TODO: Handle etag
             //TODO: Publish request charge results
 
-            var result = await documentStorage.SaveAsync(entity.Id, entity.Id.ToString(), entity, null);
+            var result = await documentStorage.SaveAsync(entity.Id.ToString(), entity.Id.ToString(), entity, null);
+
             return result.IsSuccessful;
         }
 
@@ -37,7 +38,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
         {
             //TODO: Publish request charge results
 
-            var result = await documentStorage.DeleteAsync(id, id.ToString());
+            var result = await documentStorage.DeleteAsync(id.ToString(), id.ToString());
+
             return result.IsSuccessful;
         }
     }

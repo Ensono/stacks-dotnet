@@ -56,13 +56,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             // return StatusCode(409);
 
             var categoryId = await commandHandler.HandleAsync(
-                new CreateCategory()
-                {
-                    CorrelationId = base.CorrellationId,
-                    MenuId = id,
-                    Name = body.Name,
-                    Description = body.Description
-                });
+                new CreateCategory(
+                    correlationId: CorrelationId,
+                    menuId: id,
+                    name: body.Name,
+                    description: body.Description
+                )
+            );
 
             return new OkObjectResult(new ResourceCreated(categoryId));
         }

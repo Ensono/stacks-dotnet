@@ -1,4 +1,5 @@
-﻿using Amido.Stacks.Configuration;
+﻿using System;
+using Amido.Stacks.Configuration;
 
 namespace Amido.Stacks.Data.Documents.CosmosDB
 {
@@ -32,6 +33,12 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
         public bool AllowSynchronousQueryExecution { get; set; } = false;
 
         public int? MaxBufferedItemCount { get; set; }
+
+        /// <summary>
+        /// Timeout for Non-Media operations (i.e: Get container or database information, not used for document operations. )
+        /// Media operations(Get document, save, etc) are hard coded in the SDK to 5 minutes
+        /// </summary>
+        public TimeSpan RequestTimeout { get; set; } = TimeSpan.FromSeconds(30);
 
         //public int? ResponseContinuationTokenLimitInKb
         //public bool? EnableScanInQuery
