@@ -52,10 +52,5 @@ namespace Amido.Stacks.API.Middleware
 
             return correlationId;
         }
-
-        private StringValues GenerateCorrelationId(string traceIdentifier)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
