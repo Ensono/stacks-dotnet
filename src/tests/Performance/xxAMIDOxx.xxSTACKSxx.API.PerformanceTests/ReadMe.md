@@ -1,4 +1,5 @@
 # xxAMIDOxx.xxSTACKSxx.Gatling.Tests
+
 xxAMIDOxx.xxSTACKSxx.Gatling.Tests is a sample project demonstrating performance testing (Load testing)
 using the tool `Gatling`.
 
@@ -6,17 +7,20 @@ The project contains a small framework and a couple of tests that can be used to
 on projects using the Amido Stack.
 
 ## Useful Documentation
+
 Gatling docs - https://gatling.io/docs/current
 
 Blog post by Amir Gharai which was used to set up the framework - 
 [Performance Testing Framework with Gatling and Maven](https://www.testingexcellence.com/gatling-maven-performance-test-framework/)
 
 ## Dependencies
+
 - Java SDK 8
 - Maven
 - IDE for Scala development. I.e. IntelliJ IDEA
 
 ## Quick start
+
 Once the project has been cloned locally, tests can be run using the following command:
 
 `mvn clean gatling:test`
@@ -32,24 +36,24 @@ Example:
 `mvn clean gatling:test -Dusers=100 -Drampup=5`
 
 ## Folder Structure
+
 ```
 └── src
-│   ├── resources
-│   │   ├── bodies
-│   │   └── data
-│   └── scala
-│   │   └── xxAMIDOxx.xxSTACKSxx.Gatling.Tests
-│   │   |   ├── config
-│   │   |   ├── requests
-│   │   |   ├── scenarios
-│   │   |   └── simulations
+    ├── resources
+    │   ├── bodies
+    │   └── data
+    └── scala
+        └── xxAMIDOxx.xxSTACKSxx.Gatling.Tests
+            ├── config
+            ├── requests
+            ├── scenarios
+            └── simulations
 ```
 
 This folder structure and the contents of each folder follows the guideline outlined in the blog post on 
-[Testing Excellence](https://www.testingexcellence.com/gatling-maven-performance-test-framework/). 
+[Testing Excellence](https://www.testingexcellence.com/gatling-maven-performance-test-framework/).
 It is recommended that users of this framework refer back to this blog post, as it contains all required details.
 
 _NB: Testing Excellence was written using Gatling 2.3.0, whereas this project is using the current latest version 3.0.3. 
 Contrary to what the blog post says, to run the tests you should use `mvn clean gatling:test` rather than `mvn clean gatling:execute`.
-More details here: https://gatling.io/docs/current/migration_guides/2.3-to-3.0_
-
+More details here: (https://gatling.io/docs/current/migration_guides/2.3-to-3.0)_
