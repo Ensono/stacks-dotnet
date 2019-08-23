@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-        - name: menuapi
+        - name: api
           volumeMounts:
           - name: appsettings
             mountPath: /app/config
