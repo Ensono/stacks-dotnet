@@ -27,9 +27,9 @@ if [ $# -eq 0 ]; then NAMESPACE=default; else NAMESPACE=$1-menu; fi;
 	cp -r $SOURCE $DEVFOLDER
 	cd $DEVFOLDER
 	
-	#Make sure there is no deployment in progress	
-	kubectl rollout status -n $NAMESPACE -w deploy/menuapi --timeout=30s
-	if [ $? -ne 0 ]; then exit 1; fi;
+	#Make sure there is no deployment in progress, TODO: need to check if exit first otherwise it fails	
+	#kubectl rollout status -n $NAMESPACE -w deploy/menuapi --timeout=30s
+	#if [ $? -ne 0 ]; then exit 1; fi;
 	
 	#set image
 	kustomize edit set image api-image=$IMAGE:$TAG;

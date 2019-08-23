@@ -3,8 +3,21 @@ using Microsoft.Extensions.Logging;
 
 namespace Amido.Stacks.Data.Documents.CosmosDB.Events
 {
+    /// <summary>
+    /// Contains log definitions for CosmosDB component
+    /// LoggerMessage.Define() creates a unique template for each log type
+    /// The log template reduces the number of allocations and write logs faster to destination
+    /// </summary>
     public static class LogDefinition
     {
+        /// Failures with exceptions should be logged to respective failures(i.e: getByIdFailed) and then to logException in order to show them as separate entries in the logs(trace + exception
+        private static readonly Action<ILogger, string, Exception> logException =
+            LoggerMessage.Define<string>(
+                LogLevel.Error,
+                new EventId((int)EventCode.GeneralException, nameof(EventCode.GeneralException)),
+                "CosmosDB Exception: {Message}"
+            );
+
         //GETById
         private static readonly Action<ILogger, string, string, string, Exception> getByIdRequested =
             LoggerMessage.Define<string, string, string>(
@@ -24,7 +37,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
             LoggerMessage.Define<string, string, string, string>(
                 LogLevel.Warning,
                 new EventId((int)EventCode.GetByIdFailed, nameof(EventCode.GetByIdFailed)),
-                "CosmosDB: GetById failed request for document {ResourceType}(Partition:{Partition}, id:{ResourceId}). Reason: {Reason}"
+                "CosmosDB: GetById failed for document {ResourceType}(Partition:{Partition}, id:{ResourceId}). Reason: {Reason}"
             );
 
         //SAVE
@@ -119,6 +132,18 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
                 "CosmosDB: SQLQuery failed for document {ResourceType}(Partition:{Partition}). Reason: {Reason}"
             );
 
+        //Exception
+
+        /// <summary>
+        /// When an exception is present in the failure, it will be logged as exception message instead of trace.
+        /// Logging messages with an exception will make them an exception and the trace will lose an entry, making harder to debug issues
+        /// </summary>
+        private static void LogException(ILogger logger, Exception ex)
+        {
+            if (ex != null)
+                logException(logger, ex.Message, ex);
+        }
+
         // GETById
 
         public static void GetByIdRequested(this ILogger logger, string containerName, string partitionKey, string itemId)
@@ -133,7 +158,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
 
         public static void GetByIdFailed(this ILogger logger, string containerName, string partitionKey, string itemId, string reason, Exception ex)
         {
-            getByIdFailed(logger, containerName, partitionKey, itemId, reason, ex);
+            getByIdFailed(logger, containerName, partitionKey, itemId, reason, null);
+            LogException(logger, ex);
         }
 
         // Save
@@ -150,10 +176,12 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
 
         public static void SaveFailed(this ILogger logger, string containerName, string partitionKey, string itemId, string reason, Exception ex)
         {
-            saveFailed(logger, containerName, partitionKey, itemId, reason, ex);
+            saveFailed(logger, containerName, partitionKey, itemId, reason, null);
+            LogException(logger, ex);
         }
 
         // Delete
+
         public static void DeleteRequested(this ILogger logger, string containerName, string partitionKey, string itemId)
         {
             deleteRequested(logger, containerName, partitionKey, itemId, null);
@@ -166,7 +194,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
 
         public static void DeleteFailed(this ILogger logger, string containerName, string partitionKey, string itemId, string reason, Exception ex)
         {
-            deleteFailed(logger, containerName, partitionKey, itemId, reason, ex);
+            deleteFailed(logger, containerName, partitionKey, itemId, reason, null);
+            LogException(logger, ex);
         }
 
         // Search
@@ -183,7 +212,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
 
         public static void SearchFailed(this ILogger logger, string containerName, string partitionKey, string reason, Exception ex)
         {
-            searchFailed(logger, containerName, partitionKey, reason, ex);
+            searchFailed(logger, containerName, partitionKey, reason, null);
+            LogException(logger, ex);
         }
 
         // SQL Query
@@ -200,7 +230,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Events
 
         public static void SQLQueryFailed(this ILogger logger, string containerName, string partitionKey, string reason, Exception ex)
         {
-            sqlQueryFailed(logger, containerName, partitionKey, reason, ex);
+            sqlQueryFailed(logger, containerName, partitionKey, reason, null);
+            LogException(logger, ex);
         }
     }
 }

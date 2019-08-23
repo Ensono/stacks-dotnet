@@ -14,5 +14,7 @@ namespace Amido.Stacks.Core.Exceptions
         }
 
         public int ExceptionCode { get; }
+
+        public virtual int HttpStatusCode => 500;
     }
 }

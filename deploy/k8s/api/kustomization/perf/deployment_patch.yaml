@@ -6,13 +6,7 @@ spec:
   template:
     spec:
       containers:
-        - name: menuapi
-          env:
-          - name: SETTINGS
-            valueFrom:
-              configMapKeyRef:
-                name: appsettings
-                key: appsettings.json
+        - name: api
           volumeMounts:
           - name: appsettings
             mountPath: /app/config

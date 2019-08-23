@@ -10,10 +10,14 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class EnvironmentController : ControllerBase
     {
-        // GET api/values
+        private bool isDevEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            if (!isDevEnv)
+                NotFound();
+
             List<string> variables = new List<string>() { };
 
             var enumerator = Environment.GetEnvironmentVariables().GetEnumerator();

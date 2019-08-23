@@ -20,7 +20,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
     // but might be useful if reused with other sdks like Table Storage or MongoDB
     public class CosmosDbDocumentStorage<TEntity> : IDocumentStorage<TEntity>, IDocumentSearch<TEntity>, IHealthCheck where TEntity : class
     {
-        ILogger logger;
+        ILogger<CosmosDbDocumentStorage<TEntity>> logger;
 
         private readonly IOptions<CosmosDbConfiguration> configuration;
         private readonly ISecretResolver<string> secretResolver;
@@ -29,7 +29,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
         AsyncLazy<Container> container;
 
 
-        public CosmosDbDocumentStorage(IOptions<CosmosDbConfiguration> configuration, ISecretResolver<string> secretResolver, ILoggerFactory loggerFactory)
+        public CosmosDbDocumentStorage(IOptions<CosmosDbConfiguration> configuration, ISecretResolver<string> secretResolver, ILogger<CosmosDbDocumentStorage<TEntity>> logger)
         {
             this.configuration = configuration;
             this.secretResolver = secretResolver;
@@ -37,7 +37,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
 
             container = new AsyncLazy<Container>(BuildContainer);
 
-            logger = loggerFactory.CreateLogger(this.GetType());
+            this.logger = logger;// loggerFactory.CreateLogger(this.GetType());
         }
 
         /// <summary>
@@ -91,6 +91,19 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                     eTag
                 );
 
+            }
+            catch (CosmosException ex) when (((int)ex.StatusCode) == 429)
+            {
+                logger.SaveFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
+
+                CosmosDBRequestCapacityExceededException.Raise(
+                    configuration.Value.DatabaseAccountUri,
+                    configuration.Value.DatabaseName,
+                    containerName,
+                    partitionKey,
+                    identity.ToString(),
+                    ex
+                );
             }
             catch (CosmosException ex)
             {
@@ -179,6 +192,19 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                         null
                     );
             }
+            catch (CosmosException ex) when (((int)ex.StatusCode) == 429) //Too Many Requests
+            {
+                logger.GetByIdFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
+
+                CosmosDBRequestCapacityExceededException.Raise(
+                    configuration.Value.DatabaseAccountUri,
+                    configuration.Value.DatabaseName,
+                    containerName,
+                    partitionKey,
+                    identity.ToString(),
+                    ex
+                );
+            }
             catch (Exception ex)
             {
                 logger.GetByIdFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
@@ -191,9 +217,8 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                     identity.ToString(),
                     ex
                 );
-
-                return null;
             }
+            return null;
         }
 
         public async Task<OperationResult> DeleteAsync(string identity, string partitionKey)
@@ -226,6 +251,19 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                         );
 
             }
+            catch (CosmosException ex) when (((int)ex.StatusCode) == 429) //Too Many Requests
+            {
+                logger.DeleteFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
+
+                CosmosDBRequestCapacityExceededException.Raise(
+                    configuration.Value.DatabaseAccountUri,
+                    configuration.Value.DatabaseName,
+                    containerName,
+                    partitionKey,
+                    identity.ToString(),
+                    ex
+                );
+            }
             catch (CosmosException ex)
             {
                 logger.DeleteFailed(containerName, partitionKey, identity.ToString(), ex.Message, ex);
@@ -248,9 +286,9 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                     identity.ToString(),
                     ex
                 );
-
-                return null;
             }
+
+            return null;
         }
 
         public async Task<OperationResult<IEnumerable<TEntity>>> Search(
@@ -329,12 +367,25 @@ namespace Amido.Stacks.Data.Documents.CosmosDB
                 .Take(pageSize)
                 .ToFeedIterator();
 
-            CosmosOperationResult<IEnumerable<TResult>> result;
+            CosmosOperationResult<IEnumerable<TResult>> result = null;
             try
             {
                 logger.SearchRequested(containerName, partitionKey);
                 result = result = await ParseFeedIterator<TResult>(queryResultSetIterator, true);
                 logger.SearchCompleted(containerName, partitionKey, result.RequestCharge);
+            }
+            catch (CosmosException ex) when (((int)ex.StatusCode) == 429) //Too Many Requests
+            {
+                logger.SQLQueryFailed(containerName, partitionKey, ex.Message, ex);
+
+                CosmosDBRequestCapacityExceededException.Raise(
+                    configuration.Value.DatabaseAccountUri,
+                    configuration.Value.DatabaseName,
+                    containerName,
+                    partitionKey,
+                    null,
+                    ex
+                );
             }
             catch (Exception ex)
             {
