@@ -28,6 +28,7 @@ namespace Amido.Stacks.API.Middleware
                                 context.Response.StatusCode = aex.HttpStatusCode;
                                 break;
                             case InfrastructureExceptionBase iex:
+                                context.Response.StatusCode = iex.HttpStatusCode;
                                 break;
                             default:
                                 break;
@@ -36,7 +37,7 @@ namespace Amido.Stacks.API.Middleware
                         logger.LogError(contextFeature.Error, "Request failed");
                     }
 
-                    logger.LogInformation("Exception: {Message}", contextFeature?.Error?.Message ?? message);
+                    logger.LogWarning("Exception: {Message}", contextFeature?.Error?.Message ?? message);
 
                     await context.Response.WriteAsync(new BadResult(context.Response.StatusCode)
                     {
