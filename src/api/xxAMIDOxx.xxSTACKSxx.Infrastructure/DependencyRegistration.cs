@@ -54,7 +54,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
 
             var healthChecks = services.AddHealthChecks();
             healthChecks.AddCheck<CosmosDbDocumentStorage<Menu>>("CosmosDB");
-            healthChecks.AddCheck<CustomHealthCheck>("Sample");//This is a sample health check, remove if not needed
+            healthChecks.AddCheck<CustomHealthCheck>("Sample");//This is a sample health check, remove if not needed, more info: https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health
         }
 
         private static void AddCommandHandlers(IServiceCollection services)

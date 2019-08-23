@@ -4,6 +4,7 @@ using Amido.Stacks.API.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using Serilog.Context;
 
 namespace Amido.Stacks.API.Middleware
 {
@@ -20,10 +21,14 @@ namespace Amido.Stacks.API.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            GetOrSetCorrelationId(context);
+            var correlationId = GetOrSetCorrelationId(context);
 
-            // Call the next delegate/middleware in the pipeline
-            await _next(context);
+            //There is a bug in .Net Core 2.1+ that replaces CorrelationId by null, until fixed we will add attributes "twice"
+            using (LogContext.PushProperty("CorrelationId", correlationId.ToString()))
+            using (LogContext.PushProperty(_options.HeaderName, correlationId.ToString()))
+            {
+                await _next(context);
+            }
         }
 
         private StringValues GetOrSetCorrelationId(HttpContext context)

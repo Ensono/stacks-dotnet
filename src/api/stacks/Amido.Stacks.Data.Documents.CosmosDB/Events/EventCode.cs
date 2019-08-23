@@ -2,6 +2,8 @@
 {
     public enum EventCode
     {
+        GeneralException = 123456800,
+
         GetByIdRequested = 123456801,
         GetByIdCompleted = 123456802,
         GetByIdFailed = 123456803,

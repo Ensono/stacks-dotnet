@@ -11,10 +11,14 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Samples")]
     public class FilesController : ControllerBase
     {
-        // GET api/values
+        private bool isDevEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
         [HttpGet]
         public ActionResult Get(string path = null)
         {
+            if (!isDevEnv)
+                NotFound();
+
             Log($"Received Arg: {path}");
 
             Log($"Current Directory: {IO.Directory.GetCurrentDirectory()}");
