@@ -41,8 +41,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
             Fixture fixture = new Fixture();
 
             var loggerFactory = Substitute.For<ILoggerFactory>();
-            loggerFactory.CreateLogger(Arg.Any<string>()).Returns(new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));
-            fixture.Register<ILoggerFactory>(() => loggerFactory);
+            fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntity>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));
 
             fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
             fixture.Register<IOptions<CosmosDbConfiguration>>(() =>
