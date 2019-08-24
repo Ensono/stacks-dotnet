@@ -38,11 +38,11 @@ variables:
 - name: Test.FunctionalTestProjectFile
   value: xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.csproj
 - name: Test.FunctionalTestProjectSourcePath
-  value: $(Pipeline.Workspace)/tests/Fuctional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests
+  value: $(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Pipeline.Workspace)/tests/Fuctional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: $(Docker.ImageName)/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
@@ -413,6 +413,12 @@ stages:
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
           
+          - bash: | 
+              echo "-Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)"
+              mvn clean gatling:test -Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)
+            workingDirectory: '$(Test.PerformanceTestProjectSourcePath)'
+            displayName: Run Performance Tests (TEMP)
+
           - task: Bash@3
             displayName: 'Upload: Test Results'
             inputs:
