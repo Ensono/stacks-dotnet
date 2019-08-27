@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>xxAMIDOxx.xxSTACKSxx.API.PerformanceTests</groupId>
-  <artifactId>Gatling</artifactId>
+  <artifactId>xxAMIDOxx.xxSTACKSxx.API.PerformanceTests</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
@@ -41,10 +41,10 @@
   </dependencies>
 
   <build>
-    <testSourceDirectory>${project.basedir}/Gatling/</testSourceDirectory>
+    <testSourceDirectory>src/test/scala/</testSourceDirectory>
     <testResources>
       <testResource>
-        <directory>${project.basedir}/resources</directory>
+        <directory>src/test/resources</directory>
       </testResource>
     </testResources>
 
@@ -56,16 +56,11 @@
           <configuration>
             <runMultipleSimulations>true</runMultipleSimulations>
             <includes>
-              <param>xxAMIDOxx.xxSTACKSxx.API.PerformanceTests.Gatling.simulations.GetMenuSimulation</param>
+              <param>com.amido.simulations.GetMenuSimulation</param>
             </includes>
             <excludes>
-              <param>xxAMIDOxx.xxSTACKSxx.API.PerformanceTests.Gatling.simulations.CreateMenuSimulation</param>
+              <param>com.amido.simulations.CreateMenuSimulation</param>
             </excludes>
-            <!--<jvmArgs>
-              <jvmArg>-Dusers=${users}</jvmArg>
-              <jvmArg>-Drampup=${rampup}</jvmArg>
-            </jvmArgs>-->
-            <!--<propagateSystemProperties>true</propagateSystemProperties>-->
           </configuration>
       </plugin>
     </plugins>

@@ -1,9 +1,9 @@
-package xxAMIDOxx.xxSTACKSxx.API.PerformanceTests.Gatling.config
+package com.amido.config
 
 import com.typesafe.config._
 
 //This is where you set configuration values for the project
-object Config {
+object Configuration {
   val environment: String =  System.getProperty("env")
   private val config: Config = ConfigFactory.load(s"$environment.application.properties")
   lazy val baseUrl: String = config.getString("baseUrl")

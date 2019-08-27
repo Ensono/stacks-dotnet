@@ -1,8 +1,8 @@
-package xxAMIDOxx.xxSTACKSxx.API.PerformanceTests.Gatling.scenarios
+package com.amido.scenarios
 
+import com.amido.requests.CreateMenuRequest
 import io.gatling.core.Predef.scenario
 import io.gatling.core.structure.ScenarioBuilder
-import xxAMIDOxx.xxSTACKSxx.API.PerformanceTests.Gatling.requests.CreateMenuRequest
 
 object CreateMenuScenario {
   val createMenuScenario: ScenarioBuilder = scenario("Get menu scenario")

@@ -1,9 +1,10 @@
-package xxAMIDOxx.xxSTACKSxx.API.PerformanceTests.Gatling.simulations
+package com.amido.simulations
+
+import com.amido.config.Configuration._
+import com.amido.scenarios.GetMenuScenario
+import io.gatling.core.Predef._
 
 import scala.concurrent.duration._
-import io.gatling.core.Predef._
-import xxAMIDOxx.xxSTACKSxx.API.PerformanceTests.Gatling.scenarios.GetMenuScenario
-import xxAMIDOxx.xxSTACKSxx.API.PerformanceTests.Gatling.config.Config._
 
 //Simulations are where you define the load that will be injected to the server
 //Docs: https://gatling.io/docs/current/general/simulation_structure/

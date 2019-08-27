@@ -1,10 +1,10 @@
-package xxAMIDOxx.xxSTACKSxx.Gatling.Tests.requests
+package com.amido.requests
+
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
-import xxAMIDOxx.xxSTACKSxx.Gatling.Tests.config.Config._
-import java.util.UUID.randomUUID
+import com.amido.config.Configuration.baseUrl
 
 object CreateMenuRequest {
   var create_menu: HttpRequestBuilder = http("Create Menu")
