@@ -36,13 +36,13 @@ variables:
 
 # Tests
 - name: Test.FunctionalTestProjectFile
-  value: xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj
+  value: xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.csproj
 - name: Test.FunctionalTestProjectSourcePath
-  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api
+  value: $(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests
 - name: Test.FunctionalTestProjectBuildPath
   value: $(Build.BinariesDirectory)
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Tests/xxAMIDOxx.xxSTACKSxx.Tests.Api/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: $(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
   value: $(Docker.ImageName)/$(Build.BuildNumber)-$(Release.Environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
@@ -56,7 +56,7 @@ variables:
 - name: Test.TestsSourcePath
   value: $(Build.SourcesDirectory)/src/tests/
 - name: Test.PerformanceTestProjectSourcePath
-  value: $(Pipeline.Workspace)/tests/xxAMIDOxx.xxSTACKSxx.Performance/xxAMIDOxx.xxSTACKSxx.Gatling.Tests
+  value: $(Pipeline.Workspace)/tests/Performance/xxAMIDOxx.xxSTACKSxx.API.PerformanceTests
 # Used in Functional Tests as ENV VAR
 - name: BaseUrl
   value: https://$(Release.Environment).amidostacks.com/api/menu/
@@ -413,6 +413,12 @@ stages:
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
           
+          - bash: | 
+              echo "-Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)"
+              mvn clean gatling:test -Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)
+            workingDirectory: '$(Test.PerformanceTestProjectSourcePath)'
+            displayName: Run Performance Tests (TEMP)
+
           - task: Bash@3
             displayName: 'Upload: Test Results'
             inputs:
