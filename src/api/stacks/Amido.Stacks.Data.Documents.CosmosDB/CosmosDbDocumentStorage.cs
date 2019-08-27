@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Amido.Stacks.Configuration;
 using Amido.Stacks.Core.Utilities;
+using Amido.Stacks.Data.Documents.Abstractions;
 using Amido.Stacks.Data.Documents.CosmosDB.Events;
 using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
 using Microsoft.Azure.Cosmos;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Amido.Stacks.Data.Documents
+namespace Amido.Stacks.Data.Documents.Abstractions
 {
     public interface IDocumentSearch<TEntity>
     {

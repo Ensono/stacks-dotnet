@@ -15,7 +15,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Amido.Stacks.Configuration\Amido.Stacks.Configuration.csproj" />
         <ProjectReference Include="..\Amido.Stacks.Core\Amido.Stacks.Core.csproj" />
-        <ProjectReference Include="..\Amido.Stacks.Data.Documents\Amido.Stacks.Data.Documents.csproj" />
+        <ProjectReference Include="..\Amido.Stacks.Data.Documents.Abstractions\Amido.Stacks.Data.Documents.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>
