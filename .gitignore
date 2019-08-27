@@ -333,3 +333,7 @@ ASALocalRun/
 
 .DS_Store
 /src/api/xxAMIDOxx.xxSTACKSxx.API/out
+
+# scala files
+target/
+*.iml
