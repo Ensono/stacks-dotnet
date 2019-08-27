@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using Microsoft.Extensions.Logging;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes
 {
@@ -10,9 +10,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes
     /// </summary>
     public class DummyEventPublisher : IApplicationEventPublisher
     {
+        ILogger<DummyEventPublisher> logger;
+
+        public DummyEventPublisher(ILogger<DummyEventPublisher> logger)
+        {
+            this.logger = logger;
+        }
+
         public async Task PublishAsync(IApplicationEvent applicationEvent)
         {
-            Console.WriteLine($"Event published: {applicationEvent.GetType()}");
+            logger.LogInformation("Event published: {EventType}", applicationEvent.GetType());
+
             await Task.CompletedTask;
         }
     }

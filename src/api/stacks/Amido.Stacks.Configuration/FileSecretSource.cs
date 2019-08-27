@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using Amido.Stacks.Configuration.Exceptions;
 
 namespace Amido.Stacks.Configuration
 {
@@ -18,20 +18,23 @@ namespace Amido.Stacks.Configuration
         public async Task<string> ResolveAsync(Secret secret)
         {
             if (secret == null)
-                throw new ArgumentNullException($"The parameter {nameof(secret)} cann't be null");
+                SecretNotDefinedException.Raise();
 
-            if (secret.Source.ToUpperInvariant() != Source)
-                throw new InvalidOperationException($"The source {secret.Source} does not match the source {Source}");
+            if (string.IsNullOrWhiteSpace(secret.Source))
+                InvalidSecretDefinitionException.Raise(secret.Source, secret.Identifier);
 
             if (string.IsNullOrWhiteSpace(secret.Identifier))
-                throw new ArgumentException($"The value '{secret.Identifier ?? "(null)"}' provided as identifiers is not valid");
+                InvalidSecretDefinitionException.Raise(secret.Source, secret.Identifier);
+
+            if (secret.Source.ToUpperInvariant() != Source)
+                SecretNotFoundException.Raise(secret.Source, secret.Identifier);
 
             if (!File.Exists(secret.Identifier))
             {
-                if (secret.Optional)
-                    return null;
-                else
-                    throw new Exception($"No value found for Secret '{secret.Identifier}' on source '{secret.Source}'.");
+                if (!secret.Optional)
+                    SecretNotFoundException.Raise(secret.Source, secret.Identifier);
+
+                return default;
             }
 
             using (var reader = File.OpenText(secret.Identifier))

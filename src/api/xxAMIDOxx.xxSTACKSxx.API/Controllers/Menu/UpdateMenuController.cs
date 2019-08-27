@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "Menu")]
     [ApiController]
-    public class UpdateMenuController : ControllerBase
+    public class UpdateMenuController : ApiControllerBase
     {
         ICommandHandler<UpdateMenu, bool> commandHandler;
 

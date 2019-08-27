@@ -22,8 +22,13 @@ resources:
 trigger:
   paths:
     include:
-    - $(Package.Path)
-    - $(BuildPipeline.Path)
+    - src/api/xxAMIDOxx.xxSTACKSxx.API.Models/
+    - build/azDevOps/azure/packages-menu-models.yml
+    exclude:
+    - '*'
+
+pr:
+- master
 
 
 pool:

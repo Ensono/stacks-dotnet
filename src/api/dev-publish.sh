@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 set -x #echo on for commands
 
 GITROOT=`git rev-parse --show-toplevel`
@@ -18,6 +18,8 @@ RELEASEDATE=`date --iso-8601=seconds`
 DEVFOLDER=$GITROOT/deploy/k8s/api/kustomization/localhost
 rm -drf $DEVFOLDER  #clear temp folder before operation to avoid conflicts
 
+if [ $# -eq 0 ]; then NAMESPACE=default; else NAMESPACE=$1-menu; fi;
+
 #kustomize - replace variables
 (
 	if [ $# -eq 0 ]; then SOURCE=$GITROOT/deploy/k8s/api/base; else SOURCE=$GITROOT/deploy/k8s/api/kustomization/$1; fi;
@@ -25,10 +27,12 @@ rm -drf $DEVFOLDER  #clear temp folder before operation to avoid conflicts
 	cp -r $SOURCE $DEVFOLDER
 	cd $DEVFOLDER
 	
-	#echo "Source: $SOURCE"
-
+	#Make sure there is no deployment in progress, TODO: need to check if exit first otherwise it fails	
+	#kubectl rollout status -n $NAMESPACE -w deploy/menuapi --timeout=30s
+	#if [ $? -ne 0 ]; then exit 1; fi;
+	
 	#set image
-	kustomize edit set image menuapi-image=$IMAGE:$TAG;
+	kustomize edit set image api-image=$IMAGE:$TAG;
 
 	#set annotations
 	kustomize edit add annotation version:$TAG;
@@ -36,30 +40,20 @@ rm -drf $DEVFOLDER  #clear temp folder before operation to avoid conflicts
 	kustomize edit add annotation release:0.0.1;
 	kustomize edit add annotation releasedOn:$RELEASEDATE;
 
-	#show output
+	#show generated YAML being applied
 	kubectl kustomize .
 
-	#TODO: Improve the below script to dynamically get the namespace and deployment name without hardcoded values in the script
-	# TMPYAML=`kubectl kustomize .`
-	# echo $TMPYAML
-	# TMPJSON=`kubectl kustomize . | kubectl create --dry-run -o JSON -f-`
-	# echo $TMPJSON
-	# TMPNAMESPACE=`kubectl kustomize . | grep -m 1 'namespace: ' | sed 's/namespace: //g' | xargs`
-	# echo $TMPNAMESPACE
-	
-	#TODO: Make sure there is no deployment in progress
-	
-	#apply
+	#apply changes
 	kubectl apply -k .
 	
 	#wait for deployment completion
-	#TODO: modify the namespace and deployment based on current project
-	kubectl rollout status -n default -w deploy/menuapi --timeout=30s
+	#TODO: modify the deployment name based on current project, fro menuapi to api
+	kubectl rollout status -n $NAMESPACE -w deploy/menuapi --timeout=30s
 	if [ $? -eq 0 ]; then 
 		echo "Deployment succeeded"; 
 	else 
 		echo "Deployment failed. Rolling back"; 
-		kubectl rollout undo -n default deploy/menuapi
+		kubectl rollout undo -n $NAMESPACE deploy/menuapi
 	fi;
 	
 )

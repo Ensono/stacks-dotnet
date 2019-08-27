@@ -30,7 +30,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         protected override void RegisterDependencies(IServiceCollection collection)
         {
-            DependencyRegistration.ConfigureStaticServices(collection);
+            DependencyRegistration.ConfigureStaticDependencies(collection);
 
             // Mocked external dependencies, the setup should 
             // come later according to each scenario
@@ -47,6 +47,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         {
             repository.GetByIdAsync(id: Arg.Is<Guid>(id => id == existingMenu.Id))
                         .Returns(existingMenu);
+
+            repository.SaveAsync(entity: Arg.Is<Domain.Menu>(e => e.Id == existingMenu.Id))
+                        .Returns(true);
         }
 
         internal void GivenAMenuDoesNotExist()

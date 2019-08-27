@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
@@ -9,22 +10,49 @@ namespace xxAMIDOxx.xxSTACKSxx.API
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var config = CreateConfiguration().Build();
+            CreateLogger(config);
+            CreateWebHostBuilder(args, config).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    // this config file will be injected at runtime in the /app/config folder of the container. 
-                    // Do not put any file in there
-                    // the appsettings.json is not added to the image to avoid configuration conflicts 
-                    // In the future we should set optional: false to force the user provide a config file
-                    config.AddJsonFile($"config/appsettings.json", optional: true, reloadOnChange: false);
-                })
-                .UseStartup<Startup>()
-                .ConfigureServices(DependencyRegistration.ConfigureStaticServices)
-                .ConfigureServices(DependencyRegistration.ConfigureProductionServices)
+
+        private static IConfigurationBuilder CreateConfiguration()
+        {
+            return new ConfigurationBuilder()
+                // the appsettings.json is not added to the image to avoid configuration conflicts 
+                .AddJsonFile("appsettings.json", optional: true)
+                // this config file will be injected at runtime in the /app/config folder of the container. 
+                // Do not put any file in there
+                // In the future we should set optional: false to force the user provide a config file
+                .AddJsonFile($"config/appsettings.json", optional: true, reloadOnChange: false)
             ;
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args, IConfigurationRoot config) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseConfiguration(config)
+                .UseStartup<Startup>()
+                .UseSerilog()
+                .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
+                .ConfigureServices(DependencyRegistration.ConfigureProductionDependencies)
+            ;
+
+        private static void CreateLogger(IConfigurationRoot config)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(config)
+                .CreateLogger();
+
+
+            //Log.Logger = new LoggerConfiguration()
+            //   .MinimumLevel.Debug()
+            //   .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            //   .Enrich.FromLogContext()
+            //   //TODO: Configure from file
+            //   // https://github.com/serilog/serilog-settings-configuration
+            //   .WriteTo.ApplicationInsights(TelemetryConfiguration.Active, TelemetryConverter.Traces)
+            //   .WriteTo.Console()
+            //   .CreateLogger();
+        }
     }
 }

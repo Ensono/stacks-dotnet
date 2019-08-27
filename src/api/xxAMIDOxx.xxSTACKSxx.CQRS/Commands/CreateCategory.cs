@@ -14,5 +14,12 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 
         public string Description { get; set; }
 
+        public CreateCategory(Guid correlationId, Guid menuId, string name, string description)
+        {
+            CorrelationId = correlationId;
+            MenuId = menuId;
+            Name = name;
+            Description = description;
+        }
     }
 }

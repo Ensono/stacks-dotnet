@@ -7,7 +7,9 @@ using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
 using Amido.Stacks.Tests.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
 using config = Amido.Stacks.Tests.Settings.Configuration;
@@ -26,7 +28,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
     public class CosmosDbDocumentStorageQueriesIntegrationTests
     {
         private readonly ITestOutputHelper output;
-        CosmosDbDocumentStorage<SampleEntity, Guid> repository;
+        CosmosDbDocumentStorage<SampleEntity> repository;
 
         public CosmosDbDocumentStorageQueriesIntegrationTests(ITestOutputHelper output)
         {
@@ -37,12 +39,16 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
                 Environment.SetEnvironmentVariable("COSMOSDBKEY", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
 
             Fixture fixture = new Fixture();
+
+            var loggerFactory = Substitute.For<ILoggerFactory>();
+            fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntity>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));
+
             fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
             fixture.Register<IOptions<CosmosDbConfiguration>>(() =>
                  config.For<CosmosDbConfiguration>("CosmosDB").AsOption()
              );
 
-            repository = fixture.Create<CosmosDbDocumentStorage<SampleEntity, Guid>>();
+            repository = fixture.Create<CosmosDbDocumentStorage<SampleEntity>>();
         }
 
         [Theory, AutoData]
@@ -289,7 +295,7 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
         private async Task<OperationResult> SaveItem(SampleEntity entity, string eTag = null)
         {
             output.WriteLine($"Saving the entity '{entity.Id}' in the repository");
-            return await repository.SaveAsync(entity.Id, GetPartitionKey(entity), entity, eTag);
+            return await repository.SaveAsync(entity.Id.ToString(), GetPartitionKey(entity), entity, eTag);
         }
 
         private async Task SaveItems(List<SampleEntity> entities)

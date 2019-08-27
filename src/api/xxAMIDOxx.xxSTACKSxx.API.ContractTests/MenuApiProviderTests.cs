@@ -63,7 +63,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             using(var ProviderWebHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(ProviderUri)
                 .UseStartup<TestStartup>()
-                .ConfigureServices(DependencyRegistration.ConfigureStaticServices)
+                .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
                 .Build())
             {
                 ProviderWebHost.Start();
