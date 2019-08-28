@@ -27,7 +27,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             ProviderUri = "http://localhost:6001";
 
             //Get application configuration
-            //This depends on another stacks project. Just reusing Pact would mean creating your own configuration accessor
             Config = Configuration.For<ConfigModel>();
 
             //Set up the Pact configuration to be used in tests
@@ -50,14 +49,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             };
         }
 
+        //If there are additional consumers, add extra inline data with the consumer name
         [Theory]
         [InlineData("GenericMenuConsumer")]
+        //[InlineData("OtherConsumer")]
         public void EnsureProviderApiHonoursPactWithConsumer(string consumerName)
         {
             //This token is taken from within the broker UI (See settings > Read/write token (CI))
+            //This is used to authenticate requests to the pact broker as part of the PactVerifier
             var options = new PactUriOptions(Config.Broker_Token);
 
-            using (var ProviderWebHost = WebHost.CreateDefaultBuilder()
+            //Create the mocked provider service
+            using(var ProviderWebHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(ProviderUri)
                 .UseStartup<TestStartup>()
                 .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
@@ -69,6 +72,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             }
         }
 
+        //This verifies the pact and .Verify() publishes the results back to the broker (specified in .PactUri())
         private void VerifyPactFor(string consumerName, PactVerifierConfig config, PactUriOptions options)
         {
             IPactVerifier pactVerifier = new PactVerifier(config);
@@ -82,7 +86,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
 
         private string CreatePactUri(string consumerName, string providerName)
         {
-            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest";
+            //This is set to tests against the LATEST version of the contracts in the broker
+            //Future enhancement is to use tags on contracts and target specific contracts by using Tags in the URL below
+            //(NB: I imagine the tag will be fed in from environment variables in the pipeline)
+            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest"; 
         }
     }
 }
