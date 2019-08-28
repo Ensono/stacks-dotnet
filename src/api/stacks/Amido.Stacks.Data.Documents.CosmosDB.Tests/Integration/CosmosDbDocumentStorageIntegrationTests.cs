@@ -33,20 +33,29 @@ namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
         public CosmosDbDocumentStorageIntegrationTests(ITestOutputHelper output)
         {
             this.output = output;
+            var settings = config.For<CosmosDbConfiguration>("CosmosDB");
 
-            //Use local emulator on dev when no ENV is defined
-            if (Environment.GetEnvironmentVariable("COSMOSDBKEY") == null)
-                Environment.SetEnvironmentVariable("COSMOSDBKEY", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
+            //Notes:
+            // if using an azure instance to run the tests, make sure you set the environment variable before you start visual studio
+            // Ex: CMD C:\> setx COSMOSDB_KEY ABCDEFGASD==
+            // On CosmosDB, make sure you create the collection 'SampleEntity' in the database defined in the config 'CosmosDBPackage'
+            // To overrride the appsettings values, set the environment variable using SectionName__PropertyName. i.e: CosmosDB__DatabaseAccountUri 
+            // Note the use of a double _ between the section and the property name
 
-            Fixture fixture = new Fixture();
+            if (Environment.GetEnvironmentVariable(settings.SecurityKeySecret.Identifier) == null)
+            {
+                if (settings.DatabaseAccountUri.Contains("localhost", StringComparison.InvariantCultureIgnoreCase))
+                    Environment.SetEnvironmentVariable(settings.SecurityKeySecret.Identifier, "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
+                else
+                    throw new ArgumentNullException($"The environment variable '{settings.SecurityKeySecret.Identifier}' has not been set");
+            }
 
             var loggerFactory = Substitute.For<ILoggerFactory>();
-            fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntity>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));
 
+            Fixture fixture = new Fixture();
+            fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntity>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));
             fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
-            fixture.Register<IOptions<CosmosDbConfiguration>>(() =>
-                 config.For<CosmosDbConfiguration>("CosmosDB").AsOption()
-             );
+            fixture.Register<IOptions<CosmosDbConfiguration>>(() => settings.AsOption());
 
             repository = fixture.Create<CosmosDbDocumentStorage<SampleEntity>>();
         }

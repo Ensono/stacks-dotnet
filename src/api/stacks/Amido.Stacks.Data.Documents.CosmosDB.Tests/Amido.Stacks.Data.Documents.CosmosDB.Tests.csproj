@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Amido.Stacks.Data.Documents.Abstractions\Amido.Stacks.Data.Documents.Abstractions.csproj" />
         <ProjectReference Include="..\Amido.Stacks.Data.Documents.CosmosDB\Amido.Stacks.Data.Documents.CosmosDB.csproj" />
         <ProjectReference Include="..\Amido.Stacks.Tests\Amido.Stacks.Tests.csproj" />
     </ItemGroup>
