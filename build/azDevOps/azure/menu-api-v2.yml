@@ -412,6 +412,14 @@ stages:
               projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Run Smoke Tests'
+            inputs:
+              command: test
+              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
+              arguments: '-v n --filter Category=SmokeTest'
+              testRunTitle: 'Smoke Tests'
           
           - bash: | 
               echo "-Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)"
