@@ -3,19 +3,26 @@ name: $(build.SourceBranchName)-init
 trigger:
   branches:
     include:
-    - '*'
+    - "*"
   paths:
+    include:
+    - src/*
     exclude:
     - src/api/xxAMIDOxx.xxSTACKSxx.API.Models/*
     - deploy/terraform/*
-  
+    - build/azDevOps/azure/menu-provisioning.yml
 
 # Only build PR's into Master (i.e. 'going live')
 pr:
 - master
     
 resources:
-- repo: self
+  repositories:
+  - repository: templates
+    type: github
+    name: amido/stacks-pipeline-templates
+    endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
+
 
 variables:
 # Global Config:

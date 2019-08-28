@@ -98,15 +98,15 @@ stages:
           terraform_artefact_name: terraform
           terraform_filepath: '$(Build.SourcesDirectory)/deploy/terraform/azure'
 
-      # Retrieve a blob file with only Azure credentials, extract it and publish as an artefact
-      - template: azDevOps/azure/templates/jobs/publish-blob-as-artefact.yml@templates
-        parameters: 
-          Package_RG: $(DevOps.RG)
-          Package_storageAccount: $(DevOps.storageAccount) 
-          Package_Container: $(DevOps.Container)
-          Package_File: $(DevOps.File)
-          Package_OutputFolder: $(Build.BinariesDirectory)
-          Package_OutputArtefact: 'DevOps'
+  # Retrieve a blob file with only Azure credentials, extract it and publish as an artefact
+  - template: azDevOps/azure/templates/jobs/publish-blob-as-artefact.yml@templates
+    parameters: 
+      Package_RG: $(DevOps.RG)
+      Package_storageAccount: $(DevOps.storageAccount) 
+      Package_Container: $(DevOps.Container)
+      Package_File: $(DevOps.File)
+      Package_OutputFolder: $(Build.BinariesDirectory)
+      Package_OutputArtefact: 'DevOps'
   
 - stage: NonProduction
   variables: 
