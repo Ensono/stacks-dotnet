@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Amido.Stacks.Data.Documents.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Amido.Stacks.Data.Documents.CosmosDB.Extensions
 {

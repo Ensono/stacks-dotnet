@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
-using Amido.Stacks.Data.Documents;
+using Amido.Stacks.Data.Documents.Abstractions;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 

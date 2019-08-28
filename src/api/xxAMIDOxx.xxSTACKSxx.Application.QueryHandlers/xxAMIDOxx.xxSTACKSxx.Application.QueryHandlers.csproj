@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\stacks\Amido.Stacks.Application.CQRS\Amido.Stacks.Application.CQRS.csproj" />
-        <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents\Amido.Stacks.Data.Documents.csproj" />
+        <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents.Abstractions\Amido.Stacks.Data.Documents.Abstractions.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.Integration\xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
     </ItemGroup>
