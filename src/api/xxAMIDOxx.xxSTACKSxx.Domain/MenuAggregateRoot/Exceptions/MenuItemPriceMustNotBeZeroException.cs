@@ -24,7 +24,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
 
         public static void Raise(string itemName)
         {
-            Raise(itemName);
+            Raise(itemName, null);
         }
     }
 }
