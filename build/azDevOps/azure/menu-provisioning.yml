@@ -37,14 +37,14 @@ variables:
 - name: Version.Tag
   value: $(Version.MajorMinor).$(Version.Revision)-$(build.sourcebranchname)
 
-# Package Info
-- name: Package.File
+# DevOps Scripts Package Info
+- name: DevOps.File
   value: scripts-1.1.0-master.tar.gz
-- name: Package.Container
+- name: DevOps.Container
   value: packages
-- name: Package.storageAccount
+- name: DevOps.storageAccount
   value: amidostacksuksprod
-- name: Package.RG
+- name: DevOps.RG
   value: amido-stacks-rg-uks-prod
 
 # Terraform Global Variables:
