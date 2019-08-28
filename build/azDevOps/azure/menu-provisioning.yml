@@ -39,7 +39,7 @@ variables:
 
 # DevOps Scripts Package Info
 - name: DevOps.File
-  value: scripts-1.1.0-master.tar.gz
+  value: scripts-1.2.8-master.tar.gz
 - name: DevOps.Container
   value: packages
 - name: DevOps.storageAccount
@@ -84,6 +84,8 @@ variables:
 
 stages:
 - stage: Build
+  variables: 
+  - group: amido-stacks-infra-credentials-prod # Used to pull artefact from prod store
   jobs:
   - job: Validate
     pool:
