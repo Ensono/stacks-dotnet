@@ -234,6 +234,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     environment: testx
+    dependson: DevX
     variables:
     - name: TF_VAR_name_environment
       value: testx
@@ -471,6 +472,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     environment: prod
+    dependsOn: Performance
     variables:
     - name: TF_VAR_name_environment
       value: prod
