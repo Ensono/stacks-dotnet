@@ -412,14 +412,6 @@ stages:
               projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
               arguments: '-v n'
               testRunTitle: 'Functional Tests'
-
-          - task: DotNetCoreCLI@2
-            displayName: 'Run Smoke Tests'
-            inputs:
-              command: test
-              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
-              arguments: '-v n --filter Category=SmokeTest'
-              testRunTitle: 'Smoke Tests'
           
           - bash: | 
               echo "-Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)"
@@ -433,6 +425,13 @@ stages:
               targetType: 'filePath'
               filePath: $(Pipeline.Workspace)/DevOps/Azure/upload-azstorage-blob.sh
               arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
+
+          - task: Bash@3
+            displayName: 'Retrieve URL: Test Results'
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Pipeline.Workspace)/DevOps/Azure/get-azstorage-sasurl.sh
+              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
 
 
   - deployment: TestX # This should be made into a meta-template when it's available! 
@@ -811,6 +810,14 @@ stages:
               failOnStderr: true 
 
 #### Testing
+          - task: DotNetCoreCLI@2
+            displayName: 'Run Smoke Tests'
+            inputs:
+              command: test
+              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
+              arguments: '-v n --filter Category=SmokeTest'
+              testRunTitle: 'Smoke Tests'
+
           - download: current
             displayName: 'Download: Release Notes Artefact'
             artifact: releasenotes
