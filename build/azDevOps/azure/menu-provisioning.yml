@@ -1,8 +1,5 @@
 name: $(build.SourceBranchName)-init
 
-resources:
-- repo: self
-
 trigger:
   paths:
     include:

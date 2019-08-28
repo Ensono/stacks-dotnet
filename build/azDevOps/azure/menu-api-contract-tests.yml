@@ -4,9 +4,6 @@ name: $(build.SourceBranchName)-init
 trigger: none
 
 resources:
-- repo: self
-
-resources:
   repositories:
   - repository: templates
     type: github
