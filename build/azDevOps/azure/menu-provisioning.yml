@@ -16,6 +16,14 @@ trigger:
 pr:
 - master
 
+resources:
+  repositories:
+  - repository: templates
+    type: github
+    name: amido/stacks-pipeline-templates
+    endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
+    
+
 variables:
 - name: system.debug
   value: true
@@ -88,43 +96,20 @@ stages:
       - bash: echo '##vso[build.updatebuildnumber]$(Version.Tag)'
         displayName: Update Build Number
 
-      - bash: 'terraform fmt' 
-        displayName: terraform fmt
-        workingDirectory: '$(Build.SourcesDirectory)/deploy/terraform/azure' 
+      - template: azDevOps/azure/templates/steps/build-validate-terraform.yml@templates
+        parameters: 
+          terraform_artefact_name: terraform
+          terraform_filepath: '$(Build.SourcesDirectory)/deploy/terraform/azure'
 
-      - publish: $(Build.SourcesDirectory)/deploy/terraform/azure
-        artifact: terraform
-
-  - job: GetDevOpsScripts
-    variables:
-    - group: amido-stacks-infra-credentials-nonprod
-    pool:
-      vmImage: 'ubuntu-latest'
-    continueOnError: False
-    steps:
-        # The following step is wholly in-line because we haven't yet downloaded the package which contains the script file! 
-      - bash: | 
-          az login --service-principal --username $(azure_client_id) --password $(azure_client_secret) --tenant $(azure_tenant_id)
-          az account set -s $(azure_subscription_id)
-          ACCOUNT_KEY=$(az storage account keys list -g $(Package.RG) -n $(Package.storageAccount) --query '[1].value')
-          SAS_KEY_EXPIRY=$(date -d "1 month" '+%Y-%m-%dT%H:%MZ')
-          SAS_KEY=$(az storage account generate-sas --permissions lr --account-name $(Package.storageAccount) --account-key $ACCOUNT_KEY --services b --resource-types sco --expiry $SAS_KEY_EXPIRY -otsv)
-          SAS_KEY=$(sed -e 's/^"//' -e 's/"$//' <<<"$SAS_KEY")
-          BLOB_URL=$(az storage blob url --account-name $(Package.storageAccount) --account-key $ACCOUNT_KEY --container-name $(Package.Container) --name $(Package.File))
-          BLOB_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$BLOB_URL")
-          wget -O $(Build.BinariesDirectory)/$(Package.File) $BLOB_URL?$SAS_KEY
-          az logout --username $(azure_client_id)
-        displayName: Get DevOps Scripts
-        workingDirectory: $(Build.BinariesDirectory)
-        
-      - task: ExtractFiles@1
-        inputs:
-          archiveFilePatterns: '$(Build.BinariesDirectory)/$(Package.File)' 
-          destinationFolder: $(Build.BinariesDirectory)/DevOps
-        displayName: Extract DevOps Scripts
-
-      - publish: $(Build.BinariesDirectory)/DevOps
-        artifact: DevOps
+      # Retrieve a blob file with only Azure credentials, extract it and publish as an artefact
+      - template: azDevOps/azure/templates/jobs/publish-blob-as-artefact.yml@templates
+        parameters: 
+          Package_RG: $(DevOps.RG)
+          Package_storageAccount: $(DevOps.storageAccount) 
+          Package_Container: $(DevOps.Container)
+          Package_File: $(DevOps.File)
+          Package_OutputFolder: $(Build.BinariesDirectory)
+          Package_OutputArtefact: 'DevOps'
   
 - stage: NonProduction
   variables: 

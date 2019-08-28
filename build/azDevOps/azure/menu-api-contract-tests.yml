@@ -6,6 +6,13 @@ trigger: none
 resources:
 - repo: self
 
+resources:
+  repositories:
+  - repository: templates
+    type: github
+    name: amido/stacks-pipeline-templates
+    endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
+
 variables:
 - group: amido-stacks-infra-credentials-nonprod
 
@@ -26,12 +33,6 @@ variables:
 # Docker Config
 - name: Docker.ImageTag
   value: $(Version.MajorMinor).$(Version.Revision)-$(build.sourcebranchname)
-
-# Package Info
-- name: Package.File
-  value: scripts-0.0.32-master.tar.gz
-- name: Package.SAS
-  value: 'se=2019-09-08T10%3A15Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=EP4xmbIf3pcJK4dbUrmxwLP9gFXVVyDV2FNYSTvAdR4%3D'
 
 # Pact Broker Info
 - name: Test.PactBrokerUrl
@@ -54,17 +55,6 @@ stages:
     steps:
     - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
       displayName: Update Build Number
-
-    - bash: | 
-        wget -O $(Build.BinariesDirectory)/$(Package.File)  'https://amidostackspkgukstmp.blob.core.windows.net/packages/$(Package.File)?$(Package.SAS)'
-      displayName: Get DevOps Scripts
-      workingDirectory: $(Build.BinariesDirectory)
-    
-    - task: ExtractFiles@1
-      inputs:
-        archiveFilePatterns: '$(Build.BinariesDirectory)/$(Package.File)' 
-        destinationFolder: $(Build.BinariesDirectory)/DevOps
-      displayName: Extract DevOps Scripts
 
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
