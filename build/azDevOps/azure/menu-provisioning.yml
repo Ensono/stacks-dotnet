@@ -155,16 +155,15 @@ stages:
               terraform_artefact_name: 'terraform'
               #  Terraform State Config
               terraform_state_rg: '$(Terraform.stateRG)'
-              terraform_state_storage: $(Terraform.stateStorageAccount)'
+              terraform_state_storage: '$(Terraform.stateStorageAccount)'
               terraform_state_container: '$(Terraform.stateStorageContainer)'
               terraform_state_key: '$(Terraform.stateKey)'
               terraform_state_workspace: '$(Terraform.stateWorkspace)'
               # Global Config
-              company: 'amido'
-              project: 'stacks' 
-              environment: ''
-              domain: ''
-              component: '' 
+              company: '$(Global.company)'
+              project: '$(Global.project)' 
+              domain: '$(Global.domain)'
+              environment: '$(environment)'
               # Azure config
               location: 'uksouth'
               tags: "{}"
@@ -222,16 +221,15 @@ stages:
               terraform_artefact_name: 'terraform'
               #  Terraform State Config
               terraform_state_rg: '$(Terraform.stateRG)'
-              terraform_state_storage: $(Terraform.stateStorageAccount)'
+              terraform_state_storage: '$(Terraform.stateStorageAccount)'
               terraform_state_container: '$(Terraform.stateStorageContainer)'
               terraform_state_key: '$(Terraform.stateKey)'
               terraform_state_workspace: '$(Terraform.stateWorkspace)'
               # Global Config
-              company: 'amido'
-              project: 'stacks' 
-              environment: ''
-              domain: ''
-              component: '' 
+              company: '$(Global.company)'
+              project: '$(Global.project)' 
+              domain: '$(Global.domain)'
+              environment: '$(environment)'
               # Azure config
               location: 'uksouth'
               tags: "{}"
@@ -295,16 +293,15 @@ stages:
               terraform_artefact_name: 'terraform'
               #  Terraform State Config
               terraform_state_rg: '$(Terraform.stateRG)'
-              terraform_state_storage: $(Terraform.stateStorageAccount)'
+              terraform_state_storage: '$(Terraform.stateStorageAccount)'
               terraform_state_container: '$(Terraform.stateStorageContainer)'
               terraform_state_key: '$(Terraform.stateKey)'
               terraform_state_workspace: '$(Terraform.stateWorkspace)'
               # Global Config
-              company: 'amido'
-              project: 'stacks' 
-              environment: ''
-              domain: ''
-              component: '' 
+              company: '$(Global.company)'
+              project: '$(Global.project)' 
+              domain: '$(Global.domain)'
+              environment: '$(environment)'
               # Azure config
               location: 'uksouth'
               tags: "{}"
@@ -318,13 +315,6 @@ stages:
               filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
               arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
               failOnStderr: true
-          - task: Bash@3
-            displayName: New CosmosDB Collection
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
-              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true     
          
   - deployment: Prod # This should be made into a meta-template when it's available! 
     pool:
@@ -369,16 +359,15 @@ stages:
               terraform_artefact_name: 'terraform'
               #  Terraform State Config
               terraform_state_rg: '$(Terraform.stateRG)'
-              terraform_state_storage: $(Terraform.stateStorageAccount)'
+              terraform_state_storage: '$(Terraform.stateStorageAccount)'
               terraform_state_container: '$(Terraform.stateStorageContainer)'
               terraform_state_key: '$(Terraform.stateKey)'
               terraform_state_workspace: '$(Terraform.stateWorkspace)'
               # Global Config
-              company: 'amido'
-              project: 'stacks' 
-              environment: ''
-              domain: ''
-              component: '' 
+              company: '$(Global.company)'
+              project: '$(Global.project)' 
+              domain: '$(Global.domain)'
+              environment: '$(environment)'
               # Azure config
               location: 'uksouth'
               tags: "{}"

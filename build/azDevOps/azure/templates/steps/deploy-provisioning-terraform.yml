@@ -10,8 +10,8 @@ parameters:
   # Global Config
   company: 'amido'
   project: 'stacks' 
+  domain: ''
   environment: ''
-  component: '' 
   # Azure config
   location: 'uksouth'
   tags: ''
@@ -47,7 +47,7 @@ steps:
     TF_VAR_name_company: ${{ parameters.company }}
     TF_VAR_name_platform: ${{ parameters.project }}
     TF_VAR_name_environment: ${{ parameters.environment }}
-    TF_VAR_name_component: ${{ parameters.component }}
+    TF_VAR_name_component: ${{ parameters.domain }}
     # Resource Group
     TF_VAR_resource_group_location_env: ${{ parameters.location }}
     TF_VAR_resource_group_tags: ${{ parameters.tags }}
@@ -67,7 +67,7 @@ steps:
     TF_VAR_name_company: ${{ parameters.company }}
     TF_VAR_name_platform: ${{ parameters.project }}
     TF_VAR_name_environment: ${{ parameters.environment }}
-    TF_VAR_name_component: ${{ parameters.component }}
+    TF_VAR_name_component: ${{ parameters.domain }}
     # Resource Group
     TF_VAR_resource_group_location_env: ${{ parameters.location }}
     TF_VAR_resource_group_tags: ${{ parameters.tags }}
