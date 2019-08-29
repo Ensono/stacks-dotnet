@@ -183,7 +183,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     environment: testx
-    dependson: DevX
+    dependsOn: DevX
     variables:
     - name: environment
       value: testx
