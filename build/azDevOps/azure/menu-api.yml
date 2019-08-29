@@ -166,8 +166,10 @@ stages:
   
   # Retrieve a blob file with only Azure credentials, extract it and publish as an artefact
   - template: azDevOps/azure/templates/jobs/publish-blob-as-artefact.yml@templates
-    dependsOn: UpdateBuildNumber
-    parameters: 
+    parameters:
+      jobs:
+        - job: GetPackage
+          dependsOn: UpdateBuildNumber
       Package_RG: $(DevOps.RG)
       Package_storageAccount: $(DevOps.storageAccount) 
       Package_Container: $(DevOps.Container)
@@ -179,6 +181,9 @@ stages:
   - template: azDevOps/azure/templates/jobs/build-sonarcloud.yml@templates
     dependsOn: UpdateBuildNumber
     parameters:
+      jobs:
+        - job: SonarCloud
+          dependsOn: UpdateBuildNumber
       Sonar_serviceConnection: '$(Sonar.serviceConnection)'
       Sonar_organization: '$(Sonar.organization)'
       Sonar_scannerMode: '$(Sonar.scannerMode)'
@@ -188,8 +193,10 @@ stages:
       dotnet_build_path: $(Build.SourcesDirectory)/src/api
       
   - template: azDevOps/azure/templates/jobs/build-dotnet.yml@templates
-    dependsOn: GetPackage
     parameters:
+      jobs:
+        - job: BuildDotNet
+          dependsOn: GetPackage
       devops_artefact_name: 'DevOps'
       # Docker Config
       docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
