@@ -20,22 +20,18 @@ resources:
     name: amido/stacks-pipeline-templates
     endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
     
-
 variables:
-- name: system.debug
-  value: true
-
 # Versioning
 - name: Version.Major
-  value: 0
-- name: Version.Minor
   value: 1
+- name: Version.Minor
+  value: 0
 - name: Version.MajorMinor
   value: $(Version.Major).$(Version.Minor)
 - name: Version.Revision
-  value: $[counter(variables['Version.MajorMinor'], 0)]
+  value: $[counter(variables['Version.Minor'], 0)]
 - name: Version.Tag
-  value: $(Version.MajorMinor).$(Version.Revision)-$(build.sourcebranchname)
+  value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
 
 # DevOps Scripts Package Info
 - name: DevOps.File
@@ -47,32 +43,34 @@ variables:
 - name: DevOps.RG
   value: amido-stacks-rg-uks-prod
 
-# Terraform Global Variables:
-- name: TF_VAR_name_company
+# Global Variables:
+- name: Global.company
   value: amido
-- name: TF_VAR_name_platform
+- name: Global.project
   value: stacks
-- name: TF_VAR_name_component
+- name: Global.domain
   value: menu
-- name: TF_VAR_resource_group_tags
-  value: "{}"
-- name: TF_VAR_resource_group_location_env
+  
+## Global Azure Specific Config
+- name: Azure.location
   value: uksouth
+- name: Azure.tags
+  value: "{}"
 
-# Terraform State Backend:
-- name: TF_STATE_RG
+# Resource Terraform State Backend:
+- name: Terraform.stateRG
   value: amido-stacks-rg-uks
-- name: TF_STATE_STORAGEACCOUNT
-  value: $(TF_VAR_name_company)$(TF_VAR_name_platform)tfstategbl
-- name: TF_STATE_CONTAINERNAME
+- name: Terraform.stateStorageAccount
+  value: $(Global.company)$(Global.project)tfstategbl
+- name: Terraform.stateStorageContainer
   value: tfstate
-- name: TF_STATE_KEY
-  value: $(TF_VAR_name_company)-$(TF_VAR_name_platform)-$(TF_VAR_name_component)
-- name: TF_WORKSPACE_NAME
-  value: $(TF_VAR_name_company)-$(TF_VAR_name_platform)-$(TF_VAR_name_component)-$(TF_VAR_name_environment)
-# Override these on a per-environment basis if neccesary
+- name: Terraform.stateKey
+  value: $(Global.company)-$(Global.project)-$(Global.domain)
+- name: Terraform.stateWorkspace
+  value: $(Global.company)-$(Global.project)--$(Global.domain)-$(environment)
 
-# CosmosDB Configuration
+
+# Resource Configuration
 # INFO: CosmosDB.accountName is auto-generated!
 - name: cosmosDB.databaseName
   value: Stacks
@@ -80,7 +78,6 @@ variables:
   value: Menu
 - name: cosmosDB.collectionPartitionKey
   value: id
-
 
 stages:
 - stage: Build
@@ -121,7 +118,7 @@ stages:
       vmImage: 'ubuntu-latest'
     environment: devx
     variables:  
-    - name: TF_VAR_name_environment
+    - name: environment
       value: devx
     strategy:
       runOnce:
@@ -135,92 +132,44 @@ stages:
             displayName: Download DevOps Artefacts
             artifact: DevOps
 
-          - task: Bash@3
-            displayName: Azure Login
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-              failOnStderr: true 
+          - template: azDevOps/azure/templates/steps/login-services.yml@templates
+            parameters:   
+              # Azure
+              login_azure: true
+              azure_tenant_id: '$(azure_tenant_id)'
+              azure_subscription_id: '$(azure_subscription_id)'
+              azure_client_id: '$(azure_client_id)'
+              azure_client_secret: '$(azure_client_secret)'
+              # Kubernetes
+              login_kubernetes: false
+              # aks_rg: ''
+              # aks_clustername: '' 
+              devops_artefact_name: 'DevOps'
 
-          - bash: |
-              terraform version
-              terraform init \
-              -backend-config="key=$(TF_STATE_KEY)" \
-              -backend-config="storage_account_name=$(TF_STATE_STORAGEACCOUNT)" \
-              -backend-config="resource_group_name=$(TF_STATE_RG)" \
-              -backend-config="container_name=$(TF_STATE_CONTAINERNAME)" \
-              -backend-config="subscription_id=$(azure_subscription_id)" \
-              -backend-config="tenant_id=$(azure_tenant_id)" \
-              -backend-config="client_id=$(azure_client_id)" \
-              -backend-config="client_secret=$(azure_client_secret)"
-            displayName: terraform init
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-
-          - bash: | 
-              terraform workspace select $(TF_WORKSPACE_NAME) || terraform workspace new $(TF_WORKSPACE_NAME)
-            displayName: Select TF Workspace
-            workingDirectory: $(Pipeline.Workspace)/terraform
-
-          - bash: terraform plan -input=false -out=tfplan
-            displayName: terraform plan
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              # Authentication (this comes from the AzureDevOps library as secured variables)
-              ARM_SUBSCRIPTION_ID: $(azure_subscription_id)
-              ARM_CLIENT_ID: $(azure_client_id)
-              ARM_CLIENT_SECRET: $(azure_client_secret)
-              ARM_TENANT_ID: $(azure_tenant_id)
-              # Terraform 
-              TF_VAR_name_company: $(TF_VAR_name_company)
-              TF_VAR_name_platform: $(TF_VAR_name_platform)   
-              TF_VAR_name_environment: $(TF_VAR_name_environment)
-              TF_VAR_name_component: $(TF_VAR_name_component)
-              # Resource Group
-              TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
-              TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
-              # INFO: CosmosDB.accountName is auto-generated! 
-              TF_VAR_cosmosDBdatabaseName: $(cosmosDB.databaseName)
-
-          - bash: terraform apply tfplan
-            displayName: terraform apply
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              # Authentication (this comes from the AzureDevOps library as secured variables)
-              ARM_SUBSCRIPTION_ID: $(azure_subscription_id)
-              ARM_CLIENT_ID: $(azure_client_id)
-              ARM_CLIENT_SECRET: $(azure_client_secret)
-              ARM_TENANT_ID: $(azure_tenant_id)
-              # Terraform 
-              TF_VAR_name_company: $(TF_VAR_name_company)
-              TF_VAR_name_platform: $(TF_VAR_name_platform)   
-              TF_VAR_name_environment: $(TF_VAR_name_environment)
-              TF_VAR_name_component: $(TF_VAR_name_component)
-              # Resource Group
-              TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
-              TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
-              # CosmosDB
-              # INFO: CosmosDB.accountName is auto-generated! 
-              TF_VAR_cosmosDBdatabaseName: $(cosmosDB.databaseName)
-
-          - bash: |
-              terraform output cosmosdb_rg_name
-              cosmosdb_rg_name=$(terraform output cosmosdb_rg_name)
-              echo Setting cosmosDB.resourceGroup to $cosmosdb_rg_name
-              echo "##vso[task.setvariable variable=cosmosDB.resourceGroup]$cosmosdb_rg_name"
-
-              cosmosdb_database_name=$(terraform output cosmosdb_database_name)              
-              echo Setting cosmosDB.databaseName to $cosmosdb_database_name
-              echo "##vso[task.setvariable variable=cosmosDB.databaseName]$cosmosdb_database_name"
-
-              cosmosdb_account_name=$(terraform output cosmosdb_account_name)              
-              echo Setting cosmosDB.accountName to $cosmosdb_account_name
-              echo "##vso[task.setvariable variable=cosmosDB.accountName]$cosmosdb_account_name"
-            displayName: Writing TF Outputs to Variables
-            workingDirectory: $(Pipeline.Workspace)/terraform            
-            name: tfoutputs
+          # This is not a shared template, because it has specific resource parameters
+          - template: templates/steps/deploy-provisioning-terraform.yml
+            # Terraform Backend & Azure Credential config comes via Variable Group
+            # that must be inherited into this step! 
+            parameters:
+              # Terraform Basic Config
+              terraform_artefact_name: 'terraform'
+              #  Terraform State Config
+              terraform_state_rg: '$(Terraform.stateRG)'
+              terraform_state_storage: $(Terraform.stateStorageAccount)'
+              terraform_state_container: '$(Terraform.stateStorageContainer)'
+              terraform_state_key: '$(Terraform.stateKey)'
+              terraform_state_workspace: '$(Terraform.stateWorkspace)'
+              # Global Config
+              company: 'amido'
+              project: 'stacks' 
+              environment: ''
+              domain: ''
+              component: '' 
+              # Azure config
+              location: 'uksouth'
+              tags: "{}"
+              # Resource Specific Config
+              cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
 
           - task: Bash@3
             displayName: New CosmosDB Collection
@@ -228,7 +177,7 @@ stages:
               targetType: 'filePath'
               filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
               arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true     
+              failOnStderr: true
         
   - deployment: TestX # This should be made into a meta-template when it's available! 
     pool:
@@ -236,7 +185,7 @@ stages:
     environment: testx
     dependson: DevX
     variables:
-    - name: TF_VAR_name_environment
+    - name: environment
       value: testx
     strategy:
       runOnce:
@@ -250,93 +199,44 @@ stages:
             displayName: Download DevOps Artefacts
             artifact: DevOps
 
-          - task: Bash@3
-            displayName: Azure Login
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-              failOnStderr: true 
+          - template: azDevOps/azure/templates/steps/login-services.yml@templates
+            parameters:   
+              # Azure
+              login_azure: true
+              azure_tenant_id: '$(azure_tenant_id)'
+              azure_subscription_id: '$(azure_subscription_id)'
+              azure_client_id: '$(azure_client_id)'
+              azure_client_secret: '$(azure_client_secret)'
+              # Kubernetes
+              login_kubernetes: false
+              # aks_rg: ''
+              # aks_clustername: '' 
+              devops_artefact_name: 'DevOps'
 
-          - bash: |
-              terraform version
-              terraform init \
-              -backend-config="key=$(TF_STATE_KEY)" \
-              -backend-config="storage_account_name=$(TF_STATE_STORAGEACCOUNT)" \
-              -backend-config="resource_group_name=$(TF_STATE_RG)" \
-              -backend-config="container_name=$(TF_STATE_CONTAINERNAME)" \
-              -backend-config="subscription_id=$(azure_subscription_id)" \
-              -backend-config="tenant_id=$(azure_tenant_id)" \
-              -backend-config="client_id=$(azure_client_id)" \
-              -backend-config="client_secret=$(azure_client_secret)"
-            displayName: terraform init
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-
-          - bash: | 
-              terraform workspace select $(TF_WORKSPACE_NAME) || terraform workspace new $(TF_WORKSPACE_NAME)
-            displayName: Select TF Workspace
-            workingDirectory: $(Pipeline.Workspace)/terraform
-
-          - bash: terraform plan -input=false -out=tfplan
-            displayName: terraform plan
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              # Authentication (this comes from the AzureDevOps library as secured variables)
-              ARM_SUBSCRIPTION_ID: $(azure_subscription_id)
-              ARM_CLIENT_ID: $(azure_client_id)
-              ARM_CLIENT_SECRET: $(azure_client_secret)
-              ARM_TENANT_ID: $(azure_tenant_id)
-              # Terraform 
-              TF_VAR_name_company: $(TF_VAR_name_company)
-              TF_VAR_name_platform: $(TF_VAR_name_platform)   
-              TF_VAR_name_environment: $(TF_VAR_name_environment)
-              TF_VAR_name_component: $(TF_VAR_name_component)
-              # Resource Group
-              TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
-              TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
-              # INFO: CosmosDB.accountName is auto-generated! 
-              TF_VAR_cosmosDBdatabaseName: $(cosmosDB.databaseName)
-
-
-          - bash: terraform apply tfplan
-            displayName: terraform apply
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              # Authentication (this comes from the AzureDevOps library as secured variables)
-              ARM_SUBSCRIPTION_ID: $(azure_subscription_id)
-              ARM_CLIENT_ID: $(azure_client_id)
-              ARM_CLIENT_SECRET: $(azure_client_secret)
-              ARM_TENANT_ID: $(azure_tenant_id)
-              # Terraform 
-              TF_VAR_name_company: $(TF_VAR_name_company)
-              TF_VAR_name_platform: $(TF_VAR_name_platform)   
-              TF_VAR_name_environment: $(TF_VAR_name_environment)
-              TF_VAR_name_component: $(TF_VAR_name_component)
-              # Resource Group
-              TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
-              TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
-              # CosmosDB
-              # INFO: CosmosDB.accountName is auto-generated! 
-              TF_VAR_cosmosDBdatabaseName: $(cosmosDB.databaseName)
-
-          - bash: |
-              terraform output cosmosdb_rg_name
-              cosmosdb_rg_name=$(terraform output cosmosdb_rg_name)
-              echo Setting cosmosDB.resourceGroup to $cosmosdb_rg_name
-              echo "##vso[task.setvariable variable=cosmosDB.resourceGroup]$cosmosdb_rg_name"
-
-              cosmosdb_database_name=$(terraform output cosmosdb_database_name)              
-              echo Setting cosmosDB.databaseName to $cosmosdb_database_name
-              echo "##vso[task.setvariable variable=cosmosDB.databaseName]$cosmosdb_database_name"
-
-              cosmosdb_account_name=$(terraform output cosmosdb_account_name)              
-              echo Setting cosmosDB.accountName to $cosmosdb_account_name
-              echo "##vso[task.setvariable variable=cosmosDB.accountName]$cosmosdb_account_name"
-            displayName: Writing TF Outputs to Variables
-            workingDirectory: $(Pipeline.Workspace)/terraform            
-            name: tfoutputs
+          # This is not a shared template, because it has specific resource parameters
+          - template: templates/steps/deploy-provisioning-terraform.yml
+            # Terraform Backend & Azure Credential config comes via Variable Group
+            # that must be inherited into this step! 
+            parameters:
+              # Terraform Basic Config
+              terraform_artefact_name: 'terraform'
+              #  Terraform State Config
+              terraform_state_rg: '$(Terraform.stateRG)'
+              terraform_state_storage: $(Terraform.stateStorageAccount)'
+              terraform_state_container: '$(Terraform.stateStorageContainer)'
+              terraform_state_key: '$(Terraform.stateKey)'
+              terraform_state_workspace: '$(Terraform.stateWorkspace)'
+              # Global Config
+              company: 'amido'
+              project: 'stacks' 
+              environment: ''
+              domain: ''
+              component: '' 
+              # Azure config
+              location: 'uksouth'
+              tags: "{}"
+              # Resource Specific Config
+              cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
 
           - task: Bash@3
             displayName: New CosmosDB Collection
@@ -344,8 +244,7 @@ stages:
               targetType: 'filePath'
               filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
               arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true 
-
+              failOnStderr: true
 
 - stage: Production
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -359,7 +258,7 @@ stages:
       vmImage: 'ubuntu-latest'
     environment: perf
     variables:  
-    - name: TF_VAR_name_environment
+    - name: environment
       value: perf
     strategy:
       runOnce:
@@ -373,92 +272,44 @@ stages:
             displayName: Download DevOps Artefacts
             artifact: DevOps
 
-          - task: Bash@3
-            displayName: Azure Login
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-              failOnStderr: true 
+          - template: azDevOps/azure/templates/steps/login-services.yml@templates
+            parameters:   
+              # Azure
+              login_azure: true
+              azure_tenant_id: '$(azure_tenant_id)'
+              azure_subscription_id: '$(azure_subscription_id)'
+              azure_client_id: '$(azure_client_id)'
+              azure_client_secret: '$(azure_client_secret)'
+              # Kubernetes
+              login_kubernetes: false
+              # aks_rg: ''
+              # aks_clustername: '' 
+              devops_artefact_name: 'DevOps'
 
-          - bash: |
-              terraform version
-              terraform init \
-              -backend-config="key=$(TF_STATE_KEY)" \
-              -backend-config="storage_account_name=$(TF_STATE_STORAGEACCOUNT)" \
-              -backend-config="resource_group_name=$(TF_STATE_RG)" \
-              -backend-config="container_name=$(TF_STATE_CONTAINERNAME)" \
-              -backend-config="subscription_id=$(azure_subscription_id)" \
-              -backend-config="tenant_id=$(azure_tenant_id)" \
-              -backend-config="client_id=$(azure_client_id)" \
-              -backend-config="client_secret=$(azure_client_secret)"
-            displayName: terraform init
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-
-          - bash: | 
-              terraform workspace select $(TF_WORKSPACE_NAME) || terraform workspace new $(TF_WORKSPACE_NAME)
-            displayName: Select TF Workspace
-            workingDirectory: $(Pipeline.Workspace)/terraform
-
-          - bash: terraform plan -input=false -out=tfplan
-            displayName: terraform plan
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              # Authentication (this comes from the AzureDevOps library as secured variables)
-              ARM_SUBSCRIPTION_ID: $(azure_subscription_id)
-              ARM_CLIENT_ID: $(azure_client_id)
-              ARM_CLIENT_SECRET: $(azure_client_secret)
-              ARM_TENANT_ID: $(azure_tenant_id)
-              # Terraform 
-              TF_VAR_name_company: $(TF_VAR_name_company)
-              TF_VAR_name_platform: $(TF_VAR_name_platform)   
-              TF_VAR_name_environment: $(TF_VAR_name_environment)
-              TF_VAR_name_component: $(TF_VAR_name_component)
-              # Resource Group
-              TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
-              TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
-              # INFO: CosmosDB.accountName is auto-generated! 
-              TF_VAR_cosmosDBdatabaseName: $(cosmosDB.databaseName)
-
-          - bash: terraform apply tfplan
-            displayName: terraform apply
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              # Authentication (this comes from the AzureDevOps library as secured variables)
-              ARM_SUBSCRIPTION_ID: $(azure_subscription_id)
-              ARM_CLIENT_ID: $(azure_client_id)
-              ARM_CLIENT_SECRET: $(azure_client_secret)
-              ARM_TENANT_ID: $(azure_tenant_id)
-              # Terraform 
-              TF_VAR_name_company: $(TF_VAR_name_company)
-              TF_VAR_name_platform: $(TF_VAR_name_platform)   
-              TF_VAR_name_environment: $(TF_VAR_name_environment)
-              TF_VAR_name_component: $(TF_VAR_name_component)
-              # Resource Group
-              TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
-              TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
-              # CosmosDB
-              # INFO: CosmosDB.accountName is auto-generated! 
-              TF_VAR_cosmosDBdatabaseName: $(cosmosDB.databaseName)
-
-          - bash: |
-              terraform output cosmosdb_rg_name
-              cosmosdb_rg_name=$(terraform output cosmosdb_rg_name)
-              echo Setting cosmosDB.resourceGroup to $cosmosdb_rg_name
-              echo "##vso[task.setvariable variable=cosmosDB.resourceGroup]$cosmosdb_rg_name"
-
-              cosmosdb_database_name=$(terraform output cosmosdb_database_name)              
-              echo Setting cosmosDB.databaseName to $cosmosdb_database_name
-              echo "##vso[task.setvariable variable=cosmosDB.databaseName]$cosmosdb_database_name"
-
-              cosmosdb_account_name=$(terraform output cosmosdb_account_name)              
-              echo Setting cosmosDB.accountName to $cosmosdb_account_name
-              echo "##vso[task.setvariable variable=cosmosDB.accountName]$cosmosdb_account_name"
-            displayName: Writing TF Outputs to Variables
-            workingDirectory: $(Pipeline.Workspace)/terraform            
-            name: tfoutputs
+          # This is not a shared template, because it has specific resource parameters
+          - template: templates/steps/deploy-provisioning-terraform.yml
+            # Terraform Backend & Azure Credential config comes via Variable Group
+            # that must be inherited into this step! 
+            parameters:
+              # Terraform Basic Config
+              terraform_artefact_name: 'terraform'
+              #  Terraform State Config
+              terraform_state_rg: '$(Terraform.stateRG)'
+              terraform_state_storage: $(Terraform.stateStorageAccount)'
+              terraform_state_container: '$(Terraform.stateStorageContainer)'
+              terraform_state_key: '$(Terraform.stateKey)'
+              terraform_state_workspace: '$(Terraform.stateWorkspace)'
+              # Global Config
+              company: 'amido'
+              project: 'stacks' 
+              environment: ''
+              domain: ''
+              component: '' 
+              # Azure config
+              location: 'uksouth'
+              tags: "{}"
+              # Resource Specific Config
+              cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
 
           - task: Bash@3
             displayName: New CosmosDB Collection
@@ -466,15 +317,22 @@ stages:
               targetType: 'filePath'
               filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
               arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true  
-           
+              failOnStderr: true
+          - task: Bash@3
+            displayName: New CosmosDB Collection
+            inputs:
+              targetType: 'filePath'
+              filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
+              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
+              failOnStderr: true     
+         
   - deployment: Prod # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
     environment: prod
     dependsOn: Performance
     variables:
-    - name: TF_VAR_name_environment
+    - name: environment
       value: prod
     strategy:
       runOnce:
@@ -488,93 +346,44 @@ stages:
             displayName: Download DevOps Artefacts
             artifact: DevOps
 
-          - task: Bash@3
-            displayName: Azure Login
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-              failOnStderr: true 
+          - template: azDevOps/azure/templates/steps/login-services.yml@templates
+            parameters:   
+              # Azure
+              login_azure: true
+              azure_tenant_id: '$(azure_tenant_id)'
+              azure_subscription_id: '$(azure_subscription_id)'
+              azure_client_id: '$(azure_client_id)'
+              azure_client_secret: '$(azure_client_secret)'
+              # Kubernetes
+              login_kubernetes: false
+              # aks_rg: ''
+              # aks_clustername: '' 
+              devops_artefact_name: 'DevOps'
 
-          - bash: |
-              terraform version
-              terraform init \
-              -backend-config="key=$(TF_STATE_KEY)" \
-              -backend-config="storage_account_name=$(TF_STATE_STORAGEACCOUNT)" \
-              -backend-config="resource_group_name=$(TF_STATE_RG)" \
-              -backend-config="container_name=$(TF_STATE_CONTAINERNAME)" \
-              -backend-config="subscription_id=$(azure_subscription_id)" \
-              -backend-config="tenant_id=$(azure_tenant_id)" \
-              -backend-config="client_id=$(azure_client_id)" \
-              -backend-config="client_secret=$(azure_client_secret)"
-            displayName: terraform init
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-
-          - bash: | 
-              terraform workspace select $(TF_WORKSPACE_NAME) || terraform workspace new $(TF_WORKSPACE_NAME)
-            displayName: Select TF Workspace
-            workingDirectory: $(Pipeline.Workspace)/terraform
-
-          - bash: terraform plan -input=false -out=tfplan
-            displayName: terraform plan
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              # Authentication (this comes from the AzureDevOps library as secured variables)
-              ARM_SUBSCRIPTION_ID: $(azure_subscription_id)
-              ARM_CLIENT_ID: $(azure_client_id)
-              ARM_CLIENT_SECRET: $(azure_client_secret)
-              ARM_TENANT_ID: $(azure_tenant_id)
-              # Terraform 
-              TF_VAR_name_company: $(TF_VAR_name_company)
-              TF_VAR_name_platform: $(TF_VAR_name_platform)   
-              TF_VAR_name_environment: $(TF_VAR_name_environment)
-              TF_VAR_name_component: $(TF_VAR_name_component)
-              # Resource Group
-              TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
-              TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
-              # INFO: CosmosDB.accountName is auto-generated! 
-              TF_VAR_cosmosDBdatabaseName: $(cosmosDB.databaseName)
-
-
-          - bash: terraform apply tfplan
-            displayName: terraform apply
-            workingDirectory: $(Pipeline.Workspace)/terraform
-            env:
-              # Authentication (this comes from the AzureDevOps library as secured variables)
-              ARM_SUBSCRIPTION_ID: $(azure_subscription_id)
-              ARM_CLIENT_ID: $(azure_client_id)
-              ARM_CLIENT_SECRET: $(azure_client_secret)
-              ARM_TENANT_ID: $(azure_tenant_id)
-              # Terraform 
-              TF_VAR_name_company: $(TF_VAR_name_company)
-              TF_VAR_name_platform: $(TF_VAR_name_platform)   
-              TF_VAR_name_environment: $(TF_VAR_name_environment)
-              TF_VAR_name_component: $(TF_VAR_name_component)
-              # Resource Group
-              TF_VAR_resource_group_location_env: $(TF_VAR_resource_group_location_env) 
-              TF_VAR_resource_group_tags: $(TF_VAR_resource_group_tags)
-              # CosmosDB
-              # INFO: CosmosDB.accountName is auto-generated! 
-              TF_VAR_cosmosDBdatabaseName: $(cosmosDB.databaseName)
-
-          - bash: |
-              terraform output cosmosdb_rg_name
-              cosmosdb_rg_name=$(terraform output cosmosdb_rg_name)
-              echo Setting cosmosDB.resourceGroup to $cosmosdb_rg_name
-              echo "##vso[task.setvariable variable=cosmosDB.resourceGroup]$cosmosdb_rg_name"
-
-              cosmosdb_database_name=$(terraform output cosmosdb_database_name)              
-              echo Setting cosmosDB.databaseName to $cosmosdb_database_name
-              echo "##vso[task.setvariable variable=cosmosDB.databaseName]$cosmosdb_database_name"
-
-              cosmosdb_account_name=$(terraform output cosmosdb_account_name)              
-              echo Setting cosmosDB.accountName to $cosmosdb_account_name
-              echo "##vso[task.setvariable variable=cosmosDB.accountName]$cosmosdb_account_name"
-            displayName: Writing TF Outputs to Variables
-            workingDirectory: $(Pipeline.Workspace)/terraform            
-            name: tfoutputs
+          # This is not a shared template, because it has specific resource parameters
+          - template: templates/steps/deploy-provisioning-terraform.yml
+            # Terraform Backend & Azure Credential config comes via Variable Group
+            # that must be inherited into this step! 
+            parameters:
+              # Terraform Basic Config
+              terraform_artefact_name: 'terraform'
+              #  Terraform State Config
+              terraform_state_rg: '$(Terraform.stateRG)'
+              terraform_state_storage: $(Terraform.stateStorageAccount)'
+              terraform_state_container: '$(Terraform.stateStorageContainer)'
+              terraform_state_key: '$(Terraform.stateKey)'
+              terraform_state_workspace: '$(Terraform.stateWorkspace)'
+              # Global Config
+              company: 'amido'
+              project: 'stacks' 
+              environment: ''
+              domain: ''
+              component: '' 
+              # Azure config
+              location: 'uksouth'
+              tags: "{}"
+              # Resource Specific Config
+              cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
 
           - task: Bash@3
             displayName: New CosmosDB Collection
@@ -582,5 +391,4 @@ stages:
               targetType: 'filePath'
               filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
               arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true 
-          
+              failOnStderr: true
