@@ -154,7 +154,7 @@ stages:
 
           # TODO: This is not a shared template, because it has specific resource parameters. I'm sure there is a way to provide a paramater array and have that mapped as env vars
           # see here: https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops#iterative-insertion 
-          
+
           - template: templates/steps/deploy-provisioning-terraform.yml
             # Terraform Backend & Azure Credential config comes via Variable Group
             # that must be inherited into this step! 
@@ -190,7 +190,6 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     environment: testx
-    dependsOn: DevX
     variables:
     - name: environment
       value: testx
@@ -328,7 +327,6 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     environment: prod
-    dependsOn: Performance
     variables:
     - name: environment
       value: prod
