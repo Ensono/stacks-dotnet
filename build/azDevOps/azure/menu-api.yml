@@ -251,6 +251,9 @@ stages:
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
+        jobs:
+        - job: testx
+          dependsOn: devx
         environment: 'testx'
         # Artefact and Step Config
         devops_artefact_name: 'DevOps'
@@ -263,7 +266,7 @@ stages:
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
         kubernetes_clustername: 'amido-stacks-aks-uks-devx'
         # Mutation Information
-        kubernetes_kustomize_filepath: 'kustomization/$(environment)'
+        kubernetes_kustomize_filepath: 'kustomization/testx'
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdaukstestx
         appinsights_enabled: true
@@ -301,7 +304,7 @@ stages:
         functional_test_artefact: 'tests'
         kubernetes_clusterrg: 'amido-stacks-rg-uks-prod'
         kubernetes_clustername: 'amido-stacks-aks-uks-prod'
-        kubernetes_kustomize_filepath: 'kustomization/$(environment)'
+        kubernetes_kustomize_filepath: 'kustomization/perf'
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksperf
         appinsights_enabled: true
@@ -311,6 +314,9 @@ stages:
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
+        jobs:
+        - job: prod
+          dependsOn: perf
         environment: 'prod'
         # Artefact and Step Config
         devops_artefact_name: 'DevOps'
@@ -323,7 +329,7 @@ stages:
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
         kubernetes_clustername: 'amido-stacks-aks-uks-devx'
         # Mutation Information
-        kubernetes_kustomize_filepath: 'kustomization/$(environment)'
+        kubernetes_kustomize_filepath: 'kustomization/prod'
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksprod
         appinsights_enabled: true
