@@ -227,6 +227,8 @@ stages:
         functional_test: true
         functional_test_artefact: 'tests'
         functional_test_baseurl: https://devx.amidostacks.com/api/menu/
+        performance_test: false
+        smoke_test: false
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
         kubernetes_clustername: 'amido-stacks-aks-uks-devx'
         kubernetes_kustomize_filepath: 'kustomization/devx'
@@ -234,7 +236,6 @@ stages:
         cosmosdb_accountName: amidostacksmenucdauksdevx
         appinsights_enabled: true
         appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
-        performance_test: false
         releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
@@ -249,6 +250,7 @@ stages:
         functional_test_artefact: 'tests'
         functional_test_baseurl: https://testx.amidostacks.com/api/menu/
         performance_test: false
+        smoke_test: false
         # Kubernetes Config
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
         kubernetes_clustername: 'amido-stacks-aks-uks-devx'
@@ -288,6 +290,8 @@ stages:
         build_file: true
         build_artefact: 'build'
         functional_test: false
+        performance_test: true
+        smoke_test: false
         kubernetes_clusterrg: 'amido-stacks-rg-uks-prod'
         kubernetes_clustername: 'amido-stacks-aks-uks-prod'
         kubernetes_kustomize_filepath: 'kustomization/perf'
@@ -295,7 +299,6 @@ stages:
         cosmosdb_accountName: amidostacksmenucdauksperf
         appinsights_enabled: true
         appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
-        performance_test: true
         releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
@@ -308,6 +311,7 @@ stages:
         build_artefact: 'build'
         functional_test: false
         performance_test: false
+        smoke_test: true
         # Kubernetes Config
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
         kubernetes_clustername: 'amido-stacks-aks-uks-devx'
