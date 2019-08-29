@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Amido.Stacks.Data.Documents
+namespace Amido.Stacks.Data.Documents.Abstractions
 {
     public interface IDocumentStorage<TEntity> where TEntity : class
     {
