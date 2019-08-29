@@ -67,7 +67,7 @@ variables:
 - name: Terraform.stateKey
   value: $(Global.company)-$(Global.project)-$(Global.domain)
 - name: Terraform.stateWorkspace
-  value: $(Global.company)-$(Global.project)--$(Global.domain)-$(environment)
+  value: $(Global.company)-$(Global.project)-$(Global.domain)-$(environment)
 
 
 # Resource Configuration
