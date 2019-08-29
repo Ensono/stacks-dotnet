@@ -179,7 +179,6 @@ stages:
 
   # Analyse via SonarCloud
   - template: azDevOps/azure/templates/jobs/build-sonarcloud.yml@templates
-    dependsOn: UpdateBuildNumber
     parameters:
       jobs:
         - job: SonarCloud
