@@ -199,7 +199,7 @@ stages:
       devops_artefact_name: 'DevOps'
       # Docker Config
       docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
-      docker_imagename: 'Docker.ImageName'
+      docker_imagename: '$(Docker.ImageName)'
       docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)' 
       docker_containerregistryname: '$(Docker.ContainerRegistryName)'
       # Vulnerability Scanning
