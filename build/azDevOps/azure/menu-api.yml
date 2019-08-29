@@ -65,11 +65,6 @@ variables:
 - name: Test.PerformanceTestProjectSourcePath
   value: $(Pipeline.Workspace)/tests/Performance/xxAMIDOxx.xxSTACKSxx.API.PerformanceTests
 
-# Used in Functional Tests as ENV VAR
-- name: BaseUrl
-  value: https://$(environment).amidostacks.com/api/menu/
-
-
 - name: Sonar.serviceConnection
   value: 'amido-sonarcloud'
 - name: Sonar.organization
@@ -239,9 +234,10 @@ stages:
         build_artefact: 'build'
         functional_test: true
         functional_test_artefact: 'tests'
+        functional_test_baseurl: https://devx.amidostacks.com/api/menu/
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
         kubernetes_clustername: 'amido-stacks-aks-uks-devx'
-        kubernetes_kustomize_filepath: 'kustomization/$(environment)'
+        kubernetes_kustomize_filepath: 'kustomization/devx'
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksdevx
         appinsights_enabled: true
@@ -252,8 +248,8 @@ stages:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
         jobs:
-        - job: testx
-          dependsOn: devx
+        - job: TestX
+          dependsOn: Devx
         environment: 'testx'
         # Artefact and Step Config
         devops_artefact_name: 'DevOps'
@@ -261,6 +257,7 @@ stages:
         build_artefact: 'build'
         functional_test: true
         functional_test_artefact: 'tests'
+        functional_test_baseurl: https://testx.amidostacks.com/api/menu/
         performance_test: true
         # Kubernetes Config
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
@@ -300,8 +297,7 @@ stages:
         devops_artefact_name: 'DevOps'
         build_file: true
         build_artefact: 'build'
-        functional_test: true
-        functional_test_artefact: 'tests'
+        functional_test: false
         kubernetes_clusterrg: 'amido-stacks-rg-uks-prod'
         kubernetes_clustername: 'amido-stacks-aks-uks-prod'
         kubernetes_kustomize_filepath: 'kustomization/perf'
@@ -315,15 +311,14 @@ stages:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
         jobs:
-        - job: prod
-          dependsOn: perf
+        - job: Prod
+          dependsOn: Perf
         environment: 'prod'
         # Artefact and Step Config
         devops_artefact_name: 'DevOps'
         build_file: true
         build_artefact: 'build'
-        functional_test: true
-        functional_test_artefact: 'tests'
+        functional_test: false
         performance_test: false
         # Kubernetes Config
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
