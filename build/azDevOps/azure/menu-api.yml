@@ -51,7 +51,7 @@ variables:
 - name: Test.FunctionalTestReportSourcePath
   value: $(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests/bin/Debug/netcoreapp2.2/BDDfy.html
 - name: Test.FunctionalTestReportTargetName
-  value: $(Docker.ImageName)/$(Build.BuildNumber)-$(Release.Environment).html
+  value: $(Docker.ImageName)/$(Build.BuildNumber)-$(environment).html
 - name: Test.FunctionalTestReportStorageAccountRG
   value: amido-stacks-rg-uks-prod
 - name: Test.FunctionalTestReportStorageAccountName
@@ -64,9 +64,10 @@ variables:
   value: $(Build.SourcesDirectory)/src/tests/
 - name: Test.PerformanceTestProjectSourcePath
   value: $(Pipeline.Workspace)/tests/Performance/xxAMIDOxx.xxSTACKSxx.API.PerformanceTests
+
 # Used in Functional Tests as ENV VAR
 - name: BaseUrl
-  value: https://$(Release.Environment).amidostacks.com/api/menu/
+  value: https://$(environment).amidostacks.com/api/menu/
 
 
 - name: Sonar.serviceConnection
@@ -117,7 +118,7 @@ variables:
 - name: Docker.ContainerRegistry
   value: $(Docker.ContainerRegistryName).azurecr.io
 - name: Docker.ContainerRegistryNameNonProd
-  value: amidouksstacksacrdevx
+  value: 
 - name: Docker.ContainerRegistryNameProd
   value: amidouksstacksacrprod
 
@@ -140,14 +141,14 @@ variables:
 - name: Kubernetes.KustomizeDownloadPath
   value: https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64
 
-# Package Info
-- name: Package.File
-  value: scripts-1.1.2-master.tar.gz
-- name: Package.Container
+# DevOps Scripts Package Info
+- name: DevOps.File
+  value: scripts-1.2.8-master.tar.gz
+- name: DevOps.Container
   value: packages
-- name: Package.storageAccount
+- name: DevOps.storageAccount
   value: amidostacksuksprod
-- name: Package.RG
+- name: DevOps.RG
   value: amido-stacks-rg-uks-prod
 
 stages:
@@ -155,678 +156,177 @@ stages:
   variables:
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
-    value: $(Docker.ContainerRegistryNameNonProd)
+    value: amidouksstacksacrdevx
   jobs:
-  - job: GetDevOpsScripts
-    pool:
-      vmImage: 'ubuntu-latest'
-    continueOnError: False
-    steps:
-        # The following step is wholly in-line because we haven't yet downloaded the package which contains the script file! 
-      - bash: | 
-          az login --service-principal --username $(azure_client_id) --password $(azure_client_secret) --tenant $(azure_tenant_id)
-          az account set -s $(azure_subscription_id)
-          ACCOUNT_KEY=$(az storage account keys list -g $(Package.RG) -n $(Package.storageAccount) --query '[1].value')
-          SAS_KEY_EXPIRY=$(date -d "1 month" '+%Y-%m-%dT%H:%MZ')
-          SAS_KEY=$(az storage account generate-sas --permissions lr --account-name $(Package.storageAccount) --account-key $ACCOUNT_KEY --services b --resource-types sco --expiry $SAS_KEY_EXPIRY -otsv)
-          SAS_KEY=$(sed -e 's/^"//' -e 's/"$//' <<<"$SAS_KEY")
-          BLOB_URL=$(az storage blob url --account-name $(Package.storageAccount) --account-key $ACCOUNT_KEY --container-name $(Package.Container) --name $(Package.File))
-          BLOB_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$BLOB_URL")
-          wget -O $(Build.BinariesDirectory)/$(Package.File) $BLOB_URL?$SAS_KEY
-          az logout --username $(azure_client_id)
-        displayName: Get DevOps Scripts
-        workingDirectory: $(Build.BinariesDirectory)
-        
-      - task: ExtractFiles@1
-        inputs:
-          archiveFilePatterns: '$(Build.BinariesDirectory)/$(Package.File)' 
-          destinationFolder: $(Build.BinariesDirectory)/DevOps
-        displayName: Extract DevOps Scripts
 
-      - publish: $(Build.BinariesDirectory)/DevOps
-        artifact: DevOps
+  # Set build number
+  - template: azDevOps/azure/templates/jobs/build-updatebuildnumber.yml@templates
+    parameters:
+      build_number: $(Docker.ImageTag)
+  
+  # Retrieve a blob file with only Azure credentials, extract it and publish as an artefact
+  - template: azDevOps/azure/templates/jobs/publish-blob-as-artefact.yml@templates
+    dependsOn: UpdateBuildNumber
+    parameters: 
+      Package_RG: $(DevOps.RG)
+      Package_storageAccount: $(DevOps.storageAccount) 
+      Package_Container: $(DevOps.Container)
+      Package_File: $(DevOps.File)
+      Package_OutputFolder: $(Build.BinariesDirectory)
+      Package_OutputArtefact: 'DevOps'
 
-
-  - job: Analyse
-    continueOnError: true
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
-      displayName: 'Update: Build Number'
+  # Analyse via SonarCloud
+  - template: azDevOps/azure/templates/jobs/build-sonarcloud.yml@templates
+    dependsOn: UpdateBuildNumber
+    parameters:
+      Sonar_serviceConnection: '$(Sonar.serviceConnection)'
+      Sonar_organization: '$(Sonar.organization)'
+      Sonar_scannerMode: '$(Sonar.scannerMode)'
+      Sonar_projectKey: '$(Sonar.projectKey)'
+      Sonar_projectName: '$(Sonar.projectName)'
+      Sonar_projectVersion: '$(Sonar.projectVersion)'
+      dotnet_build_path: $(Build.SourcesDirectory)/src/api
       
-    - task: SonarCloudPrepare@1
-      inputs:
-        SonarCloud: $(Sonar.serviceConnection)
-        organization: $(Sonar.organization)
-        scannerMode: $(Sonar.scannerMode)
-        projectKey: $(Sonar.projectKey)
-        projectName: $(Sonar.projectName)
-        projectVersion: $(Sonar.projectVersion)
-      displayName: Prepare for SonarCloud Analysis
-      
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'build'
-        workingDirectory: $(Build.SourcesDirectory)/src/api
-
-    - task: SonarCloudAnalyze@1
-      displayName: Anaylse Code via SonarCloud 
-
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '300'
-      displayName: 'Publish: SonarCloud Results'
-
-  - job: Build
-    dependsOn: GetDevOpsScripts
-    pool:
-      vmImage: 'ubuntu-latest'
-    continueOnError: False
-    steps:
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish: Functional Tests Artifact'
-      inputs:
-        PathtoPublish: '$(Test.TestsSourcePath)'
-        ArtifactName: 'tests'
-
-    - download: current
-      displayName: Download DevOps Artefacts
-      artifact: DevOps
-
-    - task: Bash@3
-      displayName:  'Install: DevOps Tools'
-      inputs:
-        targetType: 'filePath'
-        filePath: $(Pipeline.Workspace)/DevOps/Bootstrap/install-cicd-prereqs.sh
-        arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
-
-    - task: Bash@3
-      displayName: 'Login: Azure'
-      inputs:
-        targetType: 'filePath'
-        filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-        arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-        failOnStderr: true 
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Run Provider Contract Tests'
-      inputs:
-        command: test
-        projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
-        arguments: '-v n'
-        testRunTitle: 'Provider Contract Tests'
-    
-    - bash: |
-        docker build . -t $(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag) -t $(Docker.ContainerRegistry)/$(Docker.ImageName):latest
-      displayName: Build Container Image 
-      workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
-
-#### Vulnerability Scanning
-
-    - task: Bash@3
-      displayName: 'Vulnerability Scan'
-      inputs:
-        targetType: 'filePath'
-        filePath: $(Pipeline.Workspace)/DevOps/Docker/new-image-scan.sh
-        arguments: $(Docker.ImageName) $(Docker.ImageTag)
-        workingDirectory: $(Build.ArtifactStagingDirectory)
-      continueOnError: true
-
-#### Vulnerability Scanning
-
-    - bash: |
-        az acr login --name $(Docker.ContainerRegistryName) # this is super annoying
-        docker push $(Docker.ContainerRegistry)/$(Docker.ImageName)
-      displayName: Push Container Image to Azure Container Registry
-      workingDirectory: $(Build.SourcesDirectory)/$(Docker.DockerfilePath)
-
-    - publish: $(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)
-      artifact: build
-      displayName: 'Publish: Build Artefacts'
-
-    - task: Bash@3
-      displayName: 'Create Release Notes'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-      inputs:
-        targetType: 'filePath'
-        filePath: $(Pipeline.Workspace)/DevOps/ReleaseNotes/create-releasenotes-from-github-pr.sh
-        arguments: $(Docker.ImageTag) $(ReleaseNote.GitHubUsername) $(ReleaseNote.GitHubToken) $(Global.Company) $(Global.Platform)-$(Global.Component) $(Build.ArtifactStagingDirectory)/release.json false
-
-    - publish: $(Build.ArtifactStagingDirectory)
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-      artifact: releasenotes
-      displayName: 'Publish: Release Notes Artefact'
-
-
+  - template: azDevOps/azure/templates/jobs/build-dotnet.yml@templates
+    dependsOn: GetPackage
+    parameters:
+      devops_artefact_name: 'DevOps'
+      # Docker Config
+      docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
+      docker_imagename: 'Docker.ImageName'
+      docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)' 
+      docker_containerregistryname: '$(Docker.ContainerRegistryName)'
+      # Vulnerability Scanning
+      vulnerability_scan: true
+      vulnerability_workdir: '$(Build.ArtifactStagingDirectory)'
+      #  Testing
+      contract_test: true
+      contract_test_project: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
+      functional_test: true
+      functional_test_path: '$(Test.TestsSourcePath)'
+      functional_test_artefact: 'tests'
+      build_file: true
+      build_file_path: '$(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)'
+      build_file_artefact: 'build'
+      # Release notes
+      releasenote: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      releasenote_artefact: 'releasenotes'
+      releasenote_version: $(Docker.ImageTag)
+      releasenote_user: $(ReleaseNote.GitHubUsername)
+      releasenote_token: $(ReleaseNote.GitHubToken)
+      releasenote_github_org: '$(Global.Company)'
+      releasenote_github_project: 'stacks-dotnet' # Repo name doesn't match domain/component unfortunately
+      releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
+      releasenote_failonmissingPR: false
       
 - stage: NonProduction
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
-    value: $(Docker.ContainerRegistryNameNonProd)
+    value: amidouksstacksacrdevx
   jobs:
-  - deployment: DevX # This should be made into a meta-template when it's available! 
-    pool:
-      vmImage: 'ubuntu-latest'
-    environment: devx
-    # AKS Cluster Info
-    variables:
-    - name: Release.Environment
-      value: devx
-    - name: Kubernetes.ClusterRG
-      value: amido-stacks-rg-uks-devx
-    - name:  Kubernetes.ClusterName
-      value: amido-stacks-aks-uks-devx
-    - name: Kubernetes.KustomizeFilePath
-      value: $(Release.Environment)
-      # Application Secret Retrieval
-    - name: CosmosDB.accountName
-      value: amidostacksmenucdauksdevx
-    strategy:
-      runOnce:
-        deploy:
-          steps:
+    - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
+      parameters:
+        environment: 'devx'
+        devops_artefact_name: 'DevOps'
+        build_file: true
+        build_artefact: 'build'
+        functional_test: true
+        functional_test_artefact: 'tests'
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
+        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
+        kubernetes_kustomize_filepath: 'kustomization/$(environment)'
+        cosmosdb_secret: true
+        cosmosdb_accountName: amidostacksmenucdauksdevx
+        appinsights_enabled: true
+        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        performance_test: true
+        releasenote: false
 
-#### Prerequisites
-          - download: current
-            displayName: 'Download: Build Artefacts'
-            artifact: build
-
-          - download: current
-            displayName: 'Download: Test Artefacts'
-            artifact: tests
-
-          - download: current
-            displayName: 'Download: DevOps Artefacts'
-            artifact: DevOps
-
-          - task: Bash@3
-            displayName: 'Install: DevOps Tools'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Bootstrap/install-cicd-prereqs.sh
-              arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
-
-          - task: Bash@3
-            displayName: 'Login: Azure'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-              failOnStderr: true 
-
-          - task: Bash@3
-            displayName: 'Login: Kubernetes'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-aks-context.sh
-              arguments: $(Kubernetes.ClusterRG) $(Kubernetes.ClusterName)
-              failOnStderr: true 
-
-#### Kustomization
-          - task: Bash@3
-            displayName:  Kustomize Standard Version Annotation
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kustomize/kustomize-annotate-version.sh
-              arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
-              workingDirectory: $(Pipeline.Workspace)/build/base
-              failOnStderr: true 
-
-            # This step writes to cosmosDB.key and cosmosDB.endoint for consumption later in the pipeline
-          - task: Bash@3
-            displayName: Get CosmosDB Key and Endpoint
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
-              arguments: $(CosmosDB.accountName)
-
-          - task: Bash@3
-            displayName:  Inject Secrets from Environment Vars
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kubectl/inject-secrets-from-env-var.sh
-              arguments: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets
-              failOnStderr: true 
-            env:
-              cosmosdb_key: $(CosmosDB.key)
-              appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
-
-
-          - bash: |
-             echo "Setting image to $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image $(Docker.ImageName)=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
-            workingDirectory: $(Pipeline.Workspace)/build/base
-            displayName: Kustomize Application Deployment Customisation 
-            failOnStderr: true 
-
-#### Deployment
-          - task: Bash@3
-            displayName:  Kubectl Apply (with Kustomize)
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
-              workingDirectory: $(Pipeline.Workspace)/build
-              failOnStderr: true 
-
-#### Testing
-          - task: DotNetCoreCLI@2
-            displayName: 'Run Functional Tests'
-            inputs:
-              command: test
-              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
-              arguments: '-v n'
-              testRunTitle: 'Functional Tests'
-          
-          - bash: | 
-              echo "-Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)"
-              mvn clean gatling:test -Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)
-            workingDirectory: '$(Test.PerformanceTestProjectSourcePath)'
-            displayName: Run Performance Tests (TEMP)
-
-          - task: Bash@3
-            displayName: 'Upload: Test Results'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/upload-azstorage-blob.sh
-              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-
-
-  - deployment: TestX # This should be made into a meta-template when it's available! 
-    dependsOn: DevX
-    pool:
-      vmImage: 'ubuntu-latest'
-    environment: testx
-    variables: 
-    - name: Release.Environment
-      value: testx
-    # AKS Cluster Info
-    - name: Kubernetes.ClusterRG
-      value: amido-stacks-rg-uks-devx
-    - name:  Kubernetes.ClusterName
-      value: amido-stacks-aks-uks-devx
-    - name: Kubernetes.KustomizeFilePath
-      value: $(Release.Environment)
-      # Application Secret Retrieval
-    - name: CosmosDB.accountName
-      value: amidostacksmenucdaukstestx
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-
-#### Prerequisites
-          - download: current
-            displayName: 'Download: Build Artefacts'
-            artifact: build
-
-          - download: current
-            displayName: 'Download: Test Artefacts'
-            artifact: tests
-
-          - download: current
-            displayName: 'Download: DevOps Artefacts'
-            artifact: DevOps
-
-          - task: Bash@3
-            displayName: 'Install: DevOps Tools'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Bootstrap/install-cicd-prereqs.sh
-              arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
-
-          - task: Bash@3
-            displayName: 'Login: Azure'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-              failOnStderr: true 
-
-          - task: Bash@3
-            displayName: 'Login: Kubernetes'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-aks-context.sh
-              arguments: $(Kubernetes.ClusterRG) $(Kubernetes.ClusterName)
-              failOnStderr: true 
-
-#### Kustomization
-          - task: Bash@3
-            displayName:  Kustomize Standard Version Annotation
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kustomize/kustomize-annotate-version.sh
-              arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
-              workingDirectory: $(Pipeline.Workspace)/build/base
-              failOnStderr: true 
-            
-            # This step writes to cosmosDB.key and cosmosDB.endoint for consumption later in the pipeline
-          - task: Bash@3
-            displayName: Get CosmosDB Key and Endpoint
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
-              arguments: $(CosmosDB.accountName)
-
-          - task: Bash@3
-            displayName:  Inject Secrets from Environment Vars
-            inputs:
-              targetType: 'filePath' 
-              filePath: $(Pipeline.Workspace)/DevOps/Kubectl/inject-secrets-from-env-var.sh
-              arguments: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets
-              failOnStderr: true 
-            env:
-              cosmosdb_key: $(CosmosDB.key)
-              appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
-
-          - bash: |
-             echo "Setting image to $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image $(Docker.ImageName)=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
-            workingDirectory: $(Pipeline.Workspace)/build/base
-            displayName: Kustomize Application Deployment Customisation 
-            failOnStderr: true 
-
-#### Deployment
-          - task: Bash@3
-            displayName:  Kubectl Apply (with Kustomize)
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
-              workingDirectory: $(Pipeline.Workspace)/build
-              failOnStderr: true 
-
-#### Testing
-          - task: DotNetCoreCLI@2
-            displayName: 'Run Functional Tests'
-            inputs:
-              command: test
-              projects: '$(Test.FunctionalTestProjectSourcePath)/$(Test.FunctionalTestProjectFile)'
-              arguments: '-v n'
-              testRunTitle: 'Functional Tests'
-          
-          - task: Bash@3
-            displayName: 'Upload: Test Results'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/upload-azstorage-blob.sh
-              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportSourcePath) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
-
-          - task: Bash@3
-            displayName: 'Retrieve URL: Test Results'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/get-azstorage-sasurl.sh
-              arguments: $(Test.FunctionalTestReportStorageAccountRG) $(Test.FunctionalTestReportStorageAccountName) $(Test.FunctionalTestReportStorageContainerName) $(Test.FunctionalTestReportTargetName)
+    - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
+      parameters:
+        environment: 'testx'
+        # Artefact and Step Config
+        devops_artefact_name: 'DevOps'
+        build_file: true
+        build_artefact: 'build'
+        functional_test: true
+        functional_test_artefact: 'tests'
+        performance_test: true
+        # Kubernetes Config
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
+        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
+        # Mutation Information
+        kubernetes_kustomize_filepath: 'kustomization/$(environment)'
+        cosmosdb_secret: true
+        cosmosdb_accountName: amidostacksmenucdaukstestx
+        appinsights_enabled: true
+        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        # ReleaseNote Information
+        releasenote: false
 
 - stage: Promotion
   variables:
   - group: amido-stacks-infra-credentials-prod
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - job: PromoteImage
-    pool:
-      vmImage: 'ubuntu-latest'
-    continueOnError: False
-    steps:
-
-          - download: current
-            displayName: Download DevOps Artefacts
-            artifact: DevOps
-  
-          - task: Bash@3
-            displayName: 'Promote Image'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/promote-acr-image.sh
-              arguments:  $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret) $(Docker.ContainerRegistryNameNonProd) $(Docker.ContainerRegistryNameProd) $(Docker.ImageName) $(Docker.ImageTag)
+    - template: azDevOps/azure/templates/jobs/build-promoteimage.yml@templates
+      parameters:
+        devops_artefact_name: 'DevOps'
+        source_registry: $(Docker.ContainerRegistryNameNonProd)
+        destination_registry: $(Docker.ContainerRegistryNameProd)
+        docker_imagename: $(Docker.ImageName)
+        docker_imagetag: $(Docker.ImageTag)
 
 - stage: Production
   variables: 
   - group: amido-stacks-infra-credentials-prod
   - name: Docker.ContainerRegistryName
-    value: $(Docker.ContainerRegistryNameProd)
+    value: amidouksstacksacrprod
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - deployment: Perf # This should be made into a meta-template when it's available! 
-    pool:
-      vmImage: 'ubuntu-latest'
-    environment: perf
-    # AKS Cluster Info
-    variables:
-    - name: Release.Environment
-      value: perf
-    - name: Kubernetes.ClusterRG
-      value: amido-stacks-rg-uks-prod
-    - name:  Kubernetes.ClusterName
-      value: amido-stacks-aks-uks-prod
-    - name: Kubernetes.KustomizeFilePath
-      value: $(Release.Environment)
-      # Application Secret Retrieval
-    - name: CosmosDB.accountName
-      value: amidostacksmenucdauksperf
-    strategy:
-      runOnce:
-        deploy:
-          steps:
+    - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
+      parameters:
+        environment: 'perf'
+        devops_artefact_name: 'DevOps'
+        build_file: true
+        build_artefact: 'build'
+        functional_test: true
+        functional_test_artefact: 'tests'
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-prod'
+        kubernetes_clustername: 'amido-stacks-aks-uks-prod'
+        kubernetes_kustomize_filepath: 'kustomization/$(environment)'
+        cosmosdb_secret: true
+        cosmosdb_accountName: amidostacksmenucdauksperf
+        appinsights_enabled: true
+        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        performance_test: true
+        releasenote: false
 
-#### Prerequisites
-          - download: current
-            displayName: 'Download: Build Artefacts'
-            artifact: build
-
-          - download: current
-            displayName: 'Download: Test Artefacts'
-            artifact: tests
-
-          - download: current
-            displayName: 'Download: DevOps Artefacts'
-            artifact: DevOps
-
-          - task: Bash@3
-            displayName: 'Install: DevOps Tools'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Bootstrap/install-cicd-prereqs.sh
-              arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
-
-          - task: Bash@3
-            displayName: 'Login: Azure'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-              failOnStderr: true 
-
-          - task: Bash@3
-            displayName: 'Login: Kubernetes'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-aks-context.sh
-              arguments: $(Kubernetes.ClusterRG) $(Kubernetes.ClusterName)
-              failOnStderr: true 
-
-#### Kustomization
-          - task: Bash@3
-            displayName:  Kustomize Standard Version Annotation
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kustomize/kustomize-annotate-version.sh
-              arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
-              workingDirectory: $(Pipeline.Workspace)/build/base
-              failOnStderr: true 
-
-            # This step writes to cosmosDB.key and cosmosDB.endoint for consumption later in the pipeline
-          - task: Bash@3
-            displayName: Get CosmosDB Key and Endpoint
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
-              arguments: $(CosmosDB.accountName)
-
-          - task: Bash@3
-            displayName:  Inject Secrets from Environment Vars
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kubectl/inject-secrets-from-env-var.sh
-              arguments: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets
-              failOnStderr: true 
-            env:
-              cosmosdb_key: $(CosmosDB.key)
-              appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
-
-
-          - bash: |
-             echo "Setting image to $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image $(Docker.ImageName)=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
-            workingDirectory: $(Pipeline.Workspace)/build/base
-            displayName: Kustomize Application Deployment Customisation 
-            failOnStderr: true 
-
-#### Deployment
-          - task: Bash@3
-            displayName:  Kubectl Apply (with Kustomize)
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
-              workingDirectory: $(Pipeline.Workspace)/build
-              failOnStderr: true 
-
-#### Testing
-          - bash: | 
-              echo "-Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)"
-              mvn clean gatling:test -Denv=$(Release.Environment) -Dusers=$(Performance.Testing.Users) -Drampup=$(Performance.Testing.RampUp)
-            workingDirectory: '$(Test.PerformanceTestProjectSourcePath)'
-            displayName: Run Performance Tests
-            
-
-  - deployment: Prod # This should be made into a meta-template when it's available! 
-    pool:
-      vmImage: 'ubuntu-latest'
-    dependsOn: Perf
-    environment: prod
-    variables: 
-    - name: Release.Environment
-      value: prod
-    # AKS Cluster Info
-    - name: Kubernetes.ClusterRG
-      value: amido-stacks-rg-uks-prod
-    - name:  Kubernetes.ClusterName
-      value: amido-stacks-aks-uks-prod
-    - name: Kubernetes.KustomizeFilePath
-      value: $(Release.Environment)
-      # Application Secret Retrieval
-    - name: CosmosDB.accountName
-      value: amidostacksmenucdauksprod
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-
-#### Prerequisites
-          - download: current
-            displayName: 'Download: Build Artefacts'
-            artifact: build
-
-          - download: current
-            displayName: 'Download: Test Artefacts'
-            artifact: tests
-
-          - download: current
-            displayName: 'Download: DevOps Artefacts'
-            artifact: DevOps
-
-          - task: Bash@3
-            displayName: 'Install: DevOps Tools'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Bootstrap/install-cicd-prereqs.sh
-              arguments: $(Kubernetes.KustomizeBinaryPath) $(Kubernetes.KustomizeDownloadPath)
-
-          - task: Bash@3
-            displayName: 'Login: Azure'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-azure-context.sh
-              arguments: $(azure_tenant_id) $(azure_subscription_id) $(azure_client_id) $(azure_client_secret)
-              failOnStderr: true 
-
-          - task: Bash@3
-            displayName: 'Login: Kubernetes'
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/set-aks-context.sh
-              arguments: $(Kubernetes.ClusterRG) $(Kubernetes.ClusterName)
-              failOnStderr: true 
-
-#### Kustomization
-          - task: Bash@3
-            displayName:  Kustomize Standard Version Annotation
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kustomize/kustomize-annotate-version.sh
-              arguments: $(Kubernetes.KustomizeBinaryPath) $(Docker.ImageTag)
-              workingDirectory: $(Pipeline.Workspace)/build/base
-              failOnStderr: true 
-            
-            # This step writes to cosmosDB.key and cosmosDB.endoint for consumption later in the pipeline
-          - task: Bash@3
-            displayName: Get CosmosDB Key and Endpoint
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/get-cosmosdb-key-endpoint.sh
-              arguments: $(CosmosDB.accountName)
-
-          - task: Bash@3
-            displayName:  Inject Secrets from Environment Vars
-            inputs:
-              targetType: 'filePath' 
-              filePath: $(Pipeline.Workspace)/DevOps/Kubectl/inject-secrets-from-env-var.sh
-              arguments: $(Pipeline.Workspace)/build/kustomization/$(Kubernetes.KustomizeFilePath)/secrets
-              failOnStderr: true 
-            env:
-              cosmosdb_key: $(CosmosDB.key)
-              appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
-
-          - bash: |
-             echo "Setting image to $(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag)"
-             $(Kubernetes.KustomizeBinaryPath) edit set image $(Docker.ImageName)=$(Docker.ContainerRegistry)/$(Docker.ImageName):$(Docker.ImageTag);
-            workingDirectory: $(Pipeline.Workspace)/build/base
-            displayName: Kustomize Application Deployment Customisation 
-            failOnStderr: true 
-
-#### Deployment
-          - task: Bash@3
-            displayName:  Kubectl Apply (with Kustomize)
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Kubectl/apply-with-kustomize.sh
-              arguments: ./kustomization/$(Kubernetes.KustomizeFilePath)
-              workingDirectory: $(Pipeline.Workspace)/build
-              failOnStderr: true 
-
-#### Testing
-          - download: current
-            displayName: 'Download: Release Notes Artefact'
-            artifact: releasenotes
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
-          - task: Bash@3
-            displayName: 'Upload: Release Notes'
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/upload-azstorage-blob.sh
-              arguments: $(ReleaseNote.StorageAccountRG) $(Pipeline.Workspace)/releasenotes/release.json $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
-
-          - task: Bash@3
-            displayName: 'Retrieve URL: Release Notes'
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/get-azstorage-sasurl.sh
-              arguments: $(ReleaseNote.StorageAccountRG) $(ReleaseNote.StorageAccountName) $(ReleaseNote.StorageContainerName) $(ReleaseNote.TargetName)
+    - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
+      parameters:
+        environment: 'prod'
+        # Artefact and Step Config
+        devops_artefact_name: 'DevOps'
+        build_file: true
+        build_artefact: 'build'
+        functional_test: true
+        functional_test_artefact: 'tests'
+        performance_test: false
+        # Kubernetes Config
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
+        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
+        # Mutation Information
+        kubernetes_kustomize_filepath: 'kustomization/$(environment)'
+        cosmosdb_secret: true
+        cosmosdb_accountName: amidostacksmenucdauksprod
+        appinsights_enabled: true
+        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        # ReleaseNote Information
+        releasenote: true
+        releasenote_artefact: 'releasenotes'
+        releasenote_storageaccountrg: $(ReleaseNote.StorageAccountRG)
+        releasenote_storageaccountname: $(ReleaseNote.StorageAccountName)
+        releasenote_storageaccountcontainer: $(ReleaseNote.StorageContainerName)
+        releasenote_sourcefile: $(Pipeline.Workspace)/releasenotes/release.json
+        releasenote_targetfile: $(ReleaseNote.TargetName)

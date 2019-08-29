@@ -45,14 +45,18 @@ variables:
 stages:
 - stage: Build
   jobs:
+
+  # Set build number
+  - template: azDevOps/azure/templates/jobs/build-updatebuildnumber.yml@templates
+    parameters:
+      build_number: $(Docker.ImageTag)
+
   - job: Build
+    dependsOn: UpdateBuildNumber
     pool:
       vmImage: 'ubuntu-latest'
     continueOnError: False
     steps:
-    - script: echo '##vso[build.updatebuildnumber]$(Docker.ImageTag)'
-      displayName: Update Build Number
-
     - task: DotNetCoreCLI@2
       displayName: 'Run Provider Contract Tests'
       inputs:

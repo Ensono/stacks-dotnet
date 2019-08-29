@@ -84,14 +84,19 @@ stages:
   variables: 
   - group: amido-stacks-infra-credentials-prod # Used to pull artefact from prod store
   jobs:
+
+  # Set build number
+  - template: azDevOps/azure/templates/jobs/build-updatebuildnumber.yml@templates
+    parameters:
+      build_number: $(Version.Tag)
+
+  # Validate and Publish Terraform
   - job: Validate
+    dependsOn: UpdateBuildNumber
     pool:
       vmImage: 'ubuntu-latest'
     continueOnError: False
     steps:
-      - bash: echo '##vso[build.updatebuildnumber]$(Version.Tag)'
-        displayName: Update Build Number
-
       - template: azDevOps/azure/templates/steps/build-validate-terraform.yml@templates
         parameters: 
           terraform_artefact_name: terraform
@@ -99,6 +104,7 @@ stages:
 
   # Retrieve a blob file with only Azure credentials, extract it and publish as an artefact
   - template: azDevOps/azure/templates/jobs/publish-blob-as-artefact.yml@templates
+    dependsOn: UpdateBuildNumber
     parameters: 
       Package_RG: $(DevOps.RG)
       Package_storageAccount: $(DevOps.storageAccount) 
