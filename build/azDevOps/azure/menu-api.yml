@@ -242,7 +242,7 @@ stages:
         cosmosdb_accountName: amidostacksmenucdauksdevx
         appinsights_enabled: true
         appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
-        performance_test: true
+        performance_test: false
         releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
@@ -258,7 +258,7 @@ stages:
         functional_test: true
         functional_test_artefact: 'tests'
         functional_test_baseurl: https://testx.amidostacks.com/api/menu/
-        performance_test: true
+        performance_test: false
         # Kubernetes Config
         kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
         kubernetes_clustername: 'amido-stacks-aks-uks-devx'
