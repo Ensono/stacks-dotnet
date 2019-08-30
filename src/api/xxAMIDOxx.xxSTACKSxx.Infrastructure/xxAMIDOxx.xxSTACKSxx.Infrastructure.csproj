@@ -6,6 +6,8 @@
     </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Amido.Stacks.Data.Documents.CosmosDB" Version="0.0.24" />
+    <PackageReference Include="Amido.Stacks.DependencyInjection" Version="0.0.20" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
@@ -14,9 +16,6 @@
   </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\stacks\Amido.Stacks.Application.CQRS\Amido.Stacks.Application.CQRS.csproj" />
-        <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents.CosmosDB\Amido.Stacks.Data.Documents.CosmosDB.csproj" />
-        <ProjectReference Include="..\stacks\Amido.Stacks.DependencyInjection\Amido.Stacks.DependencyInjection.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers\xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.Integration\xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers\xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers.csproj" />

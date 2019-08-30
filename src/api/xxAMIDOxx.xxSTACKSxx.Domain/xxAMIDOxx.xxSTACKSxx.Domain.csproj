@@ -6,8 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\stacks\Amido.Stacks.Domain\Amido.Stacks.Domain.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Common\xxAMIDOxx.xxSTACKSxx.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Amido.Stacks.Domain" Version="0.0.20" />
+    </ItemGroup>
 </Project>
