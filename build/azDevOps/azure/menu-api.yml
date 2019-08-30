@@ -113,7 +113,8 @@ variables:
 - name: Docker.ContainerRegistry
   value: $(Docker.ContainerRegistryName).azurecr.io
 - name: Docker.ContainerRegistryNameNonProd
-  value: 
+  value:  
+  amidouksstacksacrdevx
 - name: Docker.ContainerRegistryNameProd
   value: amidouksstacksacrprod
 
