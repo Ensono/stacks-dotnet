@@ -17,6 +17,26 @@ There is full documentation for how contract testing works available on the [Pac
 - PactNet - https://github.com/pact-foundation/pact-net
 - xUnit - https://xunit.net/
 
+## Running Tests
+Tests are automatically run as part of the CI pipeline under the task "Run Contract Tests".
+
+To run the tests locally, there are two options. In each scenario, tests will run against the LATEST contract within the PACT broker. 
+If the tests need to run against a different version of the contracts, version within the source code will need to be updated. See `private string CreatePactUri(string consumerName, string providerName)` within the class `MenuApiProviderTests.cs`
+
+#### Command line
+Navigate to the contract test project folder:
+
+`$ cd Path/To/Repo/src/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests`
+
+Run DotNet Test:
+
+`$ dotnet test` 
+
+#### Visual Stuido 
+Tests can easily be run from within the Test Explorer window in Visual Studio.
+
+Open `Test > Windows > Test Explorer` to open the test explorer, then right-click on a test to run.
+
 ## How does it work?
 The provider side tests at a high level do the following:
 1. Create a mocked instance of the provider API
