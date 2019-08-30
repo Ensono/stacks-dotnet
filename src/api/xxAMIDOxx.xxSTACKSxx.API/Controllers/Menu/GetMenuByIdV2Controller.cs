@@ -29,7 +29,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Menu));
-            return StatusCode(404);
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);

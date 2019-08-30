@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Tests.Extensions;
+using Amido.Stacks.Testing.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
