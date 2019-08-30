@@ -34,6 +34,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Functional
         }
 
         [Fact]
+        [Trait("Category", "SmokeTest")]
         public void Admins_Can_View_Existing_Menus()
         {
             this.Given(s => fixture.GivenAnAdmin())

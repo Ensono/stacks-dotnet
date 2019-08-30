@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Shouldly;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Shouldly;
 using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Builders;
 using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Configuration;
 using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models;
@@ -31,6 +31,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
         }
 
         #region Step Definitions
+
+        #region Given
         public async Task GivenAMenuAlreadyExists()
         {
             createMenuRequest = new MenuRequestBuilder()
@@ -62,7 +64,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
                 .SetDefaultValues("Yumido Test Menu")
                 .Build();
         }
+        #endregion Given
 
+        #region When
         public async Task WhenISendAnUpdateMenuRequest()
         {
             updateMenuRequest = new MenuRequestBuilder()
@@ -88,7 +92,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
         {
             lastResponse = await HttpRequestFactory.Get(baseUrl, $"{menuPath}{existingMenuId}");
         }
+        #endregion When
 
+        #region Then
         public void ThenTheMenuHasBeenCreated()
         {
             lastResponse.StatusCode.ShouldBe(HttpStatusCode.Created,
@@ -145,6 +151,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
                 throw new Exception($"Could not retrieve the updated menu using GET /menu/{existingMenuId}");
             }
         }
+        #endregion Then
+
         #endregion Step Definitions
     }
 }
