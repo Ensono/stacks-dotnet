@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Amido.Stacks.Tests.Settings;
+using Amido.Stacks.Testing.Settings;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using PactNet;
@@ -60,7 +60,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             var options = new PactUriOptions(Config.Broker_Token);
 
             //Create the mocked provider service
-            using(var ProviderWebHost = WebHost.CreateDefaultBuilder()
+            using (var ProviderWebHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(ProviderUri)
                 .UseStartup<TestStartup>()
                 .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
@@ -89,7 +89,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             //This is set to tests against the LATEST version of the contracts in the broker
             //Future enhancement is to use tags on contracts and target specific contracts by using Tags in the URL below
             //(NB: I imagine the tag will be fed in from environment variables in the pipeline)
-            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest"; 
+            return $"{Config.Broker_Url}/pacts/provider/{providerName}/consumer/{consumerName}/latest";
         }
     }
 }

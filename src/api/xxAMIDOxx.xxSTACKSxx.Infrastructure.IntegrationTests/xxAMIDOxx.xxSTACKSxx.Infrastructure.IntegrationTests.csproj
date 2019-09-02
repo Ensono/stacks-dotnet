@@ -18,12 +18,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\stacks\Amido.Stacks.Data.Documents.CosmosDB\Amido.Stacks.Data.Documents.CosmosDB.csproj" />
-        <ProjectReference Include="..\stacks\Amido.Stacks.Tests\Amido.Stacks.Tests.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Infrastructure\xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Amido.Stacks.Data.Documents.CosmosDB" Version="0.0.24" />
+        <PackageReference Include="Amido.Stacks.Testing" Version="0.0.21" />
         <PackageReference Include="AutoFixture" Version="4.11.0" />
         <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />

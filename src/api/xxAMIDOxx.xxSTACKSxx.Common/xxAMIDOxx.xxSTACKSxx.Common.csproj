@@ -6,9 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\stacks\Amido.Stacks.Core\Amido.Stacks.Core.csproj" />
+        <PackageReference Include="Amido.Stacks.Core" Version="0.0.18" />
     </ItemGroup>
-
     <ItemGroup>
         <Folder Include="Configuration\" />
     </ItemGroup>

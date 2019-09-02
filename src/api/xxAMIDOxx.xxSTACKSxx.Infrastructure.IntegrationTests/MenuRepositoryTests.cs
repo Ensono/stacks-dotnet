@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Amido.Stacks.Configuration;
 using Amido.Stacks.Data.Documents.Abstractions;
 using Amido.Stacks.Data.Documents.CosmosDB;
-using Amido.Stacks.Tests.Settings;
+using Amido.Stacks.Testing.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Logging;
