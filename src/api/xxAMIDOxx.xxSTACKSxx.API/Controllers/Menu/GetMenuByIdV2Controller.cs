@@ -35,12 +35,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
-            string exampleJson = null;
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Menu>(exampleJson)
-            : default(Menu);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return BadRequest();
         }
     }
 }
