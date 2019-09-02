@@ -337,3 +337,5 @@ ASALocalRun/
 # scala files
 target/
 *.iml
+
+pacts/
