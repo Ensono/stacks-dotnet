@@ -10,7 +10,7 @@ trigger:
     exclude:
     - src/api/xxAMIDOxx.xxSTACKSxx.API.Models/*
     - deploy/terraform/*
-    - build/azDevOps/azure/menu-provisioning.yml
+    - build/azDevOps/azure/resources-provisioning.yml
 
 # Only build PR's into Master (i.e. 'going live')
 pr:
