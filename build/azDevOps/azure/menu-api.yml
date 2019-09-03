@@ -65,8 +65,8 @@ variables:
   value: $(Build.SourcesDirectory)/src/tests/
 - name: Test.PerformanceTestProjectSourcePath
   value: $(Pipeline.Workspace)/tests/Performance/xxAMIDOxx.xxSTACKSxx.API.PerformanceTests
-- name: Test.UnitTestPath
-  value: $(Build.SourcesDirectory)/src/api/
+- name: Test.UnitTestProjectPath
+  value: $(Build.SourcesDirectory)/src/api/**/*.csproj
 
 - name: Sonar.serviceConnection
   value: 'amido-sonarcloud'
@@ -197,7 +197,7 @@ stages:
       vulnerability_workdir: '$(Build.ArtifactStagingDirectory)'
       #  Testing
       unit_test: true
-      unit_test_project: '$(Test.UnitTestPath)'
+      unit_test_project: '$(Test.UnitTestProjectPath)'
       contract_test: true
       contract_test_project: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
       functional_test: true
