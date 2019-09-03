@@ -107,13 +107,13 @@ variables:
 - name: Docker.DockerfilePath
   value: src/api/
 - name: Docker.ImageName
-  value: api-image
+  value: menu-api
 - name: Docker.ImageTag
   value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
 - name: Docker.ContainerRegistry
   value: $(Docker.ContainerRegistryName).azurecr.io
 - name: Docker.ContainerRegistryNameNonProd
-  value: amidouksstacksacrdevx
+  value: amidouksstacksacrdev
 - name: Docker.ContainerRegistryNameProd
   value: amidouksstacksacrprod
 
@@ -151,7 +151,7 @@ stages:
   variables:
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
-    value: amidouksstacksacrdevx
+    value: amidouksstacksacrdev
   jobs:
 
   # Set build number
@@ -216,48 +216,48 @@ stages:
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
-    value: amidouksstacksacrdevx
+    value: amidouksstacksacrdev
   jobs:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
-        environment: 'devx'
+        environment: 'dev'
         devops_artefact_name: 'DevOps'
         build_file: true
         build_artefact: 'build'
         functional_test: true
         functional_test_artefact: 'tests'
-        functional_test_baseurl: https://devx.amidostacks.com/api/menu/
+        functional_test_baseurl: https://dev.amidostacks.com/api/menu/
         performance_test: false
         smoke_test: false
-        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
-        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
-        kubernetes_kustomize_filepath: 'kustomization/devx'
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-dev'
+        kubernetes_clustername: 'amido-stacks-aks-uks-dev'
+        kubernetes_kustomize_filepath: 'kustomization/dev'
         cosmosdb_secret: true
-        cosmosdb_accountName: amidostacksmenucdauksdevx
+        cosmosdb_accountName: amidostacksmenucdauksdev
         appinsights_enabled: true
         appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
         releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
-        dependsOn: 'devx'
-        environment: 'testx'
+        dependsOn: 'dev'
+        environment: 'test'
         # Artefact and Step Config
         devops_artefact_name: 'DevOps'
         build_file: true
         build_artefact: 'build'
         functional_test: true
         functional_test_artefact: 'tests'
-        functional_test_baseurl: https://testx.amidostacks.com/api/menu/
+        functional_test_baseurl: https://test.amidostacks.com/api/menu/
         performance_test: false
         smoke_test: false
         # Kubernetes Config
-        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
-        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-dev'
+        kubernetes_clustername: 'amido-stacks-aks-uks-dev'
         # Mutation Information
-        kubernetes_kustomize_filepath: 'kustomization/testx'
+        kubernetes_kustomize_filepath: 'kustomization/test'
         cosmosdb_secret: true
-        cosmosdb_accountName: amidostacksmenucdaukstestx
+        cosmosdb_accountName: amidostacksmenucdaukstest
         appinsights_enabled: true
         appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
         # ReleaseNote Information
@@ -313,8 +313,8 @@ stages:
         performance_test: false
         smoke_test: true
         # Kubernetes Config
-        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
-        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-prod'
+        kubernetes_clustername: 'amido-stacks-aks-uks-prod'
         # Mutation Information
         kubernetes_kustomize_filepath: 'kustomization/prod'
         cosmosdb_secret: true

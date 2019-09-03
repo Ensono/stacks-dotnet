@@ -118,13 +118,13 @@ stages:
   - group: amido-stacks-infra-nonprod # Used for Terraform secrets and Cluster SPN
 
   jobs:
-  - deployment: DevX # This should be made into a meta-template when it's available! 
+  - deployment: Dev
     pool:
       vmImage: 'ubuntu-latest'
-    environment: devx
+    environment: dev
     variables:  
     - name: environment
-      value: devx
+      value: dev
     strategy:
       runOnce:
         deploy:
@@ -185,13 +185,13 @@ stages:
               arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
               failOnStderr: true
         
-  - deployment: TestX # This should be made into a meta-template when it's available! 
+  - deployment: Test # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
-    environment: testx
+    environment: test
     variables:
     - name: environment
-      value: testx
+      value: test
     strategy:
       runOnce:
         deploy:

@@ -21,8 +21,8 @@ spec:
     spec:
 ##      serviceAccountName: nginx-ingress-serviceaccount
       containers:
-        - name: api
-          image: api-image:tag
+        - name: menuapi
+          image: menu-api:tag
 ##          args:
 ##            - /nginx-ingress-controller
 ##            - --configmap=$(POD_NAMESPACE)/nginx-configuration
