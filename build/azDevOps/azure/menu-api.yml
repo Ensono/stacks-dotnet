@@ -71,8 +71,9 @@ variables:
   value: $(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj
 - name: Test.IntegrationTestProjectPath
   value: $(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj
-# COSMOSDB_KEY - this is set in pipeline variable
-- name: CosmosDB.Account # Used to retrieve COSMOSDB_KEY
+# COSMOSDB_KEY - This variable is used in integration tests. It is set in the pipeline variables in AzDevOps
+# The following are used to retrieve COSMOSDB_KEY
+- name: CosmosDB.Account 
   value: 'amidostacksmenucdauksdevx'
 - name: CosmosDB__DatabaseAccountUri
   value: 'https://$(CosmosDB.Account).documents.azure.com:443/'
