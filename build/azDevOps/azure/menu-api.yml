@@ -66,7 +66,7 @@ variables:
 - name: Test.PerformanceTestProjectSourcePath
   value: $(Pipeline.Workspace)/tests/Performance/xxAMIDOxx.xxSTACKSxx.API.PerformanceTests
 - name: Test.ApiTestProjectPath
-  value: $(Build.SourcesDirectory)/src/api/**/*.csproj
+  value: $(Build.SourcesDirectory)/src/api/**/*Tests.csproj
 
 - name: Sonar.serviceConnection
   value: 'amido-sonarcloud'
