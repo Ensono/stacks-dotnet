@@ -70,7 +70,15 @@ variables:
 - name: Test.ComponentTestProjectPath
   value: $(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj
 - name: Test.IntegrationTestProjectPath
-  value: $(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj
+  value: $(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj#
+# COSMOSDB_KEY - this is set in pipeline variable
+- name: CosmosDB.Account # Used to retrieve COSMOSDB_KEY
+  value: 'amidostacksmenucdauksdevx'
+- name: CosmosDB__DatabaseAccountUri
+  value: 'https://$(CosmosDB.Account).documents.azure.com:443/'
+- name: CosmosDB__DatabaseName
+  value: Stacks
+
 
 - name: Sonar.serviceConnection
   value: 'amido-sonarcloud'
