@@ -233,6 +233,9 @@ stages:
       releasenote_github_project: 'stacks-dotnet' # Repo name doesn't match domain/component unfortunately
       releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
       releasenote_failonmissingPR: false
+      # Secret Config (for integration tests)
+      cosmosdb_secret: true
+      cosmosdb_account: 'amidostacksmenucdauksdevx'
       
 - stage: NonProduction
   variables: 
