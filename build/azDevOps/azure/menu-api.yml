@@ -213,6 +213,8 @@ stages:
       component_test_project: '$(Test.ComponentTestProjectPath)'
       integration_test: true
       integration_test_project: '$(Test.IntegrationTestProjectPath)'
+      integration_test_cosmosdb_secret: true
+      integration_test_cosmosdb_account: 'amidostacksmenucdauksdev'
       contract_test: true
       contract_test_project: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
       functional_test: true
@@ -231,9 +233,7 @@ stages:
       releasenote_github_project: 'stacks-dotnet' # Repo name doesn't match domain/component unfortunately
       releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
       releasenote_failonmissingPR: false
-      # Secret Config (for integration tests)
-      cosmosdb_secret: true
-      cosmosdb_account: 'amidostacksmenucdauksdev'
+
       
 - stage: NonProduction
   variables: 
