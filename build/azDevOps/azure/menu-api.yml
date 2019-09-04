@@ -36,7 +36,7 @@ variables:
 - name: Version.Major
   value: 1
 - name: Version.Minor
-  value: 4
+  value: 5
 - name: Version.Revision
   value: $[counter(variables['Version.Minor'], 0)]
 
@@ -72,7 +72,7 @@ variables:
 # COSMOSDB_KEY - This variable is used in integration tests. It is set in the pipeline variables in AzDevOps
 # The following are used to retrieve COSMOSDB_KEY
 - name: CosmosDB.Account 
-  value: 'amidostacksmenucdauksdevx'
+  value: 'amidostacksmenucdauksdev'
 - name: CosmosDB__DatabaseAccountUri
   value: 'https://$(CosmosDB.Account).documents.azure.com:443/'
 - name: CosmosDB__DatabaseName
@@ -233,7 +233,7 @@ stages:
       releasenote_failonmissingPR: false
       # Secret Config (for integration tests)
       cosmosdb_secret: true
-      cosmosdb_account: 'amidostacksmenucdauksdevx'
+      cosmosdb_account: 'amidostacksmenucdauksdev'
       
 - stage: NonProduction
   variables: 
