@@ -144,12 +144,6 @@ variables:
 - name: Kubernetes.YMLfilepath
   value: deploy/k8s/api
 
-# Packages Config:
-- name: Kubernetes.KustomizeBinaryPath
-  value: $(System.DefaultWorkingDirectory)/kustomize
-- name: Kubernetes.KustomizeDownloadPath
-  value: https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64
-
 # DevOps Scripts Package Info
 - name: DevOps.File
   value: scripts-1.2.75-master.tar.gz
