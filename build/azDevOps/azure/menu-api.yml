@@ -69,6 +69,10 @@ variables:
   value: $(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj
 - name: Test.IntegrationTestProjectPath
   value: $(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj
+- name: Test.IntegrationTestCosmosDBAEnabled
+  value: true
+- name: Test.IntegrationTestCosmosDBAccount
+  value: 'amidostacksmenucdauksdev'
 # COSMOSDB_KEY - This variable is used in integration tests. It is set in the pipeline variables in AzDevOps
 # The following are used to retrieve COSMOSDB_KEY
 - name: CosmosDB.Account 
@@ -124,12 +128,6 @@ variables:
   value: menu-api
 - name: Docker.ImageTag
   value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
-- name: Docker.ContainerRegistry
-  value: $(Docker.ContainerRegistryName).azurecr.io
-- name: Docker.ContainerRegistryNameNonProd
-  value: amidouksstacksacrdev
-- name: Docker.ContainerRegistryNameProd
-  value: amidouksstacksacrprod
 
 
 # Kubernetes Config:
@@ -161,7 +159,6 @@ stages:
   - name: Docker.ContainerRegistryName
     value: amidouksstacksacrdev
   jobs:
-
   # Set build number
   - template: azDevOps/azure/templates/jobs/build-updatebuildnumber.yml@templates
     parameters:
@@ -207,8 +204,8 @@ stages:
       component_test_project: '$(Test.ComponentTestProjectPath)'
       integration_test: true
       integration_test_project: '$(Test.IntegrationTestProjectPath)'
-      integration_test_cosmosdb_secret: true
-      integration_test_cosmosdb_account: 'amidostacksmenucdauksdev'
+      integration_test_cosmosdb_secret: $(Test.IntegrationTestCosmosDBAEnabled)
+      integration_test_cosmosdb_account: '$(Test.IntegrationTestCosmosDBAccount)'
       contract_test: true
       contract_test_project: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
       functional_test: true
@@ -290,8 +287,8 @@ stages:
     - template: azDevOps/azure/templates/jobs/build-promoteimage.yml@templates
       parameters:
         devops_artefact_name: 'DevOps'
-        source_registry: $(Docker.ContainerRegistryNameNonProd)
-        destination_registry: $(Docker.ContainerRegistryNameProd)
+        source_registry: 'amidouksstacksacrdev'
+        destination_registry: 'amidouksstacksacrprod'
         docker_imagename: $(Docker.ImageName)
         docker_imagetag: $(Docker.ImageTag)
 
