@@ -105,7 +105,8 @@ variables:
   value: amidostacksuksprod
 - name: ReleaseNote.StorageContainerName
   value: releasenotes
-
+- name: ReleaseNote.GitHubProject
+  value: 'stacks-dotnet'
 # SonarCloud Info
 - name: Test.sonarProjectKey
   value: stacks-dotnet
@@ -221,7 +222,7 @@ stages:
       releasenote_user: $(ReleaseNote.GitHubUsername)
       releasenote_token: $(ReleaseNote.GitHubToken)
       releasenote_github_org: '$(Global.Company)'
-      releasenote_github_project: 'stacks-dotnet' # Repo name doesn't match domain/component unfortunately
+      releasenote_github_project: '$(ReleaseNote.GitHubProject)' # Repo name doesn't match domain/component unfortunately
       releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
       releasenote_failonmissingPR: false
       
