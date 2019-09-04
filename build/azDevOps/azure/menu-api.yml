@@ -152,7 +152,7 @@ variables:
 
 # DevOps Scripts Package Info
 - name: DevOps.File
-  value: scripts-1.2.74-master.tar.gz
+  value: scripts-1.2.75-master.tar.gz
 - name: DevOps.Container
   value: packages
 - name: DevOps.storageAccount
@@ -240,6 +240,8 @@ stages:
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
     value: amidouksstacksacrdev
+  - name: Monitoring.applnsightsAccountName
+    value: amidostacksnetuksdev
   jobs:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
@@ -258,7 +260,7 @@ stages:
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksdev
         appinsights_enabled: true
-        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        appinsights_accountName: $(Monitoring.applnsightsAccountName)
         releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
@@ -282,7 +284,7 @@ stages:
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdaukstest
         appinsights_enabled: true
-        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        appinsights_accountName: $(Monitoring.applnsightsAccountName)
         # ReleaseNote Information
         releasenote: false
 
@@ -304,6 +306,8 @@ stages:
   - group: amido-stacks-infra-credentials-prod
   - name: Docker.ContainerRegistryName
     value: amidouksstacksacrprod
+  - name: Monitoring.applnsightsAccountName
+    value: amidostacksnetuksprod
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
@@ -321,7 +325,7 @@ stages:
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksperf
         appinsights_enabled: true
-        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        appinsights_accountName: $(Monitoring.applnsightsAccountName)
         releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
@@ -343,7 +347,7 @@ stages:
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksprod
         appinsights_enabled: true
-        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        appinsights_accountName: $(Monitoring.applnsightsAccountName)
         # ReleaseNote Information
         releasenote: true
         releasenote_artefact: 'releasenotes'
