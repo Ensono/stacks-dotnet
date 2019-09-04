@@ -22,8 +22,6 @@ resources:
     type: github
     name: amido/stacks-pipeline-templates
     endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
-    ref: refs/heads/feature/unit-test-pipeline
-
 
 variables:
 # Global Config:
