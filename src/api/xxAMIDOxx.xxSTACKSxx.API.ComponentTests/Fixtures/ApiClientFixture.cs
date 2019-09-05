@@ -75,18 +75,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         /// Send a POST Http request to the API CreateMenu endpoint passing the menu being created
         /// </summary>
         /// <param name="menu">Menu being created</param>
-        public async Task<HttpResponseMessage> CreateMenu(CreateOrUpdateMenu menu)
+        public async Task<HttpResponseMessage> CreateMenu(CreateMenuRequest menu)
         {
-            return await SendAsync<CreateOrUpdateMenu>(HttpMethod.Post, "/v1/menu", menu);
+            return await SendAsync(HttpMethod.Post, "/v1/menu", menu);
         }
 
         /// <summary>
         /// Send a POST Http request to the API CreateCategory endpoint passing the menu id and category being created
         /// </summary>
         /// <param name="category">Category being created</param>
-        public async Task<HttpResponseMessage> CreateCategory(Guid menuId, CreateOrUpdateCategory category)
+        public async Task<HttpResponseMessage> CreateCategory(Guid menuId, CreateCategoryRequest category)
         {
-            return await SendAsync<CreateOrUpdateCategory>(HttpMethod.Post, $"/v1/menu/{menuId}/category", category);
+            return await SendAsync(HttpMethod.Post, $"/v1/menu/{menuId}/category", category);
         }
 
         internal void ThenASuccessfulResponseIsReturned()
@@ -121,7 +121,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         internal async Task ThenTheResourceCreatedResponseIsReturned()
         {
-            var responseObject = await GetResponseObject<ResourceCreated>();
+            var responseObject = await GetResponseObject<ResourceCreatedResult>();
 
             responseObject.ShouldNotBeNull();
             responseObject.Id.ShouldNotBe(default(Guid));

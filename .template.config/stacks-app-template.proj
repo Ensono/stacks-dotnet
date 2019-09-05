@@ -30,6 +30,9 @@
         **/serviceFabric/**;
         **/devx/**;
         **/testx/**;
+        **/dev-loadtest.sh;
+        **/docker-login.sh;
+        **/docker-push.sh;
     </ExcludeFromPackage>
   </PropertyGroup>
   <ItemGroup>

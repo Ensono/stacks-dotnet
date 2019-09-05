@@ -35,7 +35,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             var newMenu = new Menu(
                 id: id,
                 name: command.Name,
-                restaurantId: command.RestaurantId,
+                tenantId: command.TenantId,
                 description: command.Description,
                 categories: null,
                 enabled: command.Enabled

@@ -8,6 +8,8 @@ IMAGE="$(whoami)/$PROJNAME-api"
 TAG=`date -u "+%Y.%m.%d-%H%M"`
 RELEASEDATE=`date --iso-8601=seconds`
 
+ENVNAME=$1
+
 #build
 ./docker-build.sh $IMAGE $TAG
 
@@ -18,11 +20,11 @@ RELEASEDATE=`date --iso-8601=seconds`
 DEVFOLDER=$GITROOT/deploy/k8s/api/kustomization/localhost
 rm -drf $DEVFOLDER  #clear temp folder before operation to avoid conflicts
 
-if [ $# -eq 0 ]; then NAMESPACE=default; else NAMESPACE=$1-menu; fi;
+if [ $# -eq 0 ]; then NAMESPACE=default; else NAMESPACE=$ENVNAME-menu; fi;
 
 #kustomize - replace variables
 (
-	if [ $# -eq 0 ]; then SOURCE=$GITROOT/deploy/k8s/api/base; else SOURCE=$GITROOT/deploy/k8s/api/kustomization/$1; fi;
+	if [ $# -eq 0 ]; then SOURCE=$GITROOT/deploy/k8s/api/base; else SOURCE=$GITROOT/deploy/k8s/api/kustomization/$ENVNAME; fi;
 
 	cp -r $SOURCE $DEVFOLDER
 	cd $DEVFOLDER

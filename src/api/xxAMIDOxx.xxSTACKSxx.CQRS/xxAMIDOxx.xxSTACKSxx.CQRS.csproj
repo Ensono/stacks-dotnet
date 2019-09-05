@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.0.21" />
+        <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.1.7" />
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
     </ItemGroup>
 

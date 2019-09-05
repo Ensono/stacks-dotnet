@@ -17,11 +17,11 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
         [JsonProperty("Categories")]
         private List<Category> categories;
 
-        public Menu(Guid id, string name, Guid restaurantId, string description, bool enabled, List<Category> categories = null)
+        public Menu(Guid id, string name, Guid tenantId, string description, bool enabled, List<Category> categories = null)
         {
             Id = id;
             Name = name;
-            RestaurantId = restaurantId;
+            TenantId = tenantId;
             Description = description;
             this.categories = categories ?? new List<Category>(); ;
             Enabled = enabled;
@@ -29,7 +29,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
 
         public string Name { get; set; }
 
-        public Guid RestaurantId { get; set; }
+        public Guid TenantId { get; set; }
 
         public string Description { get; set; }
 

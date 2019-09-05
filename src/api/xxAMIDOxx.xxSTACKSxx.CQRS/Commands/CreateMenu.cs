@@ -9,7 +9,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 
         public Guid CorrelationId { get; }
 
-        public Guid RestaurantId { get; set; }
+        public Guid TenantId { get; set; }
 
         public string Name { get; set; }
 
@@ -17,10 +17,10 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 
         public bool Enabled { get; set; }
 
-        public CreateMenu(Guid correlationId, Guid restaurantId, string name, string description, bool enabled)
+        public CreateMenu(Guid correlationId, Guid tenantId, string name, string description, bool enabled)
         {
             CorrelationId = correlationId;
-            RestaurantId = restaurantId;
+            TenantId = tenantId;
             Name = name;
             Description = description;
             Enabled = enabled;

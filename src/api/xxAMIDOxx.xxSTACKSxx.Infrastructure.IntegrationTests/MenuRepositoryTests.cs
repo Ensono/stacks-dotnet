@@ -43,7 +43,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
             //Assert the values returned from DB matches the values sent
             Assert.Equal(dbItem.Id, menu.Id);
             Assert.Equal(dbItem.Name, menu.Name);
-            Assert.Equal(dbItem.RestaurantId, menu.RestaurantId);
+            Assert.Equal(dbItem.TenantId, menu.TenantId);
             Assert.Equal(dbItem.Description, menu.Description);
             Assert.Equal(dbItem.Enabled, menu.Enabled);
             Assert.All(menu.Categories, c =>
@@ -87,14 +87,15 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
             // On CosmosDB, make sure you create the collection 'Menu' in the database defined in the config.
             // To overrride the appsettings values, set the environment variable using SectionName__PropertyName. i.e: CosmosDB__DatabaseAccountUri 
             // Note the use of a double _ between the section and the property name
-
             if (Environment.GetEnvironmentVariable(settings.SecurityKeySecret.Identifier) == null)
             {
-                if (settings.DatabaseAccountUri.Contains("localhost", StringComparison.InvariantCultureIgnoreCase))
+                //if locahost and running in visual studio
+                if (settings.DatabaseAccountUri.Contains("localhost", StringComparison.InvariantCultureIgnoreCase) && Environment.GetEnvironmentVariable("VisualStudioEdition") != null)
                     Environment.SetEnvironmentVariable(settings.SecurityKeySecret.Identifier, "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
                 else
                     throw new ArgumentNullException($"The environment variable '{settings.SecurityKeySecret.Identifier}' has not been set");
             }
+
 
             IFixture fixture = new Fixture();
 

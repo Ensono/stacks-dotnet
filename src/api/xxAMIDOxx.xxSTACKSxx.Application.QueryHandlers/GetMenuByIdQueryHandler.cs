@@ -26,7 +26,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
             var result = new Menu()
             {
                 Id = menu.Id,
-                RestaurantId = menu.RestaurantId,
+                TenantId = menu.TenantId,
                 Name = menu.Name,
                 Description = menu.Description,
                 Enabled = menu.Enabled,

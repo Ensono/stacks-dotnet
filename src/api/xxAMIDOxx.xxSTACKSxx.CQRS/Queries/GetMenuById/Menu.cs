@@ -1,6 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById
 {
@@ -9,7 +9,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById
         [Required]
         public Guid Id { get; set; }
 
-        public Guid RestaurantId { get; set; }
+        public Guid TenantId { get; set; }
 
         [Required]
         public string Name { get; set; }

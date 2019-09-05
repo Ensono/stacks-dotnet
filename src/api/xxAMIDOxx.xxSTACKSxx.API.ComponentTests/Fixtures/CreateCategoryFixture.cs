@@ -17,12 +17,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
     {
         Domain.Menu existingMenu;
         Guid userRestaurantId = Guid.Parse("2AA18D86-1A4C-4305-95A7-912C7C0FC5E1");
-        CreateOrUpdateCategory newCategory;
+        CreateCategoryRequest newCategory;
 
         IMenuRepository repository;
         IApplicationEventPublisher applicationEventPublisher;
 
-        public CreateCategoryFixture(Domain.Menu menu, CreateOrUpdateCategory newCategory)
+        public CreateCategoryFixture(Domain.Menu menu, CreateCategoryRequest newCategory)
         {
             this.existingMenu = menu;
             this.newCategory = newCategory;
@@ -60,12 +60,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         internal void GivenTheMenuBelongsToUserRestaurant()
         {
-            existingMenu.With(m => m.RestaurantId, userRestaurantId);
+            existingMenu.With(m => m.TenantId, userRestaurantId);
         }
 
         internal void GivenTheMenuDoesNotBelongToUserRestaurant()
         {
-            existingMenu.With(m => m.RestaurantId, Guid.NewGuid());
+            existingMenu.With(m => m.TenantId, Guid.NewGuid());
         }
 
         internal void GivenTheCategoryDoesNotExist()
@@ -98,7 +98,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         internal async Task ThenTheCategoryIsAddedToMenu()
         {
-            var resourceCreated = await GetResponseObject<ResourceCreated>();
+            var resourceCreated = await GetResponseObject<ResourceCreatedResult>();
             resourceCreated.ShouldNotBeNull();
 
             var category = existingMenu.Categories.SingleOrDefault(c => c.Name == newCategory.Name);

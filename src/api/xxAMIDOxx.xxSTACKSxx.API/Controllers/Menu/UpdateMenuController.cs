@@ -38,7 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
         [HttpPut("/v1/menu/{id}")]
-        public async Task<IActionResult> UpdateMenu([FromRoute][Required]Guid id, [FromBody]CreateOrUpdateMenu body)
+        public async Task<IActionResult> UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenuRequest body)
         {
             // THESE SHOULD BE HANDLED BY SECURITY FILTERS AND VALIDATORS
 
