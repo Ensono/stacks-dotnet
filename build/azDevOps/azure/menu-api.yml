@@ -229,6 +229,7 @@ stages:
         kubernetes_clusterrg: 'amido-stacks-rg-uks-dev'
         kubernetes_clustername: 'amido-stacks-aks-uks-dev'
         kubernetes_kustomize_filepath: 'kustomization/dev'
+        kubernetes_docker_registry: $(Docker.ContainerRegistryName).azurecr.io
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksdev
         appinsights_enabled: true
@@ -253,6 +254,7 @@ stages:
         kubernetes_clustername: 'amido-stacks-aks-uks-dev'
         # Mutation Information
         kubernetes_kustomize_filepath: 'kustomization/test'
+        kubernetes_docker_registry: $(Docker.ContainerRegistryName).azurecr.io
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdaukstest
         appinsights_enabled: true
@@ -294,6 +296,7 @@ stages:
         kubernetes_clusterrg: 'amido-stacks-rg-uks-prod'
         kubernetes_clustername: 'amido-stacks-aks-uks-prod'
         kubernetes_kustomize_filepath: 'kustomization/perf'
+        kubernetes_docker_registry: $(Docker.ContainerRegistryName).azurecr.io
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksperf
         appinsights_enabled: true
@@ -316,6 +319,7 @@ stages:
         kubernetes_clustername: 'amido-stacks-aks-uks-prod'
         # Mutation Information
         kubernetes_kustomize_filepath: 'kustomization/prod'
+        kubernetes_docker_registry: $(Docker.ContainerRegistryName).azurecr.io
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksprod
         appinsights_enabled: true
