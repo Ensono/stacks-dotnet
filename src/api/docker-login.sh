@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker login amidostacksacrukstmp.azurecr.io --username amidostacksacrukstmp --password vgstB+OHAOHansPqyNEHUkAKuvcjrU3w
+docker login amidouksstacksacrdev.azurecr.io --username amidouksstacksacrdev --password <EXAMPLE>
