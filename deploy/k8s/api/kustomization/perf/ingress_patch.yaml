@@ -19,7 +19,7 @@
           serviceName: menuapi
           servicePort: 80
 
-#for localhost testxs
+#for localhost tests
 - op: add
   path: /spec/rules/-
   value:

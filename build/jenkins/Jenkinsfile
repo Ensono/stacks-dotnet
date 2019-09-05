@@ -9,9 +9,9 @@ pipeline {
             docker_imageTag = "0.0.${BUILD_ID}-${git_branch_split}"
             git_branch_split = "${GIT_BRANCH.split('/').last()}"
             docker_containerRegistry = "${docker_containerRegistryName}.azurecr.io"
-            docker_containerRegistryName = 'amidostacksacrukstmp'
+            docker_containerRegistryName = 'amidouksstacksacrdev'
             kubernetes_ClusterRG = 'amido-stacks-rg-uks-dev'
-            kubernetes_ClusterName = 'amido-stacks-cluster-uks-dev'
+            kubernetes_ClusterName = 'amido-stacks-aks-uks-dev'
             kubernetes_KustomizeFilePath ='./kustomization'
             test_FunctionalTestProjectSourcePath = '/src/tests/xxAMIDOxx.xxSTACKSxx.Tests'
             test_FunctionalTestProjectSourceFilePath = './xxAMIDOxx.xxSTACKSxx.Tests.Api/xxAMIDOxx.xxSTACKSxx.Tests.Api.csproj'  
@@ -22,9 +22,9 @@ pipeline {
             test_FunctionalTestReportStorageContainerName = 'testresults'
             package_filename = 'scripts-0.0.10-master.tar.gz'
             package_localpath = '/home/jenkins/DevOps'
-            package_storageaccount = 'amidostackspkgukstmp'
+            package_storageaccount = 'amidostacksuksprod'
             package_storagepath = 'packages/'
-            package_filesaskey = 'se=2019-08-17T10%3A45Z&sp=rl&sv=2018-03-28&ss=b&srt=sco&sig=U/kiUqhl2HZ%2BnVM2xjalg420yjH3bHQuDbwOTYzNcs4%3D'
+            package_filesaskey = '<EXAMPLE>'
             }
     stages {
         stage('Acquire Scripts Package') {

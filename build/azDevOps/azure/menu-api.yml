@@ -27,20 +27,21 @@ variables:
 # Global Config:
 - name: Global.Company
   value: amido
-- name: Global.Platform
+- name: Global.Project
   value: stacks
-- name: Global.Component
+- name: Global.Domain
   value: dotnet
 
 # Versioning
 - name: Version.Major
   value: 1
 - name: Version.Minor
-  value: 4
+  value: 5
 - name: Version.Revision
   value: $[counter(variables['Version.Minor'], 0)]
 
 # Tests
+# TODO: Calculate and devolve these into build template where feasible as parameters
 - name: Test.FunctionalTestProjectFile
   value: xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.csproj
 - name: Test.FunctionalTestProjectSourcePath
@@ -69,14 +70,7 @@ variables:
   value: $(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj
 - name: Test.IntegrationTestProjectPath
   value: $(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj
-# COSMOSDB_KEY - This variable is used in integration tests. It is set in the pipeline variables in AzDevOps
-# The following are used to retrieve COSMOSDB_KEY
-- name: CosmosDB.Account 
-  value: 'amidostacksmenucdauksdevx'
-- name: CosmosDB__DatabaseAccountUri
-  value: 'https://$(CosmosDB.Account).documents.azure.com:443/'
-- name: CosmosDB__DatabaseName
-  value: Stacks
+
 
 
 - name: Sonar.serviceConnection
@@ -101,6 +95,8 @@ variables:
   value: amidostacksuksprod
 - name: ReleaseNote.StorageContainerName
   value: releasenotes
+- name: ReleaseNote.GitHubProject
+  value: 'stacks-dotnet'
 
 # SonarCloud Info
 - name: Test.sonarProjectKey
@@ -121,53 +117,29 @@ variables:
 - name: Docker.DockerfilePath
   value: src/api/
 - name: Docker.ImageName
-  value: api-image
+  value: menu-api
 - name: Docker.ImageTag
   value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
-- name: Docker.ContainerRegistry
-  value: $(Docker.ContainerRegistryName).azurecr.io
-- name: Docker.ContainerRegistryNameNonProd
-  value: amidouksstacksacrdevx
-- name: Docker.ContainerRegistryNameProd
-  value: amidouksstacksacrprod
-
-
-# Kubernetes Config:
-- name: Kubernetes.ArtifactHelmpath
-  value: helm-chart/
-- name: Kubernetes.ArtifactKustomizePath
-  value: base/
-- name: Kubernetes.UseHelm
-  value: false
-- name: Kubernetes.UseKustomize
-  value: true
-- name: Kubernetes.YMLfilepath
-  value: deploy/k8s/api
-
-# Packages Config:
-- name: Kubernetes.KustomizeBinaryPath
-  value: $(System.DefaultWorkingDirectory)/kustomize
-- name: Kubernetes.KustomizeDownloadPath
-  value: https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64
 
 # DevOps Scripts Package Info
 - name: DevOps.File
-  value: scripts-1.2.8-master.tar.gz
+  value: scripts-1.2.75-master.tar.gz
 - name: DevOps.Container
   value: packages
 - name: DevOps.storageAccount
   value: amidostacksuksprod
 - name: DevOps.RG
   value: amido-stacks-rg-uks-prod
+- name: DevOps.ArtefactName
+  value: DevOps
 
 stages:
 - stage: Build
   variables:
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
-    value: amidouksstacksacrdevx
+    value: amidouksstacksacrdev
   jobs:
-
   # Set build number
   - template: azDevOps/azure/templates/jobs/build-updatebuildnumber.yml@templates
     parameters:
@@ -181,7 +153,7 @@ stages:
       Package_Container: $(DevOps.Container)
       Package_File: $(DevOps.File)
       Package_OutputFolder: $(Build.BinariesDirectory)
-      Package_OutputArtefact: 'DevOps'
+      Package_OutputArtefact: '$(DevOps.ArtefactName)'
 
   # Analyse via SonarCloud
   - template: azDevOps/azure/templates/jobs/build-sonarcloud.yml@templates
@@ -197,7 +169,7 @@ stages:
   - template: azDevOps/azure/templates/jobs/build-dotnet.yml@templates
     parameters:
       dependsOn: GetPackage
-      devops_artefact_name: 'DevOps'
+      devops_artefact_name: '$(DevOps.ArtefactName)'
       # Docker Config
       docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
       docker_imagename: '$(Docker.ImageName)'
@@ -213,13 +185,16 @@ stages:
       component_test_project: '$(Test.ComponentTestProjectPath)'
       integration_test: true
       integration_test_project: '$(Test.IntegrationTestProjectPath)'
+      integration_test_cosmosdb_secret: true
+      integration_test_cosmosdb_account: 'amidostacksmenucdauksdev'
+      integration_test_cosmosdb_database: 'Stacks'
       contract_test: true
       contract_test_project: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
       functional_test: true
       functional_test_path: '$(Test.TestsSourcePath)'
       functional_test_artefact: 'tests'
       build_file: true
-      build_file_path: '$(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)'
+      build_file_path: '$(Build.SourcesDirectory)/deploy/k8s/api'
       build_file_artefact: 'build'
       # Release notes
       releasenote: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -228,61 +203,62 @@ stages:
       releasenote_user: $(ReleaseNote.GitHubUsername)
       releasenote_token: $(ReleaseNote.GitHubToken)
       releasenote_github_org: '$(Global.Company)'
-      releasenote_github_project: 'stacks-dotnet' # Repo name doesn't match domain/component unfortunately
+      releasenote_github_project: '$(ReleaseNote.GitHubProject' # Repo name doesn't match domain/component unfortunately
       releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
       releasenote_failonmissingPR: false
-      # Secret Config (for integration tests)
-      cosmosdb_secret: true
-      cosmosdb_account: 'amidostacksmenucdauksdevx'
       
 - stage: NonProduction
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
-    value: amidouksstacksacrdevx
+    value: amidouksstacksacrdev
+  - name: Monitoring.applnsightsAccountName
+    value: amidostacksnetuksdev
   jobs:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
-        environment: 'devx'
-        devops_artefact_name: 'DevOps'
+        environment: 'dev'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
         functional_test: true
         functional_test_artefact: 'tests'
-        functional_test_baseurl: https://devx.amidostacks.com/api/menu/
+        functional_test_baseurl: https://dev.amidostacks.com/api/menu/
         performance_test: false
         smoke_test: false
-        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
-        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
-        kubernetes_kustomize_filepath: 'kustomization/devx'
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-dev'
+        kubernetes_clustername: 'amido-stacks-aks-uks-dev'
+        kubernetes_kustomize_filepath: 'kustomization/dev'
+        kubernetes_docker_registry: $(Docker.ContainerRegistryName).azurecr.io
         cosmosdb_secret: true
-        cosmosdb_accountName: amidostacksmenucdauksdevx
+        cosmosdb_accountName: amidostacksmenucdauksdev
         appinsights_enabled: true
-        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        appinsights_accountName: $(Monitoring.applnsightsAccountName)
         releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
-        dependsOn: 'devx'
-        environment: 'testx'
+        dependsOn: 'dev'
+        environment: 'test'
         # Artefact and Step Config
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
         functional_test: true
         functional_test_artefact: 'tests'
-        functional_test_baseurl: https://testx.amidostacks.com/api/menu/
+        functional_test_baseurl: https://test.amidostacks.com/api/menu/
         performance_test: false
         smoke_test: false
         # Kubernetes Config
-        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
-        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-dev'
+        kubernetes_clustername: 'amido-stacks-aks-uks-dev'
         # Mutation Information
-        kubernetes_kustomize_filepath: 'kustomization/testx'
+        kubernetes_kustomize_filepath: 'kustomization/test'
+        kubernetes_docker_registry: $(Docker.ContainerRegistryName).azurecr.io
         cosmosdb_secret: true
-        cosmosdb_accountName: amidostacksmenucdaukstestx
+        cosmosdb_accountName: amidostacksmenucdaukstest
         appinsights_enabled: true
-        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        appinsights_accountName: $(Monitoring.applnsightsAccountName)
         # ReleaseNote Information
         releasenote: false
 
@@ -293,9 +269,9 @@ stages:
   jobs:
     - template: azDevOps/azure/templates/jobs/build-promoteimage.yml@templates
       parameters:
-        devops_artefact_name: 'DevOps'
-        source_registry: $(Docker.ContainerRegistryNameNonProd)
-        destination_registry: $(Docker.ContainerRegistryNameProd)
+        devops_artefact_name: '$(DevOps.ArtefactName)'
+        source_registry: 'amidouksstacksacrdev'
+        destination_registry: 'amidouksstacksacrprod'
         docker_imagename: $(Docker.ImageName)
         docker_imagetag: $(Docker.ImageTag)
 
@@ -304,12 +280,14 @@ stages:
   - group: amido-stacks-infra-credentials-prod
   - name: Docker.ContainerRegistryName
     value: amidouksstacksacrprod
+  - name: Monitoring.applnsightsAccountName
+    value: amidostacksnetuksprod
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
         environment: 'perf'
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
         functional_test: false
@@ -318,10 +296,11 @@ stages:
         kubernetes_clusterrg: 'amido-stacks-rg-uks-prod'
         kubernetes_clustername: 'amido-stacks-aks-uks-prod'
         kubernetes_kustomize_filepath: 'kustomization/perf'
+        kubernetes_docker_registry: $(Docker.ContainerRegistryName).azurecr.io
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksperf
         appinsights_enabled: true
-        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        appinsights_accountName: $(Monitoring.applnsightsAccountName)
         releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
@@ -329,21 +308,22 @@ stages:
         dependsOn: 'perf'
         environment: 'prod'
         # Artefact and Step Config
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
         functional_test: false
         performance_test: false
         smoke_test: true
         # Kubernetes Config
-        kubernetes_clusterrg: 'amido-stacks-rg-uks-devx'
-        kubernetes_clustername: 'amido-stacks-aks-uks-devx'
+        kubernetes_clusterrg: 'amido-stacks-rg-uks-prod'
+        kubernetes_clustername: 'amido-stacks-aks-uks-prod'
         # Mutation Information
         kubernetes_kustomize_filepath: 'kustomization/prod'
+        kubernetes_docker_registry: $(Docker.ContainerRegistryName).azurecr.io
         cosmosdb_secret: true
         cosmosdb_accountName: amidostacksmenucdauksprod
         appinsights_enabled: true
-        appinsights_instrumentationkey: $(Monitoring.applnsightsInstrumentationKey)
+        appinsights_accountName: $(Monitoring.applnsightsAccountName)
         # ReleaseNote Information
         releasenote: true
         releasenote_artefact: 'releasenotes'
