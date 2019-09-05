@@ -6,14 +6,11 @@ using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.Domain.Entities;
 using xxAMIDOxx.xxSTACKSxx.Domain.Events;
 using xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
-using xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain
 {
     public class Menu : AggregateRoot<Guid>, IEntity<Guid>
     {
-        //TODO: set properties to private
-
         [JsonProperty("Categories")]
         private List<Category> categories;
 
@@ -27,16 +24,16 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
             Enabled = enabled;
         }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public Guid TenantId { get; set; }
+        public Guid TenantId { get; private set; }
 
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         [JsonIgnore]
         public IReadOnlyList<Category> Categories { get => categories?.AsReadOnly(); private set => categories = value.ToList(); }
 
-        public bool Enabled { get; set; }
+        public bool Enabled { get; private set; }
 
         public void Update(string name, string description, bool enabled)
         {
@@ -80,10 +77,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
                                     string name,
                                     string description,
                                     double price,
-                                    bool available,
-                                    string itemClass,
-                                    Cuisine cuisine,
-                                    List<Ingredient> ingredients)
+                                    bool available
+            )
         {
             var category = GetCategory(categoryId);
 
@@ -93,10 +88,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
                         name,
                         description,
                         price,
-                        available,
-                        itemClass,
-                        cuisine,
-                        ingredients
+                        available
                         )
                 );
 
@@ -108,10 +100,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
                             string name,
                             string description,
                             double price,
-                            bool available,
-                            string itemClass,
-                            Cuisine cuisine,
-                            List<Ingredient> ingredients)
+                            bool available
+            )
         {
             var category = GetCategory(categoryId);
 
@@ -121,10 +111,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
                         name,
                         description,
                         price,
-                        available,
-                        itemClass,
-                        cuisine,
-                        ingredients
+                        available
                      )
             );
 
@@ -145,7 +132,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
             var category = categories.SingleOrDefault(c => c.Id == categoryId);
 
             if (category == null)
-                CategoryDoesNotExistException.Raise(Common.Operations.OperationCode.CreateMenuItem, Id, categoryId);
+                CategoryDoesNotExistException.Raise(Id, categoryId);
 
             return category;
         }

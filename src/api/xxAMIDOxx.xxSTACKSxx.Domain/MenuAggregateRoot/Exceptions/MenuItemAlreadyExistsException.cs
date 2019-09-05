@@ -1,9 +1,10 @@
 ﻿using System;
+using Amido.Stacks.Core.Exceptions;
 using Amido.Stacks.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
 {
-    public class MenuItemAlreadyExistsException : DomainException
+    public class MenuItemAlreadyExistsException : DomainExceptionBase
     {
         private MenuItemAlreadyExistsException(
             string message
@@ -11,7 +12,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
         {
         }
 
-        public override int ExceptionCode => (int)Common.Exceptions.ExceptionCode.MenuItemAlreadyExists;
+        public override int ExceptionCode { get; protected set; } = (int)Common.Exceptions.ExceptionCode.MenuItemAlreadyExists;
 
 
         public static void Raise(Guid categoryId, string menuItemName, string message)

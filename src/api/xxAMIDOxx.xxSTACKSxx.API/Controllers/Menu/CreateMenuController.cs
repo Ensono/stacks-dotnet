@@ -39,20 +39,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [ProducesResponseType(typeof(ResourceCreatedResult), 201)]
         public async Task<IActionResult> CreateMenu([Required][FromBody]CreateMenuRequest body)
         {
-            //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(201, default(InlineResponse201));
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401);
-
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403);
-
-            //TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(409);
+            // NOTE: Please ensure the API returns the response codes annotated above
 
             var id = await commandHandler.HandleAsync(
                 new CreateMenu(

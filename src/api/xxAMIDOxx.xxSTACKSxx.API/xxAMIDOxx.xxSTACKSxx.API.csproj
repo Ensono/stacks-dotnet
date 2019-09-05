@@ -19,8 +19,8 @@
 
   <ItemGroup>
     <PackageReference Include="Amido.Stacks.API.Swagger" Version="0.1.19" />
-    <PackageReference Include="Amido.Stacks.API" Version="0.1.8" />
-    <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.1.7" />
+    <PackageReference Include="Amido.Stacks.API" Version="0.1.14" />
+    <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.1.13" />
       
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />

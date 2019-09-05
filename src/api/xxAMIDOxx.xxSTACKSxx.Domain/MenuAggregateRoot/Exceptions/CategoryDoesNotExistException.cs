@@ -1,10 +1,9 @@
 ﻿using System;
-using Amido.Stacks.Domain;
-using xxAMIDOxx.xxSTACKSxx.Common.Operations;
+using Amido.Stacks.Core.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
 {
-    public class CategoryDoesNotExistException : DomainException
+    public class CategoryDoesNotExistException : DomainExceptionBase
     {
         private CategoryDoesNotExistException(
             string message
@@ -12,7 +11,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
         {
         }
 
-        public override int ExceptionCode => (int)Common.Exceptions.ExceptionCode.CategoryAlreadyExists;
+        public override int ExceptionCode { get; protected set; } = (int)Common.Exceptions.ExceptionCode.CategoryDoesNotExist;
 
         public static void Raise(Guid menuId, Guid categoryId, string message)
         {
@@ -24,7 +23,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
             throw exception;
         }
 
-        public static void Raise(OperationCode operationCode, Guid menuId, Guid categoryId)
+        public static void Raise(Guid menuId, Guid categoryId)
         {
             Raise(menuId, categoryId, null);
         }
