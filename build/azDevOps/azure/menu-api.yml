@@ -205,7 +205,7 @@ stages:
       component_test_project: '$(Test.ComponentTestProjectPath)'
       integration_test: true
       integration_test_project: '$(Test.IntegrationTestProjectPath)'
-      integration_test_cosmosdb_secret: true
+      integration_test_cosmosdb_secret: ${{ eq(variables.Test.IntegrationTestCosmosDBAEnabled, true) }}
       integration_test_cosmosdb_account: '$(Test.IntegrationTestCosmosDBAccount)'
       contract_test: true
       contract_test_project: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
@@ -222,7 +222,7 @@ stages:
       releasenote_user: $(ReleaseNote.GitHubUsername)
       releasenote_token: $(ReleaseNote.GitHubToken)
       releasenote_github_org: '$(Global.Company)'
-      releasenote_github_project: '$(ReleaseNote.GitHubProject)' # Repo name doesn't match domain/component unfortunately
+      releasenote_github_project: '$(ReleaseNote.GitHubProject' # Repo name doesn't match domain/component unfortunately
       releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
       releasenote_failonmissingPR: false
       
