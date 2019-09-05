@@ -27,9 +27,9 @@ variables:
 # Global Config:
 - name: Global.Company
   value: amido
-- name: Global.Platform
+- name: Global.Project
   value: stacks
-- name: Global.Component
+- name: Global.Domain
   value: dotnet
 
 # Versioning
@@ -41,6 +41,7 @@ variables:
   value: $[counter(variables['Version.Minor'], 0)]
 
 # Tests
+# TODO: Calculate and devolve these into build template where feasible as parameters
 - name: Test.FunctionalTestProjectFile
   value: xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.csproj
 - name: Test.FunctionalTestProjectSourcePath
@@ -69,18 +70,7 @@ variables:
   value: $(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj
 - name: Test.IntegrationTestProjectPath
   value: $(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj
-- name: Test.IntegrationTestCosmosDBAEnabled
-  value: true
-- name: Test.IntegrationTestCosmosDBAccount
-  value: 'amidostacksmenucdauksdev'
-# COSMOSDB_KEY - This variable is used in integration tests. It is set in the pipeline variables in AzDevOps
-# The following are used to retrieve COSMOSDB_KEY
-- name: CosmosDB.Account 
-  value: 'amidostacksmenucdauksdev'
-- name: CosmosDB__DatabaseAccountUri
-  value: 'https://$(CosmosDB.Account).documents.azure.com:443/'
-- name: CosmosDB__DatabaseName
-  value: Stacks
+
 
 
 - name: Sonar.serviceConnection
@@ -107,6 +97,7 @@ variables:
   value: releasenotes
 - name: ReleaseNote.GitHubProject
   value: 'stacks-dotnet'
+
 # SonarCloud Info
 - name: Test.sonarProjectKey
   value: stacks-dotnet
@@ -130,19 +121,6 @@ variables:
 - name: Docker.ImageTag
   value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
 
-
-# Kubernetes Config:
-- name: Kubernetes.ArtifactHelmpath
-  value: helm-chart/
-- name: Kubernetes.ArtifactKustomizePath
-  value: base/
-- name: Kubernetes.UseHelm
-  value: false
-- name: Kubernetes.UseKustomize
-  value: true
-- name: Kubernetes.YMLfilepath
-  value: deploy/k8s/api
-
 # DevOps Scripts Package Info
 - name: DevOps.File
   value: scripts-1.2.75-master.tar.gz
@@ -152,6 +130,8 @@ variables:
   value: amidostacksuksprod
 - name: DevOps.RG
   value: amido-stacks-rg-uks-prod
+- name: DevOps.ArtefactName
+  value: DevOps
 
 stages:
 - stage: Build
@@ -173,7 +153,7 @@ stages:
       Package_Container: $(DevOps.Container)
       Package_File: $(DevOps.File)
       Package_OutputFolder: $(Build.BinariesDirectory)
-      Package_OutputArtefact: 'DevOps'
+      Package_OutputArtefact: '$(DevOps.ArtefactName)'
 
   # Analyse via SonarCloud
   - template: azDevOps/azure/templates/jobs/build-sonarcloud.yml@templates
@@ -189,7 +169,7 @@ stages:
   - template: azDevOps/azure/templates/jobs/build-dotnet.yml@templates
     parameters:
       dependsOn: GetPackage
-      devops_artefact_name: 'DevOps'
+      devops_artefact_name: '$(DevOps.ArtefactName)'
       # Docker Config
       docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
       docker_imagename: '$(Docker.ImageName)'
@@ -205,15 +185,16 @@ stages:
       component_test_project: '$(Test.ComponentTestProjectPath)'
       integration_test: true
       integration_test_project: '$(Test.IntegrationTestProjectPath)'
-      integration_test_cosmosdb_secret: ${{ eq(variables.Test.IntegrationTestCosmosDBAEnabled, true) }}
-      integration_test_cosmosdb_account: '$(Test.IntegrationTestCosmosDBAccount)'
+      integration_test_cosmosdb_secret: true
+      integration_test_cosmosdb_account: 'amidostacksmenucdauksdev'
+      integration_test_cosmosdb_database: 'Stacks'
       contract_test: true
       contract_test_project: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
       functional_test: true
       functional_test_path: '$(Test.TestsSourcePath)'
       functional_test_artefact: 'tests'
       build_file: true
-      build_file_path: '$(Build.SourcesDirectory)/$(Kubernetes.YMLfilepath)'
+      build_file_path: '$(Build.SourcesDirectory)/deploy/k8s/api'
       build_file_artefact: 'build'
       # Release notes
       releasenote: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -237,7 +218,7 @@ stages:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
         environment: 'dev'
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
         functional_test: true
@@ -259,7 +240,7 @@ stages:
         dependsOn: 'dev'
         environment: 'test'
         # Artefact and Step Config
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
         functional_test: true
@@ -286,7 +267,7 @@ stages:
   jobs:
     - template: azDevOps/azure/templates/jobs/build-promoteimage.yml@templates
       parameters:
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         source_registry: 'amidouksstacksacrdev'
         destination_registry: 'amidouksstacksacrprod'
         docker_imagename: $(Docker.ImageName)
@@ -304,7 +285,7 @@ stages:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
         environment: 'perf'
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
         functional_test: false
@@ -324,7 +305,7 @@ stages:
         dependsOn: 'perf'
         environment: 'prod'
         # Artefact and Step Config
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
         functional_test: false
