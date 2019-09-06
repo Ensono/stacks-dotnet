@@ -168,7 +168,7 @@ stages:
       docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)' 
       docker_containerregistryname: '$(Docker.ContainerRegistryName)'
       # Vulnerability Scanning
-      vulnerability_scan: true
+      vulnerability_scan: false
       vulnerability_workdir: '$(Build.ArtifactStagingDirectory)'
       # Static Code Analysis
       static_code_analysis: true
