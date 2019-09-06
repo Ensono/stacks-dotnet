@@ -98,8 +98,6 @@ variables:
   value: 'releasenotes'
 - name: ReleaseNote.GitHubProject
   value: 'stacks-dotnet'
-- name: ReleaseNote.Artefact
-  value: 'releasenotes'
 
 # SonarCloud Info
 - name: Test.sonarProjectKey
@@ -203,7 +201,7 @@ stages:
       build_file_artefact: 'build'
       # Release note properties
       releasenote: true
-      releasenote_artefact: $(ReleaseNote.Artefact)
+      releasenote_artefact: 'releasenotes'
       releasenote_version: $(Docker.ImageTag)
       releasenote_user: $(ReleaseNote.GitHubUsername)
       releasenote_token: $(ReleaseNote.GitHubToken)
@@ -336,9 +334,9 @@ stages:
         appinsights_accountName: $(Monitoring.applnsightsAccountName)
         # ReleaseNote Information
         releasenote: true
-        releasenote_artefact: $(ReleaseNote.Artefact)
+        releasenote_artefact: 'releasenotes'
         releasenote_storageaccountrg: $(ReleaseNote.StorageAccountRG)
         releasenote_storageaccountname: $(ReleaseNote.StorageAccountName)
         releasenote_storageaccountcontainer: $(ReleaseNote.StorageContainerName)
-        releasenote_sourcefile: $(Pipeline.Workspace)/$(ReleaseNote.Artefact)/release.json
+        releasenote_sourcefile: $(Pipeline.Workspace)/releasenotes/release.json
         releasenote_targetfile: $(ReleaseNote.TargetName)
