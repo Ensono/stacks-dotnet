@@ -77,7 +77,7 @@ variables:
 - name: Sonar.serviceConnection
   value: 'amido-sonarcloud'
 - name: Sonar.organization
-  value: 'amido'
+  value: $(Global.Company)
 - name: Sonar.scannerMode
   value: 'MSBuild'
 - name: Sonar.projectKey
@@ -207,8 +207,8 @@ stages:
       releasenote_version: $(Docker.ImageTag)
       releasenote_user: $(ReleaseNote.GitHubUsername)
       releasenote_token: $(ReleaseNote.GitHubToken)
-      releasenote_github_org: '$(Global.Company)'
-      releasenote_github_project: '$(ReleaseNote.GitHubProject' # Repo name doesn't match domain/component unfortunately
+      releasenote_github_org: $(Global.Company)
+      releasenote_github_project: $(ReleaseNote.GitHubProject) # Repo name doesn't match domain/component unfortunately
       releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
       releasenote_failonmissingPR: false
 
