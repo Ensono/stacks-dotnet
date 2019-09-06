@@ -258,7 +258,7 @@ stages:
 
     - template: azDevOps/azure/templates/jobs/deploy-releasenote.yml@templates
       parameters:
-        dependsOn: 'prod'
+        dependsOn: 'test'
         devops_artefact_name: 'DevOps'
         # Release Creation
         releasenote_version: '$(Docker.ImageTag)'
@@ -272,7 +272,7 @@ stages:
         releasenote_storageaccountrg: '$(ReleaseNote.StorageAccountRG)'
         releasenote_storageaccountname: '$(ReleaseNote.StorageAccountName)'
         releasenote_storageaccountcontainer: '$(ReleaseNote.StorageContainerName)'
-        releasenote_targetfile: '$(ReleaseNote.TargetName)'
+        releasenote_targetfile: '$(ReleaseNote.TargetName)_test'
 
 ### TEMP #####
 
@@ -344,7 +344,7 @@ stages:
     - template: azDevOps/azure/templates/jobs/deploy-releasenote.yml@templates
       parameters:
         dependsOn: 'prod'
-        devops_artefact_name: 'DevOps'
+        devops_artefact_name: '$(DevOps.ArtefactName)'
         # Release Creation
         releasenote_version: '$(Docker.ImageTag)'
         releasenote_user: '$(ReleaseNote.GitHubUsername)'
