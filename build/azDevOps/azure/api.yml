@@ -70,7 +70,8 @@ variables:
   value: '$(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj'
 - name: Test.IntegrationTestProjectPath
   value: '$(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj'
-
+# Performance Test Settings (set outside of code so they can be adjusted as neccesary)
+- group: amido-stacks-testing
 
 
 - name: Sonar.serviceConnection
