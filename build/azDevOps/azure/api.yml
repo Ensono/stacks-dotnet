@@ -10,7 +10,7 @@ trigger:
     exclude:
     - src/api/xxAMIDOxx.xxSTACKSxx.API.Models/*
     - deploy/terraform/*
-    - build/azDevOps/azure/resources-provisioning.yml
+    - build/azDevOps/azure/api-provisioning.yml
 
 # Only build PR's into Master (i.e. 'going live')
 pr:
@@ -171,7 +171,7 @@ stages:
       docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)' 
       docker_containerregistryname: '$(Docker.ContainerRegistryName)'
       # Vulnerability Scanning
-      vulnerability_scan: false
+      vulnerability_scan: true
       vulnerability_workdir: '$(Build.ArtifactStagingDirectory)'
       # Static Code Analysis
       static_code_analysis: true
