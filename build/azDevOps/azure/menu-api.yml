@@ -26,11 +26,11 @@ resources:
 variables:
 # Global Config:
 - name: Global.Company
-  value: amido
+  value: 'amido'
 - name: Global.Project
-  value: stacks
+  value: 'stacks'
 - name: Global.Domain
-  value: dotnet
+  value: 'dotnet'
 
 # Versioning
 - name: Version.Major
@@ -43,33 +43,33 @@ variables:
 # Tests
 # TODO: Calculate and devolve these into build template where feasible as parameters
 - name: Test.FunctionalTestProjectFile
-  value: xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.csproj
+  value: 'xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.csproj'
 - name: Test.FunctionalTestProjectSourcePath
-  value: $(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests
+  value: '$(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests'
 - name: Test.FunctionalTestProjectBuildPath
-  value: $(Build.BinariesDirectory)
+  value: '$(Build.BinariesDirectory)'
 - name: Test.FunctionalTestReportSourcePath
-  value: $(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests/bin/Debug/netcoreapp2.2/BDDfy.html
+  value: '$(Pipeline.Workspace)/tests/Functional/xxAMIDOxx.xxSTACKSxx.API.FunctionalTests/bin/Debug/netcoreapp2.2/BDDfy.html'
 - name: Test.FunctionalTestReportTargetName
-  value: $(Docker.ImageName)/$(Build.BuildNumber)-$(environment).html
+  value: '$(Docker.ImageName)/$(Build.BuildNumber)-$(environment).html'
 - name: Test.FunctionalTestReportStorageAccountRG
-  value: amido-stacks-rg-uks-prod
+  value: 'amido-stacks-rg-uks-prod'
 - name: Test.FunctionalTestReportStorageAccountName
-  value: amidostacksuksprod
+  value: 'amidostacksuksprod'
 - name: Test.FunctionalTestReportStorageContainerName
-  value: testresults 
+  value: 'testresults '
 - name: Test.ProviderContractTestProjectSourcePath
   value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'
 - name: Test.TestsSourcePath
-  value: $(Build.SourcesDirectory)/src/tests/
+  value: '$(Build.SourcesDirectory)/src/tests/'
 - name: Test.PerformanceTestProjectSourcePath
-  value: $(Pipeline.Workspace)/tests/Performance/xxAMIDOxx.xxSTACKSxx.API.PerformanceTests
+  value: '$(Pipeline.Workspace)/tests/Performance/xxAMIDOxx.xxSTACKSxx.API.PerformanceTests'
 - name: Test.UnitTestProjectPath
-  value: $(Build.SourcesDirectory)/src/api/**/*UnitTests.csproj
+  value: '$(Build.SourcesDirectory)/src/api/**/*UnitTests.csproj'
 - name: Test.ComponentTestProjectPath
-  value: $(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj
+  value: '$(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj'
 - name: Test.IntegrationTestProjectPath
-  value: $(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj
+  value: '$(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj'
 
 
 
@@ -82,56 +82,56 @@ variables:
 - name: Sonar.projectKey
   value: 'stacks-dotnet'
 - name: Sonar.projectName
-  value: $(Docker.ImageName)
+  value: '$(Docker.ImageName)'
 - name: Sonar.projectVersion
-  value: $(Docker.ImageTag)
+  value: '$(Docker.ImageTag)'
 
 # Release Notes
 - name: ReleaseNote.TargetName
-  value: $(Docker.ImageName)/$(Build.BuildNumber).json
+  value: '$(Docker.ImageName)/$(Build.BuildNumber).json'
 - name: ReleaseNote.StorageAccountRG
-  value: amido-stacks-rg-uks-prod
+  value: 'amido-stacks-rg-uks-prod'
 - name: ReleaseNote.StorageAccountName
-  value: amidostacksuksprod
+  value: 'amidostacksuksprod'
 - name: ReleaseNote.StorageContainerName
-  value: releasenotes
+  value: 'releasenotes'
 - name: ReleaseNote.GitHubProject
   value: 'stacks-dotnet'
 
 # SonarCloud Info
 - name: Test.sonarProjectKey
-  value: stacks-dotnet
+  value: 'stacks-dotnet'
 
 # Pact Broker Info
 - name: Test.PactBrokerUrl
-  value: https://amido-stacks.pact.dius.com.au
+  value: 'https://amido-stacks.pact.dius.com.au'
 # Specific Pact Contract Test Variables as ENV VAR
 - name: BROKER_URL
-  value: $(Test.PactBrokerUrl)
+  value: '$(Test.PactBrokerUrl)'
 - name: BUILD_NUMBER
-  value: $(Docker.ImageTag)
+  value: '$(Docker.ImageTag)'
 - name: BROKER_TOKEN
-  value: $(Test.PactBearerToken)
+  value: '$(Test.PactBearerToken)'
 
 # Docker Config
 - name: Docker.DockerfilePath
-  value: src/api/
+  value: 'src/api/'
 - name: Docker.ImageName
-  value: menu-api
+  value: 'menu-api'
 - name: Docker.ImageTag
-  value: $(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)
+  value: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)'
 
 # DevOps Scripts Package Info
 - name: DevOps.File
-  value: scripts-1.2.75-master.tar.gz
+  value: 'scripts-1.2.75-master.tar.gz'
 - name: DevOps.Container
-  value: packages
+  value: 'packages'
 - name: DevOps.storageAccount
-  value: amidostacksuksprod
+  value: 'amidostacksuksprod'
 - name: DevOps.RG
-  value: amido-stacks-rg-uks-prod
+  value: 'amido-stacks-rg-uks-prod'
 - name: DevOps.ArtefactName
-  value: DevOps
+  value: 'DevOps'
 
 stages:
 
@@ -141,7 +141,7 @@ stages:
   variables:
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
-    value: amidouksstacksacrdev
+    value: 'amidouksstacksacrdev'
   jobs:
   # Set build number
   - template: azDevOps/azure/templates/jobs/build-updatebuildnumber.yml@templates
@@ -216,9 +216,9 @@ stages:
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
-    value: amidouksstacksacrdev
+    value: 'amidouksstacksacrdev'
   - name: Monitoring.applnsightsAccountName
-    value: amidostacksnetuksdev
+    value: 'amidostacksnetuksdev'
   jobs:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
@@ -226,9 +226,9 @@ stages:
         devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
+        test_artefact: 'tests'
+        test_baseurl: https://dev.amidostacks.com/api/menu/
         functional_test: true
-        functional_test_artefact: 'tests'
-        functional_test_baseurl: https://dev.amidostacks.com/api/menu/
         performance_test: false
         smoke_test: false
         kubernetes_clusterrg: 'amido-stacks-rg-uks-dev'
@@ -249,9 +249,9 @@ stages:
         devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
+        test_artefact: 'tests'
+        test_baseurl: https://test.amidostacks.com/api/menu/
         functional_test: true
-        functional_test_artefact: 'tests'
-        functional_test_baseurl: https://test.amidostacks.com/api/menu/
         performance_test: false
         smoke_test: false
         # Kubernetes Config
@@ -284,9 +284,9 @@ stages:
   variables: 
   - group: amido-stacks-infra-credentials-prod
   - name: Docker.ContainerRegistryName
-    value: amidouksstacksacrprod
+    value: 'amidouksstacksacrprod'
   - name: Monitoring.applnsightsAccountName
-    value: amidostacksnetuksprod
+    value: 'amidostacksnetuksprod'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
@@ -295,6 +295,7 @@ stages:
         devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
+        test_artefact: 'tests'
         functional_test: false
         performance_test: true
         smoke_test: false
@@ -316,6 +317,7 @@ stages:
         devops_artefact_name: '$(DevOps.ArtefactName)'
         build_file: true
         build_artefact: 'build'
+        test_artefact: 'tests'
         functional_test: false
         performance_test: false
         smoke_test: true
