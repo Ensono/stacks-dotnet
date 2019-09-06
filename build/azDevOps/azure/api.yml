@@ -124,7 +124,7 @@ variables:
 
 # DevOps Scripts Package Info
 - name: DevOps.File
-  value: 'scripts-1.2.83-master.tar.gz'
+  value: 'scripts-1.2.84-master.tar.gz'
 - name: DevOps.Container
   value: 'packages'
 - name: DevOps.storageAccount
@@ -352,7 +352,6 @@ stages:
         releasenote_github_org: '$(Global.Company)'
         releasenote_github_project: '$(ReleaseNote.GitHubProject)' # Repo name doesn't match domain/component unfortunately
         releasenote_output: '$(Build.ArtifactStagingDirectory)/release.json'
-        releasenote_failonmissingPR: false
         # ReleaseNote Output
         releasenote_storageaccountrg: '$(ReleaseNote.StorageAccountRG)'
         releasenote_storageaccountname: '$(ReleaseNote.StorageAccountName)'
