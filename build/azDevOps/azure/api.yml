@@ -124,7 +124,7 @@ variables:
 
 # DevOps Scripts Package Info
 - name: DevOps.File
-  value: 'scripts-1.2.82-master.tar.gz'
+  value: 'scripts-1.2.83-master.tar.gz'
 - name: DevOps.Container
   value: 'packages'
 - name: DevOps.storageAccount
@@ -199,17 +199,6 @@ stages:
       build_file: true
       build_file_path: '$(Build.SourcesDirectory)/deploy/k8s/api'
       build_file_artefact: 'build'
-      # Release note properties
-      releasenote: true
-      releasenote_artefact: 'releasenotes'
-      releasenote_version: $(Docker.ImageTag)
-      releasenote_user: $(ReleaseNote.GitHubUsername)
-      releasenote_token: $(ReleaseNote.GitHubToken)
-      releasenote_github_org: $(Global.Company)
-      releasenote_github_project: $(ReleaseNote.GitHubProject) # Repo name doesn't match domain/component unfortunately
-      releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
-      releasenote_failonmissingPR: false
-
 
 ### DEPLOYMENT ####
 
@@ -240,7 +229,6 @@ stages:
         cosmosdb_accountName: amidostacksmenucdauksdev
         appinsights_enabled: true
         appinsights_accountName: $(Monitoring.applnsightsAccountName)
-        releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
@@ -265,8 +253,29 @@ stages:
         cosmosdb_accountName: amidostacksmenucdaukstest
         appinsights_enabled: true
         appinsights_accountName: $(Monitoring.applnsightsAccountName)
-        # ReleaseNote Information
-        releasenote: false
+
+### TEMP ####
+
+    - template: azDevOps/azure/templates/jobs/deploy-releasenote.yml@templates
+      parameters:
+        dependsOn: 'prod'
+        devops_artefact_name: 'DevOps'
+        # Release Creation
+        releasenote_version: '$(Docker.ImageTag)'
+        releasenote_user: '$(ReleaseNote.GitHubUsername)'
+        releasenote_token: '$(ReleaseNote.GitHubToken)'
+        releasenote_github_org: '$(Global.Company)'
+        releasenote_github_project: '$(ReleaseNote.GitHubProject)' # Repo name doesn't match domain/component unfortunately
+        releasenote_output: '$(Build.ArtifactStagingDirectory)/release.json'
+        releasenote_failonmissingPR: false
+        # ReleaseNote Output
+        releasenote_storageaccountrg: '$(ReleaseNote.StorageAccountRG)'
+        releasenote_storageaccountname: '$(ReleaseNote.StorageAccountName)'
+        releasenote_storageaccountcontainer: '$(ReleaseNote.StorageContainerName)'
+        releasenote_targetfile: '$(ReleaseNote.TargetName)'
+
+### TEMP #####
+
 
 - stage: Promotion
   variables:
@@ -308,7 +317,6 @@ stages:
         cosmosdb_accountName: amidostacksmenucdauksperf
         appinsights_enabled: true
         appinsights_accountName: $(Monitoring.applnsightsAccountName)
-        releasenote: false
 
     - template: azDevOps/azure/templates/jobs/deploy-dotnet.yml@templates
       parameters:
@@ -332,11 +340,21 @@ stages:
         cosmosdb_accountName: amidostacksmenucdauksprod
         appinsights_enabled: true
         appinsights_accountName: $(Monitoring.applnsightsAccountName)
-        # ReleaseNote Information
-        releasenote: true
-        releasenote_artefact: 'releasenotes'
-        releasenote_storageaccountrg: $(ReleaseNote.StorageAccountRG)
-        releasenote_storageaccountname: $(ReleaseNote.StorageAccountName)
-        releasenote_storageaccountcontainer: $(ReleaseNote.StorageContainerName)
-        releasenote_sourcefile: $(Pipeline.Workspace)/releasenotes/release.json
-        releasenote_targetfile: $(ReleaseNote.TargetName)
+
+    - template: azDevOps/azure/templates/jobs/deploy-releasenote.yml@templates
+      parameters:
+        dependsOn: 'prod'
+        devops_artefact_name: 'DevOps'
+        # Release Creation
+        releasenote_version: '$(Docker.ImageTag)'
+        releasenote_user: '$(ReleaseNote.GitHubUsername)'
+        releasenote_token: '$(ReleaseNote.GitHubToken)'
+        releasenote_github_org: '$(Global.Company)'
+        releasenote_github_project: '$(ReleaseNote.GitHubProject)' # Repo name doesn't match domain/component unfortunately
+        releasenote_output: '$(Build.ArtifactStagingDirectory)/release.json'
+        releasenote_failonmissingPR: false
+        # ReleaseNote Output
+        releasenote_storageaccountrg: '$(ReleaseNote.StorageAccountRG)'
+        releasenote_storageaccountname: '$(ReleaseNote.StorageAccountName)'
+        releasenote_storageaccountcontainer: '$(ReleaseNote.StorageContainerName)'
+        releasenote_targetfile: '$(ReleaseNote.TargetName)'
