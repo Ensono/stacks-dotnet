@@ -26,5 +26,5 @@ class GetMenuSimulation extends Simulation {
     )
 
   setUp(getMenuRampExec)
-    .assertions(global.responseTime.max.lt(1000))
+    .assertions(global.responseTime.max.lt(2000))
 }
