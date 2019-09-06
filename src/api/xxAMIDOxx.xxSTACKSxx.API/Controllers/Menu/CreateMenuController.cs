@@ -47,7 +47,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                         tenantId: body.TenantId, //Should check if user logged-in owns it
                         name: body.Name,
                         description: body.Description,
-                        enabled: false //disabled by default
+                        enabled: body.Enabled
                     )
                 );
 
