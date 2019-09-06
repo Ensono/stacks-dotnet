@@ -169,10 +169,10 @@ stages:
       docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)' 
       docker_containerregistryname: '$(Docker.ContainerRegistryName)'
       # Vulnerability Scanning
-      vulnerability_scan: false # TEMPORARY!
+      vulnerability_scan: true # TEMPORARY!
       vulnerability_workdir: '$(Build.ArtifactStagingDirectory)'
       # Static Code Analysis
-      static_code_analysis: false # TEMPORARY!
+      static_code_analysis: true # TEMPORARY!
       static_code_analysis_build_path: $(Build.SourcesDirectory)/src/api
       Sonar_serviceConnection: '$(Sonar.serviceConnection)'
       Sonar_organization: '$(Sonar.organization)'
@@ -253,29 +253,6 @@ stages:
         cosmosdb_accountName: amidostacksmenucdaukstest
         appinsights_enabled: true
         appinsights_accountName: $(Monitoring.applnsightsAccountName)
-
-### TEMP ####
-
-    - template: azDevOps/azure/templates/jobs/deploy-releasenote.yml@templates
-      parameters:
-        dependsOn: 'test'
-        devops_artefact_name: 'DevOps'
-        # Release Creation
-        releasenote_version: '$(Docker.ImageTag)'
-        releasenote_user: '$(ReleaseNote.GitHubUsername)'
-        releasenote_token: '$(ReleaseNote.GitHubToken)'
-        releasenote_github_org: '$(Global.Company)'
-        releasenote_github_project: '$(ReleaseNote.GitHubProject)' # Repo name doesn't match domain/component unfortunately
-        releasenote_output: '$(Build.ArtifactStagingDirectory)/release.json'
-        releasenote_failonmissingPR: false
-        # ReleaseNote Output
-        releasenote_storageaccountrg: '$(ReleaseNote.StorageAccountRG)'
-        releasenote_storageaccountname: '$(ReleaseNote.StorageAccountName)'
-        releasenote_storageaccountcontainer: '$(ReleaseNote.StorageContainerName)'
-        releasenote_targetfile: '$(ReleaseNote.TargetName)_test'
-
-### TEMP #####
-
 
 - stage: Promotion
   variables:
