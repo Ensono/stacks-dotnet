@@ -11,5 +11,5 @@ class CreateMenuSimulation extends Simulation {
     .inject(rampUsers(users) during(rampup seconds))
 
   setUp(createMenuRampExec)
-    .assertions(global.responseTime.max.lt(1000))
+    .assertions(global.responseTime.max.lt(2000))
 }
