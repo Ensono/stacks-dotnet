@@ -14,9 +14,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
             string message
         ) : base((int)exceptionCode, (int)operationCode, correlationId, message)
         {
+            HttpStatusCode = (int)ExceptionCodeToHttpStatusCodeConverter.GetHttpStatusCode((int)exceptionCode);
         }
 
-        public override int HttpStatusCode => (int)System.Net.HttpStatusCode.Conflict;
+        public override int ExceptionCode { get; protected set; }
 
         public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId, string message)
         {

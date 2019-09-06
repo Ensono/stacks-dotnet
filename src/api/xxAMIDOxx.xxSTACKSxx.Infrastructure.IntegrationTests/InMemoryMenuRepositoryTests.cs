@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes;
 
-namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
+namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests
 {
     /// <summary>
     /// The purpose of this integration test is to validate the implementation
@@ -42,7 +42,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
             Assert.NotNull(dbItem);
             Assert.Equal(dbItem.Id, menu.Id);
             Assert.Equal(dbItem.Name, menu.Name);
-            Assert.Equal(dbItem.RestaurantId, menu.RestaurantId);
+            Assert.Equal(dbItem.TenantId, menu.TenantId);
             Assert.Equal(dbItem.Description, menu.Description);
             Assert.Equal(dbItem.Enabled, menu.Enabled);
             Assert.Equal(dbItem.Categories, menu.Categories);

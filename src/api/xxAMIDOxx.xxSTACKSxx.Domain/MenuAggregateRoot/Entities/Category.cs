@@ -60,9 +60,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities
             item.Description = menuItem.Description;
             item.Price = menuItem.Price;
             item.Available = menuItem.Available;
-            item.Cuisine = menuItem.Cuisine;
-            item.ItemClass = menuItem.ItemClass;
-            item.Ingredients = menuItem.Ingredients;
         }
 
         private MenuItem GetMenuItem(Guid menuItemId)

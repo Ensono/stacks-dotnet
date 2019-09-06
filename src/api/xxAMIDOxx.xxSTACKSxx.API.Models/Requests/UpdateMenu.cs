@@ -3,7 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Models
 {
-    public partial class CreateOrUpdateMenu
+    /// <summary>
+    /// Request model used by UpdateMenu api endpoint
+    /// </summary>
+    public partial class UpdateMenuRequest
     {
         /// <example>Lunch Menu</example>
         [Required]
@@ -13,6 +16,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
         [Required]
         public string Description { get; set; }
 
+        /// <summary>
+        /// Represents the status of the menu. False if disabled
+        /// </summary>
         [Required]
         public bool Enabled { get; set; }
 

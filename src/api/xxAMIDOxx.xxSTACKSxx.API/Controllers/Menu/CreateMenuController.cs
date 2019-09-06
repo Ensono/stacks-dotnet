@@ -36,28 +36,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/")]
-        [ProducesResponseType(typeof(ResourceCreated), 201)]
-        public async Task<IActionResult> CreateMenu([Required][FromBody]CreateOrUpdateMenu body)
+        [ProducesResponseType(typeof(ResourceCreatedResult), 201)]
+        public async Task<IActionResult> CreateMenu([Required][FromBody]CreateMenuRequest body)
         {
-            //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(201, default(InlineResponse201));
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401);
-
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403);
-
-            //TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(409);
+            // NOTE: Please ensure the API returns the response codes annotated above
 
             var id = await commandHandler.HandleAsync(
                 new CreateMenu(
                         correlationId: CorrelationId,
-                        restaurantId: body.RestaurantId, //Should check if user logged-in owns it
+                        tenantId: body.TenantId, //Should check if user logged-in owns it
                         name: body.Name,
                         description: body.Description,
                         enabled: body.Enabled
@@ -68,7 +55,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                     "GetMenu", "GetMenuById", new
                     {
                         id = id
-                    }, new ResourceCreated(id)
+                    }, new ResourceCreatedResult(id)
             );
         }
     }

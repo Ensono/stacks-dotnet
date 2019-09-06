@@ -6,6 +6,7 @@ using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.Domain;
+using xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
@@ -27,12 +28,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
                 command.Name,
                 command.Description,
                 command.Price,
-                command.Available,
-
-                //TODO: Refactor to receive class, cuisine, Ingredients
-                "Food",
-                new Domain.ValueObjects.Cuisine(Guid.NewGuid(), "Other"),
-                ingredients: null
+                command.Available
             );
 
             return Task.FromResult(id);

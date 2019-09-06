@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Testing" Version="0.0.21" />
+        <PackageReference Include="Amido.Stacks.Testing" Version="0.0.35" />
         <PackageReference Include="Microsoft.AspNetCore.All">
             <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
             <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>

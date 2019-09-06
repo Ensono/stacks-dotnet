@@ -4,7 +4,7 @@ trigger:
   paths:
     include:
     - deploy/terraform/*
-    - build/azDevOps/azure/menu-provisioning.yml
+    - build/azDevOps/azure/resources-provisioning.yml
     exclude:
     - deploy/*
     - src/*

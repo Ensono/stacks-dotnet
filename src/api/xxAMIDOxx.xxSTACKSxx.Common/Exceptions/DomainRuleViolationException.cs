@@ -15,14 +15,15 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
             Exception domainException
         ) : base((int)exceptionCode, (int)operationCode, correlationId, message, domainException)
         {
+            HttpStatusCode = (int)ExceptionCodeToHttpStatusCodeConverter.GetHttpStatusCode((int)exceptionCode);
         }
 
-        public override int HttpStatusCode => (int)System.Net.HttpStatusCode.BadRequest;
+        public override int ExceptionCode { get; protected set; }
 
-        public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId, Exception domainException)
+        public static void Raise(OperationCode operationCode, Guid correlationId, Guid menuId, DomainExceptionBase domainException)
         {
             var exception = new DomainRuleViolationException(
-                Exceptions.ExceptionCode.MenuDoesNotExist,
+                (ExceptionCode)domainException.ExceptionCode,
                 operationCode,
                 correlationId,
                 $"A domain exception has been raised in the menu '{menuId}'. {domainException.Message}",
@@ -32,7 +33,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
             throw exception;
         }
 
-        public static void Raise(IOperationContext context, Guid menuId, Exception domainException)
+        public static void Raise(IOperationContext context, Guid menuId, DomainExceptionBase domainException)
         {
             Raise((OperationCode)context.OperationCode, context.CorrelationId, menuId, domainException);
         }

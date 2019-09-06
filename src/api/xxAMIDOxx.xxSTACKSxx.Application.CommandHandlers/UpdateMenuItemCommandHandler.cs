@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
@@ -24,12 +23,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
                 command.Name,
                 command.Description,
                 command.Price,
-                command.Available,
-
-                //TODO: Refactor to receive class, cuisine, Ingredients
-                "Food",
-                new Domain.ValueObjects.Cuisine(Guid.NewGuid(), "Other"),
-                ingredients: null
+                command.Available
             );
 
             return Task.FromResult(true);

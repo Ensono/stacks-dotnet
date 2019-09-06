@@ -96,8 +96,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
                     c.CustomSchemaIds(type => type.FriendlyId(false));
                     c.DescribeAllEnumsAsStrings();
+                    //Load comments to show as examples and descriptions in the swagger page
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{hostingEnv.ApplicationName}.xml");
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateOrUpdateMenu).Assembly.GetName().Name}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateMenuRequest).Assembly.GetName().Name}.xml");
 
                     // Sets the basePath property in the Swagger document generated
                     c.DocumentFilter<BasePathFilter>(pathBase);

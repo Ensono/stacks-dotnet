@@ -6,8 +6,8 @@
     </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amido.Stacks.Data.Documents.CosmosDB" Version="0.0.24" />
-    <PackageReference Include="Amido.Stacks.DependencyInjection" Version="0.0.20" />
+    <PackageReference Include="Amido.Stacks.Data.Documents.CosmosDB" Version="0.1.26" />
+    <PackageReference Include="Amido.Stacks.DependencyInjection" Version="0.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />

@@ -11,7 +11,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu
 
         public string SearchText { get; }
 
-        public Guid? RestaurantId { get; }
+        public Guid? TenantId { get; }
 
         public int? PageSize { get; }
 
@@ -21,7 +21,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu
         {
             CorrelationId = correlationId;
             SearchText = searchText;
-            RestaurantId = restaurantId;
+            TenantId = restaurantId;
             PageSize = pageSize;
             PageNumber = pageNumber;
         }

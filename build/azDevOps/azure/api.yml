@@ -10,7 +10,7 @@ trigger:
     exclude:
     - src/api/xxAMIDOxx.xxSTACKSxx.API.Models/*
     - deploy/terraform/*
-    - build/azDevOps/azure/menu-provisioning.yml
+    - build/azDevOps/azure/resources-provisioning.yml
 
 # Only build PR's into Master (i.e. 'going live')
 pr:
@@ -70,7 +70,8 @@ variables:
   value: '$(Build.SourcesDirectory)/src/api/**/*ComponentTests.csproj'
 - name: Test.IntegrationTestProjectPath
   value: '$(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj'
-
+# Performance Test Settings (set outside of code so they can be adjusted as neccesary)
+- group: amido-stacks-testing
 
 
 - name: Sonar.serviceConnection
@@ -168,7 +169,7 @@ stages:
       docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)' 
       docker_containerregistryname: '$(Docker.ContainerRegistryName)'
       # Vulnerability Scanning
-      vulnerability_scan: true
+      vulnerability_scan: false
       vulnerability_workdir: '$(Build.ArtifactStagingDirectory)'
       # Static Code Analysis
       static_code_analysis: true

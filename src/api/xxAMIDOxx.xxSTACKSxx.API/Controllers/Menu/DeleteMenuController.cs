@@ -37,17 +37,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [HttpDelete("/v1/menu/{id}")]
         public async Task<IActionResult> DeleteMenu([FromRoute][Required]Guid id)
         {
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401);
-
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
+            // NOTE: Please ensure the API returns the response codes annotated above
 
             await commandHandler.HandleAsync(new DeleteMenu(id));
             return StatusCode(204);

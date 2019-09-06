@@ -38,28 +38,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="404">Resource not found</response>
         [HttpPut("/v1/menu/{id}")]
-        public async Task<IActionResult> UpdateMenu([FromRoute][Required]Guid id, [FromBody]CreateOrUpdateMenu body)
+        public async Task<IActionResult> UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenuRequest body)
         {
-            // THESE SHOULD BE HANDLED BY SECURITY FILTERS AND VALIDATORS
-
-            // TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401);
-
-            // TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403);
-
-            // Handled by Validator
-
-            // TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            // THESE CODES SHOULD BE HANDLED BY EXCEPTIONS IN THE HANDLER
-
-            //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(204);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
+            // NOTE: Please ensure the API returns the response codes annotated above
 
             await commandHandler.HandleAsync(
                 new UpdateMenu()

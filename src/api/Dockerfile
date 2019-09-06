@@ -14,6 +14,7 @@ RUN du -ch xxAMIDOxx.xxSTACKSxx.API/out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+EXPOSE 80
 WORKDIR /app
 COPY --from=build-env /app/xxAMIDOxx.xxSTACKSxx.API/out .
 ENTRYPOINT ["dotnet", "xxAMIDOxx.xxSTACKSxx.API.dll"]
