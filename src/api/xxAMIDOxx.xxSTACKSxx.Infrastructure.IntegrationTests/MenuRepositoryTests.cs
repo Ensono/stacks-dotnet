@@ -14,7 +14,7 @@ using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
 
-namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
+namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests
 {
 
     /// <summary>
@@ -26,6 +26,24 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
     [Trait("TestType", "IntegrationTests")]
     public class MenuRepositoryTests
     {
+        public MenuRepositoryTests()
+        {
+            var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
+            //Notes:
+            // if using an azure instance to run the tests, make sure you set the environment variable before you start visual studio
+            // Ex: CMD C:\> setx COSMOSDB_KEY=ABCDEFGASD==
+            // On CosmosDB, make sure you create the collection 'Menu' in the same database defined in the config.
+            // To overrride the appsettings values, set the environment variable using SectionName__PropertyName. i.e: CosmosDB__DatabaseAccountUri 
+            // Note the use of a double _ between the section and the property name
+            if (Environment.GetEnvironmentVariable(settings.SecurityKeySecret.Identifier) == null)
+            {
+                //if locahost and running in visual studio use the default emulator key
+                if (settings.DatabaseAccountUri.Contains("localhost", StringComparison.InvariantCultureIgnoreCase) && Environment.GetEnvironmentVariable("VisualStudioEdition") != null)
+                    Environment.SetEnvironmentVariable(settings.SecurityKeySecret.Identifier, "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
+                else
+                    throw new ArgumentNullException($"The environment variable '{settings.SecurityKeySecret.Identifier}' has not been set. Esure all environment variables required are set before wunning integration tests.");
+            }
+        }
 
         //GetByIdTest will be tested as part of Save+Get OR Get+Delete+Get
         //public void GetByIdTest() { }
@@ -80,22 +98,6 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
         public static IFixture Customizations()
         {
             var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
-
-            //Notes:
-            // if using an azure instance to run the tests, make sure you set the environment variable before you start visual studio
-            // Ex: CMD C:\> setx COSMOSDB_KEY ABCDEFGASD==
-            // On CosmosDB, make sure you create the collection 'Menu' in the database defined in the config.
-            // To overrride the appsettings values, set the environment variable using SectionName__PropertyName. i.e: CosmosDB__DatabaseAccountUri 
-            // Note the use of a double _ between the section and the property name
-            if (Environment.GetEnvironmentVariable(settings.SecurityKeySecret.Identifier) == null)
-            {
-                //if locahost and running in visual studio
-                if (settings.DatabaseAccountUri.Contains("localhost", StringComparison.InvariantCultureIgnoreCase) && Environment.GetEnvironmentVariable("VisualStudioEdition") != null)
-                    Environment.SetEnvironmentVariable(settings.SecurityKeySecret.Identifier, "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
-                else
-                    throw new ArgumentNullException($"The environment variable '{settings.SecurityKeySecret.Identifier}' has not been set");
-            }
-
 
             IFixture fixture = new Fixture();
 

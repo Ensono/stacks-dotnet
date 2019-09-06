@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Application.CQRS.Commands;
 using Amido.Stacks.Core.Exceptions;
-using Amido.Stacks.Domain;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Common.Exceptions;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
@@ -68,13 +67,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             {
                 // TODO: handle applicaiton exception handling
                 // possible failures is missing data or information, validations, and so on
-                throw;
+                throw ex;
             }
             catch (InfrastructureExceptionBase ex)
             {
                 //TODO: handle  infrastructure exception handling
                 //possible failures is calling database, queue or any other dependency
-                throw;
+                throw ex;
             }
             catch (Exception ex)
             {

@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes;
 
-namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntTests
+namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests
 {
     /// <summary>
     /// The purpose of this integration test is to validate the implementation

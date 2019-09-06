@@ -9,8 +9,7 @@
 *.userosscache
 *.sln.docstates
 .vscode
-
-# User-specific files (MonoDevelop/Xamarin Studio)
+.env
 *.userprefs
 .DS_Store
 
@@ -331,11 +330,10 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-.DS_Store
+# PROJECT SPECIFIC FILES
 /src/api/xxAMIDOxx.xxSTACKSxx.API/out
+pacts/
 
 # scala files
 target/
 *.iml
-
-pacts/
