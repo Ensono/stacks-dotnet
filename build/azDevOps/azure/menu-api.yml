@@ -134,6 +134,9 @@ variables:
   value: DevOps
 
 stages:
+
+### BUILD ####
+
 - stage: Build
   variables:
   - group: amido-stacks-infra-credentials-nonprod
@@ -154,21 +157,10 @@ stages:
       Package_File: $(DevOps.File)
       Package_OutputFolder: $(Build.BinariesDirectory)
       Package_OutputArtefact: '$(DevOps.ArtefactName)'
-
-  # Analyse via SonarCloud
-  - template: azDevOps/azure/templates/jobs/build-sonarcloud.yml@templates
-    parameters:
-      Sonar_serviceConnection: '$(Sonar.serviceConnection)'
-      Sonar_organization: '$(Sonar.organization)'
-      Sonar_scannerMode: '$(Sonar.scannerMode)'
-      Sonar_projectKey: '$(Sonar.projectKey)'
-      Sonar_projectName: '$(Sonar.projectName)'
-      Sonar_projectVersion: '$(Sonar.projectVersion)'
-      dotnet_build_path: $(Build.SourcesDirectory)/src/api
       
   - template: azDevOps/azure/templates/jobs/build-dotnet.yml@templates
     parameters:
-      dependsOn: GetPackage
+      dependsOn: GetPackage # Name of 'publish-blob-as-artefact' step above
       devops_artefact_name: '$(DevOps.ArtefactName)'
       # Docker Config
       docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
@@ -178,7 +170,16 @@ stages:
       # Vulnerability Scanning
       vulnerability_scan: true
       vulnerability_workdir: '$(Build.ArtifactStagingDirectory)'
-      #  Testing
+      # Static Code Analysis
+      static_code_analysis: true
+      static_code_analysis_build_path: $(Build.SourcesDirectory)/src/api
+      Sonar_serviceConnection: '$(Sonar.serviceConnection)'
+      Sonar_organization: '$(Sonar.organization)'
+      Sonar_scannerMode: '$(Sonar.scannerMode)'
+      Sonar_projectKey: '$(Sonar.projectKey)'
+      Sonar_projectName: '$(Sonar.projectName)'
+      Sonar_projectVersion: '$(Sonar.projectVersion)'
+      # Testing
       unit_test: true
       unit_test_project: '$(Test.UnitTestProjectPath)'
       component_test: true
@@ -193,6 +194,7 @@ stages:
       functional_test: true
       functional_test_path: '$(Test.TestsSourcePath)'
       functional_test_artefact: 'tests'
+      # Build Output File
       build_file: true
       build_file_path: '$(Build.SourcesDirectory)/deploy/k8s/api'
       build_file_artefact: 'build'
@@ -206,7 +208,10 @@ stages:
       releasenote_github_project: '$(ReleaseNote.GitHubProject' # Repo name doesn't match domain/component unfortunately
       releasenote_output: $(Build.ArtifactStagingDirectory)/release.json
       releasenote_failonmissingPR: false
-      
+
+
+### DEPLOYMENT ####
+
 - stage: NonProduction
   variables: 
   - group: amido-stacks-infra-credentials-nonprod
