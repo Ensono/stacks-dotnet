@@ -24,18 +24,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
         {
             var id = Guid.NewGuid();
 
-            //TODO: Check if the user is the owner of the resource
-            //if(command.User.RestaurantId != menu.RestaurantId)
-            //{
-            //    throw Exception
-            //}
+            // TODO: Check if the user owns the resource before any operation
+            // if(command.User.TenantId != menu.TenantId)
+            // {
+            //     throw NotAuthorizedException()
+            // }
 
 
-            //TODO: use a factory method for domain creation
             var newMenu = new Menu(
                 id: id,
                 name: command.Name,
-                restaurantId: command.RestaurantId,
+                tenantId: command.TenantId,
                 description: command.Description,
                 categories: null,
                 enabled: command.Enabled

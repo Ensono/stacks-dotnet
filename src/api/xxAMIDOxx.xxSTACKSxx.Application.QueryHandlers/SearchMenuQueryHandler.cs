@@ -25,7 +25,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
             int pageSize = 10;
             int pageNumber = 1;
             var searchTerm = string.Empty;
-            Guid restaurantId = criteria.RestaurantId.HasValue ? criteria.RestaurantId.Value : Guid.Empty;
+            Guid tenantId = criteria.TenantId.HasValue ? criteria.TenantId.Value : Guid.Empty;
 
             if (criteria.PageSize.HasValue && criteria.PageSize > 0)
                 pageSize = criteria.PageSize.Value;
@@ -36,13 +36,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
             if (!string.IsNullOrEmpty(criteria.SearchText))
                 searchTerm = criteria.SearchText.Trim();
 
-            bool restaurantIdProvided = criteria.RestaurantId.HasValue;
+            bool restaurantIdProvided = criteria.TenantId.HasValue;
 
             var results = await storage.Search(
                 itemFilter =>
                     (string.IsNullOrEmpty(searchTerm) || itemFilter.Name.Contains(searchTerm)) &&
                     //Nullable types must have a value when passed to a seach, this is why we convert it to non nullable and pass a boolean check
-                    (!restaurantIdProvided || itemFilter.RestaurantId == restaurantId)
+                    (!restaurantIdProvided || itemFilter.TenantId == tenantId)
                     ,
                 null,
                 pageSize,
@@ -58,7 +58,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
             result.Results = results.Content.Select(i => new SearchMenuResultItem()
             {
                 Id = i.Id,
-                RestaurantId = i.RestaurantId,
+                RestaurantId = i.TenantId,
                 Name = i.Name,
                 Description = i.Description,
                 Enabled = i.Enabled

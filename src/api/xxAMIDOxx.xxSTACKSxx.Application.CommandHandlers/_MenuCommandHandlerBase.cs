@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Application.CQRS.Commands;
 using Amido.Stacks.Core.Exceptions;
-using Amido.Stacks.Domain;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Common.Exceptions;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
@@ -12,6 +11,13 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
+    /// <summary>
+    /// MenuCommandHandlerBase used for common operations updating an existing menu
+    /// Creation and Deletion of the AggregateRoot should have it's own implementation
+    /// Command specific logic should be handled within HandleCommandAsync() method implementation
+    /// </summary>
+    /// <typeparam name="TCommand">The type of command being handled</typeparam>
+    /// <typeparam name="TResult">The type of result expected. Use bool when no return value is expected</typeparam>
     public abstract class MenuCommandHandlerBase<TCommand, TResult> : ICommandHandler<TCommand, TResult> where TCommand : IMenuCommand
     {
         protected IMenuRepository repository;
@@ -32,8 +38,11 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             if (menu == null)
                 MenuDoesNotExistException.Raise(command, command.MenuId);
 
-            //TODO: Check if the user has permission(Is the owner of the resource) 
-            // to do after OIDC is setup, requires design
+            // TODO: Check if the user owns the resource before any operation
+            // if(command.User.TenantId != menu.TenantId)
+            // {
+            //     throw NotAuthorizedException()
+            // }
 
             try
             {
@@ -41,6 +50,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
                 var issuccessful = await repository.SaveAsync(menu);
 
+                //TODO: Define an application exception to handle this
                 if (!issuccessful)
                     throw new Exception("Unable to complete operation");
 
@@ -49,24 +59,25 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
                     await applicationEventPublisher.PublishAsync(appEvent);
                 }
             }
-            catch (DomainException ex)
+            catch (DomainExceptionBase ex)
             {
                 DomainRuleViolationException.Raise(command, command.MenuId, ex);
             }
             catch (ApplicationExceptionBase ex)
             {
-                //TODO: Change to an applicaiton exception handling
-                //poossible failures is calling external dependencies like other services
-                DomainRuleViolationException.Raise(command, command.MenuId, ex);
+                // TODO: handle applicaiton exception handling
+                // possible failures is missing data or information, validations, and so on
+                throw ex;
             }
             catch (InfrastructureExceptionBase ex)
             {
-                //TODO: Change to an infrastructure exception handling
+                //TODO: handle  infrastructure exception handling
                 //possible failures is calling database, queue or any other dependency
-                DomainRuleViolationException.Raise(command, command.MenuId, ex);
+                throw ex;
             }
             catch (Exception ex)
             {
+                //TODO: Enrich the exception details with context information to track in the logs
                 ex.Data["OperationCode"] = command.OperationCode;
                 ex.Data["CorrelationId"] = command.CorrelationId;
                 ex.Data["MenuId"] = command.MenuId;
@@ -74,14 +85,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
                 throw ex;
             }
 
-
             return result;
         }
 
         /// <summary>
-        /// The bae command handler will pre-load the aggregate root and provide it to the command handler with the command
+        /// The base command handler will pre-load the aggregate root and provide it to the command handler with the command
         /// </summary>
-        /// <param name="menu"></param>
+        /// <param name="menu">the menu loaded from the repository</param>
         /// <param name="command"></param>
         /// <returns></returns>
         public abstract Task<TResult> HandleCommandAsync(Menu menu, TCommand command);

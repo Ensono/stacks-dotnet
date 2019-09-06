@@ -1,8 +1,9 @@
-﻿using Amido.Stacks.Domain;
+﻿using Amido.Stacks.Core.Exceptions;
+using Amido.Stacks.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
 {
-    public class MenuItemPriceMustNotBeZeroException : DomainException
+    public class MenuItemPriceMustNotBeZeroException : DomainExceptionBase
     {
         private MenuItemPriceMustNotBeZeroException(
             string message
@@ -10,7 +11,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
         {
         }
 
-        public override int ExceptionCode => (int)Common.Exceptions.ExceptionCode.MenuItemPriceMustNotBeZero;
+        public override int ExceptionCode { get; protected set; } = (int)Common.Exceptions.ExceptionCode.MenuItemPriceMustNotBeZero;
 
         public static void Raise(string itemName, string message)
         {

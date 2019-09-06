@@ -40,7 +40,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
             "And the event CategoryCreated is Raised".x(fixture.ThenACategoryCreatedEventIsRaised);
         }
 
-        [Scenario(Skip = "Disable until exception handling in API is implemented")]
+        [Scenario]
         [InlineAutoData("Admin")]
         public void CreateCategoryShouldFailWhenMenuDoesNotExist(string role, CreateCategoryFixture fixture)
         {
@@ -51,11 +51,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
             "And the response code is NotFound".x(fixture.ThenANotFoundResponseIsReturned);
             "And the menu is loaded from the storage".x(fixture.ThenMenuIsLoadedFromStorage);
             "And the menu is not persisted to the storage".x(fixture.ThenTheMenuShouldNotBePersisted);
-            "And the event MenuUpdate should not be Raised".x(fixture.ThenAMenuUpdatedEventIsNotRaised);
+            "And the event MenuUpdate should NOT be raised".x(fixture.ThenAMenuUpdatedEventIsNotRaised);
             "And the event CategoryCreated should not be Raised".x(fixture.ThenACategoryCreatedEventIsNotRaised);
         }
 
-        [Scenario(Skip = "Disable until exception handling in API is implemented")]
+        [Scenario]
         [InlineAutoData("Admin")]
         public void CreateCategoryShouldFailWhenCategoryAlreadyExists(string role, CreateCategoryFixture fixture)
         {
@@ -67,7 +67,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
             "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
             "And the response code is Conflict".x(fixture.ThenAConflictResponseIsReturned);
             "And the menu is NOT persisted to the storage".x(fixture.ThenTheMenuShouldNotBePersisted);
-            "And the event MenuUpdate is NOT Raised".x(fixture.ThenAMenuUpdatedEventIsRaised);
+            "And the event MenuUpdate should NOT be raised".x(fixture.ThenAMenuUpdatedEventIsNotRaised);
             "And the event CategoryCreated is NOT Raised".x(fixture.ThenACategoryCreatedEventIsNotRaised);
         }
 

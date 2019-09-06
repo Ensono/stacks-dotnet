@@ -37,8 +37,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [ProducesResponseType(typeof(Menu), 200)]
         public async Task<IActionResult> GetMenu([FromRoute][Required]Guid id)
         {
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
+            // NOTE: Please ensure the API returns the response codes annotated above
 
             var result = await queryHandler.ExecuteAsync(new Query.GetMenuByIdQueryCriteria() { Id = id });
 
