@@ -13,7 +13,7 @@ commonAnnotations:
   role: api
   stage: stable
   tier: frontend
-  app.kubernetes.io/instance: manuapi
+  app.kubernetes.io/instance: menuapi
   app.kubernetes.io/managed-by: kustomize
   projectID: stacks
   applicationName: menu
