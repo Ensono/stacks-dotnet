@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById
 {
-    public partial class Category
+    public class Category
     {
         [Required]
         public Guid Id { get; set; }

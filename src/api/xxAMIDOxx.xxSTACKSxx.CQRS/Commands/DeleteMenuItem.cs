@@ -2,7 +2,7 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class DeleteMenuItem : IMenuItemCommand
+    public class DeleteMenuItem : IMenuItemCommand
     {
         public int OperationCode => (int)Common.Operations.OperationCode.DeleteMenuItem;
 

@@ -2,7 +2,7 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu
 {
-    public partial class SearchMenuResultItem
+    public class SearchMenuResultItem
     {
         public Guid? Id { get; set; }
 

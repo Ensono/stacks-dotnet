@@ -3,7 +3,7 @@ using Amido.Stacks.Application.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class CreateMenu : ICommand
+    public class CreateMenu : ICommand
     {
         public int OperationCode => (int)Common.Operations.OperationCode.CreateMenu;
 

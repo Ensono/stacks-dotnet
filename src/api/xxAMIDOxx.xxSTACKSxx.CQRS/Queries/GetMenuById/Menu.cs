@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById
 {
-    public partial class Menu
+    public class Menu
     {
         [Required]
         public Guid Id { get; set; }
