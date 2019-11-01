@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Responses
 {
     /// <summary>
     /// Response model used by GetById api endpoint

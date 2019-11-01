@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {

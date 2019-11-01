@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers

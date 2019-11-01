@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Shouldly;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 {

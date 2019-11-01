@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Responses
 {
     /// <summary>
     /// Response model representing a search result item in the SearchMenu api endpoint

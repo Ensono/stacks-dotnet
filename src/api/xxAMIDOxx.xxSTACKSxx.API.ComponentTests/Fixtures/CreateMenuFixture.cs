@@ -4,6 +4,7 @@ using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure;
