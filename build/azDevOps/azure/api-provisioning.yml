@@ -10,8 +10,6 @@ trigger:
     - src/*
     - contracts/*
     - build/*
-pr:
-- master
 
 resources:
   repositories:
