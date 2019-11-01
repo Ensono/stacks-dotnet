@@ -35,7 +35,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/")]
-        [ProducesResponseType(typeof(ResourceCreatedResult), 201)]
+        [ProducesResponseType(typeof(ResourceCreatedResponse), 201)]
         public async Task<IActionResult> CreateMenu([Required][FromBody]CreateMenuRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above

@@ -5,7 +5,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
     /// <summary>
     /// Request model used by UpdateItem api endpoint
     /// </summary>
-    public partial class UpdateItemRequest
+    public class UpdateItemRequest
     {
         /// <example>Name of Item updated</example>
         [Required]

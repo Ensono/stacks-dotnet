@@ -5,7 +5,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
     /// <summary>
     /// Request model used by CreateItem api endpoint
     /// </summary>
-    public partial class CreateItemRequest
+    public class CreateItemRequest
     {
         /// <example>Name of item created</example>
         [Required]

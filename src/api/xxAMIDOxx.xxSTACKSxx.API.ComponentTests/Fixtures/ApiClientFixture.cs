@@ -121,7 +121,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         internal async Task ThenTheResourceCreatedResponseIsReturned()
         {
-            var responseObject = await GetResponseObject<ResourceCreatedResult>();
+            var responseObject = await GetResponseObject<ResourceCreatedResponse>();
 
             responseObject.ShouldNotBeNull();
             responseObject.Id.ShouldNotBe(default(Guid));

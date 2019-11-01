@@ -37,7 +37,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="404">Resource not found</response>
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/{id}/category/{categoryId}/items/")]
-        [ProducesResponseType(typeof(ResourceCreatedResult), 201)]
+        [ProducesResponseType(typeof(ResourceCreatedResponse), 201)]
         public async Task<IActionResult> AddMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromBody]CreateItemRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above

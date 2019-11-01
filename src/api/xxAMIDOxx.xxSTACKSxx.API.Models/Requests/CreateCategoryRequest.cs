@@ -3,15 +3,15 @@
 namespace xxAMIDOxx.xxSTACKSxx.API.Models
 {
     /// <summary>
-    /// Request model used by UpdateCategory api endpoint
+    /// Request model used by CreateCategory api endpoint
     /// </summary>
-    public partial class UpdateCategoryRequest
+    public class CreateCategoryRequest
     {
-        /// <example>Burguers</example>
+        /// <example>Name of category created</example>
         [Required]
         public string Name { get; set; }
 
-        /// <example>A delicious selection of burguers</example>
+        /// <example>Description of category created</example>
         public string Description { get; set; }
     }
 }

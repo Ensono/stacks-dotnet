@@ -6,7 +6,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
     /// <summary>
     /// Request model used by UpdateMenu api endpoint
     /// </summary>
-    public partial class UpdateMenuRequest
+    public class UpdateMenuRequest
     {
         /// <example>Lunch Menu</example>
         [Required]

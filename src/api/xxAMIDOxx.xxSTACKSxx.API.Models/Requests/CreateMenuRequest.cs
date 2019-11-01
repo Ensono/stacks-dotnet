@@ -6,7 +6,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
     /// <summary>
     /// Request model used by CreateMenu api endpoint
     /// </summary>
-    public partial class CreateMenuRequest
+    public class CreateMenuRequest
     {
         /// <example>Name of menu created</example>
         [Required]

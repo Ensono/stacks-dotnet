@@ -5,7 +5,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Models
     /// <summary>
     /// Response model used by SearchMenu api endpoint
     /// </summary>
-    public partial class SearchMenuResult
+    public class SearchMenuResponse
     {
         /// <example>10</example>
         public int Size { get; set; }
