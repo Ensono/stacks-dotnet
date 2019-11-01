@@ -12,4 +12,4 @@ README.md
 LICENSE
 .vscode
 .vs
-*/appsettings.json
+*/appsettings*.json
