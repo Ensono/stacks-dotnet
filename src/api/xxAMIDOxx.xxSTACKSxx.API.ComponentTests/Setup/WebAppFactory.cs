@@ -15,20 +15,20 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
     /// <typeparam name="TStartup">The API Startup class</typeparam>
     public class WebAppFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        private readonly Action<IServiceCollection> _configureTestServices;
-        private readonly Action<IWebHostBuilder> _configureBuilder;
+        private readonly Action<IServiceCollection> configureTestServices;
+        private readonly Action<IWebHostBuilder> configureBuilder;
 
         public WebAppFactory(Action<IServiceCollection> configureTestServices, Action<IWebHostBuilder> configureBuilder)
         {
-            _configureTestServices = configureTestServices;
-            _configureBuilder = configureBuilder;
+            this.configureTestServices = configureTestServices;
+            this.configureBuilder = configureBuilder;
         }
 
         protected override IWebHostBuilder CreateWebHostBuilder()
         {
             var builder = WebHost.CreateDefaultBuilder();
 
-            _configureBuilder(builder);
+            configureBuilder(builder);
 
             builder.UseStartup<TStartup>();
 
@@ -38,7 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
-            builder.ConfigureTestServices(_configureTestServices);
+            builder.ConfigureTestServices(configureTestServices);
         }
     }
 }
