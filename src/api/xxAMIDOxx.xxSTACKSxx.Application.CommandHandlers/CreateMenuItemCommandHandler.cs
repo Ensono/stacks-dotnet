@@ -6,7 +6,6 @@ using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.Domain;
-using xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {

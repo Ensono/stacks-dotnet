@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
     public class ProviderStateMiddleware : IMiddleware
     {
-        private readonly IDictionary<string, Action> _providerStates;
+        private readonly IDictionary<string, Action> providerStates;
         IMenuRepository repository;
 
         public ProviderStateMiddleware(IMenuRepository repository)
@@ -24,7 +24,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
             this.repository = repository;
 
             //Provider states are from the Given clause in the consumer tests
-            _providerStates = new Dictionary<string, Action>
+            providerStates = new Dictionary<string, Action>
             {
                 {
                     //These are case sensitive. Consumer and Provider should share list of states when states are required
@@ -83,7 +83,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
                 //A null or empty provider state key must be handled
                 if (providerState != null && !string.IsNullOrEmpty(providerState.State))
                 {
-                    _providerStates[providerState.State].Invoke();
+                    providerStates[providerState.State].Invoke();
                 }
             }
         }
