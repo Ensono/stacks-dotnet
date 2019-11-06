@@ -1,6 +1,5 @@
 ﻿using System;
 using Amido.Stacks.Domain;
-using xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities
 {

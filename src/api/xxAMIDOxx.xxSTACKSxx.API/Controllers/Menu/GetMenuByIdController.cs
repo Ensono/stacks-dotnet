@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.API.Models;
 using Query = xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 

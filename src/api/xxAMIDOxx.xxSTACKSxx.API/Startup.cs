@@ -22,8 +22,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
         private IConfiguration configuration { get; }
         private readonly IHostingEnvironment hostingEnv;
-        private readonly string pathBase = String.Empty;
-        private readonly bool useAppInsights = false;
+        private readonly string pathBase;
+        private readonly bool useAppInsights;
 
         public Startup(IHostingEnvironment env, IConfiguration configuration, ILogger<Startup> logger)
         {

@@ -8,7 +8,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes
 {
     public class InMemoryMenuRepository : IMenuRepository
     {
-        private static Object _lock = new Object();
+        private static Object @lock = new Object();
         private static Dictionary<Guid, Menu> storage = new Dictionary<Guid, Menu>();
 
         public async Task<Menu> GetByIdAsync(Guid id)
@@ -24,7 +24,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes
             if (entity == null)
                 return await Task.FromResult(false);
 
-            lock (_lock)
+            lock (@lock)
             {
                 if (storage.ContainsKey(entity.Id))
                     storage[entity.Id] = entity;
@@ -38,7 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes
         public async Task<bool> DeleteAsync(Guid id)
         {
             bool result;
-            lock (_lock)
+            lock (@lock)
             {
                 if (!storage.ContainsKey(id))
                     return false;

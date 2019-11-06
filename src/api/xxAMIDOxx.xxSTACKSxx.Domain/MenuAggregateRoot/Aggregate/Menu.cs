@@ -9,7 +9,7 @@ using xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain
 {
-    public class Menu : AggregateRoot<Guid>, IEntity<Guid>
+    public class Menu : AggregateRoot<Guid>
     {
         [JsonProperty("Categories")]
         private List<Category> categories;
@@ -20,7 +20,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Domain
             Name = name;
             TenantId = tenantId;
             Description = description;
-            this.categories = categories ?? new List<Category>(); ;
+            this.categories = categories ?? new List<Category>(); 
             Enabled = enabled;
         }
 
