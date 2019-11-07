@@ -337,3 +337,8 @@ pacts/
 # scala files
 target/
 *.iml
+
+# build artefacts
+.sonarqube/
+CoverageResults/
+
