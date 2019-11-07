@@ -20,7 +20,8 @@ resources:
   repositories:
   - repository: templates
     type: github
-    name: amido/stacks-pipeline-templates
+    name: ElvenSpellmaker/stacks-pipeline-templates
+    ref: 'refs/heads/add/code-coverage-sonarqube'
     endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
 
 variables:

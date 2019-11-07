@@ -56,7 +56,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                 )
             );
 
-            return new OkObjectResult(new ResourceCreatedResult(menuItemId));
+            return new OkObjectResult(new ResourceCreatedResponse(menuItemId));
         }
     }
 }

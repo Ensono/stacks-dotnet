@@ -56,7 +56,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                     "GetMenu", "GetMenuById", new
                     {
                         id = id
-                    }, new ResourceCreatedResult(id)
+                    }, new ResourceCreatedResponse(id)
             );
         }
     }
