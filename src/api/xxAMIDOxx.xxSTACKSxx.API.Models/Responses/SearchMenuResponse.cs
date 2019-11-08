@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Responses
 {
     /// <summary>
     /// Response model used by SearchMenu api endpoint
     /// </summary>
-    public partial class SearchMenuResult
+    public class SearchMenuResponse
     {
         /// <example>10</example>
         public int Size { get; set; }

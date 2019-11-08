@@ -2,7 +2,7 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu
 {
-    public partial class SearchMenuResult
+    public class SearchMenuResult
     {
         public int? PageSize { get; set; }
 

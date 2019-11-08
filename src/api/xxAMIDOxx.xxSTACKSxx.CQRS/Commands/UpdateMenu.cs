@@ -2,7 +2,7 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class UpdateMenu : IMenuCommand
+    public class UpdateMenu : IMenuCommand
     {
         public int OperationCode => (int)Common.Operations.OperationCode.UpdateMenu;
 

@@ -2,7 +2,7 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class DeleteCategory : ICategoryCommand
+    public class DeleteCategory : ICategoryCommand
     {
         public int OperationCode => (int)Common.Operations.OperationCode.DeleteCategory;
 

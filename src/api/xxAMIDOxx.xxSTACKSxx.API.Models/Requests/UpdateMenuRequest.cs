@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Requests
 {
     /// <summary>
     /// Request model used by UpdateMenu api endpoint
     /// </summary>
-    public partial class UpdateMenuRequest
+    public class UpdateMenuRequest
     {
         /// <example>Lunch Menu</example>
         [Required]

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Requests
 {
     /// <summary>
     /// Request model used by CreateCategory api endpoint
     /// </summary>
-    public partial class CreateCategoryRequest
+    public class CreateCategoryRequest
     {
         /// <example>Name of category created</example>
         [Required]

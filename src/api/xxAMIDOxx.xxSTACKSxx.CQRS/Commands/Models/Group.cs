@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
+namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands.Models
 {
     public class Group
     {

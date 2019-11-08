@@ -2,7 +2,7 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class UpdateCategory : ICategoryCommand
+    public class UpdateCategory : ICategoryCommand
     {
         public int OperationCode => (int)Common.Operations.OperationCode.UpdateCategory;
 
