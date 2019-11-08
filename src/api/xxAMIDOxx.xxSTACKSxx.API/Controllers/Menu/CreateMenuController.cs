@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Mvc;
-using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
@@ -35,7 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="403">Forbidden, the user does not have permission to execute this operation</response>
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/")]
-        [ProducesResponseType(typeof(ResourceCreatedResult), 201)]
+        [ProducesResponseType(typeof(ResourceCreatedResponse), 201)]
         public async Task<IActionResult> CreateMenu([Required][FromBody]CreateMenuRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
@@ -54,7 +55,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                     "GetMenu", "GetMenuById", new
                     {
                         id = id
-                    }, new ResourceCreatedResult(id)
+                    }, new ResourceCreatedResponse(id)
             );
         }
     }

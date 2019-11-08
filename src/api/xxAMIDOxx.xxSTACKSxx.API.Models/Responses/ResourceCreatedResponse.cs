@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Responses
 {
     /// <summary>
     /// Response model returned by api endpoints when a new resource is created
     /// </summary>
-    public partial class ResourceCreatedResult
+    public class ResourceCreatedResponse
     {
         /// <param name="id">Id of newly created resource</param>
-        public ResourceCreatedResult(Guid id)
+        public ResourceCreatedResponse(Guid id)
         {
             Id = id;
         }

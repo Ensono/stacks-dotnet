@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById
 {
-    public partial class MenuItem
+    public class MenuItem
     {
         [Required]
         public Guid? Id { get; set; }

@@ -2,7 +2,7 @@
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands
 {
-    public partial class CreateMenuItem : ICategoryCommand
+    public class CreateMenuItem : ICategoryCommand
     {
         public int OperationCode => (int)Common.Operations.OperationCode.CreateMenuItem;
 

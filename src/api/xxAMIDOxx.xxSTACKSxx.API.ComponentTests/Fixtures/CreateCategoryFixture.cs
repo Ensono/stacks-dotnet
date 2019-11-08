@@ -6,7 +6,8 @@ using Amido.Stacks.Testing.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
-using xxAMIDOxx.xxSTACKSxx.API.Models;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure;
@@ -98,7 +99,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         internal async Task ThenTheCategoryIsAddedToMenu()
         {
-            var resourceCreated = await GetResponseObject<ResourceCreatedResult>();
+            var resourceCreated = await GetResponseObject<ResourceCreatedResponse>();
             resourceCreated.ShouldNotBeNull();
 
             var category = existingMenu.Categories.SingleOrDefault(c => c.Name == newCategory.Name);

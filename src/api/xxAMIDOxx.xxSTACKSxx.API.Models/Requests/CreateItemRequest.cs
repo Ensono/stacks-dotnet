@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Requests
 {
     /// <summary>
     /// Request model used by CreateItem api endpoint
     /// </summary>
-    public partial class CreateItemRequest
+    public class CreateItemRequest
     {
         /// <example>Name of item created</example>
         [Required]

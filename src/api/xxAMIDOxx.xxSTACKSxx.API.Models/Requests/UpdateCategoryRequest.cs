@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Requests
 {
     /// <summary>
     /// Request model used by UpdateCategory api endpoint
     /// </summary>
-    public partial class UpdateCategoryRequest
+    public class UpdateCategoryRequest
     {
         /// <example>Burguers</example>
         [Required]

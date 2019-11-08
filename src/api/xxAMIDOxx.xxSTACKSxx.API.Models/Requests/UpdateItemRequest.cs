@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.Models.Requests
 {
     /// <summary>
     /// Request model used by UpdateItem api endpoint
     /// </summary>
-    public partial class UpdateItemRequest
+    public class UpdateItemRequest
     {
         /// <example>Name of Item updated</example>
         [Required]
