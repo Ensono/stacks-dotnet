@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class SearchMenuController : ApiControllerBase
     {
-        IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult> queryHandler;
+        readonly IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult> queryHandler;
 
         public SearchMenuController(IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult> queryHandler)
         {
@@ -41,7 +41,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             // NOTE: Please ensure the API returns the response codes annotated above
 
             var criteria = new SearchMenuQueryCriteria(
-                correlationId: CorrelationId,
+                correlationId: GetCorrelationId(),
                 searchText: searchTerm,
                 restaurantId: RestaurantId,
                 pageSize: pageSize,

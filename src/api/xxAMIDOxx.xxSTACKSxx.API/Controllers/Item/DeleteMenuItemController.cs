@@ -15,7 +15,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Item")]
     public class DeleteMenuItemController : ApiControllerBase
     {
-        ICommandHandler<DeleteMenuItem, bool> commandHandler;
+        readonly ICommandHandler<DeleteMenuItem, bool> commandHandler;
 
         public DeleteMenuItemController(ICommandHandler<DeleteMenuItem, bool> commandHandler)
         {
@@ -41,7 +41,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             await commandHandler.HandleAsync(
                 new DeleteMenuItem(
-                    correlationId: CorrelationId,
+                    correlationId: GetCorrelationId(),
                     menuId: id,
                     categoryId: categoryId,
                     menuItemId: itemId

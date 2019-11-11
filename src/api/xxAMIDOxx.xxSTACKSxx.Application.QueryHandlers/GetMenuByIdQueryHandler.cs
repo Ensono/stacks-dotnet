@@ -8,7 +8,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
 {
     public class GetMenuByIdQueryHandler : IQueryHandler<GetMenuByIdQueryCriteria, Menu>
     {
-        private IMenuRepository repository;
+        private readonly IMenuRepository repository;
 
         public GetMenuByIdQueryHandler(IMenuRepository repository)
         {

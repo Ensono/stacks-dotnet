@@ -18,7 +18,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class CreateMenuController : ApiControllerBase
     {
-        ICommandHandler<CreateMenu, Guid> commandHandler;
+        readonly ICommandHandler<CreateMenu, Guid> commandHandler;
 
         public CreateMenuController(ICommandHandler<CreateMenu, Guid> commandHandler)
         {
@@ -43,7 +43,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             var id = await commandHandler.HandleAsync(
                 new CreateMenu(
-                        correlationId: CorrelationId,
+                        correlationId: GetCorrelationId(),
                         tenantId: body.TenantId, //Should check if user logged-in owns it
                         name: body.Name,
                         description: body.Description,

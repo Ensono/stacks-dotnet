@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Category")]
     public class AddMenuCategoryController : ApiControllerBase
     {
-        ICommandHandler<CreateCategory, Guid> commandHandler;
+        readonly ICommandHandler<CreateCategory, Guid> commandHandler;
 
         public AddMenuCategoryController(ICommandHandler<CreateCategory, Guid> commandHandler)
         {
@@ -44,7 +44,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             var categoryId = await commandHandler.HandleAsync(
                 new CreateCategory(
-                    correlationId: CorrelationId,
+                    correlationId: GetCorrelationId(),
                     menuId: id,
                     name: body.Name,
                     description: body.Description

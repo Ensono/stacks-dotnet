@@ -11,8 +11,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
     public class CreateMenuCommandHandler : ICommandHandler<CreateMenu, Guid>
     {
-        private IMenuRepository repository;
-        private IApplicationEventPublisher applicationEventPublisher;
+        private readonly IMenuRepository repository;
+        private readonly IApplicationEventPublisher applicationEventPublisher;
 
         public CreateMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
         {
