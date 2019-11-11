@@ -36,7 +36,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="400">bad request</response>
         [HttpGet("/v1/menu/")]
         [ProducesResponseType(typeof(SearchMenuResult), 200)]
-        public async Task<IActionResult> SearchMenu([FromQuery]string searchTerm, [FromQuery]Guid? RestaurantId, [FromQuery][Range(0, 50)]int? pageSize = 20, [FromQuery]int? pageNumber = 1)
+        public async Task<IActionResult> SearchMenu(
+            [FromQuery]string searchTerm, 
+            [FromQuery]Guid? RestaurantId, 
+            [FromQuery][Range(0, 50)]int? pageSize = 20, 
+            [FromQuery]int? pageNumber = 1)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 

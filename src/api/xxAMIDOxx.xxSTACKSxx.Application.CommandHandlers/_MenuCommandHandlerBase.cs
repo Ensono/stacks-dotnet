@@ -51,7 +51,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
                 var issuccessful = await repository.SaveAsync(menu);
 
                 if (!issuccessful)
-                    OperationFailedException.Raise(command, command.MenuId, "Unable to complete operation");
+                    OperationFailedException.Raise(command, command.MenuId, 
+                        $"Unable to handle command {typeof(ICommand).Name}");
 
                 foreach (var appEvent in RaiseApplicationEvents(menu, command))
                 {

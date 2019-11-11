@@ -42,17 +42,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(config)
                 .CreateLogger();
-
-
-            //Log.Logger = new LoggerConfiguration()
-            //   .MinimumLevel.Debug()
-            //   .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            //   .Enrich.FromLogContext()
-            //   //TODO: Configure from file
-            //   // https://github.com/serilog/serilog-settings-configuration
-            //   .WriteTo.ApplicationInsights(TelemetryConfiguration.Active, TelemetryConverter.Traces)
-            //   .WriteTo.Console()
-            //   .CreateLogger();
         }
     }
 }
