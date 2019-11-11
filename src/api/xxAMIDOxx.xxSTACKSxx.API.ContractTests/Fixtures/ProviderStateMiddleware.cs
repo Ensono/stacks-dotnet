@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
     public class ProviderStateMiddleware : IMiddleware
     {
         private readonly IDictionary<string, Action> providerStates;
-        IMenuRepository repository;
+        readonly IMenuRepository repository;
 
         public ProviderStateMiddleware(IMenuRepository repository)
         {

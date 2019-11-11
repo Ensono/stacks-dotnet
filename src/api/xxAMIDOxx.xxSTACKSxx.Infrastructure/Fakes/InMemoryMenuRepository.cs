@@ -8,8 +8,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes
 {
     public class InMemoryMenuRepository : IMenuRepository
     {
-        private static Object @lock = new Object();
-        private static Dictionary<Guid, Menu> storage = new Dictionary<Guid, Menu>();
+        private static readonly Object @lock = new Object();
+        private static readonly Dictionary<Guid, Menu> storage = new Dictionary<Guid, Menu>();
 
         public async Task<Menu> GetByIdAsync(Guid id)
         {
