@@ -10,7 +10,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
 {
     public class SearchMenuQueryHandler : IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult>
     {
-        IDocumentSearch<Menu> storage;
+        readonly IDocumentSearch<Menu> storage;
 
         public SearchMenuQueryHandler(IDocumentSearch<Menu> storage)
         {

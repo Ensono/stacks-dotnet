@@ -12,7 +12,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 {
     public class CreateMenuFixture : ApiClientFixture
     {
-        CreateMenuRequest newMenu;
+        readonly CreateMenuRequest newMenu;
         IMenuRepository repository;
         IApplicationEventPublisher applicationEventPublisher;
 

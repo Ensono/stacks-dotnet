@@ -5,6 +5,7 @@ using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
 {
+    [Serializable]
     public class MenuDoesNotExistException : ApplicationExceptionBase
     {
         private MenuDoesNotExistException(

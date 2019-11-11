@@ -26,6 +26,10 @@
         /// </summary>
         CircuitBreakerEnabled = 1001,
 
+        /// <summary>
+        /// An operation failed with a general reason
+        /// </summary>
+        OperationFailed = 1002,
 
         //SPECIFIC EXCEPTION CODES (Use values above 10000 to make easier to create codes in between)
 

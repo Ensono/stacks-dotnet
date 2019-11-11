@@ -16,9 +16,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 {
     public class CreateCategoryFixture : ApiClientFixture
     {
-        Domain.Menu existingMenu;
-        Guid userRestaurantId = Guid.Parse("2AA18D86-1A4C-4305-95A7-912C7C0FC5E1");
-        CreateCategoryRequest newCategory;
+        readonly Domain.Menu existingMenu;
+        readonly Guid userRestaurantId = Guid.Parse("2AA18D86-1A4C-4305-95A7-912C7C0FC5E1");
+        readonly CreateCategoryRequest newCategory;
 
         IMenuRepository repository;
         IApplicationEventPublisher applicationEventPublisher;

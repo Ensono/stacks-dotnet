@@ -10,7 +10,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes
     /// </summary>
     public class DummyEventPublisher : IApplicationEventPublisher
     {
-        ILogger<DummyEventPublisher> logger;
+        readonly ILogger<DummyEventPublisher> logger;
 
         public DummyEventPublisher(ILogger<DummyEventPublisher> logger)
         {

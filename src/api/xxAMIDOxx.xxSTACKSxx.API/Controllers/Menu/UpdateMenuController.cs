@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class UpdateMenuController : ApiControllerBase
     {
-        ICommandHandler<UpdateMenu, bool> commandHandler;
+        readonly ICommandHandler<UpdateMenu, bool> commandHandler;
 
         public UpdateMenuController(ICommandHandler<UpdateMenu, bool> commandHandler)
         {

@@ -15,7 +15,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Category")]
     public class DeleteCategoryController : ApiControllerBase
     {
-        ICommandHandler<DeleteCategory, bool> commandHandler;
+        readonly ICommandHandler<DeleteCategory, bool> commandHandler;
 
         public DeleteCategoryController(ICommandHandler<DeleteCategory, bool> commandHandler)
         {
@@ -41,7 +41,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             await commandHandler.HandleAsync(
                 new DeleteCategory(
-                    correlationId: CorrelationId,
+                    correlationId: GetCorrelationId(),
                     menuId: id,
                     categoryId: categoryId
                 )

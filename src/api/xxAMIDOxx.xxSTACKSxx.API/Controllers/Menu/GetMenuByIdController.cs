@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class GetMenuByIdController : ApiControllerBase
     {
-        IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler;
+        readonly IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler;
 
         public GetMenuByIdController(IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler)
         {

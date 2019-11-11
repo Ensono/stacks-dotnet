@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Item")]
     public class AddMenuItemController : ApiControllerBase
     {
-        ICommandHandler<CreateMenuItem, Guid> commandHandler;
+        readonly ICommandHandler<CreateMenuItem, Guid> commandHandler;
 
         public AddMenuItemController(ICommandHandler<CreateMenuItem, Guid> commandHandler)
         {
@@ -45,7 +45,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             var menuItemId = await commandHandler.HandleAsync(
                 new CreateMenuItem(
-                    correlationId: CorrelationId,
+                    correlationId: GetCorrelationId(),
                     menuId: id,
                     categoryId: categoryId,
                     name: body.Name,

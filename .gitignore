@@ -341,5 +341,3 @@ target/
 # build artefacts
 .sonarqube/
 CoverageResults/
-
-

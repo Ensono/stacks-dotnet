@@ -8,7 +8,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories
 {
     public class MenuRepository : IMenuRepository
     {
-        IDocumentStorage<Menu> documentStorage;
+        readonly IDocumentStorage<Menu> documentStorage;
 
         public MenuRepository(IDocumentStorage<Menu> documentStorage)
         {

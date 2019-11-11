@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Item")]
     public class UpdateMenuItemController : ApiControllerBase
     {
-        ICommandHandler<UpdateMenuItem, bool> commandHandler;
+        readonly ICommandHandler<UpdateMenuItem, bool> commandHandler;
 
         public UpdateMenuItemController(ICommandHandler<UpdateMenuItem, bool> commandHandler)
         {
@@ -43,7 +43,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             await commandHandler.HandleAsync(
                 new UpdateMenuItem(
-                    correlationId: CorrelationId,
+                    correlationId: GetCorrelationId(),
                     menuId: id,
                     categoryId: categoryId,
                     menuItemId: itemId,
