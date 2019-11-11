@@ -3,6 +3,7 @@ using Amido.Stacks.Core.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions
 {
+    [Serializable]
     public class MenuItemAlreadyExistsException : DomainExceptionBase
     {
         private MenuItemAlreadyExistsException(

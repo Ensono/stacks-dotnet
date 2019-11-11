@@ -21,7 +21,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
     public abstract class MenuCommandHandlerBase<TCommand, TResult> : ICommandHandler<TCommand, TResult> where TCommand : IMenuCommand
     {
         protected IMenuRepository repository;
-        private IApplicationEventPublisher applicationEventPublisher;
+        private readonly IApplicationEventPublisher applicationEventPublisher;
 
         public MenuCommandHandlerBase(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
         {
@@ -50,9 +50,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
                 var issuccessful = await repository.SaveAsync(menu);
 
-                //TODO: Define an application exception to handle this
                 if (!issuccessful)
-                    throw new Exception("Unable to complete operation");
+                    OperationFailedException.Raise(command, command.MenuId, "Unable to complete operation");
 
                 foreach (var appEvent in RaiseApplicationEvents(menu, command))
                 {
@@ -63,17 +62,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             {
                 DomainRuleViolationException.Raise(command, command.MenuId, ex);
             }
-            catch (ApplicationExceptionBase ex)
+            catch (ApplicationExceptionBase)
             {
                 // TODO: handle applicaiton exception handling
                 // possible failures is missing data or information, validations, and so on
-                throw ex;
+                throw;
             }
-            catch (InfrastructureExceptionBase ex)
+            catch (InfrastructureExceptionBase)
             {
                 //TODO: handle  infrastructure exception handling
                 //possible failures is calling database, queue or any other dependency
-                throw ex;
+                throw;
             }
             catch (Exception ex)
             {
@@ -82,7 +81,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
                 ex.Data["CorrelationId"] = command.CorrelationId;
                 ex.Data["MenuId"] = command.MenuId;
 
-                throw ex;
+                throw;
             }
 
             return result;

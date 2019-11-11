@@ -8,17 +8,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [Produces("application/json")]
     public class ApiControllerBase : ControllerBase
     {
-        public Guid CorrelationId
+        [NonAction]
+        public Guid GetCorrelationId()
         {
-            get
-            {
-                var correlationIdProvided = this.HttpContext.Request.Headers.TryGetValue("x-correlation-id", out var correlationId);
+            var correlationIdProvided = this.HttpContext.Request.Headers.TryGetValue("x-correlation-id", out var correlationId);
 
-                if (!correlationIdProvided)
-                    throw new ArgumentException("The correlation id couldn't be loaded");
+            if (!correlationIdProvided)
+                throw new ArgumentException("The correlation id couldn't be loaded");
 
-                return Guid.Parse(correlationId.ToString());
-            }
+            return Guid.Parse(correlationId.ToString());
         }
     }
 }

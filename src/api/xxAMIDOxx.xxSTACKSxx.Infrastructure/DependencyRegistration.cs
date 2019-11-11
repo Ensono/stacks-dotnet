@@ -21,7 +21,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
 {
     public static class DependencyRegistration
     {
-        static ILogger log = Log.Logger;
+        static readonly ILogger log = Log.Logger;
 
         /// <summary>
         /// Register static services that does not change between environment or contexts(i.e: tests)

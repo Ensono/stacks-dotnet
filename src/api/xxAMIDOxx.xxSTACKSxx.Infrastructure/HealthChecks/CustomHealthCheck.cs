@@ -16,7 +16,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.HealthChecks
     public class CustomHealthCheck : IHealthCheck
     {
         //Example: do not add this example, CosmosDBStorage already implements IHealthCheck
-        IDocumentStorage<Menu> documentStorage;
+        readonly IDocumentStorage<Menu> documentStorage;
 
         public CustomHealthCheck(IDocumentStorage<Menu> documentStorage)
         {

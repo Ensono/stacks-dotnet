@@ -10,8 +10,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
     public class DeleteMenuCommandHandler : ICommandHandler<DeleteMenu>
     {
-        IMenuRepository repository;
-        IApplicationEventPublisher applicationEventPublisher;
+        readonly IMenuRepository repository;
+        readonly IApplicationEventPublisher applicationEventPublisher;
 
         public DeleteMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
         {
@@ -34,8 +34,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 
             var successful = await repository.DeleteAsync(command.MenuId);
 
-            if (!successful)//TODO: refator to applicattion exception
-                throw new System.Exception("Unable to delete menu");
+            if (!successful) 
+                OperationFailedException.Raise(command, command.MenuId, "Unable to delete menu");
 
             await applicationEventPublisher.PublishAsync(
                 new MenuDeleted(command, command.MenuId)
