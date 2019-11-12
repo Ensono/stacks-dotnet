@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Xunit;

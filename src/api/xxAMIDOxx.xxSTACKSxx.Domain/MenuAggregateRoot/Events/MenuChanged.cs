@@ -1,4 +1,4 @@
-﻿using Amido.Stacks.Domain.Events;
+using Amido.Stacks.Domain.Events;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.Events
 {

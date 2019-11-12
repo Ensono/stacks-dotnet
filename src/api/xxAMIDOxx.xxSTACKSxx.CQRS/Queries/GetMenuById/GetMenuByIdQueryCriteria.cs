@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Amido.Stacks.Application.CQRS.Queries;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById

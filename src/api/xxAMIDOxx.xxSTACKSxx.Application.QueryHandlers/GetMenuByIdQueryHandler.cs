@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;

@@ -1,4 +1,4 @@
-﻿using PactNet.Infrastructure.Outputters;
+using PactNet.Infrastructure.Outputters;
 using Xunit.Abstractions;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures

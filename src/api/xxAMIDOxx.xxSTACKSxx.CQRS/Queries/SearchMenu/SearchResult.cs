@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu
 {
