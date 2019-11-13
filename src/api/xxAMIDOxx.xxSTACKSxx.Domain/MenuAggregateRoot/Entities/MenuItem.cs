@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Amido.Stacks.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities

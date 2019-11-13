@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Core.Operations;

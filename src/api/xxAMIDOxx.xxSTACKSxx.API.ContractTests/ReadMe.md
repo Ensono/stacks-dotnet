@@ -1,4 +1,4 @@
-﻿# xxAMIDOxx.xxSTACKSxx.Api.ContractTests
+# xxAMIDOxx.xxSTACKSxx.Api.ContractTests
 
 `xxAMIDOxx.xxSTACKSxx.Api.ContractTests` is a sample solution for demostrating Consumer Driven contract tests from the provider point of view.
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Amido.Stacks.Core.Exceptions;
 using Amido.Stacks.Core.Operations;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;

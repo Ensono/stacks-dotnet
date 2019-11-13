@@ -1,4 +1,4 @@
-﻿using TestStack.BDDfy;
+using TestStack.BDDfy;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Fixtures;
 using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps;
