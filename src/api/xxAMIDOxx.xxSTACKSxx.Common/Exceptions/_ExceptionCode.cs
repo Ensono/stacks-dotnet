@@ -1,4 +1,4 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
 {
     /// <summary>
     /// Contants list of possible exceptions ids raised by the system

@@ -1,4 +1,4 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Common.Operations
+namespace xxAMIDOxx.xxSTACKSxx.Common.Operations
 {
     public enum OperationCode
     {

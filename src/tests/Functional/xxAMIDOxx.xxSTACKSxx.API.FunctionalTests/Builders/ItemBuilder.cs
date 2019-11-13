@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Builders

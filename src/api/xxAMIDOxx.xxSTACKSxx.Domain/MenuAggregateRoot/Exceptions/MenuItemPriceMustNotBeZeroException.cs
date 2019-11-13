@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Amido.Stacks.Core.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions

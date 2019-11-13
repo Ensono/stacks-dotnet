@@ -1,4 +1,4 @@
-﻿# Amido Stacks Automated Functional Testing
+# Amido Stacks Automated Functional Testing
 
 The Automated Functional Tests is a sample project demostrating functional testing created using BDDfy and XUnit.
 

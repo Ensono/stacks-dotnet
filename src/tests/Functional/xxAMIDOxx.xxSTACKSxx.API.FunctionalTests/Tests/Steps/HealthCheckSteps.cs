@@ -1,4 +1,4 @@
-﻿using Shouldly;
+using Shouldly;
 using System.Net.Http;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Configuration;

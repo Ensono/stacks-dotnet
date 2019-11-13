@@ -1,4 +1,4 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Common.Events
+namespace xxAMIDOxx.xxSTACKSxx.Common.Events
 {
     public enum EventCode
     {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Amido.Stacks.Application.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands

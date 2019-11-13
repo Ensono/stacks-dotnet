@@ -1,4 +1,4 @@
-﻿using AutoFixture.Xunit2;
+using AutoFixture.Xunit2;
 using Xbehave;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures;

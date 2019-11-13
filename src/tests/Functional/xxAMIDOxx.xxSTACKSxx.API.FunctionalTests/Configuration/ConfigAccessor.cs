@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using System.IO;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Configuration

@@ -1,4 +1,4 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects
+namespace xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects
 {
     public enum ItemClassType
     {

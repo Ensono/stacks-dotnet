@@ -1,4 +1,4 @@
-﻿using AutoFixture.Xunit2;
+using AutoFixture.Xunit2;
 using Xunit;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.UnitTests

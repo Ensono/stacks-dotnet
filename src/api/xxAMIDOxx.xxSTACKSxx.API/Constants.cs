@@ -1,4 +1,4 @@
-﻿namespace xxAMIDOxx.xxSTACKSxx.API
+namespace xxAMIDOxx.xxSTACKSxx.API
 {
     public static class Constants
     {
