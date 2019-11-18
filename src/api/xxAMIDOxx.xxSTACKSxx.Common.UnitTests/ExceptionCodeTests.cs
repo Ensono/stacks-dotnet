@@ -6,7 +6,7 @@ using xxAMIDOxx.xxSTACKSxx.Common.Exceptions;
 namespace xxAMIDOxx.xxSTACKSxx.Common.UnitTests
 {
     [Trait("TestType", "UnitTests")]
-    public class ExceptionIdTests
+    public class ExceptionCodeTests
     {
         [Fact]
         public void EnsureUniqueExceptionIds()

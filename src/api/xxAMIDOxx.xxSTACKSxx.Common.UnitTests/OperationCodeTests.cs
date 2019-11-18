@@ -6,7 +6,7 @@ using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 namespace xxAMIDOxx.xxSTACKSxx.Common.UnitTests
 {
     [Trait("TestType", "UnitTests")]
-    public class OperationIdTests
+    public class OperationCodeTests
     {
         [Fact]
         public void EnsureUniqueOperationIds()
