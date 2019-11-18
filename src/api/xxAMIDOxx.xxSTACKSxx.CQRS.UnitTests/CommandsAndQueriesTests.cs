@@ -9,6 +9,7 @@ using AutoFixture.Kernel;
 using NSubstitute;
 using Shouldly;
 using Xunit;
+using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -82,12 +83,42 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
             }
         }
 
-        [Fact(Skip = "Implement check to avoid zombie commands poluting the code")]
+        [Fact]
 
-        public void CommandsAndQueriesShouldHaveAHandler()
+        public void CommandsShouldHaveAHandler()
         {
+            var commands = typeof(CreateMenu)
+                .Assembly
+                .GetImplementationsOf(typeof(ICommand))
+                .Select(c => c.Item2);
+
+            var handlers = typeof(CreateCategoryCommandHandler)
+                .Assembly
+                .GetImplementationsOf(typeof(ICommandHandler<,>))
+                .Select(d => d).ToList();
+
+            var join = (from c in commands
+                    join handler in handlers on c equals handler.Item1.GenericTypeArguments[0] into dj
+                    from h in dj.DefaultIfEmpty()
+                    select new
+                    {
+                        CommandType = c,
+                        GenericTypeArg = h.interfaceVariation?.GenericTypeArguments[0],
+                        Name = h.implementation?.Name
+                    })
+                .ToList();
+
+            foreach (var j in join)
+            {
+                j.GenericTypeArg.ShouldBe(j.CommandType);
+                j.Name.ShouldBe($"{j.CommandType.Name}CommandHandler");
+            }
         }
 
+        public void QueriesShouldHaveAHandler()
+        {
+            
+        }
 
         private int GetOperationCode(Type commandType)
         {
