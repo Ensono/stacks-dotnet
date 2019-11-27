@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
@@ -16,4 +16,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
             return Redirect((Environment.GetEnvironmentVariable("API_BASEPATH") ?? String.Empty) + "/swagger");
         }
     }
+
+    //This can now be replaced by the following snipped on .Net Core 3
+    /*          
+        endpoints.MapGet("/",  async context => 
+        {
+            context.Response.Redirect((Environment.GetEnvironmentVariable("API_BASEPATH") ?? String.Empty) + "/swagger");
+        });
+     */
 }

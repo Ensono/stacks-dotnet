@@ -10,8 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 
@@ -51,15 +49,14 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 .AddAuthorization()
                 .AddDataAnnotations()
                 .AddFormatterMappings()
-
                 .AddCors()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
-                });
-
+            //Only required if the models will used Json.Net features
+            //.AddNewtonsoftJson(options =>
+            //{
+            //    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //    options.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
+            //})
             ;
 
             //Access HttpContext in ASP.NET Core: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-2.2
@@ -199,10 +196,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
             app
             .UsePathBase(pathBase)
-            .UseHealthChecks("/health")
             .UseRouting()
+            //these need to be added between .UseRouting() and .UseEndpoints()
+            //.UseAuthentication()
+            //.UseAuthorization()
             .UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             })
 
