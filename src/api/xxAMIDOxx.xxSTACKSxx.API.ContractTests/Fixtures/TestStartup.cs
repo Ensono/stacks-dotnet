@@ -1,4 +1,4 @@
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
+﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +11,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
     public class TestStartup : Startup
     {
-        public TestStartup(IHostingEnvironment env, IConfiguration configuration, ILogger<Startup> logger) : base(env, configuration, logger)
+        public TestStartup(IConfiguration configuration, ILogger<Startup> logger) : base(configuration, logger)
         {
         }
 
@@ -25,7 +25,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
             base.ConfigureServices(services);
         }
 
-        public override void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ProviderStateMiddleware>();
             base.Configure(app, env);
