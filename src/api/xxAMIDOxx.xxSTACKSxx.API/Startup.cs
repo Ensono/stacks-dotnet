@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 
@@ -48,15 +50,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 .AddApiExplorer()
                 .AddAuthorization()
                 .AddDataAnnotations()
-                .AddFormatterMappings()
+                //.AddJsonOptions(options => options.JsonSerializerOptions..ContractResolver = new CamelCasePropertyNamesContractResolver())
                 .AddCors()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-            //Only required if the models will used Json.Net features
-            //.AddNewtonsoftJson(options =>
-            //{
-            //    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            //    options.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
-            //})
+                //Only required if the models will used Json.Net features
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
+                })
             ;
 
             //Access HttpContext in ASP.NET Core: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-2.2
@@ -89,7 +91,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     //c.DescribeAllEnumsAsStrings();
 
                     //Load comments to show as examples and descriptions in the swagger page
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(Startup).Assembly.GetName().Name}.xml");
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateMenuRequest).Assembly.GetName().Name}.xml");
 
                     // Sets the basePath property in the Swagger document generated

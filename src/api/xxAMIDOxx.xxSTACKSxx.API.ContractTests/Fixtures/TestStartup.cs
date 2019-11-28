@@ -1,6 +1,7 @@
 ﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ProviderStateMiddleware>();
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
 
             AddMocks(services);
 
