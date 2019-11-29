@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Amido.Stacks.API.Middleware;
-//using Amido.Stacks.API.Swagger.Filters; //TODO: this package requires updates to .net core 3
+using Amido.Stacks.API.Swagger.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -96,11 +96,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     //c.DocumentFilter<BasePathFilter>(pathBase);
 
                     //Set default tags, shows on top, non defined tags appears at bottom
-                    //c.DocumentFilter<SwaggerDocumentTagger>(new Tag[] {
-                    //    new Tag { Name = "Menu" },
-                    //    new Tag { Name = "Category" },
-                    //    new Tag { Name = "Item" }
-                    //}, new string[] { });
+                    c.DocumentFilter<SwaggerDocumentTagger>(new OpenApiTag[] {
+                        new OpenApiTag { Name = "Menu" },
+                        new OpenApiTag { Name = "Category" },
+                        new OpenApiTag { Name = "Item" }
+                    }, new string[] { });
 
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                     //c.OperationFilter<GeneratePathParamsValidationFilter>();
@@ -117,60 +117,57 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                         return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
                     });
                 })
-                ;
 
-            /*
-             *     TODO: Requires update on base packages to enable the filters
-             *     
+
                     //Add swagger for v1 endpoints only
                     .AddSwaggerGen(c =>
                     {
-                        c.SwaggerDoc("v1", new Info
+                        c.SwaggerDoc("v1", new OpenApiInfo
                         {
                             Version = "v1",
                             Title = "Menu API",
                             Description = "APIs used to interact and manage menus for a restaurant",
-                            Contact = new Contact()
+                            Contact = new OpenApiContact()
                             {
                                 Name = "Amido",
-                                Url = "https://github.com/amido/stacks-dotnet",
+                                Url = new Uri("https://github.com/amido/stacks-dotnet"),
                                 Email = "stacks@amido.com"
                             },
-                            TermsOfService = "http://www.amido.com/"
+                            TermsOfService = new Uri("http://www.amido.com/")
                         });
 
-                        c.CustomSchemaIds(type => type.FriendlyId(false));
-                        c.DescribeAllEnumsAsStrings();
+                        //c.CustomSchemaIds(type => type.FriendlyId(false));
+                        //c.DescribeAllEnumsAsStrings();
                         c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
 
                         // Show only operations where route starts with
                         c.DocumentFilter<VersionPathFilter>("/v1");
                         // Sets the basePath property in the Swagger document generated
-                        c.DocumentFilter<BasePathFilter>(pathBase);
+                        //c.DocumentFilter<BasePathFilter>(pathBase);
 
                         // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
-                        c.OperationFilter<GeneratePathParamsValidationFilter>();
+                        //c.OperationFilter<GeneratePathParamsValidationFilter>();
                     })
 
                     //Add swagger for v2 endpoints only
                     .AddSwaggerGen(c =>
                     {
-                        c.SwaggerDoc("v2", new Info
+                        c.SwaggerDoc("v2", new OpenApiInfo
                         {
                             Version = "v2",
                             Title = "Menu API",
                             Description = "APIs used to interact and manage menus for a restaurant",
-                            Contact = new Contact()
+                            Contact = new OpenApiContact()
                             {
                                 Name = "Amido",
-                                Url = "https://github.com/amido/stacks-dotnet",
+                                Url = new Uri("https://github.com/amido/stacks-dotnet"),
                                 Email = "stacks@amido.com"
                             },
-                            TermsOfService = "http://www.amido.com/"
+                            TermsOfService = new Uri("http://www.amido.com/")
                         });
 
-                        c.CustomSchemaIds(type => type.FriendlyId(false));
-                        c.DescribeAllEnumsAsStrings();
+                        //c.CustomSchemaIds(type => type.FriendlyId(false));
+                        //c.DescribeAllEnumsAsStrings();
                         c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
 
                         // Show only operations where route starts with
@@ -179,9 +176,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                         c.DocumentFilter<BasePathFilter>(pathBase);
 
                         // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
-                        c.OperationFilter<GeneratePathParamsValidationFilter>();
+                        //c.OperationFilter<GeneratePathParamsValidationFilter>();
                     });
-            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -218,8 +214,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 c.DisplayOperationId();
 
                 c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
-                //c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
-                //c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
+                c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
+                c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
             })
             ;
         }
