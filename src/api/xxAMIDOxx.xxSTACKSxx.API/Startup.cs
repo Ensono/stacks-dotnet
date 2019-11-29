@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Amido.Stacks.API.Middleware;
@@ -205,7 +206,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 endpoints.MapControllers();
             })
 
-            .UseSwagger()
+            .UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpReq) =>
+                {
+                    swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{pathBase}" } };
+                });
+            })
             .UseSwaggerUI(c =>
             {
                 c.DisplayOperationId();
