@@ -12,7 +12,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
 {
     public class TestStartup : Startup
     {
-        public TestStartup(IConfiguration configuration, ILogger<Startup> logger) : base(configuration, logger)
+        public TestStartup(IWebHostEnvironment env, IConfiguration configuration, ILogger<Startup> logger) : base(env, configuration, logger)
         {
         }
 
