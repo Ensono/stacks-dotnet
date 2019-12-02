@@ -10,6 +10,7 @@ using NSubstitute;
 using Shouldly;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
+using xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -83,7 +84,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
             }
         }
 
-        [Fact]
+        [Fact(DisplayName = "Commands should have a handler")]
 
         public void CommandsShouldHaveAHandler()
         {
@@ -115,9 +116,35 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
             }
         }
 
+        [Fact(DisplayName = "Queries should have a handler")]
         public void QueriesShouldHaveAHandler()
         {
-            
+            var queries = typeof(GetMenuByIdQueryCriteria)
+                .Assembly
+                .GetImplementationsOf(typeof(IQueryCriteria))
+                .Select(c => c.Item2);
+
+            var handlers = typeof(GetMenuByIdQueryHandler)
+                .Assembly
+                .GetImplementationsOf(typeof(IQueryHandler<,>))
+                .Select(d => d).ToList();
+
+            var join = (from q in queries
+                    join handler in handlers on q equals handler.Item1.GenericTypeArguments[0] into dj
+                    from h in dj.DefaultIfEmpty()
+                    select new
+                    {
+                        QueryType = q, 
+                        GenericTypeArg = h.interfaceVariation?.GenericTypeArguments[0],
+                        h.implementation?.Name
+                    })
+                .ToList();
+
+            foreach (var j in join)
+            {
+                j.GenericTypeArg.ShouldBe(j.QueryType);
+                j.Name.ShouldBe($"{j.QueryType.Name}QueryHandler");
+            }
         }
 
         private int GetOperationCode(Type commandType)
