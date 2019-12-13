@@ -15,7 +15,7 @@ trigger:
 # Only build PR's into Master (i.e. 'going live')
 pr:
 - master
-    
+
 resources:
   repositories:
   - repository: templates
@@ -31,11 +31,14 @@ variables:
   value: 'stacks'
 - name: Global.Domain
   value: 'dotnet'
+- name: Global.DotNetCoreVersion
+  value: '3.1.x'
 
 # Versioning
 - name: Version.Major
   value: 1
 - name: Version.Minor
+
   value: 5
 - name: Version.Revision
   value: $[counter(variables['Version.Minor'], 0)]
@@ -72,7 +75,6 @@ variables:
   value: '$(Build.SourcesDirectory)/src/api/**/*IntegrationTests.csproj'
 # Performance Test Settings (set outside of code so they can be adjusted as neccesary)
 - group: amido-stacks-testing
-
 
 - name: Sonar.serviceConnection
   value: 'amido-sonarcloud'
@@ -148,17 +150,17 @@ stages:
   - template: azDevOps/azure/templates/jobs/build-updatebuildnumber.yml@templates
     parameters:
       build_number: $(Docker.ImageTag)
-  
+
   # Retrieve a blob file with only Azure credentials, extract it and publish as an artefact
   - template: azDevOps/azure/templates/jobs/publish-blob-as-artefact.yml@templates
     parameters:
       Package_RG: $(DevOps.RG)
-      Package_storageAccount: $(DevOps.storageAccount) 
+      Package_storageAccount: $(DevOps.storageAccount)
       Package_Container: $(DevOps.Container)
       Package_File: $(DevOps.File)
       Package_OutputFolder: $(Build.BinariesDirectory)
       Package_OutputArtefact: '$(DevOps.ArtefactName)'
-      
+
   - template: azDevOps/azure/templates/jobs/build-dotnet.yml@templates
     parameters:
       dependsOn: GetPackage # Name of 'publish-blob-as-artefact' step above
@@ -166,7 +168,7 @@ stages:
       # Docker Config
       docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
       docker_imagename: '$(Docker.ImageName)'
-      docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)' 
+      docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)'
       docker_containerregistryname: '$(Docker.ContainerRegistryName)'
       # Vulnerability Scanning
       vulnerability_scan: true # TEMPORARY!
@@ -199,11 +201,13 @@ stages:
       build_file: true
       build_file_path: '$(Build.SourcesDirectory)/deploy/k8s/api'
       build_file_artefact: 'build'
+      # Dotnet Core Version
+      dotnet_core_version: '$(Global.DotNetCoreVersion)'
 
 ### DEPLOYMENT ####
 
 - stage: NonProduction
-  variables: 
+  variables:
   - group: amido-stacks-infra-credentials-nonprod
   - name: Docker.ContainerRegistryName
     value: 'amidouksstacksacrdev'
@@ -268,7 +272,7 @@ stages:
         docker_imagetag: $(Docker.ImageTag)
 
 - stage: Production
-  variables: 
+  variables:
   - group: amido-stacks-infra-credentials-prod
   - name: Docker.ContainerRegistryName
     value: 'amidouksstacksacrprod'
