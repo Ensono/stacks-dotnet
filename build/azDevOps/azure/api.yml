@@ -217,7 +217,7 @@ stages:
         build_file: true
         build_artefact: 'build'
         test_artefact: 'tests'
-        test_baseurl: https://dev.amidostacks.com/api/menu/
+        test_baseurl: http://dev.amidostacks.com/api/menu/
         functional_test: true
         performance_test: false
         smoke_test: false
@@ -239,7 +239,7 @@ stages:
         build_file: true
         build_artefact: 'build'
         test_artefact: 'tests'
-        test_baseurl: https://test.amidostacks.com/api/menu/
+        test_baseurl: http://test.amidostacks.com/api/menu/
         functional_test: true
         performance_test: false
         smoke_test: false
