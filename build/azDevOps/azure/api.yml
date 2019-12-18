@@ -184,6 +184,8 @@ stages:
       Sonar_projectName: '$(Sonar.projectName)'
       Sonar_projectVersion: '$(Sonar.projectVersion)'
       # Testing
+      # Dotnet Core Version
+      dotnet_core_version: '$(Global.DotNetCoreVersion)'
       unit_test: true
       unit_test_project: '$(Test.UnitTestProjectPath)'
       component_test: true
@@ -202,8 +204,6 @@ stages:
       build_file: true
       build_file_path: '$(Build.SourcesDirectory)/deploy/k8s/api'
       build_file_artefact: 'build'
-      # Dotnet Core Version
-      dotnet_core_version: '$(Global.DotNetCoreVersion)'
 
 ### DEPLOYMENT ####
 
@@ -219,6 +219,8 @@ stages:
       parameters:
         environment: 'dev'
         devops_artefact_name: '$(DevOps.ArtefactName)'
+        # Dotnet Core Version
+        dotnet_core_version: '$(Global.DotNetCoreVersion)'
         build_file: true
         build_artefact: 'build'
         test_artefact: 'tests'
@@ -241,6 +243,8 @@ stages:
         environment: 'test'
         # Artefact and Step Config
         devops_artefact_name: '$(DevOps.ArtefactName)'
+        # Dotnet Core Version
+        dotnet_core_version: '$(Global.DotNetCoreVersion)'
         build_file: true
         build_artefact: 'build'
         test_artefact: 'tests'
@@ -285,6 +289,8 @@ stages:
       parameters:
         environment: 'perf'
         devops_artefact_name: '$(DevOps.ArtefactName)'
+        # Dotnet Core Version
+        dotnet_core_version: '$(Global.DotNetCoreVersion)'
         build_file: true
         build_artefact: 'build'
         test_artefact: 'tests'
@@ -306,6 +312,8 @@ stages:
         environment: 'prod'
         # Artefact and Step Config
         devops_artefact_name: '$(DevOps.ArtefactName)'
+        # Dotnet Core Version
+        dotnet_core_version: '$(Global.DotNetCoreVersion)'
         build_file: true
         build_artefact: 'build'
         test_artefact: 'tests'
