@@ -22,6 +22,7 @@ resources:
     type: github
     name: amido/stacks-pipeline-templates
     endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
+    ref: refs/heads/tasks/fix-sonarcloud-core-3-1 
 
 variables:
 # Global Config:
