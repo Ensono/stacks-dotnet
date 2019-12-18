@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Amido.Stacks.API.Middleware;
 using Amido.Stacks.API.Swagger.Filters;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         private readonly IWebHostEnvironment hostingEnv;
         private readonly string pathBase;
         private readonly bool useAppInsights;
+
+        private const string projectUrl = "https://github.com/amido/stacks-dotnet";
 
         public Startup(IWebHostEnvironment env, IConfiguration configuration, ILogger<Startup> logger)
         {
@@ -64,6 +67,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
             AddSwagger(services);
         }
+
         private void AddSwagger(IServiceCollection services)
         {
             services
@@ -79,21 +83,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                         Contact = new OpenApiContact()
                         {
                             Name = "Amido",
-                            Url = new Uri("https://github.com/amido/stacks-dotnet"),
+                            Url = new Uri(projectUrl),
                             Email = "stacks@amido.com"
                         },
-                        TermsOfService = new Uri("http://www.amido.com/")
+                        //TermsOfService = new Uri("http://www.amido.com/")
                     });
-
-                    //c.CustomSchemaIds(type => type.FriendlyId(false));
-                    //c.DescribeAllEnumsAsStrings();
 
                     //Load comments to show as examples and descriptions in the swagger page
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(Startup).Assembly.GetName().Name}.xml");
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateMenuRequest).Assembly.GetName().Name}.xml");
-
-                    // Sets the basePath property in the Swagger document generated
-                    //c.DocumentFilter<BasePathFilter>(pathBase);
 
                     //Set default tags, shows on top, non defined tags appears at bottom
                     c.DocumentFilter<SwaggerDocumentTagger>(new OpenApiTag[] {
@@ -101,9 +99,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                         new OpenApiTag { Name = "Category" },
                         new OpenApiTag { Name = "Item" }
                     }, new string[] { });
-
-                    // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
-                    //c.OperationFilter<GeneratePathParamsValidationFilter>();
 
                     //By Default, all endpoints are grouped by the controller name
                     //We want to Group by Api Group first, then by controller name if not provided
@@ -130,23 +125,16 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                             Contact = new OpenApiContact()
                             {
                                 Name = "Amido",
-                                Url = new Uri("https://github.com/amido/stacks-dotnet"),
+                                Url = new Uri(projectUrl),
                                 Email = "stacks@amido.com"
                             },
-                            TermsOfService = new Uri("http://www.amido.com/")
+                            //TermsOfService = new Uri("http://www.amido.com/")
                         });
 
-                        //c.CustomSchemaIds(type => type.FriendlyId(false));
-                        //c.DescribeAllEnumsAsStrings();
                         c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
 
                         // Show only operations where route starts with
                         c.DocumentFilter<VersionPathFilter>("/v1");
-                        // Sets the basePath property in the Swagger document generated
-                        //c.DocumentFilter<BasePathFilter>(pathBase);
-
-                        // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
-                        //c.OperationFilter<GeneratePathParamsValidationFilter>();
                     })
 
                     //Add swagger for v2 endpoints only
@@ -160,23 +148,16 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                             Contact = new OpenApiContact()
                             {
                                 Name = "Amido",
-                                Url = new Uri("https://github.com/amido/stacks-dotnet"),
+                                Url = new Uri(projectUrl),
                                 Email = "stacks@amido.com"
                             },
-                            TermsOfService = new Uri("http://www.amido.com/")
+                            //TermsOfService = new Uri("http://www.amido.com/")
                         });
 
-                        //c.CustomSchemaIds(type => type.FriendlyId(false));
-                        //c.DescribeAllEnumsAsStrings();
                         c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
 
                         // Show only operations where route starts with
                         c.DocumentFilter<VersionPathFilter>("/v2");
-                        // Sets the basePath property in the Swagger document generated
-                        c.DocumentFilter<BasePathFilter>(pathBase);
-
-                        // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
-                        //c.OperationFilter<GeneratePathParamsValidationFilter>();
                     });
         }
 
@@ -200,6 +181,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             {
                 endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
+                endpoints.MapGet("/", context =>
+                {
+                    context.Response.Redirect((Environment.GetEnvironmentVariable("API_BASEPATH") ?? String.Empty) + "/swagger");
+                    return Task.CompletedTask;
+                });
             })
 
             .UseSwagger(c =>
