@@ -39,12 +39,3 @@ resource "azurerm_cosmosdb_sql_database" "db" {
   resource_group_name = azurerm_cosmosdb_account.account.resource_group_name
   account_name        = azurerm_cosmosdb_account.account.name
 }
-
-# This is hardcoded because it does not change between environments
-resource "azurerm_cosmosdb_sql_container" "menu" {
-  name                = "MenuTest"
-  resource_group_name = azurerm_cosmosdb_account.account.resource_group_name
-  account_name        = azurerm_cosmosdb_account.account.name
-  database_name       = azurerm_cosmosdb_sql_database.db.name
-  partition_key_path  = "/id"
-}
