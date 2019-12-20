@@ -54,13 +54,14 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 .AddDataAnnotations()
                 .AddCors()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-            //Only required if the models will used Json.Net features
-            //.AddNewtonsoftJson(options =>
-            //{
-            //    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            //    options.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
-            //})
-            ;
+                /* Only required if the models will used Json.Net features for serialization
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
+                })
+                */
+                ;
 
             //Access HttpContext in ASP.NET Core: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-2.2
             services.AddHttpContextAccessor();
