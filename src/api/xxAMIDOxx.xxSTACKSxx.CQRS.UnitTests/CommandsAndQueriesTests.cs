@@ -74,7 +74,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
 
         public void QueriesNameShouldMatchOperationName()
         {
-            var definitions = typeof(GetMenuByIdQueryCriteria).Assembly.GetImplementationsOf(typeof(IQueryCriteria));
+            var definitions = typeof(GetMenuById).Assembly.GetImplementationsOf(typeof(IQueryCriteria));
             foreach (var definition in definitions)
             {
                 var operationCode = GetOperationCode(definition.implementation);
@@ -119,7 +119,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
         [Fact(DisplayName = "Queries should have a handler")]
         public void QueriesShouldHaveAHandler()
         {
-            var queries = typeof(GetMenuByIdQueryCriteria)
+            var queries = typeof(GetMenuById)
                 .Assembly
                 .GetImplementationsOf(typeof(IQueryCriteria))
                 .Select(c => c.Item2);

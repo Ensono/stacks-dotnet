@@ -3,7 +3,7 @@ using Amido.Stacks.Application.CQRS.Queries;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu
 {
-    public class SearchMenuQueryCriteria : IQueryCriteria
+    public class SearchMenu : IQueryCriteria
     {
         public int OperationCode => (int)Common.Operations.OperationCode.SearchMenu;
 
@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu
 
         public int? PageNumber { get; }
 
-        public SearchMenuQueryCriteria(Guid correlationId, string searchText, Guid? restaurantId, int? pageSize, int? pageNumber)
+        public SearchMenu(Guid correlationId, string searchText, Guid? restaurantId, int? pageSize, int? pageNumber)
         {
             CorrelationId = correlationId;
             SearchText = searchText;
