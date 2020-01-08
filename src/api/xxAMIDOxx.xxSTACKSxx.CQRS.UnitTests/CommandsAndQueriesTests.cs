@@ -9,6 +9,8 @@ using AutoFixture.Kernel;
 using NSubstitute;
 using Shouldly;
 using Xunit;
+using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
+using xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -72,7 +74,7 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
 
         public void QueriesNameShouldMatchOperationName()
         {
-            var definitions = typeof(GetMenuByIdQueryCriteria).Assembly.GetImplementationsOf(typeof(IQueryCriteria));
+            var definitions = typeof(GetMenuById).Assembly.GetImplementationsOf(typeof(IQueryCriteria));
             foreach (var definition in definitions)
             {
                 var operationCode = GetOperationCode(definition.implementation);
@@ -82,12 +84,68 @@ namespace xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests
             }
         }
 
-        [Fact(Skip = "Implement check to avoid zombie commands poluting the code")]
+        [Fact(DisplayName = "Commands should have a handler")]
 
-        public void CommandsAndQueriesShouldHaveAHandler()
+        public void CommandsShouldHaveAHandler()
         {
+            var commands = typeof(CreateMenu)
+                .Assembly
+                .GetImplementationsOf(typeof(ICommand))
+                .Select(c => c.Item2);
+
+            var handlers = typeof(CreateCategoryCommandHandler)
+                .Assembly
+                .GetImplementationsOf(typeof(ICommandHandler<,>))
+                .Select(d => d).ToList();
+
+            var join = (from c in commands
+                    join handler in handlers on c equals handler.Item1.GenericTypeArguments[0] into dj
+                    from h in dj.DefaultIfEmpty()
+                    select new
+                    {
+                        CommandType = c,
+                        GenericTypeArg = h.interfaceVariation?.GenericTypeArguments[0],
+                        Name = h.implementation?.Name
+                    })
+                .ToList();
+
+            foreach (var j in join)
+            {
+                j.GenericTypeArg.ShouldBe(j.CommandType);
+                j.Name.ShouldBe($"{j.CommandType.Name}CommandHandler");
+            }
         }
 
+        [Fact(DisplayName = "Queries should have a handler")]
+        public void QueriesShouldHaveAHandler()
+        {
+            var queries = typeof(GetMenuById)
+                .Assembly
+                .GetImplementationsOf(typeof(IQueryCriteria))
+                .Select(c => c.Item2);
+
+            var handlers = typeof(GetMenuByIdQueryHandler)
+                .Assembly
+                .GetImplementationsOf(typeof(IQueryHandler<,>))
+                .Select(d => d).ToList();
+
+            var join = (from q in queries
+                    join handler in handlers on q equals handler.Item1.GenericTypeArguments[0] into dj
+                    from h in dj.DefaultIfEmpty()
+                    select new
+                    {
+                        QueryType = q, 
+                        GenericTypeArg = h.interfaceVariation?.GenericTypeArguments[0],
+                        h.implementation?.Name
+                    })
+                .ToList();
+
+            foreach (var j in join)
+            {
+                j.GenericTypeArg.ShouldBe(j.QueryType);
+                j.Name.ShouldBe($"{j.QueryType.Name}QueryHandler");
+            }
+        }
 
         private int GetOperationCode(Type commandType)
         {

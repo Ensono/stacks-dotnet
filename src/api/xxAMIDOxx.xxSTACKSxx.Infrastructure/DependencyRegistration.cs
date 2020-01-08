@@ -59,8 +59,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure
 
         private static void AddCommandHandlers(IServiceCollection services)
         {
-            log.Information("Loading implementations of {interface}", typeof(ICommandHandler<>).Name);
-            var definitions = typeof(CreateMenuCommandHandler).Assembly.GetImplementationsOf(typeof(ICommandHandler<>), typeof(ICommandHandler<,>));
+            log.Information("Loading implementations of {interface}", typeof(ICommandHandler<,>).Name);
+            var definitions = typeof(CreateMenuCommandHandler).Assembly.GetImplementationsOf(typeof(ICommandHandler<,>));
             foreach (var definition in definitions)
             {
                 log.Information("Registering '{implementation}' as implementation of '{interface}'", definition.implementation.FullName, definition.interfaceVariation.FullName);

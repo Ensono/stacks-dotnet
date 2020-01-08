@@ -8,7 +8,7 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
 {
-    public class SearchMenuQueryHandler : IQueryHandler<SearchMenuQueryCriteria, SearchMenuResult>
+    public class SearchMenuQueryHandler : IQueryHandler<SearchMenu, SearchMenuResult>
     {
         readonly IDocumentSearch<Menu> storage;
 
@@ -17,7 +17,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
             this.storage = storage;
         }
 
-        public async Task<SearchMenuResult> ExecuteAsync(SearchMenuQueryCriteria criteria)
+        public async Task<SearchMenuResult> ExecuteAsync(SearchMenu criteria)
         {
             if (criteria == null)
                 throw new ArgumentException("A valid SearchMenuQueryCriteria os required!");
