@@ -6,7 +6,7 @@ using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
 {
-    public class GetMenuByIdQueryHandler : IQueryHandler<GetMenuByIdQueryCriteria, Menu>
+    public class GetMenuByIdQueryHandler : IQueryHandler<GetMenuById, Menu>
     {
         private readonly IMenuRepository repository;
 
@@ -15,7 +15,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers
             this.repository = repository;
         }
 
-        public async Task<Menu> ExecuteAsync(GetMenuByIdQueryCriteria criteria)
+        public async Task<Menu> ExecuteAsync(GetMenuById criteria)
         {
             var menu = await repository.GetByIdAsync(criteria.Id);
 

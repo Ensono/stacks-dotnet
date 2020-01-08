@@ -16,9 +16,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class DeleteMenuController : ApiControllerBase
     {
-        readonly ICommandHandler<DeleteMenu> commandHandler;
+        readonly ICommandHandler<DeleteMenu, bool> commandHandler;
 
-        public DeleteMenuController(ICommandHandler<DeleteMenu> commandHandler)
+        public DeleteMenuController(ICommandHandler<DeleteMenu, bool> commandHandler)
         {
             this.commandHandler = commandHandler;
         }

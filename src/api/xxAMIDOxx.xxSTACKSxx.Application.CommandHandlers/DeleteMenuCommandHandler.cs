@@ -8,7 +8,7 @@ using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
 {
-    public class DeleteMenuCommandHandler : ICommandHandler<DeleteMenu>
+    public class DeleteMenuCommandHandler : ICommandHandler<DeleteMenu, bool>
     {
         readonly IMenuRepository repository;
         readonly IApplicationEventPublisher applicationEventPublisher;
@@ -19,7 +19,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             this.applicationEventPublisher = applicationEventPublisher;
         }
 
-        public async Task HandleAsync(DeleteMenu command)
+        public async Task<bool> HandleAsync(DeleteMenu command)
         {
             var menu = await repository.GetByIdAsync(command.MenuId);
 
@@ -40,6 +40,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers
             await applicationEventPublisher.PublishAsync(
                 new MenuDeleted(command, command.MenuId)
             );
+
+            return successful;
         }
     }
 }

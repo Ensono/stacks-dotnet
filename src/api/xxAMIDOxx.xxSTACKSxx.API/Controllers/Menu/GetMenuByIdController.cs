@@ -17,9 +17,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class GetMenuByIdController : ApiControllerBase
     {
-        readonly IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler;
+        readonly IQueryHandler<Query.GetMenuById, Query.Menu> queryHandler;
 
-        public GetMenuByIdController(IQueryHandler<Query.GetMenuByIdQueryCriteria, Query.Menu> queryHandler)
+        public GetMenuByIdController(IQueryHandler<Query.GetMenuById, Query.Menu> queryHandler)
         {
             this.queryHandler = queryHandler;
         }
@@ -38,7 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 
-            var result = await queryHandler.ExecuteAsync(new Query.GetMenuByIdQueryCriteria() { Id = id });
+            var result = await queryHandler.ExecuteAsync(new Query.GetMenuById() { Id = id });
 
             if (result == null)
                 return NotFound();
