@@ -175,14 +175,6 @@ stages:
               # Resource Specific Config
               cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
 
-          - task: Bash@3
-            displayName: New CosmosDB Collection
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
-              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true
-        
   - deployment: Test # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
@@ -239,14 +231,6 @@ stages:
               tags: "{}"
               # Resource Specific Config
               cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
-
-          - task: Bash@3
-            displayName: New CosmosDB Collection
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
-              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true
 
 - stage: Production
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -312,14 +296,6 @@ stages:
               # Resource Specific Config
               cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
 
-          - task: Bash@3
-            displayName: New CosmosDB Collection
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
-              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true
-         
   - deployment: Prod # This should be made into a meta-template when it's available! 
     pool:
       vmImage: 'ubuntu-latest'
@@ -376,11 +352,3 @@ stages:
               tags: "{}"
               # Resource Specific Config
               cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
-
-          - task: Bash@3
-            displayName: New CosmosDB Collection
-            inputs:
-              targetType: 'filePath'
-              filePath: $(Pipeline.Workspace)/DevOps/Azure/new-cosmosdb-collection.sh
-              arguments: $(cosmosDB.resourceGroup) $(cosmosDB.accountName) $(cosmosDB.databaseName) $(cosmosDB.collectionName) $(cosmosDB.collectionPartitionKey)
-              failOnStderr: true

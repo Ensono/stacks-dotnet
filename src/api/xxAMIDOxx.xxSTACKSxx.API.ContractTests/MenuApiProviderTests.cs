@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Amido.Stacks.Testing.Settings;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -63,6 +63,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
             using (var ProviderWebHost = WebHost.CreateDefaultBuilder()
                 .UseUrls(ProviderUri)
                 .UseStartup<TestStartup>()
+                .UseSetting(WebHostDefaults.ApplicationKey, typeof(Startup).Assembly.GetName().Name)
                 .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
                 .Build())
             {

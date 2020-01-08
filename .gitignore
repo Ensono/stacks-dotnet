@@ -341,3 +341,9 @@ target/
 # build artefacts
 .sonarqube/
 CoverageResults/
+coverage.opencover.xml
+
+# .NET Core tools and store
+.store/
+dotnet-sonarscanner
+reportgenerator
