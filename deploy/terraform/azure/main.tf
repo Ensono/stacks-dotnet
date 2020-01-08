@@ -1,5 +1,6 @@
 ##################################################
 # ResourceGroups
+##################################################
 
 resource "azurerm_resource_group" "env" {
   name     = local.resource_group_name_env
@@ -8,14 +9,8 @@ resource "azurerm_resource_group" "env" {
 }
 
 ##################################################
-# CosmosDB Resource
-
-
-resource "azurerm_cosmosdb_sql_database" "db" {
-  name                = var.cosmosDBdatabaseName
-  resource_group_name = azurerm_cosmosdb_account.account.resource_group_name
-  account_name        = azurerm_cosmosdb_account.account.name
-}
+# CosmosDB Resources
+##################################################
 
 resource "azurerm_cosmosdb_account" "account" {
   name                = local.cosmosdb_account_name
@@ -37,4 +32,10 @@ resource "azurerm_cosmosdb_account" "account" {
     failover_priority = 0
   }
 
+}
+
+resource "azurerm_cosmosdb_sql_database" "db" {
+  name                = var.cosmosDBdatabaseName
+  resource_group_name = azurerm_cosmosdb_account.account.resource_group_name
+  account_name        = azurerm_cosmosdb_account.account.name
 }
