@@ -2,7 +2,7 @@
     "$schema": "http://json.schemastore.org/template",
     "author": "Diego Mendes",
     "classifications": [ "Stacks" , "WebApi", "api" ], 
-    "name": "Amido Stacks Application Repository",
+    "name": "Amido Stacks Application (.Net Core 3.1)",
     "identity": "Amido.Stacks.App.CSharp",     
     "groupIdentity":"Amido.Stacks",
     "shortName": "stacks-app",
@@ -45,7 +45,8 @@
               "*Content_Types*.xml"
             ],            
             "rename": {
-                "_gitignore": ".gitignore"
+                "_gitignore": ".gitignore",
+                "_gitattributes": ".gitattributes"
             },
             "modifiers":[
             ]
