@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Amido.Stacks.Testing.Settings;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -57,7 +58,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
         {
             //This token is taken from within the broker UI (See settings > Read/write token (CI))
             //This is used to authenticate requests to the pact broker as part of the PactVerifier
-            var options = new PactUriOptions(Environment.GetEnvironmentVariable("BROKER_TOKEN"));
+            var options = new PactUriOptions(Environment.GetEnvironmentVariable("PACT_BEARER_TOKEN"));
 
             //Create the mocked provider service
             using (var ProviderWebHost = WebHost.CreateDefaultBuilder()
