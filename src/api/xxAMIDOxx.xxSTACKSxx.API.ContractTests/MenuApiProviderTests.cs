@@ -57,7 +57,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
         {
             //This token is taken from within the broker UI (See settings > Read/write token (CI))
             //This is used to authenticate requests to the pact broker as part of the PactVerifier
-            var options = new PactUriOptions(Config.Broker_Token);
+            var options = new PactUriOptions(Environment.GetEnvironmentVariable("BROKER_TOKEN"));
 
             //Create the mocked provider service
             using (var ProviderWebHost = WebHost.CreateDefaultBuilder()
