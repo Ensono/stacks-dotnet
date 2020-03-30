@@ -347,4 +347,4 @@ coverage.opencover.xml
 .store/
 dotnet-sonarscanner
 reportgenerator
-**/appsettings.Development.json
+**/appsettings.[Dd]evelopment.json
