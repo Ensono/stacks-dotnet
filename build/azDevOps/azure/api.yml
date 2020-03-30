@@ -168,7 +168,7 @@ stages:
       devops_artefact_name: '$(DevOps.ArtefactName)'
       # Docker Config
       docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
-      docker_build_arg: '--build-arg nuget_url=$(STACKS_NUGET) --build-arg nuget_token=$(STACKS_NUGET_TOKEN)'
+      docker_build_args: --build-arg nuget_url=$(STACKS_NUGET) --build-arg nuget_token=$(STACKS_NUGET_TOKEN)
       docker_imagename: '$(Docker.ImageName)'
       docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)'
       docker_containerregistryname: '$(Docker.ContainerRegistryName)'
