@@ -22,7 +22,7 @@ resources:
     type: github
     name: amido/stacks-pipeline-templates
     ref: feature/cycle2
-    endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
+    endpoint: amidostacks # Created when you set up the connection to GitHub from Azure DevOps
 
 variables:
 # Global Config:
@@ -147,8 +147,6 @@ stages:
   - name: Docker.ContainerRegistryName
     value: 'amidouksstacksacrdev'
   jobs:
-  # environment:
-    # STACKS_NUGET:
   # Set build number
   - template: azDevOps/azure/templates/jobs/build-updatebuildnumber.yml@templates
     parameters:
