@@ -19,7 +19,7 @@ RUN Locally
 
 Pre-requisites for running locally are:
 
-  - STACKS_NUGET for Amido Stacks nuget repo = `https://amido-dev.pkgs.visualstudio.  com/_packaging/Stacks/nuget/v3/index.json`
+  - STACKS_NUGET for Amido Stacks nuget repo = `https://amido-dev.pkgs.visualstudio.com/_packaging/Stacks/nuget/v3/index.json`
   - STACKS_NUGET_TOKEN - PAT token you need to obtain from one of the team
   - COSMOSDB_KEY - primary key to use in authentication against the CosmosDB
   - appsettings.Development.json - you will need to place your own CosmosDBURI
@@ -39,3 +39,11 @@ dotnet clean
 dotnet build
 dotnet run --project xxAMIDOxx.xxSTACKSxx.API/xxAMIDOxx.xxSTACKSxx.API.csproj
 ```
+
+docker build and run locally
+```bash
+docker build --build-arg nuget_url=${STACKS_NUGET} \
+--build-arg nuget_token=${STACKS_NUGET_TOKEN} -t dotnet-api .
+docker run -p 5000:80 dotnet-api:latest
+```
+
