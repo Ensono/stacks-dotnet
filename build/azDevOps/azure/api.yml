@@ -113,7 +113,7 @@ variables:
   value: '$(Test.PactBrokerUrl)'
 - name: BUILD_NUMBER
   value: '$(Docker.ImageTag)'
-- name: BROKER_TOKEN
+- name: PACT_BEARER_TOKEN
   value: '$(Test.PactBearerToken)'
 
 # Docker Config
