@@ -16,8 +16,8 @@ resources:
   - repository: templates
     type: github
     name: amido/stacks-pipeline-templates
-    endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
-    
+    endpoint: amidostacks # Created when you set up the connection to GitHub from Azure DevOps
+
 variables:
 # Versioning
 - name: Version.Major
@@ -48,7 +48,7 @@ variables:
   value: stacks
 - name: Global.domain
   value: menu
-  
+
 ## Global Azure Specific Config
 - name: Azure.location
   value: uksouth
@@ -79,7 +79,7 @@ variables:
 
 stages:
 - stage: Build
-  variables: 
+  variables:
   - group: amido-stacks-infra-credentials-prod # Used to pull artefact from prod store
   jobs:
 
@@ -96,22 +96,22 @@ stages:
     continueOnError: False
     steps:
       - template: azDevOps/azure/templates/steps/build-validate-terraform.yml@templates
-        parameters: 
+        parameters:
           terraform_artefact_name: terraform
           terraform_filepath: '$(Build.SourcesDirectory)/deploy/terraform/azure'
 
   # Retrieve a blob file with only Azure credentials, extract it and publish as an artefact
   - template: azDevOps/azure/templates/jobs/publish-blob-as-artefact.yml@templates
-    parameters: 
+    parameters:
       Package_RG: $(DevOps.RG)
-      Package_storageAccount: $(DevOps.storageAccount) 
+      Package_storageAccount: $(DevOps.storageAccount)
       Package_Container: $(DevOps.Container)
       Package_File: $(DevOps.File)
       Package_OutputFolder: $(Build.BinariesDirectory)
       Package_OutputArtefact: 'DevOps'
-  
+
 - stage: NonProduction
-  variables: 
+  variables:
   - group: amido-stacks-infra-credentials-nonprod
   - group: amido-stacks-infra-nonprod # Used for Terraform secrets and Cluster SPN
 
@@ -120,7 +120,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     environment: dev
-    variables:  
+    variables:
     - name: environment
       value: dev
     strategy:
@@ -136,7 +136,7 @@ stages:
             artifact: DevOps
 
           - template: azDevOps/azure/templates/steps/login-services.yml@templates
-            parameters:   
+            parameters:
               # Azure
               login_azure: true
               azure_tenant_id: '$(azure_tenant_id)'
@@ -146,15 +146,15 @@ stages:
               # Kubernetes
               login_kubernetes: false
               # aks_rg: ''
-              # aks_clustername: '' 
+              # aks_clustername: ''
               devops_artefact_name: 'DevOps'
 
           # TODO: This is not a shared template, because it has specific resource parameters. I'm sure there is a way to provide a paramater array and have that mapped as env vars
-          # see here: https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops#iterative-insertion 
+          # see here: https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops#iterative-insertion
 
           - template: templates/steps/deploy-provisioning-terraform.yml
             # Terraform Backend & Azure Credential config comes via Variable Group
-            # that must be inherited into this step! 
+            # that must be inherited into this step!
             parameters:
               # Terraform Basic Config
               terraform_artefact_name: 'terraform'
@@ -166,7 +166,7 @@ stages:
               terraform_state_workspace: '$(Terraform.stateWorkspace)'
               # Global Config
               company: '$(Global.company)'
-              project: '$(Global.project)' 
+              project: '$(Global.project)'
               domain: '$(Global.domain)'
               environment: '$(environment)'
               # Azure config
@@ -175,7 +175,7 @@ stages:
               # Resource Specific Config
               cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
 
-  - deployment: Test # This should be made into a meta-template when it's available! 
+  - deployment: Test # This should be made into a meta-template when it's available!
     pool:
       vmImage: 'ubuntu-latest'
     environment: test
@@ -195,7 +195,7 @@ stages:
             artifact: DevOps
 
           - template: azDevOps/azure/templates/steps/login-services.yml@templates
-            parameters:   
+            parameters:
               # Azure
               login_azure: true
               azure_tenant_id: '$(azure_tenant_id)'
@@ -205,13 +205,13 @@ stages:
               # Kubernetes
               login_kubernetes: false
               # aks_rg: ''
-              # aks_clustername: '' 
+              # aks_clustername: ''
               devops_artefact_name: 'DevOps'
 
           # This is not a shared template, because it has specific resource parameters
           - template: templates/steps/deploy-provisioning-terraform.yml
             # Terraform Backend & Azure Credential config comes via Variable Group
-            # that must be inherited into this step! 
+            # that must be inherited into this step!
             parameters:
               # Terraform Basic Config
               terraform_artefact_name: 'terraform'
@@ -223,7 +223,7 @@ stages:
               terraform_state_workspace: '$(Terraform.stateWorkspace)'
               # Global Config
               company: '$(Global.company)'
-              project: '$(Global.project)' 
+              project: '$(Global.project)'
               domain: '$(Global.domain)'
               environment: '$(environment)'
               # Azure config
@@ -234,16 +234,16 @@ stages:
 
 - stage: Production
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  variables: 
+  variables:
   - group: amido-stacks-infra-credentials-prod
   - group: amido-stacks-infra-nonprod # Used for Terraform secrets and Cluster SPN
 
   jobs:
-  - deployment: Performance # This should be made into a meta-template when it's available! 
+  - deployment: Performance # This should be made into a meta-template when it's available!
     pool:
       vmImage: 'ubuntu-latest'
     environment: perf
-    variables:  
+    variables:
     - name: environment
       value: perf
     strategy:
@@ -259,7 +259,7 @@ stages:
             artifact: DevOps
 
           - template: azDevOps/azure/templates/steps/login-services.yml@templates
-            parameters:   
+            parameters:
               # Azure
               login_azure: true
               azure_tenant_id: '$(azure_tenant_id)'
@@ -269,13 +269,13 @@ stages:
               # Kubernetes
               login_kubernetes: false
               # aks_rg: ''
-              # aks_clustername: '' 
+              # aks_clustername: ''
               devops_artefact_name: 'DevOps'
 
           # This is not a shared template, because it has specific resource parameters
           - template: templates/steps/deploy-provisioning-terraform.yml
             # Terraform Backend & Azure Credential config comes via Variable Group
-            # that must be inherited into this step! 
+            # that must be inherited into this step!
             parameters:
               # Terraform Basic Config
               terraform_artefact_name: 'terraform'
@@ -287,7 +287,7 @@ stages:
               terraform_state_workspace: '$(Terraform.stateWorkspace)'
               # Global Config
               company: '$(Global.company)'
-              project: '$(Global.project)' 
+              project: '$(Global.project)'
               domain: '$(Global.domain)'
               environment: '$(environment)'
               # Azure config
@@ -296,7 +296,7 @@ stages:
               # Resource Specific Config
               cosmosDBdatabaseName: '$(cosmosDB.databaseName)'
 
-  - deployment: Prod # This should be made into a meta-template when it's available! 
+  - deployment: Prod # This should be made into a meta-template when it's available!
     pool:
       vmImage: 'ubuntu-latest'
     environment: prod
@@ -316,7 +316,7 @@ stages:
             artifact: DevOps
 
           - template: azDevOps/azure/templates/steps/login-services.yml@templates
-            parameters:   
+            parameters:
               # Azure
               login_azure: true
               azure_tenant_id: '$(azure_tenant_id)'
@@ -326,13 +326,13 @@ stages:
               # Kubernetes
               login_kubernetes: false
               # aks_rg: ''
-              # aks_clustername: '' 
+              # aks_clustername: ''
               devops_artefact_name: 'DevOps'
 
           # This is not a shared template, because it has specific resource parameters
           - template: templates/steps/deploy-provisioning-terraform.yml
             # Terraform Backend & Azure Credential config comes via Variable Group
-            # that must be inherited into this step! 
+            # that must be inherited into this step!
             parameters:
               # Terraform Basic Config
               terraform_artefact_name: 'terraform'
@@ -344,7 +344,7 @@ stages:
               terraform_state_workspace: '$(Terraform.stateWorkspace)'
               # Global Config
               company: '$(Global.company)'
-              project: '$(Global.project)' 
+              project: '$(Global.project)'
               domain: '$(Global.domain)'
               environment: '$(environment)'
               # Azure config
