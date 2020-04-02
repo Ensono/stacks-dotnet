@@ -4,6 +4,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests
     {
         public string Build_Number { get; set; }
         public string Broker_Url { get; set; }
-        public string Broker_Token { get; set; }
+        public string Pact_Bearer_Token { get; set; }
     }
 }
