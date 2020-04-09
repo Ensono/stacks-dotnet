@@ -12,8 +12,6 @@ variables:
   value: $[counter(variables['Version.MajorMinor'], 0)]
 - name: Package.Path
   value: 'src/api/xxAMIDOxx.xxSTACKSxx.API.Models/'
-- name: Package.Feed
-  value: 'packages-menu'
 - name: BuildPipeline.Path
   value: build/azDevOps/azure/packages-api-models.yml
 
@@ -53,5 +51,6 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: push
-    publishVstsFeed: $(Package.Feed)
+      command: push
+      nugetFeedType: 'external'
+      externalEndPoint: 'NuGetAmidoStacksServiceConnection'
