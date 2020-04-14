@@ -53,6 +53,5 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-      command: push
-      nugetFeedType: 'external'
-      externalEndPoint: 'NuGetAmidoStacksServiceConnection'
+    command: push
+    publishVstsFeed: $(Package.Feed) 
