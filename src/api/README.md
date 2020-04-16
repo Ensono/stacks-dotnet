@@ -19,8 +19,8 @@ RUN Locally
 
 Pre-requisites for running locally are:
 
-  - STACKS_NUGET for Amido Stacks nuget repo = `https://amido-dev.pkgs.visualstudio.com/_packaging/Stacks/nuget/v3/index.json`
-  - STACKS_NUGET_TOKEN - PAT token you need to obtain from one of the team
+  - STACKS_NUGET is default NugGet = `https://api.nuget.org/v3/index.json`
+  - STACKS_NUGET_TOKEN - For publishing you will need to create a ApiKey for NuGet Org.
   - COSMOSDB_KEY - primary key to use in authentication against the CosmosDB
   - appsettings.Development.json - you will need to place your own CosmosDBURI
 
@@ -30,8 +30,8 @@ Pre-requisites for running locally are:
 Once obtained
 ```bash
 cd src/api
-export STACKS_NUGET=https://amido-dev.pkgs.visualstudio.com/_packaging/Stacks/nuget/v3/index.json
-export STACKS_NUGET_TOKEN=${PRIVATE_PKG_REPO_TOKEN} 
+export STACKS_NUGET=https://api.nuget.org/v3/index.json
+export STACKS_NUGET_TOKEN=${PRIVATE_API_KEY} 
 export COSMOSDB_KEY=${COSMOSDB_KEY}
 
 dotnet restore

@@ -5,7 +5,7 @@
 
     <!-- fill some nuget package props (optional) -->
     <Description>Amido Stacks Application (.Net Core 3.1)</Description>
-    <Authors>Diego Mendes</Authors>
+    <Authors>stacks@amido.com</Authors>
     <Version>1.0.0</Version>
 
     <!-- cruft need to avoid building and making dotnet sdk happy -->
