@@ -21,7 +21,8 @@ resources:
   - repository: templates
     type: github
     name: amido/stacks-pipeline-templates
-    endpoint: williamayerst # Created when you set up the connection to GitHub from Azure DevOps
+    ref: feature/cycle2
+    endpoint: amidostacks # Created when you set up the connection to GitHub from Azure DevOps
 
 variables:
 # Global Config:
@@ -113,7 +114,7 @@ variables:
   value: '$(Test.PactBrokerUrl)'
 - name: BUILD_NUMBER
   value: '$(Docker.ImageTag)'
-- name: BROKER_TOKEN
+- name: PACT_BEARER_TOKEN
   value: '$(Test.PactBearerToken)'
 
 # Docker Config
@@ -167,6 +168,7 @@ stages:
       devops_artefact_name: '$(DevOps.ArtefactName)'
       # Docker Config
       docker_workdir: '$(Build.SourcesDirectory)/$(Docker.DockerfilePath)'
+      docker_build_args: --build-arg nuget_url=$(STACKS_NUGET) --build-arg nuget_token=$(STACKS_NUGET_TOKEN)
       docker_imagename: '$(Docker.ImageName)'
       docker_imagetag: '$(Version.Major).$(Version.Minor).$(Version.Revision)-$(build.sourcebranchname)'
       docker_containerregistryname: '$(Docker.ContainerRegistryName)'
