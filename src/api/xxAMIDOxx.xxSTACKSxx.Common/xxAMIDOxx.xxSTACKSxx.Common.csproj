@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Core" Version="0.1.77" />
+        <PackageReference Include="Amido.Stacks.Core" Version="0.1.78" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Configuration\" />

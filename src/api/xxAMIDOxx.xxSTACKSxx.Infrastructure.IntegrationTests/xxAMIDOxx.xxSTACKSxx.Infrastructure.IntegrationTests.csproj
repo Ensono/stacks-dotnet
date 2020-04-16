@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Data.Documents.CosmosDB" Version="0.1.91" />
+        <PackageReference Include="Amido.Stacks.Data.Documents.CosmosDB" Version="0.1.96" />
         <PackageReference Include="Amido.Stacks.Testing" Version="0.0.111" />
         <PackageReference Include="AutoFixture" Version="4.11.0" />
         <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
