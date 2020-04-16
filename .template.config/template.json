@@ -1,6 +1,6 @@
 {
     "$schema": "http://json.schemastore.org/template",
-    "author": "Diego Mendes",
+    "author": "stacks@amido.com",
     "classifications": [ "Stacks" , "WebApi", "api" ], 
     "name": "Amido Stacks Application Repository",
     "identity": "Amido.Stacks.App.CSharp",     
