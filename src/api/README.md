@@ -12,26 +12,20 @@ USAGE:
 Creates a sample CRUD for CosmosDB
 <!-- TODO: flesh this out -->
 
-Locally you may follow the below run instructions, from a CI/CD solution you will need to ensure the `STACKS_NUGET` and `STACKS_NUGET_TOKEN` are injected into the environment.
+Locally you may follow the below run instructions to get up and running, if you used the `amido-scaffolding-cli` follow instructions [here](https://amido.github.io/stacks/docs/getting_started_demo) for any advanced setup you may require.
 
 RUN Locally 
 ---
 
 Pre-requisites for running locally are:
-
-  - STACKS_NUGET is default NugGet = `https://api.nuget.org/v3/index.json`
-  - STACKS_NUGET_TOKEN - For publishing you will need to create a ApiKey for NuGet Org.
   - COSMOSDB_KEY - primary key to use in authentication against the CosmosDB
   - appsettings.Development.json - you will need to place your own CosmosDBURI
-
-        "DatabaseAccountUri": "https://EXCHANGEMEFORCOSMOS.documents.azure.com:443/"
+    - "DatabaseAccountUri": "https://EXCHANGEMEFORCOSMOS.documents.azure.com:443/"
 
 
 Once obtained
 ```bash
 cd src/api
-export STACKS_NUGET=https://api.nuget.org/v3/index.json
-export STACKS_NUGET_TOKEN=${PRIVATE_API_KEY} 
 export COSMOSDB_KEY=${COSMOSDB_KEY}
 
 dotnet restore
