@@ -47,7 +47,7 @@ variables:
   # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
-  self_repo: stacks-webapp-template/packages/scaffolding-cli/templates # replaced by cli
+  self_repo: stacks-dotnet # replaced by cli
   self_repo_src: src/api
   self_repo_tf_src: deploy/azure/app/kube
   self_generic_name: stacks-api
