@@ -351,3 +351,4 @@ reportgenerator
 
 # Other tools
 .terraform
+**/terraform.tfvars
