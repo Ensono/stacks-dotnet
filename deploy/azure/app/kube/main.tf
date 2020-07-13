@@ -21,6 +21,7 @@ module "app" {
   create_cosmosdb                      = var.create_cosmosdb
   resource_namer                       = module.default_label.id
   resource_tags                        = module.default_label.tags
+  resource_group_location              = var.resource_group_location
   cosmosdb_sql_container               = var.cosmosdb_sql_container
   cosmosdb_sql_container_partition_key = var.cosmosdb_sql_container_partition_key
   cosmosdb_kind                        = var.cosmosdb_kind
