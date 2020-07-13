@@ -113,6 +113,11 @@ variable "create_dns_record" {
   default = false
 }
 
+variable create_cdn_endpoint {
+  type = bool
+  default = false
+}
+
 ###########################
 # CosmosDB SETTINGS
 ##########################
