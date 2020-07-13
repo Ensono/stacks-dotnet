@@ -242,14 +242,14 @@ stages:
                   parameters:
                     scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
                     shared_env_vars: {
-                      namespace: dev-api,
+                      namespace: dev-netcore-api,
                       role: $(role),
                       company: $(company),
                       project: $(project),
                       domain: $(domain),
                       component: api,
-                      app_name: yumido-api-v2,
-                      resource_def_name: stacks-netcore-api,
+                      app_name: yumido-netcore-api,
+                      resource_def_name: yumido-netcore-api,
                       version: $(docker_image_tag),
                       environment: dev
                     }
