@@ -22,6 +22,11 @@ variable "name_component" {
   default = "replace_component_name"
 }
 
+variable "name_domain" {
+  type    = string
+  default = "replace_domain_name"
+}
+
 variable "stage" {
   type    = string
   default = "dev"
@@ -117,7 +122,6 @@ variable create_cdn_endpoint {
   type = bool
   default = false
 }
-
 ###########################
 # CosmosDB SETTINGS
 ##########################
