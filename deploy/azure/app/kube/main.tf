@@ -17,7 +17,7 @@ module "default_label" {
 }
 
 module "app" {
-  source                               = "git::https://github.com/amido/stacks-terraform//azurerm/modules/azurerm-server-side-app?ref=v1.3.0"
+  source                               = "git::https://github.com/amido/stacks-terraform//azurerm/modules/azurerm-server-side-app?ref=master"
   create_cosmosdb                      = var.create_cosmosdb
   resource_namer                       = module.default_label.id
   resource_tags                        = module.default_label.tags
@@ -26,7 +26,7 @@ module "app" {
   cosmosdb_kind                        = var.cosmosdb_kind
   cosmosdb_offer_type                  = var.cosmosdb_offer_type
   create_cache                         = var.create_cache
-  create_dns_record                    = true
+  create_dns_record                    = var.create_dns_record
   dns_record                           = var.dns_record
   dns_zone_name                        = var.dns_zone_name
   dns_zone_resource_group              = var.dns_zone_resource_group != "" ? var.dns_zone_resource_group : var.core_resource_group
