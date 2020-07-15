@@ -193,7 +193,6 @@ stages:
               azure_cli_providers: [
                 { name: MSIPreview, namespace: Microsoft.ContainerService }
               ]
-              # Azure config
               tags: ''
               # Terraform Resource Specific Config
               terraform_extra_properties: {
