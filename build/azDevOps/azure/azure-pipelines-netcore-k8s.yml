@@ -203,6 +203,7 @@ stages:
                 TF_VAR_cosmosdb_kind: "GlobalDocumentDB",
                 TF_VAR_cosmosdb_offer_type: "Standard",
                 TF_VAR_create_dns_record: true,
+                TF_VAR_app_insights_name: "amido-stacks-nonprod-eun-core",
                 TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-nonprod-eun-core",
                 TF_VAR_core_resource_group: "amido-stacks-nonprod-eun-core",
                 TF_VAR_name_company: $(company),
@@ -226,6 +227,7 @@ stages:
           cosmosdb_database_name: $[ dependencies.AppInfraDev.outputs['tfoutputs.cosmosdb_database_name'] ]
           cosmosdb_endpoint: $[ dependencies.AppInfraDev.outputs['tfoutputs.cosmosdb_endpoint'] ]
           cosmosdb_primary_master_key: $[ dependencies.AppInfraDev.outputs['tfoutputs.cosmosdb_primary_master_key'] ]
+          app_insights_instrumentation_key: $[ dependencies.AppInfraDev.outputs['tfoutputs.app_insights_instrumentation_key'] ]
         pool:
           vmImage: ubuntu-18.04
         environment: dev
@@ -264,7 +266,7 @@ stages:
                           log_level: "Debug",
                           k8s_image: '$(k8s_docker_registry)/$(docker_image_name):$(docker_image_tag)',
                           aadpodidentitybinding: stacks-webapp-identity,
-                          app_insights_key: $(APPINSIGHTS_INSTRUMENTATIONKEY),
+                          app_insights_key: $(app_insights_instrumentation_key),
                           cosmosdb_key: $(cosmosdb_primary_master_key),
                           cosmosdb_endpoint: $(cosmosdb_endpoint),
                           cosmosdb_name: $(cosmosdb_database_name)
