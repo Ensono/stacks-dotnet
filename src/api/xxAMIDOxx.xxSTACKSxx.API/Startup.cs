@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
@@ -66,10 +67,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             //Access HttpContext in ASP.NET Core: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-2.2
             services.AddHttpContextAccessor();
 
-            AddSwagger(services);
+            var jwtBearerAuthenticationConfiguration = configuration.GetJwtBearerAuthenticationConfiguration();
+            services.AddJwtBearerTokenAuthentication(jwtBearerAuthenticationConfiguration);
+
+            AddSwagger(services, jwtBearerAuthenticationConfiguration);
         }
 
-        private void AddSwagger(IServiceCollection services)
+        private void AddSwagger(
+            IServiceCollection services,
+            JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration = null)
         {
             services
 
@@ -112,6 +118,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     {
                         return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
                     });
+
+                    c.ConfigureForJwtBearerAuthentication(jwtBearerAuthenticationConfiguration);
                 })
 
 
@@ -166,6 +174,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         // Configure the pipeline with middlewares
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var jwtBearerAuthenticationConfiguration = configuration.GetJwtBearerAuthenticationConfiguration();
+
             //if (!useAppInsights)
             //app.UseSerilogRequestLogging(); // Requires serilog v3 still in preview, not required when using App Insights
 
@@ -174,10 +184,17 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
             app
             .UsePathBase(pathBase)
-            .UseRouting()
-            //these need to be added between .UseRouting() and .UseEndpoints()
-            //.UseAuthentication()
-            //.UseAuthorization()
+            .UseRouting();
+
+            if (jwtBearerAuthenticationConfiguration.IsEnabled())
+            {
+                //these need to be added between .UseRouting() and .UseEndpoints()
+                app
+                    .UseAuthentication()
+                    .UseAuthorization();
+            }
+
+            app
             .UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/health");
@@ -203,6 +220,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
                 c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
                 c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
+
+                if (jwtBearerAuthenticationConfiguration.HasOpenApiClient())
+                {
+                    c.OAuthClientId(jwtBearerAuthenticationConfiguration.OpenApiClientId);
+                }
             })
             ;
         }
