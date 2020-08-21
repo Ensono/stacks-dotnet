@@ -11,7 +11,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Authentication
             this SwaggerGenOptions options,
             JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration)
         {
-            if (jwtBearerAuthenticationConfiguration.IsDisabled())
+            if (!jwtBearerAuthenticationConfiguration.HasOpenApiClient())
             {
                 return;
             }
@@ -21,9 +21,16 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Authentication
                 Type = SecuritySchemeType.OAuth2,
                 Flows = new OpenApiOAuthFlows
                 {
+                    // Recommended flow (Authorization Code with PKCE - https://tools.ietf.org/html/draft-ietf-oauth-browser-based-apps-00)
+                    AuthorizationCode = new OpenApiOAuthFlow
+                    {
+                        AuthorizationUrl = new Uri(jwtBearerAuthenticationConfiguration.OpenApi.AuthorizationUrl),
+                        TokenUrl = new Uri(jwtBearerAuthenticationConfiguration.OpenApi.TokenUrl)
+                    },
+                    // Not recommended flow
                     Implicit = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri(jwtBearerAuthenticationConfiguration.OpenApiAuthorizationUrl)
+                        AuthorizationUrl = new Uri(jwtBearerAuthenticationConfiguration.OpenApi.AuthorizationUrl)
                     }
                 }
             });

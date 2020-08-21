@@ -4,7 +4,7 @@
     {
         public static bool HasOpenApiClient(this JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration) =>
             jwtBearerAuthenticationConfiguration.IsEnabled() &&
-            !string.IsNullOrWhiteSpace(jwtBearerAuthenticationConfiguration.OpenApiClientId);
+            jwtBearerAuthenticationConfiguration.OpenApi != null;
 
         public static bool IsDisabled(this JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration) =>
             !jwtBearerAuthenticationConfiguration.IsEnabled();

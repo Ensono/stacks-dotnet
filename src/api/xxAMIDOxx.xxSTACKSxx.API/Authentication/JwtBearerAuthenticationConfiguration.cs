@@ -10,9 +10,7 @@
 
         public bool Enabled { get; set; } = true;
 
-        public string OpenApiAuthorizationUrl { get; set; }
-
-        public string OpenApiClientId { get; set; }
+        public OpenApiJwtBearerAuthenticationConfiguration OpenApi { get; set; }
 
         public bool UseStubbedBackchannelHandler { get; set; }
     }

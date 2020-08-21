@@ -223,7 +223,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
                 if (jwtBearerAuthenticationConfiguration.HasOpenApiClient())
                 {
-                    c.OAuthClientId(jwtBearerAuthenticationConfiguration.OpenApiClientId);
+                    c.OAuthClientId(jwtBearerAuthenticationConfiguration.OpenApi.ClientId);
+                    c.OAuthUsePkce();
                 }
             })
             ;
