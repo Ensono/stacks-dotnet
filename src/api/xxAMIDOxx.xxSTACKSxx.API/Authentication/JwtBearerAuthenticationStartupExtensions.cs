@@ -28,8 +28,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Authentication
 
                     if (jwtBearerAuthenticationConfiguration.UseStubbedBackchannelHandler)
                     {
-                        // TODO
-                        //options.BackchannelHttpHandler = new StubJwtBearerAuthenticationHttpMessageHandler();
+                        options.BackchannelHttpHandler = new StubJwtBearerAuthenticationHttpMessageHandler();
                     }
 
                     options.TokenValidationParameters = new TokenValidationParameters
