@@ -5,15 +5,18 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Amido.Stacks.API.Middleware;
 using Amido.Stacks.API.Swagger.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxAMIDOxx.xxSTACKSxx.API.Authentication;
+using xxAMIDOxx.xxSTACKSxx.API.Authorization;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
@@ -67,10 +70,71 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             //Access HttpContext in ASP.NET Core: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-2.2
             services.AddHttpContextAccessor();
 
-            var jwtBearerAuthenticationConfiguration = configuration.GetJwtBearerAuthenticationConfiguration();
+            // Configure Authentication
+            var jwtBearerAuthenticationConfigurationSection = configuration.GetJwtBearerAuthenticationConfigurationSection();
+            services.Configure<JwtBearerAuthenticationConfiguration>(jwtBearerAuthenticationConfigurationSection);
+            var jwtBearerAuthenticationConfiguration = jwtBearerAuthenticationConfigurationSection.Get<JwtBearerAuthenticationConfiguration>();
             services.AddJwtBearerTokenAuthentication(jwtBearerAuthenticationConfiguration);
 
+            services.AddSingleton<IAuthorizationPolicyProvider, ConfigurableAuthorizationPolicyProvider>();
+
             AddSwagger(services, jwtBearerAuthenticationConfiguration);
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Configure the pipeline with middlewares
+        public virtual void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
+        {
+            var jwtBearerAuthenticationConfiguration = jwtBearerAuthenticationOptions.Value;
+
+            //if (!useAppInsights)
+            //app.UseSerilogRequestLogging(); // Requires serilog v3 still in preview, not required when using App Insights
+
+            app.UseCustomExceptionHandler(logger);
+            app.UseCorrelationId();
+
+            app
+            .UsePathBase(pathBase)
+            .UseRouting()
+            //these need to be added between .UseRouting() and .UseEndpoints()
+            .UseAuthentication()
+            .UseAuthorization()
+            .UseEndpoints(endpoints =>
+            {
+                endpoints.MapHealthChecks("/health");
+                endpoints.MapControllers();
+                endpoints.MapGet("/", context =>
+                {
+                    context.Response.Redirect((Environment.GetEnvironmentVariable("API_BASEPATH") ?? String.Empty) + "/swagger");
+                    return Task.CompletedTask;
+                });
+            })
+
+            .UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpReq) =>
+                {
+                    swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{pathBase}" } };
+                });
+            })
+            .UseSwaggerUI(c =>
+            {
+                c.DisplayOperationId();
+
+                c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
+                c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
+                c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
+
+                if (jwtBearerAuthenticationConfiguration.HasOpenApiClient())
+                {
+                    c.OAuthClientId(jwtBearerAuthenticationConfiguration.OpenApi.ClientId);
+                    c.OAuthUsePkce();
+                }
+            })
+            ;
         }
 
         private void AddSwagger(
@@ -78,7 +142,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration = null)
         {
             services
-
                 //Add swagger for all endpoints without any filter
                 .AddSwaggerGen(c =>
                 {
@@ -122,112 +185,51 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     c.ConfigureForJwtBearerAuthentication(jwtBearerAuthenticationConfiguration);
                 })
 
-
-                    //Add swagger for v1 endpoints only
-                    .AddSwaggerGen(c =>
+                //Add swagger for v1 endpoints only
+                .AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo
                     {
-                        c.SwaggerDoc("v1", new OpenApiInfo
+                        Version = "v1",
+                        Title = "Menu API",
+                        Description = "APIs used to interact and manage menus for a restaurant",
+                        Contact = new OpenApiContact()
                         {
-                            Version = "v1",
-                            Title = "Menu API",
-                            Description = "APIs used to interact and manage menus for a restaurant",
-                            Contact = new OpenApiContact()
-                            {
-                                Name = "Amido",
-                                Url = new Uri(projectUrl),
-                                Email = "stacks@amido.com"
-                            },
-                            //TermsOfService = new Uri("http://www.amido.com/")
-                        });
-
-                        c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
-
-                        // Show only operations where route starts with
-                        c.DocumentFilter<VersionPathFilter>("/v1");
-                    })
-
-                    //Add swagger for v2 endpoints only
-                    .AddSwaggerGen(c =>
-                    {
-                        c.SwaggerDoc("v2", new OpenApiInfo
-                        {
-                            Version = "v2",
-                            Title = "Menu API",
-                            Description = "APIs used to interact and manage menus for a restaurant",
-                            Contact = new OpenApiContact()
-                            {
-                                Name = "Amido",
-                                Url = new Uri(projectUrl),
-                                Email = "stacks@amido.com"
-                            },
-                            //TermsOfService = new Uri("http://www.amido.com/")
-                        });
-
-                        c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
-
-                        // Show only operations where route starts with
-                        c.DocumentFilter<VersionPathFilter>("/v2");
+                            Name = "Amido",
+                            Url = new Uri(projectUrl),
+                            Email = "stacks@amido.com"
+                        },
+                        //TermsOfService = new Uri("http://www.amido.com/")
                     });
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        // Configure the pipeline with middlewares
-        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            var jwtBearerAuthenticationConfiguration = configuration.GetJwtBearerAuthenticationConfiguration();
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
 
-            //if (!useAppInsights)
-            //app.UseSerilogRequestLogging(); // Requires serilog v3 still in preview, not required when using App Insights
+                    // Show only operations where route starts with
+                    c.DocumentFilter<VersionPathFilter>("/v1");
+                })
 
-            app.UseCustomExceptionHandler(logger);
-            app.UseCorrelationId();
-
-            app
-            .UsePathBase(pathBase)
-            .UseRouting();
-
-            if (jwtBearerAuthenticationConfiguration.IsEnabled())
-            {
-                //these need to be added between .UseRouting() and .UseEndpoints()
-                app
-                    .UseAuthentication()
-                    .UseAuthorization();
-            }
-
-            app
-            .UseEndpoints(endpoints =>
-            {
-                endpoints.MapHealthChecks("/health");
-                endpoints.MapControllers();
-                endpoints.MapGet("/", context =>
+                //Add swagger for v2 endpoints only
+                .AddSwaggerGen(c =>
                 {
-                    context.Response.Redirect((Environment.GetEnvironmentVariable("API_BASEPATH") ?? String.Empty) + "/swagger");
-                    return Task.CompletedTask;
+                    c.SwaggerDoc("v2", new OpenApiInfo
+                    {
+                        Version = "v2",
+                        Title = "Menu API",
+                        Description = "APIs used to interact and manage menus for a restaurant",
+                        Contact = new OpenApiContact()
+                        {
+                            Name = "Amido",
+                            Url = new Uri(projectUrl),
+                            Email = "stacks@amido.com"
+                        },
+                        //TermsOfService = new Uri("http://www.amido.com/")
+                    });
+
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
+
+                    // Show only operations where route starts with
+                    c.DocumentFilter<VersionPathFilter>("/v2");
                 });
-            })
-
-            .UseSwagger(c =>
-            {
-                c.PreSerializeFilters.Add((swagger, httpReq) =>
-                {
-                    swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{pathBase}" } };
-                });
-            })
-            .UseSwaggerUI(c =>
-            {
-                c.DisplayOperationId();
-
-                c.SwaggerEndpoint("all/swagger.json", "Menu (all)");
-                c.SwaggerEndpoint("v1/swagger.json", "Menu (version 1)");
-                c.SwaggerEndpoint("v2/swagger.json", "Menu (version 2)");
-
-                if (jwtBearerAuthenticationConfiguration.HasOpenApiClient())
-                {
-                    c.OAuthClientId(jwtBearerAuthenticationConfiguration.OpenApi.ClientId);
-                    c.OAuthUsePkce();
-                }
-            })
-            ;
         }
     }
 }
