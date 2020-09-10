@@ -23,7 +23,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Authorization
             BuildAuthorizationPolicy(() => fallbackPolicyProvider.GetDefaultPolicyAsync());
 
         public Task<AuthorizationPolicy> GetFallbackPolicyAsync() =>
-            BuildAuthorizationPolicy(() => fallbackPolicyProvider.GetFallbackPolicyAsync());
+            fallbackPolicyProvider.GetFallbackPolicyAsync();
 
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName) =>
             BuildAuthorizationPolicy(() => fallbackPolicyProvider.GetPolicyAsync(policyName));

@@ -8,7 +8,7 @@
 
         public string Authority { get; set; }
 
-        public bool Enabled { get; set; } = true;
+        public bool Enabled { get; set; }
 
         public OpenApiJwtBearerAuthenticationConfiguration OpenApi { get; set; }
 
