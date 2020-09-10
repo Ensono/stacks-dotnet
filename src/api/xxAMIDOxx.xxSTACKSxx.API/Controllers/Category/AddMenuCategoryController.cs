@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Commands;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
@@ -35,6 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="404">Resource not found</response>
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/{id}/category/")]
+        [Authorize]
         [ProducesResponseType(typeof(ResourceCreatedResponse), 200)]
         public async Task<IActionResult> AddMenuCategory([FromRoute][Required]Guid id, [FromBody]CreateCategoryRequest body)
         {

@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 
@@ -23,6 +24,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="404">Resource not found</response>
         [HttpGet("/v2/menu/{id}")]
+        [Authorize]
         [ProducesResponseType(typeof(Menu), 200)]
         public virtual IActionResult GetMenuV2([FromRoute][Required]Guid id)
         {

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Commands;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
@@ -34,6 +35,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="409">Conflict, an item already exists</response>
         [HttpPost("/v1/menu/")]
+        [Authorize]
         [ProducesResponseType(typeof(ResourceCreatedResponse), 201)]
         public async Task<IActionResult> CreateMenu([Required][FromBody]CreateMenuRequest body)
         {

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Commands;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
@@ -35,6 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="404">Resource not found</response>
         [HttpPut("/v1/menu/{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenuRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
