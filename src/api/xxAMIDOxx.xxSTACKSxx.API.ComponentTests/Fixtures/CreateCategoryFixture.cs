@@ -1,16 +1,17 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
 using Amido.Stacks.Testing.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using Shouldly;
+using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
-using xxAMIDOxx.xxSTACKSxx.Infrastructure;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 {
@@ -23,7 +24,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
         IMenuRepository repository;
         IApplicationEventPublisher applicationEventPublisher;
 
-        public CreateCategoryFixture(Domain.Menu menu, CreateCategoryRequest newCategory)
+        public CreateCategoryFixture(Domain.Menu menu, CreateCategoryRequest newCategory, IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
+            : base(jwtBearerAuthenticationOptions)
         {
             this.existingMenu = menu;
             this.newCategory = newCategory;
@@ -31,7 +33,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 
         protected override void RegisterDependencies(IServiceCollection collection)
         {
-            DependencyRegistration.ConfigureStaticDependencies(collection);
+            base.RegisterDependencies(collection);
 
             // Mocked external dependencies, the setup should 
             // come later according to each scenario

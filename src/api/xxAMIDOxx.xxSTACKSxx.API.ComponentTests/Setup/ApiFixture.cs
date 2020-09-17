@@ -19,18 +19,23 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
     /// <typeparam name="TStartup">The Startup file from the API project</typeparam>
     public abstract class ApiFixture<TStartup> where TStartup : class
     {
-        protected HttpClient httpClient;
+        private readonly Lazy<HttpClient> httpClient;
+        private readonly WebAppFactory<TStartup> webAppFactory;
+
+        protected HttpClient HttpClient => httpClient.Value;
 
         public HttpResponseMessage LastResponse { get; protected set; }
 
-        public ApiFixture()
+        protected ApiFixture()
         {
-            var webAppFactory = new WebAppFactory<TStartup>(RegisterDependencies, ConfigureWebHost);
-            httpClient = webAppFactory.CreateClient();
+            webAppFactory = new WebAppFactory<TStartup>(RegisterDependencies, ConfigureWebHost);
+            httpClient = new Lazy<HttpClient>(() => webAppFactory.CreateClient());
         }
 
+        protected TService GetService<TService>() => webAppFactory.Services.GetService<TService>();
+
         /// <summary>
-        /// Send the request and set the LastReponse
+        /// Send the request and set the LastResponse
         /// </summary>
         /// <param name="method">Http method used in the request</param>
         /// <param name="url">relative url for API resource</param>
@@ -41,7 +46,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
         }
 
         /// <summary>
-        /// Send the request and set the LastReponse
+        /// Send the request and set the LastResponse
         /// </summary>
         /// <typeparam name="TBody">Type of bdy being sent</typeparam>
         /// <param name="method">Http method used in the request</param>
@@ -57,7 +62,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
             if (body != null)
                 msg.Content = CreateHttpContent<TBody>(body);
 
-            LastResponse = await httpClient.SendAsync(msg);
+            LastResponse = await HttpClient.SendAsync(msg);
 
             return LastResponse;
         }
@@ -91,6 +96,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests
         }
 
         object lastResponseObject;
+
         internal async Task<TBody> GetResponseObject<TBody>()
         {
             if (lastResponseObject == null)

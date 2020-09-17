@@ -1,4 +1,4 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 {
@@ -10,31 +10,41 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
     /// </summary>
     public static class AuthTokenFixture
     {
+        // User ids need to match the sub claim in the corresponding tokens
+        private const string AdminUserId = "";
+        private const string EmployeeUserId = "";
+        private const string CustomerUserId = "";
+
+        // TODO - Set test bearer tokens here
         private const string AdminToken = "";
         private const string EmployeeToken = "";
         private const string CustomerToken = "";
 
-        public static void AsAdmin(this HttpClient client)
+        public static string AsAdmin(this HttpClient client)
         {
             RemoveTokenFromClient(client);
             AddTokenToClient(client, AdminToken);
+            return AdminUserId;
         }
 
-        public static void AsEmployee(this HttpClient client)
+        public static string AsEmployee(this HttpClient client)
         {
             RemoveTokenFromClient(client);
             AddTokenToClient(client, EmployeeToken);
+            return EmployeeUserId;
         }
 
-        public static void AsCustomer(this HttpClient client)
+        public static string AsCustomer(this HttpClient client)
         {
             RemoveTokenFromClient(client);
             AddTokenToClient(client, CustomerToken);
+            return CustomerUserId;
         }
 
-        public static void AsUnauthenticatedUser(this HttpClient client)
+        public static string AsUnauthenticatedUser(this HttpClient client)
         {
             RemoveTokenFromClient(client);
+            return null;
         }
 
         private static void AddTokenToClient(HttpClient client, string token)

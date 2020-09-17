@@ -1,10 +1,17 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Shouldly;
+using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
+using xxAMIDOxx.xxSTACKSxx.Infrastructure;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
 {
@@ -14,63 +21,79 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures
     /// </summary>
     public abstract class ApiClientFixture : ApiFixture<Startup>
     {
+        private readonly IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions;
+
+        protected ApiClientFixture(
+            IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
+        {
+            this.jwtBearerAuthenticationOptions = jwtBearerAuthenticationOptions;
+        }
+
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.ConfigureAppConfiguration(configurationBuilder =>
+            {
+                configurationBuilder.AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    {"JwtBearerAuthentication:AllowExpiredTokens", jwtBearerAuthenticationOptions.Value.AllowExpiredTokens.ToString().ToLowerInvariant()},
+                    {"JwtBearerAuthentication:Audience", jwtBearerAuthenticationOptions.Value.Audience},
+                    {"JwtBearerAuthentication:Authority", jwtBearerAuthenticationOptions.Value.Authority},
+                    {"JwtBearerAuthentication:Enabled", jwtBearerAuthenticationOptions.Value.Enabled.ToString().ToLowerInvariant()},
+                    {"JwtBearerAuthentication:OpenApi:AuthorizationUrl", jwtBearerAuthenticationOptions.Value.OpenApi?.AuthorizationUrl},
+                    {"JwtBearerAuthentication:OpenApi:ClientId", jwtBearerAuthenticationOptions.Value.OpenApi?.ClientId},
+                    {"JwtBearerAuthentication:OpenApi:TokenUrl", jwtBearerAuthenticationOptions.Value.OpenApi?.TokenUrl},
+                    {"JwtBearerAuthentication:UseStubbedBackchannelHandler", jwtBearerAuthenticationOptions.Value.UseStubbedBackchannelHandler.ToString().ToLowerInvariant()},
+                });
+            });
+        }
+
+        protected override void RegisterDependencies(IServiceCollection collection)
+        {
+            DependencyRegistration.ConfigureStaticDependencies(collection);
+
+            collection.AddSingleton<IOptions<JwtBearerAuthenticationConfiguration>>(serviceProvider => jwtBearerAuthenticationOptions);
+        }
+
         /// <summary>
         /// Adds bearer token to the request based on role name.
         /// When a feature has same behaviour for multiple roles
         /// We could use the same theory and test multiple roles
         /// </summary>
         /// <param name="role">Name of role being authenticated</param>
-        public void AsRole(string role)
+        public string GivenTheUserIsAuthenticatedAndHasRole(string role)
         {
             switch (role.ToLower())
             {
                 case "admin":
-                    AsAdmin();
-                    break;
+                    return GivenTheUserIsAnAuthenticatedAdministrator();
                 case "employee":
-                    AsEmployee();
-                    break;
+                    return GivenTheUserIsAnAuthenticatedEmployee();
                 case "customer":
-                    AsCustomer();
-                    break;
+                    return GivenTheUserIsAnAuthenticatedCustomer();
                 default:
-                    AsUnauthenticatedUser();
-                    break;
+                    return GivenTheUserIsUnauthenticated();
             }
         }
-
 
         /// <summary>
         /// Adds an Admin bearer token to the request
         /// </summary>
-        public void AsAdmin()
-        {
-            base.httpClient.AsAdmin();
-        }
+        public string GivenTheUserIsAnAuthenticatedAdministrator() => HttpClient.AsAdmin();
 
         /// <summary>
         /// Adds an Employee bearer token to the request
         /// </summary>
-        public void AsEmployee()
-        {
-            base.httpClient.AsEmployee();
-        }
+        public string GivenTheUserIsAnAuthenticatedEmployee() => HttpClient.AsEmployee();
 
         /// <summary>
         /// Adds a Customer bearer token to the request
         /// </summary>
-        public void AsCustomer()
-        {
-            base.httpClient.AsCustomer();
-        }
+        public string GivenTheUserIsAnAuthenticatedCustomer() => HttpClient.AsCustomer();
 
         /// <summary>
         /// Removes any bearer token from the request to simulate unauthenticated user
         /// </summary>
-        public void AsUnauthenticatedUser()
-        {
-            base.httpClient.AsUnauthenticatedUser();
-        }
+        public string GivenTheUserIsUnauthenticated() => HttpClient.AsUnauthenticatedUser();
 
         /// <summary>
         /// Send a POST Http request to the API CreateMenu endpoint passing the menu being created
