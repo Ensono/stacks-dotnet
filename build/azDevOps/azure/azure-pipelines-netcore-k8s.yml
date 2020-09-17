@@ -269,7 +269,13 @@ stages:
                           app_insights_key: $(app_insights_instrumentation_key),
                           cosmosdb_key: $(cosmosdb_primary_master_key),
                           cosmosdb_endpoint: $(cosmosdb_endpoint),
-                          cosmosdb_name: $(cosmosdb_database_name)
+                          cosmosdb_name: $(cosmosdb_database_name),
+                          jwtbearerauthentication_audience: "<TODO>",
+                          jwtbearerauthentication_authority: "<TODO>",
+                          jwtbearerauthentication_enabled: false,
+                          jwtbearerauthentication_openapiauthorizationurl: "<TODO>",
+                          jwtbearerauthentication_openapiclientid: "<TODO>",
+                          jwtbearerauthentication_openapitokenurl: "<TODO>"
                         },
                         args: "-no-empty", # -no-unset is present by default
                       }
