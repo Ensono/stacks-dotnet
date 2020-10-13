@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 using Query = xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -33,6 +34,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="404">Resource not found</response>
         [HttpGet("/v1/menu/{id}")]
+        [Authorize]
         [ProducesResponseType(typeof(Menu), 200)]
         public async Task<IActionResult> GetMenu([FromRoute][Required]Guid id)
         {

@@ -348,3 +348,7 @@ coverage.opencover.xml
 dotnet-sonarscanner
 reportgenerator
 **/appsettings.[Dd]evelopment.json
+
+# Other tools
+.terraform
+**/terraform.tfvars

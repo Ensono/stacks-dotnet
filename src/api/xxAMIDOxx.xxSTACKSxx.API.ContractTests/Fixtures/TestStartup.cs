@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NSubstitute;
+using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
@@ -31,10 +33,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ContractTests.Fixtures
             base.ConfigureServices(services);
         }
 
-        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
         {
             app.UseMiddleware<ProviderStateMiddleware>();
-            base.Configure(app, env);
+            base.Configure(app, env, jwtBearerAuthenticationOptions);
         }
 
         public void AddMocks(IServiceCollection services)

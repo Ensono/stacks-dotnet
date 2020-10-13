@@ -1,5 +1,4 @@
-using AutoFixture.Xunit2;
-using Xbehave;
+﻿using Xbehave;
 using xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
@@ -22,12 +21,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         */
 
         [Scenario]
-        [InlineAutoData("Admin")]
-        [InlineAutoData("Employee")]
+        [CustomInlineAutoData("Admin")]
+        [CustomInlineAutoData("Employee")]
         public void CreateCategoryShouldSucceed(string role, CreateCategoryFixture fixture)
         {
-            $"As {role}".x(() => fixture.AsRole(role));
-            "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            $"Given the user is authenticated and has the {role} role".x(() => fixture.GivenTheUserIsAuthenticatedAndHasRole(role));
+            "And an existing menu".x(fixture.GivenAnExistingMenu);
             "And the menu belongs to the user restaurant".x(fixture.GivenTheMenuBelongsToUserRestaurant);
             "And the category being created does not exist in the menu".x(fixture.GivenTheCategoryDoesNotExist);
             "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
@@ -41,11 +40,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         }
 
         [Scenario]
-        [InlineAutoData("Admin")]
+        [CustomInlineAutoData("Admin")]
         public void CreateCategoryShouldFailWhenMenuDoesNotExist(string role, CreateCategoryFixture fixture)
         {
-            $"As {role}".x(() => fixture.AsRole(role));
-            "Given a menu does not exist".x(fixture.GivenAMenuDoesNotExist);
+            $"Given the user is authenticated and has the {role} role".x(() => fixture.GivenTheUserIsAuthenticatedAndHasRole(role));
+            "And a menu does not exist".x(fixture.GivenAMenuDoesNotExist);
             "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
             "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
             "And the response code is NotFound".x(fixture.ThenANotFoundResponseIsReturned);
@@ -56,11 +55,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         }
 
         [Scenario]
-        [InlineAutoData("Admin")]
+        [CustomInlineAutoData("Admin")]
         public void CreateCategoryShouldFailWhenCategoryAlreadyExists(string role, CreateCategoryFixture fixture)
         {
-            $"As {role}".x(() => fixture.AsRole(role));
-            "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            $"Given the user is authenticated and has the {role} role".x(() => fixture.GivenTheUserIsAuthenticatedAndHasRole(role));
+            "And an existing menu".x(fixture.GivenAnExistingMenu);
             "And the menu belongs to the user restaurant".x(fixture.GivenTheMenuBelongsToUserRestaurant);
             "And the category being created already exist in the menu".x(fixture.GivenTheCategoryAlreadyExist);
             "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
@@ -72,12 +71,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
         }
 
         [Scenario(Skip = "Disabled until security is implemented")]
-        [InlineAutoData("Customer")]
-        [InlineAutoData("UnauthenticatedUser")]
+        [CustomInlineAutoData("Customer")]
+        [CustomInlineAutoData("UnauthenticatedUser")]
         public void CreateCategoryShouldFailWithForbidden(string role, CreateCategoryFixture fixture)
         {
-            $"As {role}".x(() => fixture.AsRole(role));
-            "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            $"Given the user is authenticated and has the {role} role".x(() => fixture.GivenTheUserIsAuthenticatedAndHasRole(role));
+            "And an existing menu".x(fixture.GivenAnExistingMenu);
             "And the category being created does not exist in the menu".x(fixture.GivenTheCategoryDoesNotExist);
             "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
             "Then a Forbidden response is returned".x(fixture.ThenAForbiddenResponseIsReturned);
@@ -88,12 +87,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Features
 
 
         [Scenario(Skip = "Disabled until security is implemented")]
-        [InlineAutoData("Admin")]
-        [InlineAutoData("Employee")]
+        [CustomInlineAutoData("Admin")]
+        [CustomInlineAutoData("Employee")]
         public void CreateCategoryShouldFailWhenMenuDoesNotBelongToUser(string role, CreateCategoryFixture fixture)
         {
-            $"As {role}".x(() => fixture.AsRole(role));
-            "Given an existing menu".x(fixture.GivenAnExistingMenu);
+            $"Given the user is authenticated and has the {role} role".x(() => fixture.GivenTheUserIsAuthenticatedAndHasRole(role));
+            "And an existing menu".x(fixture.GivenAnExistingMenu);
             "And the menu does not belong to users restaurant".x(fixture.GivenTheMenuDoesNotBelongToUserRestaurant);
             "When a new category is submitted".x(fixture.WhenTheCategoryIsSubmitted);
             "Then a failure response is returned".x(fixture.ThenAFailureResponseIsReturned);
