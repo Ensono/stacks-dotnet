@@ -10,6 +10,8 @@ using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
+    using Microsoft.AspNetCore.Http;
+
     /// <summary>
     /// Item related operations
     /// </summary>
@@ -55,7 +57,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                 )
             );
 
-            return new OkObjectResult(new ResourceCreatedResponse(menuItemId));
+            return StatusCode(StatusCodes.Status201Created, new ResourceCreatedResponse(menuItemId));
         }
     }
 }
