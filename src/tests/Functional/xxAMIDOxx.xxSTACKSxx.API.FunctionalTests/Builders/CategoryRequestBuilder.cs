@@ -27,5 +27,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Builders
         {
             return category;
         }
+        public CategoryRequestBuilder SetDefaultValues(string name)
+        {
+            category.name = name;
+            category.description = "Category description";
+            return this;
+        }
     }
 }
