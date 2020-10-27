@@ -1,6 +1,6 @@
 # Amido Stacks Automated Functional Testing
 
-The Automated Functional Tests is a sample project demostrating functional testing created using BDDfy and XUnit.
+The Automated Functional Tests is a sample project demonstrating functional testing created using BDDfy and XUnit.
 
 The project contains the framework for testing API's and a number of test cases to demonstrate usage of the framework.
 
@@ -26,7 +26,7 @@ The project contains the framework for testing API's and a number of test cases 
 
 ### Builders
 
-This folder contains builder classes that are used to create POCO's (Plain Old CLR Object) for objects used in API requests. Ideally there should be a model for every
+This folder contains builder classes that are used to create POCO's (Plain Old CLR Object) for objects used in API requests. Ideally, there should be a model for every
 request and response that is used within the tests.
 The aim of these classes is to make it as easy as possible for developers to generate the data required by API's.
 
@@ -60,7 +60,7 @@ This is the parent folder for all test code
 
 ##### Fixtures
 
-Fixtures contains xUnit class fixtures. These class fixtures are used to create test context for the tests. The fixture is where you can put fixture setup (via constructor) and teardown (Via `Dispose()`)
+Fixtures contain xUnit class fixtures. These class fixtures are used to create a test context for the tests. The fixture is where you can put fixture setup (via constructor) and teardown (Via `Dispose()`)
 
 See xUnit documentation for information on different fixtures and how to use them: https://xunit.net/docs/shared-context
 
@@ -68,7 +68,7 @@ See xUnit documentation for information on different fixtures and how to use the
 
 ##### Stories
 
-The Stories folder contains all the test cases (I.e. the BDDfy stories). Each class should represent a new test story, and within each class/story, there will be a number of test cases which test a specific feature.
+The Stories folder contains all the test cases (I.e. the BDDfy stories). Each class should represent a new test story, and within each class/story, there will be a number of test cases that test a specific feature.
 
 Test cases within a story are defined using xUnit `Facts`. BDDfy is used to describe and orchestrate the tests. 
 

@@ -4,7 +4,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Builders
 {
     public class MenuItemBuilder : IBuilder<MenuItemRequest>
     {
-        private MenuItemRequest menuItem;
+        private readonly MenuItemRequest menuItem;
 
         public MenuItemBuilder()
         {
@@ -29,7 +29,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Builders
             return this;
         }
 
-        public MenuItemBuilder SetAvailablity(bool available)
+        public MenuItemBuilder WithAvailablity(bool available)
         {
             menuItem.available = available;
             return this;
@@ -38,6 +38,15 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Builders
         public MenuItemRequest Build()
         {
             return menuItem;
+        }
+        
+        public MenuItemBuilder SetDefaultValues(string name)
+        {
+            menuItem.name = name;
+            menuItem.description = "Item description";
+            menuItem.price = 12.50;
+            menuItem.available = true;
+            return this;
         }
     }
 }

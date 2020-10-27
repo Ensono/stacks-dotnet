@@ -10,7 +10,7 @@ This project implements contract testing using Pacts - https://pact.io/
 ## What is Consumer Driven Contract testing?
 Consumer Driven Contract (CDC) Testing is a pattern that allows a consumer (i.e: a client) and a provider (i.e. an API provider) to communicate using an agreed contract (a pact).
 
-There is full documentation for how contract testing works available on the [Pact website](https://docs.pact.io/how_pact_works)
+There is a full documentation for how contract testing works available on the [Pact website](https://docs.pact.io/how_pact_works)
 
 
 ## Tools
@@ -18,6 +18,10 @@ There is full documentation for how contract testing works available on the [Pac
 - xUnit - https://xunit.net/
 
 ## Running Tests
+
+####Note
+Please provide the correct values for ```BROKER_URL``` and ```PACT_BEARER_TOKEN``` in ```appsettings.json``` file.
+
 Tests are automatically run as part of the CI pipeline under the task "Run Contract Tests".
 
 To run the tests locally, there are two options. In each scenario, tests will run against the LATEST contract within the PACT broker. 

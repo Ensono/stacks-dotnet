@@ -1,6 +1,6 @@
 namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models
 {
-    public class CreateMenuResponse
+    public class CreateObjectResponse
     {
         public string id { get; set; }
     }

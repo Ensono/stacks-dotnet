@@ -7,29 +7,31 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Functional
 {
     //Define the story/feature being tested
     [Story(AsA = "Administrator for a restaurant",
-        IWant = "To be able to update existing menus",
+        IWant = "To be able to update existing categories",
         SoThat = "The menus are always showing our latest offerings"
         )]
-    public class UpdateMenuById : IClassFixture<AuthFixture>
+    public class UpdateCategoryById : IClassFixture<AuthFixture>
     {
         private readonly AuthFixture fixture;
-        private readonly MenuSteps steps;
+        private readonly CategorySteps categorySteps;
 
-        public UpdateMenuById(AuthFixture fixture)
+        public UpdateCategoryById(AuthFixture fixture)
         {
             //Get instances of the fixture and steps required for the test
             this.fixture = fixture;
-            steps = new MenuSteps();
+            categorySteps = new CategorySteps();
         }
 
         //Add all tests that make up the story to this class
         [Fact]
-        public void Admins_Can_Update_Existing_Menus()
+        public void Admins_Can_Update_Existing_Categories()
         {
             this.Given(s => fixture.GivenAnAdmin())
-                .And(s => steps.GivenAMenuAlreadyExists())
-                .When(s => steps.WhenISendAnUpdateMenuRequest())
-                .Then(s => steps.ThenTheMenuIsUpdatedCorrectly())
+                .And(step => categorySteps.GivenIHaveSpecfiedAFullCategory())
+                .When(step => categorySteps.WhenICreateTheCategoryForAnExistingMenu())
+                .Then(step => categorySteps.ThenTheCategoryHasBeenCreated())
+                .When(s => categorySteps.WhenISendAnUpdateCategoryRequest())
+                .Then(s => categorySteps.ThenTheCategoryIsUpdatedCorrectly())
                 .BDDfy();
         }
     }

@@ -20,20 +20,20 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
         private MenuRequest updateMenuRequest;
         private HttpResponseMessage lastResponse;
         public string existingMenuId;
-        private ConfigModel config;
-        private string baseUrl;
-        private const string menuPath = "v1/menu/";
+        private readonly string baseUrl;
+        public const string menuPath = "v1/menu/";
 
         public MenuSteps()
         {
-            config = ConfigAccessor.GetApplicationConfiguration();
+            var config = ConfigAccessor.GetApplicationConfiguration();
             baseUrl = config.BaseUrl;
         }
 
         #region Step Definitions
 
         #region Given
-        public async Task GivenAMenuAlreadyExists()
+
+        public async Task<string> GivenAMenuAlreadyExists()
         {
             createMenuRequest = new MenuRequestBuilder()
                 .SetDefaultValues("Yumido Test Menu")
@@ -45,7 +45,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
 
                 if (lastResponse.StatusCode == HttpStatusCode.Created)
                 {
-                    existingMenuId = JsonConvert.DeserializeObject<CreateMenuResponse>(await lastResponse.Content.ReadAsStringAsync()).id;
+                    existingMenuId = JsonConvert
+                        .DeserializeObject<CreateObjectResponse>(await lastResponse.Content.ReadAsStringAsync()).id;
                 }
                 else
                 {
@@ -54,8 +55,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
             }
             catch
             {
-                throw new Exception($"Menu could not be created. API response: {await lastResponse.Content.ReadAsStringAsync()}");
+                throw new Exception(
+                    $"Menu could not be created. API response: {await lastResponse.Content.ReadAsStringAsync()}");
             }
+
+            return existingMenuId;
         }
 
         public void GivenIHaveSpecfiedAFullMenu()
@@ -64,9 +68,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
                 .SetDefaultValues("Yumido Test Menu")
                 .Build();
         }
+
         #endregion Given
 
         #region When
+
         public async Task WhenISendAnUpdateMenuRequest()
         {
             updateMenuRequest = new MenuRequestBuilder()
@@ -92,9 +98,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
         {
             lastResponse = await HttpRequestFactory.Get(baseUrl, $"{menuPath}{existingMenuId}");
         }
+
         #endregion When
 
         #region Then
+
         public void ThenTheMenuHasBeenCreated()
         {
             lastResponse.StatusCode.ShouldBe(HttpStatusCode.Created,
@@ -109,7 +117,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
 
         public async Task ThenICanReadTheMenuReturned()
         {
-            lastResponse.StatusCode.ShouldBe(HttpStatusCode.OK, $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
+            lastResponse.StatusCode.ShouldBe(HttpStatusCode.OK,
+                $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
             var responseMenu = JsonConvert.DeserializeObject<Menu>(await lastResponse.Content.ReadAsStringAsync());
 
@@ -133,7 +142,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
 
             if (updatedResponse.StatusCode == HttpStatusCode.OK)
             {
-                var updateMenuResponse = JsonConvert.DeserializeObject<Menu>(await updatedResponse.Content.ReadAsStringAsync());
+                var updateMenuResponse =
+                    JsonConvert.DeserializeObject<Menu>(await updatedResponse.Content.ReadAsStringAsync());
 
                 updateMenuResponse.name.ShouldBe(updateMenuRequest.name,
                     $"{lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} did not create the menu as expected");
@@ -151,6 +161,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
                 throw new Exception($"Could not retrieve the updated menu using GET /menu/{existingMenuId}");
             }
         }
+
         #endregion Then
 
         #endregion Step Definitions
