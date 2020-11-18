@@ -94,8 +94,9 @@ stages:
           vmImage: ubuntu-18.04
         steps:
           - checkout: self
+
           - checkout: templates
-            persistCredentials: true
+
           # BUILD NPM
           - template: templates/steps/build-netcore.yml
             parameters:
@@ -165,8 +166,9 @@ stages:
         container: terraform_custom
         steps:
           - checkout: self
+
           - checkout: templates
-            persistCredentials: true
+
           # Create TF infra
           - template: azDevOps/azure/templates/v2/steps/deploy-terraform-resource.yml@templates
             parameters:
@@ -236,8 +238,9 @@ stages:
             deploy:
               steps:
                 - checkout: self
+
                 - checkout: templates
-                  persistCredentials: true
+
                 # Deploy Dev
                 - template: azDevOps/azure/templates/v2/steps/yaml-k8s-templater.yml@templates
                   parameters:
@@ -292,6 +295,157 @@ stages:
                     # Kubernetes Config
                     kubernetes_clusterrg: amido-stacks-nonprod-eun-core
                     kubernetes_clustername: amido-stacks-nonprod-eun-core
+                    # Mutation Information
+                    kubectl_filepath:
+                      - $(Agent.BuildDirectory)/s/$(self_repo)/deploy/k8s/app/api-deploy.yml
+                    # ReleaseNote Information
+                    releasenote: false
+
+  - stage: prod
+    variables:
+      - group: amido-stacks-infra-credentials-prod
+      - group: amido-stacks-webapp
+    jobs:
+      - job: AppInfraProd
+        variables:
+          ARM_SUBSCRIPTION_ID: $(prod_azure_subscription_id)
+          ARM_CLIENT_ID: $(prod_azure_client_id)
+          ARM_CLIENT_SECRET: "$(prod_azure_client_secret)"
+          ARM_TENANT_ID: $(prod_azure_tenant_id)
+        pool:
+          vmImage: ubuntu-18.04
+        container: terraform_custom
+        steps:
+          - checkout: self
+
+          - checkout: templates
+
+          # Create TF infra
+          - template: azDevOps/azure/templates/v2/steps/deploy-terraform-resource.yml@templates
+            parameters:
+              # Terraform Basic Config
+              terraform_working_dir: '$(Agent.BuildDirectory)/s/$(self_repo)/$(self_repo_tf_src)'
+              # changing this would require changing the downstream consumers of these outputs
+              #
+              terraform_output_artefact: 'tfoutputs'
+              # Terraform State Config
+              terraform_backend_client_id: $(ARM_CLIENT_ID)
+              terraform_backend_client_secret: $(ARM_CLIENT_SECRET)
+              terraform_backend_tenant_id: $(ARM_TENANT_ID)
+              terraform_backend_subscription_id: $(ARM_SUBSCRIPTION_ID)
+              terraform_state_rg: $(tf_state_rg)
+              terraform_state_storage: $(tf_state_storage)
+              terraform_state_container: $(tf_state_container)
+              terraform_state_key: $(tf_state_key)
+              # for branch based builds this can be $(Build.SourceBranchName)
+              terraform_state_workspace: prod
+              # Global Config
+              company: $(company)
+              project: $(project)
+              environment: ''
+              azure_cli_providers: [
+                { name: MSIPreview, namespace: Microsoft.ContainerService }
+              ]
+              tags: ''
+              # Terraform Resource Specific Config
+              terraform_extra_properties: {
+                TF_VAR_resource_group_location: northeurope,
+                TF_VAR_create_cdn_endpoint: false,
+                TF_VAR_cosmosdb_sql_container: "Menu",
+                TF_VAR_cosmosdb_sql_container_partition_key: "/id",
+                TF_VAR_cosmosdb_kind: "GlobalDocumentDB",
+                TF_VAR_cosmosdb_offer_type: "Standard",
+                TF_VAR_create_dns_record: true,
+                TF_VAR_app_insights_name: "amido-stacks-prod-eun-core",
+                TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-prod-eun-core",
+                TF_VAR_core_resource_group: "amido-stacks-prod-eun-core",
+                TF_VAR_name_company: $(company),
+                TF_VAR_name_project: $(project),
+                TF_VAR_name_domain: $(domain),
+                TF_VAR_create_cosmosdb: true,
+                TF_VAR_name_environment: prod,
+                TF_VAR_dns_record: prod-netcore-api,
+                TF_VAR_dns_zone_name: $(base_domain),
+                TF_VAR_internal_dns_zone_name: $(base_domain_internal)
+              }
+              terraform_output_commands: |
+                raw_tf=$(terraform output -json | jq -r 'keys[] as $k | "##vso[task.setvariable variable=\($k);isOutput=true]\(.[$k] | .value)"')
+                readarray -t outputs <<<"$raw_tf"
+                for i in "${outputs[@]}"; do echo "$i"; done
+
+      - deployment: DeployProd
+        dependsOn: AppInfraProd
+        container: k8s_deploy
+        variables:
+          cosmosdb_database_name: $[ dependencies.AppInfraProd.outputs['tfoutputs.cosmosdb_database_name'] ]
+          cosmosdb_endpoint: $[ dependencies.AppInfraProd.outputs['tfoutputs.cosmosdb_endpoint'] ]
+          cosmosdb_primary_master_key: $[ dependencies.AppInfraProd.outputs['tfoutputs.cosmosdb_primary_master_key'] ]
+          app_insights_instrumentation_key: $[ dependencies.AppInfraProd.outputs['tfoutputs.app_insights_instrumentation_key'] ]
+        pool:
+          vmImage: ubuntu-18.04
+        environment: prod
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+
+                - checkout: templates
+
+                # Deploy Dev
+                - template: azDevOps/azure/templates/v2/steps/yaml-k8s-templater.yml@templates
+                  parameters:
+                    scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
+                    shared_env_vars: {
+                      namespace: prod-netcore-api,
+                      role: $(role),
+                      company: $(company),
+                      project: $(project),
+                      domain: $(domain),
+                      component: api,
+                      app_name: yumido-netcore-api,
+                      resource_def_name: yumido-netcore-api,
+                      version: $(docker_image_tag),
+                      environment: prod
+                    }
+                    enable_debug: "yes" # uncomment for debug and if you want to see the templated out file in the STDOUT of pipeline
+                    template_input: [
+                      {
+                        base: $(Agent.BuildDirectory)/s/$(self_repo)/deploy/k8s/app/base_api-deploy.yml,
+                        displayName: AppDeployment,
+                        env_vars: {
+                          dns_pointer: prod-netcore-api.$(base_domain),
+                          tls_domain: $(base_domain),
+                          k8s_app_path: /api/menu,
+                          log_level: "Debug",
+                          k8s_image: '$(k8s_docker_registry)/$(docker_image_name):$(docker_image_tag)',
+                          aadpodidentitybinding: stacks-webapp-identity,
+                          app_insights_key: $(app_insights_instrumentation_key),
+                          cosmosdb_key: $(cosmosdb_primary_master_key),
+                          cosmosdb_endpoint: $(cosmosdb_endpoint),
+                          cosmosdb_name: $(cosmosdb_database_name),
+                          jwtbearerauthentication_audience: "<TODO>",
+                          jwtbearerauthentication_authority: "<TODO>",
+                          jwtbearerauthentication_enabled: false,
+                          jwtbearerauthentication_openapiauthorizationurl: "<TODO>",
+                          jwtbearerauthentication_openapiclientid: "<TODO>",
+                          jwtbearerauthentication_openapitokenurl: "<TODO>"
+                        },
+                        args: "-no-empty", # -no-unset is present by default
+                      }
+                    ]
+
+                - template: azDevOps/azure/templates/v2/steps/deploy-k8s-app-kubectl.yml@templates
+                  parameters:
+                    scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
+                    test_artefact: "tests"
+                    test_baseurl: ""
+                    functional_test: false
+                    performance_test: false
+                    smoke_test: false
+                    # Kubernetes Config
+                    kubernetes_clusterrg: amido-stacks-prod-eun-core
+                    kubernetes_clustername: amido-stacks-prod-eun-core
                     # Mutation Information
                     kubectl_filepath:
                       - $(Agent.BuildDirectory)/s/$(self_repo)/deploy/k8s/app/api-deploy.yml
