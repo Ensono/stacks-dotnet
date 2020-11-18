@@ -9,8 +9,8 @@ parameters:
   terraform_state_workspace: ''
   # Global Config
   company: 'amido'
-  project: 'stacks' 
-  domain: ''
+  project: 'stacks'
+  component: ''
   environment: ''
   # Azure config
   location: 'uksouth'
@@ -19,13 +19,13 @@ parameters:
   cosmosDBdatabaseName: ''
 
   # Terraform Backend & Azure Credential config comes via Variable Group
-  # that must be inherited into this step! 
+  # that must be inherited into this step!
 
 steps:
 - template: azDevOps/azure/templates/steps/deploy-terraform-init.yml@templates
-  parameters:   
+  parameters:
     #  Terraform Config
-    terraform_artefact_path: $(Pipeline.Workspace)/${{ parameters.terraform_artefact_name }} 
+    terraform_artefact_path: $(Pipeline.Workspace)/${{ parameters.terraform_artefact_name }}
     # Terraform State Config (Must already exist!)
     terraform_state_rg: ${{ parameters.terraform_state_rg }}
     terraform_state_storage: ${{ parameters.terraform_state_storage }}
@@ -43,15 +43,15 @@ steps:
     ARM_CLIENT_ID: $(azure_client_id)
     ARM_CLIENT_SECRET: $(azure_client_secret)
     ARM_TENANT_ID: $(azure_tenant_id)
-    # Terraform 
+    # Terraform
     TF_VAR_name_company: ${{ parameters.company }}
     TF_VAR_name_platform: ${{ parameters.project }}
     TF_VAR_name_environment: ${{ parameters.environment }}
-    TF_VAR_name_component: ${{ parameters.domain }}
+    TF_VAR_name_component: ${{ parameters.component }}
     # Resource Group
     TF_VAR_resource_group_location_env: ${{ parameters.location }}
     TF_VAR_resource_group_tags: ${{ parameters.tags }}
-    # INFO: CosmosDB.accountName is auto-generated! 
+    # INFO: CosmosDB.accountName is auto-generated!
     TF_VAR_cosmosDBdatabaseName: ${{ parameters.cosmosDBdatabaseName }}
 
 - bash: terraform apply tfplan
@@ -63,15 +63,15 @@ steps:
     ARM_CLIENT_ID: $(azure_client_id)
     ARM_CLIENT_SECRET: $(azure_client_secret)
     ARM_TENANT_ID: $(azure_tenant_id)
-    # Terraform 
+    # Terraform
     TF_VAR_name_company: ${{ parameters.company }}
     TF_VAR_name_platform: ${{ parameters.project }}
     TF_VAR_name_environment: ${{ parameters.environment }}
-    TF_VAR_name_component: ${{ parameters.domain }}
+    TF_VAR_name_component: ${{ parameters.component }}
     # Resource Group
     TF_VAR_resource_group_location_env: ${{ parameters.location }}
     TF_VAR_resource_group_tags: ${{ parameters.tags }}
-    # INFO: CosmosDB.accountName is auto-generated! 
+    # INFO: CosmosDB.accountName is auto-generated!
     TF_VAR_cosmosDBdatabaseName: ${{ parameters.cosmosDBdatabaseName }}
 
 - bash: |
@@ -79,11 +79,11 @@ steps:
     cosmosdb_rg_name=$(terraform output cosmosdb_rg_name)
     echo Setting cosmosDB.resourceGroup to $cosmosdb_rg_name
     echo "##vso[task.setvariable variable=cosmosDB.resourceGroup]$cosmosdb_rg_name"
-    cosmosdb_database_name=$(terraform output cosmosdb_database_name)              
+    cosmosdb_database_name=$(terraform output cosmosdb_database_name)
     echo Setting cosmosDB.databaseName to $cosmosdb_database_name
     echo "##vso[task.setvariable variable=cosmosDB.databaseName]$cosmosdb_database_name"
-    cosmosdb_account_name=$(terraform output cosmosdb_account_name)              
+    cosmosdb_account_name=$(terraform output cosmosdb_account_name)
     echo Setting cosmosDB.accountName to $cosmosdb_account_name
-    echo "##vso[task.setvariable variable=cosmosDB.accountName]$cosmosdb_account_name"                      
+    echo "##vso[task.setvariable variable=cosmosDB.accountName]$cosmosdb_account_name"
   displayName: 'Terraform: Write Outputs to Variables'
   workingDirectory:  $(Pipeline.Workspace)/${{ parameters.terraform_artefact_name }}
