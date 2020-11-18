@@ -7,23 +7,23 @@
 ############################################
 
 variable "name_company" {
-  type    = string
+  type = string
 }
 
 variable "name_project" {
-  type    = string
+  type = string
 }
 
 variable "name_component" {
-  type    = string
+  type = string
 }
 
 variable "name_domain" {
-  type    = string
+  type = string
 }
 
 variable "stage" {
-  type    = string
+  type = string
 }
 
 variable "attributes" {
@@ -57,33 +57,33 @@ variable "location_name_map" {
 ############################################
 
 variable "resource_group_location" {
-  type    = string
+  type = string
 }
 
 variable "app_gateway_frontend_ip_name" {
   description = ""
-  type = string
+  type        = string
 }
 
 variable "dns_record" {
   description = ""
-  type = string
+  type        = string
 }
 
 variable "dns_zone_name" {
-  type    = string
+  type = string
 }
 
 variable "dns_zone_resource_group" {
-  type    = string
+  type = string
 }
 
 variable "core_resource_group" {
-  type    = string
+  type = string
 }
 
 variable "internal_dns_zone_name" {
-  type    = string
+  type = string
 }
 
 
@@ -92,11 +92,11 @@ variable "internal_dns_zone_name" {
 ##########################
 variable "create_cosmosdb" {
   description = "Whether to create a cosmosdb or not for this application"
-  type    = bool
+  type        = bool
 }
 
 variable "create_cache" {
-  type = bool
+  type        = bool
   description = "Whether to create a RedisCache"
 }
 
@@ -111,20 +111,20 @@ variable create_cdn_endpoint {
 # CosmosDB SETTINGS
 ##########################
 variable "cosmosdb_sql_container" {
-  type = string
+  type        = string
   description = "Specify the SQLContainer name in CosmosDB"
 }
 
 variable "cosmosdb_sql_container_partition_key" {
-  type = string
+  type        = string
   description = "Specify partition key"
 }
 
 variable "cosmosdb_kind" {
-  type = string
+  type        = string
   description = "Specify the CosmosDB kind"
 }
 variable "cosmosdb_offer_type" {
-  type = string
+  type        = string
   description = "Specify the offer type"
 }

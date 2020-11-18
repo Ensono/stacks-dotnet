@@ -77,7 +77,8 @@ variables:
   # Scripts directory used by pipeline steps
   scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
   base_domain: nonprod.amidostacks.com
-  base_domain_internal: nonprod.amidostacks.internal
+  base_domain_prod: prod.amidostacks.com
+  base_domain_internal_prod: prod.amidostacks.internal
   # DEFAULT IMAGE RUNNER
   pool_vm_image: ubuntu-18.04
   # Test setup
@@ -200,7 +201,6 @@ stages:
                     # Global Config
                     company: $(company)
                     project: $(project)
-                    component: $(component)
                     environment: ''
                     azure_cli_providers: [
                       { name: MSIPreview, namespace: Microsoft.ContainerService }
@@ -208,6 +208,7 @@ stages:
                     tags: ''
                     # Terraform Resource Specific Config
                     terraform_extra_properties: {
+                      TF_VAR_name_component: $(component),
                       TF_VAR_resource_group_location: northeurope,
                       TF_VAR_create_cdn_endpoint: false,
                       TF_VAR_cosmosdb_sql_container: "Menu",
@@ -227,7 +228,7 @@ stages:
                       TF_VAR_dns_record: dev-netcore-api,
                       TF_VAR_dns_zone_name: $(base_domain),
                       TF_VAR_dns_zone_resource_group: "$(dns_zone_resource_group)",
-                      TF_VAR_internal_dns_zone_name: $(base_domain_internal)
+                      TF_VAR_internal_dns_zone_name: $(base_domain_internal),
                     }
                     terraform_output_commands: |
                       raw_tf=$(terraform output -json | jq -r 'keys[] as $k | "##vso[task.setvariable variable=\($k);isOutput=true]\(.[$k] | .value)"')
@@ -237,14 +238,14 @@ stages:
       - deployment: DeployDev
         dependsOn: AppInfraDev
         container: k8s_deploy
-        variables:
-          cosmosdb_database_name: $[ dependencies.AppInfraDev.outputs['tfoutputs.cosmosdb_database_name'] ]
-          cosmosdb_endpoint: $[ dependencies.AppInfraDev.outputs['tfoutputs.cosmosdb_endpoint'] ]
-          cosmosdb_primary_master_key: $[ dependencies.AppInfraDev.outputs['tfoutputs.cosmosdb_primary_master_key'] ]
-          app_insights_instrumentation_key: $[ dependencies.AppInfraDev.outputs['tfoutputs.app_insights_instrumentation_key'] ]
         pool:
           vmImage: ubuntu-18.04
         environment: dev
+        variables:
+          cosmosdb_database_name: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_database_name'] ]
+          cosmosdb_endpoint: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_endpoint'] ]
+          cosmosdb_primary_master_key: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_primary_master_key'] ]
+          app_insights_instrumentation_key: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.app_insights_instrumentation_key'] ]
         strategy:
           runOnce:
             deploy:
@@ -371,6 +372,7 @@ stages:
                     tags: ''
                     # Terraform Resource Specific Config
                     terraform_extra_properties: {
+                      TF_VAR_name_component: $(component),
                       TF_VAR_resource_group_location: northeurope,
                       TF_VAR_create_cdn_endpoint: false,
                       TF_VAR_cosmosdb_sql_container: "Menu",
@@ -388,9 +390,9 @@ stages:
                       TF_VAR_create_cache: false,
                       TF_VAR_stage: prod,
                       TF_VAR_dns_record: prod-netcore-api,
-                      TF_VAR_dns_zone_name: $(base_domain),
+                      TF_VAR_dns_zone_name: $(base_domain_prod),
                       TF_VAR_dns_zone_resource_group: "$(dns_zone_resource_group)",
-                      TF_VAR_internal_dns_zone_name: $(base_domain_internal)
+                      TF_VAR_internal_dns_zone_name: $(base_domain_internal_prod),
                     }
                     terraform_output_commands: |
                       raw_tf=$(terraform output -json | jq -r 'keys[] as $k | "##vso[task.setvariable variable=\($k);isOutput=true]\(.[$k] | .value)"')
@@ -400,14 +402,14 @@ stages:
       - deployment: DeployProd
         dependsOn: AppInfraProd
         container: k8s_deploy
-        variables:
-          cosmosdb_database_name: $[ dependencies.AppInfraProd.outputs['tfoutputs.cosmosdb_database_name'] ]
-          cosmosdb_endpoint: $[ dependencies.AppInfraProd.outputs['tfoutputs.cosmosdb_endpoint'] ]
-          cosmosdb_primary_master_key: $[ dependencies.AppInfraProd.outputs['tfoutputs.cosmosdb_primary_master_key'] ]
-          app_insights_instrumentation_key: $[ dependencies.AppInfraProd.outputs['tfoutputs.app_insights_instrumentation_key'] ]
         pool:
           vmImage: ubuntu-18.04
         environment: prod
+        variables:
+          cosmosdb_database_name: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_database_name'] ]
+          cosmosdb_endpoint: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_endpoint'] ]
+          cosmosdb_primary_master_key: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_primary_master_key'] ]
+          app_insights_instrumentation_key: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.app_insights_instrumentation_key'] ]
         strategy:
           runOnce:
             deploy:
