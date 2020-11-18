@@ -9,16 +9,16 @@
 #############################################################################################################################
 name: "$(build.sourcebranchname)-init"
 
-pr: none
+pr:
+  - master
 
 trigger:
   branches:
     include:
-      - '*'
+      - 'master'
   paths:
     include:
-      # REPLACE ME for custom paths if I am part of a bigger component
-      - 'src/api/*'
+      - '*'
 
 resources:
   repositories:
@@ -363,7 +363,7 @@ stages:
                 TF_VAR_name_project: $(project),
                 TF_VAR_name_domain: $(domain),
                 TF_VAR_create_cosmosdb: true,
-                TF_VAR_name_environment: prod,
+                TF_VAR_name_stage: prod,
                 TF_VAR_dns_record: prod-netcore-api,
                 TF_VAR_dns_zone_name: $(base_domain),
                 TF_VAR_internal_dns_zone_name: $(base_domain_internal)
