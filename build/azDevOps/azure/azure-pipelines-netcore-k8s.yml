@@ -25,7 +25,7 @@ resources:
     - repository: templates
       type: github
       name: amido/stacks-pipeline-templates
-      ref: refs/tags/v1.4.4
+      ref: refs/tags/v1.4.17
       # EXCHANGE THIS FOR YOUR OWN ENDPOINT CONNECTION TO GITHUB
       # REPOSITORY IS PUBLIC
       endpoint: amidostacks
@@ -74,9 +74,11 @@ variables:
   docker_image_tag: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
   docker_container_registry_name: amidostacksnonprodeuncore
   k8s_docker_registry: $(docker_container_registry_name).azurecr.io
+  resource_def_name: dotnet-api
   # Scripts directory used by pipeline steps
   scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
   base_domain: nonprod.amidostacks.com
+  base_domain_internal: nonprod.amidostacks.internal
   base_domain_prod: prod.amidostacks.com
   base_domain_internal_prod: prod.amidostacks.internal
   # DEFAULT IMAGE RUNNER
@@ -195,7 +197,12 @@ stages:
                     terraform_state_rg: $(tf_state_rg)
                     terraform_state_storage: $(tf_state_storage)
                     terraform_state_container: $(tf_state_container)
+                    # Azure Config
                     terraform_state_key: $(tf_state_key)
+                    azure_client_id: $(ARM_CLIENT_ID)
+                    azure_client_secret: $(ARM_CLIENT_SECRET)
+                    azure_tenant_id: $(ARM_TENANT_ID)
+                    azure_subscription_id: $(ARM_SUBSCRIPTION_ID)
                     # for branch based builds this can be $(Build.SourceBranchName)
                     terraform_state_workspace: dev
                     # Global Config
@@ -242,10 +249,24 @@ stages:
           vmImage: ubuntu-18.04
         environment: dev
         variables:
-          cosmosdb_database_name: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_database_name'] ]
-          cosmosdb_endpoint: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_endpoint'] ]
-          cosmosdb_primary_master_key: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_primary_master_key'] ]
-          app_insights_instrumentation_key: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.app_insights_instrumentation_key'] ]
+          - name: ARM_SUBSCRIPTION_ID
+            value: $(azure_subscription_id)
+          - name: ARM_CLIENT_ID
+            value: $(azure_client_id)
+          - name: ARM_CLIENT_SECRET
+            value: "$(azure_client_secret)"
+          - name: ARM_TENANT_ID
+            value: $(azure_tenant_id)
+          - name: cosmosdb_database_name
+            value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_database_name'] ]
+          - name: cosmosdb_endpoint
+            value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_endpoint'] ]
+          - name: cosmosdb_primary_master_key
+            value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_primary_master_key'] ]
+          - name: app_insights_instrumentation_key
+            value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.app_insights_instrumentation_key'] ]
+          - name: namespace
+            value: "$(Environment.Name)-netcore-api"
         strategy:
           runOnce:
             deploy:
@@ -258,14 +279,14 @@ stages:
                   parameters:
                     scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
                     shared_env_vars: {
-                      namespace: dev-netcore-api,
+                      namespace: $(namespace),
                       role: $(role),
                       company: $(company),
                       project: $(project),
                       domain: $(domain),
                       component: $(component),
                       app_name: yumido-netcore-api,
-                      resource_def_name: yumido-netcore-api,
+                      resource_def_name: $(resource_def_name),
                       version: $(docker_image_tag),
                       environment: dev
                     }
@@ -310,8 +331,15 @@ stages:
                     # Mutation Information
                     kubectl_filepath:
                       - $(Agent.BuildDirectory)/s/$(self_repo)/deploy/k8s/app/api-deploy.yml
-                    # ReleaseNote Information
-                    releasenote: false
+                    kubectl_check_deployment: true
+                    resource_def_name: $(resource_def_name)
+                    namespace: $(namespace)
+                    deployment_status_timeout: 60s
+                    # Azure Config
+                    azure_client_id: $(ARM_CLIENT_ID)
+                    azure_client_secret: $(ARM_CLIENT_SECRET)
+                    azure_tenant_id: $(ARM_TENANT_ID)
+                    azure_subscription_id: $(ARM_SUBSCRIPTION_ID)
 
   - stage: Prod
     variables:
@@ -359,6 +387,11 @@ stages:
                     terraform_state_storage: $(tf_state_storage)
                     terraform_state_container: $(tf_state_container)
                     terraform_state_key: $(tf_state_key)
+                    # Azure Config
+                    azure_client_id: $(ARM_CLIENT_ID)
+                    azure_client_secret: $(ARM_CLIENT_SECRET)
+                    azure_tenant_id: $(ARM_TENANT_ID)
+                    azure_subscription_id: $(ARM_SUBSCRIPTION_ID)
                     # for branch based builds this can be $(Build.SourceBranchName)
                     terraform_state_workspace: prod
                     # Global Config
@@ -406,10 +439,24 @@ stages:
           vmImage: ubuntu-18.04
         environment: prod
         variables:
-          cosmosdb_database_name: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_database_name'] ]
-          cosmosdb_endpoint: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_endpoint'] ]
-          cosmosdb_primary_master_key: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_primary_master_key'] ]
-          app_insights_instrumentation_key: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.app_insights_instrumentation_key'] ]
+          - name: ARM_SUBSCRIPTION_ID
+            value: $(prod_azure_subscription_id)
+          - name: ARM_CLIENT_ID
+            value: $(prod_azure_client_id)
+          - name: ARM_CLIENT_SECRET
+            value: "$(prod_azure_client_secret)"
+          - name: ARM_TENANT_ID
+            value: $(prod_azure_tenant_id)
+          - name: cosmosdb_database_name
+            value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_database_name'] ]
+          - name: cosmosdb_endpoint
+            value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_endpoint'] ]
+          - name: cosmosdb_primary_master_key
+            value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_primary_master_key'] ]
+          - name: app_insights_instrumentation_key
+            value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.app_insights_instrumentation_key'] ]
+          - name: namespace
+            value: "$(Environment.Name)-netcore-api"
         strategy:
           runOnce:
             deploy:
@@ -423,14 +470,14 @@ stages:
                   parameters:
                     scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
                     shared_env_vars: {
-                      namespace: prod-netcore-api,
+                      namespace: $(namespace),
                       role: $(role),
                       company: $(company),
                       project: $(project),
                       domain: $(domain),
                       component: $(component),
                       app_name: yumido-netcore-api,
-                      resource_def_name: yumido-netcore-api,
+                      resource_def_name: $(resource_def_name),
                       version: $(docker_image_tag),
                       environment: prod
                     }
@@ -475,5 +522,12 @@ stages:
                     # Mutation Information
                     kubectl_filepath:
                       - $(Agent.BuildDirectory)/s/$(self_repo)/deploy/k8s/app/api-deploy.yml
-                    # ReleaseNote Information
-                    releasenote: false
+                    kubectl_check_deployment: true
+                    resource_def_name: $(resource_def_name)
+                    namespace: $(namespace)
+                    deployment_status_timeout: 60s
+                    # Azure Config
+                    azure_client_id: $(ARM_CLIENT_ID)
+                    azure_client_secret: $(ARM_CLIENT_SECRET)
+                    azure_tenant_id: $(ARM_TENANT_ID)
+                    azure_subscription_id: $(ARM_SUBSCRIPTION_ID)
