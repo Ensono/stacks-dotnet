@@ -11,6 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Data.Documents.Abstractions" Version="0.1.80" />
+        <PackageReference Include="Amido.Stacks.Data.Documents.Abstractions" Version="0.1.90" />
     </ItemGroup>
 </Project>
