@@ -7,29 +7,23 @@
 ############################################
 
 variable "name_company" {
-  type    = string
-  default = "replace_company_name"
+  type = string
 }
 
 variable "name_project" {
-  type    = string
-  default = "replace_project_name"
-
+  type = string
 }
 
 variable "name_component" {
-  type    = string
-  default = "replace_component_name"
+  type = string
 }
 
 variable "name_domain" {
-  type    = string
-  default = "replace_domain_name"
+  type = string
 }
 
 variable "stage" {
-  type    = string
-  default = "dev"
+  type = string
 }
 
 variable "attributes" {
@@ -63,38 +57,33 @@ variable "location_name_map" {
 ############################################
 
 variable "resource_group_location" {
-  type    = string
-  default = "uksouth"
+  type = string
 }
 
 variable "app_gateway_frontend_ip_name" {
   description = ""
-  type = string
+  type        = string
 }
 
 variable "dns_record" {
   description = ""
-  type = string
-  default = "app"
+  type        = string
 }
 
 variable "dns_zone_name" {
-  type    = string
-  default = "nonprod.amidostacks.com"
+  type = string
 }
 
 variable "dns_zone_resource_group" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "core_resource_group" {
-  type    = string
+  type = string
 }
 
 variable "internal_dns_zone_name" {
-  type    = string
-  default = "nonprod.amidostacks.internal"
+  type = string
 }
 
 
@@ -103,47 +92,39 @@ variable "internal_dns_zone_name" {
 ##########################
 variable "create_cosmosdb" {
   description = "Whether to create a cosmosdb or not for this application"
-  type    = bool
-  default = true
+  type        = bool
 }
 
 variable "create_cache" {
-  type = bool
+  type        = bool
   description = "Whether to create a RedisCache"
-  default = false
 }
 
 variable "create_dns_record" {
   type = bool
-  default = false
 }
 
 variable create_cdn_endpoint {
   type = bool
-  default = false
 }
 ###########################
 # CosmosDB SETTINGS
 ##########################
 variable "cosmosdb_sql_container" {
-  type = string
+  type        = string
   description = "Specify the SQLContainer name in CosmosDB"
-  default = "Menu"
 }
 
 variable "cosmosdb_sql_container_partition_key" {
-  type = string
-  default = "/id"
+  type        = string
   description = "Specify partition key"
 }
 
 variable "cosmosdb_kind" {
-  type = string
-  default = "GlobalDocumentDB"
+  type        = string
   description = "Specify the CosmosDB kind"
 }
 variable "cosmosdb_offer_type" {
-  type = string
-  default = "Standard"
+  type        = string
   description = "Specify the offer type"
 }
