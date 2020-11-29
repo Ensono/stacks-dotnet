@@ -3,9 +3,9 @@
 # It is still very much recommended to go through this and ensure all variables are correct for your business/domain        #
 # All variables are defined in a global scope.                                                                              #
 # All Terraform produced resource names are using a labels module ensuring a predictable naming convention                  #
-# E.g.: variables for company, project, stage and component will produce a name of `$company-$project-$stage-$componenet`   #
+# E.g.: variables for company, project, stage and component will produce a name of `$company-$project-$stage-$component`    #
 # NB: Some resources e.g. blob storage only allow for alpha numeric characters so the name is adjusted accordingly          #
-#  ==> `$company$project$stage$componenet`                                                                                  #
+#  ==> `$company$project$stage$component`                                                                                   #
 #############################################################################################################################
 name: "$(Build.SourceBranchName)-init"
 
@@ -48,9 +48,9 @@ variables:
   # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
-  self_repo: stacks-dotnet # replaced by cli
+  self_repo: stacks-dotnet
   self_repo_src: src/api
-  self_repo_dir: "$(self_repo_dir)"
+  self_repo_dir: "$(Agent.BuildDirectory)/s/$(self_repo)"
   self_repo_tf_src: deploy/azure/app/kube
   self_repo_tf_dir: "$(self_repo_dir)/$(self_repo_tf_src)"
   self_generic_name: stacks-api
@@ -155,7 +155,7 @@ stages:
                 SONAR_ORGANIZATION: $SONAR_ORGANIZATION,
                 SONAR_PROJECT_NAME: $SONAR_PROJECT_NAME,
                 BUILD_VERSION: $(docker_image_tag),
-                SONAR_SCANNER_OPTS: ""
+                SONAR_SCANNER_OPTS: "",
               }
               # Should be hardcoded in your sonar-project.properties file
               unit_test: true

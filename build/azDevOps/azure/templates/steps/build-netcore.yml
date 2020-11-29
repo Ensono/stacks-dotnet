@@ -32,6 +32,7 @@ steps:
   # Login to Azure/AKS
   - template: azDevOps/azure/templates/v2/steps/login-services.yml@templates
     parameters:
+      container: "host"
       azure_tenant_id: "$(azure_tenant_id)"
       azure_subscription_id: "$(azure_subscription_id)"
       azure_client_id: "$(azure_client_id)"
