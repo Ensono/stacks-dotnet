@@ -57,9 +57,9 @@ variables:
   self_pipeline_repo: "$(Agent.BuildDirectory)/s/stacks-pipeline-templates"
   self_pipeline_scripts_dir: "$(self_pipeline_repo)/scripts"
   # TF STATE CONFIG
-  tf_state_rg: amido-stacks-rg-uks
-  tf_state_storage: amidostackstfstategbl
-  tf_state_container: tfstate
+  tf_state_rg: "amido-stacks-rg-uks"
+  tf_state_storage: "amidostackstfstategbl"
+  tf_state_container: "tfstate"
   # Stacks operates Terraform states based on workspaces **IT IS VERY IMPORTANT** that you ensure a unique name for each application definition
   # Furthermore **IT IS VERY IMPORTANT** that you change the name of a workspace for each deployment stage
   # there are some best practices around this if you are going for feature based environments
@@ -67,7 +67,7 @@ variables:
   # **`terraform_state_workspace: `**
   # avoid running anything past dev that is not on master
   # sample value: company-webapp
-  tf_state_key: netcore-api
+  tf_state_key: "netcore-api"
   # Versioning
   version_major: 0
   version_minor: 0
@@ -83,6 +83,8 @@ variables:
   resource_def_name: dotnet-api
   # Scripts directory used by pipeline steps
   scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
+  # Infra
+  region: "northeurope"
   base_domain_nonprod: nonprod.amidostacks.com
   base_domain_internal_nonprod: nonprod.amidostacks.internal
   base_domain_prod: prod.amidostacks.com
@@ -103,7 +105,7 @@ stages:
     jobs:
       - job: AppBuild
         pool:
-          vmImage: ubuntu-18.04
+          vmImage: $(pool_vm_image)
         steps:
           - checkout: self
 
@@ -130,7 +132,7 @@ stages:
               terraform_directory: "${{ variables.self_repo_tf_dir }}"
 
           # BUILD NPM
-          - template: templates/steps/build-netcore.yml
+          - template: templates/steps/build/build-netcore.yml
             parameters:
               dotnet_core_version: "3.1.x"
               # Docker Config
@@ -188,7 +190,7 @@ stages:
       - deployment: AppInfraDev
         container: terraform_custom
         pool:
-          vmImage: ubuntu-18.04
+          vmImage: $(pool_vm_image)
         environment: dev
         variables:
           - name: ARM_SUBSCRIPTION_ID
@@ -225,14 +227,14 @@ stages:
                     terraform_state_rg: $(tf_state_rg)
                     terraform_state_storage: $(tf_state_storage)
                     terraform_state_container: $(tf_state_container)
-                    # Azure Config
                     terraform_state_key: $(tf_state_key)
+                    # Azure Config
                     azure_client_id: $(ARM_CLIENT_ID)
                     azure_client_secret: $(ARM_CLIENT_SECRET)
                     azure_tenant_id: $(ARM_TENANT_ID)
                     azure_subscription_id: $(ARM_SUBSCRIPTION_ID)
                     # for branch based builds this can be $(Build.SourceBranchName)
-                    terraform_state_workspace: dev
+                    terraform_state_workspace: $(Environment.Name)
                     # Global Config
                     company: $(company)
                     project: $(project)
@@ -244,7 +246,7 @@ stages:
                     # Terraform Resource Specific Config
                     terraform_extra_properties: {
                       TF_VAR_name_component: $(component),
-                      TF_VAR_resource_group_location: northeurope,
+                      TF_VAR_resource_group_location: $(region),
                       TF_VAR_create_cdn_endpoint: false,
                       TF_VAR_cosmosdb_sql_container: "Menu",
                       TF_VAR_cosmosdb_sql_container_partition_key: "/id",
@@ -259,8 +261,8 @@ stages:
                       TF_VAR_name_domain: $(domain),
                       TF_VAR_create_cosmosdb: true,
                       TF_VAR_create_cache: false,
-                      TF_VAR_stage: dev,
-                      TF_VAR_dns_record: dev-netcore-api,
+                      TF_VAR_stage: $(Environment.Name),
+                      TF_VAR_dns_record: $(Environment.Name)-netcore-api,
                       TF_VAR_dns_zone_name: $(base_domain_nonprod),
                       TF_VAR_dns_zone_resource_group: "$(dns_zone_resource_group)",
                       TF_VAR_internal_dns_zone_name: $(base_domain_internal_nonprod),
@@ -274,7 +276,7 @@ stages:
         dependsOn: AppInfraDev
         container: k8s_deploy
         pool:
-          vmImage: ubuntu-18.04
+          vmImage: $(pool_vm_image)
         environment: dev
         variables:
           - name: ARM_SUBSCRIPTION_ID
@@ -316,7 +318,7 @@ stages:
                       app_name: yumido-netcore-api,
                       resource_def_name: $(resource_def_name),
                       version: $(docker_image_tag),
-                      environment: dev
+                      environment: $(Environment.Name)
                     }
                     enable_debug: "yes" # uncomment for debug and if you want to see the templated out file in the STDOUT of pipeline
                     template_input: [
@@ -324,7 +326,7 @@ stages:
                         base: $(self_repo_dir)/deploy/k8s/app/base_api-deploy.yml,
                         displayName: AppDeployment,
                         env_vars: {
-                          dns_pointer: dev-netcore-api.$(base_domain_nonprod),
+                          dns_pointer: $(Environment.Name)-netcore-api.$(base_domain_nonprod),
                           tls_domain: $(base_domain_nonprod),
                           k8s_app_path: /api/menu,
                           log_level: "Debug",
@@ -354,8 +356,8 @@ stages:
                     performance_test: false
                     smoke_test: false
                     # Kubernetes Config
-                    kubernetes_clusterrg: amido-stacks-nonprod-eun-core
-                    kubernetes_clustername: amido-stacks-nonprod-eun-core
+                    kubernetes_clusterrg: "amido-stacks-nonprod-eun-core"
+                    kubernetes_clustername: "amido-stacks-nonprod-eun-core"
                     # Mutation Information
                     kubectl_filepath:
                       - $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
@@ -378,7 +380,7 @@ stages:
       - deployment: AppInfraProd
         container: terraform_custom
         pool:
-          vmImage: ubuntu-18.04
+          vmImage: $(pool_vm_image)
         environment: prod
         variables:
           - name: ARM_SUBSCRIPTION_ID
@@ -422,7 +424,7 @@ stages:
                     azure_tenant_id: $(ARM_TENANT_ID)
                     azure_subscription_id: $(ARM_SUBSCRIPTION_ID)
                     # for branch based builds this can be $(Build.SourceBranchName)
-                    terraform_state_workspace: prod
+                    terraform_state_workspace: $(Environment.Name)
                     # Global Config
                     company: $(company)
                     project: $(project)
@@ -435,7 +437,7 @@ stages:
                     # Terraform Resource Specific Config
                     terraform_extra_properties: {
                       TF_VAR_name_component: $(component),
-                      TF_VAR_resource_group_location: northeurope,
+                      TF_VAR_resource_group_location: $(region),
                       TF_VAR_create_cdn_endpoint: false,
                       TF_VAR_cosmosdb_sql_container: "Menu",
                       TF_VAR_cosmosdb_sql_container_partition_key: "/id",
@@ -450,8 +452,8 @@ stages:
                       TF_VAR_name_domain: $(domain),
                       TF_VAR_create_cosmosdb: true,
                       TF_VAR_create_cache: false,
-                      TF_VAR_stage: prod,
-                      TF_VAR_dns_record: prod-netcore-api,
+                      TF_VAR_stage: $(Environment.Name),
+                      TF_VAR_dns_record: $(Environment.Name)-netcore-api,
                       TF_VAR_dns_zone_name: $(base_domain_prod),
                       TF_VAR_dns_zone_resource_group: "$(dns_zone_resource_group)",
                       TF_VAR_internal_dns_zone_name: $(base_domain_internal_prod),
@@ -502,7 +504,7 @@ stages:
           - PromotionProd
         container: k8s_deploy
         pool:
-          vmImage: ubuntu-18.04
+          vmImage: $(pool_vm_image)
         environment: prod
         variables:
           - name: ARM_SUBSCRIPTION_ID
@@ -544,7 +546,7 @@ stages:
                       app_name: yumido-netcore-api,
                       resource_def_name: $(resource_def_name),
                       version: $(docker_image_tag),
-                      environment: prod
+                      environment: $(Environment.Name)
                     }
                     enable_debug: "yes" # uncomment for debug and if you want to see the templated out file in the STDOUT of pipeline
                     template_input: [
@@ -552,7 +554,7 @@ stages:
                         base: $(self_repo_dir)/deploy/k8s/app/base_api-deploy.yml,
                         displayName: AppDeployment,
                         env_vars: {
-                          dns_pointer: prod-netcore-api.$(base_domain_prod),
+                          dns_pointer: $(Environment.Name)-netcore-api.$(base_domain_prod),
                           tls_domain: $(base_domain_prod),
                           k8s_app_path: /api/menu,
                           log_level: "Debug",
@@ -582,8 +584,8 @@ stages:
                     performance_test: false
                     smoke_test: false
                     # Kubernetes Config
-                    kubernetes_clusterrg: amido-stacks-prod-eun-core
-                    kubernetes_clustername: amido-stacks-prod-eun-core
+                    kubernetes_clusterrg: "amido-stacks-prod-eun-core"
+                    kubernetes_clustername: "amido-stacks-prod-eun-core"
                     # Mutation Information
                     kubectl_filepath:
                       - $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
