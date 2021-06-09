@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>7.3</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Snyk.Fixes.Application.Integration\Snyk.Fixes.Application.Integration.csproj" />
+        <ProjectReference Include="..\Snyk.Fixes.CQRS\Snyk.Fixes.CQRS.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Amido.Stacks.Data.Documents.Abstractions" Version="0.1.90" />
+    </ItemGroup>
+</Project>
