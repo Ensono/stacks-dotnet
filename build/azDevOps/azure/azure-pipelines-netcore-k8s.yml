@@ -193,7 +193,7 @@ stages:
         container: terraform_custom
         pool:
           vmImage: $(pool_vm_image)
-        environment: ${{ parameters.domain }}-dev
+        environment: ${{ variables.domain }}-dev
         variables:
           - name: ARM_SUBSCRIPTION_ID
             value: $(azure_subscription_id)
@@ -279,7 +279,7 @@ stages:
         container: k8s_deploy
         pool:
           vmImage: $(pool_vm_image)
-        environment: ${{ parameters.domain }}-dev
+        environment: ${{ variables.domain }}-dev
         variables:
           - name: ARM_SUBSCRIPTION_ID
             value: $(azure_subscription_id)
@@ -384,7 +384,7 @@ stages:
         container: terraform_custom
         pool:
           vmImage: $(pool_vm_image)
-        environment: ${{ parameters.domain }}-prod
+        environment: ${{ variables.domain }}-prod
         variables:
           - name: ARM_SUBSCRIPTION_ID
             value: $(prod_azure_subscription_id)
@@ -471,7 +471,7 @@ stages:
         container: k8s_deploy
         pool:
           vmImage: $(pool_vm_image)
-        environment: ${{ parameters.domain }}-prod
+        environment: ${{ variables.domain }}-prod
         variables:
           - group: amido-stacks-infra-credentials-nonprod
           - group: amido-stacks-infra-credentials-prod
