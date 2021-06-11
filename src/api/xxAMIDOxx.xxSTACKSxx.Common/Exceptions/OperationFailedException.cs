@@ -12,10 +12,12 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
                    OperationCode operationCode, 
                    Guid correlationId, 
                    string message) 
-                   : base((int) exceptionCode, (int) operationCode, 
+                   : base((int) operationCode, 
                        correlationId, 
                        message)
                {
+                   ExceptionCode = (int)exceptionCode;
+
                    HttpStatusCode = (int)ExceptionCodeToHttpStatusCodeConverter.GetHttpStatusCode((int)exceptionCode);
                }
        

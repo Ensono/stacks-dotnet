@@ -14,8 +14,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions
             Guid correlationId,
             string message,
             Exception domainException
-        ) : base((int)exceptionCode, (int)operationCode, correlationId, message, domainException)
+        ) : base((int)operationCode, correlationId, message, domainException)
         {
+			ExceptionCode = (int)exceptionCode;
+
             HttpStatusCode = (int)ExceptionCodeToHttpStatusCodeConverter.GetHttpStatusCode((int)exceptionCode);
         }
 
