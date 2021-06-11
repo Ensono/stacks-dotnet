@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Amido.Stacks.API" Version="0.2.9" />
-    <PackageReference Include="Amido.Stacks.API.Swagger" Version="0.2.12" />
+    <PackageReference Include="Amido.Stacks.API.Swagger" Version="0.2.24" />
     <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.16" />
       
