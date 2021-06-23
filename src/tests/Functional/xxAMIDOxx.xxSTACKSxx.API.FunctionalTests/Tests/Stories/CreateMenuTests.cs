@@ -11,7 +11,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Functional
         IWant = "to be able to create menus",
         SoThat = "customers know what we have on offer")]
 
-    public class CreateMenuTests : IClassFixture<AuthFixture>
+    public class CreateMenuTests : IClassFixture<AuthFixture> 
     {
         private readonly MenuSteps steps;
         private readonly AuthFixture fixture;
