@@ -29,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API\xxAMIDOxx.xxSTACKSxx.API.csproj" />
+        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API.CQRS\xxAMIDOxx.xxSTACKSxx.API.csproj" />
     </ItemGroup>
-
+    
 </Project>
