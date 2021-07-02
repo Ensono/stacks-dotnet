@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
-using Query = xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -18,11 +16,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class GetMenuByIdController : ApiControllerBase
     {
-        readonly IQueryHandler<Query.GetMenuById, Query.Menu> queryHandler;
-
-        public GetMenuByIdController(IQueryHandler<Query.GetMenuById, Query.Menu> queryHandler)
+        public GetMenuByIdController()
         {
-            this.queryHandler = queryHandler;
         }
 
         /// <summary>

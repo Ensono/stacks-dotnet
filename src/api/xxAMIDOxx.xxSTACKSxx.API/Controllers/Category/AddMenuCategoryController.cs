@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -20,11 +18,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Category")]
     public class AddMenuCategoryController : ApiControllerBase
     {
-        readonly ICommandHandler<CreateCategory, Guid> commandHandler;
-
-        public AddMenuCategoryController(ICommandHandler<CreateCategory, Guid> commandHandler)
+        public AddMenuCategoryController()
         {
-            this.commandHandler = commandHandler;
         }
 
         /// <summary>
@@ -43,16 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         public async Task<IActionResult> AddMenuCategory([FromRoute][Required]Guid id, [FromBody]CreateCategoryRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
-
-            var categoryId = await commandHandler.HandleAsync(
-                new CreateCategory(
-                    correlationId: GetCorrelationId(),
-                    menuId: id,
-                    name: body.Name,
-                    description: body.Description
-                )
-            );
-
+            var categoryId = Guid.NewGuid();
             return StatusCode(StatusCodes.Status201Created, new ResourceCreatedResponse(categoryId));
         }
     }

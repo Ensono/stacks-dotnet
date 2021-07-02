@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -17,11 +15,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class DeleteMenuController : ApiControllerBase
     {
-        readonly ICommandHandler<DeleteMenu, bool> commandHandler;
-
-        public DeleteMenuController(ICommandHandler<DeleteMenu, bool> commandHandler)
+        public DeleteMenuController()
         {
-            this.commandHandler = commandHandler;
         }
 
         /// <summary>
@@ -37,8 +32,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         public async Task<IActionResult> DeleteMenu([FromRoute][Required]Guid id)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
-
-            await commandHandler.HandleAsync(new DeleteMenu(id));
             return StatusCode(204);
         }
     }
