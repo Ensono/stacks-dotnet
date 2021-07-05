@@ -24,8 +24,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Common
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests", "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests\xxAMIDOxx.xxSTACKSxx.Domain.UnitTests.csproj", "{81434893-86D2-4E21-A58F-7545E7B6E5F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests", "xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests\xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests.csproj", "{EE4B77E0-52AF-4F98-814D-088922686BDB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.API.ContractTests", "xxAMIDOxx.xxSTACKSxx.API.ContractTests\xxAMIDOxx.xxSTACKSxx.API.ContractTests.csproj", "{9205D626-9B4E-42EB-AD3D-946170D1F27A}"
 EndProject
 Global
