@@ -29,8 +29,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 })
                 .UseStartup<Startup>()
                 .UseSerilog()
-                .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
-                .ConfigureServices(DependencyRegistration.ConfigureProductionDependencies)
+                //.ConfigureServices(ConfigureStaticDependencies)
+                //.ConfigureServices(ConfigureProductionDependencies)
             ;
     }
 }
