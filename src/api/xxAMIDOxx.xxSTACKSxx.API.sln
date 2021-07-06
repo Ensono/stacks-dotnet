@@ -6,21 +6,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.API", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{A93ABC7D-17EC-4D7E-B8CF-94F11D94910D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{BDCCC652-01CA-4AC4-848E-DA136C8E01EF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Domain", "xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj", "{EB2EC4D5-7DBF-4EB5-9BB8-8FA5D85087CE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5829769F-3B52-4C7A-A77E-2E03F57893A8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{5C2EF365-4E4D-4446-A3C6-325168F0531F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.API.Models", "xxAMIDOxx.xxSTACKSxx.API.Models\xxAMIDOxx.xxSTACKSxx.API.Models.csproj", "{E636A045-7299-4837-BC3B-77797E48CC4F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Common", "xxAMIDOxx.xxSTACKSxx.Common\xxAMIDOxx.xxSTACKSxx.Common.csproj", "{FF124C60-974B-4E9B-AC7F-51B454FDAAA3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Common.UnitTests", "xxAMIDOxx.xxSTACKSxx.Common.UnitTests\xxAMIDOxx.xxSTACKSxx.Common.UnitTests.csproj", "{31A84D6F-6918-4B9B-9CB9-A8D8984B5DBC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests", "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests\xxAMIDOxx.xxSTACKSxx.Domain.UnitTests.csproj", "{81434893-86D2-4E21-A58F-7545E7B6E5F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
