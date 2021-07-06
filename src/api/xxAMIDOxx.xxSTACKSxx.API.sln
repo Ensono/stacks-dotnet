@@ -18,13 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.API.Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Common", "xxAMIDOxx.xxSTACKSxx.Common\xxAMIDOxx.xxSTACKSxx.Common.csproj", "{FF124C60-974B-4E9B-AC7F-51B454FDAAA3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.API.ComponentTests", "xxAMIDOxx.xxSTACKSxx.API.ComponentTests\xxAMIDOxx.xxSTACKSxx.API.ComponentTests.csproj", "{9A89022F-BBDF-43D3-B748-EF344824A1E6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Common.UnitTests", "xxAMIDOxx.xxSTACKSxx.Common.UnitTests\xxAMIDOxx.xxSTACKSxx.Common.UnitTests.csproj", "{31A84D6F-6918-4B9B-9CB9-A8D8984B5DBC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests", "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests\xxAMIDOxx.xxSTACKSxx.Domain.UnitTests.csproj", "{81434893-86D2-4E21-A58F-7545E7B6E5F1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.API.ContractTests", "xxAMIDOxx.xxSTACKSxx.API.ContractTests\xxAMIDOxx.xxSTACKSxx.API.ContractTests.csproj", "{9205D626-9B4E-42EB-AD3D-946170D1F27A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
