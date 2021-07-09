@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Amido.Stacks.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
@@ -37,12 +39,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="400">bad request</response>
         [HttpGet("/v1/menu/")]
         [Authorize]
-        [ProducesResponseType(typeof(SearchMenuResult), 200)]
+        [ProducesResponseType(typeof(SearchMenuResponse), 200)]
         public async Task<IActionResult> SearchMenu(
-            [FromQuery]string searchTerm, 
-            [FromQuery]Guid? RestaurantId, 
-            [FromQuery][Range(0, 50)]int? pageSize = 20, 
-            [FromQuery]int? pageNumber = 1)
+            [FromQuery] string searchTerm,
+            [FromQuery] Guid? RestaurantId,
+            [FromQuery][Range(0, 50)] int? pageSize = 20,
+            [FromQuery] int? pageNumber = 1)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 
@@ -56,7 +58,20 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 
             var results = await queryHandler.ExecuteAsync(criteria);
 
-            return new ObjectResult(results); //TOOD: we need a mapping here
+            var response = new SearchMenuResponse()
+            {
+                Offset = (results?.PageNumber ?? 0) * (results?.PageSize ?? 0),
+                Size = (results?.PageSize ?? 0),
+                Results = results.Results.Select(i => new SearchMenuResponseItem()
+                {
+                    Id = i.Id ?? Guid.Empty,
+                    Name = i.Name,
+                    Description = i.Description,
+                    Enabled = i.Enabled ?? false
+                }).ToList()
+            };
+
+            return new ObjectResult(response);
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models
 {
-    public class SearchResultItem
+    public class SearchResponseItem
     {
         public string id { get; set; }
         public string name { get; set; }
