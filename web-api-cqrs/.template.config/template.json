@@ -7,10 +7,9 @@
 		"CQRS",
 		"api"
 	],
-	"name": "Amido Stacks Application (.Net Core 3.1)",
-	"identity": "Amido.Stacks.App.CSharp",
-	"groupIdentity": "Amido.Stacks",
-	"shortName": "stacks-app-cqrs",
+	"name": "Amido Stacks Web Api CQRS - Full solution",
+	"identity": "Amido.Stacks.App.WebApi.CQRS",
+	"shortName": "stacks-app-web-api-cqrs",
 	"tags": {
 		"language": "C#",
 		"type": "solution"

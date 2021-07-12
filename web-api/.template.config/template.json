@@ -1,68 +1,67 @@
 {
-    "$schema": "http://json.schemastore.org/template",
-    "author": "stacks@amido.com",
-    "classifications": [ "Stacks" , "WebApi", "api" ], 
-    "name": "Amido Stacks Application (.Net Core 3.1)",
-    "identity": "Amido.Stacks.App.CSharp",     
-    "groupIdentity":"Amido.Stacks",
-    "shortName": "stacks-app",
-    "tags": {
-      "language": "C#",
-      "type":"solution"
-    },
-    "sourceName": "xxAMIDOxx.xxSTACKSxx",
-    "preferNameDirectory": true,
-    "symbols":{
-        "domain": {
-            "type": "parameter",
-            "isRequired": true,
-            "replaces":"Menu",            
-            "fileRename": "Menu",
-            "defaultValue": "DOMAIN",
-			"forms": {
-			  "global": ["identity", "lowerCase"]
-			}
-        }
-    },
-    "sources": [
-        {
-            "source": "./",
-            "include": ["**/*"],
-            "exclude": [ 
-              "**/[Bb]in/**",
-              "**/[Oo]bj/**",
-              "**/.template.config/**",
-              "**/*.filelist",            
-              "**/*.user",
-              "**/*.lock.json",
-              "**/.git/**",
-              "**/.vs/**",
-              "**/.vscode/**",
+  "$schema": "http://json.schemastore.org/template",
+  "author": "stacks@amido.com",
+  "classifications": [ "Stacks", "WebApi", "api" ],
+  "name": "Amido Stacks Web Api - Full solution",
+  "identity": "Amido.Stacks.App.WebApi",
+  "shortName": "stacks-app-web-api",
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "sourceName": "xxAMIDOxx.xxSTACKSxx",
+  "preferNameDirectory": true,
+  "symbols": {
+    "domain": {
+      "type": "parameter",
+      "isRequired": true,
+      "replaces": "Menu",
+      "fileRename": "Menu",
+      "defaultValue": "DOMAIN",
+      "forms": {
+        "global": [ "identity", "lowerCase" ]
+      }
+    }
+  },
+  "sources": [
+    {
+      "source": "./",
+      "include": [ "**/*" ],
+      "exclude": [
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        "**/.template.config/**",
+        "**/*.filelist",
+        "**/*.user",
+        "**/*.lock.json",
+        "**/.git/**",
+        "**/.vs/**",
+        "**/.vscode/**",
 
-              "_rels/**",
-              "package/**",
-              "**/*.nuspec",
-              "*Content_Types*.xml"
-            ],            
-            "rename": {
-                "_gitignore": ".gitignore",
-                "_gitattributes": ".gitattributes"
-            },
-            "modifiers":[
-            ]
+        "_rels/**",
+        "package/**",
+        "**/*.nuspec",
+        "*Content_Types*.xml"
+      ],
+      "rename": {
+        "_gitignore": ".gitignore",
+        "_gitattributes": ".gitattributes"
+      },
+      "modifiers": [
+      ]
+    }
+  ],
+  "SpecialCustomOperations": {
+    "**/*.yml": {
+      "Operations": [
+        {
+          "type": "conditional",
+          "configuration": {
+            "style": "line",
+            "token": "#"
+          }
         }
-    ],
-    "SpecialCustomOperations": {
-        "**/*.yml" : {
-            "Operations": [
-                {
-                    "type": "conditional",
-                    "configuration": {
-                        "style": "line",
-                        "token": "#"
-                    }
-                }
-            ]
-        }
+      ]
     }
   }
+}
