@@ -64,9 +64,6 @@
                 "**/*.nuspec",
                 "*Content_Types*.xml"
             ],
-            "rename": {
-                "xxAMIDOxx.xxSTACKSxx.API.csproj": "EXAMPLE.API.csproj"
-            },
             "modifiers": []
         }
     ],
