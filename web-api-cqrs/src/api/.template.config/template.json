@@ -1,0 +1,171 @@
+﻿{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "stacks@amido.com",
+    "classifications": [
+        "Stacks",
+        "WebAPI",
+        "CQRS",
+        "api"
+    ],
+    "name": "Amido Stacks Web Api CQRS - Add to existing solution",
+    "identity": "Amido.Stacks.Add.WebApi.CQRS",
+    "sourceName": "xxAMIDOxx.xxSTACKSxx",
+    "shortName": "stacks-add-web-api-cqrs",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "symbols": {
+        "domain": {
+            "type": "parameter",
+            "isRequired": true,
+            "replaces": "Menu",
+            "fileRename": "Menu",
+            "defaultValue": "DOMAIN",
+            "forms": {
+                "global": [
+                    "identity",
+                    "lowerCase"
+                ]
+            }
+        }
+    },
+    "sources": [
+        {
+            "source": "./",
+            "include": [
+                "**/xxAMIDOxx.xxSTACKSxx.API/**",
+                "**/xxAMIDOxx.xxSTACKSxx.API.Models/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Application.Integration/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Common/**",
+                "**/xxAMIDOxx.xxSTACKSxx.CQRS/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Domain/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Infrastructure/**",
+                "**/xxAMIDOxx.xxSTACKSxx.API.ComponentTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Common.UnitTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/**"
+            ],
+            "exclude": [
+                "**/[Bb]in/**",
+                "**/[Oo]bj/**",
+                "**/.template.config/**",
+                "**/*.filelist",
+                "**/*.user",
+                "**/*.lock.json",
+                "**/.git/**",
+                "**/.vs/**",
+                "**/.vscode/**",
+                "_rels/**",
+                "package/**",
+                "**/*.nuspec",
+                "*Content_Types*.xml"
+            ],
+            "modifiers": []
+        }
+    ],
+    "postActions": [
+        {
+            "description": "Adding projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (API folder): Infrastructure, API.Models."
+                }
+            ],
+            "args": {
+                "solutionFolder": "API",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.API.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.API.Models.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+        {
+            "description": "Adding projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (application folder): Application.CommandHandlers, Application.Integration, Application.QueryHandlers."
+                }
+            ],
+            "args": {
+                "solutionFolder": "Application",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+        {
+            "description": "Adding projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (domain folder): Domain."
+                }
+            ],
+            "args": {
+                "solutionFolder": "Domain",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Domain.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+        {
+            "description": "Adding projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (shared folder): Common, CQRS."
+                }
+            ],
+            "args": {
+                "solutionFolder": "Shared",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Common.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.CQRS.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+        {
+            "description": "Adding test projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (tests folder): Common.UnitTests, CQRS.UnitTests, Domain.UnitTests, Infrastructure.IntegrationTests."
+                }
+            ],
+            "args": {
+                "solutionFolder": "Tests",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Common.UnitTests.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+
+        {
+            "description": "Manual actions required",
+            "manualInstructions": [
+                {
+                    "text": "Check EXAMPLE.API.csproj"
+                }
+            ],
+            "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
+            "continueOnError": true
+        }
+    ]
+}
