@@ -11,6 +11,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactoryContentRootAttribute("xxAMIDOxx.xxSTACKSxx.API", "C:\\stacks\\stacks-dotnet\\src\\api\\xxAMIDOxx.xxSTACKSxx.API", "xxAMIDOxx.xxSTACKSxx.API.csproj", "0")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("xxAMIDOxx.xxSTACKSxx.API.ComponentTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
