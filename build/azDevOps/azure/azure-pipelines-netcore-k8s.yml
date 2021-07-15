@@ -25,7 +25,7 @@ resources:
     - repository: templates
       type: github
       name: amido/stacks-pipeline-templates
-      ref: refs/tags/v2.0.0
+      ref: refs/tags/v2.0.1
       # EXCHANGE THIS FOR YOUR OWN ENDPOINT CONNECTION TO GITHUB
       # REPOSITORY IS PUBLIC
       endpoint: amidostacks
@@ -242,9 +242,6 @@ stages:
                     company: $(company)
                     project: $(project)
                     environment: ''
-                    azure_cli_providers: [
-                      { name: MSIPreview, namespace: Microsoft.ContainerService }
-                    ]
                     tags: ''
                     # Terraform Resource Specific Config
                     terraform_extra_properties: {
@@ -323,7 +320,8 @@ stages:
                       version: $(docker_image_tag),
                       environment: $(Environment.ShortName)
                     }
-                    enable_debug: "yes" # uncomment for debug and if you want to see the templated out file in the STDOUT of pipeline
+                    # uncomment for debug and if you want to see the templated out file in the STDOUT of pipeline
+                    enable_debug: "yes"
                     template_input: [
                       {
                         base: $(self_repo_dir)/deploy/k8s/app/base_api-deploy.yml,
@@ -346,7 +344,8 @@ stages:
                           jwtbearerauthentication_openapiclientid: "<TODO>",
                           jwtbearerauthentication_openapitokenurl: "<TODO>"
                         },
-                        args: "-no-empty", # -no-unset is present by default
+                        # -no-unset is present by default
+                        args: "-no-empty",
                       }
                     ]
 
@@ -435,9 +434,6 @@ stages:
                     project: $(project)
                     component: $(component)
                     environment: ''
-                    azure_cli_providers: [
-                      { name: MSIPreview, namespace: Microsoft.ContainerService }
-                    ]
                     tags: ''
                     # Terraform Resource Specific Config
                     terraform_extra_properties: {
@@ -553,7 +549,8 @@ stages:
                       version: $(docker_image_tag),
                       environment: $(Environment.ShortName)
                     }
-                    enable_debug: "yes" # uncomment for debug and if you want to see the templated out file in the STDOUT of pipeline
+                    # uncomment for debug and if you want to see the templated out file in the STDOUT of pipeline
+                    enable_debug: "yes"
                     template_input: [
                       {
                         base: $(self_repo_dir)/deploy/k8s/app/base_api-deploy.yml,
@@ -576,7 +573,8 @@ stages:
                           jwtbearerauthentication_openapiclientid: "<TODO>",
                           jwtbearerauthentication_openapitokenurl: "<TODO>"
                         },
-                        args: "-no-empty", # -no-unset is present by default
+                        # -no-unset is present by default
+                        args: "-no-empty",
                       }
                     ]
 
