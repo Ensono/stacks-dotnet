@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
-using Query = xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -18,11 +17,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class GetMenuByIdController : ApiControllerBase
     {
-        readonly IQueryHandler<Query.GetMenuById, Query.Menu> queryHandler;
-
-        public GetMenuByIdController(IQueryHandler<Query.GetMenuById, Query.Menu> queryHandler)
+        public GetMenuByIdController()
         {
-            this.queryHandler = queryHandler;
         }
 
         /// <summary>
@@ -40,10 +36,40 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 
-            var result = await queryHandler.ExecuteAsync(new Query.GetMenuById() { Id = id });
-
-            if (result == null)
-                return NotFound();
+            var result = new Menu()
+            {
+                Id = id,
+                Description = "Menu description",
+                Categories = new List<Category>()
+                {
+                    new Category() {
+                        Id = Guid.NewGuid(),
+                        Description = "Category Description",
+                         Name = "Category name",
+                         Items = new List<Item>()
+                         {
+                             new Item()
+                             {
+                                 Id = Guid.NewGuid(),
+                                 Name = "Item name 1",
+                                 Description = "Item description 1",
+                                 Available = true,
+                                 Price = 10
+                             },
+                             new Item()
+                             {
+                                 Id = Guid.NewGuid(),
+                                 Name = "Item name 2",
+                                 Description = "Item description 2",
+                                 Available = true,
+                                 Price = 10
+                             }
+                         }
+                    }
+                },
+                Enabled = true,
+                Name = "Menu name"
+            };
 
             return new ObjectResult(result);
         }
