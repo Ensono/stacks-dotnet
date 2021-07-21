@@ -68,6 +68,9 @@ variables:
   # avoid running anything past dev that is not on master
   # sample value: company-webapp
   tf_state_key: "netcore-api"
+  # Environment
+  # Set the name of the resource group that has the DNS zones to be updated
+  dns_zone_resource_group: "Stacks-Ancillary-Resources"
   # Versioning
   version_major: 0
   version_minor: 0
@@ -76,21 +79,21 @@ variables:
   docker_dockerfile_path: "src/api"
   docker_image_name: $(self_generic_name)
   docker_image_tag: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
-  docker_container_registry_name_nonprod: amidostacksnonprodeuncore
+  docker_container_registry_name_nonprod: amidostacksnonprodeuwcore
   k8s_docker_registry_nonprod: $(docker_container_registry_name_nonprod).azurecr.io
-  docker_container_registry_name_prod: amidostacksprodeuncore
+  docker_container_registry_name_prod: amidostacksprodeuwcore
   k8s_docker_registry_prod: $(docker_container_registry_name_prod).azurecr.io
   resource_def_name: dotnet-api
   # Scripts directory used by pipeline steps
   scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
   # Infra
-  region: "northeurope"
+  region: "westeurope"
   base_domain_nonprod: nonprod.amidostacks.com
   base_domain_internal_nonprod: nonprod.amidostacks.internal
   base_domain_prod: prod.amidostacks.com
   base_domain_internal_prod: prod.amidostacks.internal
   # DEFAULT IMAGE RUNNER
-  pool_vm_image: ubuntu-18.04
+  pool_vm_image: ubuntu-20.04
   # Test setup
   code_coverage_cobertura_directory: coverage
   # Yamllint
@@ -187,6 +190,7 @@ stages:
     condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: amido-stacks-infra-credentials-nonprod
+      - group: stacks-credentials-nonprod-kv
       - group: amido-stacks-webapp
       - name: Environment.ShortName
         value: dev
@@ -198,15 +202,13 @@ stages:
         environment: ${{ variables.domain }}-dev
         variables:
           - name: ARM_SUBSCRIPTION_ID
-            value: $(azure_subscription_id)
+            value: $(azure-subscription-id)
           - name: ARM_CLIENT_ID
-            value: $(azure_client_id)
+            value: $(azure-client-id)
           - name: ARM_CLIENT_SECRET
-            value: "$(azure_client_secret)"
+            value: "$(azure-client-secret)"
           - name: ARM_TENANT_ID
-            value: $(azure_tenant_id)
-          - name: dns_zone_resource_group
-            value: ""
+            value: $(azure-tenant-id)
         strategy:
           runOnce:
             deploy:
@@ -253,9 +255,9 @@ stages:
                       TF_VAR_cosmosdb_kind: "GlobalDocumentDB",
                       TF_VAR_cosmosdb_offer_type: "Standard",
                       TF_VAR_create_dns_record: true,
-                      TF_VAR_app_insights_name: "amido-stacks-nonprod-eun-core",
-                      TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-nonprod-eun-core",
-                      TF_VAR_core_resource_group: "amido-stacks-nonprod-eun-core",
+                      TF_VAR_app_insights_name: "amido-stacks-nonprod-euw-core",
+                      TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-nonprod-euw-core",
+                      TF_VAR_core_resource_group: "amido-stacks-nonprod-euw-core",
                       TF_VAR_name_company: $(company),
                       TF_VAR_name_project: $(project),
                       TF_VAR_name_domain: $(domain),
@@ -280,13 +282,13 @@ stages:
         environment: ${{ variables.domain }}-dev
         variables:
           - name: ARM_SUBSCRIPTION_ID
-            value: $(azure_subscription_id)
+            value: $(azure-subscription-id)
           - name: ARM_CLIENT_ID
-            value: $(azure_client_id)
+            value: $(azure-client-id)
           - name: ARM_CLIENT_SECRET
-            value: "$(azure_client_secret)"
+            value: "$(azure-client-secret)"
           - name: ARM_TENANT_ID
-            value: $(azure_tenant_id)
+            value: $(azure-tenant-id)
           - name: cosmosdb_database_name
             value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_database_name'] ]
           - name: cosmosdb_endpoint
@@ -358,8 +360,8 @@ stages:
                     performance_test: false
                     smoke_test: false
                     # Kubernetes Config
-                    kubernetes_clusterrg: "amido-stacks-nonprod-eun-core"
-                    kubernetes_clustername: "amido-stacks-nonprod-eun-core"
+                    kubernetes_clusterrg: "amido-stacks-nonprod-euw-core"
+                    kubernetes_clustername: "amido-stacks-nonprod-euw-core"
                     # Mutation Information
                     kubectl_filepath:
                       - $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
@@ -378,6 +380,7 @@ stages:
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: amido-stacks-infra-credentials-prod
+      - group: stacks-credentials-prod-kv
       - group: amido-stacks-webapp
       - name: Environment.ShortName
         value: prod
@@ -389,15 +392,13 @@ stages:
         environment: ${{ variables.domain }}-prod
         variables:
           - name: ARM_SUBSCRIPTION_ID
-            value: $(prod_azure_subscription_id)
+            value: $(prod-azure-subscription-id)
           - name: ARM_CLIENT_ID
-            value: $(prod_azure_client_id)
+            value: $(prod-azure-client-id)
           - name: ARM_CLIENT_SECRET
-            value: "$(prod_azure_client_secret)"
+            value: "$(prod-azure-client-secret)"
           - name: ARM_TENANT_ID
-            value: $(prod_azure_tenant_id)
-          - name: dns_zone_resource_group
-            value: ""
+            value: $(prod-azure-tenant-id)
         strategy:
           runOnce:
             deploy:
@@ -445,9 +446,9 @@ stages:
                       TF_VAR_cosmosdb_kind: "GlobalDocumentDB",
                       TF_VAR_cosmosdb_offer_type: "Standard",
                       TF_VAR_create_dns_record: true,
-                      TF_VAR_app_insights_name: "amido-stacks-prod-eun-core",
-                      TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-prod-eun-core",
-                      TF_VAR_core_resource_group: "amido-stacks-prod-eun-core",
+                      TF_VAR_app_insights_name: "amido-stacks-prod-euw-core",
+                      TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-prod-euw-core",
+                      TF_VAR_core_resource_group: "amido-stacks-prod-euw-core",
                       TF_VAR_name_company: $(company),
                       TF_VAR_name_project: $(project),
                       TF_VAR_name_domain: $(domain),
@@ -473,6 +474,8 @@ stages:
         variables:
           - group: amido-stacks-infra-credentials-nonprod
           - group: amido-stacks-infra-credentials-prod
+          - group: stacks-credentials-nonprod-kv
+          - group: stacks-credentials-prod-kv
         strategy:
           runOnce:
             deploy:
@@ -487,15 +490,15 @@ stages:
                     arguments: >
                       -a "$(docker_image_name):$(docker_image_tag)"
                       -b "$(k8s_docker_registry_nonprod)"
-                      -c "$(azure_subscription_id)"
-                      -d "$(azure_client_id)"
-                      -e "$(azure_client_secret)"
-                      -f "$(azure_tenant_id)"
+                      -c "$(azure-subscription-id)"
+                      -d "$(azure-client-id)"
+                      -e "$(azure-client-secret)"
+                      -f "$(azure-tenant-id)"
                       -g "$(k8s_docker_registry_prod)"
-                      -h "$(prod_azure_subscription_id)"
-                      -i "$(prod_azure_client_id)"
-                      -j "$(prod_azure_client_secret)"
-                      -k "$(prod_azure_tenant_id)"
+                      -h "$(prod-azure-subscription-id)"
+                      -i "$(prod-azure-client-id)"
+                      -j "$(prod-azure-client-secret)"
+                      -k "$(prod-azure-tenant-id)"
                       -Z "false"
                   displayName: Promote Docker Image to Production ACR
 
@@ -509,13 +512,13 @@ stages:
         environment: prod
         variables:
           - name: ARM_SUBSCRIPTION_ID
-            value: $(prod_azure_subscription_id)
+            value: $(prod-azure-subscription-id)
           - name: ARM_CLIENT_ID
-            value: $(prod_azure_client_id)
+            value: $(prod-azure-client-id)
           - name: ARM_CLIENT_SECRET
-            value: "$(prod_azure_client_secret)"
+            value: "$(prod-azure-client-secret)"
           - name: ARM_TENANT_ID
-            value: $(prod_azure_tenant_id)
+            value: $(prod-azure-tenant-id)
           - name: cosmosdb_database_name
             value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_database_name'] ]
           - name: cosmosdb_endpoint
@@ -587,8 +590,8 @@ stages:
                     performance_test: false
                     smoke_test: false
                     # Kubernetes Config
-                    kubernetes_clusterrg: "amido-stacks-prod-eun-core"
-                    kubernetes_clustername: "amido-stacks-prod-eun-core"
+                    kubernetes_clusterrg: "amido-stacks-prod-euw-core"
+                    kubernetes_clustername: "amido-stacks-prod-euw-core"
                     # Mutation Information
                     kubectl_filepath:
                       - $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
