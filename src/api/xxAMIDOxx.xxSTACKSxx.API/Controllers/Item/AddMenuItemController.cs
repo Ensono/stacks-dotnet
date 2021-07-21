@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -20,11 +18,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Item")]
     public class AddMenuItemController : ApiControllerBase
     {
-        readonly ICommandHandler<CreateMenuItem, Guid> commandHandler;
-
-        public AddMenuItemController(ICommandHandler<CreateMenuItem, Guid> commandHandler)
+        public AddMenuItemController()
         {
-            this.commandHandler = commandHandler;
         }
 
         /// <summary>
@@ -45,17 +40,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 
-            var menuItemId = await commandHandler.HandleAsync(
-                new CreateMenuItem(
-                    correlationId: GetCorrelationId(),
-                    menuId: id,
-                    categoryId: categoryId,
-                    name: body.Name,
-                    description: body.Description,
-                    price: body.Price,
-                    available: body.Available
-                )
-            );
+            var menuItemId = Guid.NewGuid();
 
             return StatusCode(StatusCodes.Status201Created, new ResourceCreatedResponse(menuItemId));
         }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using xxAMIDOxx.xxSTACKSxx.Infrastructure;
 
 namespace xxAMIDOxx.xxSTACKSxx.API
 {
@@ -30,8 +29,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 })
                 .UseStartup<Startup>()
                 .UseSerilog()
-                .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
-                .ConfigureServices(DependencyRegistration.ConfigureProductionDependencies)
+                //.ConfigureServices(ConfigureStaticDependencies)
+                //.ConfigureServices(ConfigureProductionDependencies)
             ;
     }
 }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -16,11 +14,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Category")]
     public class DeleteCategoryController : ApiControllerBase
     {
-        readonly ICommandHandler<DeleteCategory, bool> commandHandler;
 
-        public DeleteCategoryController(ICommandHandler<DeleteCategory, bool> commandHandler)
+        public DeleteCategoryController()
         {
-            this.commandHandler = commandHandler;
         }
 
 
@@ -38,14 +34,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         public async Task<IActionResult> DeleteCategory([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
-
-            await commandHandler.HandleAsync(
-                new DeleteCategory(
-                    correlationId: GetCorrelationId(),
-                    menuId: id,
-                    categoryId: categoryId
-                )
-            );
 
             return StatusCode(204);
         }
