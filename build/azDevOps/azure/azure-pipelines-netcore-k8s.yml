@@ -104,6 +104,7 @@ stages:
   - stage: Build
     variables:
       - group: amido-stacks-infra-credentials-nonprod
+      - group: stacks-credentials-nonprod-kv
       - group: amido-stacks-webapp
     jobs:
       - job: AppBuild
