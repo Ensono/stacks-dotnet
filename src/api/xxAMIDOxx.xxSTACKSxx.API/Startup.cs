@@ -90,9 +90,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         {
             var jwtBearerAuthenticationConfiguration = jwtBearerAuthenticationOptions.Value;
 
-            //if (!useAppInsights)
-            //app.UseSerilogRequestLogging(); // Requires serilog v3 still in preview, not required when using App Insights
-
             app.UseCustomExceptionHandler(logger);
             app.UseCorrelationId();
 

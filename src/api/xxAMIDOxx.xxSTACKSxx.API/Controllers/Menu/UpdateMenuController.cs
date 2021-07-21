@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -18,11 +16,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class UpdateMenuController : ApiControllerBase
     {
-        readonly ICommandHandler<UpdateMenu, bool> commandHandler;
-
-        public UpdateMenuController(ICommandHandler<UpdateMenu, bool> commandHandler)
+        public UpdateMenuController()
         {
-            this.commandHandler = commandHandler;
         }
 
 
@@ -40,15 +35,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         public async Task<IActionResult> UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenuRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
-
-            await commandHandler.HandleAsync(
-                new UpdateMenu()
-                {
-                    MenuId = id,
-                    Name = body.Name,
-                    Description = body.Description,
-                    Enabled = body.Enabled
-                });
 
             return StatusCode(204);
         }

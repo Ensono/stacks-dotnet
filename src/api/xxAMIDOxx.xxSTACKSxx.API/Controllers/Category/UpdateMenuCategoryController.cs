@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -17,11 +15,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Category")]
     public class UpdateMenuCategoryController : ApiControllerBase
     {
-        readonly ICommandHandler<UpdateCategory, bool> commandHandler;
-
-        public UpdateMenuCategoryController(ICommandHandler<UpdateCategory, bool> commandHandler)
+        public UpdateMenuCategoryController()
         {
-            this.commandHandler = commandHandler;
         }
 
         /// <summary>
@@ -40,16 +35,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         public async Task<IActionResult> UpdateMenuCategory([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromBody]UpdateCategoryRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
-
-            await commandHandler.HandleAsync(
-                new UpdateCategory(
-                    correlationId: GetCorrelationId(),
-                    menuId: id,
-                    categoryId: categoryId,
-                    name: body.Name,
-                    description: body.Description
-                )
-            );
 
             return StatusCode(204);
         }

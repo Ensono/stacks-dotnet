@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -19,11 +17,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiController]
     public class CreateMenuController : ApiControllerBase
     {
-        readonly ICommandHandler<CreateMenu, Guid> commandHandler;
-
-        public CreateMenuController(ICommandHandler<CreateMenu, Guid> commandHandler)
+        public CreateMenuController()
         {
-            this.commandHandler = commandHandler;
         }
 
         /// <summary>
@@ -41,15 +36,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 
-            var id = await commandHandler.HandleAsync(
-                new CreateMenu(
-                        correlationId: GetCorrelationId(),
-                        tenantId: body.TenantId, //Should check if user logged-in owns it
-                        name: body.Name,
-                        description: body.Description,
-                        enabled: body.Enabled
-                    )
-                );
+            var id = Guid.NewGuid();
 
             return new CreatedAtActionResult(
                     "GetMenu", "GetMenuById", new

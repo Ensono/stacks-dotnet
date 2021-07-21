@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
 {
@@ -16,11 +14,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
     [ApiExplorerSettings(GroupName = "Item")]
     public class DeleteMenuItemController : ApiControllerBase
     {
-        readonly ICommandHandler<DeleteMenuItem, bool> commandHandler;
-
-        public DeleteMenuItemController(ICommandHandler<DeleteMenuItem, bool> commandHandler)
+        public DeleteMenuItemController()
         {
-            this.commandHandler = commandHandler;
         }
 
         /// <summary>
@@ -38,15 +33,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         public async Task<IActionResult> DeleteMenuItem([FromRoute][Required]Guid id, [FromRoute][Required]Guid categoryId, [FromRoute][Required]Guid itemId)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
-
-            await commandHandler.HandleAsync(
-                new DeleteMenuItem(
-                    correlationId: GetCorrelationId(),
-                    menuId: id,
-                    categoryId: categoryId,
-                    menuItemId: itemId
-                )
-            );
 
             return StatusCode(204);
         }
