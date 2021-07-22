@@ -106,6 +106,14 @@ stages:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
       - group: amido-stacks-webapp
+      - name: azure_tenant_id
+        value: "$(azure-tenant-id)"
+      - name: azure_subscription_id
+        value: "$(azure-subscription-id)"
+      - name: azure_client_id
+        value: "$(azure_client_id)"
+      - name: azure_client_secret
+        value: "$(azure_client_secret)"
     jobs:
       - job: AppBuild
         pool:
