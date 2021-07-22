@@ -57,8 +57,8 @@ variables:
   self_pipeline_repo: "$(Agent.BuildDirectory)/s/stacks-pipeline-templates"
   self_pipeline_scripts_dir: "$(self_pipeline_repo)/scripts"
   # TF STATE CONFIG
-  tf_state_rg: "amido-stacks-rg-uks"
-  tf_state_storage: "amidostackstfstategbl"
+  tf_state_rg: "Stacks-Ancillary-Resources"
+  tf_state_storage: "amidostackstfstate"
   tf_state_container: "tfstate"
   # Stacks operates Terraform states based on workspaces **IT IS VERY IMPORTANT** that you ensure a unique name for each application definition
   # Furthermore **IT IS VERY IMPORTANT** that you change the name of a workspace for each deployment stage
