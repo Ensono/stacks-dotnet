@@ -111,9 +111,9 @@ stages:
       - name: azure_subscription_id
         value: "$(azure-subscription-id)"
       - name: azure_client_id
-        value: "$(azure_client_id)"
+        value: "$(azure-client-id)"
       - name: azure_client_secret
-        value: "$(azure_client_secret)"
+        value: "$(azure-client-secret)"
     jobs:
       - job: AppBuild
         pool:
