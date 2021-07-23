@@ -259,10 +259,6 @@ stages:
                       TF_VAR_name_component: $(component),
                       TF_VAR_resource_group_location: $(region),
                       TF_VAR_create_cdn_endpoint: false,
-                      TF_VAR_cosmosdb_sql_container: "Menu",
-                      TF_VAR_cosmosdb_sql_container_partition_key: "/id",
-                      TF_VAR_cosmosdb_kind: "GlobalDocumentDB",
-                      TF_VAR_cosmosdb_offer_type: "Standard",
                       TF_VAR_create_dns_record: true,
                       TF_VAR_app_insights_name: "amido-stacks-nonprod-euw-core",
                       TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-nonprod-euw-core",
@@ -270,7 +266,7 @@ stages:
                       TF_VAR_name_company: $(company),
                       TF_VAR_name_project: $(project),
                       TF_VAR_name_domain: $(domain),
-                      TF_VAR_create_cosmosdb: true,
+                      TF_VAR_create_cosmosdb: false,
                       TF_VAR_create_cache: false,
                       TF_VAR_stage: $(Environment.ShortName),
                       TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}",
@@ -298,12 +294,6 @@ stages:
             value: "$(azure-client-secret)"
           - name: ARM_TENANT_ID
             value: $(azure-tenant-id)
-          - name: cosmosdb_database_name
-            value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_database_name'] ]
-          - name: cosmosdb_endpoint
-            value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_endpoint'] ]
-          - name: cosmosdb_primary_master_key
-            value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.cosmosdb_primary_master_key'] ]
           - name: app_insights_instrumentation_key
             value: $[ dependencies.AppInfraDev.outputs['AppInfraDev.tfoutputs.app_insights_instrumentation_key'] ]
           - name: namespace
@@ -345,9 +335,6 @@ stages:
                           k8s_image: '$(k8s_docker_registry_nonprod)/$(docker_image_name):$(docker_image_tag)',
                           aadpodidentitybinding: stacks-webapp-identity,
                           app_insights_key: $(app_insights_instrumentation_key),
-                          cosmosdb_key: $(cosmosdb_primary_master_key),
-                          cosmosdb_endpoint: $(cosmosdb_endpoint),
-                          cosmosdb_name: $(cosmosdb_database_name),
                           jwtbearerauthentication_audience: "<TODO>",
                           jwtbearerauthentication_authority: "<TODO>",
                           jwtbearerauthentication_enabled: false,
@@ -450,10 +437,6 @@ stages:
                       TF_VAR_name_component: $(component),
                       TF_VAR_resource_group_location: $(region),
                       TF_VAR_create_cdn_endpoint: false,
-                      TF_VAR_cosmosdb_sql_container: "Menu",
-                      TF_VAR_cosmosdb_sql_container_partition_key: "/id",
-                      TF_VAR_cosmosdb_kind: "GlobalDocumentDB",
-                      TF_VAR_cosmosdb_offer_type: "Standard",
                       TF_VAR_create_dns_record: true,
                       TF_VAR_app_insights_name: "amido-stacks-prod-euw-core",
                       TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-prod-euw-core",
@@ -461,7 +444,7 @@ stages:
                       TF_VAR_name_company: $(company),
                       TF_VAR_name_project: $(project),
                       TF_VAR_name_domain: $(domain),
-                      TF_VAR_create_cosmosdb: true,
+                      TF_VAR_create_cosmosdb: false,
                       TF_VAR_create_cache: false,
                       TF_VAR_stage: $(Environment.ShortName),
                       TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}",
@@ -528,12 +511,6 @@ stages:
             value: "$(prod-azure-client-secret)"
           - name: ARM_TENANT_ID
             value: $(prod-azure-tenant-id)
-          - name: cosmosdb_database_name
-            value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_database_name'] ]
-          - name: cosmosdb_endpoint
-            value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_endpoint'] ]
-          - name: cosmosdb_primary_master_key
-            value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.cosmosdb_primary_master_key'] ]
           - name: app_insights_instrumentation_key
             value: $[ dependencies.AppInfraProd.outputs['AppInfraProd.tfoutputs.app_insights_instrumentation_key'] ]
           - name: namespace
@@ -575,9 +552,6 @@ stages:
                           k8s_image: '$(k8s_docker_registry_prod)/$(docker_image_name):$(docker_image_tag)',
                           aadpodidentitybinding: stacks-webapp-identity,
                           app_insights_key: $(app_insights_instrumentation_key),
-                          cosmosdb_key: $(cosmosdb_primary_master_key),
-                          cosmosdb_endpoint: $(cosmosdb_endpoint),
-                          cosmosdb_name: $(cosmosdb_database_name),
                           jwtbearerauthentication_audience: "<TODO>",
                           jwtbearerauthentication_authority: "<TODO>",
                           jwtbearerauthentication_enabled: false,
