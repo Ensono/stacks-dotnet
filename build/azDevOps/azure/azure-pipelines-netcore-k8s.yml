@@ -273,6 +273,10 @@ stages:
                       TF_VAR_dns_zone_name: $(base_domain_nonprod),
                       TF_VAR_dns_zone_resource_group: "$(dns_zone_resource_group)",
                       TF_VAR_internal_dns_zone_name: $(base_domain_internal_nonprod),
+                      TF_VAR_cosmosdb_sql_container: "Menu",
+                      TF_VAR_cosmosdb_sql_container_partition_key: "/id",
+                      TF_VAR_cosmosdb_kind: "GlobalDocumentDB",
+                      TF_VAR_cosmosdb_offer_type: "Standard",
                     }
                     terraform_output_commands: |
                       raw_tf=$(terraform output -json | jq -r 'keys[] as $k | "##vso[task.setvariable variable=\($k);isOutput=true]\(.[$k] | .value)"')
@@ -451,6 +455,10 @@ stages:
                       TF_VAR_dns_zone_name: $(base_domain_prod),
                       TF_VAR_dns_zone_resource_group: "$(dns_zone_resource_group)",
                       TF_VAR_internal_dns_zone_name: $(base_domain_internal_prod),
+                      TF_VAR_cosmosdb_sql_container: "Menu",
+                      TF_VAR_cosmosdb_sql_container_partition_key: "/id",
+                      TF_VAR_cosmosdb_kind: "GlobalDocumentDB",
+                      TF_VAR_cosmosdb_offer_type: "Standard",
                     }
                     terraform_output_commands: |
                       raw_tf=$(terraform output -json | jq -r 'keys[] as $k | "##vso[task.setvariable variable=\($k);isOutput=true]\(.[$k] | .value)"')
