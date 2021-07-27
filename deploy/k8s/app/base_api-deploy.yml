@@ -88,7 +88,6 @@ metadata:
   namespace: ${namespace}
 type: Opaque
 stringData:
-  cosmos_key: ${cosmosdb_key}
   app_insights: ${app_insights_key}
 
 ---
@@ -126,14 +125,6 @@ data:
           }
       },
       "AllowedHosts": "*",
-      "CosmosDb": {
-          "DatabaseAccountUri": "${cosmosdb_endpoint}",
-          "DatabaseName": "${cosmosdb_name}",
-          "SecurityKeySecret": {
-              "Identifier": "COSMOSDB_KEY",
-              "Source": "Environment"
-          }
-      },
       "JwtBearerAuthentication": {
           "Audience": "${jwtbearerauthentication_audience}",
           "Authority": "${jwtbearerauthentication_authority}",
@@ -242,11 +233,6 @@ spec:
                   fieldPath: metadata.annotations['release']
             - name: API_BASEPATH
               value: ${k8s_app_path}
-            - name: COSMOSDB_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: cosmos_key
             - name: LOG_LEVEL
               value: debug
             - name: APPINSIGHTS_INSTRUMENTATIONKEY
