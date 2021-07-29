@@ -24,12 +24,10 @@ variables:
   - name: region
     value: westeurope
   - name: base_domain_nonprod
-    value: nonprod.amidostacks.com    
+    value: nonprod.amidostacks.com
   - name: base_domain_internal_nonprod
     value: nonprod.amidostacks.internal
   - name: base_domain_prod
     value: prod.amidostacks.com
   - name: base_domain_internal_prod
     value: prod.amidostacks.internal
-  
-  
