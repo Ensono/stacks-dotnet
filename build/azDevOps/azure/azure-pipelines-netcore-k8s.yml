@@ -43,7 +43,9 @@ variables:
   #company: amido
   #project: stacks
   #domain: netcore-api
-  component: api
+- name: component
+  value: api
+  
   role: backend
   #
   # SelfConfig
