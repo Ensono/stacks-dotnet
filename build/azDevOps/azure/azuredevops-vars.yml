@@ -1,0 +1,35 @@
+variables:
+  - name: company
+    value: amido
+  - name: project
+    value: stacks
+  - name: domain
+    value: netcore-api
+  - name: self-repo
+    value: stacks-dotnet
+  - name: self-generic-name
+    value: stacks-api
+  - name: tf_state_rg
+    value: Stacks-Ancillary-Resources
+  - name: tf_state_storage
+    value: amidostackstfstate
+  - name: tf_state_container
+    value: tfstate
+  - name: tf_state_key
+    value: netcore-api
+  - name: docker_container_registry_name_nonprod
+    value: amidostacksnonprodeuwcore
+  - name: docker_container_registry_name_prod
+    value: amidostacksprodeuwcore
+  - name: region
+    value: westeurope
+  - name: base_domain_nonprod
+    value: nonprod.amidostacks.com    
+  - name: base_domain_internal_nonprod
+    value: nonprod.amidostacks.internal
+  - name: base_domain_prod
+    value: prod.amidostacks.com
+  - name: base_domain_internal_prod
+    value: prod.amidostacks.internal
+  
+  

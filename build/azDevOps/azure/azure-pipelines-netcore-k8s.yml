@@ -39,27 +39,28 @@ resources:
       image: amidostacks/ci-tf:0.0.8
 
 variables:
-  company: amido
-  project: stacks
-  domain: netcore-api
+- template: azuredevops-vars.yml
+  #company: amido
+  #project: stacks
+  #domain: netcore-api
   component: api
   role: backend
   #
   # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
-  self_repo: stacks-dotnet
+  #self_repo: stacks-dotnet
   self_repo_src: src/api
   self_repo_dir: "$(Agent.BuildDirectory)/s/$(self_repo)"
   self_repo_tf_src: deploy/azure/app/kube
   self_repo_tf_dir: "$(self_repo_dir)/$(self_repo_tf_src)"
-  self_generic_name: stacks-api
+  #self_generic_name: stacks-api
   self_pipeline_repo: "$(Agent.BuildDirectory)/s/stacks-pipeline-templates"
   self_pipeline_scripts_dir: "$(self_pipeline_repo)/scripts"
   # TF STATE CONFIG
-  tf_state_rg: "Stacks-Ancillary-Resources"
-  tf_state_storage: "amidostackstfstate"
-  tf_state_container: "tfstate"
+  #tf_state_rg: "Stacks-Ancillary-Resources"
+  #tf_state_storage: "amidostackstfstate"
+  #tf_state_container: "tfstate"
   # Stacks operates Terraform states based on workspaces **IT IS VERY IMPORTANT** that you ensure a unique name for each application definition
   # Furthermore **IT IS VERY IMPORTANT** that you change the name of a workspace for each deployment stage
   # there are some best practices around this if you are going for feature based environments
@@ -67,7 +68,7 @@ variables:
   # **`terraform_state_workspace: `**
   # avoid running anything past dev that is not on master
   # sample value: company-webapp
-  tf_state_key: "netcore-api"
+  #tf_state_key: "netcore-api"
   # Environment
   # Set the name of the resource group that has the DNS zones to be updated
   dns_zone_resource_group: "Stacks-Ancillary-Resources"
@@ -79,19 +80,19 @@ variables:
   docker_dockerfile_path: "src/api"
   docker_image_name: $(self_generic_name)
   docker_image_tag: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
-  docker_container_registry_name_nonprod: amidostacksnonprodeuwcore
+  #docker_container_registry_name_nonprod: amidostacksnonprodeuwcore
   k8s_docker_registry_nonprod: $(docker_container_registry_name_nonprod).azurecr.io
-  docker_container_registry_name_prod: amidostacksprodeuwcore
+  #docker_container_registry_name_prod: amidostacksprodeuwcore
   k8s_docker_registry_prod: $(docker_container_registry_name_prod).azurecr.io
   resource_def_name: dotnet-api
   # Scripts directory used by pipeline steps
   scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
   # Infra
-  region: "westeurope"
-  base_domain_nonprod: nonprod.amidostacks.com
-  base_domain_internal_nonprod: nonprod.amidostacks.internal
-  base_domain_prod: prod.amidostacks.com
-  base_domain_internal_prod: prod.amidostacks.internal
+  #region: "westeurope"
+  #base_domain_nonprod: nonprod.amidostacks.com
+  #base_domain_internal_nonprod: nonprod.amidostacks.internal
+  #base_domain_prod: prod.amidostacks.com
+  #base_domain_internal_prod: prod.amidostacks.internal
   # DEFAULT IMAGE RUNNER
   pool_vm_image: ubuntu-20.04
   # Test setup
