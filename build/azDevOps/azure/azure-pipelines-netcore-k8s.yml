@@ -45,20 +45,27 @@ variables:
   #domain: netcore-api
 - name: component
   value: api
-  
-  role: backend
+
+- name: role
+  value: backend
   #
   # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
   #self_repo: stacks-dotnet
-  self_repo_src: src/api
-  self_repo_dir: "$(Agent.BuildDirectory)/s/$(self_repo)"
-  self_repo_tf_src: deploy/azure/app/kube
-  self_repo_tf_dir: "$(self_repo_dir)/$(self_repo_tf_src)"
+- name: self_repo_src
+  value: src/api
+- name: self_repo_dir
+  value: "$(Agent.BuildDirectory)/s/$(self_repo)"
+- name: self_repo_tf_src
+  value: deploy/azure/app/kube
+- name: self_repo_tf_dir
+  value: "$(self_repo_dir)/$(self_repo_tf_src)"
   #self_generic_name: stacks-api
-  self_pipeline_repo: "$(Agent.BuildDirectory)/s/stacks-pipeline-templates"
-  self_pipeline_scripts_dir: "$(self_pipeline_repo)/scripts"
+- name: self_pipeline_repo
+  value: "$(Agent.BuildDirectory)/s/stacks-pipeline-templates"
+- name: self_pipeline_scripts_dir
+  value: "$(self_pipeline_repo)/scripts"
   # TF STATE CONFIG
   #tf_state_rg: "Stacks-Ancillary-Resources"
   #tf_state_storage: "amidostackstfstate"
@@ -73,22 +80,33 @@ variables:
   #tf_state_key: "netcore-api"
   # Environment
   # Set the name of the resource group that has the DNS zones to be updated
-  dns_zone_resource_group: "Stacks-Ancillary-Resources"
+- name: dns_zone_resource_group
+  value: "Stacks-Ancillary-Resources"
   # Versioning
-  version_major: 0
-  version_minor: 0
-  version_revision: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
+- name: version_major
+  value: 0
+- name: version_minor
+  value: 0
+- name: version_revision
+  value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
   # Docker Config
-  docker_dockerfile_path: "src/api"
-  docker_image_name: $(self_generic_name)
-  docker_image_tag: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
+- name: docker_dockerfile_path
+  value: "src/api"
+- name: docker_image_name
+  value: $(self_generic_name)
+- name: docker_image_tag
+  value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
   #docker_container_registry_name_nonprod: amidostacksnonprodeuwcore
-  k8s_docker_registry_nonprod: $(docker_container_registry_name_nonprod).azurecr.io
+- name: k8s_docker_registry_nonprod
+  value: $(docker_container_registry_name_nonprod).azurecr.io
   #docker_container_registry_name_prod: amidostacksprodeuwcore
-  k8s_docker_registry_prod: $(docker_container_registry_name_prod).azurecr.io
-  resource_def_name: dotnet-api
+- name: k8s_docker_registry_prod
+  value: $(docker_container_registry_name_prod).azurecr.io
+- name: resource_def_name
+  value: dotnet-api
   # Scripts directory used by pipeline steps
-  scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
+- name: scripts_dir
+  value: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
   # Infra
   #region: "westeurope"
   #base_domain_nonprod: nonprod.amidostacks.com
@@ -96,12 +114,16 @@ variables:
   #base_domain_prod: prod.amidostacks.com
   #base_domain_internal_prod: prod.amidostacks.internal
   # DEFAULT IMAGE RUNNER
-  pool_vm_image: ubuntu-20.04
+- name: pool_vm_image
+  value: ubuntu-20.04
   # Test setup
-  code_coverage_cobertura_directory: coverage
+- name: code_coverage_cobertura_directory
+  value: coverage
   # Yamllint
-  yamllint_config_file: "${{ variables.self_repo_dir }}/yamllint.conf"
-  yamllint_scan_directory: "."
+- name: yamllint_config_file
+  value: "${{ variables.self_repo_dir }}/yamllint.conf"
+- name: yamllint_scan_directory
+  value: "."
 
 stages:
   - stage: Build
