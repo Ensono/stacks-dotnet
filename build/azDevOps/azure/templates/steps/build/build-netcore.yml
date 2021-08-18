@@ -27,6 +27,10 @@ parameters:
   contract_test: false
   contract_test_env: {}
   test_arguments: ""
+  repo_name: ""
+  functional_test: false
+  functional_test_path: $(Build.SourcesDirectory)/output/functional_tests
+  functional_test_artefact: ""
 
 steps:
   # Login to Azure/AKS
@@ -151,10 +155,16 @@ steps:
           docker_imagetag: ${{ parameters.docker_imagetag }}
           docker_containerregistryname: ${{ parameters.docker_containerregistryname }}
 
-  # Publish Artefacts if required
+  # Build and push functional tests
   - ${{ if eq(parameters.functional_test, true) }}:
+      - task: DotNetCoreCLI@2
+        displayName: Build Functional Tests
+        inputs:
+          command: build
+          workingDirectory: $(Build.SourcesDirectory)/${{ parameters.repo_name }}/src/tests/Functional
+
       - task: PublishPipelineArtifact@1
         displayName: "Publish: Functional Tests Artifact"
         inputs:
-          path: "${{ parameters.functional_test_path }}"
+          path: "$(Build.SourcesDirectory)/${{ parameters.repo_name }}/src/tests/Functional"
           artifact: "${{ parameters.functional_test_artefact }}"
