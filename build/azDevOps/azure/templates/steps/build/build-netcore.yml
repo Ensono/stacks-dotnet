@@ -30,7 +30,7 @@ parameters:
   repo_name: ""
   functional_test: false
   functional_test_path: $(Build.SourcesDirectory)/output/functional_tests
-  functional_test_artefact: ""  
+  functional_test_artefact: ""
 
 steps:
   # Login to Azure/AKS
