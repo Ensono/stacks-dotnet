@@ -6,7 +6,7 @@
 		"WebApi",
 		"api"
 	],
-	"name": "Amido Stacks Web Api - Full solution",
+	"name": "Amido Stacks Web Api",
 	"identity": "Amido.Stacks.App.WebApi",
 	"shortName": "stacks-app-web-api",
 	"tags": {
