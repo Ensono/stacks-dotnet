@@ -7,7 +7,7 @@
   "shortName": "stacks-app-web-api",
   "tags": {
     "language": "C#",
-    "type": "project"
+    "type": "solution"
   },
   "sourceName": "xxAMIDOxx.xxSTACKSxx",
   "preferNameDirectory": true,
