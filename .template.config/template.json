@@ -7,7 +7,7 @@
   "shortName": "stacks-app-web-api",
   "tags": {
     "language": "C#",
-    "type": "solution"
+    "type": "project"
   },
   "sourceName": "xxAMIDOxx.xxSTACKSxx",
   "preferNameDirectory": true,
@@ -37,7 +37,7 @@
         "**/.git/**",
         "**/.vs/**",
         "**/.vscode/**",
-
+        "**/[Tt]emplate.csproj",
         "_rels/**",
         "package/**",
         "**/*.nuspec",
