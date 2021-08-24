@@ -37,7 +37,7 @@
         "**/.git/**",
         "**/.vs/**",
         "**/.vscode/**",
-
+        "**/[Tt]emplate.csproj",
         "_rels/**",
         "package/**",
         "**/*.nuspec",
