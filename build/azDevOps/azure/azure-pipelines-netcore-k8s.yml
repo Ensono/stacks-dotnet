@@ -214,7 +214,6 @@ stages:
                 mkdir ./templates
                 pushd templates
                 cp -r ${ROOT_SRC_DIR}/$REPO_NAME .
-                cp -r ${ROOT_SRC_DIR}/$REPO_NAME/src/api .
                 popd
 
             env:
