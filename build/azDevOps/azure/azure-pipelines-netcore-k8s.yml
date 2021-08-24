@@ -233,7 +233,7 @@ stages:
             displayName: Publish Templates
             inputs:
               path: $(Agent.BuildDirectory)/a
-              artifact: packages              
+              artifact: packages
 
   - stage: Dev
     dependsOn: Build
