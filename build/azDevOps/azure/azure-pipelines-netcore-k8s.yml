@@ -25,7 +25,7 @@ resources:
     - repository: templates
       type: github
       name: amido/stacks-pipeline-templates
-      ref: refs/tags/v2.0.3
+      ref: refs/tags/v2.0.4
       # EXCHANGE THIS FOR YOUR OWN ENDPOINT CONNECTION TO GITHUB
       # REPOSITORY IS PUBLIC
       endpoint: amidostacks
@@ -391,11 +391,18 @@ stages:
                       }
                     ]
 
+                # Upload the deployment manifest as an artefact
+                - task: PublishPipelineArtifact@1
+                  displayName: Publish K8s Manifest
+                  inputs:
+                    path: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
+                    artifact: manifests_dev
+
                 - template: azDevOps/azure/templates/v2/steps/deploy-k8s-app-kubectl.yml@templates
                   parameters:
                     scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
                     test_artefact: "tests"
-                    test_baseurl: ""
+                    test_baseurl: "https://$(Environment.ShortName)-${{ variables.domain }}.$(base_domain_nonprod)/api/menu/"
                     functional_test: true
                     performance_test: false
                     smoke_test: false
@@ -612,11 +619,18 @@ stages:
                       }
                     ]
 
+                # Upload the deployment manifest as an artefact
+                - task: PublishPipelineArtifact@1
+                  displayName: Publish K8s Manifest
+                  inputs:
+                    path: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
+                    artifact: manifests_prod
+
                 - template: azDevOps/azure/templates/v2/steps/deploy-k8s-app-kubectl.yml@templates
                   parameters:
                     scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
                     test_artefact: "tests"
-                    test_baseurl: ""
+                    test_baseurl: "https://$(Environment.ShortName)-${{ variables.domain }}.$(base_domain_prod)/api/menu/"
                     functional_test: true
                     performance_test: false
                     smoke_test: false
