@@ -32,9 +32,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="404">Resource not found</response>
         [HttpPut("/v1/menu/{id}")]
         [Authorize]
-        public async Task<IActionResult> UpdateMenu([FromRoute][Required]Guid id, [FromBody]UpdateMenuRequest body)
+        public async Task<IActionResult> UpdateMenu([FromRoute][Required] Guid id, [FromBody] UpdateMenuRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
+
+            await Task.CompletedTask; // Your async code will be here
 
             return StatusCode(204);
         }
