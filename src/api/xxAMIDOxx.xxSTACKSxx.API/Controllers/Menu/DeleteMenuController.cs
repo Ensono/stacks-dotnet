@@ -29,9 +29,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <response code="404">Resource not found</response>
         [HttpDelete("/v1/menu/{id}")]
         [Authorize]
-        public async Task<IActionResult> DeleteMenu([FromRoute][Required]Guid id)
+        public async Task<IActionResult> DeleteMenu([FromRoute][Required] Guid id)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
+
+            await Task.CompletedTask; // Your async code will be here
+
             return StatusCode(204);
         }
     }

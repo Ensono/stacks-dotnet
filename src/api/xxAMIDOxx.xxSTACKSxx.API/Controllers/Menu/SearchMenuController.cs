@@ -36,10 +36,10 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [Authorize]
         [ProducesResponseType(typeof(SearchMenuResponse), 200)]
         public async Task<IActionResult> SearchMenu(
-            [FromQuery]string searchTerm, 
-            [FromQuery]Guid? RestaurantId, 
-            [FromQuery][Range(0, 50)]int? pageSize = 20, 
-            [FromQuery]int? pageNumber = 1)
+            [FromQuery] string searchTerm,
+            [FromQuery] Guid? RestaurantId,
+            [FromQuery][Range(0, 50)] int? pageSize = 20,
+            [FromQuery] int? pageNumber = 1)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 
@@ -65,6 +65,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                     }
                 }
             };
+
+            await Task.CompletedTask; // Your async code will be here
 
             return new ObjectResult(results);
         }
