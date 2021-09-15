@@ -45,4 +45,12 @@ variables:
   # Environment
   # Set the name of the resource group that has the DNS zones to be updated
   - name: dns_zone_resource_group
-    value: "Stacks-Ancillary-Resources"    
+    value: "Stacks-Ancillary-Resources"
+
+  # GitHub infomration
+  - name: create_release
+    value: true
+  - name: github_release_service_connection
+    value: GitHubReleases
+  - name: github_endpoint
+    value: amidostacks
