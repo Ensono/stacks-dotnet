@@ -40,14 +40,14 @@ variables:
     value: amido-stacks-nonprod-euw-core
   - name: tf_core_resource_group_nonprod
     value: amido-stacks-nonprod-euw-core
-  
+
   # --prod
   - name: tf_app_insights_name_prod
     value: amido-stacks-prod-euw-core
   - name: tf_app_gateway_frontend_ip_name_prod
     value: amido-stacks-prod-euw-core
   - name: tf_core_resource_group_prod
-    value: amido-stacks-prod-euw-core  
+    value: amido-stacks-prod-euw-core
 
   # Kubernetes configuration
   # --nonprod
@@ -60,7 +60,7 @@ variables:
   - name: kubernetes_clusterrg_prod
     value: amido-stacks-prod-euw-core
   - name: kubernetes_clustername_prod
-    value: amido-stacks-prod-euw-core    
+    value: amido-stacks-prod-euw-core
 
   # Container registry configuration
   - name: docker_container_registry_name_nonprod
@@ -90,4 +90,3 @@ variables:
     value: GitHubReleases
   - name: github_org
     value: $(company)
-
