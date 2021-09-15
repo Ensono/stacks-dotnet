@@ -41,3 +41,8 @@ variables:
     value: prod.amidostacks.com
   - name: base_domain_internal_prod
     value: prod.amidostacks.internal
+
+  # Environment
+  # Set the name of the resource group that has the DNS zones to be updated
+  - name: dns_zone_resource_group
+    value: "Stacks-Ancillary-Resources"    

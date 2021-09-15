@@ -64,10 +64,6 @@ variables:
   - name: self_pipeline_scripts_dir
     value: "$(self_pipeline_repo)/scripts"
 
-  # Environment
-  # Set the name of the resource group that has the DNS zones to be updated
-  - name: dns_zone_resource_group
-    value: "Stacks-Ancillary-Resources"
   # Versioning
   - name: version_major
     value: 0
