@@ -1,4 +1,6 @@
 variables:
+  - name: region
+    value: westeurope
   - name: company
     value: amido
   - name: project
@@ -10,7 +12,9 @@ variables:
   - name: self_generic_name
     value: stacks-api
 
-  # TF STATE CONFIG
+  # Terraform Configuration
+
+  # State configuration
 
   # Stacks operates Terraform states based on workspaces **IT IS VERY IMPORTANT** that you ensure a unique name for each application definition
   # Furthermore **IT IS VERY IMPORTANT** that you change the name of a workspace for each deployment stage
@@ -27,12 +31,44 @@ variables:
     value: tfstate
   - name: tf_state_key
     value: netcore-api
+
+  # TF Variables
+  # --nonprod
+  - name: tf_app_insights_name_nonprod
+    value: amido-stacks-nonprod-euw-core
+  - name: tf_app_gateway_frontend_ip_name_nonprod
+    value: amido-stacks-nonprod-euw-core
+  - name: tf_core_resource_group_nonprod
+    value: amido-stacks-nonprod-euw-core
+  
+  # --prod
+  - name: tf_app_insights_name_prod
+    value: amido-stacks-prod-euw-core
+  - name: tf_app_gateway_frontend_ip_name_prod
+    value: amido-stacks-prod-euw-core
+  - name: tf_core_resource_group_prod
+    value: amido-stacks-prod-euw-core  
+
+  # Kubernetes configuration
+  # --nonprod
+  - name: kubernetes_clusterrg_nonprod
+    value: amido-stacks-nonprod-euw-core
+  - name: kubernetes_clustername_nonprod
+    value: amido-stacks-nonprod-euw-core
+
+  # --prod
+  - name: kubernetes_clusterrg_prod
+    value: amido-stacks-prod-euw-core
+  - name: kubernetes_clustername_prod
+    value: amido-stacks-prod-euw-core    
+
+  # Container registry configuration
   - name: docker_container_registry_name_nonprod
     value: amidostacksnonprodeuwcore
   - name: docker_container_registry_name_prod
     value: amidostacksprodeuwcore
-  - name: region
-    value: westeurope
+
+  # Domain names
   - name: base_domain_nonprod
     value: nonprod.amidostacks.com
   - name: base_domain_internal_nonprod
@@ -52,3 +88,4 @@ variables:
     value: true
   - name: github_release_service_connection
     value: GitHubReleases
+
