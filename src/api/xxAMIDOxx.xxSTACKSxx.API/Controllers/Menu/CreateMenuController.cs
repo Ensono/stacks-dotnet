@@ -32,17 +32,19 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [HttpPost("/v1/menu/")]
         [Authorize]
         [ProducesResponseType(typeof(ResourceCreatedResponse), 201)]
-        public async Task<IActionResult> CreateMenu([Required][FromBody]CreateMenuRequest body)
+        public async Task<IActionResult> CreateMenu([Required][FromBody] CreateMenuRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 
             var id = Guid.NewGuid();
 
+            await Task.CompletedTask; // Your async code will be here
+
             return new CreatedAtActionResult(
-                    "GetMenu", "GetMenuById", new
-                    {
-                        id = id
-                    }, new ResourceCreatedResponse(id)
+                "GetMenu", "GetMenuById", new
+                {
+                    id = id
+                }, new ResourceCreatedResponse(id)
             );
         }
     }

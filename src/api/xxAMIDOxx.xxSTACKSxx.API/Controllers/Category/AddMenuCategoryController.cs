@@ -35,9 +35,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [HttpPost("/v1/menu/{id}/category/")]
         [Authorize]
         [ProducesResponseType(typeof(ResourceCreatedResponse), StatusCodes.Status201Created)]
-        public async Task<IActionResult> AddMenuCategory([FromRoute][Required]Guid id, [FromBody]CreateCategoryRequest body)
+        public async Task<IActionResult> AddMenuCategory([FromRoute][Required] Guid id, [FromBody] CreateCategoryRequest body)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
+            await Task.CompletedTask; // Your async code will be here
+
             var categoryId = Guid.NewGuid();
             return StatusCode(StatusCodes.Status201Created, new ResourceCreatedResponse(categoryId));
         }

@@ -32,7 +32,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         [HttpGet("/v1/menu/{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Menu), 200)]
-        public async Task<IActionResult> GetMenu([FromRoute][Required]Guid id)
+        public async Task<IActionResult> GetMenu([FromRoute][Required] Guid id)
         {
             // NOTE: Please ensure the API returns the response codes annotated above
 
@@ -70,6 +70,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
                 Enabled = true,
                 Name = "Menu name"
             };
+
+            await Task.CompletedTask; // Your async code will be here
 
             return new ObjectResult(result);
         }

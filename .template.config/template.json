@@ -7,14 +7,14 @@
   "shortName": "stacks-app-web-api",
   "tags": {
     "language": "C#",
-    "type": "solution"
+    "type": "project"
   },
   "sourceName": "xxAMIDOxx.xxSTACKSxx",
   "preferNameDirectory": true,
   "symbols": {
     "domain": {
       "type": "parameter",
-      "isRequired": true,
+      "isRequired": false,
       "replaces": "Menu",
       "fileRename": "Menu",
       "defaultValue": "DOMAIN",
@@ -37,7 +37,7 @@
         "**/.git/**",
         "**/.vs/**",
         "**/.vscode/**",
-
+        "**/[Tt]emplate.csproj",
         "_rels/**",
         "package/**",
         "**/*.nuspec",
