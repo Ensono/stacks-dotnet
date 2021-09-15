@@ -52,5 +52,3 @@ variables:
     value: true
   - name: github_release_service_connection
     value: GitHubReleases
-  - name: github_endpoint
-    value: amidostacks
