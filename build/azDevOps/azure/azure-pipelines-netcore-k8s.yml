@@ -26,8 +26,6 @@ resources:
       type: github
       name: amido/stacks-pipeline-templates
       ref: refs/tags/v2.0.4
-      # EXCHANGE THIS FOR YOUR OWN ENDPOINT CONNECTION TO GITHUB
-      # REPOSITORY IS PUBLIC
       endpoint: amidostacks
 
   containers:
@@ -39,70 +37,67 @@ resources:
       image: amidostacks/ci-tf:0.0.8
 
 variables:
-  company: amido
-  project: stacks
-  domain: netcore-api
-  component: api
-  role: backend
+  - template: azuredevops-vars.yml
+
+  - name: component
+    value: api
+
+  - name: role
+    value: backend
   #
   # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
-  self_repo: stacks-dotnet
-  self_repo_src: src/api
-  self_repo_dir: "$(Agent.BuildDirectory)/s/$(self_repo)"
-  self_repo_tf_src: deploy/azure/app/kube
-  self_repo_tf_dir: "$(self_repo_dir)/$(self_repo_tf_src)"
-  self_generic_name: stacks-api
-  self_pipeline_repo: "$(Agent.BuildDirectory)/s/stacks-pipeline-templates"
-  self_pipeline_scripts_dir: "$(self_pipeline_repo)/scripts"
-  # TF STATE CONFIG
-  tf_state_rg: "Stacks-Ancillary-Resources"
-  tf_state_storage: "amidostackstfstate"
-  tf_state_container: "tfstate"
-  # Stacks operates Terraform states based on workspaces **IT IS VERY IMPORTANT** that you ensure a unique name for each application definition
-  # Furthermore **IT IS VERY IMPORTANT** that you change the name of a workspace for each deployment stage
-  # there are some best practices around this if you are going for feature based environments
-  # - we suggest you create a runtime variable that is dynamically set based on a branch currently running
-  # **`terraform_state_workspace: `**
-  # avoid running anything past dev that is not on master
-  # sample value: company-webapp
-  tf_state_key: "netcore-api"
-  # Environment
-  # Set the name of the resource group that has the DNS zones to be updated
-  dns_zone_resource_group: "Stacks-Ancillary-Resources"
+  - name: self_repo_src
+    value: src/api
+  - name: self_repo_dir
+    value: "$(Agent.BuildDirectory)/s/$(self_repo)"
+  - name: self_repo_tf_src
+    value: deploy/azure/app/kube
+  - name: self_repo_tf_dir
+    value: "$(self_repo_dir)/$(self_repo_tf_src)"
+
+  - name: self_pipeline_repo
+    value: "$(Agent.BuildDirectory)/s/stacks-pipeline-templates"
+  - name: self_pipeline_scripts_dir
+    value: "$(self_pipeline_repo)/scripts"
+
   # Versioning
-  version_major: 0
-  version_minor: 0
-  version_revision: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
+  - name: version_major
+    value: 0
+  - name: version_minor
+    value: 0
+  - name: version_revision
+    value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
   # Docker Config
-  docker_dockerfile_path: "src/api"
-  docker_image_name: $(self_generic_name)
-  docker_image_tag: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
-  docker_container_registry_name_nonprod: amidostacksnonprodeuwcore
-  k8s_docker_registry_nonprod: $(docker_container_registry_name_nonprod).azurecr.io
-  docker_container_registry_name_prod: amidostacksprodeuwcore
-  k8s_docker_registry_prod: $(docker_container_registry_name_prod).azurecr.io
-  resource_def_name: dotnet-api
+  - name: docker_dockerfile_path
+    value: "src/api"
+  - name: docker_image_name
+    value: $(self_generic_name)
+  - name: docker_image_tag
+    value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
+
+  - name: k8s_docker_registry_nonprod
+    value: $(docker_container_registry_name_nonprod).azurecr.io
+
+  - name: k8s_docker_registry_prod
+    value: $(docker_container_registry_name_prod).azurecr.io
+  - name: resource_def_name
+    value: dotnet-api
   # Scripts directory used by pipeline steps
-  scripts_dir: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
-  # Infra
-  region: "westeurope"
-  base_domain_nonprod: nonprod.amidostacks.com
-  base_domain_internal_nonprod: nonprod.amidostacks.internal
-  base_domain_prod: prod.amidostacks.com
-  base_domain_internal_prod: prod.amidostacks.internal
+  - name: scripts_dir
+    value: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
   # DEFAULT IMAGE RUNNER
-  pool_vm_image: ubuntu-20.04
+  - name: pool_vm_image
+    value: ubuntu-20.04
   # Test setup
-  code_coverage_cobertura_directory: coverage
+  - name: code_coverage_cobertura_directory
+    value: coverage
   # Yamllint
-  yamllint_config_file: "${{ variables.self_repo_dir }}/yamllint.conf"
-  yamllint_scan_directory: "."
-  # Release
-  create_release: true
-  github_release_service_connection: GitHubReleases
-  github_org: $(company)
+  - name: yamllint_config_file
+    value: "${{ variables.self_repo_dir }}/yamllint.conf"
+  - name: yamllint_scan_directory
+    value: "."
 
 stages:
   - stage: Build
@@ -300,9 +295,9 @@ stages:
                       TF_VAR_resource_group_location: $(region),
                       TF_VAR_create_cdn_endpoint: false,
                       TF_VAR_create_dns_record: true,
-                      TF_VAR_app_insights_name: "amido-stacks-nonprod-euw-core",
-                      TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-nonprod-euw-core",
-                      TF_VAR_core_resource_group: "amido-stacks-nonprod-euw-core",
+                      TF_VAR_app_insights_name: $(tf_app_insights_name_nonprod),
+                      TF_VAR_app_gateway_frontend_ip_name: $(tf_app_gateway_frontend_ip_name_nonprod),
+                      TF_VAR_core_resource_group: $(tf_core_resource_group_nonprod),
                       TF_VAR_name_company: $(company),
                       TF_VAR_name_project: $(project),
                       TF_VAR_name_domain: $(domain),
@@ -407,8 +402,8 @@ stages:
                     performance_test: false
                     smoke_test: false
                     # Kubernetes Config
-                    kubernetes_clusterrg: "amido-stacks-nonprod-euw-core"
-                    kubernetes_clustername: "amido-stacks-nonprod-euw-core"
+                    kubernetes_clusterrg: $(kubernetes_clusterrg_nonprod)
+                    kubernetes_clustername: $(kubernetes_clustername_nonprod)
                     # Mutation Information
                     kubectl_filepath:
                       - $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
@@ -489,9 +484,9 @@ stages:
                       TF_VAR_resource_group_location: $(region),
                       TF_VAR_create_cdn_endpoint: false,
                       TF_VAR_create_dns_record: true,
-                      TF_VAR_app_insights_name: "amido-stacks-prod-euw-core",
-                      TF_VAR_app_gateway_frontend_ip_name: "amido-stacks-prod-euw-core",
-                      TF_VAR_core_resource_group: "amido-stacks-prod-euw-core",
+                      TF_VAR_app_insights_name: $(tf_app_insights_name_prod),
+                      TF_VAR_app_gateway_frontend_ip_name: $(tf_app_gateway_frontend_ip_name_prod),
+                      TF_VAR_core_resource_group: $(tf_core_resource_group_prod),
                       TF_VAR_name_company: $(company),
                       TF_VAR_name_project: $(project),
                       TF_VAR_name_domain: $(domain),
@@ -635,8 +630,8 @@ stages:
                     performance_test: false
                     smoke_test: false
                     # Kubernetes Config
-                    kubernetes_clusterrg: "amido-stacks-prod-euw-core"
-                    kubernetes_clustername: "amido-stacks-prod-euw-core"
+                    kubernetes_clusterrg: $(kubernetes_clusterrg_prod)
+                    kubernetes_clustername: $(kubernetes_clustername_prod)
                     # Mutation Information
                     kubectl_filepath:
                       - $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
