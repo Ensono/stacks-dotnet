@@ -1,9 +1,13 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "stacks@amido.com",
-  "classifications": [ "Stacks", "WebApi", "api" ],
+  "classifications": [ 
+    "Stacks", 
+    "WebApi" 
+  ],
   "name": "Amido Stacks Web Api - Full solution",
-  "identity": "Amido.Stacks.App.WebApi",
+  "identity": "Amido.Stacks.App.WebApi.CSharp",
+  "groupIdentity": "Amido.Stacks.App.WebApi",
   "shortName": "stacks-app-web-api",
   "tags": {
     "language": "C#",
