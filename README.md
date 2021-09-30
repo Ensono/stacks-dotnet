@@ -8,7 +8,7 @@ Amido Stacks targets different cloud providers.
 
 ### Templates
 
-This repository contains a template that you can get as a [NuGet package](https://www.nuget.org/packages/Amido.Stacks.Templates/). The template inside the package is called `stacks-app-web-api` and contains a full Web API + build infrastructure.
+This repository contains a template that you can get as a [NuGet package](https://www.nuget.org/packages/Amido.Stacks.Templates/). The template inside the package is called `stacks-app-web-api` and contains a complete Web API.
 
 
 ### Template usage
@@ -37,7 +37,7 @@ WPF User Control Library                         wpfusercontrollib              
 Windows Forms (WinForms) Application             winforms                         [C#]        Common/WinForms
 Windows Forms (WinForms) Class library           winformslib                      [C#]        Common/WinForms
 Worker Service                                   worker                           [C#],F#     Common/Worker/Web
-Amido Stacks Web Api - Full solution             stacks-app-web-api               [C#]        Stacks/WebApi/api
+Amido Stacks Web Api                             stacks-app-web-api               [C#]        Stacks/WebApi/api
 MSTest Test Project                              mstest                           [C#],F#,VB  Test/MSTest
 NUnit 3 Test Project                             nunit                            [C#],F#,VB  Test/NUnit
 NUnit 3 Test Item                                nunit-test                       [C#],F#,VB  Test/NUnit
@@ -90,7 +90,7 @@ It's entirely up to you where you want to generate the WebAPI. For example your 
 % cd your-repo-folder
 
 % dotnet new stacks-app-web-api -n Foo.Bar
-The template "Amido Stacks Web Api - Full solution" was created successfully.
+The template "Amido Stacks Web Api" was created successfully.
 
 % ls -la
 total 0
@@ -117,7 +117,7 @@ To generate the template with your own namespace, but in a different folder you'
 
 ```shell
 % dotnet new stacks-app-web-api -n Foo.Bar -o web-api
-The template "Amido Stacks Web Api - Full solution" was created successfully.
+The template "Amido Stacks Web Api" was created successfully.
 
 % ls -la
 total 0
