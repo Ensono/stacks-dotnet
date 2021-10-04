@@ -10,20 +10,17 @@ Amido Stacks targets different cloud providers.
 
 This repository contains a template that you can get as a [NuGet package](https://www.nuget.org/packages/Amido.Stacks.Templates/). The template inside the package is called `stacks-app-web-api` and contains a complete Web API.
 
-
 ### Template usage
 
 #### Template installation
 
-To install the template locally you'll need to download the [Amido.Stacks.Templates](https://www.nuget.org/packages/Amido.Stacks.Templates/) NuGet package.
-
-You can install it locally to your machine via the command line (the version provided is just an example, please consult the NuGet page for an up-to date version)
+For the latest template version, please consult the Nuget page [Amido.Stacks.CQRS.Events.Templates](https://www.nuget.org/packages/Amido.Stacks.CQRS.Templates/). To install the templates to your machine via the command line:
 
 ```shell
-dotnet new --install Amido.Stacks.Templates::0.0.191
+dotnet new --install Amido.Stacks.CQRS.Templates::0.0.101
 ```
 
-The output you'll see will list all installed templates. In that list you'll see the just installed Amido Stacks template `stacks-app-web-api`
+The output you'll see will list all installed templates (not listed for brevity). In that list you'll see the just installed Amido Stacks template `stacks-app-web-api`
 
 ```shell
 Template Name                                    Short Name                       Language    Tags
@@ -44,7 +41,7 @@ Examples:
 To uninstall the template pack you have to execute the following command
 
 ```shell
-dotnet new -u Amido.Stacks.Templates
+dotnet new --uninstall Amido.Stacks.Templates
 ```
 
 #### Creating a new WebAPI project with the template
