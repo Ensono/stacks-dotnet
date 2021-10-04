@@ -23,7 +23,10 @@
       "fileRename": "Menu",
       "defaultValue": "DOMAIN",
       "forms": {
-        "global": [ "identity", "lowerCase" ]
+        "global": [ 
+          "identity", 
+          "lowerCase" 
+        ]
       }
     }
   },
