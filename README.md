@@ -14,10 +14,10 @@ This repository contains a template that you can get as a [NuGet package](https:
 
 #### Template installation
 
-For the latest template version, please consult the Nuget page [Amido.Stacks.CQRS.Events.Templates](https://www.nuget.org/packages/Amido.Stacks.CQRS.Templates/). To install the templates to your machine via the command line:
+For the latest template version, please consult the Nuget page [Amido.Stacks.Templates](https://www.nuget.org/packages/Amido.Stacks.Templates/). To install the templates to your machine via the command line:
 
 ```shell
-dotnet new --install Amido.Stacks.CQRS.Templates::0.0.101
+dotnet new --install Amido.Stacks.Templates::0.0.208
 ```
 
 The output you'll see will list all installed templates (not listed for brevity). In that list you'll see the just installed Amido Stacks template `stacks-app-web-api`
@@ -33,7 +33,7 @@ Examples:
     dotnet new mvc --auth Individual
     dotnet new react --auth Individual
     dotnet new --help
-    dotnet new stacks-function-asb-listener --help
+    dotnet new stacks-app-web-api --help
 ```
 
 #### Uninstalling a template
