@@ -26,7 +26,7 @@ The output you'll see will list all installed templates (not listed for brevity)
 Template Name                                    Short Name                       Language    Tags
 -----------------------------------------------  -------------------------------  ----------  ------------------------------------------
 ...
-Amido Stacks Web Api                             stacks-app-web-api               [C#]        Stacks/WebApi/api
+Amido Stacks Web API                             stacks-app-web-api               [C#]        Stacks/WebApi/api
 ...
 
 Examples:
