@@ -8,7 +8,7 @@ Amido Stacks targets different cloud providers.
 
 ### Templates
 
-This repository contains a template that you can get as a [NuGet package](https://www.nuget.org/packages/Amido.Stacks.Templates/). The template inside the package is called `stacks-app-web-api` and contains a complete Web API.
+This repository contains a template that you can get as a [NuGet package](https://www.nuget.org/packages/Amido.Stacks.Templates/). The template inside the package is called `stacks-webapi` and contains a complete Web API.
 
 ### Template usage
 
@@ -20,20 +20,20 @@ For the latest template version, please consult the Nuget page [Amido.Stacks.Tem
 dotnet new --install Amido.Stacks.Templates::0.0.208
 ```
 
-The output you'll see will list all installed templates (not listed for brevity). In that list you'll see the just installed Amido Stacks template `stacks-app-web-api`
+The output you'll see will list all installed templates (not listed for brevity). In that list you'll see the just installed Amido Stacks template `stacks-webapi`
 
 ```shell
 Template Name                                    Short Name                       Language    Tags
 -----------------------------------------------  -------------------------------  ----------  ------------------------------------------
 ...
-Amido Stacks Web API                             stacks-app-web-api               [C#]        Stacks/WebApi/api
+Amido Stacks Web API                             stacks-webapi                    [C#]        Stacks/WebApi/api
 ...
 
 Examples:
     dotnet new mvc --auth Individual
     dotnet new react --auth Individual
     dotnet new --help
-    dotnet new stacks-app-web-api --help
+    dotnet new stacks-webapi --help
 ```
 
 #### Uninstalling a template
@@ -53,7 +53,7 @@ It's entirely up to you where you want to generate the WebAPI. For example your 
 ```shell
 % cd your-repo-folder
 
-% dotnet new stacks-app-web-api -n Foo.Bar
+% dotnet new stacks-webapi -n Foo.Bar
 The template "Amido Stacks Web Api" was created successfully.
 
 % ls -la
@@ -80,14 +80,14 @@ The `Foo.Bar` namespace prefix will be added to the class names and is reflected
 To generate the template with your own namespace, but in a different folder you'll have to pass the `-o` flag with your desired path/folder name
 
 ```shell
-% dotnet new stacks-app-web-api -n Foo.Bar -o web-api
+% dotnet new stacks-webapi -n Foo.Bar -o web-api-dir
 The template "Amido Stacks Web Api" was created successfully.
 
 % ls -la
 total 0
 drwxr-xr-x  3 amido  staff   96 23 Aug 15:58 .
 drwxr-xr-x  9 amido  staff  288 16 Aug 14:06 ..
-drwxr-xr-x  6 amido  staff  192 23 Aug 15:58 web-api
+drwxr-xr-x  6 amido  staff  192 23 Aug 15:58 web-api-dir
 ```
 
 Now you can build the solution located in the `web-api/src` folder and run/deploy it.
