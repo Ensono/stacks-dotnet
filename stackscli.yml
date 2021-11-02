@@ -1,0 +1,27 @@
+# Configuration file for setting up the project
+
+framework: dotnet
+
+# Pipeline files
+pipeline:
+  - type: azdo
+    files:
+      - name: build
+        path: build/azDevOps/azure/azure-pipelines-netcore-k8s.yml
+      - name: variable
+        path: build/azDevOps/azure/azuredevops-vars.yml
+    replacements:
+      - pattern: ^.*stacks-credentials-nonprod-kv$
+        value: ""
+
+# The init stage are things that are required to run before the template is run
+init:
+  operations:
+    - action: cmd
+      cmd: dotnet
+      args: new -i .
+      desc: Install "stacks-webapi" template from the repo directory
+    - action: cmd
+      cmd: dotnet
+      args: new stacks-webapi -n {{ .Input.Business.Company }}.{{ .Input.Business.Domain }} -o {{ .Project.Directory.WorkingDir }}
+      desc: Create a project using the "stacks-webapi" template
