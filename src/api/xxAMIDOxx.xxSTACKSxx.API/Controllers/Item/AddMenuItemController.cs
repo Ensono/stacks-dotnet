@@ -27,8 +27,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// </summary>
         /// <remarks>Adds a new item to a category in the menu</remarks>
         /// <param name="id">menu id</param>
-        /// <param name="categoryId">Id for Category being removed</param>
-        /// <param name="body">Category being added</param>
+        /// <param name="categoryId">Id for Category to which we're adding an item</param>
+        /// <param name="body">Item being added</param>
         /// <response code="201">Resource created</response>
         /// <response code="400">Bad Request</response>
         /// <response code="404">Resource not found</response>
