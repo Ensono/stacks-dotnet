@@ -20,7 +20,6 @@
 		"domain": {
 			"type": "parameter",
 			"isRequired": false,
-			"shortName": "d",
 			"replaces": "Menu",
 			"fileRename": "Menu",
 			"defaultValue": "DOMAIN",
