@@ -38,7 +38,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             this.configuration = configuration;
             this.logger = logger;
 
-            pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? String.Empty;
+            pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
             useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
         }
 
@@ -67,7 +67,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 */
                 ;
 
-            //Access HttpContext in ASP.NET Core: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-2.2
+            // Access HttpContext in ASP.NET Core: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-2.2
             services.AddHttpContextAccessor();
 
             // Configure Authentication
@@ -96,7 +96,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             app
             .UsePathBase(pathBase)
             .UseRouting()
-            //these need to be added between .UseRouting() and .UseEndpoints()
+            // These need to be added between .UseRouting() and .UseEndpoints()
             .UseAuthentication()
             .UseAuthorization()
             .UseEndpoints(endpoints =>
@@ -139,7 +139,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration = null)
         {
             services
-                //Add swagger for all endpoints without any filter
+                // Add swagger for all endpoints without any filter
                 .AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("all", new OpenApiInfo
@@ -153,22 +153,22 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                             Url = new Uri(projectUrl),
                             Email = "stacks@amido.com"
                         },
-                        //TermsOfService = new Uri("http://www.amido.com/")
+                        // TermsOfService = new Uri("http://www.amido.com/")
                     });
 
-                    //Load comments to show as examples and descriptions in the swagger page
+                    // Load comments to show as examples and descriptions in the swagger page
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(Startup).Assembly.GetName().Name}.xml");
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateMenuRequest).Assembly.GetName().Name}.xml");
 
-                    //Set default tags, shows on top, non defined tags appears at bottom
+                    // Set default tags, shows on top, non defined tags appears at bottom
                     c.DocumentFilter<SwaggerDocumentTagger>(new OpenApiTag[] {
                         new OpenApiTag { Name = "Menu" },
                         new OpenApiTag { Name = "Category" },
                         new OpenApiTag { Name = "Item" }
                     }, new string[] { });
 
-                    //By Default, all endpoints are grouped by the controller name
-                    //We want to Group by Api Group first, then by controller name if not provided
+                    // By Default, all endpoints are grouped by the controller name
+                    // We want to Group by Api Group first, then by controller name if not provided
                     c.TagActionsBy((api) => new[] { api.GroupName ?? api.ActionDescriptor.RouteValues["controller"] });
 
                     c.DocInclusionPredicate((docName, apiDesc) => { return true; });
@@ -182,7 +182,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     c.ConfigureForJwtBearerAuthentication(jwtBearerAuthenticationConfiguration);
                 })
 
-                //Add swagger for v1 endpoints only
+                // Add swagger for v1 endpoints only
                 .AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo
@@ -196,7 +196,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                             Url = new Uri(projectUrl),
                             Email = "stacks@amido.com"
                         },
-                        //TermsOfService = new Uri("http://www.amido.com/")
+                        // TermsOfService = new Uri("http://www.amido.com/")
                     });
 
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");
@@ -205,7 +205,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     c.DocumentFilter<VersionPathFilter>("/v1");
                 })
 
-                //Add swagger for v2 endpoints only
+                // Add swagger for v2 endpoints only
                 .AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v2", new OpenApiInfo
@@ -219,7 +219,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                             Url = new Uri(projectUrl),
                             Email = "stacks@amido.com"
                         },
-                        //TermsOfService = new Uri("http://www.amido.com/")
+                        // TermsOfService = new Uri("http://www.amido.com/")
                     });
 
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{this.GetType().Assembly.GetName().Name}.xml");

@@ -22,8 +22,8 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// Removes an item from menu
         /// </summary>
         /// <remarks>Removes an item from menu</remarks>
-        /// <param name="id">menu id</param>
-        /// <param name="categoryId">Category ID</param>
+        /// <param name="id">Menu Id</param>
+        /// <param name="categoryId">Category Id</param>
         /// <param name="itemId">Id for Item being removed</param>
         /// <response code="204">No Content</response>
         /// <response code="400">Bad Request</response>
