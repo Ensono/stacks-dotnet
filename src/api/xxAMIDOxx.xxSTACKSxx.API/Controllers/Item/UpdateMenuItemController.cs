@@ -22,11 +22,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers
         /// <summary>
         /// Update an item in the menu
         /// </summary>
-        /// <remarks>Update an  item in the menu</remarks>
+        /// <remarks>Update an item in the menu</remarks>
         /// <param name="id">Id for menu</param>
-        /// <param name="categoryId">Id for Category</param>
+        /// <param name="categoryId">Id for Category where the item resides</param>
         /// <param name="itemId">Id for item being updated</param>
-        /// <param name="body">Category being added</param>
+        /// <param name="body">Item being changed</param>
         /// <response code="204">No Content</response>
         /// <response code="400">Bad Request</response>
         /// <response code="404">Resource not found</response>
