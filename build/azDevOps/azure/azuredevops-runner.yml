@@ -10,6 +10,7 @@ trigger:
   paths:
     include:
       - '*'
+
 resources:
   containers:
     - container: runner_container
@@ -46,16 +47,16 @@ variables:
     value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
 
 stages:
-  stage: Build
+  - stage: Build
 
-  jobs:
-    - job: AppBuild
-      container: runner_container
-      pool:
-        vmImage: $(pool_vm_image)
+    jobs:
+      - job: AppBuild
+        container: runner_container
+        pool:
+          vmImage: $(pool_vm_image)
 
-      steps:
+        steps:
 
-        - checkout: self
+          - checkout: self
 
-        - powershell: taskctl build
+          - powershell: taskctl build
