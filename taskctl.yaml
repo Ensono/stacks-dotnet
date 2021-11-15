@@ -12,7 +12,7 @@ tasks:
 
   buildnumber:
     context: powershell
-    description: Update the build nuimnber
+    description: Update the build numnber
     command:
       - build/scripts/Update-BuildNumber.ps1
 
