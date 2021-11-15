@@ -46,6 +46,14 @@ variables:
   - name: docker_image_tag
     value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
 
+  # Versioning
+  - name: version_major
+    value: 0
+  - name: version_minor
+    value: 0
+  - name: version_revision
+    value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
+
 stages:
   - stage: Build
 
@@ -54,6 +62,14 @@ stages:
         container: runner_container
         pool:
           vmImage: $(pool_vm_image)
+
+        variables:
+          - group: amido-stacks-webapp
+          - name: SONAR_HOST_URL
+            value: "https://sonarcloud.io"
+          - name: SONAR_PROPERTIES
+            value: ""
+          
 
         steps:
 
