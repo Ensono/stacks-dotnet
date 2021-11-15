@@ -16,7 +16,7 @@ param (
 
     [string]
     # build version
-    $BuildVersion = $env:BUILD_VERSION,
+    $BuildVersion = $env:BUILD_BUILDNUMBER,
 
     [Alias("Host")]
     [string]
