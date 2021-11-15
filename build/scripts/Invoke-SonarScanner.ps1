@@ -33,7 +33,11 @@ param (
 
     [string]
     # Additional run properties
-    $Properties = $env:SONAR_PROPERTIES
+    $Properties = $env:SONAR_PROPERTIES,
+
+    [string]
+    # Path that the tool should be installed in
+    $toolpath = "."
 )
 
 # Import helper functions
