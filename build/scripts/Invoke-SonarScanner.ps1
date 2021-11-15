@@ -58,6 +58,27 @@ if ($start.IsPresent -and $stop.IsPresent) {
     exit 2
 }
 
+$cmdName = "sonarscanner"
+if ($IsWindows) {
+    $cmdName += ".exe"
+}
+
+$sonarScannerPath = [IO.Path]::Combine($toolpath, $cmdName)
+
+if (!(Test-Path -Path $sonarScannerPath)) {
+    Write-Information -MessageData "Installing SonarScanner tool"
+
+    # Build up command to install the report converter tool
+    $cmd = "dotnet tool install dotnet-sonarscanner --tool-path {0}" -f $toolpath
+    write-host $cmd
+    Invoke-External -Command $cmd
+
+    # if there was problem installing the tool, exit
+    if ($LASTEXITCODE -ne 0) {
+        exit $LASTEXITCODE
+    }    
+}
+
 # Look for the dotnet command
 $dotnet = Find-Command -Name "dotnet"
 
