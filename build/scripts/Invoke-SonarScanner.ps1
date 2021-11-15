@@ -9,7 +9,6 @@ param (
     # Stop the analysis
     $stop,
 
-    [Parameter(Mandatory=$true)]
     [string]
     # Project name
     $ProjectName = $env:PROJECT_NAME,
