@@ -57,7 +57,7 @@ if ($IsWindows) {
 $reportGeneratorPath = [IO.Path]::Combine($toolpath, $cmdName)
 
 if (!(Test-Path -Path $reportGeneratorPath)) {
-    Write-Information -MessageData "Installing ReportyGenerator tool"
+    Write-Information -MessageData "Installing ReportGenerator tool"
 
     # Build up command to install the report converter tool
     $cmd = "dotnet tool install dotnet-reportgenerator-globaltool --tool-path {0}" -f $toolpath
