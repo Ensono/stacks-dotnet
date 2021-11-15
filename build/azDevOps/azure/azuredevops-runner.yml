@@ -1,0 +1,61 @@
+name: "$(Build.SourceBranchName)-init"
+
+pr:
+  - master
+
+trigger:
+  branches:
+    include:
+      - 'master'
+  paths:
+    include:
+      - '*'
+
+containers:
+  - container: runner_container
+    image: russellseymour/runner-pwsh-dotnet
+
+variables:
+  - template: azuredevops-vars.yml
+
+  #
+  # SelfConfig
+  # If you haven't specified source_repo at cli runtime please ensure you replace it here
+  # It is case sensitive for TFS based repos
+  - name: self_repo_src
+    value: src/api
+  - name: self_repo_dir
+    value: "$(Agent.BuildDirectory)/s/$(self_repo)"
+  - name: self_repo_tf_src
+    value: deploy/azure/app/kube
+  - name: self_repo_tf_dir
+    value: "$(self_repo_dir)/$(self_repo_tf_src)"
+
+  - name: self_pipeline_repo
+    value: "$(Agent.BuildDirectory)/s/stacks-pipeline-templates"
+  - name: self_pipeline_scripts_dir
+    value: "$(self_pipeline_repo)/scripts"
+
+  # DEFAULT IMAGE RUNNER
+  - name: pool_vm_image
+    value: ubuntu-20.04
+
+  - name: docker_image_name
+    value: $(self_generic_name)
+  - name: docker_image_tag
+    value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
+
+stages:
+  stage: Build
+
+  jobs:
+    - job: AppBuild
+      container: runner_container
+      pool:
+        vmImage: $(pool_vm_image)
+
+      steps:
+
+        - checkout: self
+
+        - powershell: taskctl build

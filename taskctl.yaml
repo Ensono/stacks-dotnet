@@ -1,0 +1,125 @@
+contexts:
+  powershell:
+    executable:
+      bin: pwsh
+      args:
+        - -NoProfile
+        - -Command
+    env:
+      arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
+
+tasks:
+
+  buildnumber:
+    context: powershell
+    description: Update the build nuimnber
+    command:
+      - build/scripts/Update-BuildNumber.ps1
+
+  lint:
+    context: powershell
+    description: Perform linting checks
+    command:
+      - build/scripts/Invoke-YamlLint.ps1
+      - build/scripts/Invoke-TerraformLint.ps1 -Format
+      - build/scripts/Invoke-TerraformLint.ps1 -Validate
+
+  # TESTS
+  # Configure test tasks
+  test:sonarcloud:start:
+    context: powershell
+    description: Run SonarCloud tests
+    command:
+      - build/scripts/Invoke-SonarScanner.ps1 -start -buildversion $BUILD_BUILDNUMBER
+      - build/scripts/Build-Dotnet.ps1
+    condition: exit $SONAR_NO_RUN
+
+  # Stop the static code analyise
+  # TODO - need to work out why the coverage files are being modified in the original build
+  test:sonarcloud:stop:
+    context: powershell
+    description: Run SonarCloud tests
+    command:
+      - build/scripts/Invoke-SonarScanner.ps1 -stop
+    condition: exit $SONAR_NO_RUN
+
+  test:unittest:
+    context: powershell
+    description: Perform unit tests
+    command:
+      - build/scripts/Invoke-DotNetTests.ps1
+    env:
+      pattern: "*UnitTests"
+    condition: exit $UNITTEST_NO_RUN
+
+  test:component:
+    context: powershell
+    description: Perform component tests
+    command:
+      - build/scripts/Invoke-DotNetTests.ps1
+    env:
+      pattern: "*ComponentTests"
+    condition: exit $COMPONENTTEST_NO_RUN
+
+  # TODO: Need to work out how to pass in additional environment variables that may have been set
+  # They will not always have the same name so we need to accept a list of them, which may not always
+  # be formatted correctly for this conversion to be done
+  test:integration:
+    context: powershell
+    description: Perform Integration tests
+    command:
+      - build/scripts/Invoke-DotNetTests.ps1
+    env:
+      pattern: "*IntegrationTests"
+    condition: exit $INTEGRATIONTEST_NO_RUN
+
+  # TODO: Need to work out how to pass in additional environment variables that may have been set
+  # They will not always have the same name so we need to accept a list of them, which may not always
+  # be formatted correctly for this conversion to be done
+  test:contract:
+    context: powershell
+    description: Perform contract tests
+    command:
+      - build/scripts/Invoke-DotNetTests.ps1
+    env:
+      pattern: "*ContractTests"
+    condition: exit $CONTRACTTEST_NO_RUN
+
+  test:coverage:
+    context: powershell
+    description: Generate test coverage reports
+    command:
+      - build/scripts/Invoke-DotNetCoverage.ps1
+
+  build:container:
+    context: powershell
+    description: Create container image for application
+    command:
+      - build/scripts/Build-DockerImage.ps1 -buildargs src/api -push
+
+  build:functional_tests:
+    context: powershell
+    description: Build functional tests for integration testing
+    command:
+      - build/scripts/Build-Dotnet.ps1 -workingDirectory src/tests/Functional
+
+pipelines:
+  build:
+    - task: lint
+    - task: buildnumber
+    - task: test:sonarcloud:start
+    - task: test:unittest
+    - task: test:component
+    - task: test:integration
+    - task: test:contract
+    - task: test:coverage
+      depends_on:
+        - test:unittest
+    - task: test:sonarcloud:stop
+      depends_on:
+        - test:unittest
+        - test:component
+        - test:integration
+        - test:contract
+    - task: build:container
+      depends_on: test:sonarcloud:stop
