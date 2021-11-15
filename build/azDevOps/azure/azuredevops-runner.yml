@@ -10,10 +10,10 @@ trigger:
   paths:
     include:
       - '*'
-
-containers:
-  - container: runner_container
-    image: russellseymour/runner-pwsh-dotnet
+resources:
+  containers:
+    - container: runner_container
+      image: russellseymour/runner-pwsh-dotnet
 
 variables:
   - template: azuredevops-vars.yml
