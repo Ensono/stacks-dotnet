@@ -48,8 +48,8 @@ $parentDir = Split-Path -Path ($MyInvocation.MyCommand.Path) -Parent
 $functions = Get-ChildItem -Path ([System.IO.Path]::Combine($parentDir, "functions")) -Filter '*.ps1'
 $functions | Foreach-Object { . $_ }
 
-Write-Host $env:PATH
-Get-ChildItem /root/.dotnet/tools
+# Write-Host $env:PATH
+# Get-ChildItem /root/.dotnet/tools
 
 # Determine if the reportgenerator tool is installed
 # The dotnet command may state that it is, but will return a non-zero exit code which will stop the pipeline
