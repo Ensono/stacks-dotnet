@@ -49,26 +49,27 @@ $functions = Get-ChildItem -Path ([System.IO.Path]::Combine($parentDir, "functio
 $functions | Foreach-Object { . $_ }
 
 # Determine if the reportgenerator tool is installed
-# The dotnet command will state that it is, but will return a non-zero exit code which will stop the pipeline
-$cmdName = "reportgenerator"
-if ($IsWindows) {
-    $cmdName += ".exe"
+# The dotnet command may state that it is, but will return a non-zero exit code which will stop the pipeline
+$tool = Get-Command -Name "dotnet-reportgenerator-globaltool" -ErrorAction SilentlyContinue
+
+if ([String]::IsNullOrEmpty($tool)) {
+    Write-Error -Message ("Dotnet tool is not installed: dotnet-reportgenerator-globaltool")
+    exit 0
 }
-$reportGeneratorPath = [IO.Path]::Combine($toolpath, $cmdName)
 
-if (!(Test-Path -Path $reportGeneratorPath)) {
-    Write-Information -MessageData "Installing ReportGenerator tool"
+# if (!(Test-Path -Path $reportGeneratorPath)) {
+#     Write-Information -MessageData "Installing ReportGenerator tool"
 
-    # Build up command to install the report converter tool
-    $cmd = "dotnet tool install dotnet-reportgenerator-globaltool --tool-path {0}" -f $toolpath
-    write-host $cmd
-    Invoke-External -Command $cmd
+#     # Build up command to install the report converter tool
+#     $cmd = "dotnet tool install dotnet-reportgenerator-globaltool --tool-path {0}" -f $toolpath
+#     write-host $cmd
+#     Invoke-External -Command $cmd
 
-    # if there was problem installing the tool, exit
-    if ($LASTEXITCODE -ne 0) {
-        exit $LASTEXITCODE
-    }    
-}
+#     # if there was problem installing the tool, exit
+#     if ($LASTEXITCODE -ne 0) {
+#         exit $LASTEXITCODE
+#     }    
+# }
 
 # Find all the files that match the pattern 
 $coverFiles = Find-Projects -Pattern "*.opencover.xml" -Path $path
