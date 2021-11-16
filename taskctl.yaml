@@ -10,6 +10,11 @@ contexts:
 
 tasks:
 
+  environment:
+    description: Check the PATH variable
+    command:
+      - $env:PATH
+
   buildnumber:
     context: powershell
     description: Update the build numnber

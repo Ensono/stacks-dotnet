@@ -75,4 +75,4 @@ stages:
 
           - checkout: self
 
-          - powershell: taskctl build
+          - powershell: taskctl environment
