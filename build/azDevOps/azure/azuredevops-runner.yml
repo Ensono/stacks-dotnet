@@ -73,6 +73,8 @@ stages:
             value: $(docker_image_name)
           - name: DOCKER_IMAGETAG
             value: $(docker_image_tag)
+          - name: DOCKER_CONTAINERREGISTRYNAME
+            value: $(docker_container_registry_name_nonprod)
 
         steps:
 
