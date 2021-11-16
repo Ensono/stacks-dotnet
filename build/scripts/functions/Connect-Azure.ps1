@@ -38,22 +38,22 @@ function Connect-Azure() {
         # Get the value of the variable and make sure it is not null
         $var = Get-Variable -Name $req -ErrorAction SilentlyContinue
 
-        if ([string]::IsNullOrEmpty($var)) {
-            $missing += $var
+        if ([string]::IsNullOrEmpty($var.Value)) {
+            $missing += $var.Name
         }
     }
 
     # check that the missing vars is empty
     if ($missing.Count -gt 0) {
         Write-Error -Message ("Missing required values: {0}" -f ($missing -Join ", "))
-        exit 1
+        return 
     }
 
     # Create a secret to be used with the credential
-    $secret = ConvertTo-SecureString -String $secret -AsPlainText -Force
+    $pw = ConvertTo-SecureString -String $secret -AsPlainText -Force
 
     # Create the credential to log in
-    $credential = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $id, $secret
+    $credential = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $id, $pw
 
     Connect-AzAccount -Credential $credential -Tenant $tenantId -Subscription $subscriptionId -ServicePrincipal
 }
