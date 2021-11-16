@@ -94,7 +94,7 @@ if ($stop.IsPresent) {
     $arguments += "/d:sonar.login={0}" -f $Token
     $arguments += $Properties
 
-    $cmd = "{0} sonarscanner end {1}" -f $dotnet, ($arguments -Join " ")
+    $cmd = "{0} end {1}" -f $tool.Source, ($arguments -Join " ")
 }
 
 Invoke-External -Command $cmd
