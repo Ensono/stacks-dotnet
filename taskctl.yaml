@@ -14,7 +14,7 @@ tasks:
     description: Check the PATH variable
     context: powershell
     command:
-      - Write-Host $PATH
+      - build/scripts/Invoke-DotNetCoverage.ps1
 
   buildnumber:
     context: powershell
