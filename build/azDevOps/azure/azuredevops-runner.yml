@@ -69,7 +69,10 @@ stages:
             value: "https://sonarcloud.io"
           - name: SONAR_PROPERTIES
             value: ""
-          
+          - name: DOCKER_IMAGENAME
+            value: $(docker_image_name)
+          - name: DOCKER_IMAGETAG
+            value: $(docker_image_tag)
 
         steps:
 
