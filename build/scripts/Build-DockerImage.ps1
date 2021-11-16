@@ -77,6 +77,9 @@ if (![String]::IsNullOrEmpty($registry) -and $push.IsPresent) {
         Import-Module -Name $moduleName
     }
 
+    # Login to azure
+    Connect-Azure
+
     # Get the credentials for the registry
     $creds = Get-AzContainerRegistryCredential -Name $registry -ResourceGroup $group
 
