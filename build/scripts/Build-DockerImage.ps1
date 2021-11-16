@@ -60,15 +60,18 @@ if (!$push.IsPresent) {
     exit 0
 }
 
-# Check the Get-AzContainerRegistryCredential cmdlet exists
-$exists = Get-Command -Name "Get-AzContainerRegistryCredential" -ErrorAction SilentlyContinue
-if ([string]::IsNullOrEmpty($exists)) {
-    Write-Warning -Message "Az PowerShell module is not installed so cannot get container registry credentials"
-    exit 0
-}
-
 # Proceed if a registry has been specified
 if (![String]::IsNullOrEmpty($registry) -and $push.IsPresent) {
+
+    # Ensure that the module is available and loaded
+    $moduleName = "Az.ContainerRegistry"
+    $module = Get-Module -ListAvailable -Name $moduleName
+    if ([string]::IsNullOrEmpty($module)) {
+        Write-Error -Message ("{0} module is not available" -f $moduleName)
+        exit 2
+    } else {
+        Import-Module -Name $moduleName
+    }
 
     # Get the credentials for the registry
     $creds = Get-AzContainerRegistryCredential -Name $registry
