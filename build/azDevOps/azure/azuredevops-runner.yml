@@ -56,6 +56,8 @@ variables:
 
 stages:
   - stage: Build
+    variables:
+      - group: stacks-credentials-nonprod-kv
 
     jobs:
       - job: AppBuild
@@ -77,6 +79,14 @@ stages:
             value: $(docker_container_registry_name_nonprod)
           - name: REGISTRY_RESOURCE_GROUP
             value: $(kubernetes_clusterrg_nonprod)
+          - name: AZURE_TENANT_ID
+            value: "$(azure-tenant-id)"
+          - name: AZURE_SUBSCRIPTION_ID
+            value: "$(azure-subscription-id)"
+          - name: AZURE_CLIENT_ID
+            value: "$(azure-client-id)"
+          - name: AZURE_CLIENT_SECRET
+            value: "$(azure-client-secret)"            
 
         steps:
 
