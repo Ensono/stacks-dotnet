@@ -75,6 +75,8 @@ stages:
             value: $(docker_image_tag)
           - name: DOCKER_CONTAINERREGISTRYNAME
             value: $(docker_container_registry_name_nonprod)
+          - name: REGISTRY_RESOURCE_GROUP
+            value: $(kubernetes_clusterrg_nonprod)
 
         steps:
 
