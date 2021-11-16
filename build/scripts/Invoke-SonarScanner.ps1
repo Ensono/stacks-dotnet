@@ -58,15 +58,20 @@ if ($start.IsPresent -and $stop.IsPresent) {
     exit 2
 }
 
-$tool = Get-Command -Name "dotnet-sonarscanner" -ErrorAction SilentlyContinue
+# $toolName = "dotnet-sonarscanner"
+# $tool = Get-Command -Name $toolName -ErrorAction SilentlyContinue
 
-if ([String]::IsNullOrEmpty($tool)) {
-    Write-Error -Message ("Dotnet tool is not installed: dotnet-sonarscanner")
-    exit 0
-}
+# if ([String]::IsNullOrEmpty($tool)) {
+#     Write-Error -Message ("Unable to find dotnet tool in PATH: dotnet-sonarscanner")
+#     exit 0
+# } else {
+#     Write-Host ("Tool found: {0}" -f $tool.Source)
+# }
+
+$tool = Find-Command -name "dotnet-sonarscanner"
 
 # Look for the dotnet command
-$dotnet = Find-Command -Name "dotnet"
+# $dotnet = Find-Command -Name "dotnet"
 
 # Depending on the modethat has been set, define the command that needs to be run
 if ($start.IsPresent) {
@@ -80,7 +85,7 @@ if ($start.IsPresent) {
     $arguments += "/o:{0}" -f $Organisation
     $arguments += "/d:sonar.login={0}" -f $Token
     $arguments += $Properties
-    $cmd = "{0} sonarscanner begin {1}" -f $dotnet, ($arguments -Join " ")
+    $cmd = "{0} begin {1}" -f $tool.Source, ($arguments -Join " ")
 
 }
 

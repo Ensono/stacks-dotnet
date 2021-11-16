@@ -10,12 +10,6 @@ contexts:
 
 tasks:
 
-  environment:
-    description: Check the PATH variable
-    context: powershell
-    command:
-      - build/scripts/Invoke-DotNetCoverage.ps1
-
   buildnumber:
     context: powershell
     description: Update the build numnber
