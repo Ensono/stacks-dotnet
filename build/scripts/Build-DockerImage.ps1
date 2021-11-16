@@ -24,6 +24,10 @@ param (
     # Docker registry to push the image to
     $registry = $env:DOCKER_CONTAINERREGISTRYNAME,
 
+    [string]
+    # Resource group the container registry can be found in
+    $group = $env:REGISTRY_RESOURCE_GROUP,
+
     [switch]
     # Push the image to the specified registry
     $push
@@ -74,7 +78,7 @@ if (![String]::IsNullOrEmpty($registry) -and $push.IsPresent) {
     }
 
     # Get the credentials for the registry
-    $creds = Get-AzContainerRegistryCredential -Name $registry
+    $creds = Get-AzContainerRegistryCredential -Name $registry -ResourceGroup $group
 
     # Run command to login to the docker registry to do the push
     # The Invoke-External function will need to be updated to obfruscate sensitive information
