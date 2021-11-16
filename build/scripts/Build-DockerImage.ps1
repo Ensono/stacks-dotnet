@@ -64,6 +64,8 @@ if (!$push.IsPresent) {
     exit 0
 }
 
+dir env:
+
 # Proceed if a registry has been specified
 if (![String]::IsNullOrEmpty($registry) -and $push.IsPresent) {
 
