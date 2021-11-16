@@ -14,12 +14,12 @@ tasks:
     context: powershell
     description: List available PowerShell modules
     command:
-      - Write-Host $env:PSModulePath
+      - Write-Host $PSModulePath
       - Get-Module -ListAvailable
 
   buildnumber:
     context: powershell
-    description: Update the build numnber
+    description: Update the build number
     command:
       - build/scripts/Update-BuildNumber.ps1
 
