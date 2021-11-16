@@ -10,6 +10,12 @@ contexts:
 
 tasks:
 
+  modules:
+    context: powershell
+    description: List available PowerShell modules
+    command:
+      - Get-Module -ListAvailable
+
   buildnumber:
     context: powershell
     description: Update the build numnber
