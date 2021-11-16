@@ -51,18 +51,19 @@ $functions | Foreach-Object { . $_ }
 Write-Host $env:PATH
 Get-ChildItem /root/.dotnet/tools
 
-
 # Determine if the reportgenerator tool is installed
 # The dotnet command may state that it is, but will return a non-zero exit code which will stop the pipeline
-$toolName = "reportgenerator"
-$tool = Get-Command -Name $toolName -ErrorAction SilentlyContinue
+# $toolName = "reportgenerator"
+# $tool = Get-Command -Name $toolName -ErrorAction SilentlyContinue
 
-Write-Host ("Tool: {0}" -f $tool.Source)
+# if ([String]::IsNullOrEmpty($tool)) {
+#     Write-Error -Message ("Unable to find dotnet tool in PATH: {0}" -f $toolName)
+#     exit 0
+# } else {
+#     Write-Host ("Tool found: {0}" -f $tool.Source)
+# }
 
-if ([String]::IsNullOrEmpty($tool)) {
-    Write-Error -Message ("Dotnet tool is not installed: {0}" -f $toolName)
-    exit 0
-}
+$tool = Find-Command -Name "reportgenerator"
 
 # if (!(Test-Path -Path $reportGeneratorPath)) {
 #     Write-Information -MessageData "Installing ReportGenerator tool"
@@ -94,7 +95,7 @@ foreach ($coverFile in $coverFiles) {
 }
 
 # Build up the command to run
-$cmd = "reportgenerator -reports:{0} -targetdir:{1} -reporttypes:{2}" -f 
+$cmd = "{0} -reports:{1} -targetdir:{2} -reporttypes:{3}" -f $tool.Source,
     ($list -join ";"),
     $target,
     $types
