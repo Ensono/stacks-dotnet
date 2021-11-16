@@ -14,15 +14,15 @@ param (
 
     [string]
     # Name of the docker image
-    $name = $env:DOCKER_IMAGENAME,
+    $name = $env:DOCKER_IMAGE_NAME,
 
     [string]
     # Image tag
-    $tag = $env:DOCKER_IMAGETAG,
+    $tag = $env:DOCKER_IMAGE_TAG,
 
     [string]
     # Docker registry to push the image to
-    $registry = $env:DOCKER_CONTAINERREGISTRYNAME,
+    $registry = $env:DOCKER_CONTAINER_REGISTRY_NAME,
 
     [string]
     # Resource group the container registry can be found in
