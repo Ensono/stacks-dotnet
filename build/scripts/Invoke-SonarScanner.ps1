@@ -33,11 +33,7 @@ param (
 
     [string]
     # Additional run properties
-    $Properties = $env:SONAR_PROPERTIES,
-
-    [string]
-    # Path that the tool should be installed in
-    $toolpath = "."
+    $Properties = $env:SONAR_PROPERTIES
 )
 
 # Import helper functions
@@ -62,25 +58,11 @@ if ($start.IsPresent -and $stop.IsPresent) {
     exit 2
 }
 
-$cmdName = "sonarscanner"
-if ($IsWindows) {
-    $cmdName += ".exe"
-}
+$tool = Get-Command -Name "dotnet-sonarscanner" -ErrorAction SilentlyContinue
 
-$sonarScannerPath = [IO.Path]::Combine($toolpath, $cmdName)
-
-if (!(Test-Path -Path $sonarScannerPath)) {
-    Write-Information -MessageData "Installing SonarScanner tool"
-
-    # Build up command to install the report converter tool
-    $cmd = "dotnet tool install dotnet-sonarscanner --tool-path {0}" -f $toolpath
-    write-host $cmd
-    Invoke-External -Command $cmd
-
-    # if there was problem installing the tool, exit
-    if ($LASTEXITCODE -ne 0) {
-        exit $LASTEXITCODE
-    }    
+if ([String]::IsNullOrEmpty($tool)) {
+    Write-Error -Message ("Dotnet tool is not installed: dotnet-sonarscanner")
+    exit 0
 }
 
 # Look for the dotnet command
