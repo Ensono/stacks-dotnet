@@ -12,6 +12,7 @@ tasks:
 
   environment:
     description: Check the PATH variable
+    context: powershell
     command:
       - Write-Host $PATH
 
