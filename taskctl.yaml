@@ -10,13 +10,6 @@ contexts:
 
 tasks:
 
-  modules:
-    context: powershell
-    description: List available PowerShell modules
-    command:
-      - Write-Host $PSModulePath
-      - Get-Module -ListAvailable
-
   buildnumber:
     context: powershell
     description: Update the build number
