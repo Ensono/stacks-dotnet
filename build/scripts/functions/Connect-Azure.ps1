@@ -43,6 +43,8 @@ function Connect-Azure() {
         }
     }
 
+    dir env:
+
     # check that the missing vars is empty
     if ($missing.Count -gt 0) {
         Write-Error -Message ("Missing required values: {0}" -f ($missing -Join ", "))
