@@ -13,7 +13,7 @@ tasks:
   environment:
     description: Check the PATH variable
     command:
-      - $env:PATH
+      - Write-Host $PATH
 
   buildnumber:
     context: powershell
