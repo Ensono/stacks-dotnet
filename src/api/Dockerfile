@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG nuget_url="https://replace_me"
 ARG nuget_token="replace_me"
 
@@ -16,7 +16,7 @@ RUN du -ch out/
 
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime
 EXPOSE 80
 WORKDIR /app
 COPY --from=build /app/out .
