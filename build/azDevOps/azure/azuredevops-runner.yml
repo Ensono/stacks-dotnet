@@ -73,18 +73,16 @@ stages:
           - name: SONAR_PROPERTIES
             value: ""
           - name: REGISTRY_RESOURCE_GROUP
-            value: $(kubernetes_clusterrg_nonprod)
-          - name: AZURE_TENANT_ID
-            value: "$(azure-tenant-id)"
-          - name: AZURE_SUBSCRIPTION_ID
-            value: "$(azure-subscription-id)"
-          - name: AZURE_CLIENT_ID
-            value: "$(azure-client-id)"
-          - name: AZURE_CLIENT_SECRET
-            value: "$(azure-client-secret)"            
+            value: $(kubernetes_clusterrg_nonprod)         
 
         steps:
 
           - checkout: self
 
           - powershell: taskctl build
+            env:
+              AZURE_TENANT_ID: "$(azure-tenant-id)"
+              AZURE_SUBSCRIPTION_ID: "$(azure-subscription-id)"
+              AZURE_CLIENT_ID: "$(azure-client-id)"
+              AZURE_CLIENT_SECRET: "$(azure-client-secret)"
+
