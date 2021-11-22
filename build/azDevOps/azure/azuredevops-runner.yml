@@ -73,7 +73,7 @@ stages:
           - name: SONAR_PROPERTIES
             value: ""
           - name: REGISTRY_RESOURCE_GROUP
-            value: $(kubernetes_clusterrg_nonprod)         
+            value: $(kubernetes_clusterrg_nonprod)
 
         steps:
 
@@ -85,4 +85,3 @@ stages:
               AZURE_SUBSCRIPTION_ID: "$(azure-subscription-id)"
               AZURE_CLIENT_ID: "$(azure-client-id)"
               AZURE_CLIENT_SECRET: "$(azure-client-secret)"
-
