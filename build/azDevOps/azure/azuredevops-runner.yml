@@ -105,5 +105,3 @@ stages:
             inputs:
               path: $(Build.SourcesDirectory)/$(self_repo)/src/tests/Functional
               artifact: tests
-
-
