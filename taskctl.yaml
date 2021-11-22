@@ -89,7 +89,7 @@ tasks:
     context: powershell
     description: Generate test coverage reports
     command:
-      - build/scripts/Invoke-DotNetCoverage.ps1
+      - build/scripts/Invoke-DotNetCoverage.ps1 -target $PROJECT_ROOT_DIR/coverage
 
   build:container:
     context: powershell
@@ -121,5 +121,7 @@ pipelines:
         - test:component
         - test:integration
         - test:contract
+    - task: build:functional_tests
     - task: build:container
       depends_on: test:sonarcloud:stop
+    

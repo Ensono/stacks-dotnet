@@ -48,36 +48,7 @@ $parentDir = Split-Path -Path ($MyInvocation.MyCommand.Path) -Parent
 $functions = Get-ChildItem -Path ([System.IO.Path]::Combine($parentDir, "functions")) -Filter '*.ps1'
 $functions | Foreach-Object { . $_ }
 
-# Write-Host $env:PATH
-# Get-ChildItem /root/.dotnet/tools
-
-# Determine if the reportgenerator tool is installed
-# The dotnet command may state that it is, but will return a non-zero exit code which will stop the pipeline
-# $toolName = "reportgenerator"
-# $tool = Get-Command -Name $toolName -ErrorAction SilentlyContinue
-
-# if ([String]::IsNullOrEmpty($tool)) {
-#     Write-Error -Message ("Unable to find dotnet tool in PATH: {0}" -f $toolName)
-#     exit 0
-# } else {
-#     Write-Host ("Tool found: {0}" -f $tool.Source)
-# }
-
 $tool = Find-Command -Name "reportgenerator"
-
-# if (!(Test-Path -Path $reportGeneratorPath)) {
-#     Write-Information -MessageData "Installing ReportGenerator tool"
-
-#     # Build up command to install the report converter tool
-#     $cmd = "dotnet tool install dotnet-reportgenerator-globaltool --tool-path {0}" -f $toolpath
-#     write-host $cmd
-#     Invoke-External -Command $cmd
-
-#     # if there was problem installing the tool, exit
-#     if ($LASTEXITCODE -ne 0) {
-#         exit $LASTEXITCODE
-#     }    
-# }
 
 # Find all the files that match the pattern 
 $coverFiles = Find-Projects -Pattern "*.opencover.xml" -Path $path
