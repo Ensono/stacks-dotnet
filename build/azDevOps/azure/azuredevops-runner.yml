@@ -74,14 +74,36 @@ stages:
             value: ""
           - name: REGISTRY_RESOURCE_GROUP
             value: $(kubernetes_clusterrg_nonprod)
+          - name: PROJECT_ROOT_DIR
+            value: $(Pipeline.Workspace)/s/$(self_repo)/$(self_repo_src)
 
         steps:
 
           - checkout: self
 
-          - powershell: taskctl build
+          - task: PowerShell@2
+            inputs:
+              targetType: inline
+              script: taskctl build
             env:
               AZURE_TENANT_ID: "$(azure-tenant-id)"
               AZURE_SUBSCRIPTION_ID: "$(azure-subscription-id)"
               AZURE_CLIENT_ID: "$(azure-client-id)"
               AZURE_CLIENT_SECRET: "$(azure-client-secret)"
+
+          # Upload test coverage results as artifacts
+          - task: PublishCodeCoverageResults@1
+            displayName: Upload coverage results
+            inputs:
+              summaryFileLocation: $(PROJECT_ROOT_DIR)/coverage/Cobertura.xml
+              codecoverageTool: cobertura
+              pathToSources: $(PROJECT_ROOT_DIR)
+
+          # Upload functional tests as artifacts
+          - task: PublishPipelineArtifact@1
+            displayName: Upload functional tests
+            inputs:
+              path: $(Build.SourcesDirectory)/$(self_repo)/src/tests/Functional
+              artifact: tests
+
+
