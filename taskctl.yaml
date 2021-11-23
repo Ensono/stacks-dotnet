@@ -124,4 +124,3 @@ pipelines:
     - task: build:functional_tests
     - task: build:container
       depends_on: test:sonarcloud:stop
-    
