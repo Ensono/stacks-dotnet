@@ -84,7 +84,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: inline
-              script: taskctl build; dir $(Build.SourcesDirectory)/$(self_repo)
+              script: taskctl build; dir $(Build.SourcesDirectory)/$(self_repo)/src/tests
               informationPreference: continue
             env:
               AZURE_TENANT_ID: "$(azure-tenant-id)"
