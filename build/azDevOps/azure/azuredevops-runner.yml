@@ -84,7 +84,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: inline
-              script: taskctl build; gci -recurse $(Build.SourcesDirectory)/ | ? { $_.PsIsContainer }
+              script: taskctl build
               informationPreference: continue
             env:
               AZURE_TENANT_ID: "$(azure-tenant-id)"
@@ -104,5 +104,5 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: Upload functional tests
             inputs:
-              path: $(Build.SourcesDirectory)/$(self_repo)/src/tests/Functional
+              path: $(Build.SourcesDirectory)/src/tests/Functional
               artifact: tests
