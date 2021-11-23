@@ -84,7 +84,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: inline
-              script: taskctl build; dir $(Build.SourcesDirectory)/$(self_repo)/src/tests
+              script: taskctl build; gci -recurse $(Build.SourcesDirectory)/ | ? { $_.PsIsContainer }
               informationPreference: continue
             env:
               AZURE_TENANT_ID: "$(azure-tenant-id)"
