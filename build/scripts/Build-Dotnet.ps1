@@ -16,6 +16,8 @@ if (![String]::IsNullOrEmpty($workingDirectory) -and (Test-Path -Path $workingDi
     Set-Location -Path $workingDirectory
 }
 
+Write-Information -MessageData ("Working directory: {0}" -f $workingDirectory)
+
 # Look for the dotnet command
 $dotnet = Find-Command -Name "dotnet"
 
