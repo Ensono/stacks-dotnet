@@ -49,7 +49,7 @@ dotnet new --uninstall Amido.Stacks.Templates
 - **-n|--name**
   - Sets the project name
     - Omitting it will result in the project name being the same as the folder where the command has been ran from
-- **-d|--domain**
+- **-do|--domain**
   - Sets the name of the aggregate root object. It is also the name of the collection within CosmosDB instance.
 - **-o|--output**
   - Sets the path to where the project is added
@@ -64,7 +64,7 @@ It's entirely up to you where you want to generate the WebAPI. For example your 
 ```shell
 % cd your-repo-folder
 
-% dotnet new stacks-webapi -n Foo.Bar -d Menu
+% dotnet new stacks-webapi -n Foo.Bar -do Menu
 The template "Amido Stacks Web Api" was created successfully.
 ```
 
