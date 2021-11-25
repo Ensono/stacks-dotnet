@@ -147,7 +147,7 @@ stages:
           # BUILD NPM
           - template: templates/steps/build/build-netcore.yml
             parameters:
-              dotnet_core_version: "3.1.x"
+              dotnet_core_version: "6.0.x"
               # Docker Config
               docker_build: true
               # TODO: normalize this
@@ -219,7 +219,7 @@ stages:
           - template: azDevOps/azure/templates/v2/steps/build-pack-test-dotnet.yml@templates
             parameters:
               package_path: $(Agent.BuildDirectory)/s
-              dotnet_core_version: 3.1.x
+              dotnet_core_version: 6.0.x
               version_variable_name: version_number
 
           # Upload the packages as artefacts
