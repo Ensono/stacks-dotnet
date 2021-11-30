@@ -3,6 +3,7 @@ parameters:
     vmImage: "ubuntu-latest"
   project_root_dir: ""
   dotnet_core_version: "6.0.x"
+  dotnet_sonarscanner_version: "3.1.x"
   # Custom registry (eg. private)
   # Docker Config
   docker_build: true
@@ -57,10 +58,10 @@ steps:
   - ${{ if eq(parameters.static_code_analysis, true) }}:
 
       - task: UseDotNet@2
-        displayName: 'Use .NET Core SDK 3.1.x'
+        displayName: 'Use .NET Core SDK ${{ parameters.dotnet_sonarscanner_version }}'
         inputs:
           packageType: sdk
-          version: 3.1.x
+          version: ${{ parameters.dotnet_sonarscanner_version }}
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
       # Set Sonar extra properties based on parameter input
@@ -150,10 +151,10 @@ steps:
   - ${{ if eq(parameters.static_code_analysis, true) }}:
 
       - task: UseDotNet@2
-        displayName: 'Use .NET Core SDK 3.1.x'
+        displayName: 'Use .NET Core SDK ${{ parameters.dotnet_sonarscanner_version }}'
         inputs:
           packageType: sdk
-          version: 3.1.x
+          version: ${{ parameters.dotnet_sonarscanner_version }}
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
       - bash: |
@@ -173,7 +174,7 @@ steps:
         inputs:
           packageType: sdk
           version: ${{ parameters.dotnet_core_version }}
-          installationPath: $(Agent.ToolsDirectory)/dotnet            
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
   # Build Docker Image, Scan and Push to Repository
   - ${{ if eq(parameters.docker_build, true) }}:
