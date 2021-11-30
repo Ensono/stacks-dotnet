@@ -14,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 using xxAMIDOxx.xxSTACKSxx.API.Authorization;
@@ -47,7 +50,20 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         public virtual void ConfigureServices(IServiceCollection services)
         {
             if (useAppInsights)
+            {
                 services.AddApplicationInsightsTelemetry();
+            }
+
+            services.AddOpenTelemetryTracing(
+            builder =>
+            {
+                builder.SetResourceBuilder(ResourceBuilder
+                        .CreateDefault()
+                        .AddService(hostingEnv.ApplicationName))
+                    .AddAspNetCoreInstrumentation();
+                
+                builder.AddConsoleExporter(options => options.Targets = ConsoleExporterOutputTargets.Debug);
+            });
 
             services.AddHealthChecks();
 
