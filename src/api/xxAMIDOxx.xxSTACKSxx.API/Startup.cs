@@ -32,6 +32,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         private readonly IWebHostEnvironment hostingEnv;
         private readonly string pathBase;
         private readonly bool useAppInsights;
+        private readonly bool useOpenTelemetry;
 
         private const string projectUrl = "https://github.com/amido/stacks-dotnet";
 
@@ -43,6 +44,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
             pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
             useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
+            useOpenTelemetry = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -54,19 +56,24 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 services.AddApplicationInsightsTelemetry();
             }
 
-            services.AddOpenTelemetryTracing((builder) => builder
-                .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(hostingEnv.ApplicationName))
-                .AddAspNetCoreInstrumentation()
-                .AddConsoleExporter(options =>
-                {
-                    options.Targets = ConsoleExporterOutputTargets.Debug;
-                })
-                .AddOtlpExporter(otlpOptions =>
-                {
-                    otlpOptions.Endpoint = new Uri("http://localhost:4317");
-                }));
+            if (useOpenTelemetry)
+            {
+                // TODO: Check this is needed.
+                AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+                services.AddOpenTelemetryTracing((builder) => builder
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName)))
+                    .AddAspNetCoreInstrumentation()
+                    .AddConsoleExporter(options =>
+                    {
+                        options.Targets = ConsoleExporterOutputTargets.Debug;
+                    })
+                    .AddOtlpExporter(otlpOptions =>
+                    {
+                        otlpOptions.Endpoint = new Uri(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OltpEndpoint));
+                    }));
+            }
 
-        services.AddHealthChecks();
+            services.AddHealthChecks();
 
             services
                 .AddMvcCore()
