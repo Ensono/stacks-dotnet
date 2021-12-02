@@ -54,15 +54,19 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 services.AddApplicationInsightsTelemetry();
             }
 
-            services.AddOpenTelemetryTracing(
-            builder =>
-            {
-                builder.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(hostingEnv.ApplicationName))
-                    .AddAspNetCoreInstrumentation()
-                    .AddConsoleExporter();
-            });
+            services.AddOpenTelemetryTracing((builder) => builder
+                .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(hostingEnv.ApplicationName))
+                .AddAspNetCoreInstrumentation()
+                .AddConsoleExporter(options =>
+                {
+                    options.Targets = ConsoleExporterOutputTargets.Debug;
+                })
+                .AddOtlpExporter(otlpOptions =>
+                {
+                    otlpOptions.Endpoint = new Uri("http://localhost:4317");
+                }));
 
-            services.AddHealthChecks();
+        services.AddHealthChecks();
 
             services
                 .AddMvcCore()
