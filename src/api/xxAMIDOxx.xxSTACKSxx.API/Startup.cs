@@ -57,12 +57,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API
             services.AddOpenTelemetryTracing(
             builder =>
             {
-                builder.SetResourceBuilder(ResourceBuilder
-                        .CreateDefault()
-                        .AddService(hostingEnv.ApplicationName))
-                    .AddAspNetCoreInstrumentation();
-                
-                builder.AddConsoleExporter(options => options.Targets = ConsoleExporterOutputTargets.Debug);
+                builder.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(hostingEnv.ApplicationName))
+                    .AddAspNetCoreInstrumentation()
+                    .AddConsoleExporter();
             });
 
             services.AddHealthChecks();
