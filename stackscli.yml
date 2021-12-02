@@ -29,3 +29,7 @@ init:
       cmd: dotnet
       args: new stacks-webapi -n {{ .Input.Business.Company }}.{{ .Input.Business.Domain }} -o {{ .Project.Directory.WorkingDir }}
       desc: Create a project using the "stacks-webapi" template
+    - action: cmd
+      cmd: dotnet
+      args: new --uninstall {{ .Project.Directory.TempDir }}
+      desc: Remove the temporary template from dotnet
