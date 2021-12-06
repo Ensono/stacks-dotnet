@@ -2,7 +2,8 @@ parameters:
   pool:
     vmImage: "ubuntu-latest"
   project_root_dir: ""
-  dotnet_core_version: "3.1.x"
+  dotnet_core_version: "6.0.x"
+  dotnet_sonarscanner_version: "3.1.x"
   # Custom registry (eg. private)
   # Docker Config
   docker_build: true
@@ -55,6 +56,17 @@ steps:
 
   # SonarCloud Start
   - ${{ if eq(parameters.static_code_analysis, true) }}:
+
+      # NOTICE: This is horrible work around to get sonar scanner working with .NET 6
+      # The version has to be downgraded to make it work properly
+      # https://github.com/SonarSource/sonar-scanner-msbuild/issues/1095
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK ${{ parameters.dotnet_sonarscanner_version }}'
+        inputs:
+          packageType: sdk
+          version: ${{ parameters.dotnet_sonarscanner_version }}
+          installationPath: $(Agent.ToolsDirectory)/dotnet
+
       # Set Sonar extra properties based on parameter input
       - bash: |
           dotnet sonarscanner begin /k:$SONAR_PROJECT_NAME /v:$BUILD_VERSION /d:sonar.host.url=$SONAR_HOST_URL /o:$SONAR_ORGANIZATION /d:sonar.login=$SONAR_TOKEN ${{ parameters.sonar_run_properties }}
@@ -64,6 +76,18 @@ steps:
         env:
           ${{ each var in parameters.sonar_env }}:
             ${{ var.key }}: ${{ var.value }}
+
+      # Reset the .NET SDK back
+      #
+      # NOTICE: This is horrible work around to get sonar scanner working with .NET 6
+      # The version has to be downgraded to make it work properly
+      # https://github.com/SonarSource/sonar-scanner-msbuild/issues/1095
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK ${{ parameters.dotnet_core_version }}'
+        inputs:
+          packageType: sdk
+          version: ${{ parameters.dotnet_core_version }}
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
       # SonarCloud wants a build to analyse
       - task: DotNetCoreCLI@2
@@ -133,6 +157,17 @@ steps:
 
   # SonarCloud Results
   - ${{ if eq(parameters.static_code_analysis, true) }}:
+
+      # NOTICE: This is horrible work around to get sonar scanner working with .NET 6
+      # The version has to be downgraded to make it work properly
+      # https://github.com/SonarSource/sonar-scanner-msbuild/issues/1095
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK ${{ parameters.dotnet_sonarscanner_version }}'
+        inputs:
+          packageType: sdk
+          version: ${{ parameters.dotnet_sonarscanner_version }}
+          installationPath: $(Agent.ToolsDirectory)/dotnet
+
       - bash: |
           files=$(find . -maxdepth 3 -name "*.opencover.xml" -type f -exec echo "{}" \;)
           readarray -t outputs <<<"$files"
@@ -144,6 +179,18 @@ steps:
         env:
           ${{ each var in parameters.sonar_env }}:
             ${{ var.key }}: ${{ var.value }}
+
+      # Reset the .NET SDK back
+      #
+      # NOTICE: This is horrible work around to get sonar scanner working with .NET 6
+      # The version has to be downgraded to make it work properly
+      # https://github.com/SonarSource/sonar-scanner-msbuild/issues/1095
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK ${{ parameters.dotnet_core_version }}'
+        inputs:
+          packageType: sdk
+          version: ${{ parameters.dotnet_core_version }}
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
   # Build Docker Image, Scan and Push to Repository
   - ${{ if eq(parameters.docker_build, true) }}:
