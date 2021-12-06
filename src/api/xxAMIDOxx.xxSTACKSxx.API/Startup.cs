@@ -80,7 +80,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 .AddAuthorization()
                 .AddDataAnnotations()
                 .AddCors()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 /* Only required if the models will used Json.Net features for serialization
                 .AddNewtonsoftJson(options =>
                 {
@@ -169,7 +168,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     {
                         Version = "all",
                         Title = "Menu API",
-                        Description = "APIs used to interact and manage menus for a restaurant",
+                        Description = "APIs used to interact and manage menus",
                         Contact = new OpenApiContact()
                         {
                             Name = "Amido",
@@ -212,7 +211,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     {
                         Version = "v1",
                         Title = "Menu API",
-                        Description = "APIs used to interact and manage menus for a restaurant",
+                        Description = "APIs used to interact and manage menus",
                         Contact = new OpenApiContact()
                         {
                             Name = "Amido",
