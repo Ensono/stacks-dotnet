@@ -58,7 +58,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
             if (useOpenTelemetry)
             {
-                // TODO: Check this is needed.
                 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
                 services.AddOpenTelemetryTracing((builder) => builder
                     .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName)))
