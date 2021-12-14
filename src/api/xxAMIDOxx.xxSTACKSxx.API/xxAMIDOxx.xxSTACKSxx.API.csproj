@@ -15,8 +15,8 @@
     </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amido.Stacks.API" Version="0.2.19" />
     <PackageReference Include="Amido.Stacks.API.Swagger" Version="0.2.33" />
+    <PackageReference Include="Amido.Stacks.API" Version="0.2.21" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.19.0" />
