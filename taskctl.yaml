@@ -1,10 +1,21 @@
 contexts:
   powershell:
     executable:
-      bin: pwsh
+      bin: docker
       args:
+        - run
+        - --rm
+        - -v
+        - ${PWD}:/app
+        - -e
+        - PSModulePath=/app/modules
+        - -w
+        - /app
+        - russellseymour/runner-pwsh-dotnet
+        - pwsh
         - -NoProfile
         - -Command
+    quote: "'"
     env:
       arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
 
@@ -14,15 +25,15 @@ tasks:
     context: powershell
     description: Update the build number
     command:
-      - build/scripts/Update-BuildNumber.ps1
+      - Update-BuildNumber
 
   lint:
     context: powershell
     description: Perform linting checks
     command:
-      - build/scripts/Invoke-YamlLint.ps1
-      - build/scripts/Invoke-TerraformLint.ps1 -Format
-      - build/scripts/Invoke-TerraformLint.ps1 -Validate
+      - Invoke-YamlLint
+      - Invoke-TerraformLint -Format
+      - Invoke-TerraformLint -Validate
 
   # TESTS
   # Configure test tasks
@@ -30,8 +41,8 @@ tasks:
     context: powershell
     description: Run SonarCloud tests
     command:
-      - build/scripts/Invoke-SonarScanner.ps1 -start -buildversion $BUILD_BUILDNUMBER
-      - build/scripts/Build-Dotnet.ps1
+      - Invoke-SonarScanner -start -buildversion $BUILD_BUILDNUMBER
+      - Build-Dotnet
     condition: exit $SONAR_NO_RUN
 
   # Stop the static code analyise
@@ -40,14 +51,14 @@ tasks:
     context: powershell
     description: Run SonarCloud tests
     command:
-      - build/scripts/Invoke-SonarScanner.ps1 -stop
+      - Invoke-SonarScanner -stop
     condition: exit $SONAR_NO_RUN
 
   test:unittest:
     context: powershell
     description: Perform unit tests
     command:
-      - build/scripts/Invoke-DotNetTests.ps1
+      - Invoke-DotNetTests
     env:
       pattern: "*UnitTests"
     condition: exit $UNITTEST_NO_RUN
@@ -56,7 +67,7 @@ tasks:
     context: powershell
     description: Perform component tests
     command:
-      - build/scripts/Invoke-DotNetTests.ps1
+      - Invoke-DotNetTests
     env:
       pattern: "*ComponentTests"
     condition: exit $COMPONENTTEST_NO_RUN
@@ -68,7 +79,7 @@ tasks:
     context: powershell
     description: Perform Integration tests
     command:
-      - build/scripts/Invoke-DotNetTests.ps1
+      - Invoke-DotNetTests
     env:
       pattern: "*IntegrationTests"
     condition: exit $INTEGRATIONTEST_NO_RUN
@@ -80,7 +91,7 @@ tasks:
     context: powershell
     description: Perform contract tests
     command:
-      - build/scripts/Invoke-DotNetTests.ps1
+      - Invoke-DotNetTests
     env:
       pattern: "*ContractTests"
     condition: exit $CONTRACTTEST_NO_RUN
@@ -89,21 +100,23 @@ tasks:
     context: powershell
     description: Generate test coverage reports
     command:
-      - build/scripts/Invoke-DotNetCoverage.ps1 -target $PROJECT_ROOT_DIR/coverage
+      - Invoke-DotNetCoverage -target $PROJECT_ROOT_DIR/coverage
 
   build:container:
     context: powershell
     description: Create container image for application
     command:
-      - build/scripts/Build-DockerImage.ps1 -buildargs src/api -push
+      - Build-DockerImage -buildargs src/api -push
 
   build:functional_tests:
     context: powershell
     description: Build functional tests for integration testing
     command:
-      - build/scripts/Build-Dotnet.ps1 -workingDirectory src/tests/Functional
+      - Build-Dotnet -workingDirectory src/tests/Functional
 
 pipelines:
+
+  # Pipeline to perform the build of the project
   build:
     - task: lint
     - task: buildnumber
