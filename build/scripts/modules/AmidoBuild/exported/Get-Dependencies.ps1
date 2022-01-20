@@ -31,12 +31,16 @@ function Get-Dependencies {
             # iterate around the list of deps
             foreach ($repo in $list) {
 
-                # build up the command to clone the specified repository
-                $cmd = "git clone https://gihub.com/{0}" -f $repo
+                # get the name and the ref from the specified repo
+                $name, $ref = $repo -split "@"
 
-                # Execute the command
-                Invoke-External -Command $cmd
+                Invoke-GitClone -Repo $name -Ref $ref -path support
             }
+        }
+
+        default {
+
+            Write-Error -Message $("VCS type is not recognised: {0}" -f $type)
         }
     }
 }

@@ -354,3 +354,6 @@ reportgenerator
 **/terraform.tfvars
 
 local
+support
+envfile
+coverage

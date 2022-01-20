@@ -1,12 +1,26 @@
 
-<#
-
-.SYNOPSIS
-Connect to azure using environment variables for the parameters
-
-#>
-
 function Connect-Azure() {
+
+    <#
+
+    .SYNOPSIS
+    Connect to azure using environment variables for the parameters
+
+    .DESCRIPTION
+    In order to access resources and credentials in Azure, the AZ PowerShell module needs to connect
+    to Azure using a Service Princpal. This cmdlet performs the login either by using data specified
+    on the command line or by setting them as environment variables.
+
+    This fuinction is not exported outside of the module.
+
+    .EXAMPLE
+
+    Connect to Azure using parameters set on the command line
+
+    Connect-Azure -id 9bd211c0-92df-46d3-abb8-ba437f65096b -secret asd678asdlj9092314 -subscriptionId 77f2b631-0c5f-4bc9-a776-e8b0a5e7f5b8 -tenantId f0135c92-3088-40a7-8512-247762919ae1
+
+
+    #>
 
     [CmdletBinding()]
     param (
@@ -14,46 +28,32 @@ function Connect-Azure() {
         [Alias("clientid")]
         [string]
         # ID of the service principal
-        $id = $env:AZURE_CLIENT_ID,
+        $id = $env:ARM_CLIENT_ID,
 
         [string]
         # Secret for the service principal
-        $secret = $env:AZURE_CLIENT_SECRET,
+        $secret = $env:ARM_CLIENT_SECRET,
 
         [string]
         # Subscription ID 
-        $subscriptionId = $env:AZURE_SUBSCRIPTION_ID,
+        $subscriptionId = $env:ARM_SUBSCRIPTION_ID,
 
         [string]
         # Tenant ID
-        $tenantId = $env:AZURE_TENANT_ID
+        $tenantId = $env:ARM_TENANT_ID
 
     )
 
-    # ensure that all the values have been set
-    $required = @("id", "secret", "subscriptionId", "tenantId")
-    $missing = @()
-    foreach ($req in $required) {
-
-        # Get the value of the variable and make sure it is not null
-        $var = Get-Variable -Name $req -ErrorAction SilentlyContinue
-
-        if ([string]::IsNullOrEmpty($var.Value)) {
-            $missing += $var.Name
-        }
-    }
-
-    # check that the missing vars is empty
-    if ($missing.Count -gt 0) {
-        Write-Error -Message ("Missing required values: {0}" -f ($missing -Join ", "))
-        return 
+    $result = Confirm-Parameters -list @("id", "secret", "subscriptionId", "tenantId")
+    if (!$result) {
+        return
     }
 
     # Create a secret to be used with the credential
     $pw = ConvertTo-SecureString -String $secret -AsPlainText -Force
 
     # Create the credential to log in
-    $credential = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $id, $pw
+    $credential = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList ($id, $pw)
 
     Connect-AzAccount -Credential $credential -Tenant $tenantId -Subscription $subscriptionId -ServicePrincipal
 }
