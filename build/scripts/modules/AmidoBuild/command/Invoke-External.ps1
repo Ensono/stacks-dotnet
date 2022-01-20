@@ -14,12 +14,49 @@ function Invoke-External {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
-        [string]
+        [string[]]
         # Command and arguments to be run
-        $command
+        $commands,
+
+        [switch]
+        # State if should be run in DryRun mode, e.g. do not execute the command
+        $dryrun
     )
 
-    Write-Debug -Message $command
+    foreach ($command in $commands) {
 
-    Invoke-Expression -Command $command
+        # Trim the command
+        $command = $command.Trim()
+
+        Write-Debug -Message $command
+
+        # Determine if the command should be executed or not
+        if (!$dryrun.IsPresent) {
+            $execute = $true
+        }
+
+        # Add the command to the session so all can be retrieved at a later date, if
+        # the session variable exists
+        if (Get-Variable -Name Session -Scope global -ErrorAction SilentlyContinue) {
+            $global:Session.commands.list += $command
+
+            if ($global:Session.dryrun) {
+                $execute = $false
+            }
+        }
+
+        # if a file has been set in the session, append the command to the file
+        if (![String]::IsNullOrEmpty($Session.commands.file)) {
+            Add-Content -Path $Session.commands.file -Value $command
+        }
+
+        if ($execute) {
+            Invoke-Expression -Command $command
+
+            # Add the exit code to the session, if it exists
+            if (Get-Variable -Name Session -Scope global -ErrorAction SilentlyContinue) {
+                $global:Session.commands.exitcodes += $LASTEXITCODE
+            }
+        }
+    }
 }
