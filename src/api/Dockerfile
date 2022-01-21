@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG nuget_url="https://replace_me"
 ARG nuget_token="replace_me"
 
@@ -14,10 +14,8 @@ RUN dotnet publish -c Release -o out xxAMIDOxx.xxSTACKSxx.API
 RUN find
 RUN du -ch out/
 
-
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
-EXPOSE 80
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "xxAMIDOxx.xxSTACKSxx.API.dll"]
