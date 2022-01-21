@@ -15,6 +15,9 @@ $Session = @{
     }
 }
 
+# Enable Information messages to be displayed
+$InformationPreference = "Continue"
+
 # Determine the list of functions that need to be made available
 #$functions_to_export = $functions | Where-Object { $_.FullName -match "Exported" } | ForEach-Object { $_.Basename }
 

@@ -124,7 +124,7 @@ Describe "Invoke-Terraform" {
         }
     }
 
-    Context "Lint" {
+    Context "Format" {
 
         BeforeEach {
             # Reset the commands list to an empty array
@@ -132,10 +132,10 @@ Describe "Invoke-Terraform" {
         }
 
         It "will run commands to check that the TF files are correct" {
-            Invoke-Terraform -lint
+            Invoke-Terraform -Format
 
             $Session.commands.list[0] | Should -BeLike "*terraform* fmt -diff -check -recursive"
-            $Session.commands.list[1] | Should -BeLike "*terraform* init -backend=false; *terraform* validate"
+            # $Session.commands.list[1] | Should -BeLike "*terraform* init -backend=false; *terraform* validate"
         }
     }
 
@@ -150,6 +150,31 @@ Describe "Invoke-Terraform" {
             Invoke-Terraform -output
 
             $Session.commands.list[0] | Should -BeLike "*terraform* output -json"
+        }
+    }
+
+    Context "Validate" {
+
+        BeforeEach {
+            # Reset the commands list to an empty array
+            $global:Session.commands.list = @()
+
+            # create directory and file to mimic the output of the false backend init
+            # these should be removed by the command
+            $terraformDir = New-Item -ItemType Directory -Path (Join-Path -Path $testFolder -ChildPath ".terraform")
+            $terraformLockFile = New-Item -ItemType File -Path (Join-Path -Path $testFolder -ChildPath ".terraform.lock.hcl")
+
+        }
+
+        It "will run the commands to perform validation checks" {
+
+            Invoke-Terraform -Validate -Path $testFolder
+
+            $Session.commands.list[0] | Should -BeLike "*terraform* init -backend=false"
+            $Session.commands.list[1] | Should -BeLike "*terraform* validate"
+
+            Test-Path -Path $terraformDir.FullName | Should -Be $false
+            Test-Path -Path $terraformLockFile.FullName | Should -Be $false
         }
     }
 }
