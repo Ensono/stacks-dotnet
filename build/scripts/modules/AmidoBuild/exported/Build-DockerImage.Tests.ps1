@@ -59,27 +59,28 @@ Describe "Build-DockerImage" {
 
             # Mock Write-Error to check that it has been called
             Mock -CommandName Write-Error -MockWith {} -Verifiable
+            Mock -CommandName Write-Information -MockWith {} -Verifiable
         }
 
         It "must error if no name is given for the image" {
 
             Build-DockerImage
 
-            Assert-MockCalled Write-Error -Exactly 1
+            Should -Invoke -CommandName Write-Error -Times 1
         }
 
-        It "must error if no tag is given for the image" {
+        It "will set a default tag if one is not set" {
 
             Build-DockerImage -Name unittests
 
-            Assert-MockCalled Write-Error -Exactly 1
+            Should -Invoke -CommandName Write-Information -Times 1
         }
         
         It "must error if trying to push and no registry has been specified" {
 
             Build-DockerImage -Name unittests -Push
 
-            Assert-MockCalled Write-Error -Exactly 1
+            Should -Invoke -CommandName Write-Error -Times 1
         }
     }
 

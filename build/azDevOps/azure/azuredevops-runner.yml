@@ -41,8 +41,6 @@ variables:
   - name: pool_vm_image
     value: ubuntu-20.04
 
-  - name: docker_image_name
-    value: $(self_generic_name)
   - name: docker_image_tag
     value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
 
@@ -88,7 +86,6 @@ stages:
             inputs:
               targetType: inline
               script: taskctl build
-              informationPreference: continue
             env:
               ARM_TENANT_ID: "$(azure-tenant-id)"
               ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"

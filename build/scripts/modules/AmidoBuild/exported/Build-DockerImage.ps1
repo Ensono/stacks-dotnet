@@ -63,13 +63,13 @@ function Build-DockerImage() {
     }
 
     if ([string]::IsNullOrEmpty($tag)) {
-        Write-Error -Message "A tag for the Docker image must be specified"
-        return
+        $tag = "workstation-0.0.1"
+        Write-Information -MessageData ("No tag has been specified for the image, a default one has been set: {0}" -f $tag)
     }
 
     # If the push switch has been specified then check that a registry
     # has been specified
-    if ($push.IsPresent -and [string]::IsNullOrEmpty($registry)) {
+    if ($push.IsPresent -and [string]::IsNullOrEmpty($registry) -and !(Test-Path -Path env:\NO_PUSH)) {
         Write-Error -Message "A registry to push the image to must be specified"
         return
     }
@@ -95,7 +95,7 @@ function Build-DockerImage() {
     }
 
     # Proceed if a registry has been specified
-    if (![String]::IsNullOrEmpty($registry) -and $push.IsPresent) {
+    if (![String]::IsNullOrEmpty($registry) -and $push.IsPresent -and !(Test-Path -Path env:\NO_PUSH)) {
 
         # Ensure that the module is available and loaded
         $moduleName = "Az.ContainerRegistry"

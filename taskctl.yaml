@@ -5,18 +5,13 @@ contexts:
       args:
         - run
         - --rm
-        - -v
-        - ${PWD}:/app
-        - -e
-        - PSModulePath=/app/build/scripts/modules
-        - -w
-        - /app
-        - --env-file
-        - envfile
+        - -v ${PWD}:/app
+        - -v /var/run/docker.sock:/var/run/docker.sock
+        - -e PSModulePath=/app/build/scripts/modules
+        - -w /app
+        - --env-file envfile
         - russellseymour/runner-pwsh-dotnet:0.0.3
-        - pwsh
-        - -NoProfile
-        - -Command
+        - pwsh -NoProfile -Command
 
     quote: "'"
     env:
@@ -42,6 +37,12 @@ contexts:
 
 
 tasks:
+
+  rjs:
+    context: powershell
+    command: Write-Host {{ .DOCKER_IMAGE_NAME }}
+    variables:
+      DOCKER_IMAGE_NAME: stacks-api
 
   buildnumber:
     context: powershell
@@ -139,7 +140,9 @@ tasks:
     context: powershell
     description: Create container image for application
     command:
-      - Build-DockerImage -buildargs src/api -push
+      - Build-DockerImage -Name {{ .IMAGE_NAME }} -buildargs src/api -push
+    variables:
+      IMAGE_NAME: stacks-api
 
   build:functional_tests:
     context: powershell
@@ -263,6 +266,8 @@ pipelines:
     - task: build:functional_tests
     - task: build:container
       depends_on: test:sonarcloud:stop
+      variables:
+        IMAGE_NAME: stacks-api
 
   # Pipeline to ensure that the infrastructure is valid
   infrastructure:
