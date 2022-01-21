@@ -14,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 using xxAMIDOxx.xxSTACKSxx.API.Authorization;
@@ -29,6 +32,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         private readonly IWebHostEnvironment hostingEnv;
         private readonly string pathBase;
         private readonly bool useAppInsights;
+        private readonly bool useOpenTelemetry;
 
         private const string projectUrl = "https://github.com/amido/stacks-dotnet";
 
@@ -40,6 +44,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
 
             pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
             useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
+            useOpenTelemetry = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -47,7 +52,25 @@ namespace xxAMIDOxx.xxSTACKSxx.API
         public virtual void ConfigureServices(IServiceCollection services)
         {
             if (useAppInsights)
+            {
                 services.AddApplicationInsightsTelemetry();
+            }
+
+            if (useOpenTelemetry)
+            {
+                AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+                services.AddOpenTelemetryTracing((builder) => builder
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName)))
+                    .AddAspNetCoreInstrumentation()
+                    .AddConsoleExporter(options =>
+                    {
+                        options.Targets = ConsoleExporterOutputTargets.Debug;
+                    })
+                    .AddOtlpExporter(otlpOptions =>
+                    {
+                        otlpOptions.Endpoint = new Uri(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OltpEndpoint));
+                    }));
+            }
 
             services.AddHealthChecks();
 
@@ -57,7 +80,6 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                 .AddAuthorization()
                 .AddDataAnnotations()
                 .AddCors()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 /* Only required if the models will used Json.Net features for serialization
                 .AddNewtonsoftJson(options =>
                 {
@@ -146,7 +168,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     {
                         Version = "all",
                         Title = "Menu API",
-                        Description = "APIs used to interact and manage menus for a restaurant",
+                        Description = "APIs used to interact and manage menus",
                         Contact = new OpenApiContact()
                         {
                             Name = "Amido",
@@ -189,7 +211,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API
                     {
                         Version = "v1",
                         Title = "Menu API",
-                        Description = "APIs used to interact and manage menus for a restaurant",
+                        Description = "APIs used to interact and manage menus",
                         Contact = new OpenApiContact()
                         {
                             Name = "Amido",
