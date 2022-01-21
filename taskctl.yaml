@@ -13,7 +13,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - russellseymour/runner-pwsh-dotnet:0.0.2
+        - russellseymour/runner-pwsh-dotnet:0.0.3
         - pwsh
         - -NoProfile
         - -Command
@@ -35,7 +35,7 @@ contexts:
         - PSModulePath=/app/build/scripts/modules
         - -w
         - /app
-        - russellseymour/runner-pwsh-python:0.0.1
+        - russellseymour/runner-pwsh-python:0.0.2
         - pwsh
         - -NoProfile
         - -Command
@@ -63,11 +63,17 @@ tasks:
     command:
       - Invoke-YamlLint
 
-  lint:terraform:
+  lint:terraform:format:
+    context: powershell
+    description: Perform Terraform format check
+    command:
+      - Invoke-Terraform -Format -Path deploy/azure/app/kube
+
+  lint:terraform:validate:
     context: powershell
     description: Perform Terraform validation
     command:
-      - Invoke-Terraform -Lint
+      - Invoke-Terraform -Validate -Path deploy/azure/app/kube
 
   # TESTS
   # Configure test tasks
@@ -168,7 +174,7 @@ tasks:
     context: powershell
     description: Apply Terraform Plan
     command:
-      - Invoke-Terraform -Apply -Path tfplan
+      - Invoke-Terraform -Apply -PlanFile tfplan
 
   infra:output:
     context: powershell
@@ -233,7 +239,8 @@ pipelines:
 
   lint:
     - task: lint:yaml
-    - task: lint:terraform
+    - task: lint:terraform:format
+    - task: lint:terraform:validate
 
   # Pipeline to perform the build of the project
   build:

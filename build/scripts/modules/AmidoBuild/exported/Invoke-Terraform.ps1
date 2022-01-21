@@ -20,7 +20,14 @@ function Invoke-Terraform() {
         )]
         [switch]
         # Initalise Terraform
-        $custom,        
+        $custom,
+
+        [Parameter(
+            ParameterSetName="format"
+        )]
+        [switch]
+        # Validate templates
+        $format,        
 
         [Parameter(
             ParameterSetName="init"
@@ -28,13 +35,6 @@ function Invoke-Terraform() {
         [switch]
         # Initalise Terraform
         $init,
-
-        [Parameter(
-            ParameterSetName="lint"
-        )]
-        [switch]
-        # Initalise Terraform
-        $lint,
 
         [Parameter(
             ParameterSetName="plan"
@@ -49,6 +49,13 @@ function Invoke-Terraform() {
         [switch]
         # Initalise Terraform
         $output,
+
+        [Parameter(
+            ParameterSetName="validate"
+        )]
+        [switch]
+        # Perform validate check on templates
+        $validate,
         
         [Parameter(
             ParameterSetName="workspace"
@@ -63,6 +70,9 @@ function Invoke-Terraform() {
         $arguments
 
     )
+
+    # set flag to state if the dir was changed
+    $changedDir = $false
 
     # Check parameters exist for certain cmds
     if (@("init").Contains($PSCmdlet.ParameterSetName)) {
@@ -88,6 +98,15 @@ function Invoke-Terraform() {
 
     # Find the Terraform command to use
     $terraform = Find-Command -Name "terraform"
+
+    # If a path has been specified and it is a directory
+    # change to that path
+    if (![string]::IsNullOrEmpty($path) -and (Get-Item $path) -is [System.IO.DirectoryInfo]) {
+        Push-Location -Path $path
+        $changedDir = $true
+    }
+
+    Write-Information -MessageData ("Working directory: {0}" -f (Get-Location))
 
     # select operation to run based on the cmd
     switch ($PSCmdlet.ParameterSetName) {
@@ -118,32 +137,20 @@ function Invoke-Terraform() {
             Invoke-External -Command $command
         }
 
-        # Perform linting operations for Terrafform
-        "lint" {
+        # Check format of templates
+        "format" {
 
-            $commands = @()
+            $command = "{0} fmt -diff -check -recursive" -f $terraform
 
-            # Build up the commands that terraform needs to run to perform linting tasks
-            $commands += "{0} fmt -diff -check -recursive" -f $terraform
-            $commands += "{0} init -backend=false; {0} validate" -f $terraform
-
-            # Exceute the tarrform command
-            foreach ($command in $commands) {
-                Invoke-External -Command $command
-            }
-        }
+            Invoke-External -Command $command
+        }        
 
         # Plan the infrastrtcure
         "plan" {
 
-            # Change directory to the specified path
-            Push-Location -Path $path
-
             $command = "{0} plan {1}" -f $terraform, ($arguments -join " ")
             Invoke-External -Command $command
 
-            # Return to the previous path
-            Pop-Location
         }
 
         # Output information from the state
@@ -152,6 +159,31 @@ function Invoke-Terraform() {
             # Run the command to get the state from terraform
             $command = "{0} output -json" -f $terraform
             Invoke-External -Command $command
+        }
+
+        # Valiate the templates
+        "validate" {
+
+            # Run the commands to perform a validation
+            $commands = @()
+            $commands += "{0} init -backend=false" -f $terraform
+            $commands += "{0} validate" -f $terraform
+
+            Invoke-External -Command $commands
+
+            # After validation has run, delete the terraform dir and lock file
+            # This is so that it does not interfer with the deployment of the infrastructure
+            # when a valid backend is initialised
+            Write-Information -MessageData "Removing Terraform init files for 'false' backend"
+            $removals = @(
+                ".terraform",
+                ".terraform.lock.hcl"
+            )
+            foreach ($item in $removals) {
+                if (Test-Path -Path $item) {
+                    Remove-Item -Path $item -Recurse -Force
+                }
+            }
         }
 
 
@@ -169,6 +201,12 @@ function Invoke-Terraform() {
                 Invoke-External -Command $command
             }
         }
+
+
+    }
+
+    if ($changedDir) {
+        Pop-Location
     }
 
 
