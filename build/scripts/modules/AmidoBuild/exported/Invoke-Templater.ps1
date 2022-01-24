@@ -18,10 +18,13 @@ function Invoke-Templater() {
         # path to the list of items
         $path,
 
+        [Parameter(
+            ValueFromPipeline=$true
+        )]
         [Alias("tfdata")]
         [string]
         # JSON object representing the outputs from Terraform
-        $tfoutputs,
+        $tfoutputs = $env:TERRAFORM_OUTPUT,
 
         [string]
         # Base directory to use when paths are relative
@@ -52,12 +55,14 @@ function Invoke-Templater() {
         }
 
         # convert the tfoutputs to a data object
-        $data = $tfoutputs | ConvertFrom-JSON
+        $data = ConvertFrom-JSON -InputObject $tfoutputs -ErrorAction SilentlyContinue
 
         # iterate around the data and set local variables
-        $data | Get-Member -MemberType NoteProperty | ForEach-Object {
-            $name = $_.Name
-            Set-Variable -Name $name -Value $data.$name.value
+        if ($data) {
+            $data | Get-Member -MemberType NoteProperty | ForEach-Object {
+                $name = $_.Name
+                Set-Variable -Name $name -Value $data.$name.value
+            }
         }
     }
 

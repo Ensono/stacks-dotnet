@@ -13,8 +13,7 @@ Describe "Invoke-Templater" {
 
         # create two files to pass to the function
         # one with valid PS data and one without
-        $invalidFile = New-Item -Path (Join-Path -Path $testFolder -ChildPath "invalid.txt") -Value "foobar"
-        $validFile = New-Item -Path (Join-Path -Path $testFolder -ChildPath "valid.txt") -Value '@(
+        $deploymentData = '@(
             @{
                 displayName = "AppDeployment"
                 template = "templates/base_deploy.yml"
@@ -23,19 +22,24 @@ Describe "Invoke-Templater" {
                 }
             }
         )'
+
+        $terraformData = @"
+        {
+            "sa_name": {
+                "sensitive": false,
+                "type": "string",
+                "value": "azurestorageacc"
+            }
+        }
+"@
+
+        $invalidFile = New-Item -Path (Join-Path -Path $testFolder -ChildPath "invalid.txt") -Value "foobar"
+        $validFile = New-Item -Path (Join-Path -Path $testFolder -ChildPath "valid.txt") -Value $deploymentData
         $templateDir = New-Item -ItemType Directory -Path (Join-Path -Path $testFolder -ChildPath "templates")
         $deployFile = New-Item -Path (Join-Path -Path $templateDir -ChildPath "base_deploy.yml") -Value 'url: https://${dns_pointer}`nsa_name: ${sa_name}'
 
         # create JSON file to use to represent Terraform output data
-        $tfOutputs = New-Item -Path (Join-Path -Path $testFolder -ChildPath "tfdata.json") -Value @"
-{
-    "sa_name": {
-        "sensitive": false,
-        "type": "string",
-        "value": "azurestorageacc"
-    }
-}
-"@
+        $tfOutputs = New-Item -Path (Join-Path -Path $testFolder -ChildPath "tfdata.json") -Value $terraformData
 
         # Mock functions that are called
         # - Write-Error - mock this internal function to check that errors are being raised
@@ -71,6 +75,17 @@ Describe "Invoke-Templater" {
             Remove-Item env:\BASE_DOMAIN
         }
 
+        BeforeEach {
+
+            $renderedFile = [IO.Path]::Combine($testFolder, "templates", "deploy.yml")
+        }
+
+        AfterEach {
+            If (Test-Path -Path $renderedFile) {
+                Remove-Item -Path $renderedFile
+            }
+        }
+
         It "throws an error as the path is a folder" {
 
             Invoke-Templater -Path $testFolder
@@ -93,7 +108,20 @@ Describe "Invoke-Templater" {
             # the parameter allows for a path or a valid JSON object to be passed
             Invoke-Templater -Path $validFile.FullName -BaseDir $testFolder -tfdata $tfOutputs.FullName
 
-            $renderedFile = [IO.Path]::Combine($testFolder, "templates", "deploy.yml")
+            # Check that the rendered file exists
+            Test-Path -Path $renderedFile | Should -Be $true
+
+            # Check the contents of the file
+            (Get-Content -Path $renderedFile -Raw).Trim() | Should -Be "url: https://pester-example.example.com`nsa_name: azurestorageacc"
+
+            # Check that Write-Information is called to state which template has been rendered
+            Should -Invoke -CommandName Write-Information -Times 1
+        }
+
+        It "can accept data from the pipeline" {
+
+            # Send the tfoutputs into the command using the pipeline
+            $terraformData | Invoke-Templater -Path $validFile.FullName -BaseDir $testFolder
 
             # Check that the rendered file exists
             Test-Path -Path $renderedFile | Should -Be $true
