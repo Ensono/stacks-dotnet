@@ -46,6 +46,17 @@ Describe "Invoke-Terraform" {
             # check that the generated command is correct
             $Session.commands.list[0] | Should -BeLike "*terraform* init -backend-config=`"key=tfstate`""
         }
+
+        It "will initialise Terraform in the specified directory" {
+
+            # run the function to call terraform with some arguments for the backend
+            Invoke-Terraform -init -Backend "key=tfstate" -Path $testFolder
+
+            # check that the generated command is correct
+            $Session.commands.list[0] | Should -BeLike ("*terraform* init -backend-config=`"key=tfstate`" {0}" -f $testFolder)
+            
+
+        }
     }
 
     Context "Workspace" {
