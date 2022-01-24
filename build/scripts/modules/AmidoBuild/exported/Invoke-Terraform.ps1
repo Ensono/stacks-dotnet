@@ -134,6 +134,12 @@ function Invoke-Terraform() {
 
             # Build up the command to pass
             $command = "{0} init {1}" -f $terraform, ($a -join (" "))
+
+            # add in the path if it is not null
+            if (![String]::IsNullOrEmpty($path)) {
+                $command += " {0}" -f $path
+            }
+
             Invoke-External -Command $command
         }
 
