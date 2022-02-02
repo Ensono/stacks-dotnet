@@ -51,6 +51,13 @@ function Invoke-Terraform() {
         $output,
 
         [Parameter(
+            ParameterSetName="output"
+        )]
+        [switch]
+        # Allow the output of senstive values
+        $sensitive,
+
+        [Parameter(
             ParameterSetName="validate"
         )]
         [switch]
@@ -129,16 +136,11 @@ function Invoke-Terraform() {
             # Iterate around the arguments
             $a = @()
             foreach ($arg in $arguments) {
-                $a += "-backend-config=`"{0}`"" -f $arg
+                $a += "-backend-config='{0}'" -f $arg
             }
 
             # Build up the command to pass
             $command = "{0} init {1}" -f $terraform, ($a -join (" "))
-
-            # add in the path if it is not null
-            if (![String]::IsNullOrEmpty($path)) {
-                $command += " {0}" -f $path
-            }
 
             Invoke-External -Command $command
         }
@@ -160,11 +162,37 @@ function Invoke-Terraform() {
         }
 
         # Output information from the state
+        # This will retrieve all the non-sensitive values, if these are required then 
+        # the -Sensitive switch must been specified
         "output" {
 
             # Run the command to get the state from terraform
             $command = "{0} output -json" -f $terraform
-            Invoke-External -Command $command
+            $result = Invoke-External -Command $command
+
+            if (![String]::IsNullOrEmpty($result)) {
+
+                $data = $result | ConvertFrom-Json
+
+                # iterate around the data and get the values for all the sensitive variables
+                if ($sensitive) {
+                    $data | Get-Member -MemberType NoteProperty | ForEach-Object {
+                        
+                        $name = $_.Name
+
+                        # if if the output is a sensitive value get the value using Terraform
+                        if ($data.$name.sensitive) {
+                            $value = Invoke-External -Command ("{0} output -raw {1}" -f $terraform, $name)
+
+                            # set the value in the object
+                            $data.$name.value = $value
+                        }
+                    }
+                }
+
+                # output the data as JSON
+                $data | ConvertTo-Json -Compress
+            }
         }
 
         # Valiate the templates

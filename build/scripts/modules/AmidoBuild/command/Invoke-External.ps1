@@ -51,7 +51,9 @@ function Invoke-External {
         }
 
         if ($execute) {
-            Invoke-Expression -Command $command
+            $output = Invoke-Expression -Command $command
+
+            Write-Output -InputObject $output
 
             # Add the exit code to the session, if it exists
             if (Get-Variable -Name Session -Scope global -ErrorAction SilentlyContinue) {

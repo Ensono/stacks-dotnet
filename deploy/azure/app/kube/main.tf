@@ -38,3 +38,14 @@ module "app" {
   # Alternatively if you want you can pass in the IP directly and remove the need for a lookup
   # dns_a_records                        = ["0.1.23.45"]
 }
+
+data "terraform_remote_state" "core" {
+  backend = "azurerm"
+
+  config = {
+    key                  = "${var.tfstate_key}:${var.core_environment}"
+    storage_account_name = var.tfstate_storage_account
+    container_name       = var.tfstate_container_name
+    resource_group_name  = var.tfstate_resource_group_name
+  }
+}

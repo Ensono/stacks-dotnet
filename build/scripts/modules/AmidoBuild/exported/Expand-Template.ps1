@@ -95,6 +95,7 @@ function Expand-Template() {
     # Perform the expansion of the template
     $data = $ExecutionContext.InvokeCommand.ExpandString($template)
 
+    
     # Output information if show has been specified
     if ($show) {
         Write-Information -MessageData ("base yaml: {0}" -f $path)

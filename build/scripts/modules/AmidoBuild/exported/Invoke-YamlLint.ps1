@@ -63,7 +63,7 @@ function Invoke-YamlLint() {
     $pip = Find-Command -Name "pip"
     $cmd = "{0} freeze" -f $pip
     $result = Invoke-External -Command $cmd
-    $yamllint = $result | Where-Object { $_.StartsWith("yamllint") }
+    $yamllint = $result | Where-Object { ![String]::IsNullOrEmpty($_) -and $_.StartsWith("yamllint") }
     if ([string]::IsNullOrEmpty($yamllint)) {
 
         Write-Information -MessageData "Installing Python package: yamllint"

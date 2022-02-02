@@ -40,6 +40,8 @@ function Invoke-Templater() {
         # Exclude the path env var so that the one that is already
         # set does not get overwritten
         if (@("path") -notcontains $envvar.Name) {
+            Write-Debug ("Setting variable: {0}" -f $envvar.Name)
+
             Set-Variable -Name $envvar.Name -Value $envvar.Value
         }
     }
@@ -91,7 +93,20 @@ function Invoke-Templater() {
                     $item.template = [IO.Path]::Combine($baseDir, $item.template)
                 }
 
-                Expand-Template -path $item.template -additional $item.vars
+                $extra = @{}
+                $item.vars.GetEnumerator() | ForEach-Object {
+                    Write-Debug ("{0} - {1}" -f $_.Name, $_.Value)
+
+                    $rendered = ""
+
+                    if (![string]::IsNullOrEmpty($_.Value)) {
+                        $rendered = $ExecutionContext.InvokeCommand.ExpandString($_.Value)
+                    }
+
+                    $extra[$_.Name] = $rendered
+                }
+
+                Expand-Template -path $item.template -additional $extra
             }
 
         } catch {
