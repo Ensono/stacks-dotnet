@@ -5,18 +5,25 @@ contexts:
       args:
         - run
         - --rm
-        - -v ${PWD}:/app
-        - -v /var/run/docker.sock:/var/run/docker.sock
-        - -e PSModulePath=/app/build/scripts/modules
-        - -w /app
-        - --env-file envfile
+        - -v
+        - ${PWD}:/app
+        - -v
+        - /var/run/docker.sock:/var/run/docker.sock
+        - -e
+        - PSModulePath=/app/build/scripts/modules
+        - -w
+        - /app
+        - --env-file
+        - envfile
         - russellseymour/runner-pwsh-dotnet:0.0.3
-        - pwsh -NoProfile -Command
-
+        - pwsh
+        - -NoProfile
+        - -Command
     quote: "'"
     env:
       arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
-    before: env | grep -v PATH > envfile
+    # before: env | grep -v PATH > envfile
+    # before: "pwsh -Command 'Get-ChildItem env: | Where-Object { $_.Name -ne `"path`" } | % { `"{0}={1}`" -f $_.Name, $_.Value } > .\envfile'"
 
   powershell-python:
     executable:
@@ -37,12 +44,6 @@ contexts:
 
 
 tasks:
-
-  rjs:
-    context: powershell
-    command: Write-Host {{ .DOCKER_IMAGE_NAME }}
-    variables:
-      DOCKER_IMAGE_NAME: stacks-api
 
   buildnumber:
     context: powershell
@@ -151,71 +152,36 @@ tasks:
       - Invoke-Dotnet -Build -Path src/tests/Functional
 
   # Infrastructure tasks
+  # Not using dir here because using this means that the directory is changed **after** the envfile
+  # has been created but **before** the container is started so Docker is unable to find the file
+  # to pull in as variables
   infra:init:
     context: powershell
     description: Initialise Terraform for the environment
-    dir: deploy/azure/app/kube
     command:
-      - Invoke-Terraform -Init `
-            -backend key=$env:TF_STATE_KEY,`
-                     storage_account_name=$env:TF_STATE_STORAGE,`
-                     resource_group_name=$env:TF_STATE_RG,`
-                     container_name=$env:TF_STATE_CONTAINER,`
-                     subscription_id=$env:ARM_SUBSCRIPTION_ID,`
-                     tenant_id=$env:ARM_TENANT_ID,`
-                     client_id=$env:ARM_CLIENT_ID,`
-                     client_secret=$env:ARM_CLIENT_SECRET
-      - Invoke-Terraform -Workspace -Arguments $env:ENV_NAME
+      - Invoke-Terraform -Init -backend key=$env:TF_STATE_KEY,storage_account_name=$env:TF_STATE_STORAGE,resource_group_name=$env:TF_STATE_RG,container_name=$env:TF_STATE_CONTAINER,subscription_id=$env:ARM_SUBSCRIPTION_ID,tenant_id=$env:ARM_TENANT_ID,client_id=$env:ARM_CLIENT_ID,client_secret=$env:ARM_CLIENT_SECRET -Path deploy/azure/app/kube -Debug
+      - Invoke-Terraform -Workspace -Arguments $env:ENV_NAME -Path deploy/azure/app/kube -Debug
 
   infra:plan:
     context: powershell
     description: Plan Terraform
     command:
-      - Invoke-Terraform -Plan -Arguments "-input=false","-out=tfplan"
+      - Invoke-Terraform -Plan -Path deploy/azure/app/kube -Arguments "-input=false","-out=tfplan"
 
   infra:apply:
     context: powershell
     description: Apply Terraform Plan
     command:
-      - Invoke-Terraform -Apply -PlanFile tfplan
-
-  infra:output:
-    context: powershell
-    description: Get Terraform Outputs
-    command:
-      - Invoke-Terraform -Output
+      - Invoke-Terraform -Apply-Path deploy/azure/app/kube -PlanFile tfplan
 
   # Deployment
   deploy:templater:
     context: powershell
     description: Render deployment templates
-    before:
-      - |
-        echo @"
-          @(
-            @{
-              displayName = "AppDeployment"
-              template = "deploy/k8s/app/base_api-deploy.yml"
-              vars = @{
-                dns_pointer = "`${ENV_NAME}-`${DOMAIN}.`${BASE_DOMAIN}"
-                tls_domain = "`${BASE_DOMAIN}"
-                ks8_app_path = "/api/menu"
-                log_level = "Debug"
-                k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
-                aadpodidentitybinding = "stacks-webapp-identity"
-                app_insights_key = "`${APP_INSIGHTS_INSTRUMENTATION_KEY}"
-                jwtbearerauthentication_audience = "<TODO>"
-                jwtbearerauthentication_authority = "<TODO>"
-                jwtbearerauthentication_enabled = false
-                jwtbearerauthentication_openapiauthorizationurl = "<TODO>"
-                jwtbearerauthentication_openapiclientid = "<TODO>"
-                jwtbearerauthentication_openapitokenurl = "<TODO>"
-              }
-            }
-          )
-        "@ > local/list.txt
     command:
-      - Invoke-Templater -Path local/list.txt -TfOutputs '{{ .Tasks.infra:output.Output }}'
+      - Invoke-Terraform -Output -Sensitive -Path deploy/azure/app/kube | Invoke-Templater -Path build/deployment_list.ps1 -Debug
+    env:
+      RESOURCE_DEF_NAME: netcore-api
 
   deploy:kubernetes:
     context: powershell
@@ -230,6 +196,26 @@ tasks:
     command:
       - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_DIR
 
+  rjs:setter:
+    context: powershell
+    command:
+      - Write-Output "Taskctl"
+    exportAs: RJS_SETTER_OUTPUT
+
+  rjs:getter:
+    context: powershell
+    command:
+      - Write-Output "Using ${RJS_SETTER_OUTPUT}"
+
+  rjs:env:
+    context: powershell
+    #command:
+    #  - "Write-Output (\"Resource def name: {0}\" -f \"${RESOURCE_DEF_NAME}\")"
+    command:
+      - echo ${RESOURCE_DEF_NAME}
+    env:
+      RESOURCE_DEF_NAME: netcore-api    
+
 watchers:
 
   lint:
@@ -239,6 +225,11 @@ watchers:
     task: lint:yaml
 
 pipelines:
+
+  rjs:
+    - task: rjs:setter
+    - task: rjs:getter
+      depends_on: rjs:setter
 
   lint:
     - task: lint:yaml
@@ -276,13 +267,13 @@ pipelines:
       depends_on: infra:init
     - task: infra:apply
       depends_on: infra:plan
-    - task: infra:output
-      depends_on: infra:apply
+    # - task: infra:output
+    #  depends_on: infra:apply
 
   # Deploy pipeline
   deploy:
-    - task: infra:output
+    # - task: infra:output
     - task: deploy:templater
-      depends_on: infra:output
-    - task: deploy:kubernetes
-      depends_on: deploy:templater
+    #  depends_on: infra:output
+    #- task: deploy:kubernetes
+    #  depends_on: deploy:templater

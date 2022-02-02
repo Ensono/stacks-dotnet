@@ -31,7 +31,7 @@ function Find-Command {
         Write-Error -Message ("'{0}' command cannot be found in the path, please ensure it is installed" -f $Name)
         return
     } else {
-        Write-Host ("Tool found: {0}" -f $command.Source)
+        Write-Information ("Tool found: {0}" -f $command.Source)
     }
 
     return $command
