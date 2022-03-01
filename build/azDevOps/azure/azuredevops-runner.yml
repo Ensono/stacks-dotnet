@@ -58,7 +58,6 @@ stages:
 
     jobs:
       - job: AppBuild
-        container: runner_container
         pool:
           vmImage: $(pool_vm_image)
 
@@ -226,7 +225,6 @@ stages:
 
     jobs:
       - deployment: AppInfraProd
-        container: runner_continer
         pool:
           vmImage: $(pool_vm_image)
 
@@ -280,7 +278,6 @@ stages:
       - deployment: DeployProd
         dependsOn:
           - AppInfraProd
-        container: runner_container
         pool:
           vmImage: $(pool_vm_image)
         environment: prod
