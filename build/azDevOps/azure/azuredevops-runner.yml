@@ -11,11 +11,6 @@ trigger:
     include:
       - '*'
 
-# resources:
-  # containers:
-  #   - container: runner_container
-  #     image: russellseymour/runner-pwsh-dotnet
-
 variables:
   - template: azuredevops-vars.yml
 
@@ -119,7 +114,6 @@ stages:
 
     jobs:
       - deployment: AppInfraDev
-        #container: runner_continer
         pool:
           vmImage: $(pool_vm_image)
 
@@ -172,7 +166,6 @@ stages:
 
       - deployment: DeployDev
         dependsOn: AppInfraDev
-        # container: runner_container
         pool:
           vmImage: $(pool_vm_image)
         environment: ${{ variables.domain }}-dev
