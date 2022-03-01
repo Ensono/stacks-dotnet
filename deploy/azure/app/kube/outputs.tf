@@ -44,35 +44,35 @@ output "dns_name" {
 
 output "aks_resource_group_name" {
   description = "Name of the Resource Group in which the K8s cluster is deployed"
-  value = data.terraform_remote_state.core.outputs.aks_resource_group_name
+  value       = data.terraform_remote_state.core.outputs.aks_resource_group_name
 }
 
 output "aks_cluster_name" {
   description = "Name of the AKS cluster"
-  value = data.terraform_remote_state.core.outputs.aks_cluster_name
+  value       = data.terraform_remote_state.core.outputs.aks_cluster_name
 }
 
 output "resource_group_name" {
   description = "Name of the core resource group"
-  value = data.terraform_remote_state.core.outputs.resource_group_name
+  value       = data.terraform_remote_state.core.outputs.resource_group_name
 }
 
 output "acr_resource_group_name" {
   description = "Name of the resource group the container registry belongs to"
-  value = data.terraform_remote_state.core.outputs.acr_resource_group_name
+  value       = data.terraform_remote_state.core.outputs.acr_resource_group_name
 }
 
 output "acr_registry_name" {
   description = "Name of the Docker registry to push images to"
-  value = data.terraform_remote_state.core.outputs.acr_registry_name
+  value       = data.terraform_remote_state.core.outputs.acr_registry_name
 }
 
 output "app_insights_name" {
   description = "Name of the Application Insights instance"
-  value = data.terraform_remote_state.core.outputs.app_insights_name
+  value       = data.terraform_remote_state.core.outputs.app_insights_name
 }
 
 output "app_gateway_ip" {
   description = "IP address of the Application Gateway"
-  value = data.terraform_remote_state.core.outputs.app_gateway_ip
+  value       = data.terraform_remote_state.core.outputs.app_gateway_ip
 }
