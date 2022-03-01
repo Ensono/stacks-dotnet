@@ -104,7 +104,7 @@ stages:
 
   - stage: Dev
     dependsOn: Build
-    condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/main'),ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
