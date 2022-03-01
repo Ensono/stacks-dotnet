@@ -11,10 +11,10 @@ trigger:
     include:
       - '*'
 
-resources:
-  containers:
-    - container: runner_container
-      image: russellseymour/runner-pwsh-dotnet
+# resources:
+  # containers:
+  #   - container: runner_container
+  #     image: russellseymour/runner-pwsh-dotnet
 
 variables:
   - template: azuredevops-vars.yml
@@ -82,7 +82,7 @@ stages:
 
           - checkout: self
 
-          - task: PowerShell@2
+          - task: Bash@3
             inputs:
               targetType: inline
               script: taskctl build
@@ -109,7 +109,7 @@ stages:
 
   - stage: Dev
     dependsOn: Build
-    condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/main'),ne(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
@@ -119,7 +119,7 @@ stages:
 
     jobs:
       - deployment: AppInfraDev
-        container: runner_continer
+        #container: runner_continer
         pool:
           vmImage: $(pool_vm_image)
 
@@ -132,7 +132,7 @@ stages:
 
                 - checkout: self
 
-                - task: PowerShell@2
+                - task: Bash@3
                   inputs:
                     targetType: inline
                     script: taskctl infrastructure
@@ -172,7 +172,7 @@ stages:
 
       - deployment: DeployDev
         dependsOn: AppInfraDev
-        container: runner_container
+        # container: runner_container
         pool:
           vmImage: $(pool_vm_image)
         environment: ${{ variables.domain }}-dev
@@ -181,7 +181,7 @@ stages:
             value: "$(Environment.ShortName)-${{ variables.domain }}"
 
         strategy:
-          runOnce: 
+          runOnce:
             deploy:
               steps:
                 - checkout: self
@@ -198,7 +198,7 @@ stages:
                     artifact: tests
                     path: $(Pipeline.Workspace)/tests
 
-                - task: PowerShell@2
+                - task: Bash@3
                   inputs:
                     targetType: inline
                     script: taskctl deploy
@@ -213,7 +213,7 @@ stages:
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
                     DOCKER_REGISTRY: $(k8s_docker_registry_nonprod)
                     DOMAIN: ${{ variables.domain }}
-                    ENV_NAME: $(Environment.ShortName)              
+                    ENV_NAME: $(Environment.ShortName)
                     KUBECTL_FILEPATH: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
                     FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
                     NAMESPACE: $(namespace)
@@ -285,7 +285,7 @@ stages:
                     TF_VAR_cosmosdb_offer_type: "Standard"
 
       - deployment: DeployProd
-        dependsOn: 
+        dependsOn:
           - AppInfraProd
         container: runner_container
         pool:
@@ -294,9 +294,8 @@ stages:
         variables:
           - name: namespace
             value: "$(Environment.ShortName)-${{ variables.domain }}"
-        
         strategy:
-          runOnce: 
+          runOnce:
             deploy:
               steps:
                 - checkout: self
@@ -327,12 +326,11 @@ stages:
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
                     DOCKER_REGISTRY: $(k8s_docker_registry_prod)
-                    DOMAIN: ${{ variables.domain }}           
-                    ENV_NAME: $(Environment.ShortName) 
+                    DOMAIN: ${{ variables.domain }}
+                    ENV_NAME: $(Environment.ShortName)
                     KUBECTL_FILEPATH: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
                     FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
                     DEPLOYMENT_STATUS_TIMEOUT: 120s
-                    BaseUrl: "https://$(Environment.ShortName)-${{ variables.domain }}.$(base_domain_prod)/api/menu/"                    
-
+                    BaseUrl: "https://$(Environment.ShortName)-${{ variables.domain }}.$(base_domain_prod)/api/menu/"
