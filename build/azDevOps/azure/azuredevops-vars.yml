@@ -90,3 +90,7 @@ variables:
     value: GitHubReleases
   - name: github_org
     value: $(company)
+
+  # TaskCTL configuration
+  - name: TaskctlVersion
+    value: 1.4.2
