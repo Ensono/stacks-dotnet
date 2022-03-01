@@ -140,25 +140,25 @@ variable "core_environment" {
 }
 
 variable "tfstate_key" {
-  type = string
+  type        = string
   description = "Name of the key in remote storage for the core environmnent"
-  default = "core-sharedservicesenv"
+  default     = "core-sharedservicesenv"
 }
 
 variable "tfstate_storage_account" {
-  type = string
+  type        = string
   description = "Name of the storage account that holds the Terraform state"
-  default = "amidostackstfstate"
+  default     = "amidostackstfstate"
 }
 
 variable "tfstate_container_name" {
-  type = string
+  type        = string
   description = "Name of the container in the specified storage account holding the state"
-  default = "tfstate"
+  default     = "tfstate"
 }
 
 variable "tfstate_resource_group_name" {
-  type = string
+  type        = string
   description = "Name of the resource group that holds the the above resources"
-  default = "Stacks-Ancillary-Resources"
+  default     = "Stacks-Ancillary-Resources"
 }
