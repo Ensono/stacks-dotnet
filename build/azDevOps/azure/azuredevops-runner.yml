@@ -179,7 +179,7 @@ stages:
               steps:
                 - checkout: self
 
-                - task: PublishPipelineArtifact@2
+                - task: PublishPipelineArtifact@1
                   displayName: Publish Kubernetes Manifest
                   inputs:
                     path: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
@@ -293,7 +293,7 @@ stages:
               steps:
                 - checkout: self
 
-                - task: PublishPipelineArtifact@2
+                - task: PublishPipelineArtifact@1
                   displayName: Publish Kubernetes Manifest
                   inputs:
                     path: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
