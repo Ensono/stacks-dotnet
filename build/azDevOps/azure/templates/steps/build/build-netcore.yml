@@ -2,7 +2,7 @@ parameters:
   pool:
     vmImage: "ubuntu-latest"
   project_root_dir: ""
-  dotnet_core_version: "6.0.x"
+  dotnet_core_version: "6.0.200"
   dotnet_sonarscanner_version: "3.1.x"
   # Custom registry (eg. private)
   # Docker Config
