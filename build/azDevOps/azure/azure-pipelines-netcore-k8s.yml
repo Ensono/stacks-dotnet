@@ -147,7 +147,7 @@ stages:
           # BUILD NPM
           - template: templates/steps/build/build-netcore.yml
             parameters:
-              dotnet_core_version: "6.0.200"
+              dotnet_core_version: "6.0.x"
               # Docker Config
               docker_build: true
               # TODO: normalize this
@@ -416,7 +416,7 @@ stages:
                     azure_client_secret: $(ARM_CLIENT_SECRET)
                     azure_tenant_id: $(ARM_TENANT_ID)
                     azure_subscription_id: $(ARM_SUBSCRIPTION_ID)
-                    dotnet_core_version: "6.0.200"
+                    dotnet_core_version: "6.0.x"
 
   - stage: Prod
     dependsOn: Build
@@ -645,7 +645,7 @@ stages:
                     azure_client_secret: $(ARM_CLIENT_SECRET)
                     azure_tenant_id: $(ARM_TENANT_ID)
                     azure_subscription_id: $(ARM_SUBSCRIPTION_ID)
-                    dotnet_core_version: "6.0.200"
+                    dotnet_core_version: "6.0.x"
 
   - stage: Release
     dependsOn:
