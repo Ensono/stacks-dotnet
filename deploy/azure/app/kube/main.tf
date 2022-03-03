@@ -17,7 +17,7 @@ module "default_label" {
 }
 
 module "app" {
-  source                               = "ref=feature/version"
+  source                               = "git::https://github.com/amido/stacks-terraform//azurerm/modules/azurerm-server-side-app?ref=feature/version"
   create_cosmosdb                      = var.create_cosmosdb
   resource_namer                       = module.default_label.id
   resource_tags                        = module.default_label.tags
