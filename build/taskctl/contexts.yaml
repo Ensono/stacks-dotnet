@@ -23,3 +23,28 @@ contexts:
     env:
       arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
     before: env | grep -v PATH > envfile
+
+  powershell-python:
+    executable:
+      bin: docker
+      args:
+        - run
+        - --rm
+        - -v
+        - ${PWD}:/app
+        - -v
+        - /var/run/docker.sock:/var/run/docker.sock
+        - -e
+        - PSModulePath=/modules
+        - -w
+        - /app
+        - --env-file
+        - envfile
+        - amidostacks/runner-pwsh-python:0.3.53-main
+        - pwsh
+        - -NoProfile
+        - -Command
+    quote: "'"
+    env:
+      arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
+    before: env | grep -v PATH > envfile

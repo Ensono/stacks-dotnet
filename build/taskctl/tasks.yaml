@@ -15,7 +15,7 @@ tasks:
       - Invoke-GitClone -repo amido/stacks-pipeline-templates -ref refs/tags/v2.0.6 -path support
 
   lint:yaml:
-    context: powershell
+    context: powershell-python
     description: Perform YAML linting
     command:
       - Invoke-YamlLint
