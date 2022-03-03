@@ -15,7 +15,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-dotnet:0.3.39-main
+        - amidostacks/runner-pwsh:0.3.53-main
         - pwsh
         - -NoProfile
         - -Command
