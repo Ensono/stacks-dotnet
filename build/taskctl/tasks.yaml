@@ -35,7 +35,7 @@ tasks:
   # TESTS
   # Configure test tasks
   test:sonarcloud:start:
-    context: powershell
+    context: powershell-dotnet
     description: Run SonarCloud tests
     command:
       - Invoke-SonarScanner -start -buildversion $BUILD_BUILDNUMBER
@@ -52,14 +52,14 @@ tasks:
     condition: exit $SONAR_NO_RUN
 
   test:unittest:
-    context: powershell
+    context: powershell-dotnet
     description: Perform unit tests
     command:
       - Invoke-DotNet -Tests -pattern "*UnitTests"
     condition: exit $UNITTEST_NO_RUN
 
   test:component:
-    context: powershell
+    context: powershell-dotnet
     description: Perform component tests
     command:
       - Invoke-DotNet -Tests -pattern "*ComponentTests"
@@ -69,7 +69,7 @@ tasks:
   # They will not always have the same name so we need to accept a list of them, which may not always
   # be formatted correctly for this conversion to be done
   test:integration:
-    context: powershell
+    context: powershell-dotnet
     description: Perform Integration tests
     command:
       - Invoke-DotNet -Tests -pattern "*IntegrationTests"
@@ -79,21 +79,21 @@ tasks:
   # They will not always have the same name so we need to accept a list of them, which may not always
   # be formatted correctly for this conversion to be done
   test:contract:
-    context: powershell
+    context: powershell-dotnet
     description: Perform contract tests
     command:
       - Invoke-DotNet -Tests -pattern "*ContractTests"
     condition: exit $CONTRACTTEST_NO_RUN
 
   test:coverage:
-    context: powershell
+    context: powershell-dotnet
     description: Generate test coverage reports
     command:
       - Invoke-DotNet -Coverage -target /app/coverage
 
   # Compilation tasks
   build:container:
-    context: powershell
+    context: powershell-dotnet
     description: Create container image for application
     command:
       - Build-DockerImage -Name {{ .IMAGE_NAME }} -buildargs src/api -push
@@ -101,7 +101,7 @@ tasks:
       IMAGE_NAME: stacks-api
 
   build:functional_tests:
-    context: powershell
+    context: powershell-dotnet
     description: Build functional tests for integration testing
     command:
       - Invoke-Dotnet -Build -Path src/tests/Functional
@@ -146,7 +146,7 @@ tasks:
       - Invoke-Kubectl -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
 
   deploy:functional_tests:
-    context: powershell
+    context: powershell-dotnet
     description: Run Functional Tests
     command:
       - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_DIR
