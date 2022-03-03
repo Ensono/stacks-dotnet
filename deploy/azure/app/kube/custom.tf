@@ -11,7 +11,7 @@ output "app_insights_instrumentation_key" {
   sensitive   = true
 }
 
-variable app_insights_name {
+variable "app_insights_name" {
   type        = string
   default     = ""
   description = "app insights name for key retriaval in memory"
