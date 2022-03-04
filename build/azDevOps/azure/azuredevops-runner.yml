@@ -109,7 +109,9 @@ stages:
               SONAR_TOKEN: $(SONAR_TOKEN)
               PROJECT_NAME: $($SONAR_PROJECT_NAME)
               BUILD_BUILDNUMBER: $(version_revision)
-
+              # Docker
+              DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod)
+              REGISTRY_RESOURCE_GROUP: $(kubernetes_clusterrg_nonprod)
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
             displayName: Upload coverage results
