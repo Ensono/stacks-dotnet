@@ -12,6 +12,9 @@ watchers:
 
 pipelines:
 
+  setup:
+    - task: buildnumber
+
   lint:
     - task: lint:yaml
     - task: lint:terraform:format
@@ -20,7 +23,6 @@ pipelines:
   # Pipeline to perform the build of the project
   build:
     - pipeline: lint
-    - task: buildnumber
     - task: test:sonarcloud:start
     - task: test:unittest
     - task: test:component

@@ -45,7 +45,7 @@ tasks:
   # Stop the static code analyise
   # TODO - need to work out why the coverage files are being modified in the original build
   test:sonarcloud:stop:
-    context: powershell
+    context: powershell-dotnet
     description: Run SonarCloud tests
     command:
       - Invoke-SonarScanner -stop
