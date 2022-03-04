@@ -89,6 +89,13 @@ stages:
           - task: Bash@3
             inputs:
               targetType: inline
+              script: taskctl setup
+            env:
+              BUILD_BUILDNUMBER: $(Build.BuildNumber)
+
+          - task: Bash@3
+            inputs:
+              targetType: inline
               script: taskctl build
             env:
               # Azure
@@ -101,6 +108,7 @@ stages:
               SONAR_URL: $(SONAR_HOST_URL)
               SONAR_TOKEN: $(SONAR_TOKEN)
               PROJECT_NAME: $($SONAR_PROJECT_NAME)
+              BUILD_BUILDNUMBER: $(Build.BuildNumber)
 
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
