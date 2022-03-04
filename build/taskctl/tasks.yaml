@@ -36,7 +36,7 @@ tasks:
     context: powershell-dotnet
     description: Run SonarCloud tests
     command:
-      - Invoke-SonarScanner -start -buildversion $BUILD_BUILDNUMBER
+      - Invoke-SonarScanner -start -buildversion $env:BUILD_BUILDVERSION
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
 
