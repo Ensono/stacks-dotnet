@@ -15,7 +15,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh:0.3.53-main
+        - amidostacks/runner-pwsh:0.3.54-versionbump
         - pwsh
         - -NoProfile
         - -Command
@@ -40,7 +40,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-python:0.3.53-main
+        - amidostacks/runner-pwsh-python:0.3.54-versionbump
         - pwsh
         - -NoProfile
         - -Command
@@ -65,7 +65,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-dotnet:0.3.53-main
+        - amidostacks/runner-pwsh-dotnet:0.3.54-versionbump
         - pwsh
         - -NoProfile
         - -Command
