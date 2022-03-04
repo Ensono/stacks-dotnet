@@ -91,7 +91,7 @@ stages:
               targetType: inline
               script: taskctl setup
             env:
-              BUILD_BUILDNUMBER: $(Build.BuildNumber)
+              DOCKER_IMAGE_TAG: $(version_revision) # TODO: Testing if this works with DOCKER_IMAGE_TAG instead of BUILD_BUILDNUMBER
 
           - task: Bash@3
             inputs:
@@ -108,7 +108,7 @@ stages:
               SONAR_URL: $(SONAR_HOST_URL)
               SONAR_TOKEN: $(SONAR_TOKEN)
               PROJECT_NAME: $($SONAR_PROJECT_NAME)
-              BUILD_BUILDNUMBER: $(Build.BuildNumber)
+              BUILD_BUILDNUMBER: $(version_revision)
 
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1

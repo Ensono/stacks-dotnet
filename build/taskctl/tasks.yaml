@@ -4,9 +4,7 @@ tasks:
     context: powershell
     description: Update the build number
     command:
-      - Update-BuildNumber -BuildNumber $BUILDNUMBER
-    env:
-      BUILDNUMBER: $DOCKER_IMAGE_TAG
+      - Update-BuildNumber
 
   deps:
     context: powershell
