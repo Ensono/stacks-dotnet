@@ -104,7 +104,7 @@ variable "create_dns_record" {
   type = bool
 }
 
-variable create_cdn_endpoint {
+variable "create_cdn_endpoint" {
   type = bool
 }
 ###########################
