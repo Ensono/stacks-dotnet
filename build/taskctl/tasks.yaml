@@ -37,7 +37,7 @@ tasks:
     description: Run SonarCloud tests
     command:
       - mkdir /app/temp
-      - Get-Child item env:/BUILD_BUILDVERSION
+      - Get-ChildItem env:/BUILD_BUILDVERSION
       - Invoke-SonarScanner -start -BuildVersion $env:BUILD_BUILDVERSION -Properties "/d:sonar.path.temp=/app/temp"
       - Get-ChildItem -force | select Name
       - Get-ChildItem /app/temp -force | select Name
