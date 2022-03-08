@@ -95,6 +95,16 @@ stages:
               DOCKER_IMAGE_TAG: $(version_revision)
               # TODO: Testing if this works with DOCKER_IMAGE_TAG instead of BUILD_BUILDNUMBER
 
+
+          - task: Bash@3
+            displayName: "Bash: env"
+            inputs:
+              targetType: inline
+              script: env
+            env:
+              SONAR_PATH_TEMP: "/app/.sonarqube/temp"  # TODO: Set default behaviour in Powershell Module
+              SONAR_PATH_DATA: "/app/.sonarqube/data"  # TODO: Set default behaviour in Powershell Module
+
           - task: Bash@3
             displayName: "TaskCTL: Build"
             inputs:
