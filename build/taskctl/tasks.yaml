@@ -36,8 +36,10 @@ tasks:
     context: powershell-dotnet
     description: Run SonarCloud tests
     command:
-      - Invoke-SonarScanner -start -buildversion $env:BUILD_BUILDVERSION
+      - Invoke-SonarScanner -start -buildversion $env:BUILD_BUILDVERSION -Properties "/d:sonar.path.temp=/app/temp"
+      - Get-ChildItem -force | select Name
       - Invoke-DotNet -Build
+      - Get-ChildItem -force | select Name
     condition: exit $SONAR_NO_RUN
 
   # Stop the static code analyise
@@ -46,7 +48,9 @@ tasks:
     context: powershell-dotnet
     description: Run SonarCloud tests
     command:
-      - Invoke-SonarScanner -stop
+      - Get-ChildItem -force | select Name
+      - Invoke-SonarScanner -stop  -Properties "/d:sonar.path.temp=/app/temp"
+      - Get-ChildItem -force | select Name
     condition: exit $SONAR_NO_RUN
 
   test:unittest:
