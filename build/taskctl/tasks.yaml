@@ -51,7 +51,8 @@ tasks:
     context: powershell-dotnet
     description: Run SonarCloud tests
     command:
-      - Get-ChildItem /app/temp -force | select Name
+      - Get-ChildItem -Directory /app/.sonarqube/data -force | select Name
+      - Get-ChildItem -Directory /app/.sonarqube/temp -force | select Name
       - Invoke-SonarScanner -stop
     condition: exit $SONAR_NO_RUN
 
