@@ -38,11 +38,11 @@ tasks:
     command:
       - Get-ChildItem env:/
       - mkdir /app/temp
-      - Invoke-SonarScanner -start -BuildVersion $env:BUILD_BUILDNUMBER -Properties "/d:sonar.path.temp=/app/temp"
+      - Invoke-SonarScanner -start
       - Get-ChildItem /app/temp -force | select Name
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
-
+  
   # Stop the static code analyise
   # TODO - need to work out why the coverage files are being modified in the original build
   test:sonarcloud:stop:
@@ -50,7 +50,7 @@ tasks:
     description: Run SonarCloud tests
     command:
       - Get-ChildItem /app/temp -force | select Name
-      - Invoke-SonarScanner -stop -Properties "/d:sonar.path.temp=/app/temp"
+      - Invoke-SonarScanner -stop
     condition: exit $SONAR_NO_RUN
 
   test:unittest:
