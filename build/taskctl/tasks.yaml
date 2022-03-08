@@ -52,7 +52,6 @@ tasks:
     command:
       - Get-ChildItem -Directory /app/sonarqube/ -force | select Name
       - Get-ChildItem -Directory /app/sonarqube/data/ -force | select Name
-
       - Get-ChildItem -Directory /app/sonarqube/temp/ -force | select Name
       - Invoke-SonarScanner -stop  -Properties "/d:sonar.path.temp=/app/sonarqube/temp /d:sonar.path.data=/app/sonarqube/data"
     condition: exit $SONAR_NO_RUN
