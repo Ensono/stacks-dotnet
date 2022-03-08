@@ -36,6 +36,7 @@ tasks:
     context: powershell-dotnet
     description: Run SonarCloud tests
     command:
+      - Get-ChildItem env:/
       - mkdir /app/temp
       - Invoke-SonarScanner -start -BuildVersion $env:BUILD_BUILDNUMBER # -Properties "/d:sonar.path.temp=/app/temp"
       - Get-ChildItem /app/temp -force | select Name
