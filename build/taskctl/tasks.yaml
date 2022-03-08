@@ -37,9 +37,11 @@ tasks:
     description: Run SonarCloud tests
     command:
       - Get-ChildItem env:/
-      - mkdir /app/temp
+      - New-Item -ItemType Directory -Force -Path /app/.sonarqube/data
+      - New-Item -ItemType Directory -Force -Path /app/.sonarqube/temp
       - Invoke-SonarScanner -start
-      - Get-ChildItem /app/temp -force | select Name
+      - Get-ChildItem -Directory /app/.sonarqube/data -force | select Name
+      - Get-ChildItem -Directory /app/.sonarqube/temp -force | select Name
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
   

@@ -55,7 +55,7 @@ stages:
     variables:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
-      - group: amido-stacks-webapp # Primarily for SonarQube variables
+      - group: amido-stacks-webapp  # Primarily for SonarQube variables
 
     jobs:
       - job: AppBuild
@@ -67,7 +67,11 @@ stages:
           - name: SONAR_HOST_URL
             value: "https://sonarcloud.io"
           - name: SONAR_PROPERTIES
-            value: "/d:sonar.path.temp=/app/temp"
+            value: ""
+          - name: SONAR_PATH_TEMP
+            value: /app/.sonarqube/temp
+          - name: SONAR_PATH_DATA
+            value: /app/.sonarqube/data
           - name: REGISTRY_RESOURCE_GROUP
             value: $(kubernetes_clusterrg_nonprod)
           - name: PROJECT_ROOT_DIR
@@ -84,7 +88,7 @@ stages:
               targetType: inline
               script: |
                 wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-                tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl   
+                tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
 
           - task: Bash@3
             displayName: "TaskCTL: Setup"
@@ -92,7 +96,8 @@ stages:
               targetType: inline
               script: taskctl setup
             env:
-              DOCKER_IMAGE_TAG: $(version_revision) # TODO: Testing if this works with DOCKER_IMAGE_TAG instead of BUILD_BUILDNUMBER
+              DOCKER_IMAGE_TAG: $(version_revision)
+              # TODO: Testing if this works with DOCKER_IMAGE_TAG instead of BUILD_BUILDNUMBER
 
           - task: Bash@3
             displayName: "TaskCTL: Build"
@@ -111,6 +116,8 @@ stages:
               SONAR_TOKEN: $(SONAR_TOKEN)
               PROJECT_NAME: $(SONAR_PROJECT_NAME)
               BUILD_BUILDNUMBER: $(version_revision)
+              SONAR_PATH_TEMP: $(SONAR_PATH_TEMP)  # TODO: Set default behaviour in Powershell Module
+              SONAR_PATH_DATA: $(SONAR_PATH_DATA)  # TODO: Set default behaviour in Powershell Module
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
               REGISTRY_RESOURCE_GROUP: $(kubernetes_clusterrg_nonprod)
@@ -151,54 +158,54 @@ stages:
             deploy:
               steps:
 
-              - checkout: self
+                - checkout: self
 
-              # Install Taskfile so that the tests can be run
-              - task: Bash@3
-                displayName: Install Taskctl
-                inputs:
-                  targetType: inline
-                  script: |
-                    wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-                    tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+                # Install Taskfile so that the tests can be run
+                - task: Bash@3
+                  displayName: Install Taskctl
+                  inputs:
+                    targetType: inline
+                    script: |
+                      wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
+                      tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
 
-              - task: Bash@3
-                inputs:
-                  targetType: inline
-                  script: taskctl infrastructure
-                  informationPreference: continue
-                env:
-                  ARM_CLIENT_ID: $(azure-client-id)
-                  ARM_CLIENT_SECRET: $(azure-client-secret)
-                  ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
-                  ARM_TENANT_ID: $(azure-tenant-id)
-                  ENV_NAME: $(Environment.ShortName)
-                  TF_STATE_CONTAINER: $(tf_state_container)
-                  TF_STATE_KEY: $(tf_state_key)
-                  TS_STATE_RG: $(tf_state_rg)
-                  TF_STATE_STORAGE: $(tf_state_storage)
+                - task: Bash@3
+                  inputs:
+                    targetType: inline
+                    script: taskctl infrastructure
+                    informationPreference: continue
+                  env:
+                    ARM_CLIENT_ID: $(azure-client-id)
+                    ARM_CLIENT_SECRET: $(azure-client-secret)
+                    ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
+                    ARM_TENANT_ID: $(azure-tenant-id)
+                    ENV_NAME: $(Environment.ShortName)
+                    TF_STATE_CONTAINER: $(tf_state_container)
+                    TF_STATE_KEY: $(tf_state_key)
+                    TS_STATE_RG: $(tf_state_rg)
+                    TF_STATE_STORAGE: $(tf_state_storage)
 
-                  TF_VAR_name_component: $(component)
-                  TF_VAR_resource_group_location: $(region)
-                  TF_VAR_create_cdn_endpoint: false
-                  TF_VAR_create_dns_record: true
-                  TF_VAR_app_insights_name: $(tf_app_insights_name_nonprod)
-                  TF_VAR_app_gateway_frontend_ip_name: $(tf_app_gateway_frontend_ip_name_nonprod)
-                  TF_VAR_core_resource_group: $(tf_core_resource_group_nonprod)
-                  TF_VAR_name_company: $(company)
-                  TF_VAR_name_project: $(project)
-                  TF_VAR_name_domain: $(domain)
-                  TF_VAR_create_cosmosdb: false
-                  TF_VAR_create_cache: false
-                  TF_VAR_stage: $(Environment.ShortName)
-                  TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
-                  TF_VAR_dns_zone_name: $(base_domain_nonprod)
-                  TF_VAR_dns_zone_resource_group: "$(dns_zone_resource_group)"
-                  TF_VAR_internal_dns_zone_name: $(base_domain_internal_nonprod)
-                  TF_VAR_cosmosdb_sql_container: "Menu"
-                  TF_VAR_cosmosdb_sql_container_partition_key: "/id"
-                  TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
-                  TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_name_component: $(component)
+                    TF_VAR_resource_group_location: $(region)
+                    TF_VAR_create_cdn_endpoint: false
+                    TF_VAR_create_dns_record: true
+                    TF_VAR_app_insights_name: $(tf_app_insights_name_nonprod)
+                    TF_VAR_app_gateway_frontend_ip_name: $(tf_app_gateway_frontend_ip_name_nonprod)
+                    TF_VAR_core_resource_group: $(tf_core_resource_group_nonprod)
+                    TF_VAR_name_company: $(company)
+                    TF_VAR_name_project: $(project)
+                    TF_VAR_name_domain: $(domain)
+                    TF_VAR_create_cosmosdb: false
+                    TF_VAR_create_cache: false
+                    TF_VAR_stage: $(Environment.ShortName)
+                    TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
+                    TF_VAR_dns_zone_name: $(base_domain_nonprod)
+                    TF_VAR_dns_zone_resource_group: "$(dns_zone_resource_group)"
+                    TF_VAR_internal_dns_zone_name: $(base_domain_internal_nonprod)
+                    TF_VAR_cosmosdb_sql_container: "Menu"
+                    TF_VAR_cosmosdb_sql_container_partition_key: "/id"
+                    TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
+                    TF_VAR_cosmosdb_offer_type: "Standard"
 
       - deployment: DeployDev
         dependsOn: AppInfraDev
