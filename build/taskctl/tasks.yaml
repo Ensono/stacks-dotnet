@@ -36,11 +36,7 @@ tasks:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
-      - mkdir /app/sonarqube/
-      - Invoke-SonarScanner -start -Properties "/d:sonar.path.temp=/app/sonarqube/temp /d:sonar.path.data=/app/sonarqube/data"    
-      - Get-ChildItem -Directory /app/sonarqube/ -force | select Name
-      - Get-ChildItem -Directory /app/sonarqube/data/ -force | select Name
-      - Get-ChildItem -Directory /app/sonarqube/temp/ -force | select Name
+      - Invoke-SonarScanner -start
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
 
@@ -50,10 +46,7 @@ tasks:
     context: powershell-dotnet
     description: Stop SonarCloud tests
     command:
-      - Get-ChildItem -Directory /app/sonarqube/ -force | select Name
-      - Get-ChildItem -Directory /app/sonarqube/data/ -force | select Name
-      - Get-ChildItem -Directory /app/sonarqube/temp/ -force | select Name
-      - Invoke-SonarScanner -stop  -Properties "/d:sonar.path.temp=/app/sonarqube/temp /d:sonar.path.data=/app/sonarqube/data"
+      - Invoke-SonarScanner -stop
     condition: exit $SONAR_NO_RUN
 
   test:unittest:

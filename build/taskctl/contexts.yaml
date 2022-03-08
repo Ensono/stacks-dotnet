@@ -59,6 +59,8 @@ contexts:
         - ${PWD}:/app
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
+        - -v
+        - ${PWD}:/home
         - -e
         - PSModulePath=/modules
         - -w
