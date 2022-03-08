@@ -36,10 +36,10 @@ tasks:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
-      - $env:SONAR_PATH_TEMP = '/app/.sonarqube/temp/'
-      - $env:SONAR_PATH_DATA = '/app/.sonarqube/data/'
-      - $SONAR_PATH_TEMP = '/app/.sonarqube/temp/'
-      - $SONAR_PATH_DATA = '/app/.sonarqube/data/'
+      - $env:SONAR_PATH_TEMP = "/app/.sonarqube/temp/"
+      - $env:SONAR_PATH_DATA = "/app/.sonarqube/data/"
+      - $SONAR_PATH_TEMP = "/app/.sonarqube/temp/"
+      - $SONAR_PATH_DATA = "/app/.sonarqube/data/"
       - Get-ChildItem env:/
       - New-Item -ItemType Directory -Force -Path /app/.sonarqube/data/
       - New-Item -ItemType Directory -Force -Path /app/.sonarqube/temp/
@@ -55,10 +55,10 @@ tasks:
     context: powershell-dotnet
     description: Stop SonarCloud tests
     command:
-      - $env:SONAR_PATH_TEMP = '/app/.sonarqube/temp/'
-      - $env:SONAR_PATH_DATA = '/app/.sonarqube/data/'
-      - $SONAR_PATH_TEMP = '/app/.sonarqube/temp/'
-      - $SONAR_PATH_DATA = '/app/.sonarqube/data/'
+      - $env:SONAR_PATH_TEMP = "/app/.sonarqube/temp/"
+      - $env:SONAR_PATH_DATA = "/app/.sonarqube/data/"
+      - $SONAR_PATH_TEMP = "/app/.sonarqube/temp/"
+      - $SONAR_PATH_DATA = "/app/.sonarqube/data/"
       - Get-ChildItem env:/
       - Get-ChildItem -Directory /app/.sonarqube/data/ -force | select Name
       - Get-ChildItem -Directory /app/.sonarqube/temp/ -force | select Name
