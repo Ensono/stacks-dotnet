@@ -99,7 +99,7 @@ stages:
             displayName: "TaskCTL: Build"
             inputs:
               targetType: inline
-              script: env && taskctl build
+              script: taskctl build
             env:
               # Azure
               ARM_TENANT_ID: "$(azure-tenant-id)"
@@ -112,8 +112,6 @@ stages:
               SONAR_TOKEN: $(SONAR_TOKEN)
               PROJECT_NAME: $(SONAR_PROJECT_NAME)
               BUILD_BUILDNUMBER: $(version_revision)
-              SONAR_PATH_TEMP: "/app/.sonarqube/temp"  # TODO: Set default behaviour in Powershell Module
-              SONAR_PATH_DATA: "/app/.sonarqube/data"  # TODO: Set default behaviour in Powershell Module
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
               REGISTRY_RESOURCE_GROUP: $(kubernetes_clusterrg_nonprod)
