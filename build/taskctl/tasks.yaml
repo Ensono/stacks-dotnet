@@ -34,7 +34,7 @@ tasks:
   # Configure test tasks
   test:sonarcloud:start:
     context: powershell-dotnet
-    description: Run SonarCloud tests
+    description: Start SonarCloud tests
     command:
       - Get-ChildItem env:/
       - New-Item -ItemType Directory -Force -Path /app/.sonarqube/data/
@@ -49,8 +49,9 @@ tasks:
   # TODO - need to work out why the coverage files are being modified in the original build
   test:sonarcloud:stop:
     context: powershell-dotnet
-    description: Run SonarCloud tests
+    description: Stop SonarCloud tests
     command:
+      - Get-ChildItem env:/
       - Get-ChildItem -Directory /app/.sonarqube/data/ -force | select Name
       - Get-ChildItem -Directory /app/.sonarqube/temp/ -force | select Name
       - Invoke-SonarScanner -stop
