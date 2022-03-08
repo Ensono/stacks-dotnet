@@ -36,6 +36,7 @@ tasks:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
+      - $env:SONAR_PATH_TEMP="/app/.sonarqube/temp" && Get-ChildItem env:/
       - $env:SONAR_PATH_TEMP = "/app/.sonarqube/temp/"
       - $env:SONAR_PATH_DATA = "/app/.sonarqube/data/"
       - $SONAR_PATH_TEMP = "/app/.sonarqube/temp/"
