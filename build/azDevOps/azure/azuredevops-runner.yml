@@ -67,7 +67,7 @@ stages:
           - name: SONAR_HOST_URL
             value: "https://sonarcloud.io"
           - name: SONAR_PROPERTIES
-            value: ""
+            value: "/d:sonar.path.temp=/app/temp"
           - name: REGISTRY_RESOURCE_GROUP
             value: $(kubernetes_clusterrg_nonprod)
           - name: PROJECT_ROOT_DIR
