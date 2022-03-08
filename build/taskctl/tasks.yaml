@@ -38,7 +38,7 @@ tasks:
     command:
       - Get-ChildItem env:/
       - mkdir /app/temp
-      - Invoke-SonarScanner -start -BuildVersion $env:BUILD_BUILDNUMBER # -Properties "/d:sonar.path.temp=/app/temp"
+      - Invoke-SonarScanner -start -BuildVersion $env:BUILD_BUILDNUMBER -Properties "/d:sonar.path.temp=/app/temp"
       - Get-ChildItem /app/temp -force | select Name
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
@@ -50,7 +50,7 @@ tasks:
     description: Run SonarCloud tests
     command:
       - Get-ChildItem /app/temp -force | select Name
-      - Invoke-SonarScanner -stop # -Properties "/d:sonar.path.temp=/app/temp"
+      - Invoke-SonarScanner -stop -Properties "/d:sonar.path.temp=/app/temp"
     condition: exit $SONAR_NO_RUN
 
   test:unittest:
