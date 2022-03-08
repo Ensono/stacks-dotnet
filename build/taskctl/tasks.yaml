@@ -44,7 +44,9 @@ tasks:
       - Get-ChildItem -Directory /app/.sonarqube/temp/ -force | select Name
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
-  
+    env:
+      SONAR_PATH_TEMP: "/app/.sonarqube/temp"
+      SONAR_PATH_DATA: "/app/.sonarqube/data"
   # Stop the static code analyise
   # TODO - need to work out why the coverage files are being modified in the original build
   test:sonarcloud:stop:
@@ -56,6 +58,9 @@ tasks:
       - Get-ChildItem -Directory /app/.sonarqube/temp/ -force | select Name
       - Invoke-SonarScanner -stop
     condition: exit $SONAR_NO_RUN
+    env:
+      SONAR_PATH_TEMP: "/app/.sonarqube/temp"
+      SONAR_PATH_DATA: "/app/.sonarqube/data"
 
   test:unittest:
     context: powershell-dotnet
