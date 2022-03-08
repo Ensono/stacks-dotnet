@@ -79,7 +79,7 @@ stages:
 
           # Install Taskctl so that the tests can be run
           - task: Bash@3
-            displayName: Install Taskctl
+            displayName: "Install: Taskctl"
             inputs:
               targetType: inline
               script: |
@@ -87,6 +87,7 @@ stages:
                 tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl   
 
           - task: Bash@3
+            displayName: "TaskCTL: Setup"
             inputs:
               targetType: inline
               script: taskctl setup
@@ -94,6 +95,7 @@ stages:
               DOCKER_IMAGE_TAG: $(version_revision) # TODO: Testing if this works with DOCKER_IMAGE_TAG instead of BUILD_BUILDNUMBER
 
           - task: Bash@3
+            displayName: "TaskCTL: Build"
             inputs:
               targetType: inline
               script: taskctl build
