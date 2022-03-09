@@ -121,13 +121,13 @@ tasks:
     context: powershell
     description: Plan Terraform
     command:
-      - Invoke-Terraform -Plan -Path deploy/azure/app/kube -Arguments "-input=false","-out=/app/tfplan"
+      - Invoke-Terraform -Plan -Path /app/deploy/azure/app/kube -Arguments "-input=false","-out=/app/deploy/azure/app/kube/tfplan"
 
   infra:apply:
     context: powershell
     description: Apply Terraform Plan
     command:
-      - Invoke-Terraform -Apply -Path /app/tfplan
+      - Invoke-Terraform -Apply -Path /app/deploy/azure/app/kube/tfplan
 
   # Deployment
   deploy:templater:
