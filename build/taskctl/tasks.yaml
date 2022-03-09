@@ -42,7 +42,6 @@ tasks:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
-      - mkdir ".sonarqube"
       - Invoke-SonarScanner -start
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
