@@ -127,10 +127,7 @@ tasks:
     context: powershell
     description: Apply Terraform Plan
     command:
-      - Push-Location deploy/azure/app/kube
-      - pwd
-      - Get-Childitem -Force | Select Name
-      - Invoke-Terraform -Apply -Path tfplan -Debug
+      - Push-Location deploy/azure/app/kube && Invoke-Terraform -Apply -Path tfplan -Debug
 
   # Deployment
   deploy:templater:
