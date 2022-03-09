@@ -132,7 +132,7 @@ stages:
 
   - stage: Dev
     dependsOn: Build
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master')),eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     variables:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
@@ -178,7 +178,7 @@ stages:
                     TF_STATE_KEY: $(tf_state_key)
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
-
+                    # Deployment Specific Configuration
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
@@ -201,64 +201,64 @@ stages:
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
 
-      - deployment: DeployDev
-        dependsOn: AppInfraDev
-        pool:
-          vmImage: $(pool_vm_image)
-        environment: ${{ variables.domain }}-dev
-        variables:
-          - name: namespace
-            value: "$(Environment.ShortName)-${{ variables.domain }}"
+      # - deployment: DeployDev
+      #   dependsOn: AppInfraDev
+      #   pool:
+      #     vmImage: $(pool_vm_image)
+      #   environment: ${{ variables.domain }}-dev
+      #   variables:
+      #     - name: namespace
+      #       value: "$(Environment.ShortName)-${{ variables.domain }}"
 
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: self
+      #   strategy:
+      #     runOnce:
+      #       deploy:
+      #         steps:
+      #           - checkout: self
 
-                # Install Taskfile so that the tests can be run
-                - task: Bash@3
-                  displayName: Install Taskctl
-                  inputs:
-                    targetType: inline
-                    script: |
-                      wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-                      tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+      #           # Install Taskfile so that the tests can be run
+      #           - task: Bash@3
+      #             displayName: Install Taskctl
+      #             inputs:
+      #               targetType: inline
+      #               script: |
+      #                 wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
+      #                 tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
 
-                - task: PublishPipelineArtifact@1
-                  displayName: Publish Kubernetes Manifest
-                  inputs:
-                    path: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
-                    artifact: manifests_dev
+      #           - task: PublishPipelineArtifact@1
+      #             displayName: Publish Kubernetes Manifest
+      #             inputs:
+      #               path: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
+      #               artifact: manifests_dev
 
-                - task: DownloadPipelineArtifact@2
-                  displayName: "Download: Test Artefacts"
-                  inputs:
-                    artifact: tests
-                    path: $(Pipeline.Workspace)/tests
+      #           - task: DownloadPipelineArtifact@2
+      #             displayName: "Download: Test Artefacts"
+      #             inputs:
+      #               artifact: tests
+      #               path: $(Pipeline.Workspace)/tests
 
-                - task: Bash@3
-                  inputs:
-                    targetType: inline
-                    script: taskctl deploy
-                    informationPreference: continue
-                  env:
-                    ARM_CLIENT_ID: $(azure-client-id)
-                    ARM_CLIENT_SECRET: $(azure-client-secret)
-                    ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
-                    ARM_TENANT_ID: $(azure-tenant-id)
-                    BASE_DOMAIN: ${{ variables.base_domain_nonprod }}
-                    DOCKER_IMAGE_NAME: $(docker_image_name)
-                    DOCKER_IMAGE_TAG: $(docker_image_tag)
-                    DOCKER_REGISTRY: $(k8s_docker_registry_nonprod)
-                    DOMAIN: ${{ variables.domain }}
-                    ENV_NAME: $(Environment.ShortName)
-                    KUBECTL_FILEPATH: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
-                    FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
-                    NAMESPACE: $(namespace)
-                    RESOURCE_DEF_NAME: $(resource_def_name)
-                    DEPLOYMENT_STATUS_TIMEOUT: 120s
-                    BaseUrl: "https://$(Environment.ShortName)-${{ variables.domain }}.$(base_domain_nonprod)/api/menu/"
+      #           - task: Bash@3
+      #             inputs:
+      #               targetType: inline
+      #               script: taskctl deploy
+      #               informationPreference: continue
+      #             env:
+      #               ARM_CLIENT_ID: $(azure-client-id)
+      #               ARM_CLIENT_SECRET: $(azure-client-secret)
+      #               ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
+      #               ARM_TENANT_ID: $(azure-tenant-id)
+      #               BASE_DOMAIN: ${{ variables.base_domain_nonprod }}
+      #               DOCKER_IMAGE_NAME: $(docker_image_name)
+      #               DOCKER_IMAGE_TAG: $(docker_image_tag)
+      #               DOCKER_REGISTRY: $(k8s_docker_registry_nonprod)
+      #               DOMAIN: ${{ variables.domain }}
+      #               ENV_NAME: $(Environment.ShortName)
+      #               KUBECTL_FILEPATH: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
+      #               FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
+      #               NAMESPACE: $(namespace)
+      #               RESOURCE_DEF_NAME: $(resource_def_name)
+      #               DEPLOYMENT_STATUS_TIMEOUT: 120s
+      #               BaseUrl: "https://$(Environment.ShortName)-${{ variables.domain }}.$(base_domain_nonprod)/api/menu/"
 
   - stage: Prod
     dependsOn: Build
