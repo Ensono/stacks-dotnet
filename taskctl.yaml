@@ -14,8 +14,6 @@ pipelines:
 
   setup:
     - task: buildnumber
-      # Expects env vars:
-      # - DOCKER_IMAGE_TAG 
 
   lint:
     - task: lint:yaml
