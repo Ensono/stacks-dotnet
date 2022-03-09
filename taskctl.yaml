@@ -23,10 +23,7 @@ pipelines:
   # Pipeline to perform the build of the project
   build:
     - pipeline: lint
-    - task: test:sonarcloud:setup
     - task: test:sonarcloud:start
-      depends_on:
-        - test:sonarcloud:setup
     - task: test:unittest
     - task: test:component
     - task: test:integration
