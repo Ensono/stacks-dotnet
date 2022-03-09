@@ -36,7 +36,6 @@ tasks:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
-      - Get-ChildItem "/root" | Select Name
       - Invoke-SonarScanner -start
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN

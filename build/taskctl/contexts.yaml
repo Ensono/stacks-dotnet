@@ -60,7 +60,7 @@ contexts:
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
         - -v
-        - ${PWD}/.sonarqube:/root/.sonarqube
+        - ${PWD}/.sonarqube:/.sonarqube
         - -e
         - PSModulePath=/modules
         - -w
