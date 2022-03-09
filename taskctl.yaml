@@ -23,7 +23,7 @@ pipelines:
   # Pipeline to perform the build of the project
   build:
     - pipeline: lint
-    - task: test:sonarcloud:start
+
     - task: test:unittest
     - task: test:component
     - task: test:integration
@@ -31,15 +31,21 @@ pipelines:
     - task: test:coverage
       depends_on:
         - test:unittest
-    - task: test:sonarcloud:stop
+    # TODO: Temporarily disabled due to AIR compatibility issues. Logged via Bug 4315
+    # - task: test:sonarcloud:start
+    # - task: test:sonarcloud:stop
+    #   depends_on:
+    #     - test:unittest
+    #     - test:component
+    #     - test:integration
+    #     - test:contract
+    - task: build:functional_tests
+    - task: build:container
       depends_on:
         - test:unittest
         - test:component
         - test:integration
         - test:contract
-    - task: build:functional_tests
-    - task: build:container
-      depends_on: test:sonarcloud:stop
       variables:
         IMAGE_NAME: stacks-api
 
