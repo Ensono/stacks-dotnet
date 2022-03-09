@@ -359,3 +359,4 @@ envfile
 coverage
 .terraform.lock.hcl
 tfplan
+.sonarqube

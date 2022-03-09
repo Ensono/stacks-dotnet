@@ -30,12 +30,19 @@ tasks:
     command:
       - Invoke-Terraform -Validate -Path deploy/azure/app/kube
 
+  test:sonarcloud:setup:
+    context: powershell
+    description: Setup SonarCloud Folder
+    command:
+      - New-Item -ItemType Directory -Force -Path "$(PWD)/.sonarqube"
+    condition: exit $SONAR_NO_RUN
   # TESTS
   # Configure test tasks
   test:sonarcloud:start:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
+      - mkdir ".sonarqube"
       - Invoke-SonarScanner -start
       - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
