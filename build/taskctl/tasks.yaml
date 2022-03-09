@@ -112,39 +112,29 @@ tasks:
     context: powershell
     description: Initialise Terraform for the environment
     command:
-      - Invoke-Terraform -Init -backend key=$env:TF_STATE_KEY,storage_account_name=$env:TF_STATE_STORAGE,resource_group_name=$env:TF_STATE_RG,container_name=$env:TF_STATE_CONTAINER,subscription_id=$env:ARM_SUBSCRIPTION_ID,tenant_id=$env:ARM_TENANT_ID,client_id=$env:ARM_CLIENT_ID,client_secret=$env:ARM_CLIENT_SECRET -Path {{ .terraform_config_path }} -Debug
-      - Invoke-Terraform -Workspace -Arguments $env:ENV_NAME -Path {{ .terraform_config_path }} -Debug
-    variables:
-      terraform_config_path: deploy/azure/app/kube
+      - Invoke-Terraform -Init -backend key=$env:TF_STATE_KEY,storage_account_name=$env:TF_STATE_STORAGE,resource_group_name=$env:TF_STATE_RG,container_name=$env:TF_STATE_CONTAINER,subscription_id=$env:ARM_SUBSCRIPTION_ID,tenant_id=$env:ARM_TENANT_ID,client_id=$env:ARM_CLIENT_ID,client_secret=$env:ARM_CLIENT_SECRET -Path $env:TF_FILE_LOCATION -Debug
+      - Invoke-Terraform -Workspace -Arguments $env:ENV_NAME -Path $env:TF_FILE_LOCATION -Debug
 
   infra:plan:
     context: powershell
     description: Plan Terraform
     command:
-      - Invoke-Terraform -Plan -Path {{ .terraform_config_path }} -Arguments "-input=false","-out={{ .terraform_planfile }}" -Debug
-    variables:
-      terraform_config_path: deploy/azure/app/kube
-      terraform_planfile: tfplan
+      - Invoke-Terraform -Plan -Path $env:TF_FILE_LOCATION -Arguments "-input=false","-out=tfplan" -Debug
 
   infra:apply:
     context: powershell
     description: Apply Terraform Plan
     command:
-      - Push-Location {{ .terraform_config_path }} && Invoke-Terraform -Apply -Path {{ .terraform_planfile }} -Debug
-    variables:
-      terraform_config_path: deploy/azure/app/kube
-      terraform_planfile: tfplan
+      - Push-Location $env:TF_FILE_LOCATION && Invoke-Terraform -Apply -Path tfplan -Debug
   
   # Deployment
   deploy:templater:
     context: powershell
     description: Render deployment templates
     command:
-      - Invoke-Terraform -Output -Sensitive -Path {{ .terraform_config_path }} | Invoke-Templater -Path build/deployment_list.ps1 -Debug
+      - Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1 -Debug
     env:
       RESOURCE_DEF_NAME: netcore-api
-    variables:
-      terraform_config_path: deploy/azure/app/kube
 
   deploy:kubernetes:
     context: powershell

@@ -32,6 +32,10 @@ variables:
   - name: tf_state_key
     value: netcore-api
 
+  # TF File location in Repo
+  - name: TF_FILE_LOCATION
+    value: deploy/azure/app/kube
+  
   # TF Variables
   # --nonprod
   - name: tf_app_insights_name_nonprod
