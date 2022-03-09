@@ -30,6 +30,23 @@ tasks:
     command:
       - Invoke-Terraform -Validate -Path deploy/azure/app/kube
 
+#### TODO: The below is a tactical solution due to issues around persisting the .sonarqube directory between task runs
+
+  test:all:
+    context: powershell-dotnet
+    description: Perform unit tests
+    command:
+      - Invoke-SonarScanner -start
+      - Invoke-DotNet -Build
+      - Invoke-DotNet -Tests -pattern "*UnitTests"
+      - Invoke-DotNet -Tests -pattern "*ComponentTests"
+      - Invoke-DotNet -Tests -pattern "*IntegrationTests"
+      - Invoke-DotNet -Tests -pattern "*ContractTests"
+      - Invoke-DotNet -Coverage -target /app/coverage
+      - Invoke-SonarScanner -stop
+
+#### TODO: The above is a tactical solution due to issues around persisting the .sonarqube directory between task runs
+
   # TESTS
   # Configure test tasks
   test:sonarcloud:start:
