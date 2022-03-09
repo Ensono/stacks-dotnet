@@ -121,13 +121,17 @@ tasks:
     context: powershell
     description: Plan Terraform
     command:
-      - Invoke-Terraform -Plan -Path deploy/azure/app/kube -Arguments "-input=false","-out=deploy/azure/app/kube/tfplan" -Debug
+      - pwd
+      - Invoke-Terraform -Plan -Path deploy/azure/app/kube -Arguments "-input=false","-out=tfplan" -Debug
+      - pwd
 
   infra:apply:
     context: powershell
     description: Apply Terraform Plan
     command:
-      - Push-Location deploy/azure/app/kube
+      - pwd
+      - Push-Location /deploy/azure/app/kube
+      - pwd
       - Get-Childitem -Force | Select Name
       - Invoke-Terraform -Apply -Path tfplan -Debug
 
