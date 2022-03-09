@@ -127,7 +127,7 @@ tasks:
     context: powershell
     description: Apply Terraform Plan
     command:
-      - Invoke-Terraform -Apply -Path deploy/azure/app/kube
+      - Invoke-Terraform -Apply -Path tfplan
 
   # Deployment
   deploy:templater:
