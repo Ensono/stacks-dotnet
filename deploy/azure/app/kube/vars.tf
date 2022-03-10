@@ -60,32 +60,10 @@ variable "resource_group_location" {
   type = string
 }
 
-variable "app_gateway_frontend_ip_name" {
-  description = ""
-  type        = string
-}
-
 variable "dns_record" {
   description = ""
   type        = string
 }
-
-variable "dns_zone_name" {
-  type = string
-}
-
-variable "dns_zone_resource_group" {
-  type = string
-}
-
-variable "core_resource_group" {
-  type = string
-}
-
-variable "internal_dns_zone_name" {
-  type = string
-}
-
 
 ###########################
 # CONDITIONAL SETTINGS
