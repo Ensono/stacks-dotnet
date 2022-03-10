@@ -114,7 +114,7 @@ stages:
               BUILD_BUILDNUMBER: $(version_revision)
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
-              REGISTRY_RESOURCE_GROUP: $(kubernetes_clusterrg_nonprod)
+              REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
             displayName: Upload coverage results
@@ -246,7 +246,7 @@ stages:
       #               BASE_DOMAIN: ${{ variables.base_domain_nonprod }}
       #               DOCKER_IMAGE_NAME: $(docker_image_name)
       #               DOCKER_IMAGE_TAG: $(docker_image_tag)
-      #               DOCKER_REGISTRY: $(k8s_docker_registry_nonprod)
+      #               DOCKER_REGISTRY: $(docker_container_registry_name_nonprod)
       #               DOMAIN: ${{ variables.domain }}
       #               ENV_NAME: $(Environment.ShortName)
       #               KUBECTL_FILEPATH: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
@@ -372,7 +372,7 @@ stages:
                     BASE_DOMAIN: ${{ variables.base_domain_prod }}
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
-                    DOCKER_REGISTRY: $(k8s_docker_registry_prod)
+                    DOCKER_REGISTRY: $(docker_container_registry_name_prod)
                     DOMAIN: ${{ variables.domain }}
                     ENV_NAME: $(Environment.ShortName)
                     KUBECTL_FILEPATH: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
