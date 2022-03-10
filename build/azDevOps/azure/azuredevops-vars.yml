@@ -36,9 +36,13 @@ variables:
   - name: TF_FILE_LOCATION
     value: deploy/azure/app/kube
 
-  # Container registry configuration (used for image tagging)
+  # Container registry configuration (used for image tagging and pushing)
+  - name: docker_container_registry_rg_name_nonprod
+    value: amido-stacks-nonprod-euw-core
   - name: docker_container_registry_name_nonprod
     value: amidostacksnonprodeuwcore
+  - name: docker_container_registry_rg_name_prod
+    value: amido-stacks-prod-euw-core
   - name: docker_container_registry_name_prod
     value: amidostacksprodeuwcore
 
