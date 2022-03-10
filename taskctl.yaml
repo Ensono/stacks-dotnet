@@ -61,8 +61,10 @@ pipelines:
 
   # Deploy pipeline
   deploy:
+    - task: infra:init
     # - task: infra:output
     - task: deploy:templater
+      depends_on: infra:init
     #  depends_on: infra:output
     # - task: deploy:kubernetes
     #   depends_on: deploy:templater
