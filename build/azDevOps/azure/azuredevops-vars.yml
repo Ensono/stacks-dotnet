@@ -36,6 +36,12 @@ variables:
   - name: TF_FILE_LOCATION
     value: deploy/azure/app/kube
 
+  # Container registry configuration (used for image tagging)
+  - name: docker_container_registry_name_nonprod
+    value: amidostacksnonprodeuwcore
+  - name: docker_container_registry_name_prod
+    value: amidostacksprodeuwcore
+
   # GitHub infomration
   - name: create_release
     value: true
