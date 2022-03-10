@@ -279,7 +279,7 @@ stages:
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Kubernetes Manifest
                   inputs:
-                    path: $(Agent.BuildDirectory)/s
+                    path: $(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml
                     artifact: manifests_dev
   - stage: Prod
     dependsOn: Build
