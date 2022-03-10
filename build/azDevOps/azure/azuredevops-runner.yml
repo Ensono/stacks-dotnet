@@ -151,7 +151,7 @@ stages:
 
                 # Install Taskfile so that the tests can be run
                 - task: Bash@3
-                  displayName: Install Taskctl
+                  displayName: "Install: Taskctl"
                   inputs:
                     targetType: inline
                     script: |
@@ -159,6 +159,7 @@ stages:
                       tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
 
                 - task: Bash@3
+                  displayName: "Taskctl: Infrastructure"
                   inputs:
                     targetType: inline
                     script: taskctl infrastructure
