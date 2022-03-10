@@ -55,7 +55,7 @@ stages:
     variables:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
-      - group: amido-stacks-webapp  # Primarily for SonarQube variables
+      - group: amido-stacks-webapp  # Primarily for SonarQube credentials
 
     jobs:
       - job: AppBuild
@@ -64,12 +64,6 @@ stages:
 
         variables:
           - group: amido-stacks-webapp
-          - name: SONAR_HOST_URL
-            value: "https://sonarcloud.io"
-          - name: SONAR_PROPERTIES
-            value: ""
-          - name: REGISTRY_RESOURCE_GROUP
-            value: $(kubernetes_clusterrg_nonprod)
           - name: PROJECT_ROOT_DIR
             value: $(Pipeline.Workspace)/s/$(self_repo)/$(self_repo_src)
 
@@ -108,8 +102,9 @@ stages:
               ARM_CLIENT_SECRET: "$(azure-client-secret)"
               # SonarQube
               SONAR_ORG: $(SONAR_ORGANIZATION)
-              SONAR_URL: $(SONAR_HOST_URL)
+              SONAR_URL: "https://sonarcloud.io"
               SONAR_TOKEN: $(SONAR_TOKEN)
+              SONAR_PROPERTIES: ""
               PROJECT_NAME: $(SONAR_PROJECT_NAME)
               BUILD_BUILDNUMBER: $(version_revision)
               # Docker
