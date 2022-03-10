@@ -44,6 +44,12 @@ output "dns_name" {
 }
 
 # Core State Query Outputs (to reduce variable duplication)
+
+output "dns_base_domain" {
+  description = "Name of the base domain for core DNS"
+  value       = data.terraform_remote_state.core.outputs.dns_base_domain
+}
+
 output "aks_resource_group_name" {
   description = "Name of the Resource Group in which the K8s cluster is deployed"
   value       = data.terraform_remote_state.core.outputs.aks_resource_group_name

@@ -7,10 +7,7 @@ variables:
     value: stacks
   - name: domain
     value: netcore-api
-  - name: self_repo
-    value: stacks-dotnet
-  - name: self_generic_name
-    value: stacks-api
+
 
   # Terraform Configuration
 
