@@ -96,9 +96,7 @@ tasks:
     context: powershell-dotnet
     description: Create container image for application
     command:
-      - Build-DockerImage -Name {{ .IMAGE_NAME }} -buildargs src/api -push
-    variables:
-      IMAGE_NAME: stacks-api
+      - Build-DockerImage -Name $env:DOCKER_IMAGE_NAME -buildargs src/api -push
 
   build:functional_tests:
     context: powershell-dotnet
