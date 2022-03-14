@@ -136,8 +136,8 @@ tasks:
     context: powershell
     description: Deploy to Kubernetes
     command:
-      - Invoke-Kubectl -provider Azure -target {{ . KUBECTL_TARGET }}  -identifier {{ . KUBECTL_IDENTIFIER }} -Apply -Arguments {{ . KUBECTL_FILE_PATH }}
-      - Invoke-Kubectl -provider Azure -target {{ . KUBECTL_TARGET }} -identifier {{ . KUBECTL_IDENTIFIER }} -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
+      - Invoke-Kubectl -provider Azure -target {{ .KUBECTL_TARGET }}  -identifier {{ .KUBECTL_IDENTIFIER }} -Apply -Arguments {{ .KUBECTL_FILE_PATH }}
+      - Invoke-Kubectl -provider Azure -target {{ .KUBECTL_TARGET }} -identifier {{ .KUBECTL_IDENTIFIER }} -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
     variables:
       KUBECTL_FILE_PATH: stacks-dotnet/deploy/k8s/app/api-deploy.yml
       KUBECTL_TARGET: amido-stacks-nonprod-euw-core
