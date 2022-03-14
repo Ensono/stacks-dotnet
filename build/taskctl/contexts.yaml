@@ -15,14 +15,14 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh:0.3.55-versionbump
+        - amidostacks/runner-pwsh:0.3.62-kubectl
         - pwsh
         - -NoProfile
         - -Command
     quote: "'"
     env:
       arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
-    before: env | grep -v PATH | grep -v HOME > envfile
+    before: env | grep -v PATH | grep -v SOURCEVERSIONMESSAGE | grep -v HOME > envfile
 
   powershell-python:
     executable:
@@ -40,14 +40,14 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-python:0.3.55-versionbump
+        - amidostacks/runner-pwsh-python:0.3.62-kubectl
         - pwsh
         - -NoProfile
         - -Command
     quote: "'"
     env:
       arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
-    before: env | grep -v PATH | grep -v HOME > envfile
+    before: env | grep -v PATH | grep -v SOURCEVERSIONMESSAGE | grep -v HOME > envfile
 
   powershell-dotnet:
     executable:
@@ -65,11 +65,11 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-dotnet:0.3.55-versionbump
+        - amidostacks/runner-pwsh-dotnet:0.3.62-kubectl
         - pwsh
         - -NoProfile
         - -Command
     quote: "'"
     env:
       arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
-    before: env | grep -v PATH | grep -v HOME > envfile
+    before: env | grep -v PATH | grep -v SOURCEVERSIONMESSAGE | grep -v HOME > envfile
