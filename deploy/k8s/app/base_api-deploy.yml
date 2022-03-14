@@ -203,16 +203,6 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
         - name: api
-      resources:
-        limits:
-          cpu: "1"
-        requests:
-          cpu: "0.5"
-          image: ${k8s_image} # this we need to pass from the pipeline to the deployment steps
-          imagePullPolicy: IfNotPresent
-          volumeMounts:
-            - name: appsettings
-              mountPath: /app/config  # this can either be configured if you are re-using this for many services or should be changed here
           env:
             - name: POD_NAME
               valueFrom:
@@ -243,6 +233,18 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: app_insights
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              memory: "256Mi"
+          image: ${k8s_image} # this we need to pass from the pipeline to the deployment steps
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: appsettings
+              mountPath: /app/config  # this can either be configured if you are re-using this for many services or should be changed here
           ports:
             - name: http
               containerPort: 80
