@@ -138,8 +138,8 @@ tasks:
     context: powershell
     description: Deploy to Kubernetes
     command:
-      - Invoke-Kubectl -Apply -Arguments $env:KUBECTL_FILE_PATH
-      - Invoke-Kubectl -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
+      - Invoke-Kubectl -provider Azure -target $env:aks_cluster_name -identifier $env:aks_resource_group_name -Apply -Arguments $env:KUBECTL_FILE_PATH
+      - Invoke-Kubectl -provider Azure -target $env:aks_cluster_name -identifier $env:aks_resource_group_name -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
 
   deploy:functional_tests:
     context: powershell-dotnet
