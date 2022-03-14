@@ -39,7 +39,9 @@ variables:
     value: stacks-dotnet
   - name: self_generic_name
     value: stacks-api
-  
+  - name: app_name
+    value: yumido-netcore-api,
+
   # Docker Image Settings
   - name: docker_image_tag
     value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
