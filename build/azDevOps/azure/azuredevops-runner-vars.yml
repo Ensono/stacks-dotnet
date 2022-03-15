@@ -91,7 +91,7 @@ variables:
 
 # Kubernetes target file location
   - name: k8s_resource_file
-    value: "$(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml"
+    value: "deploy/k8s/app/api-deploy.yml"
   # Versioning
   - name: version_major
     value: 0
