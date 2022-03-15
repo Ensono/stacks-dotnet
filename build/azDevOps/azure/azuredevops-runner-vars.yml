@@ -1,4 +1,6 @@
 variables:
+  - group: amido-stacks-webapp
+
   # Terraform Configuration
 
   # State configuration
@@ -89,6 +91,15 @@ variables:
   - name: docker_image_name
     value: "stacks-api"
 
+  - name: k8s_cluster_target_nonprod
+    value: amido-stacks-nonprod-euw-core
+  - name: k8s_cluster_identifier_nonprod
+    value: amido-stacks-nonprod-euw-core
+  - name: k8s_cluster_target_prod
+    value: amido-stacks-prod-euw-core
+  - name: k8s_cluster_identifier_prod
+    value: amido-stacks-prod-euw-core
+  
 # Kubernetes target file location
   - name: k8s_resource_file
     value: "deploy/k8s/app/api-deploy.yml"
