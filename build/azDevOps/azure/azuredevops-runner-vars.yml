@@ -90,7 +90,7 @@ variables:
     value: "stacks-api"
 
 # Kubernetes target file location
-  - name: k8s_resource_filepath
+  - name: k8s_resource_file
     value: "$(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml"
   # Versioning
   - name: version_major
