@@ -89,6 +89,9 @@ variables:
   - name: docker_image_name
     value: "stacks-api"
 
+# Kubernetes target file location
+  - name: k8s_resource_filepath
+    value: "$(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml"
   # Versioning
   - name: version_major
     value: 0
