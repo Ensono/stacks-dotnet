@@ -236,7 +236,8 @@ stages:
                     # all other ${var} syntax entries will be replaced with like named env vars
                     K8S_CLUSTER_TARGET: amido-stacks-nonprod-euw-core
                     K8S_CLUSTER_IDENTIFIER: amido-stacks-nonprod-euw-core
-                    K8S_RESOURCE_FILEPATH: $(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml
+                    K8S_RESOURCE_FILEPATH: deploy/k8s/app/api-deploy.yml
+                    WHA_TEST: "yes"
                     
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Kubernetes Manifest
