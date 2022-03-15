@@ -234,15 +234,14 @@ stages:
                     # Check base_ prefixed file at $(KUBECTL_FILEPATH) to see what should be replaced.
                     # The file deployment_list.ps1 can contain custom mappings, otherwise
                     # all other ${var} syntax entries will be replaced with like named env vars
-                    K8S_CLUSTER_TARGET: amido-stacks-nonprod-euw-core
-                    K8S_CLUSTER_IDENTIFIER: amido-stacks-nonprod-euw-core
-                    K8S_RESOURCE_FILEPATH: "deploy/k8s/app/api-deploy.yml"
-                    WHA_TEST: "deploy/k8s/app/api-deploy.yml"
+                    K8S_CLUSTER_TARGET: "amido-stacks-nonprod-euw-core"
+                    K8S_CLUSTER_IDENTIFIER: "amido-stacks-nonprod-euw-core"
+                    K8S_RESOURCE_FILE: $(k8s_resource_file)
                     
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Kubernetes Manifest
                   inputs:
-                    path: $(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml
+                    path: $(k8s_resource_file)
                     artifact: manifests_dev
   - stage: Prod
     dependsOn: Build
