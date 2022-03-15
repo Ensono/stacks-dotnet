@@ -136,7 +136,7 @@ tasks:
     context: powershell
     description: Deploy to Kubernetes
     command:
-      env | sort
+      - env | sort
       - Invoke-Kubectl -provider Azure -target $env:K8S_CLUSTER_TARGET -identifier $env:K8S_CLUSTER_IDENTIFIER -Apply -Arguments $env:KUBECTL_FILEPATH
       # - Invoke-Kubectl -provider Azure -target {{ .KUBECTL_TARGET }} -identifier {{ .KUBECTL_IDENTIFIER }} -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
 
