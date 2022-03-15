@@ -136,9 +136,7 @@ tasks:
     context: powershell
     description: Deploy to Kubernetes
     command:
-      - env | sort
-      - Write-Host $env:WHA_TEST
-      - Invoke-Kubectl -provider Azure -target $env:K8S_CLUSTER_TARGET -identifier $env:K8S_CLUSTER_IDENTIFIER -Apply -Arguments $env:K8S_RESOURCE_FILEPATH
+      - Invoke-Kubectl -provider Azure -target $env:K8S_CLUSTER_TARGET -identifier $env:K8S_CLUSTER_IDENTIFIER -Apply -Arguments $env:K8S_RESOURCE_FILE
       # - Invoke-Kubectl -provider Azure -target {{ .KUBECTL_TARGET }} -identifier {{ .KUBECTL_IDENTIFIER }} -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
 
   deploy:functional_tests:
