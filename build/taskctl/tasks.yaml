@@ -144,3 +144,31 @@ tasks:
     description: Run Functional Tests
     command:
       - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_DIR
+
+  publish:github:
+    context: powershell
+    description: Publish Release to GitHub
+    command:
+      - Publish-GitHubRelease -artifactsList "$env:ARTIFACTS_LIST"
+    env:
+      generateReleaseNotes: $true
+      # TODO: Currently handled by ADO pipeline var, captured in Story 4122
+      #  PUBLISH_RELEASE: $true
+
+  update:dashboard:
+    context: powershell
+    description: Update the Deployment Dashboard
+    command:
+      - Update-InfluxDashboard
+    # TODO: Currently handled by ADO pipeline var, captured in Story 4122
+    # env: 
+    #  PUBLISH_RELEASE: $true
+
+  publish:nuget:
+  context: powershell
+  description: Publish Packages to NuGet
+  command: 
+    - Write-Warning "Not actually publishing yet..."
+    # TODO: Currently handled by ADO pipeline var, captured in Story 4122
+    # env: 
+    #  PUBLISH_RELEASE: $true

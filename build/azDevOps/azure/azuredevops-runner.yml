@@ -44,8 +44,7 @@ stages:
               targetType: inline
               script: taskctl setup
             env:
-              DOCKER_IMAGE_TAG: $(version_revision)
-              # TODO: Testing if this works with DOCKER_IMAGE_TAG instead of BUILD_BUILDNUMBER
+              DOCKER_IMAGE_TAG: $(version_number)
 
           - task: Bash@3
             displayName: "TaskCTL: Build"
@@ -64,7 +63,7 @@ stages:
               SONAR_TOKEN: $(SONAR_TOKEN)
               SONAR_PROPERTIES: ""
               PROJECT_NAME: $(SONAR_PROJECT_NAME)
-              BUILD_BUILDNUMBER: $(version_revision)
+              BUILD_BUILDNUMBER: $(version_number)
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
               REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
@@ -82,6 +81,46 @@ stages:
             inputs:
               path: $(Build.SourcesDirectory)/src/tests/Functional
               artifact: tests
+
+      # TODO: Convert this to TASKCTL
+      - job: PackageBuild
+        pool:
+          vmImage: $(pool_vm_image)
+
+        steps:
+
+          - checkout: self
+
+          # Copy the files into the correct place for packaging
+          - task: Bash@3
+            displayName: Prepare for Packaging
+            inputs:
+              targetType: "inline"
+              workingDirectory: $(Agent.BuildDirectory)/s
+              script: |
+                cp $REPO_NAME/template.csproj .
+                mkdir ./templates
+                pushd templates
+                cp -r ${ROOT_SRC_DIR}/$REPO_NAME .
+                popd
+
+            env:
+              ROOT_SRC_DIR: $(Agent.BuildDirectory)/s
+              REPO_NAME: $(self_repo)
+
+          # Call template to build the package from the templates dir
+          - template: azDevOps/azure/templates/v2/steps/build-pack-test-dotnet.yml@templates
+            parameters:
+              package_path: $(Agent.BuildDirectory)/s
+              dotnet_core_version: 6.0.200
+              version_variable_name: version_number
+
+          # Upload the packages as artefacts
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Templates
+            inputs:
+              path: $(Agent.BuildDirectory)/a
+              artifact: packages
 
   - stage: Dev
     dependsOn: Build
@@ -391,3 +430,31 @@ stages:
                   inputs:
                     path: $(Agent.BuildDirectory)/s/$(k8s_resource_file)
                     artifact: manifests_prod
+
+      - job: CreateGitHubRelease
+        dependsOn:
+          - AppInfraProd
+          - DeployProd
+        pool:
+          vmImage: $(pool_vm_image)
+        steps:
+          # Download the artefacts from the build to create the release from
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifact: 'packages'
+              path: $(Build.ArtifactStagingDirectory)/packages
+
+          # Create a GitHub release with these packages
+          - task: Bash@3
+            displayName: "Taskctl: Release"
+            inputs:
+              targetType: inline
+              script: taskctl release
+              informationPreference: continue
+            env:
+              ARTIFACTS_LIST: $(ARTIFACTS_LIST)
+              PUBLISH_RELEASE: ${{ variables.create_release }}
+              DASHBOARD_INFLUX_TOKEN: $(DASHBOARD_INFLUX_TOKEN) # requires explicit mapping to be used as an env var
+              NUGET_API_KEY: $(nuget_service_connection)
+              PUBLISH_SYMBOLS: $(nuget_publish_symbols)
+              
