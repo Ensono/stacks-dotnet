@@ -228,7 +228,6 @@ stages:
                     DOMAIN: ${{ variables.domain }}
                     FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
                     # Invoke-KubeCTL control variables
-                    K8S_RESOURCE_FILEPATH: $(k8s_resource_filepath)
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
                     DEPLOYMENT_STATUS_TIMEOUT: 120s
@@ -237,11 +236,12 @@ stages:
                     # all other ${var} syntax entries will be replaced with like named env vars
                     K8S_CLUSTER_TARGET: amido-stacks-nonprod-euw-core
                     K8S_CLUSTER_IDENTIFIER: amido-stacks-nonprod-euw-core
+                    K8S_RESOURCE_FILEPATH: $(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml
                     
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Kubernetes Manifest
                   inputs:
-                    path: $(k8s_resource_filepath)
+                    path: $(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml
                     artifact: manifests_dev
   - stage: Prod
     dependsOn: Build
