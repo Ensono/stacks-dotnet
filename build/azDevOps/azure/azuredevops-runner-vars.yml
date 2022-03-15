@@ -74,6 +74,8 @@ variables:
     value: netcore-api
   
   # Docker Container registry configuration (used for image tagging and pushing)
+  # TODO: Despite being available in the TF State, these are required in other steps
+  # TODO: which do not inherit the state variables yet
   - name: docker_container_registry_rg_name_nonprod
     value: amido-stacks-nonprod-euw-core
   - name: docker_container_registry_name_nonprod
@@ -84,13 +86,13 @@ variables:
     value: amidostacksprodeuwcore
 
   # Kubernetes & Docker Image Settings
-  # TODO: Despite being available in the TF State, these are required in other steps
-  # TODO: which do not inherit the state variables yet
   - name: docker_image_tag
-    value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
+    value: "$(version_number)-$(Build.SourceBranchName)"
   - name: docker_image_name
     value: "stacks-api"
 
+  # TODO: Despite being available in the TF State, these are required in other steps
+  # TODO: which do not inherit the state variables yet
   - name: k8s_cluster_target_nonprod
     value: amido-stacks-nonprod-euw-core
   - name: k8s_cluster_identifier_nonprod
@@ -100,13 +102,49 @@ variables:
   - name: k8s_cluster_identifier_prod
     value: amido-stacks-prod-euw-core
   
-# Kubernetes target file location
+  # Kubernetes target file location
   - name: k8s_resource_file
     value: "deploy/k8s/app/api-deploy.yml"
   # Versioning
   - name: version_major
-    value: 0
+    value: 7
   - name: version_minor
     value: 0
   - name: version_revision
     value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
+  - name: version_number
+    value: "$(version_major).$(version_minor).$(version_revision)"
+
+# NuGet
+  - name: nuget_service_connection
+    value: "NuGetAmidoStacksServiceConnection"
+
+
+# Dashboard
+  - name: DASHBOARD_VERSION
+    value: $(Build.BuildNumber)
+  - name: DASHBOARD_TAGS
+    value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
+  - name: DASHBOARD_MEASUREMENT
+    value: deployment # Static definition within Influx Config
+  - group: amido-stacks-influx-credentials-prod
+    # Group should contain: 
+      # DASHBOARD_INFLUX_ORG
+      # DASHBOARD_INFLUX_BUCKET
+      # DASHBOARD_INFLUX_TOKEN
+      # DASHBOARD_INFLUX_SERVER
+
+# GitHub Release
+  - name: VERSION_NUMBER
+    value: "$(version_number)"
+  - name: COMMIT_ID
+    value: "$(Build.SourceVersion)"
+  - name: OWNER
+    value: "amido"
+  - name: REPOSITORY
+    value: "stacks-dotnet"
+  - name: ARTIFACTS_DIR
+    value: "artifacts/"
+  - name: ARTIFACTS_LIST
+    value: "*.nupkg"
+  - group: amido-stacks-github-credentials
