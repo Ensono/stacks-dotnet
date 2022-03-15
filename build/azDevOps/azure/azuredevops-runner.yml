@@ -228,7 +228,7 @@ stages:
                     DOMAIN: ${{ variables.domain }}
                     FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
                     # Invoke-KubeCTL control variables
-                    KUBECTL_FILEPATH: deploy/k8s/app/api-deploy.yml
+                    K8S_RESOURCE_FILEPATH: $(k8s_resource_filepath)
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
                     DEPLOYMENT_STATUS_TIMEOUT: 120s
@@ -241,7 +241,7 @@ stages:
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Kubernetes Manifest
                   inputs:
-                    path: $(Agent.BuildDirectory)/s/deploy/k8s/app/api-deploy.yml
+                    path: $(k8s_resource_filepath)
                     artifact: manifests_dev
   - stage: Prod
     dependsOn: Build
