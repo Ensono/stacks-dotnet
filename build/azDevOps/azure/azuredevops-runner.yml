@@ -19,17 +19,11 @@ stages:
     variables:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
-      - group: amido-stacks-webapp  # Primarily for SonarQube credentials
 
     jobs:
       - job: AppBuild
         pool:
           vmImage: $(pool_vm_image)
-
-        variables:
-          - group: amido-stacks-webapp
-          - name: PROJECT_ROOT_DIR
-            value: $(Pipeline.Workspace)/s/$(self_repo)/$(self_repo_src)
 
         steps:
 
@@ -76,15 +70,15 @@ stages:
               REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
-            displayName: Upload coverage results
+            displayName: "Upload: coverage results"
             inputs:
-              summaryFileLocation: $(PROJECT_ROOT_DIR)/coverage/Cobertura.xml
+              summaryFileLocation: $(Pipeline.Workspace)/s/$(self_repo)/$(self_repo_src)/coverage/Cobertura.xml
               codecoverageTool: cobertura
-              pathToSources: $(PROJECT_ROOT_DIR)
+              pathToSources: $(Pipeline.Workspace)/s/$(self_repo)/$(self_repo_src)
 
           # Upload functional tests as artifacts
           - task: PublishPipelineArtifact@1
-            displayName: Upload functional tests
+            displayName: "Upload: functional tests"
             inputs:
               path: $(Build.SourcesDirectory)/src/tests/Functional
               artifact: tests
@@ -95,7 +89,6 @@ stages:
     variables:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
-      - group: amido-stacks-webapp
       - name: Environment.ShortName
         value: dev
 
@@ -174,7 +167,7 @@ stages:
 
                 # Install Taskfile so that the tests can be run
                 - task: Bash@3
-                  displayName: Install Taskctl
+                  displayName: "Install: Taskctl"
                   inputs:
                     targetType: inline
                     script: |
@@ -188,6 +181,7 @@ stages:
                     path: $(Pipeline.Workspace)/tests
 
                 - task: Bash@3
+                  displayName: "Taskctl: Deploy"
                   inputs:
                     targetType: inline
                     script: taskctl deploy
@@ -231,15 +225,15 @@ stages:
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
                     DEPLOYMENT_STATUS_TIMEOUT: 120s
-                    # Check base_ prefixed file at $(KUBECTL_FILEPATH) to see what should be replaced.
+                    # Check base_ prefixed file at $(k8s_resource_file) to see what should be replaced.
                     # The file deployment_list.ps1 can contain custom mappings, otherwise
                     # all other ${var} syntax entries will be replaced with like named env vars
-                    K8S_CLUSTER_TARGET: "amido-stacks-nonprod-euw-core"
-                    K8S_CLUSTER_IDENTIFIER: "amido-stacks-nonprod-euw-core"
+                    K8S_CLUSTER_TARGET: $(k8s_cluster_target_nonprod)
+                    K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_nonprod)
                     K8S_RESOURCE_FILE: $(k8s_resource_file)
                     
                 - task: PublishPipelineArtifact@1
-                  displayName: Publish Kubernetes Manifest
+                  displayName: "Publish: Kubernetes Manifest"
                   inputs:
                     path: $(Agent.BuildDirectory)/s/$(k8s_resource_file)
                     artifact: manifests_dev
@@ -249,7 +243,6 @@ stages:
     variables:
       - group: amido-stacks-infra-credentials-prod
       - group: stacks-credentials-prod-kv
-      - group: amido-stacks-webapp
       - name: Environment.ShortName
         value: prod
 
@@ -269,14 +262,15 @@ stages:
 
                 # Install Taskfile so that the tests can be run
                 - task: Bash@3
-                  displayName: Install Taskctl
+                  displayName: "Install: Taskctl"
                   inputs:
                     targetType: inline
                     script: |
                       wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
                       tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
 
-                - task: PowerShell@2
+                - task: Bash@3
+                  displayName: "Taskctl: Infrastructure"
                   inputs:
                     targetType: inline
                     script: taskctl infrastructure
@@ -327,18 +321,12 @@ stages:
 
                 # Install Taskfile so that the tests can be run
                 - task: Bash@3
-                  displayName: Install Taskctl
+                  displayName: "Install: Taskctl"
                   inputs:
                     targetType: inline
                     script: |
                       wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
                       tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
-
-                - task: PublishPipelineArtifact@1
-                  displayName: Publish Kubernetes Manifest
-                  inputs:
-                    path: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
-                    artifact: manifests_dev
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
@@ -346,25 +334,60 @@ stages:
                     artifact: tests
                     path: $(Pipeline.Workspace)/tests
 
-                - task: PowerShell@2
+                - task: Bash@3
+                  displayName: "Taskctl: Deploy"
                   inputs:
                     targetType: inline
                     script: taskctl deploy
                     informationPreference: continue
                   env:
+                    # Azure Authentication
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
                     ARM_TENANT_ID: $(azure-tenant-id)
-                    BASE_DOMAIN: ${{ variables.base_domain_prod }}
+                    # Terraform Backend Configuration (used for Terraform Outputs)
+                    TF_STATE_CONTAINER: $(tf_state_container)
+                    TF_STATE_KEY: $(tf_state_key)
+                    TS_STATE_RG: $(tf_state_rg)
+                    TF_STATE_STORAGE: $(tf_state_storage)
+                    # Deployment Specific Configuration  (used for Terraform Outputs)
+                    TF_VAR_name_component: $(component)
+                    TF_VAR_resource_group_location: $(region)
+                    TF_VAR_create_cdn_endpoint: false
+                    TF_VAR_create_dns_record: true
+                    TF_VAR_name_company: $(company)
+                    TF_VAR_name_project: $(project)
+                    TF_VAR_name_domain: $(domain)
+                    TF_VAR_create_cosmosdb: false
+                    TF_VAR_create_cache: false
+                    TF_VAR_stage: $(Environment.ShortName)
+                    TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
+                    TF_VAR_cosmosdb_sql_container: "Menu"
+                    TF_VAR_cosmosdb_sql_container_partition_key: "/id"
+                    TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
+                    TF_VAR_cosmosdb_offer_type: "Standard"
+                    # Docker Image Information
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
-                    DOCKER_REGISTRY: $(docker_container_registry_name_prod)
-                    DOMAIN: ${{ variables.domain }}
+                    DOCKER_REGISTRY: $(docker_container_registry_name_nonprod)
+                    # Configuration
                     ENV_NAME: $(Environment.ShortName)
-                    KUBECTL_FILEPATH: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
+                    DOMAIN: ${{ variables.domain }}
                     FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
+                    # Invoke-KubeCTL control variables
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
                     DEPLOYMENT_STATUS_TIMEOUT: 120s
-                    BaseUrl: "https://$(Environment.ShortName)-${{ variables.domain }}.$(base_domain_prod)/api/menu/"
+                    # Check base_ prefixed file at $(k8s_resource_file) to see what should be replaced.
+                    # The file deployment_list.ps1 can contain custom mappings, otherwise
+                    # all other ${var} syntax entries will be replaced with like named env vars
+                    K8S_CLUSTER_TARGET: $(k8s_cluster_target_nonprod)
+                    K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_nonprod)
+                    K8S_RESOURCE_FILE: $(k8s_resource_file)
+                    
+                - task: PublishPipelineArtifact@1
+                  displayName: "Publish: Kubernetes Manifest"
+                  inputs:
+                    path: $(Agent.BuildDirectory)/s/$(k8s_resource_file)
+                    artifact: manifests_prod
