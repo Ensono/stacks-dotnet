@@ -12,49 +12,7 @@ trigger:
       - '*'
 
 variables:
-  - template: azuredevops-vars.yml
-  - name: pool_vm_image
-    value: ubuntu-20.04
-
-  # SelfConfig
-  # If you haven't specified source_repo at cli runtime please ensure you replace it here
-  # It is case sensitive for TFS based repos
-  - name: self_repo_src
-    value: src/api
-  - name: self_repo_dir
-    value: "$(Agent.BuildDirectory)/s/$(self_repo)"
-  - name: self_repo_tf_src
-    value: deploy/azure/app/kube
-  - name: self_repo_tf_dir
-    value: "$(self_repo_dir)/$(self_repo_tf_src)"
-
-  # App Specific Taxonomy
-  - name: resource_def_name
-    value: dotnet-api
-  - name: component
-    value: api
-  - name: role
-    value: backend
-  - name: self_repo
-    value: stacks-dotnet
-  - name: self_generic_name
-    value: stacks-api
-  - name: app_name
-    value: yumido-netcore-api,
-
-  # Docker Image Settings
-  - name: docker_image_tag
-    value: "$(version_major).$(version_minor).$(version_revision)-$(Build.SourceBranchName)"
-  - name: docker_image_name
-    value: "stacks-api"
-
-  # Versioning
-  - name: version_major
-    value: 0
-  - name: version_minor
-    value: 0
-  - name: version_revision
-    value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
+  - template: azuredevops-runner-vars.yml
 
 stages:
   - stage: Build
@@ -270,13 +228,15 @@ stages:
                     DOMAIN: ${{ variables.domain }}
                     FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
                     # Invoke-KubeCTL control variables
-                    KUBECTL_FILEPATH: $(self_repo_dir)/deploy/k8s/app/api-deploy.yml
+                    KUBECTL_FILEPATH: deploy/k8s/app/api-deploy.yml
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
                     DEPLOYMENT_STATUS_TIMEOUT: 120s
-                    # Check file at $(KUBECTL_FILEPATH) to see what should be replaced.
+                    # Check base_ prefixed file at $(KUBECTL_FILEPATH) to see what should be replaced.
                     # The file deployment_list.ps1 can contain custom mappings, otherwise
                     # all other ${var} syntax entries will be replaced with like named env vars
+                    K8S_CLUSTER_TARGET: amido-stacks-nonprod-euw-core
+                    K8S_CLUSTER_IDENTIFIER: amido-stacks-nonprod-euw-core
                     
                 - task: PublishPipelineArtifact@1
                   displayName: Publish Kubernetes Manifest

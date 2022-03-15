@@ -7,7 +7,10 @@ variables:
     value: stacks
   - name: domain
     value: netcore-api
-
+  - name: self_repo
+    value: stacks-dotnet
+  - name: self_generic_name
+    value: stacks-api
 
   # Terraform Configuration
 
@@ -29,19 +32,56 @@ variables:
   - name: tf_state_key
     value: netcore-api
 
-  # TF File location in Repo
-  - name: TF_FILE_LOCATION
-    value: deploy/azure/app/kube
-
-  # Container registry configuration (used for image tagging and pushing)
-  - name: docker_container_registry_rg_name_nonprod
+  # TF Variables
+  # --nonprod
+  - name: tf_app_insights_name_nonprod
     value: amido-stacks-nonprod-euw-core
+  - name: tf_app_gateway_frontend_ip_name_nonprod
+    value: amido-stacks-nonprod-euw-core
+  - name: tf_core_resource_group_nonprod
+    value: amido-stacks-nonprod-euw-core
+
+  # --prod
+  - name: tf_app_insights_name_prod
+    value: amido-stacks-prod-euw-core
+  - name: tf_app_gateway_frontend_ip_name_prod
+    value: amido-stacks-prod-euw-core
+  - name: tf_core_resource_group_prod
+    value: amido-stacks-prod-euw-core
+
+  # Kubernetes configuration
+  # --nonprod
+  - name: kubernetes_clusterrg_nonprod
+    value: amido-stacks-nonprod-euw-core
+  - name: kubernetes_clustername_nonprod
+    value: amido-stacks-nonprod-euw-core
+
+  # --prod
+  - name: kubernetes_clusterrg_prod
+    value: amido-stacks-prod-euw-core
+  - name: kubernetes_clustername_prod
+    value: amido-stacks-prod-euw-core
+
+  # Container registry configuration
   - name: docker_container_registry_name_nonprod
     value: amidostacksnonprodeuwcore
-  - name: docker_container_registry_rg_name_prod
-    value: amido-stacks-prod-euw-core
   - name: docker_container_registry_name_prod
     value: amidostacksprodeuwcore
+
+  # Domain names
+  - name: base_domain_nonprod
+    value: nonprod.amidostacks.com
+  - name: base_domain_internal_nonprod
+    value: nonprod.amidostacks.internal
+  - name: base_domain_prod
+    value: prod.amidostacks.com
+  - name: base_domain_internal_prod
+    value: prod.amidostacks.internal
+
+  # Environment
+  # Set the name of the resource group that has the DNS zones to be updated
+  - name: dns_zone_resource_group
+    value: "Stacks-Ancillary-Resources"
 
   # GitHub infomration
   - name: create_release
@@ -50,7 +90,3 @@ variables:
     value: GitHubReleases
   - name: github_org
     value: $(company)
-
-  # TaskCTL configuration
-  - name: TaskctlVersion
-    value: 1.4.2
