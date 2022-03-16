@@ -705,4 +705,4 @@ stages:
               packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.nupkg'
               nuGetFeedType: 'external'
               publishFeedCredentials: '${{variables.nuget_connection}}'
-              
+
