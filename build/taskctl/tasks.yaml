@@ -142,6 +142,8 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
+      - pwd
+      - env | sort
       - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_DIR
 
   publish:github:
