@@ -103,7 +103,7 @@ stages:
               REPO_NAME: $(self_repo)
 
           # Call template to build the package from the templates dir
-          - template: azDevOps/azure/templates/v2/steps/build-pack-test-dotnet.yml@templates
+          - template: templates/v2/steps/build-pack-test-dotnet.yml
             parameters:
               package_path: $(Agent.BuildDirectory)/s
               dotnet_core_version: 6.0.200
