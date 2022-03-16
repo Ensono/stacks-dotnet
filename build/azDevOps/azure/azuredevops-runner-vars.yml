@@ -135,8 +135,8 @@ variables:
       # DASHBOARD_INFLUX_SERVER
 
 # GitHub Release
-  - name: VERSION_NUMBER
-    value: "$(version_number)"
+  # - name: VERSION_NUMBER
+  #   value: "$(version_number)"
   - name: COMMIT_ID
     value: "$(Build.SourceVersion)"
   - name: OWNER
