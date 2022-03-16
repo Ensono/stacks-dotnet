@@ -650,7 +650,6 @@ stages:
   - stage: Release
     dependsOn:
       - Build
-      - Prod
     # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['create_release'], 'true'))
     variables:
       - group: amido-stacks-infra-credentials-nonprod
@@ -658,6 +657,8 @@ stages:
         value: "$(version_major).$(version_minor).$(version_revision)"
       - name: nuget_connection
         value: NuGetAmidoStacksServiceConnection
+      - name: use_svc_connection
+        value: true
     jobs:
       - job: CreateGitHubRelease
         pool:
@@ -700,5 +701,5 @@ stages:
           # Push the package to Nuget
           - template: azDevOps/azure/templates/v2/steps/deploy-push-package-symbols-public.yml@templates
             parameters:
-              nuget_service_connection: NuGetAmidoStacksServiceConnection
-              use_nuget_service_connection: true
+              nuget_service_connection: ${{variables.nuget_connection}}
+              use_nuget_service_connection: ${{variables.use_svc_connection}}
