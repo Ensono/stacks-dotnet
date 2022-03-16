@@ -162,9 +162,9 @@ tasks:
     #  PUBLISH_RELEASE: $true
 
   publish:nuget:
-  context: powershell
-  description: Publish Packages to NuGet
-  command: 
-    - Write-Warning "Not actually publishing yet..."
-    # env: 
-    #  PUBLISH_RELEASE: $true
+    context: powershell
+    description: Publish Packages to NuGet
+    command: 
+      - Write-Warning "Not actually publishing yet..."
+      # env: 
+      #  PUBLISH_RELEASE: $true
