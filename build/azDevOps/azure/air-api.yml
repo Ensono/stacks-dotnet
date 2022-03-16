@@ -12,7 +12,7 @@ trigger:
       - '*'
 
 variables:
-  - template: azuredevops-runner-vars.yml
+  - template: air-api-vars.yml
 
 stages:
   - stage: Build
