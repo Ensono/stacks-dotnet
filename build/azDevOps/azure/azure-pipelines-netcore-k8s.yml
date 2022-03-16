@@ -702,4 +702,4 @@ stages:
           - template: azDevOps/azure/templates/v2/steps/deploy-push-package-symbols-public.yml@templates
             parameters:
               nuget_service_connection: ${{variables.nuget_connection}}
-              use_nuget_service_connection: ${{variables.use_svc_connection}}
+
