@@ -87,7 +87,7 @@ variables:
 
   # Kubernetes & Docker Image Settings
   - name: docker_image_tag
-    value: "$(version_number)-$(Build.SourceBranchName)"
+    value: $(version_number)-$(Build.SourceBranchName)
   - name: docker_image_name
     value: "stacks-api"
 
@@ -113,7 +113,7 @@ variables:
   - name: version_revision
     value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
   - name: version_number
-    value: "$(version_major).$(version_minor).$(version_revision)"
+    value: $(version_major).$(version_minor).$(version_revision)
 
 # NuGet
   - name: nuget_service_connection
