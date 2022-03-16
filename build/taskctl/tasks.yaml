@@ -105,7 +105,6 @@ tasks:
       - Invoke-Dotnet -Build -Path src/tests/Functional
 
   # Infrastructure tasks
-
   infra:init:
     context: powershell
     description: Initialise Terraform for the environment
@@ -125,7 +124,7 @@ tasks:
     command:
       - Push-Location $env:TF_FILE_LOCATION && Invoke-Terraform -Apply -Path tfplan -Debug
 
-  # Deployment
+  # Deployment Tasks
   deploy:templater:
     context: powershell
     description: Render deployment templates
@@ -152,7 +151,6 @@ tasks:
       - Publish-GitHubRelease -artifactsList "$env:ARTIFACTS_LIST"
     env:
       generateReleaseNotes: $true
-      # TODO: Currently handled by ADO pipeline var, captured in Story 4122
       #  PUBLISH_RELEASE: $true
 
   update:dashboard:
@@ -160,7 +158,6 @@ tasks:
     description: Update the Deployment Dashboard
     command:
       - Update-InfluxDashboard
-    # TODO: Currently handled by ADO pipeline var, captured in Story 4122
     # env: 
     #  PUBLISH_RELEASE: $true
 
@@ -169,6 +166,5 @@ tasks:
   description: Publish Packages to NuGet
   command: 
     - Write-Warning "Not actually publishing yet..."
-    # TODO: Currently handled by ADO pipeline var, captured in Story 4122
     # env: 
     #  PUBLISH_RELEASE: $true
