@@ -28,7 +28,7 @@ stages:
 
         steps:
 
-          - template: templates/steps/build/azure-devops-runner-setup.yml
+          - template: templates/air-api-setup.yml
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -49,12 +49,39 @@ stages:
               ROOT_SRC_DIR: $(Agent.BuildDirectory)/s
               REPO_NAME: $(self_repo)
 
-          # Call template to build the package from the templates dir
-          - template: templates/steps/build/build-pack-test-dotnet.yml
-            parameters:
-              package_path: $(Agent.BuildDirectory)/s
-              dotnet_core_version: 6.0.200
-              version_variable_name: version_number
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core SDK 6.0.200'
+            inputs:
+              packageType: sdk
+              version: 6.0.200
+              installationPath: $(Agent.ToolsDirectory)/dotnet
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Build: Restore'
+            inputs:
+              command: 'restore'
+              projects: '$(Agent.BuildDirectory)/s/**/*.csproj'
+              feedsToUse: 'select'
+              includeNuGetOrg: true
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Test: Unit Tests'
+            inputs:
+              command: 'test'
+              projects: '$(Agent.BuildDirectory)/s/*.csproj'
+              arguments: '--no-restore'
+              failOnStderr: true
+
+          # Pack NuGet packages.
+          - task: DotNetCoreCLI@2
+            displayName: 'Build: Pack'
+            inputs:
+              command: 'pack'
+              configuration: 'release'
+              arguments: '--no-restore'
+              versioningScheme: byEnvVar
+              versionEnvVar: $(version_number)
+              packagesToPack: '$(Agent.BuildDirectory)/s/*.csproj'
 
           # Upload the packages as artefacts
           - task: PublishPipelineArtifact@1
@@ -63,14 +90,12 @@ stages:
               path: $(Agent.BuildDirectory)/a
               artifact: packages
 
-  - stage: Prod
+  - stage: Release
     dependsOn: Build
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['create_release'], 'true'))
     variables:
       - group: amido-stacks-infra-credentials-prod
-      - group: stacks-credentials-prod-kv
-      - name: Environment.ShortName
-        value: prod
+      - group: amido-stacks-nuget-credentials
 
     jobs:
       - job: CreateGitHubRelease
@@ -80,7 +105,7 @@ stages:
         pool:
           vmImage: $(pool_vm_image)
         steps:
-          - template: templates/steps/build/azure-devops-runner-setup.yml
+          - template: templates/air-api-setup.yml
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -101,6 +126,6 @@ stages:
               ARTIFACTS_LIST: $(ARTIFACTS_LIST)
               PUBLISH_RELEASE: ${{ variables.create_release }}
               DASHBOARD_INFLUX_TOKEN: $(DASHBOARD_INFLUX_TOKEN) # requires explicit mapping to be used as an env var
-              NUGET_API_KEY: $(nuget_service_connection)
+              NUGET_API_KEY: $(nuget_api_key)
               PUBLISH_SYMBOLS: $(nuget_publish_symbols)
 
