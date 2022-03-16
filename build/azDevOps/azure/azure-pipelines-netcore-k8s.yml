@@ -656,6 +656,8 @@ stages:
       - group: amido-stacks-infra-credentials-nonprod
       - name: version_number
         value: "$(version_major).$(version_minor).$(version_revision)"
+      - name: nuget_connection
+        value: NuGetAmidoStacksServiceConnection
     jobs:
       - job: CreateGitHubRelease
         pool:
@@ -696,6 +698,10 @@ stages:
                 $(Build.ArtifactStagingDirectory)/packages/*.nupkg
 
           # Push the package to Nuget
-          - template: azDevOps/azure/templates/v2/steps/deploy-push-package-symbols-public.yml@templates
-            parameters:
-              nuget_sevice_connection: $(nuget_service_connection)
+          - task: NuGetCommand@2
+            displayName: 'NuGet push'
+            inputs:
+              command: 'push'
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.nupkg'
+              nuGetFeedType: 'external'
+              publishFeedCredentials: '${{variables.nuget_connection}}'
