@@ -26,17 +26,9 @@ stages:
           vmImage: $(pool_vm_image)
 
         steps:
-
-          - checkout: self
-
-          # Install Taskctl so that the tests can be run
-          - task: Bash@3
-            displayName: "Install: Taskctl"
-            inputs:
-              targetType: inline
-              script: |
-                wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-                tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+          - template: templates/steps/build/azure-devops-runner-setup.yml
+            parameters:
+              TaskctlVersion: ${{ variables.TaskctlVersion }}
 
           - task: Bash@3
             displayName: "TaskCTL: Setup"
@@ -89,7 +81,9 @@ stages:
 
         steps:
 
-          - checkout: self
+          - template: templates/steps/build/azure-devops-runner-setup.yml
+            parameters:
+              TaskctlVersion: ${{ variables.TaskctlVersion }}
 
           # Copy the files into the correct place for packaging
           - task: Bash@3
@@ -142,17 +136,9 @@ stages:
           runOnce:
             deploy:
               steps:
-
-                - checkout: self
-
-                # Install Taskfile so that the tests can be run
-                - task: Bash@3
-                  displayName: "Install: Taskctl"
-                  inputs:
-                    targetType: inline
-                    script: |
-                      wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-                      tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+                - template: templates/steps/build/azure-devops-runner-setup.yml
+                  parameters:
+                    TaskctlVersion: ${{ variables.TaskctlVersion }}
 
                 - task: Bash@3
                   displayName: "Taskctl: Infrastructure"
@@ -202,16 +188,9 @@ stages:
           runOnce:
             deploy:
               steps:
-                - checkout: self
-
-                # Install Taskfile so that the tests can be run
-                - task: Bash@3
-                  displayName: "Install: Taskctl"
-                  inputs:
-                    targetType: inline
-                    script: |
-                      wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-                      tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+                - template: templates/steps/build/azure-devops-runner-setup.yml
+                  parameters:
+                    TaskctlVersion: ${{ variables.TaskctlVersion }}
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
@@ -297,16 +276,9 @@ stages:
             deploy:
               steps:
 
-                - checkout: self
-
-                # Install Taskfile so that the tests can be run
-                - task: Bash@3
-                  displayName: "Install: Taskctl"
-                  inputs:
-                    targetType: inline
-                    script: |
-                      wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-                      tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+                - template: templates/steps/build/azure-devops-runner-setup.yml
+                  parameters:
+                    TaskctlVersion: ${{ variables.TaskctlVersion }}
 
                 - task: Bash@3
                   displayName: "Taskctl: Infrastructure"
@@ -356,16 +328,9 @@ stages:
           runOnce:
             deploy:
               steps:
-                - checkout: self
-
-                # Install Taskfile so that the tests can be run
-                - task: Bash@3
-                  displayName: "Install: Taskctl"
-                  inputs:
-                    targetType: inline
-                    script: |
-                      wget https://github.com/taskctl/taskctl/releases/download/${{ variables.TaskctlVersion }}/taskctl_${{ variables.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-                      tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+                - template: templates/steps/build/azure-devops-runner-setup.yml
+                  parameters:
+                    TaskctlVersion: ${{ variables.TaskctlVersion }}
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
@@ -438,6 +403,10 @@ stages:
         pool:
           vmImage: $(pool_vm_image)
         steps:
+          - template: templates/steps/build/azure-devops-runner-setup.yml
+            parameters:
+              TaskctlVersion: ${{ variables.TaskctlVersion }}
+
           # Download the artefacts from the build to create the release from
           - task: DownloadPipelineArtifact@2
             inputs:
@@ -457,4 +426,4 @@ stages:
               DASHBOARD_INFLUX_TOKEN: $(DASHBOARD_INFLUX_TOKEN) # requires explicit mapping to be used as an env var
               NUGET_API_KEY: $(nuget_service_connection)
               PUBLISH_SYMBOLS: $(nuget_publish_symbols)
-              
+
