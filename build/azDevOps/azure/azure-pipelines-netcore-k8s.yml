@@ -704,4 +704,4 @@ stages:
               command: push
               packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.nupkg'
               nuGetFeedType: external
-              publishFeedCredentials: $(nuget_connection)
+              publishFeedCredentials: ${{nuget_connection}}
