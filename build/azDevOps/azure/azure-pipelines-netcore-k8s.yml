@@ -700,5 +700,5 @@ stages:
           # Push the package to Nuget
           - template: azDevOps/azure/templates/v2/steps/deploy-push-package-symbols-public.yml@templates
             parameters:
-              nuget_service_connection: ${{nuget_connection}}
+              nuget_service_connection: NuGetAmidoStacksServiceConnection
               use_nuget_service_connection: true
