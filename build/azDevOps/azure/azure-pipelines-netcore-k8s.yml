@@ -657,6 +657,8 @@ stages:
         value: "$(version_major).$(version_minor).$(version_revision)"
       - name: nuget_connection
         value: NuGetAmidoStacksServiceConnection
+      - name: use_svc_connection
+        value: true
     jobs:
       - job: CreateGitHubRelease
         pool:
@@ -697,11 +699,10 @@ stages:
                 $(Build.ArtifactStagingDirectory)/packages/*.nupkg
 
           # Push the package to Nuget
-        
           - task: NuGetCommand@2
             displayName: 'NuGet push'
             inputs:
-              command: push
+              command: 'push'
               packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.nupkg'
-              nuGetFeedType: external
-              publishFeedCredentials: ${{variables.nuget_connection}}
+              nuGetFeedType: 'external'
+              publishFeedCredentials: '${{variables.nuget_connection}}'
