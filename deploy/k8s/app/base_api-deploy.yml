@@ -40,7 +40,7 @@ spec:
           - backend:
               serviceName: ${resource_def_name}
               servicePort: 80
-            path: ${k8s_app_path}(/|$)(.*)
+            path: ${k8s_app_route}(/|$)(.*)
   tls:
     - hosts:
         - ${tls_domain}
@@ -225,7 +225,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.annotations['release']
             - name: API_BASEPATH
-              value: ${k8s_app_path}
+              value: ${k8s_app_route}
             - name: LOG_LEVEL
               value: debug
             - name: APPINSIGHTS_INSTRUMENTATIONKEY

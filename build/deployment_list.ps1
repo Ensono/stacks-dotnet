@@ -6,7 +6,7 @@
             dns_pointer = "`${ENV_NAME}-`${DOMAIN}.`${DNS_BASE_DOMAIN}"
             environment = "`${ENV_NAME}"
             tls_domain = "`${DNS_BASE_DOMAIN}"
-            k8s_app_path = "`${K8S_APP_PATH}"
+            k8s_app_route = "`${K8S_APP_ROUTE}"
             log_level = "Debug"
             k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
             aadpodidentitybinding = "stacks-webapp-identity"
