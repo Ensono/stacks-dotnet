@@ -23,22 +23,28 @@ pipelines:
   # Pipeline to perform the build of the project
   build:
     - pipeline: lint
-
+    - task: test:sonarcloud:start
     - task: test:unittest
+      depends_on:
+        - test:sonarcloud:start
     - task: test:component
+      depends_on:
+        - test:sonarcloud:start
     - task: test:integration
+      depends_on:
+        - test:sonarcloud:start
     - task: test:contract
+      depends_on:
+        - test:sonarcloud:start
     - task: test:coverage
       depends_on:
         - test:unittest
-    # TODO: Temporarily disabled due to AIR compatibility issues. Logged via Bug 4315
-    # - task: test:sonarcloud:start
-    # - task: test:sonarcloud:stop
-    #   depends_on:
-    #     - test:unittest
-    #     - test:component
-    #     - test:integration
-    #     - test:contract
+    - task: test:sonarcloud:stop
+      depends_on:
+        - test:unittest
+        - test:component
+        - test:integration
+        - test:contract
     - task: build:functional_tests
     - task: build:container
       depends_on:
