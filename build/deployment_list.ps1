@@ -14,7 +14,7 @@
             version = "`${DOCKER_IMAGE_TAG}"
             jwtbearerauthentication_audience = "<TODO>"
             jwtbearerauthentication_authority = "<TODO>"
-            jwtbearerauthentication_enabled = false
+            jwtbearerauthentication_enabled = false # Temporarily disabled directly in template file
             jwtbearerauthentication_openapiauthorizationurl = "<TODO>"
             jwtbearerauthentication_openapiclientid = "<TODO>"
             jwtbearerauthentication_openapitokenurl = "<TODO>"
