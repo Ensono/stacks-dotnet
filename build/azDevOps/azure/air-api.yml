@@ -194,7 +194,7 @@ stages:
                     # Docker Image Information
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
-                    DOCKER_REGISTRY: $(docker_container_registry_name_nonprod)
+                    DOCKER_REGISTRY: $(docker_container_registry_name_nonprod).azurecr.io
                     # Configuration
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
@@ -337,7 +337,7 @@ stages:
                     # Docker Image Information
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
-                    DOCKER_REGISTRY: $(docker_container_registry_name_nonprod)
+                    DOCKER_REGISTRY: $(docker_container_registry_name_nonprod).azurecr.io
                     # Configuration
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
