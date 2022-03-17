@@ -128,7 +128,7 @@ data:
       "JwtBearerAuthentication": {
           "Audience": "${jwtbearerauthentication_audience}",
           "Authority": "${jwtbearerauthentication_authority}",
-          "Enabled": ${jwtbearerauthentication_enabled},
+          "Enabled": false,
           "OpenApi": {
               "AuthorizationUrl": "${jwtbearerauthentication_openapiauthorizationurl}",
               "ClientId": "${jwtbearerauthentication_openapiclientid}",
