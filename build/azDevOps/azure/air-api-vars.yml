@@ -72,13 +72,16 @@ variables:
     value: stacks
   - name: domain
     value: netcore-api
+  - name: k8s_app_path
+    value: /api/menu
   
   # Test Configuration
   - name: FUNCTIONAL_TESTS_SRC_DIR
     value: src/tests/Functional
-# Test Configuration
   - name: FUNCTIONAL_TESTS_RUN_DIR
     value: /app/tests
+  - name: FUNCTIONAL_TEST_BASEURL
+    -value: https://$(Environment.ShortName)-${{ variables.domain }}.$(dns_base_domain)$(k8s_app_path)
 
   # Docker Container registry configuration (used for image tagging and pushing)
   # TODO: Despite being available in the TF State, these are required in other steps

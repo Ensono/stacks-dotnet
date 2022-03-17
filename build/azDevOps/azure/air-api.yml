@@ -82,6 +82,8 @@ stages:
       - group: stacks-credentials-nonprod-kv
       - name: Environment.ShortName
         value: dev
+      - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
+        value: nonprod.amidostacks.com
 
     jobs:
       - deployment: AppInfraDev
@@ -197,6 +199,7 @@ stages:
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
+                    BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     # Invoke-KubeCTL control variables
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
@@ -221,6 +224,8 @@ stages:
       - group: stacks-credentials-prod-kv
       - name: Environment.ShortName
         value: prod
+      - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
+        value: prod.amidostacks.com
 
     jobs:
       - deployment: AppInfraProd
@@ -337,6 +342,7 @@ stages:
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
+                    BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     # Invoke-KubeCTL control variables
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
