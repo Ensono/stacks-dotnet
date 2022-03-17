@@ -36,10 +36,8 @@ tasks:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
-      - Invoke-SonarScanner -start
-      - Get-Childitem /app -Force | Select Name
-      - Get-Childitem /app/.sonarqube/ -Force | Select Name
-      - Invoke-DotNet -Build
+      - env | sort && Invoke-SonarScanner -start && Get-Childitem -Force | select Name && env | sort
+      - env | sort && Invoke-DotNet -Build && Get-Childitem -Force | select Name && env | sort
     condition: exit $SONAR_NO_RUN
 
   # Stop the static code analyise
@@ -48,7 +46,7 @@ tasks:
     context: powershell-dotnet
     description: Stop SonarCloud tests
     command:
-      - Invoke-SonarScanner -stop
+      - env | sort && Invoke-SonarScanner -stop && Get-Childitem -Force | select Name && env | sort
     condition: exit $SONAR_NO_RUN
 
   test:unittest:
