@@ -102,7 +102,7 @@ tasks:
     context: powershell-dotnet
     description: Build functional tests for integration testing
     command:
-      - Invoke-Dotnet -Build -Path src/tests/Functional
+      - Invoke-Dotnet -Build -Path $env:FUNCTIONAL_TESTS_DIR
 
   # Infrastructure tasks
   infra:init:
