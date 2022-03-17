@@ -71,7 +71,7 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: "Upload: functional tests"
             inputs:
-              path: $(Build.SourcesDirectory)/src/tests/Functional
+              path: $(FUNCTIONAL_TESTS_SRC_DIR)
               artifact: tests
 
   - stage: Dev
@@ -154,7 +154,7 @@ stages:
                   displayName: "Download: Test Artefacts"
                   inputs:
                     artifact: tests
-                    path: $(Pipeline.Workspace)/tests
+                    path: $(Agent.BuildDirectory)/s/tests
 
                 - task: Bash@3
                   displayName: "Taskctl: Deploy"
@@ -196,7 +196,7 @@ stages:
                     # Configuration
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
-                    FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
+                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
                     # Invoke-KubeCTL control variables
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)
@@ -294,7 +294,7 @@ stages:
                   displayName: "Download: Test Artefacts"
                   inputs:
                     artifact: tests
-                    path: $(Pipeline.Workspace)/tests
+                    path: $(Build.Workspace)/tests
 
                 - task: Bash@3
                   displayName: "Taskctl: Deploy"
@@ -336,7 +336,7 @@ stages:
                     # Configuration
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
-                    FUNCTIONAL_TESTS_DIR: $(Pipeline.Workspace)/tests
+                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
                     # Invoke-KubeCTL control variables
                     NAMESPACE: $(namespace)
                     RESOURCE_DEF_NAME: $(resource_def_name)

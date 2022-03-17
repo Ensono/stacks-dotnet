@@ -102,7 +102,7 @@ tasks:
     context: powershell-dotnet
     description: Build functional tests for integration testing
     command:
-      - Invoke-Dotnet -Build -Path /src/tests/Functional
+      - Invoke-Dotnet -Build -Path $env:FUNCTIONAL_TESTS_SRC_DIR
 
   # Infrastructure tasks
   infra:init:
@@ -144,9 +144,8 @@ tasks:
     command:
       - write-host $pwd # Validate PWD
       - env | sort # Validate Env Vars
-      - Get-ChildItem -path /home/vsts/work/1/
-      - Get-ChildItem  -path $env:FUNCTIONAL_TESTS_DIR -filter "*" -recurse # What is running inside invoke-dotnet and presumably failing
-      - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_DIR
+      - Get-ChildItem  -path $env:FUNCTIONAL_TESTS_RUN_DIR -filter "*" -recurse # What is running inside invoke-dotnet and presumably failing
+      - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_RUN_DIR
 
   publish:github:
     context: powershell
