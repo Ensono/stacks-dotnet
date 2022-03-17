@@ -22,13 +22,13 @@ tasks:
     context: powershell
     description: Perform Terraform format check
     command:
-      - Invoke-Terraform -Format -Path deploy/azure/app/kube
+      - Invoke-Terraform -Format -Path $env:TF_FILE_LOCATION
 
   lint:terraform:validate:
     context: powershell
     description: Perform Terraform validation
     command:
-      - Invoke-Terraform -Validate -Path deploy/azure/app/kube
+      - Invoke-Terraform -Validate -Path $env:TF_FILE_LOCATION
 
   # TESTS
   # Configure test tasks
@@ -102,7 +102,7 @@ tasks:
     context: powershell-dotnet
     description: Build functional tests for integration testing
     command:
-      - Invoke-Dotnet -Build -Path $env:FUNCTIONAL_TESTS_DIR
+      - Invoke-Dotnet -Build -Path /src/tests/Functional
 
   # Infrastructure tasks
   infra:init:
@@ -142,7 +142,7 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - pwd
+      - write-host $pwd
       - env | sort
       - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_DIR
 
