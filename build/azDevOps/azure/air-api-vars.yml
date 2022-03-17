@@ -73,7 +73,7 @@ variables:
   - name: domain
     value: netcore-api
   - name: k8s_app_route
-    value: /api/menu
+    value: /api/menu/
   
   # Test Configuration
   - name: FUNCTIONAL_TESTS_SRC_DIR
