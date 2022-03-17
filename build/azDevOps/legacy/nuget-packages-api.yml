@@ -37,7 +37,7 @@ resources:
   #     image: amidostacks/ci-tf:1.1.6
 
 variables:
-  - template: packages-api-nuget-vars.yml
+  - template: nuget-packages-api-vars.yml
 
 stages:
   - stage: Build
