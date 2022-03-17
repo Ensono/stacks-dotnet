@@ -73,6 +73,13 @@ variables:
   - name: domain
     value: netcore-api
   
+  # Test Configuration
+  - name: FUNCTIONAL_TESTS_SRC_DIR
+    value: src/tests/Functional
+# Test Configuration
+  - name: FUNCTIONAL_TESTS_RUN_DIR
+    value: tests
+
   # Docker Container registry configuration (used for image tagging and pushing)
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
@@ -135,8 +142,6 @@ variables:
       # DASHBOARD_INFLUX_SERVER
 
 # GitHub Release
-  # - name: VERSION_NUMBER
-  #   value: "$(version_number)"
   - name: COMMIT_ID
     value: "$(Build.SourceVersion)"
   - name: OWNER
