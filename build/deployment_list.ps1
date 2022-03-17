@@ -18,6 +18,7 @@
             jwtbearerauthentication_openapiauthorizationurl = "<TODO>"
             jwtbearerauthentication_openapiclientid = "<TODO>"
             jwtbearerauthentication_openapitokenurl = "<TODO>"
+            rewrite_target = '/$2' # Defined due to variable expansion during `Invoke-Templater`
         }
     }
 )
