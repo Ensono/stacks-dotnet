@@ -142,9 +142,7 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - write-host $pwd # Validate PWD
-      - env | sort # Validate Env Vars
-      - Get-ChildItem  -path $env:FUNCTIONAL_TESTS_RUN_DIR -filter "*" -recurse # What is running inside invoke-dotnet and presumably failing
+      - gci | select Name # What is running inside invoke-dotnet and presumably failing
       - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_RUN_DIR
 
   publish:github:

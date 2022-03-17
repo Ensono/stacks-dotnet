@@ -78,7 +78,7 @@ variables:
     value: src/tests/Functional
 # Test Configuration
   - name: FUNCTIONAL_TESTS_RUN_DIR
-    value: tests
+    value: /app/tests
 
   # Docker Container registry configuration (used for image tagging and pushing)
   # TODO: Despite being available in the TF State, these are required in other steps
