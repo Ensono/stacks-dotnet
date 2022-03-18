@@ -167,3 +167,9 @@ tasks:
       - Write-Warning "Not actually publishing yet..."
       # env: 
       #  PUBLISH_RELEASE: $true
+
+  debug:env:
+    context: powershell
+    description: Debugging task to show the environment variables in the container
+    command:
+      - dir env:/

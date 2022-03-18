@@ -13,7 +13,10 @@ watchers:
 pipelines:
 
   setup:
+    - task: debug:env
     - task: buildnumber
+      depends_on:
+        - debug:env
 
   lint:
     - task: lint:yaml
