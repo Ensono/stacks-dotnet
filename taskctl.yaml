@@ -39,9 +39,6 @@ pipelines:
     - task: test:contract
       depends_on:
         - test:sonarcloud:start
-    - task: debug:location
-      depends_on:
-        - test:unittest
     - task: test:coverage
       depends_on:
         - test:unittest

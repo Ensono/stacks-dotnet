@@ -64,7 +64,7 @@ stages:
           - task: PublishCodeCoverageResults@1
             displayName: "Upload: coverage results"
             inputs:
-              summaryFileLocation: $(Pipeline.Workspace)/s/$(self_repo)/$(self_repo_src)/coverage/Cobertura.xml
+              summaryFileLocation: $(Pipeline.Workspace)/s/$(self_repo)/coverage/Cobertura.xml
               codecoverageTool: cobertura
               pathToSources: $(Pipeline.Workspace)/s/$(self_repo)/$(self_repo_src)
 
