@@ -20,8 +20,6 @@ contexts:
         - -NoProfile
         - -Command
     quote: "'"
-    env:
-      dotnet_arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
     before: env | grep -v PATH | grep -v SOURCEVERSIONMESSAGE | grep -v HOME > envfile
 
   powershell-python:
@@ -45,8 +43,6 @@ contexts:
         - -NoProfile
         - -Command
     quote: "'"
-    env:
-      arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
     before: env | grep -v PATH | grep -v SOURCEVERSIONMESSAGE | grep -v HOME > envfile
 
   powershell-dotnet:
@@ -71,5 +67,5 @@ contexts:
         - -Command
     quote: "'"
     env:
-      arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
+      dotnet_arguments: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
     before: env | grep -v PATH | grep -v SOURCEVERSIONMESSAGE | grep -v HOME > envfile
