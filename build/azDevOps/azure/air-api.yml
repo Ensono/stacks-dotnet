@@ -66,7 +66,7 @@ stages:
             inputs:
               summaryFileLocation: $(Pipeline.Workspace)/s/coverage/Cobertura.xml
               codecoverageTool: cobertura
-              pathToSources: $(Pipeline.Workspace)/s/$(self_repo)/$(self_repo_src)
+              pathToSources: $(Pipeline.Workspace)/s/$(self_repo_src)
 
           # Upload functional tests as artifacts
           - task: PublishPipelineArtifact@1
