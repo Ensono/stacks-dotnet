@@ -27,28 +27,7 @@ pipelines:
   # Pipeline to perform the build of the project
   build:
     - pipeline: lint
-    - task: test:sonarcloud:start
-    - task: test:unittest
-      depends_on:
-        - test:sonarcloud:start
-    - task: test:component
-      depends_on:
-        - test:sonarcloud:start
-    - task: test:integration
-      depends_on:
-        - test:sonarcloud:start
-    - task: test:contract
-      depends_on:
-        - test:sonarcloud:start
-    - task: test:coverage
-      depends_on:
-        - test:unittest
-    - task: test:sonarcloud:stop
-      depends_on:
-        - test:unittest
-        - test:component
-        - test:integration
-        - test:contract
+    - task: test
     - task: build:functional_tests
     - task: build:container
       depends_on:

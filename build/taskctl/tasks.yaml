@@ -31,31 +31,42 @@ tasks:
       - Invoke-Terraform -Validate -Path $env:TF_FILE_LOCATION
 
   # TESTS
-  # Configure test tasks
-  test:sonarcloud:start:
+  # TODO: Wrapper for a Build and all Tests with SonarScanner, may be able to be split
+  # TODO: Update base image to have jdk-11
+  test:
     context: powershell-dotnet
-    description: Start SonarCloud tests
+    description: Start Tests
     command:
       - apt-get -qq update &&
         apt-get -qq install -y openjdk-11-jdk &&
         Invoke-SonarScanner -start &&
         Invoke-DotNet -Build &&
+        Invoke-DotNet -Tests -pattern "*UnitTests" &&
+        Invoke-DotNet -Coverage -target /app/coverage &&
+        Invoke-DotNet -Tests -pattern "*ComponentTests" &&
+        Invoke-DotNet -Tests -pattern "*IntegrationTests" &&
+        Invoke-DotNet -Tests -pattern "*ContractTests" &&
         Invoke-SonarScanner -stop &&
-        gci /home/vsts/work/1/.sonarqube -force | select Name
-      # - Invoke-SonarScanner -start
-      # - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
 
-  # Stop the static code analyise
-  # TODO - need to work out why the coverage files are being modified in the original build
+  # TODO: Not currently used
+  test:sonarcloud:start:
+    context: powershell-dotnet
+    description: Start SonarCloud tests
+    command:
+      - Invoke-SonarScanner -start &&
+        Invoke-DotNet -Build
+    condition: exit $SONAR_NO_RUN
+
+  # TODO: Not currently used
   test:sonarcloud:stop:
     context: powershell-dotnet
     description: Stop SonarCloud tests
     command:
-      - Write-Host "Stopping SonarScanner"
-      # - Invoke-SonarScanner -stop
+      - Invoke-SonarScanner -stop
     condition: exit $SONAR_NO_RUN
 
+  # TODO: Not currently used
   test:unittest:
     context: powershell-dotnet
     description: Perform unit tests
@@ -63,6 +74,7 @@ tasks:
       - Invoke-DotNet -Tests -pattern "*UnitTests"
     condition: exit $UNITTEST_NO_RUN
 
+  # TODO: Not currently used
   test:component:
     context: powershell-dotnet
     description: Perform component tests
@@ -73,6 +85,7 @@ tasks:
   # TODO: Need to work out how to pass in additional environment variables that may have been set
   # They will not always have the same name so we need to accept a list of them, which may not always
   # be formatted correctly for this conversion to be done
+  # TODO: Not currently used
   test:integration:
     context: powershell-dotnet
     description: Perform Integration tests
@@ -83,6 +96,7 @@ tasks:
   # TODO: Need to work out how to pass in additional environment variables that may have been set
   # They will not always have the same name so we need to accept a list of them, which may not always
   # be formatted correctly for this conversion to be done
+  # TODO: Not currently used
   test:contract:
     context: powershell-dotnet
     description: Perform contract tests
@@ -90,6 +104,7 @@ tasks:
       - Invoke-DotNet -Tests -pattern "*ContractTests"
     condition: exit $CONTRACTTEST_NO_RUN
 
+  # TODO: Not currently used
   test:coverage:
     context: powershell-dotnet
     description: Generate test coverage reports
