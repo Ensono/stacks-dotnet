@@ -36,7 +36,12 @@ tasks:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
-      - apt-get update && apt-get install -y openjdk-8-jre && Invoke-SonarScanner -start && Invoke-DotNet -Build && Invoke-SonarScanner -stop
+      - apt-get -qq update && apt-get -qq install -y openjdk-8-jre 
+      - Invoke-SonarScanner -start
+      - Invoke-DotNet -Build
+      - Invoke-SonarScanner -stop
+      - apt-get -qq -y remove openjdk-8-jre && apt-get -qq -y autoremove
+      - gci $PIPELINE_WORKSPACE/.sonarqube
       # - Invoke-SonarScanner -start
       # - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
