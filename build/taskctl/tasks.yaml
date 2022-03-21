@@ -35,11 +35,9 @@ tasks:
   # TODO: Update base image to have jdk-11
   test:
     context: powershell-dotnet
-    description: Start Tests
+    description: Run Tests
     command:
-      - apt-get -qq update &&
-        apt-get -qq install -y openjdk-11-jdk &&
-        Invoke-SonarScanner -start &&
+      - Invoke-SonarScanner -start &&
         Invoke-DotNet -Build &&
         Invoke-DotNet -Tests -pattern "*UnitTests" &&
         Invoke-DotNet -Coverage -target /app/coverage &&
@@ -47,7 +45,7 @@ tasks:
         Invoke-DotNet -Tests -pattern "*IntegrationTests" &&
         Invoke-DotNet -Tests -pattern "*ContractTests" &&
         Invoke-SonarScanner -stop
-    condition: exit $SONAR_NO_RUN
+    condition: exit $TEST_NO_RUN
 
   # TODO: Not currently used
   test:sonarcloud:start:
