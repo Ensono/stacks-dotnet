@@ -46,7 +46,7 @@ tasks:
         Invoke-DotNet -Tests -pattern "*ComponentTests" &&
         Invoke-DotNet -Tests -pattern "*IntegrationTests" &&
         Invoke-DotNet -Tests -pattern "*ContractTests" &&
-        Invoke-SonarScanner -stop &&
+        Invoke-SonarScanner -stop
     condition: exit $SONAR_NO_RUN
 
   # TODO: Not currently used
