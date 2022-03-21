@@ -31,10 +31,7 @@ pipelines:
     - task: build:functional_tests
     - task: build:container
       depends_on:
-        - test:unittest
-        - test:component
-        - test:integration
-        - test:contract
+        - test
       variables:
         IMAGE_NAME: stacks-api
 
