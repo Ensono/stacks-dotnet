@@ -18,8 +18,7 @@
             jwtbearerauthentication_openapiauthorizationurl = "<TODO>"
             jwtbearerauthentication_openapiclientid = "<TODO>"
             jwtbearerauthentication_openapitokenurl = "<TODO>"
-            rewrite_target = '/$([char]0x0024)2' # Defined due to variable expansion during `Invoke-Templater`/ Usiong UniCode to prevent substitution
-            2 = '/$2' # Defined due to variable expansion during `Invoke-Templater`
+            rewrite_target = '/$([char]0x0024)2' # Using UniCode to prevent substitution
         }
     }
 )
