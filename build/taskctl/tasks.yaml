@@ -36,7 +36,7 @@ tasks:
     context: powershell-dotnet
     description: Start SonarCloud tests
     command:
-      - apt-get -qq update && apt-get -qq install -y openjdk-8-jre && Invoke-SonarScanner -start && Invoke-DotNet -Build && Invoke-SonarScanner -stop && gci -force | select Name
+      - apt-get -qq update && apt-get -qq install -y openjdk-11-jdk && Invoke-SonarScanner -start && Invoke-DotNet -Build && Invoke-SonarScanner -stop && gci -force | select Name
       # - Invoke-SonarScanner -start
       # - Invoke-DotNet -Build
     condition: exit $SONAR_NO_RUN
