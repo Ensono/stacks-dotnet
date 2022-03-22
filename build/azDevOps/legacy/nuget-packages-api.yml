@@ -151,6 +151,6 @@ stages:
             displayName: 'Publish: Push Packages Public'
             inputs:
               command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.nupkg'
               nuGetFeedType: 'external'
               publishFeedCredentials: '${{variables.nuget_connection}}'
