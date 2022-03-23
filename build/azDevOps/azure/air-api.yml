@@ -77,8 +77,6 @@ stages:
               failTaskOnFailedTests: true # Optional
               testRunTitle: Unit 
 
-PublishTestResults@2
-
           # Upload functional tests as artifacts
           - task: PublishPipelineArtifact@1
             displayName: "Upload: functional tests"
