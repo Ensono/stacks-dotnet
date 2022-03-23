@@ -68,6 +68,17 @@ stages:
               codecoverageTool: cobertura
               pathToSources: $(Pipeline.Workspace)/s/$(self_repo_src)
 
+          # Upload Unit test results
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: VSTest
+              testResultsFiles: '**/*.trx' 
+              searchFolder: $(Pipeline.Workspace)/s/testresults
+              failTaskOnFailedTests: true # Optional
+              testRunTitle: Unit 
+
+PublishTestResults@2
+
           # Upload functional tests as artifacts
           - task: PublishPipelineArtifact@1
             displayName: "Upload: functional tests"
