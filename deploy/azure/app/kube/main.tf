@@ -29,12 +29,30 @@ module "app" {
   create_cache                         = var.create_cache
   create_dns_record                    = var.create_dns_record
   dns_record                           = var.dns_record
-  dns_zone_name                        = var.dns_zone_name
-  core_resource_group                  = var.core_resource_group
-  dns_zone_resource_group              = var.dns_zone_resource_group != "" ? var.dns_zone_resource_group : var.core_resource_group
-  dns_a_records                        = [data.azurerm_public_ip.app_gateway.ip_address]
+  dns_zone_name                        = data.terraform_remote_state.core.outputs.dns_base_domain
+  core_resource_group                  = data.terraform_remote_state.core.outputs.resource_group_name
+  dns_zone_resource_group              = data.terraform_remote_state.core.outputs.dns_resource_group_name != "" ? data.terraform_remote_state.core.outputs.dns_resource_group_name : data.terraform_remote_state.core.outputs.resource_group_name
+  dns_a_records                        = [data.terraform_remote_state.core.outputs.app_gateway_ip]
   subscription_id                      = data.azurerm_client_config.current.subscription_id
   create_cdn_endpoint                  = var.create_cdn_endpoint
   # Alternatively if you want you can pass in the IP directly and remove the need for a lookup
   # dns_a_records                        = ["0.1.23.45"]
+}
+
+
+
+data "terraform_remote_state" "core" {
+  backend = "azurerm"
+
+  config = {
+    key                  = "${var.tfstate_key}:${var.core_environment}"
+    storage_account_name = var.tfstate_storage_account
+    container_name       = var.tfstate_container_name
+    resource_group_name  = var.tfstate_resource_group_name
+  }
+}
+
+data "azurerm_application_insights" "example" {
+  name                = data.terraform_remote_state.core.outputs.app_insights_name
+  resource_group_name = data.terraform_remote_state.core.outputs.resource_group_name
 }

@@ -20,7 +20,7 @@ metadata:
     customerID: ${company}
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /$$2
+    nginx.ingress.kubernetes.io/rewrite-target: ${rewrite_target}
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     owner: ${company}/${project}
     projectID: ${project}
@@ -40,7 +40,7 @@ spec:
           - backend:
               serviceName: ${resource_def_name}
               servicePort: 80
-            path: ${k8s_app_path}(/|$)(.*)
+            path: ${k8s_app_route}(/|$)(.*)
   tls:
     - hosts:
         - ${tls_domain}
@@ -128,7 +128,7 @@ data:
       "JwtBearerAuthentication": {
           "Audience": "${jwtbearerauthentication_audience}",
           "Authority": "${jwtbearerauthentication_authority}",
-          "Enabled": ${jwtbearerauthentication_enabled},
+          "Enabled": false,
           "OpenApi": {
               "AuthorizationUrl": "${jwtbearerauthentication_openapiauthorizationurl}",
               "ClientId": "${jwtbearerauthentication_openapiclientid}",
@@ -203,13 +203,6 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
         - name: api
-          # this we need to pass from the pipeline to the deployment steps
-          image: ${k8s_image}
-          imagePullPolicy: IfNotPresent
-          volumeMounts:
-            - name: appsettings
-              # this can either be configured if you are re-using this for many services or should be changed here
-              mountPath: /app/config
           env:
             - name: POD_NAME
               valueFrom:
@@ -232,7 +225,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.annotations['release']
             - name: API_BASEPATH
-              value: ${k8s_app_path}
+              value: ${k8s_app_route}
             - name: LOG_LEVEL
               value: debug
             - name: APPINSIGHTS_INSTRUMENTATIONKEY
@@ -240,7 +233,18 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: app_insights
-
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              memory: "256Mi"
+          image: ${k8s_image} # this we need to pass from the pipeline to the deployment steps
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: appsettings
+              mountPath: /app/config  # this can either be configured if you are re-using this for many services or should be changed here
           ports:
             - name: http
               containerPort: 80

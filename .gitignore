@@ -352,3 +352,11 @@ reportgenerator
 # Other tools
 .terraform
 **/terraform.tfvars
+
+local
+support
+envfile
+coverage
+.terraform.lock.hcl
+tfplan
+.sonarqube
