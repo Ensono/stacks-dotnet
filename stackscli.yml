@@ -14,6 +14,9 @@ pipeline:
         path: build/azDevOps/azure/air-api.yml
       - name: variable
         path: build/azDevOps/azure/air-api-vars.yml
+    template:
+      - name: variable
+        path: build/azDevOps/azure/air-api-vars_TEMPLATE.yml
     replacements:
       - pattern: ^.*stacks-credentials-nonprod-kv$
         value: ""

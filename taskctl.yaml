@@ -54,9 +54,4 @@ pipelines:
       depends_on: deploy:templater
     - task: deploy:functional_tests
       depends_on: deploy:kubernetes
-  
-  # Package Release pipeline
-  release:
-    - task: update:dashboard
-    - task: publish:github
-    - task: publish:nuget
+
