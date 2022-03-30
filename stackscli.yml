@@ -11,9 +11,12 @@ pipeline:
   - type: azdo
     files:
       - name: build
-        path: build/azDevOps/azure/azure-pipelines-netcore-k8s.yml
+        path: build/azDevOps/azure/air-api.yml
       - name: variable
-        path: build/azDevOps/azure/azuredevops-vars.yml
+        path: build/azDevOps/azure/air-api-vars.yml
+    templates:
+      - name: variable
+        path: build/azDevOps/azure/air-api-vars_TEMPLATE.yml
     replacements:
       - pattern: ^.*stacks-credentials-nonprod-kv$
         value: ""
