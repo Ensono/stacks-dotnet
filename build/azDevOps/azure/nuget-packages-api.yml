@@ -101,7 +101,7 @@ stages:
   - stage: Release
     dependsOn:
       - Build
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['create_release'], 'true'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['create_release'], 'true'))
     variables:
       - group: amido-stacks-infra-credentials-prod
       # Note: Following group is not used, because it contains api key information and we are using a service connection in this pipeline.
