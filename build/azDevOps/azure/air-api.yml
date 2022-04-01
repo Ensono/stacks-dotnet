@@ -72,10 +72,10 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: VSTest
-              testResultsFiles: '**/*.trx' 
+              testResultsFiles: '**/*.trx'
               searchFolder: $(Pipeline.Workspace)/s/testresults
               failTaskOnFailedTests: true # Optional
-              testRunTitle: Unit 
+              testRunTitle: Unit
 
           # Upload functional tests as artifacts
           - task: PublishPipelineArtifact@1
@@ -94,7 +94,8 @@ stages:
         value: dev
       - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
         value: nonprod.amidostacks.com
-
+      - name: core_environment
+        value: nonprod
     jobs:
       - deployment: AppInfraDev
         pool:
@@ -129,6 +130,7 @@ stages:
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
                     # Deployment Specific Configuration
+                    TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
@@ -186,6 +188,7 @@ stages:
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
                     # Deployment Specific Configuration  (used for Terraform Outputs)
+                    TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
@@ -236,7 +239,8 @@ stages:
         value: prod
       - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
         value: prod.amidostacks.com
-
+      - name: core_environment
+        value: prod
     jobs:
       - deployment: AppInfraProd
         pool:
@@ -272,6 +276,7 @@ stages:
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
                     # Deployment Specific Configuration
+                    TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
@@ -329,6 +334,7 @@ stages:
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
                     # Deployment Specific Configuration  (used for Terraform Outputs)
+                    TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
@@ -363,7 +369,7 @@ stages:
                     K8S_CLUSTER_TARGET: $(k8s_cluster_target_nonprod)
                     K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_nonprod)
                     K8S_RESOURCE_FILE: $(k8s_resource_file)
-                    
+
                 - task: PublishPipelineArtifact@1
                   displayName: "Publish: Kubernetes Manifest"
                   inputs:
