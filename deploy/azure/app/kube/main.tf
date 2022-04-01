@@ -3,9 +3,6 @@
 # Each module is conditionally created within this app infra definition interface and can be re-used across app types e.g. SSR webapp, API only
 ########
 
-data "azurerm_client_config" "current" {}
-
-# Naming convention
 module "default_label" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=0.24.1"
   namespace  = "${var.name_company}-${var.name_project}"
@@ -37,22 +34,4 @@ module "app" {
   create_cdn_endpoint                  = var.create_cdn_endpoint
   # Alternatively if you want you can pass in the IP directly and remove the need for a lookup
   # dns_a_records                        = ["0.1.23.45"]
-}
-
-
-
-data "terraform_remote_state" "core" {
-  backend = "azurerm"
-
-  config = {
-    key                  = "${var.tfstate_key}:${var.core_environment}"
-    storage_account_name = var.tfstate_storage_account
-    container_name       = var.tfstate_container_name
-    resource_group_name  = var.tfstate_resource_group_name
-  }
-}
-
-data "azurerm_application_insights" "example" {
-  name                = data.terraform_remote_state.core.outputs.app_insights_name
-  resource_group_name = data.terraform_remote_state.core.outputs.resource_group_name
 }
