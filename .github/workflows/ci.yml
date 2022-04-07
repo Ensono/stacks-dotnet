@@ -14,4 +14,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup taskctl
-        run: echo "Install taskctl here"
+        run: |
+          wget https://github.com/taskctl/taskctl/releases/download/$TaskctlVersion/taskctl_$TaskctlVersion_linux_amd64.tar.gz -O /usr/local/bin/taskctl
+          chmod +x /usr/local/bin/taskctl
+          ls /usr/local/bin/
+        env:
+          TaskctlVersion: 1.4.2
