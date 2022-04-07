@@ -15,7 +15,7 @@ jobs:
 
       - name: Setup taskctl
         run: |
-          wget https://github.com/taskctl/taskctl/releases/download/$TaskctlVersion/taskctl_$TaskctlVersion_linux_amd64.tar.gz -O /usr/local/bin/taskctl
+          wget https://github.com/taskctl/taskctl/releases/download/${{env.TaskctlVersion}}/taskctl_${{env.TaskctlVersion}}_linux_amd64.tar.gz -O /usr/local/bin/taskctl
           chmod +x /usr/local/bin/taskctl
           ls /usr/local/bin/
         env:
