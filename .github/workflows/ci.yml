@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  Lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,3 +20,10 @@ jobs:
           taskctl lint
         env:
           TaskctlVersion: 1.4.2
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run build
+        run: taskctl build
