@@ -12,18 +12,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: ./.github/workflows/actions/install-taskctl
+      - run: taskctl lint
 
-      - name: Setup taskctl
-        run: |
-          wget https://github.com/taskctl/taskctl/releases/download/${{ env.TaskctlVersion }}/taskctl_${{ env.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-          tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
-          taskctl lint
-        env:
-          TaskctlVersion: 1.4.2
+  # build:
+  #   runs-on: ubuntu-latest
 
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Run build
-        run: taskctl build
+  #   steps:
+  #     - name: Run build
+  #       run: taskctl build
