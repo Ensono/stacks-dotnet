@@ -15,9 +15,10 @@ jobs:
       - uses: ./.github/workflows/actions/install-taskctl
       - run: taskctl lint
 
-  # build:
-  #   runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Run build
-  #       run: taskctl build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/workflows/actions/install-taskctl
+      - run: taskctl build
