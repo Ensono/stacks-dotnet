@@ -8,4 +8,4 @@ runs:
         tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
       shell: bash
       env:
-        TaskctlVersion: 1.4.2
+        TaskctlVersion: ${{ env.TaskctlVersion }}
