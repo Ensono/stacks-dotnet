@@ -19,6 +19,7 @@ jobs:
       - run: taskctl lint
 
   build:
+    needs: lint
     runs-on: ubuntu-latest
 
     steps:
