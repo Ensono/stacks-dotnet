@@ -1,9 +1,8 @@
-namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models;
+
+public class MenuRequest
 {
-    public class MenuRequest
-    {
-        public string name { get; set; }
-        public string description { get; set; }
-        public bool enabled { get; set; }
-    }
+	public string name { get; set; }
+	public string description { get; set; }
+	public bool enabled { get; set; }
 }

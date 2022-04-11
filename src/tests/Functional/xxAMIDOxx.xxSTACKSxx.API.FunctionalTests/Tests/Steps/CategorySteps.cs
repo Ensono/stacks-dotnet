@@ -9,121 +9,120 @@ using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Configuration;
 using xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models;
 using xxAMIDOxx.xxSTACKSxx.Tests.Api.Builders.Http;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps
+namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Steps;
+
+/// <summary>
+/// These are the steps required for testing the Category endpoints
+/// </summary>
+public class CategorySteps
 {
-    /// <summary>
-    /// These are the steps required for testing the Category endpoints
-    /// </summary>
-    public class CategorySteps
-    {
-        private readonly string baseUrl;
-        private HttpResponseMessage lastResponse;
-        private string existingMenuId;
-        private CategoryRequest createCategoryRequest;
-        private CategoryRequest updateCategoryRequest;
-        private string existingCategoryId;
-        private const string categoryPath = "/category/";
-        private readonly MenuSteps menuSteps = new MenuSteps();
+	private readonly string baseUrl;
+	private HttpResponseMessage lastResponse;
+	private string existingMenuId;
+	private CategoryRequest createCategoryRequest;
+	private CategoryRequest updateCategoryRequest;
+	private string existingCategoryId;
+	private const string categoryPath = "/category/";
+	private readonly MenuSteps menuSteps = new MenuSteps();
 
-        public CategorySteps()
-        {
-            var config = ConfigAccessor.GetApplicationConfiguration();
-            baseUrl = config.BaseUrl;
-        }
+	public CategorySteps()
+	{
+		var config = ConfigAccessor.GetApplicationConfiguration();
+		baseUrl = config.BaseUrl;
+	}
 
-        #region Step Definitions
+	#region Step Definitions
 
-        #region Given
+	#region Given
 
-        public void GivenIHaveSpecfiedAFullCategory()
-        {
-            createCategoryRequest = new CategoryRequestBuilder()
-                .SetDefaultValues("Yumido Test Category")
-                .Build();
-        }
+	public void GivenIHaveSpecfiedAFullCategory()
+	{
+		createCategoryRequest = new CategoryRequestBuilder()
+			.SetDefaultValues("Yumido Test Category")
+			.Build();
+	}
 
-        #endregion Given
+	#endregion Given
 
-        #region When
+	#region When
 
-        public async Task<string> WhenICreateTheCategoryForAnExistingMenu()
-        {
-            existingMenuId = menuSteps.GivenAMenuAlreadyExists();
+	public async Task<string> WhenICreateTheCategoryForAnExistingMenu()
+	{
+		existingMenuId = menuSteps.GivenAMenuAlreadyExists();
 
-            lastResponse = await HttpRequestFactory.Post(baseUrl,
-                $"{MenuSteps.menuPath}{existingMenuId}{categoryPath}", createCategoryRequest);
+		lastResponse = await HttpRequestFactory.Post(baseUrl,
+			$"{MenuSteps.menuPath}{existingMenuId}{categoryPath}", createCategoryRequest);
 
-            existingCategoryId = JsonConvert
-                .DeserializeObject<CreateObjectResponse>(await lastResponse.Content.ReadAsStringAsync()).id;
-            
-            return existingCategoryId;
-        }
+		existingCategoryId = JsonConvert
+			.DeserializeObject<CreateObjectResponse>(await lastResponse.Content.ReadAsStringAsync()).id;
 
-        public async Task<string> CreateCategoryForSpecificMenu(String menuId)
-        {
-            lastResponse = await HttpRequestFactory.Post(baseUrl,
-                $"{MenuSteps.menuPath}{menuId}{categoryPath}",
-                new CategoryRequestBuilder()
-                    .SetDefaultValues("Yumido Test Category")
-                    .Build());
+		return existingCategoryId;
+	}
 
-            existingCategoryId = JsonConvert
-                .DeserializeObject<CreateObjectResponse>(await lastResponse.Content.ReadAsStringAsync()).id;
-            return existingCategoryId;
-        }
+	public async Task<string> CreateCategoryForSpecificMenu(String menuId)
+	{
+		lastResponse = await HttpRequestFactory.Post(baseUrl,
+			$"{MenuSteps.menuPath}{menuId}{categoryPath}",
+			new CategoryRequestBuilder()
+				.SetDefaultValues("Yumido Test Category")
+				.Build());
 
-        public async Task WhenISendAnUpdateCategoryRequest()
-        {
-            updateCategoryRequest = new CategoryRequestBuilder()
-                .WithName("Updated Category Name")
-                .WithDescription("Updated Category Description")
-                .Build();
-            String path = $"{MenuSteps.menuPath}{menuSteps.existingMenuId}{categoryPath}{existingCategoryId}";
+		existingCategoryId = JsonConvert
+			.DeserializeObject<CreateObjectResponse>(await lastResponse.Content.ReadAsStringAsync()).id;
+		return existingCategoryId;
+	}
 
-            lastResponse = await HttpRequestFactory.Put(baseUrl, path, updateCategoryRequest);
-        }
+	public async Task WhenISendAnUpdateCategoryRequest()
+	{
+		updateCategoryRequest = new CategoryRequestBuilder()
+			.WithName("Updated Category Name")
+			.WithDescription("Updated Category Description")
+			.Build();
+		String path = $"{MenuSteps.menuPath}{menuSteps.existingMenuId}{categoryPath}{existingCategoryId}";
 
-        public async Task WhenIDeleteTheCategory()
-        {
-            lastResponse = await HttpRequestFactory.Delete(baseUrl,
-                $"{MenuSteps.menuPath}{existingMenuId}{categoryPath}{existingCategoryId}");
-        }
+		lastResponse = await HttpRequestFactory.Put(baseUrl, path, updateCategoryRequest);
+	}
 
-        #endregion When
+	public async Task WhenIDeleteTheCategory()
+	{
+		lastResponse = await HttpRequestFactory.Delete(baseUrl,
+			$"{MenuSteps.menuPath}{existingMenuId}{categoryPath}{existingCategoryId}");
+	}
 
-        #region Then
+	#endregion When
 
-        public void ThenTheCategoryHasBeenCreated()
-        {
-            lastResponse.StatusCode.ShouldBe(HttpStatusCode.Created,
-                $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
-        }
+	#region Then
 
-        public void ThenTheCategoryHasBeenDeleted()
-        {
-            lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent,
-                $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
+	public void ThenTheCategoryHasBeenCreated()
+	{
+		lastResponse.StatusCode.ShouldBe(HttpStatusCode.Created,
+			$"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
+	}
 
-            //NOTE: add here validations other than the response StatusCode. For example, code trying to get the deleted record
-            //var getCurrentMenu = await HttpRequestFactory.Get(baseUrl, $"{MenuSteps.menuPath}{existingMenuId}");
-            //if (getCurrentMenu.StatusCode == HttpStatusCode.OK)
-            //{
-            //    var getCurrentMenuResponse =
-            //        JsonConvert.DeserializeObject<Menu>(await getCurrentMenu.Content.ReadAsStringAsync());
-            //    getCurrentMenuResponse.categories.ShouldBeEmpty();
-            //}
-        }
+	public void ThenTheCategoryHasBeenDeleted()
+	{
+		lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent,
+			$"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
-        public async Task ThenTheCategoryIsUpdatedCorrectly()
-        {
-            lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent,
-                $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
+		//NOTE: add here validations other than the response StatusCode. For example, code trying to get the deleted record
+		//var getCurrentMenu = await HttpRequestFactory.Get(baseUrl, $"{MenuSteps.menuPath}{existingMenuId}");
+		//if (getCurrentMenu.StatusCode == HttpStatusCode.OK)
+		//{
+		//    var getCurrentMenuResponse =
+		//        JsonConvert.DeserializeObject<Menu>(await getCurrentMenu.Content.ReadAsStringAsync());
+		//    getCurrentMenuResponse.categories.ShouldBeEmpty();
+		//}
+	}
 
-            //NOTE: add here validations other than the response StatusCode. For example, code trying to get the deleted record
-        }
+	public async Task ThenTheCategoryIsUpdatedCorrectly()
+	{
+		lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent,
+			$"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
 
-        #endregion Then
+		//NOTE: add here validations other than the response StatusCode. For example, code trying to get the deleted record
+	}
 
-        #endregion Step Definitions
-    }
+	#endregion Then
+
+	#endregion Step Definitions
 }

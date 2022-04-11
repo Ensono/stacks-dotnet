@@ -1,36 +1,35 @@
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Configuration
+namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Configuration;
+
+public class ConfigAccessor
 {
-    public class ConfigAccessor
-    {
-        static IConfigurationRoot root;
+	static IConfigurationRoot root;
 
-        private static IConfigurationRoot GetIConfigurationRoot()
-        {
-            if (root == null)
-            {
-                root = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false)
-                .AddEnvironmentVariables()
-                .Build();
-            }
+	private static IConfigurationRoot GetIConfigurationRoot()
+	{
+		if (root == null)
+		{
+			root = new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", optional: false)
+			.AddEnvironmentVariables()
+			.Build();
+		}
 
-            return root;
+		return root;
 
-        }
+	}
 
-        public static ConfigModel GetApplicationConfiguration()
-        {
-            var configuration = new ConfigModel();
+	public static ConfigModel GetApplicationConfiguration()
+	{
+		var configuration = new ConfigModel();
 
-            var iConfig = GetIConfigurationRoot();
+		var iConfig = GetIConfigurationRoot();
 
-            iConfig.Bind(configuration);
+		iConfig.Bind(configuration);
 
-            return configuration;
-        }
-    }
+		return configuration;
+	}
 }

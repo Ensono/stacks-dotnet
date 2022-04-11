@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models;
+
+public class SearchResult
 {
-    public class SearchResult
-    {
-        public int size { get; set; }
-        public int offset { get; set; }
-        public List<SearchResultItem> results { get; set; }
-    }
+	public int size { get; set; }
+	public int offset { get; set; }
+	public List<SearchResultItem> results { get; set; }
 }

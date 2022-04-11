@@ -4,26 +4,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.Authentication
+namespace xxAMIDOxx.xxSTACKSxx.API.Authentication;
+
+public class JwtBearerAuthenticationOperationFilter : IOperationFilter
 {
-    public class JwtBearerAuthenticationOperationFilter : IOperationFilter
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        var authorizeAttributes =
+            context.MethodInfo.DeclaringType.GetCustomAttributes(true)
+                .Union(context.MethodInfo.GetCustomAttributes(true))
+                .OfType<AuthorizeAttribute>();
+
+        if (!authorizeAttributes.Any())
         {
-            var authorizeAttributes =
-                context.MethodInfo.DeclaringType.GetCustomAttributes(true)
-                    .Union(context.MethodInfo.GetCustomAttributes(true))
-                    .OfType<AuthorizeAttribute>();
+            return;
+        }
 
-            if (!authorizeAttributes.Any())
-            {
-                return;
-            }
+        operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized. Access token is missing or invalid." });
+        operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden. The user does not have permission to execute this operation." });
 
-            operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized. Access token is missing or invalid." });
-            operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden. The user does not have permission to execute this operation." });
-
-            operation.Security = new List<OpenApiSecurityRequirement>
+        operation.Security = new List<OpenApiSecurityRequirement>
             {
                 {
                     new OpenApiSecurityRequirement
@@ -33,6 +33,5 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Authentication
                     }
                 }
             };
-        }
     }
 }

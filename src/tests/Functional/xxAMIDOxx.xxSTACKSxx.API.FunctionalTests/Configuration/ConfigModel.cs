@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Configuration
+namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Configuration;
+
+public class ConfigModel
 {
-    public class ConfigModel
-    {
-        public string BaseUrl { get; set; }
-    }
+	public string BaseUrl { get; set; }
 }

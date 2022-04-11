@@ -8,22 +8,21 @@ using xxAMIDOxx.xxSTACKSxx.API.Controllers;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.UnitTests.Controllers
+namespace xxAMIDOxx.xxSTACKSxx.API.UnitTests.Controllers;
+
+[Trait("TestType", "UnitTests")]
+public class AddMenuCategoryControllerTests
 {
-    [Trait("TestType", "UnitTests")]
-    public class AddMenuCategoryControllerTests
+    [Theory, AutoData]
+    public async Task AddMenuCategory_Returns201(Guid id, CreateCategoryRequest body)
     {
-        [Theory, AutoData]
-        public async Task AddMenuCategory_Returns201(Guid id, CreateCategoryRequest body)
-        {
-            var controller = new AddMenuCategoryController();
-            var response = await controller.AddMenuCategory(id, body);
+        var controller = new AddMenuCategoryController();
+        var response = await controller.AddMenuCategory(id, body);
 
-            int? statusCode = ((ObjectResult)response).StatusCode;
-            var content = ((ObjectResult)response).Value;
+        int? statusCode = ((ObjectResult)response).StatusCode;
+        var content = ((ObjectResult)response).Value;
 
-            Assert.Equal(StatusCodes.Status201Created, statusCode);
-            Assert.IsType<ResourceCreatedResponse>(content);
-        }
+        Assert.Equal(StatusCodes.Status201Created, statusCode);
+        Assert.IsType<ResourceCreatedResponse>(content);
     }
 }

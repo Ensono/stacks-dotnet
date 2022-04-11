@@ -1,7 +1,6 @@
-namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models
+namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Models;
+
+public class CreateObjectResponse
 {
-    public class CreateObjectResponse
-    {
-        public string id { get; set; }
-    }
+	public string id { get; set; }
 }

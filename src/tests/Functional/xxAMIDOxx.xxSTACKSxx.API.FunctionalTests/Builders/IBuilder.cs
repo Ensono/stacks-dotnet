@@ -1,7 +1,6 @@
-namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Builders
+namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Builders;
+
+public interface IBuilder<T>
 {
-    public interface IBuilder<T>
-    {
-        T Build();
-    }
+	T Build();
 }
