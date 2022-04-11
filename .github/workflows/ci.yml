@@ -7,6 +7,12 @@ on:
     branches: [master]
 
 jobs:
+  github-actions-environment-variables-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List of the GitHub Actions environment variables
+        run: env
+
   Lint:
     runs-on: ubuntu-latest
 
