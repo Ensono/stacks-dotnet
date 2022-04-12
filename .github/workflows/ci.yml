@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/workflows/actions/install-taskctl
       - run: taskctl lint
-        with:
+        env:
           TF_FILE_LOCATION: deploy/aws/app/kube
 
   build:
