@@ -30,7 +30,7 @@ terraform {
   backend "s3" {
     bucket         = "s3-ew2-terraform-eks-infra-dev-terraform-backend-24"
     region         = "eu-west-2"
-    key            = "terraform-eks-infra/eu-west-2/dev/dotnet.tfstate"
+    key            = "terraform-dotnet/eu-west-2/dev/dotnet.tfstate"
     dynamodb_table = "dynamo-ew2-terraform-dotnet-infra-dev-terraform-state-lock"
     encrypt        = true
   }
