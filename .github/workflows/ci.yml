@@ -29,3 +29,4 @@ jobs:
         env:
           # AWS
           TF_FILE_LOCATION: deploy/aws/app/kube
+          FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
