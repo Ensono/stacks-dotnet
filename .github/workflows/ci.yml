@@ -28,4 +28,4 @@ jobs:
       - run: taskctl build
         env:
           # AWS
-          TF_FILE_LOCATION: deploy/azure/app/kube
+          TF_FILE_LOCATION: deploy/aws/app/kube
