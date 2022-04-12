@@ -6,10 +6,7 @@ name: Run taskctl
 #   pull_request:
 #     branches: [master]
 
-on:
-  push:
-    branches:
-      - '*'
+on: [push]
 
 env:
   TaskctlVersion: '1.4.2'
