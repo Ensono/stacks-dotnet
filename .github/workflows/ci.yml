@@ -34,3 +34,19 @@ jobs:
     # Publish test results
 
     # Publish test artifact
+
+  deploy-to-dev:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/workflows/actions/install-taskctl
+      - run: taskctl infrastructure
+        env:
+          ENV_NAME: DEV
+          # AWS
+          AWS_ACCESS_KEY: testkey
+          AWS_SECRET_KEY: dummykey
+          # Terraform Backend Configuration
+          TF_FILE_LOCATION: deploy/aws/app/kube
