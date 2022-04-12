@@ -39,8 +39,8 @@ tasks:
     command:
       - Invoke-SonarScanner -start &&
         Invoke-DotNet -Build -Path $env:SELF_REPO_SRC &&
-        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage" &&
-        Invoke-DotNet -Coverage -target /app/coverage -pattern "*.opencover.xml" &&
+        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
+        Invoke-DotNet -Coverage -target /app/coverage/ -pattern "*.opencover.xml" &&
         Invoke-DotNet -Tests -pattern "*ComponentTests" &&
         Invoke-DotNet -Tests -pattern "*IntegrationTests" &&
         Invoke-DotNet -Tests -pattern "*ContractTests" &&
