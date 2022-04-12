@@ -44,6 +44,8 @@ stages:
               targetType: inline
               script: taskctl build
             env:
+              # Dotnet Build
+              SELF_REPO_SRC: $(self_repo_src)
               # Azure
               ARM_TENANT_ID: "$(azure-tenant-id)"
               ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
