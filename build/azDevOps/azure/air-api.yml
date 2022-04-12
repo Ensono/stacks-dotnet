@@ -54,7 +54,7 @@ stages:
               SONAR_URL: "https://sonarcloud.io"
               SONAR_TOKEN: $(SONAR_TOKEN)
               SONAR_PROPERTIES: ""
-              PROJECT_NAME: $(SONAR_PROJECT_NAME)
+              PROJECT_NAME: stacks-dotnet
               BUILD_BUILDNUMBER: $(version_number)
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
