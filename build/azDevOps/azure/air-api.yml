@@ -55,7 +55,7 @@ stages:
               SONAR_ORG: $(SONAR_ORGANIZATION)
               SONAR_URL: "https://sonarcloud.io"
               SONAR_TOKEN: $(SONAR_TOKEN)
-              SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths=\"**/*.opencover.xml\" /d:sonar.exclusions=\"**/*Tests\" /d:sonar.coverage.exclusions=\"**/*Tests\"'
+              SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
               PROJECT_NAME: stacks-dotnet
               BUILD_BUILDNUMBER: $(version_number)
               # Docker
