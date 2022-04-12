@@ -44,6 +44,7 @@ tasks:
         Invoke-DotNet -Tests -pattern "*ComponentTests" &&
         Invoke-DotNet -Tests -pattern "*IntegrationTests" &&
         Invoke-DotNet -Tests -pattern "*ContractTests" &&
+        $env:SONAR_PROPERTIES = "" &&
         Invoke-SonarScanner -stop
     condition: exit $TEST_NO_RUN
 
