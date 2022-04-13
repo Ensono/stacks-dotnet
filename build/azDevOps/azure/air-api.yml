@@ -53,10 +53,10 @@ stages:
               ARM_CLIENT_SECRET: "$(azure-client-secret)"
               # SonarQube
               SONAR_ORG: $(SONAR_ORGANIZATION)
-              SONAR_URL: "https://sonarcloud.io"
+              SONAR_URL: $(sonar_url)
               SONAR_TOKEN: $(SONAR_TOKEN)
-              SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
-              PROJECT_NAME: stacks-dotnet
+              SONAR_PROPERTIES: $(sonar_properties)
+              PROJECT_NAME: $(sonar_project_name)
               BUILD_BUILDNUMBER: $(version_number)
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
