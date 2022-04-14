@@ -44,6 +44,8 @@ stages:
               targetType: inline
               script: taskctl build
             env:
+              # Dotnet Build
+              SELF_REPO_SRC: $(self_repo_src)
               # Azure
               ARM_TENANT_ID: "$(azure-tenant-id)"
               ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
@@ -51,10 +53,10 @@ stages:
               ARM_CLIENT_SECRET: "$(azure-client-secret)"
               # SonarQube
               SONAR_ORG: $(SONAR_ORGANIZATION)
-              SONAR_URL: "https://sonarcloud.io"
+              SONAR_URL: $(sonar_url)
               SONAR_TOKEN: $(SONAR_TOKEN)
-              SONAR_PROPERTIES: ""
-              PROJECT_NAME: $(SONAR_PROJECT_NAME)
+              SONAR_PROPERTIES: $(sonar_properties)
+              PROJECT_NAME: $(sonar_project_name)
               BUILD_BUILDNUMBER: $(version_number)
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
@@ -229,6 +231,7 @@ stages:
                   inputs:
                     path: $(Agent.BuildDirectory)/s/$(k8s_resource_file)
                     artifact: manifests_dev
+
   - stage: Prod
     dependsOn: Build
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
