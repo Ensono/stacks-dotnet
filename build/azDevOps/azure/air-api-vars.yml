@@ -71,7 +71,7 @@ variables:
   - name: sonar_url
     value: "https://sonarcloud.io"
   - name: sonar_properties
-    value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
+    value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
   - name: sonar_project_name
     value: stacks-dotnet
 
