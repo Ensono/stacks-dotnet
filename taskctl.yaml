@@ -29,6 +29,8 @@ pipelines:
     - pipeline: lint
     - task: test
     - task: build:functional_tests
+      depends_on:
+        - test
     - task: build:container
       depends_on:
         - test
