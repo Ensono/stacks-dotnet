@@ -70,12 +70,6 @@ stages:
               codecoverageTool: cobertura
               pathToSources: $(Pipeline.Workspace)/s/$(self_repo_src)
 
-          - task: PublishPipelineArtifact@1
-            displayName: "DEBUG: Publish: Coverage Folder"
-            inputs:
-              path: $(Agent.BuildDirectory)/s/coverage/
-              artifact: coverage_folder
-
           # Upload Unit test results
           - task: PublishTestResults@2
             inputs:
