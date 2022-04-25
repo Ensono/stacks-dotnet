@@ -47,7 +47,7 @@ pipelines:
   infrastructure:aws:
     - task: infra:init:aws
     - task: infra:plan
-      depends_on: infra:init
+      depends_on: infra:init:aws
     - task: infra:apply
       depends_on: infra:plan
 
