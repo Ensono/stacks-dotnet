@@ -47,9 +47,8 @@ jobs:
           DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
           REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
 
-    # Publish test results
-
-    # Publish test artifact
+          # Publish test results
+          # Publish test artifact
 
   AppInfraDev:
     needs: build
