@@ -114,7 +114,7 @@ tasks:
     context: powershell-dotnet
     description: Create container image for application
     command:
-      - Build-DockerImage -Name $env:DOCKER_IMAGE_NAME -buildargs src/api -push
+      - Build-DockerImage -Name $env:DOCKER_IMAGE_NAME -buildargs src/api # -push TODO: Cancelled to ascertain GHA behaviour
 
   build:functional_tests:
     context: powershell-dotnet
