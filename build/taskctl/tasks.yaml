@@ -134,7 +134,7 @@ tasks:
     context: powershell
     description: Initialise Terraform for AWS
     command:
-      - Invoke-Terraform -Init -backend region=$env:AWS_DEFAULT_REGION,access_key=$env:AWS_ACCESS_KEY_ID,secret_key= $env:AWS_SECRET_ACCESS_KEY,bucket=$env:AWS_TF_STATE_BUCKET,region=$env:AWS_TF_STATE_REGION,key=$env:AWS_TF_STATE_KEY,dynamodb_table=$env:AWS_TF_STATE_DYNAMOTABLE,encrypt=$env:AWS_TF_STATE_ENCRYPTION -Path $env:TF_FILE_LOCATION -Debug
+      - Invoke-Terraform -Init -backend region=$env:AWS_DEFAULT_REGION,access_key=$env:AWS_ACCESS_KEY_ID,secret_key=$env:AWS_SECRET_ACCESS_KEY,bucket=$env:AWS_TF_STATE_BUCKET,region=$env:AWS_TF_STATE_REGION,key=$env:AWS_TF_STATE_KEY,dynamodb_table=$env:AWS_TF_STATE_DYNAMOTABLE,encrypt=$env:AWS_TF_STATE_ENCRYPTION -Path $env:TF_FILE_LOCATION -Debug
       - Invoke-Terraform -Workspace -Arguments $env:ENV_NAME -Path $env:TF_FILE_LOCATION -Debug
 
   infra:plan:
