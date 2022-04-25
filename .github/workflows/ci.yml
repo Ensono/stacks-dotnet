@@ -53,7 +53,7 @@ jobs:
   AppInfraDev:
     needs: build
     runs-on: ubuntu-latest
-
+    environment: nonprod
     steps:
       - uses: actions/checkout@v3
       - uses: ./build/github/templates/install-taskctl
