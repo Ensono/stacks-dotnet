@@ -28,10 +28,7 @@ terraform {
   required_version = ">= 0.14"
 
   backend "s3" {
-    bucket         = "s3-ew2-terraform-eks-infra-dev-terraform-backend-24"
-    region         = "eu-west-2"
-    key            = "terraform-dotnet/eu-west-2/dev/dotnet.tfstate"
-    dynamodb_table = "dynamo-ew2-terraform-dotnet-infra-dev-terraform-state-lock"
+    # Configured via runtime command line flags
     encrypt        = true
   }
 
