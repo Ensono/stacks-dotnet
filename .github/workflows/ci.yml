@@ -10,7 +10,7 @@ on: [push]
 
 env:
   TaskctlVersion: '1.4.2'
-  docker_image_tag: ${{env.GITHUB_RUN_NUMBER}}-${{env.GITHUB_HEAD_REF}}
+  docker_image_tag: "${{ github.RUN_NUMBER }}-${{ github.HEAD_REF }}"
   docker_image_name: stacks-api
 jobs:
   Lint:
