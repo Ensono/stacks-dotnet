@@ -7,20 +7,19 @@ using Xunit;
 using xxAMIDOxx.xxSTACKSxx.API.Controllers;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 
-namespace xxAMIDOxx.xxSTACKSxx.API.UnitTests.Controllers
+namespace xxAMIDOxx.xxSTACKSxx.API.UnitTests.Controllers;
+
+[Trait("TestType", "UnitTests")]
+public class UpdateMenuControllerTests
 {
-    [Trait("TestType", "UnitTests")]
-    public class UpdateMenuControllerTests
+    [Theory, AutoData]
+    public async Task UpdateMenu_Returns204(Guid id, UpdateMenuRequest body)
     {
-        [Theory, AutoData]
-        public async Task UpdateMenu_Returns204(Guid id, UpdateMenuRequest body)
-        {
-            var controller = new UpdateMenuController();
-            var response = await controller.UpdateMenu(id, body);
+        var controller = new UpdateMenuController();
+        var response = await controller.UpdateMenu(id, body);
 
-            int? statusCode = ((StatusCodeResult)response).StatusCode;
+        int? statusCode = ((StatusCodeResult)response).StatusCode;
 
-            Assert.Equal(StatusCodes.Status204NoContent, statusCode);
-        }
+        Assert.Equal(StatusCodes.Status204NoContent, statusCode);
     }
 }

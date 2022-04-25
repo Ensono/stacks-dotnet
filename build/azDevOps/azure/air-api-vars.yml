@@ -66,6 +66,15 @@ variables:
   - name: self_repo_tf_dir
     value: "$(self_repo_dir)/$(self_repo_tf_src)"
 
+  # SonarQube Configuration
+  # SONAR_TOKEN and SONAR_ORGANIZATION must be inherited from library groups/etc.
+  - name: sonar_url
+    value: "https://sonarcloud.io"
+  - name: sonar_properties
+    value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
+  - name: sonar_project_name
+    value: stacks-dotnet
+
   # Test Configuration
   - name: FUNCTIONAL_TESTS_SRC_DIR
     value: src/tests/Functional

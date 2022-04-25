@@ -38,12 +38,12 @@ tasks:
     description: Run Tests
     command:
       - Invoke-SonarScanner -start &&
-        Invoke-DotNet -Build &&
-        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults" &&
+        Invoke-DotNet -Build -Path $env:SELF_REPO_SRC &&
+        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
+        Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
+        Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Coverage -target /app/coverage &&
-        Invoke-DotNet -Tests -pattern "*ComponentTests" &&
-        Invoke-DotNet -Tests -pattern "*IntegrationTests" &&
-        Invoke-DotNet -Tests -pattern "*ContractTests" &&
+        Remove-Item Env:\SONAR_PROPERTIES &&
         Invoke-SonarScanner -stop
     condition: exit $TEST_NO_RUN
 
@@ -177,15 +177,15 @@ tasks:
     description: Update the Deployment Dashboard
     command:
       - Update-InfluxDashboard
-    # env: 
+    # env:
     #  PUBLISH_RELEASE: $true
 
   publish:nuget:
     context: powershell
     description: Publish Packages to NuGet
-    command: 
+    command:
       - Write-Warning "Not actually publishing yet..."
-      # env: 
+      # env:
       #  PUBLISH_RELEASE: $true
 
   debug:env:
