@@ -30,7 +30,7 @@ init:
       desc: Install "stacks-webapi" template from the repo directory
     - action: cmd
       cmd: dotnet
-      args: new stacks-webapi -n {{ .Input.Business.Company }}.{{ .Input.Business.Domain }} -o {{ .Project.Directory.WorkingDir }}
+      args: new stacks-webapi -n {{ .Input.Business.Company }}.{{ .Input.Business.Component }} -o {{ .Project.Directory.WorkingDir }}
       desc: Create a project using the "stacks-webapi" template
     - action: cmd
       cmd: dotnet
