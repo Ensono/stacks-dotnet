@@ -1,10 +1,8 @@
-resource "random_string" "random" {
-  length           = 16
-  special          = true
-  override_special = "/@£$"
-}
-
-output "random" {
-  description = "Output random string"
-  value       = random_string.random.result
+resource "aws_ecr_repository" "docker_image" {
+  name                 = var.docker_image_name
+  image_scanning_configuration {
+    scan_on_push = false
+  }
+  # Pass Default Tag Values to Underlying Modules
+  tags = merge(local.default_tags,var.tags)
 }
