@@ -13,6 +13,7 @@ env:
   docker_image_tag: "${{ github.RUN_NUMBER }}-${{ github.HEAD_REF }}"
   docker_image_name: stacks-api
   owner: "stacks_team"
+  region: "eu-west-2"
 
 jobs:
   Lint:
@@ -76,4 +77,5 @@ jobs:
           TF_VAR_env:  ${{ env.env_name }}
           TF_VAR_owner: ${{ env.owner }}
           TF_VAR_docker_image_name: ${{ env.docker_image_name }}
+          TF_VAR_region: ${{ env.region }}
 
