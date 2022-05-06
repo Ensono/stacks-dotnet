@@ -17,3 +17,9 @@ variable "owner" {
   description = "Responsible parties"
   type = string
 }
+
+variable "region" {
+  description = "AWS Region for this infrastruture"
+  type = string
+  default = "eu-west-2"
+}
