@@ -13,7 +13,7 @@ env:
   TaskctlVersion: '1.4.2'
   docker_image_tag: "${{ github.RUN_NUMBER }}-${{ github.HEAD_REF }}"
   docker_image_name: stacks-api
-  docker_registry_name: "${{ env.AWS_ACCOUNT_ID}}.dkr.ecr.${{ env.region }}.amazonaws.com"
+  docker_registry_name: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{ env.region }}.amazonaws.com"
   owner: "stacks_team"
   region: "eu-west-2"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
