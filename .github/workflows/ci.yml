@@ -100,7 +100,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl deploy:kubernetes
+      - run: taskctl deploy
         env:
           ENV_NAME: nonprod
           # AWS Environmental Config
