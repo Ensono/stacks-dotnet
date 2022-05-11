@@ -86,7 +86,7 @@ jobs:
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
-          TF_FILE_LOCATION: deploy/aws/app/kube
+          TF_ FILE_LOCATION: deploy/aws/app/kube
           # Terraform Resource Configuration
           TF_VAR_env:  ${{ env.ENV_NAME }}
           TF_VAR_owner: ${{ env.OWNER }}
@@ -99,8 +99,10 @@ jobs:
     environment: nonprod
     steps:
       - uses: actions/checkout@v3
-      - uses: ./build/github/templates/install-taskctl
-      - run: taskctl deploy:aws # TODO: This should be removed when we can set the infrastructure:init, which calls terraform -init <args>
+      - name: Install TaskCTL
+        uses: ./build/github/templates/install-taskctl
+      - name: TaskCTL Deploy
+        run: taskctl deploy:aws # TODO: This should be removed when we can set the infrastructure:init, which calls terraform -init <args>
         env:
           ENV_NAME: nonprod
           # AWS Environmental Config
@@ -127,3 +129,9 @@ jobs:
           CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
           DOMAIN: "dev-netcore-api"
           DNS_BASE_DOMAIN: "nonproadaws.amidostacks.com"
+      - name: Archive Manifest File
+        uses: actions/upload-artifact@v3
+        with:
+          name: k8s_manifest
+          path: ${{ env.K8S_RESOURCE_FILE }}
+
