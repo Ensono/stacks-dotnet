@@ -100,7 +100,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl deploy
+      - run: taskctl deploy:aws # TODO: This should be removed when we can set the infrastructure:init, which calls terraform -init <args>
         env:
           ENV_NAME: nonprod
           # AWS Environmental Config
