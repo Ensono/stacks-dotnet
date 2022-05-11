@@ -93,9 +93,9 @@ jobs:
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
           # Terraform Resource Configuration
-          TF_VAR_env:  nonprod
-          TF_VAR_OWNER: ${{ env.OWNER }}
-          TF_VAR_docker_image_name: ${{ env.docker_image_name }}
+          TF_VAR_env:  ${{ env.ENV_NAME }}
+          TF_VAR_owner: ${{ env.OWNER }}
+          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_region: ${{ env.REGION }}
 
   DeployDev:
@@ -120,7 +120,7 @@ jobs:
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
           # Terraform Resource Configuration
-          TF_VAR_env:  ${{ env.env_name }}
-          TF_VAR_OWNER: ${{ env.OWNER }}
-          TF_VAR_docker_image_name: ${{ env.docker_image_name }}
+          TF_VAR_env:  ${{ env.ENV_NAME }}
+          TF_VAR_owner: ${{ env.OWNER }}
+          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_region: ${{ env.REGION }}
