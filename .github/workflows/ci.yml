@@ -86,7 +86,7 @@ jobs:
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
-          TF_ FILE_LOCATION: deploy/aws/app/kube
+          TF_FILE_LOCATION: deploy/aws/app/kube
           # Terraform Resource Configuration
           TF_VAR_env:  ${{ env.ENV_NAME }}
           TF_VAR_owner: ${{ env.OWNER }}
