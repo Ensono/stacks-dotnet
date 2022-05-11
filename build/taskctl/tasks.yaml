@@ -114,7 +114,7 @@ tasks:
     context: powershell-dotnet
     description: Create container image for application
     command:
-      - Build-DockerImage -Name $env:DOCKER_IMAGE_NAME -buildargs src/api # -push TODO: Cancelled to ascertain GHA behaviour
+      - Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -buildargs src/api -push
 
   build:functional_tests:
     context: powershell-dotnet
@@ -160,8 +160,7 @@ tasks:
     context: powershell
     description: Deploy to Kubernetes
     command:
-      - Invoke-Kubectl -provider Azure -target $env:K8S_CLUSTER_TARGET -identifier $env:K8S_CLUSTER_IDENTIFIER -Apply -Arguments $env:K8S_RESOURCE_FILE
-      # - Invoke-Kubectl -provider Azure -target {{ .KUBECTL_TARGET }} -identifier {{ .KUBECTL_IDENTIFIER }} -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
+      - Invoke-Kubectl -provider $env:CLOUD_PROVIDER -target $env:K8S_CLUSTER_TARGET -identifier $env:K8S_CLUSTER_IDENTIFIER -Apply -Arguments $env:K8S_RESOURCE_FILE
 
   deploy:functional_tests:
     context: powershell-dotnet

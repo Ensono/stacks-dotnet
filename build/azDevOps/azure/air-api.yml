@@ -47,6 +47,7 @@ stages:
               # Dotnet Build
               SELF_REPO_SRC: $(self_repo_src)
               # Azure
+              CLOUD_PROVIDER: "$(cloud_provider)" # Azure
               ARM_TENANT_ID: "$(azure-tenant-id)"
               ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
               ARM_CLIENT_ID: "$(azure-client-id)"
@@ -61,6 +62,7 @@ stages:
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
               REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
+
 
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
@@ -122,6 +124,7 @@ stages:
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -180,6 +183,7 @@ stages:
                     informationPreference: continue
                   env:
                     # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -269,6 +273,7 @@ stages:
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -327,6 +332,7 @@ stages:
                     informationPreference: continue
                   env:
                     # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
