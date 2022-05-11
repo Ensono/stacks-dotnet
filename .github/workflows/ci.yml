@@ -13,14 +13,14 @@ env:
   TaskctlVersion: '1.4.2'
   docker_image_tag: "${{ github.RUN_NUMBER }}-${{ github.HEAD_REF }}"
   docker_image_name: stacks-api
-  docker_registry_name: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{ env.region }}.amazonaws.com"
+  docker_registry_name: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com"
   owner: "stacks_team"
   REGION: "eu-west-2"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   # K8S Configuration
   K8S_RESOURCE_FILE: "deploy/k8s/aws/api-deploy.yml"
   # K8S Additional Deploy-Templater var substitutions
-  DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{ env.region }}.amazonaws.com" # (duplicates docker_registry_name)
+  DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # (duplicates docker_registry_name)
   K8S_APP_ROUTE: "/api/menu"
   RESOURCE_DEF_NAME: "dotnet-api"
   COMPONENT: "api"
