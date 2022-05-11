@@ -12,7 +12,7 @@ env:
   CLOUD_PROVIDER: "aws"
   TaskctlVersion: '1.4.2'
   docker_image_tag: "${{ github.RUN_NUMBER }}-${{ github.HEAD_REF }}"
-  docker_image_name: stacks-api
+  DOCKER_IMAGE_NAME: "stacks-api"
   docker_registry_name: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com"
   owner: "stacks_team"
   REGION: "eu-west-2"
@@ -66,7 +66,7 @@ jobs:
           # Docker
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ env.docker_registry_name }}
           ECR_REGION: ${{ env.region }}
-
+          # inherited from global env vars DOCKER_IMAGE_NAME: ${{env.DOCKER_IMAGE_NAME}}
           # Publish test results
           # TODO: Not possible in GitHub Actions
           # Publish test artifact
