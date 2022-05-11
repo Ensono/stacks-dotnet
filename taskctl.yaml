@@ -69,5 +69,6 @@ pipelines:
       depends_on: infra:init:aws
     - task: deploy:kubernetes
       depends_on: deploy:templater
-    - task: deploy:functional_tests
-      depends_on: deploy:kubernetes
+    # TODO: This needs to coincide with the publishing and consumption of build artefacts
+    # - task: deploy:functional_tests
+    #   depends_on: deploy:kubernetes
