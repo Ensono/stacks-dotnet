@@ -130,7 +130,7 @@ jobs:
           K8S_CLUSTER_IDENTIFIER: "eu-west-2"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: ""
+          CLOUDWATCH_LOG_GROUP: ${{ env.PROJECT }}
           CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
           DNS_BASE_DOMAIN: "nonproadaws.amidostacks.com"
 

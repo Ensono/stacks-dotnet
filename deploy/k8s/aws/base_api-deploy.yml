@@ -88,7 +88,8 @@ metadata:
   namespace: ${namespace}
 type: Opaque
 stringData:
-  app_insights: ${app_insights_key}
+  CLOUDWATCH_LOG_GROUP: ${cloudwatch_log_group}
+  CLOUDWATCH_STREAM_PREFIX: ${cloudwatch_stream_prefix}
 
 ---
 
