@@ -26,6 +26,8 @@ env:
   COMPONENT: "api"
   ROLE: "backend"
   APP_NAME: "yumido-netcore-api"
+  DOMAIN: "dev-netcore-api"
+
 
 jobs:
   Lint:
@@ -127,8 +129,9 @@ jobs:
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: ""
           CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
-          DOMAIN: "dev-netcore-api"
           DNS_BASE_DOMAIN: "nonproadaws.amidostacks.com"
+          NAMESPACE: "${{ env.ENV_NAME }}-${{ env.domain }}"
+
       - name: Archive Manifest File
         uses: actions/upload-artifact@v3
         with:
