@@ -11,7 +11,7 @@ on: [push]
 env:
   CLOUD_PROVIDER: "aws"
   TaskctlVersion: '1.4.2'
-  DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}-${{ github.ref_name }}"
+  DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
   DOCKER_IMAGE_NAME: "stacks-api"
   DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com"
   OWNER: "stacks_team"
