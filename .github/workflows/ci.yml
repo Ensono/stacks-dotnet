@@ -51,8 +51,9 @@ jobs:
       - uses: ./build/github/templates/install-taskctl
       - run: taskctl build
         env:
-          # AWS
+          # TF Linting and Validation
           TF_FILE_LOCATION: deploy/aws/app/kube
+          # Testing
           FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORG: amido
@@ -65,10 +66,14 @@ jobs:
           # Docker
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ env.DOCKER_REGISTRY_NAME }}
           ECR_REGION: ${{ env.REGION }}
-          # inherited from global env vars DOCKER_IMAGE_NAME: ${{env.DOCKER_IMAGE_NAME}}
+          # AWS ECR Authorisation
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
           # Publish test results
-          # TODO: Not possible in GitHub Actions
+          # TODO: to publish coverage/etc.
           # Publish test artifact
+          # TODO: to publish functional tests to run after deploy
 
   AppInfraDev:
     needs: build
