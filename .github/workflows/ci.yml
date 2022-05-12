@@ -22,7 +22,6 @@ env:
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
-  NAMESPACE: "${{ env.ENV_NAME }}-${{ env.domain }}"
   # App Config (for both TF and K8S)
   RESOURCE_DEF_NAME: "dotnet-api"
   COMPONENT: "api"
@@ -129,6 +128,7 @@ jobs:
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "amido-stacks-dev-h0ax6owA"
           K8S_CLUSTER_IDENTIFIER: "eu-west-2"
+          NAMESPACE: "${{ env.ENV_NAME }}-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: ""
           CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
