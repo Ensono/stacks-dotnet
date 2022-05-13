@@ -30,7 +30,7 @@ env:
   DOMAIN: "dev-netcore-api"
   COMPANY: "amido"
   PROJECT: "stacks"
-
+  FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
 jobs:
   Lint:
     runs-on: ubuntu-latest
@@ -54,7 +54,6 @@ jobs:
           # TF Linting and Validation
           TF_FILE_LOCATION: deploy/aws/app/kube
           # Testing
-          FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORG: amido
           SONAR_URL: "https://sonarcloud.io"
