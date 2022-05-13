@@ -141,7 +141,7 @@ jobs:
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: ${{ env.PROJECT }}
           CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
-          DNS_BASE_DOMAIN: "nonproadaws.amidostacks.com"
+          DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com"
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
