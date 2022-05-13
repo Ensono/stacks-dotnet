@@ -13,6 +13,18 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279 # This needs to be amended specifically
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/success-codes: "200"
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
+    external-dns.alpha.kubernetes.io/hostname: ${dns_pointer}
     app.kubernetes.io/instance: ${project}-${app_name}
     app.kubernetes.io/version: ${version}
     applicationId: ${project}/${app_name}
@@ -30,27 +42,28 @@ metadata:
     app.kubernetes.io/name: ${resource_def_name}
     app.kubernetes.io/part-of: ${project}
     environment: ${environment}
+  finalizers:
+  - ingress.k8s.aws/resources
   name: ${resource_def_name}
   namespace: ${namespace}
 spec:
   rules:
-    - host: ${dns_pointer}
-      http:
+    - http:
         paths:
           - backend:
               serviceName: ${resource_def_name}
               servicePort: 80
-            path: ${k8s_app_route}(/|$)(.*)
-  tls:
-    - hosts:
-        - ${tls_domain}
-
+            # path: ${k8s_app_route}(/|$)(.*)
+            # pathType: ImplementationSpecific
+            path: /api/menu/swagger
+            pathType: Prefix
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: ${k8s_app_route}/swagger/index.html
     app.kubernetes.io/instance: ${project}-${app_name}
     app.kubernetes.io/version: ${version}
     applicationId: ${project}/${app_name}
@@ -67,7 +80,7 @@ metadata:
   name: ${resource_def_name}
   namespace: ${namespace}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 80
       protocol: TCP
