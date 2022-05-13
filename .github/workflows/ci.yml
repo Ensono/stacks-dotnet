@@ -74,6 +74,11 @@ jobs:
           # TODO: to publish coverage/etc.
           # Publish test artifact
           # TODO: to publish functional tests to run after deploy
+      - name: Publish Functional Tests
+        uses: actions/upload-artifact@v3
+        with:
+          name: tests
+          path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
     needs: build
@@ -139,7 +144,7 @@ jobs:
           CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
           DNS_BASE_DOMAIN: "nonproadaws.amidostacks.com"
 
-      - name: Archive Manifest File
+      - name: Publish Manifest File
         uses: actions/upload-artifact@v3
         with:
           name: k8s_manifest
