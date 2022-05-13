@@ -221,11 +221,6 @@ spec:
               value: ${k8s_app_route}
             - name: LOG_LEVEL
               value: debug
-            - name: APPINSIGHTS_INSTRUMENTATIONKEY
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: app_insights
           resources:
             limits:
               cpu: "1"
