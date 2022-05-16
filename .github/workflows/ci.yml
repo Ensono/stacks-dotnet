@@ -123,7 +123,7 @@ jobs:
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
       - run: |
           pwd
-          ls -la ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+          ls -la
       - name: TaskCTL Deploy
         run: taskctl deploy:aws # TODO: This should be removed when we can set the infrastructure:init, which calls terraform -init <args>
         env:
@@ -153,7 +153,7 @@ jobs:
           CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
           DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com"
           # Functional Test Configuration
-          FUNCTIONAL_TESTS_RUN_DIR: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }} # Must match RELATIVE path from repo root that artefact is downloaded to.
+          FUNCTIONAL_TESTS_RUN_DIR: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }} # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: https://nonprod-dev-netcore-api-nonprodaws.amidostacks.com/${{ env.K8S_APP_ROUTE }}/
 
 
