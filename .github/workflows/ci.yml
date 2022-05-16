@@ -31,7 +31,7 @@ env:
   COMPANY: "amido"
   PROJECT: "stacks"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
-  FUNCTIONAL_TESTS_RUN_DIR: tests
+  FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
 jobs:
   Lint:
@@ -121,6 +121,9 @@ jobs:
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+      - run: |
+          pwd
+          ls -la ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
       - name: TaskCTL Deploy
         run: taskctl deploy:aws # TODO: This should be removed when we can set the infrastructure:init, which calls terraform -init <args>
         env:
