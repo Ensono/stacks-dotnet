@@ -151,7 +151,7 @@ jobs:
           DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }} # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: https://nonprod-dev-netcore-api-nonprodaws.amidostacks.com/${{k8s_app_route}}/
+          BaseUrl: https://nonprod-dev-netcore-api-nonprodaws.amidostacks.com/${{ env.K8S_APP_ROUTE }}/
 
 
       - name: Publish Manifest File
