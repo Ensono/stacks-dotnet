@@ -168,7 +168,7 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_RUN_DIR
+      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path $env:FUNCTIONAL_TESTS_RUN_DIR
 
   publish:github:
     context: powershell
