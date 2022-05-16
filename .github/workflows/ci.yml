@@ -31,6 +31,8 @@ env:
   COMPANY: "amido"
   PROJECT: "stacks"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
+  FUNCTIONAL_TESTS_RUN_DIR: tests
+  FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
 jobs:
   Lint:
     runs-on: ubuntu-latest
@@ -76,7 +78,7 @@ jobs:
       - name: Publish Functional Tests
         uses: actions/upload-artifact@v3
         with:
-          name: tests
+          name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
@@ -114,6 +116,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+      - name: Download Functional Tests
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
+          path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
       - name: TaskCTL Deploy
         run: taskctl deploy:aws # TODO: This should be removed when we can set the infrastructure:init, which calls terraform -init <args>
         env:
@@ -142,6 +149,10 @@ jobs:
           CLOUDWATCH_LOG_GROUP: ${{ env.PROJECT }}
           CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
           DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com"
+          # Functional Test Configuration
+          FUNCTIONAL_TESTS_RUN_DIR: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }} # Must match RELATIVE path from repo root that artefact is downloaded to.
+          BaseUrl: https://nonprod-dev-netcore-api-nonprodaws.amidostacks.com/${{k8s_app_route}}/
+
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
