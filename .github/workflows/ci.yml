@@ -121,9 +121,6 @@ jobs:
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
-      - run: |
-          pwd
-          ls -la
       - name: TaskCTL Deploy
         run: taskctl deploy:aws # TODO: This should be removed when we can set the infrastructure:init, which calls terraform -init <args>
         env:
