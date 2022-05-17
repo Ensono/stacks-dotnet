@@ -43,30 +43,12 @@ pipelines:
     - task: infra:apply
       depends_on: infra:plan
 
-  # TODO: This should be removed when we can supply all the TF args as a single env var
-  infrastructure:aws:
-    - task: infra:init:aws
-    - task: infra:plan
-      depends_on: infra:init:aws
-    - task: infra:apply
-      depends_on: infra:plan
-
 
   # Deploy pipeline
   deploy:
-    - task: infra:init
-    - task: deploy:templater
-      depends_on: infra:init
-    - task: deploy:kubernetes
-      depends_on: deploy:templater
-    - task: deploy:functional_tests
-      depends_on: deploy:kubernetes
-
-  # Deploy pipeline # TODO: This should be removed when we can supply all the TF args as a single env var
-  deploy:aws:
     - task: infra:init:aws
     - task: deploy:templater
-      depends_on: infra:init:aws
+      depends_on: infra:init
     - task: deploy:kubernetes
       depends_on: deploy:templater
     - task: debug:sleep
