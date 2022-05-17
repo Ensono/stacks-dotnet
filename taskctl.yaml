@@ -46,7 +46,7 @@ pipelines:
 
   # Deploy pipeline
   deploy:
-    - task: infra:init:aws
+    - task: infra:init
     - task: deploy:templater
       depends_on: infra:init
     - task: deploy:kubernetes
