@@ -205,3 +205,11 @@ tasks:
     context: powershell
     command:
       - Write-Host "***** DEBUG *****" && get-childitem -filter "*opencover.xml" -recurse
+
+  debug:sleep:
+    context: powershell
+    command:
+      - echo "Sleeping for {{ .sleep }}"
+      - sleep {{ .sleep }}
+    variables:
+      sleep: 30
