@@ -114,7 +114,9 @@ tasks:
     context: powershell-dotnet
     description: Create container image for application
     command:
-      - Build-DockerImage -Name $env:DOCKER_IMAGE_NAME -buildargs src/api -push
+      - env
+      - Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -buildargs src/api -push
+      # TODO: -region $env:ECR_REGION is specified due to a missing -Or statement in the PS module. This module bug will need to be restored before this can be merged to main.
 
   build:functional_tests:
     context: powershell-dotnet
@@ -125,9 +127,9 @@ tasks:
   # Infrastructure tasks
   infra:init:
     context: powershell
-    description: Initialise Terraform for the environment
+    description: Initialise Terraform for Azure
     command:
-      - Invoke-Terraform -Init -backend key=$env:TF_STATE_KEY,storage_account_name=$env:TF_STATE_STORAGE,resource_group_name=$env:TF_STATE_RG,container_name=$env:TF_STATE_CONTAINER,subscription_id=$env:ARM_SUBSCRIPTION_ID,tenant_id=$env:ARM_TENANT_ID,client_id=$env:ARM_CLIENT_ID,client_secret=$env:ARM_CLIENT_SECRET -Path $env:TF_FILE_LOCATION -Debug
+      - Invoke-Terraform -Init -backend "$env:TF_BACKEND_ARGS" -Path $env:TF_FILE_LOCATION -Debug
       - Invoke-Terraform -Workspace -Arguments $env:ENV_NAME -Path $env:TF_FILE_LOCATION -Debug
 
   infra:plan:
@@ -147,21 +149,19 @@ tasks:
     context: powershell
     description: Render deployment templates
     command:
-      - Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1 -Debug
+      - Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
 
   deploy:kubernetes:
     context: powershell
     description: Deploy to Kubernetes
     command:
-      - Invoke-Kubectl -provider Azure -target $env:K8S_CLUSTER_TARGET -identifier $env:K8S_CLUSTER_IDENTIFIER -Apply -Arguments $env:K8S_RESOURCE_FILE
-      # - Invoke-Kubectl -provider Azure -target {{ .KUBECTL_TARGET }} -identifier {{ .KUBECTL_IDENTIFIER }} -Rollout -Arguments "-n $env:NAMESPACE deploy/$env:RESOURCE_DEF_NAME --timeout $env:DEPLOYMENT_STATUS_TIMEOUT"
+      - Invoke-Kubectl -provider $env:CLOUD_PROVIDER -target $env:K8S_CLUSTER_TARGET -identifier $env:K8S_CLUSTER_IDENTIFIER -Apply -Arguments $env:K8S_RESOURCE_FILE
 
   deploy:functional_tests:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - gci | select Name # What is running inside invoke-dotnet and presumably failing
-      - Invoke-Dotnet -Tests -pattern "*" -path $env:FUNCTIONAL_TESTS_RUN_DIR
+      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path $env:FUNCTIONAL_TESTS_RUN_DIR
 
   publish:github:
     context: powershell
@@ -198,3 +198,11 @@ tasks:
     context: powershell
     command:
       - Write-Host "***** DEBUG *****" && get-childitem -filter "*opencover.xml" -recurse
+
+  debug:sleep:
+    context: powershell
+    command:
+      - echo "Sleeping for {{ .sleep }}"
+      - sleep {{ .sleep }}
+    variables:
+      sleep: 30
