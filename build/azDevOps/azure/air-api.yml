@@ -47,6 +47,7 @@ stages:
               # Dotnet Build
               SELF_REPO_SRC: $(self_repo_src)
               # Azure
+              CLOUD_PROVIDER: "$(cloud_provider)" # Azure
               ARM_TENANT_ID: "$(azure-tenant-id)"
               ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
               ARM_CLIENT_ID: "$(azure-client-id)"
@@ -61,6 +62,7 @@ stages:
               # Docker
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
               REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
+
 
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
@@ -122,6 +124,7 @@ stages:
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -131,6 +134,7 @@ stages:
                     TF_STATE_KEY: $(tf_state_key)
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
+                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(azure-subscription-id),tenant_id=$(azure-tenant-id),client_id=$(azure-client-id),client_secret= $(azure-client-secret)"                    # Deployment Specific Configuration
                     # Deployment Specific Configuration
                     TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
@@ -180,6 +184,7 @@ stages:
                     informationPreference: continue
                   env:
                     # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -269,6 +274,7 @@ stages:
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -327,6 +333,7 @@ stages:
                     informationPreference: continue
                   env:
                     # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
