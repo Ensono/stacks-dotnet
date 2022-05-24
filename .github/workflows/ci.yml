@@ -1,12 +1,20 @@
-name: Run taskctl
+name: API Build
 
-# on:
-#   push:
-#     branches: [master]
-#   pull_request:
-#     branches: [master]
-
-on: [push]
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - 'build/github/**'
+      - 'src/**'
+      - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
+      - 'deploy/k8s/aws/**'  # TODO: Review this as new cloud provider targets are used
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches:
+        - master
+        - main
 
 env:
   CLOUD_PROVIDER: "aws"
