@@ -32,8 +32,8 @@
           k8s_app_route = "`${K8S_APP_ROUTE}"
           log_level = "Debug"
           k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
-          cloudwatch_log_group = "`${CLOUDWATCH_LOG_GROUP}"
-          cloudwatch_stream_prefix ="`${CLOUDWATCH_STREAM_PREFIX}"
+          cloudwatch_log_group_name = "`${CLOUDWATCH_LOG_GROUP}"
+          cloudwatch_log_prefix ="`${CLOUDWATCH_STREAM_PREFIX}"
           cloudwatch_region = "`${REGION}"
           version = "`${DOCKER_IMAGE_TAG}"
           rewrite_target = '/$([char]0x0024)2' # Using UniCode to prevent substitution
