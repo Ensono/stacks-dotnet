@@ -156,13 +156,12 @@ jobs:
           K8S_CLUSTER_IDENTIFIER: "eu-west-2"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: ${{ env.PROJECT }}
-          CLOUDWATCH_STREAM_PREFIX: ${{ env.RESOURCE_DEF_NAME }}
+          CLOUDWATCH_LOG_GROUP: “amido-stacks-dev-h0ax6owA-logs”
+          CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "https://nonprod-dev-netcore-api.nonprodaws.amidostacks.com/api/menu/"
-
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
