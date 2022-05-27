@@ -8,6 +8,7 @@ framework:
 
 # Pipeline files
 pipeline:
+  # Pipeline files for ADO
   - type: azdo
     files:
       - name: build
@@ -20,6 +21,14 @@ pipeline:
     replacements:
       - pattern: ^.*stacks-credentials-nonprod-kv$
         value: ""
+  # Pipeline files for GHA
+  - type: gha
+    files:
+      - name: build
+        path: .github/workflows/ci.yml
+    templates:
+      - name: build
+        path: build/github/ci_TEMPLATE.yml
 
 # The init stage are things that are required to run before the template is run
 init:
