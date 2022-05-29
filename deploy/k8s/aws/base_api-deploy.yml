@@ -13,6 +13,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=120 # resolved 502 error while deployment "https://www.tessian.com/blog/how-to-fix-http-502-errors/"
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279 # This needs to be amended specifically
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
