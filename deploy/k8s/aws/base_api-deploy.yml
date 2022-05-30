@@ -54,7 +54,7 @@ spec:
             # path: ${k8s_app_route}(/|$)(.*)
             # pathType: ImplementationSpecific
             path: ${k8s_app_route}/*
-            pathType: Prefix
+            pathType: ImplementationSpecific
 ---
 
 apiVersion: v1
