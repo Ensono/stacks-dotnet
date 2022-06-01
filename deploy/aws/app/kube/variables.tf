@@ -2,7 +2,7 @@ variable "docker_image_name" {
   type = string
 }
 variable "create_docker_repositories" {
-  type = boolean
+  type    = bool
   default = true
 }
 variable "tags" {
