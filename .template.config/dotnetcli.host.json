@@ -5,5 +5,9 @@
 			"longName": "domain",
 			"shortName": "do"
 		}
+	},
+	"cloudProvider": {
+		"longName": "cloudProvider",
+		"shortName": "cp"
 	}
 }

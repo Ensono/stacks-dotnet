@@ -29,6 +29,43 @@
 					"lowerCase"
 				]
 			}
+		},
+		"cloudProvider": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "None",
+			"choices": [
+				{
+					"choice": "Azure",
+					"description": "Targets Azure DevOps"
+				},
+				{
+					"choice": "AWS",
+					"description": "Targets AWS pipelines"
+				},
+				{
+					"choice": "GitHub",
+					"description": "Targets Google Cloud Platform"
+				},
+				{
+					"choice": "None",
+					"description": "Targets no platform and leaves all provider templates"
+				}
+
+			],
+			"description": "Adds cloud provider build pipelines."
+		},
+		"CloudProviderAzure": {
+			"type": "computed",
+			"value": "(cloudProvider == \"AzureCloud\")"
+		},
+		"CloudProviderAws": {
+			"type": "computed",
+			"value": "(cloudProvider == \"AwsCloud\")"
+		},
+		"CloudProviderGcp": {
+			"type": "computed",
+			"value": "(cloudProvider == \"GcpCloud\")"
 		}
 	},
 	"sources": [
@@ -57,7 +94,24 @@
 				"_gitignore": ".gitignore",
 				"_gitattributes": ".gitattributes"
 			},
-			"modifiers": []
+			"modifiers": [
+				{
+					"condition": "(CloudProviderAzure || CloudProviderGcp)",
+					"exclude": [
+						"**/build/azDevOps/aws/**",
+						"**/build/github/aws/**",
+						"**/deploy/aws/**"
+					]
+				},
+				{
+					"condition": "(CloudProviderAws || CloudProviderGcp)",
+					"exclude": [
+						"**/build/azDevOps/azure/**",
+						"**/build/github/azure/**",
+						"**/deploy/azure/**"
+					]
+				}
+			]
 		}
 	],
 	"SpecialCustomOperations": {

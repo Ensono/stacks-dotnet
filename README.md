@@ -54,6 +54,8 @@ dotnet new --uninstall Amido.Stacks.Templates
 - **-o|--output**
   - Sets the path to where the project is added
   - Omitting the parameter will result in the creation of a new folder
+- **-cp|--cloudProvider**
+  - Configures which cloud provider to be used
 
 #### Creating a new WebAPI project with the template
 
