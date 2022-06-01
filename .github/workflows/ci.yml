@@ -99,6 +99,7 @@ jobs:
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
+    # if: github.ref != 'refs/heads/master' || github.ref != 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment: nonprod
@@ -132,6 +133,7 @@ jobs:
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
 
   DeployDev:
+    # if: github.ref != 'refs/heads/master' || github.ref != 'refs/heads/main'
     needs: AppInfraDev
     runs-on: ubuntu-latest
     environment: nonprod
@@ -184,7 +186,7 @@ jobs:
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
         with:
-          name: k8s_manifest
+          name: k8s_manifest_nonprod
           path: ${{ env.K8S_RESOURCE_FILE }}
 
   AppInfraProd:
@@ -274,5 +276,5 @@ jobs:
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
         with:
-          name: k8s_manifest
+          name: k8s_manifest_prod
           path: ${{ env.K8S_RESOURCE_FILE }}
