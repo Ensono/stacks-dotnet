@@ -3,7 +3,7 @@ variable "docker_image_name" {
 }
 variable "create_docker_repositories" {
   type    = bool
-  default = true
+  default = false
 }
 variable "tags" {
   description = "Meta data for labelling the infrastructure"
