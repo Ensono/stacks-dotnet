@@ -2,9 +2,9 @@ name: air.stacks-dotnet
 
 on:
   push:
-    branches:
-      - master
-      - main
+    # branches:
+    #   - master
+    #   - main
     paths:
       - 'build/github/**'
       - 'src/**'
@@ -179,6 +179,96 @@ jobs:
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "https://nonprod-dev-netcore-api.nonprodaws.amidostacks.com/api/menu/"  # TODO: To be read from core state
+
+      - name: Publish Manifest File
+        uses: actions/upload-artifact@v3
+        with:
+          name: k8s_manifest
+          path: ${{ env.K8S_RESOURCE_FILE }}
+
+  AppInfraProd:
+    # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: nonprod
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./build/github/templates/install-taskctl
+      - run: taskctl infrastructure # TODO: This is tactical, will require refactor of task to take arguments as separate var
+        env:
+          ENV_NAME: prod
+          # AWS Environmental Config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
+          # Terraform Backend Configuration
+          AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
+          AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
+          AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
+          AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
+          TF_FILE_LOCATION: deploy/aws/app/kube
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          # Terraform Resource Configuration
+          TF_VAR_env:  "prod"
+          TF_VAR_owner: ${{ env.OWNER }}
+          TF_VAR_region: ${{ env.REGION }}
+          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+          TF_VAR_stage: "prod"
+          TF_VAR_name_company: ${{ env.COMPANY }}
+          TF_VAR_name_project: ${{ env.PROJECT }}
+          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+
+  DeployProd:
+    # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    needs: AppInfraProd
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install TaskCTL
+        uses: ./build/github/templates/install-taskctl
+      - name: Download Functional Tests
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
+          path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+      - name: TaskCTL Deploy
+        run: taskctl deploy
+        env:
+          ENV_NAME: prod
+          # AWS Environmental Config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
+          # Terraform Backend Configuration (for outputs)
+          AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
+          AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
+          AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
+          AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
+          TF_FILE_LOCATION: deploy/aws/app/kube
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          # Terraform Resource Configuration
+          TF_VAR_env:  "prod"
+          TF_VAR_owner: ${{ env.OWNER }}
+          TF_VAR_region: ${{ env.REGION }}
+          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+          TF_VAR_stage: "prod"
+          TF_VAR_name_company: ${{ env.COMPANY }}
+          TF_VAR_name_project: ${{ env.PROJECT }}
+          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          # K8S Target Configuration
+          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
+          K8S_CLUSTER_IDENTIFIER: "eu-west-2" # TODO: To be read from core state
+          NAMESPACE: "prod-${{ env.DOMAIN }}"
+          # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
+          CLOUDWATCH_LOG_GROUP: “amido-stacks-prod-0cvO68Bj-logs” # TODO: To be read from core state
+          CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
+          DNS_BASE_DOMAIN: "prodaws.amidostacks.com" # TODO: To be read from core state
+          # Functional Test Configuration
+          FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
+          BaseUrl: "https://prod-dev-netcore-api.prodaws.amidostacks.com/api/menu/"  # TODO: To be read from core state
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
