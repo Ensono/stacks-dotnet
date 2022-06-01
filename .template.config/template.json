@@ -33,7 +33,7 @@
 		"cloudProvider": {
 			"type": "parameter",
 			"datatype": "choice",
-			"defaultValue": "Azure",
+			"defaultValue": "None",
 			"choices": [
 				{
 					"choice": "Azure",
@@ -46,7 +46,12 @@
 				{
 					"choice": "GitHub",
 					"description": "Targets Google Cloud Platform"
+				},
+				{
+					"choice": "None",
+					"description": "Targets no platform and leaves all provider templates"
 				}
+
 			],
 			"description": "Adds cloud provider build pipelines."
 		},
@@ -91,7 +96,7 @@
 			},
 			"modifiers": [
 				{
-					"condition": "(CloudProviderAws || CloudProviderGcp)",
+					"condition": "(CloudProviderAzure || CloudProviderGcp)",
 					"exclude": [
 						"**/build/azDevOps/aws/**",
 						"**/build/github/aws/**",
@@ -99,7 +104,7 @@
 					]
 				},
 				{
-					"condition": "(CloudProviderAzure || CloudProviderGcp)",
+					"condition": "(CloudProviderAws || CloudProviderGcp)",
 					"exclude": [
 						"**/build/azDevOps/azure/**",
 						"**/build/github/azure/**",
