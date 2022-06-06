@@ -126,7 +126,7 @@ jobs:
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
-          TF_create_docker_repositories: true # Required for one environment per AWS account
+          TF_create_docker_repositories: "true" # Required for one environment per AWS account
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
