@@ -194,7 +194,7 @@ jobs:
     # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
-    environment: nonprod
+    environment: prod
     steps:
       - uses: actions/checkout@v3
       - uses: ./build/github/templates/install-taskctl
