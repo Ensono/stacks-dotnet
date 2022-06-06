@@ -125,6 +125,7 @@ jobs:
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+          TF_create_docker_repositories: true # Required for one environment per AWS account
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
@@ -187,6 +188,7 @@ jobs:
           K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA" TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: ${{ env.REGION }}
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
+          K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: "" #i.e. “amido-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"

@@ -174,6 +174,7 @@ jobs:
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "amido-stacks-dev-h0ax6owA"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "eu-west-2" # TODO: To be read from core state
+          K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: “amido-stacks-dev-h0ax6owA-logs” # TODO: To be read from core state
@@ -264,6 +265,7 @@ jobs:
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "eu-west-2" # TODO: To be read from core state
+          K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/2e4208b5-a86e-4096-b6b7-83c032d7d5e2"  # TODO: To be read from core state
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: “amido-stacks-prod-0cvO68Bj-logs” # TODO: To be read from core state
