@@ -2,9 +2,6 @@ name: air.stacks-dotnet
 
 on:
   push:
-    # branches:
-    #   - master
-    #   - main
     paths:
       - 'build/github/**'
       - 'src/**'
@@ -99,7 +96,6 @@ jobs:
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
-    # if: github.ref != 'refs/heads/master' || github.ref != 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment: nonprod
@@ -122,7 +118,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "nonprod"
+          TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
@@ -133,7 +129,6 @@ jobs:
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
 
   DeployDev:
-    # if: github.ref != 'refs/heads/master' || github.ref != 'refs/heads/main'
     needs: AppInfraDev
     runs-on: ubuntu-latest
     environment: nonprod
@@ -173,7 +168,7 @@ jobs:
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "amido-stacks-dev-h0ax6owA"  # TODO: To be read from core state
-          K8S_CLUSTER_IDENTIFIER: "eu-west-2" # TODO: To be read from core state
+          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
           K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
@@ -191,7 +186,7 @@ jobs:
           path: ${{ env.K8S_RESOURCE_FILE }}
 
   AppInfraProd:
-    # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment: prod
@@ -224,7 +219,7 @@ jobs:
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
 
   DeployProd:
-    # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     needs: AppInfraProd
     runs-on: ubuntu-latest
     environment: prod
@@ -264,12 +259,12 @@ jobs:
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
-          K8S_CLUSTER_IDENTIFIER: "eu-west-2" # TODO: To be read from core state
+          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
           K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/2e4208b5-a86e-4096-b6b7-83c032d7d5e2"  # TODO: To be read from core state
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: “amido-stacks-prod-0cvO68Bj-logs” # TODO: To be read from core state
-          CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
+          CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "prodaws.amidostacks.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.

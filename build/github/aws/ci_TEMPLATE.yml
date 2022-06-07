@@ -1,10 +1,7 @@
-name: air.stacks-dotnet-cqrs
+name: air.stacks-dotnet
 
 on:
   push:
-    branches:
-      - master
-      - main
     paths:
       - 'build/github/**'
       - 'src/**'
@@ -33,7 +30,7 @@ env:
   CLOUD_PROVIDER: "aws"
   TaskctlVersion: '1.4.2'
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
-  DOCKER_IMAGE_NAME: "stacks-api-cqrs"
+  DOCKER_IMAGE_NAME: "stacks-api"
   DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com"
   OWNER: "stacks_team"
   REGION: "{{ .Project.Cloud.Region }}"
@@ -44,10 +41,10 @@ env:
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # #TODO: Parse this with region, duplicates DOCKER_REGISTRY_NAME
   K8S_APP_ROUTE: "/api/menu"
   # App Config (for both TF and K8S)
-  RESOURCE_DEF_NAME: "{{ .Project.Name }}-api-cqrs"
+  RESOURCE_DEF_NAME: "{{ .Project.Name }}-api"
   COMPONENT: "api"
   ROLE: "backend"
-  APP_NAME: "{{ .Input.Business.Domain }}-{{ .Project.Name }}-api-cqrs"
+  APP_NAME: "{{ .Input.Business.Domain }}-{{ .Project.Name }}-api"
   DOMAIN: "{{ .Input.Business.Domain }}"
   COMPANY: "{{ .Input.Business.Company }}"
   PROJECT: "{{ .Project.Name }}"
@@ -72,7 +69,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl build:api  # Note: There are no workers or functions for SQS/SNS. When these are implemented, use pipeline `build:events`
+      - run: taskctl build
         env:
           # TF Linting and Validation
           TF_FILE_LOCATION: deploy/aws/app/kube
@@ -81,7 +78,7 @@ jobs:
           SONAR_ORG: amido
           SONAR_URL: "https://sonarcloud.io"
           SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
-          PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
+          PROJECT_NAME: stacks-dotnet
           BUILD_BUILDNUMBER: 0.0.${{env.GITHUB_RUN_NUMBER}}
           # Dotnet Build
           SELF_REPO_SRC: src/api
@@ -91,7 +88,7 @@ jobs:
           # AWS ECR Authorisation
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ env.REGION }
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
       - name: Publish Functional Tests
         uses: actions/upload-artifact@v3
         with:
@@ -125,11 +122,11 @@ jobs:
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
-          TF_create_docker_repositories: true # Required for one environment per AWS account
+          TF_VAR_create_docker_repositories: true # Required for one environment per AWS account
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ .Input.Business.Domain }}"
+          TF_VAR_name_domain: "{{ env.DOMAIN }}"
 
   DeployDev:
     needs: AppInfraDev
@@ -168,38 +165,113 @@ jobs:
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ .Input.Business.Domain }}"
-          # ServiceBus and EventHub Functions & Workers
-          TF_VAR_docker_image_name_worker: ${{ env.DOCKER_IMAGE_NAME_WORKER }}
-          TF_VAR_docker_image_name_bg_worker: ${{ env.DOCKER_IMAGE_NAME_BG_WORKER }}
-          TF_VAR_docker_image_name_asb_listener: ${{ env.DOCKER_IMAGE_NAME_ASB_LISTENER }}
-          TF_VAR_docker_image_name_aeh_listener: ${{ env.DOCKER_IMAGE_NAME_AEH_LISTENER }}
-          # Dynamo-DB Configuration
-          TF_VAR_enable_dynamodb: true
-          TF_VAR_table_name: "menu"
-          TF_VAR_hash_key: "ID"
-          TF_VAR_attribute_name: "ID"
-          TF_VAR_attribute_type: "S"
-          # SQS Configuration (controlled by APP_BUS_TYPE)
-          TF_VAR_app_bus_type: ${{ env.APP_BUS_TYPE }}
-          TF_VAR_enable_queue: true
-          TF_VAR_queue_name: "menu"
+          TF_VAR_name_domain: "{{ env.DOMAIN }}"
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA" TODO: To be read from core state
-          K8S_CLUSTER_IDENTIFIER: ${{ env.REGION }}
+          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "" #i.e. “amido-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: "replaceme" #i.e. “amido-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "" # i.e. "nonprodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "" # i.e. "https://nonprod-dev-netcore-api-cqrs.nonprodaws.amidostacks.com/api/menu/"  # TODO: To be read and constructed at runtime from core state
-
+          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api-cqrs.nonprodaws.amidostacks.com/api/menu/"  # TODO: To be read and constructed at runtime from core state
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
         with:
-          name: k8s_manifest
+          name: k8s_manifest_nonprod
+          path: ${{ env.K8S_RESOURCE_FILE }}
+
+  AppInfraProd:
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./build/github/templates/install-taskctl
+      - run: taskctl infrastructure # TODO: This is tactical, will require refactor of task to take arguments as separate var
+        env:
+          ENV_NAME: prod
+          # AWS Environmental Config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
+          # Terraform Backend Configuration
+          AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
+          AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
+          AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
+          AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
+          TF_FILE_LOCATION: deploy/aws/app/kube
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          # Terraform Resource Configuration
+          TF_VAR_env:  "prod"
+          TF_VAR_owner: ${{ env.OWNER }}
+          TF_VAR_region: ${{ env.REGION }}
+          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+          TF_VAR_stage: "prod"
+          TF_VAR_name_company: ${{ env.COMPANY }}
+          TF_VAR_name_project: ${{ env.PROJECT }}
+          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+
+  DeployProd:
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    needs: AppInfraProd
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install TaskCTL
+        uses: ./build/github/templates/install-taskctl
+      - name: Download Functional Tests
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
+          path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+      - name: TaskCTL Deploy
+        run: taskctl deploy
+        env:
+          ENV_NAME: prod
+          # AWS Environmental Config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
+          # Terraform Backend Configuration (for outputs)
+          AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
+          AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
+          AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
+          AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
+          TF_FILE_LOCATION: deploy/aws/app/kube
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          # Terraform Resource Configuration
+          TF_VAR_env:  "prod"
+          TF_VAR_owner: ${{ env.OWNER }}
+          TF_VAR_region: ${{ env.REGION }}
+          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+          TF_VAR_stage: "prod"
+          TF_VAR_name_company: ${{ env.COMPANY }}
+          TF_VAR_name_project: ${{ env.PROJECT }}
+          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          # K8S Target Configuration
+          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
+          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
+          NAMESPACE: "prod-${{ env.DOMAIN }}"
+          K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
+          # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
+          CLOUDWATCH_LOG_GROUP: "replaceme" #i.e. “amido-stacks-prod-h0ax6owA-logs”  TODO: To be read from core state
+          CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
+          DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com" # TODO: To be read from core state
+          # Functional Test Configuration
+          FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
+          BaseUrl: "replaceme" # i.e. "https://prod-dev-netcore-api.nonprodaws.amidostacks.com/${{ env.K8S_APP_ROUTE }}"  # TODO: To be read and constructed at runtime from core state
+
+      - name: Publish Manifest File
+        uses: actions/upload-artifact@v3
+        with:
+          name: k8s_manifest_prod
           path: ${{ env.K8S_RESOURCE_FILE }}
