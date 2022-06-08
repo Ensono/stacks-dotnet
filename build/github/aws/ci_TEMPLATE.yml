@@ -96,6 +96,7 @@ jobs:
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
+    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment: nonprod
@@ -129,6 +130,7 @@ jobs:
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
 
   DeployDev:
+    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
     needs: AppInfraDev
     runs-on: ubuntu-latest
     environment: nonprod
@@ -187,7 +189,7 @@ jobs:
 
   AppInfraProd:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-    needs: DeployDev
+    needs: build
     runs-on: ubuntu-latest
     environment: prod
     steps:
