@@ -1,6 +1,10 @@
 variable "docker_image_name" {
   type = string
 }
+variable "create_docker_repositories" {
+  type    = bool
+  default = false
+}
 variable "tags" {
   description = "Meta data for labelling the infrastructure"
   type        = map(string)
