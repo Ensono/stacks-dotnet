@@ -44,7 +44,7 @@
 					"description": "Targets AWS pipelines"
 				},
 				{
-					"choice": "GitHub",
+					"choice": "GCP",
 					"description": "Targets Google Cloud Platform"
 				},
 				{
@@ -55,17 +55,54 @@
 			],
 			"description": "Adds cloud provider build pipelines."
 		},
+		"cicdProvider": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "None",
+			"choices": [
+				{
+					"choice": "Azure",
+					"description": "Targets Azure DevOps for CI/CD templates"
+				},
+				{
+					"choice": "GitHub",
+					"description": "Targets GitHub Actions for CI/CD templates"
+				},
+				{
+					"choice": "None",
+					"description": "Targets no platform and leaves all provider templates"
+				}
+
+			],
+			"description": "Adds specified CI/CD provider build pipelines."
+		},
 		"CloudProviderAzure": {
 			"type": "computed",
-			"value": "(cloudProvider == \"AzureCloud\")"
+			"value": "(cloudProvider == \"Azure\")"
 		},
 		"CloudProviderAws": {
 			"type": "computed",
-			"value": "(cloudProvider == \"AwsCloud\")"
+			"value": "(cloudProvider == \"AWS\")"
 		},
 		"CloudProviderGcp": {
 			"type": "computed",
-			"value": "(cloudProvider == \"GcpCloud\")"
+			"value": "(cloudProvider == \"GCP\")"
+		},
+		"CloudProviderNone": {
+			"type": "computed",
+			"value": "(cloudProvider == \"None\")"
+		},
+		"CiCdAzure": {
+			"type": "computed",
+			"value": "(cloudProvider == \"Azure\")"
+		},
+		"CiCdGitHub": {
+			"type": "computed",
+			"value": "(cloudProvider == \"GitHub\")"
+		},
+		"CiCdNone": {
+			"type": "computed",
+			"value": "(cloudProvider == \"None\")"
 		}
 	},
 	"sources": [
@@ -96,19 +133,47 @@
 			},
 			"modifiers": [
 				{
-					"condition": "(CloudProviderAzure || CloudProviderGcp)",
+					"condition": "(CloudProviderAzure)",
 					"exclude": [
 						"**/build/azDevOps/aws/**",
+						"**/build/azDevOps/gcp/**",
 						"**/build/github/aws/**",
-						"**/deploy/aws/**"
+						"**/build/github/gcp/**",
+						"**/deploy/aws/**",
+						"**/deploy/gcp/**"
 					]
 				},
 				{
-					"condition": "(CloudProviderAws || CloudProviderGcp)",
+					"condition": "(CloudProviderGcp)",
+					"exclude": [
+						"**/build/azDevOps/aws/**",
+						"**/build/azDevOps/azure/**",
+						"**/build/github/aws/**",
+						"**/deploy/aws/**",
+						"**/deploy/azure/**"
+					]
+				},
+				{
+					"condition": "(CloudProviderAws)",
 					"exclude": [
 						"**/build/azDevOps/azure/**",
+						"**/build/azDevOps/gcp/**",
 						"**/build/github/azure/**",
-						"**/deploy/azure/**"
+						"**/build/github/gcp/**",
+						"**/deploy/azure/**",
+						"**/deploy/gcp/**"
+					]
+				},
+				{
+					"condition": "(CiCdAzure)",
+					"exclude": [
+						"**/build/github/**"
+					]
+				},
+				{
+					"condition": "(CiCdGitHub)",
+					"exclude": [
+						"**/build/azDevOps/**"
 					]
 				}
 			]

@@ -9,5 +9,9 @@
 	"cloudProvider": {
 		"longName": "cloudProvider",
 		"shortName": "cp"
+	},
+	"cicdProvider": {
+		"longName": "cicdProvider",
+		"shortName": "cicd"
 	}
 }
