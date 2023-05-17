@@ -15,7 +15,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh:0.3.133-bumpdotnet
+        - williamamido/runner-pwsh:helm
         - pwsh
         - -NoProfile
         - -Command
