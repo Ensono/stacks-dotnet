@@ -4,9 +4,9 @@ metadata:
   annotations:
     {{- include "stacks-dotnet.annotations" . | nindent 8 }}
   labels:
-    {{- include "stacks-dotnet.labels" . | nindent 8 }}
+    {{- include "stacks-dotnet.labels" . | nindent 4 }}
   name: {{ include "stacks-dotnet.fullname" . }}
-  namespace: {{- .Values.namespace }}
+  namespace: {{ .Values.namespace }}
 data:
   appsettings.json: |
     {

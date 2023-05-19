@@ -7,7 +7,7 @@ metadata:
     aadpodidbinding: {{- .Values.aadPodIdentityBinding }}
     {{- include "stacks-dotnet.labels" . | nindent 8 }}
   name: {{ include "stacks-dotnet.fullname" . }}
-  namespace: {{- .Values.namespace }}
+  namespace: {{ .Values.namespace }}
 spec:
   progressDeadlineSeconds: 600
   {{- if not .Values.autoscaling.enabled }}
@@ -73,7 +73,7 @@ spec:
             - name: APPINSIGHTS_INSTRUMENTATIONKEY
               valueFrom:
                 secretKeyRef:
-                  name: {{- include "stacks-dotnet.secretName" . }}
+                  name: {{ include "stacks-dotnet.secretName" . }}
                   key: app_insights
           volumeMounts:
             - name: appsettings

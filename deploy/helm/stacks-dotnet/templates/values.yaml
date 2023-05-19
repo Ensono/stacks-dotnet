@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+env: test
+
 replicaCount: 1
 
 image:
@@ -21,7 +23,8 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
 aadPodIdentityBinding: ${aadpodidentitybinding}
@@ -31,7 +34,8 @@ pod:
 
 namespace: ${namespace}
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -81,5 +85,5 @@ monitoring:
 
 app:
   project: testproject
-  company:  testcompany
+  company: testcompany
   name: testappname

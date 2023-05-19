@@ -48,7 +48,7 @@ Selector labels
 {{- define "stacks-dotnet.selectorLabels" -}}
 app.kubernetes.io/component: {{ .Values.component }}
 app.kubernetes.io/name: {{ .Values.resource_def_name }}
-app.kubernetes.io/part-of: {{ .Values.project }}
+app.kubernetes.io/part-of: {{ .Values.app.project }}
 environment: {{ .Values.env }}
 {{- end }}
 
@@ -76,7 +76,7 @@ Common annotations
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{- printf "%s-%s" .Values.project .Values.app.name }}
+app.kubernetes.io/instance: {{- printf "%s-%s" .Values.app.project .Values.app.name }}
 applicationId: {{- printf "%s/%s" .Values.app.project .Values.app.name }}
 applicaitonName: {{- printf "%s-%s" .Values.app.project .Values.app.name }}
 customerID: {{ .Values.app.company }}
