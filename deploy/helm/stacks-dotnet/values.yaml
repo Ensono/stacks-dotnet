@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-env: test
+env: dev
 
 replicaCount: 1
 
@@ -31,6 +31,8 @@ aadPodIdentityBinding: ${aadpodidentitybinding}
 
 pod:
   secretSuffix: secret
+  appInsightsKey: ${app_insights_key}
+  loglevel:  ${loglevel}
 
 namespace: ${namespace}
 
@@ -55,8 +57,8 @@ ingress:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
     nginx.ingress.kubernetes.io/rewrite-target: ${rewrite_target}
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  host: ${dns_pointer}
-  path: ${k8s_app_route}
+  host: ${host}
+  path: ${apppath}
   pathType: ImplementationSpecific
 
 resources:
@@ -75,15 +77,12 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
 
-monitoring:
-  appInsightsKey: ${app_insights_key}
-
 app:
-  project: testproject
-  company: testcompany
-  name: testappname
+  project: ${project}
+  company: {$company}
+  component: ${component}
+  name: ${resource_def_name}
+  version: 0.0.1

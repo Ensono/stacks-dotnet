@@ -37,7 +37,7 @@ Common labels
 helm.sh/chart: {{ include "stacks-dotnet.chart" . }}
 {{ include "stacks-dotnet.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/version: {{ .Chart.AppVersion }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
@@ -46,8 +46,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "stacks-dotnet.selectorLabels" -}}
-app.kubernetes.io/component: {{ .Values.component }}
-app.kubernetes.io/name: {{ .Values.resource_def_name }}
+app.kubernetes.io/component: {{ .Values.app.component }}
+app.kubernetes.io/name: {{ .Values.app.name }}
 app.kubernetes.io/part-of: {{ .Values.app.project }}
 environment: {{ .Values.env }}
 {{- end }}
@@ -72,15 +72,13 @@ Create the name of the service account to use
 Common annotations
 */}}
 {{- define "stacks-dotnet.annotations" -}}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+app.kubernetes.io/version: {{ .Chart.AppVersion }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{- printf "%s-%s" .Values.app.project .Values.app.name }}
-applicationId: {{- printf "%s/%s" .Values.app.project .Values.app.name }}
-applicaitonName: {{- printf "%s-%s" .Values.app.project .Values.app.name }}
+app.kubernetes.io/instance: {{- printf " %s-%s" .Values.app.project .Values.app.name }}
+applicationId: {{- printf " %s/%s" .Values.app.project .Values.app.name }}
+applicaitonName: {{- printf " %s-%s" .Values.app.project .Values.app.name }}
 customerID: {{ .Values.app.company }}
-owner: {{- printf "%s/%s" .Values.app.company .Values.app.project }}
+owner: {{- printf " %s/%s" .Values.app.company .Values.app.project }}
 projectID: {{ .Values.app.project }}
-version: {{ .Chart.AppVersion | quote }}
+version: {{ .Chart.AppVersion }}
 {{- end }}
