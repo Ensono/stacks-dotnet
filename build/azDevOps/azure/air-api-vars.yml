@@ -119,6 +119,13 @@ variables:
   - name: k8s_resource_file
     value: "deploy/k8s/app/api-deploy.yml"
 
+
+  # Helm file locations
+  - name: helm_chart_filepath
+    value: "deploy/helm/stacks-dotnet"
+  - name: helm_value_filepath
+    value: "deploy/helm/stacks-dotnet/values.yaml"
+
   # Versioning
   - name: version_major
     value: 7
