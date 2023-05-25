@@ -16,7 +16,7 @@ data:
               "Serilog.Sinks.ApplicationInsights"
           ],
           "MinimumLevel": {
-              "Default": "${log_level}",
+              "Default": " {{ .Values.pod.loglevel }}",
               "Override": {}
           },
           "WriteTo": [
