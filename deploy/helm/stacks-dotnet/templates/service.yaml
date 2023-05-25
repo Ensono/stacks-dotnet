@@ -12,4 +12,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-
+  selector:
+    {{- include "stacks-dotnet.selectorLabels" . | nindent 4 }}
