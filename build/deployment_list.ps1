@@ -23,7 +23,7 @@
     vars = @{
         host = "`${ENV_NAME}-`${DOMAIN}.`${DNS_BASE_DOMAIN}"
         environment = "`${ENV_NAME}"
-        path = "`${K8S_APP_ROUTE}"
+        apppath = "`${K8S_APP_ROUTE}"
         loglevel = "Debug"
         k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
         aadpodidentitybinding = "stacks-webapp-identity"
