@@ -239,12 +239,11 @@ stages:
                     # Helm Config
                     HELM_VALUE_FILE: ${helm_value_file}
                     HELM_CHART_FILE: ${helm_chart_file}
-
                 - task: PublishPipelineArtifact@1
-                  displayName: "Publish: Kubernetes Manifest"
+                  displayName: "Publish: Helm Value File"
                   inputs:
-                    path: $(Agent.BuildDirectory)/s/$(k8s_resource_file)
-                    artifact: manifests_dev
+                    path: $(Agent.BuildDirectory)/s/${helm_value_filepath}
+                    artifact: values_dev
 
   - stage: Prod
     dependsOn: Build
@@ -394,7 +393,7 @@ stages:
                     HELM_VALUE_FILEPATH: ${helm_value_filepath}
                     HELM_CHART_FILEPATH: ${helm_chart_filepath}
                 - task: PublishPipelineArtifact@1
-                  displayName: "Publish: Kubernetes Manifest"
+                  displayName: "Publish: Helm Value File"
                   inputs:
-                    path: $(Agent.BuildDirectory)/s/$(k8s_resource_file)
-                    artifact: manifests_prod
+                    path: $(Agent.BuildDirectory)/s/${helm_value_filepath}
+                    artifact: values_prod
