@@ -239,11 +239,6 @@ stages:
                     # Helm Config
                     HELM_VALUE_FILE: ${helm_value_file}
                     HELM_CHART_FILE: ${helm_chart_file}
-                - task: PublishPipelineArtifact@1
-                  displayName: "Publish: Helm Value File"
-                  inputs:
-                    path: $(Agent.BuildDirectory)/s/${helm_value_file}
-                    artifact: values_dev
 
   - stage: Prod
     dependsOn: Build
@@ -392,8 +387,3 @@ stages:
                     # Helm Config
                     HELM_VALUE_FILEPATH: ${helm_value_file}
                     HELM_CHART_FILEPATH: ${helm_chart_file}
-                - task: PublishPipelineArtifact@1
-                  displayName: "Publish: Helm Value File"
-                  inputs:
-                    path: $(Agent.BuildDirectory)/s/${helm_value_file}
-                    artifact: values_prod
