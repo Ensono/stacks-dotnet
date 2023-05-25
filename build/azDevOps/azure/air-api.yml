@@ -242,7 +242,7 @@ stages:
                 - task: PublishPipelineArtifact@1
                   displayName: "Publish: Helm Value File"
                   inputs:
-                    path: $(Agent.BuildDirectory)/s/${helm_value_filepath}
+                    path: $(Agent.BuildDirectory)/s/${helm_value_file}
                     artifact: values_dev
 
   - stage: Prod
@@ -395,5 +395,5 @@ stages:
                 - task: PublishPipelineArtifact@1
                   displayName: "Publish: Helm Value File"
                   inputs:
-                    path: $(Agent.BuildDirectory)/s/${helm_value_filepath}
+                    path: $(Agent.BuildDirectory)/s/${helm_value_file}
                     artifact: values_prod
