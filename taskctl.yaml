@@ -49,6 +49,7 @@ pipelines:
     - task: infra:init
     - task: deploy:templater
       depends_on: infra:init
+    - task: debug:env
     - task: deploy:helm
       depends_on: deploy:templater
     - task: debug:sleep
