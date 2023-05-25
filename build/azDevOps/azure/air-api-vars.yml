@@ -121,9 +121,9 @@ variables:
 
 
   # Helm file locations
-  - name: helm_chart_filepath
+  - name: helm_chart_file
     value: "deploy/helm/stacks-dotnet"
-  - name: helm_value_filepath
+  - name: helm_value_file
     value: "deploy/helm/stacks-dotnet/values.yaml"
 
   # Versioning
