@@ -64,6 +64,15 @@ variables:
   - name: self_repo_tf_dir
     value: "$(self_repo_dir)/$(self_repo_tf_src)"
 
+  # SonarQube Configuration
+  # SONAR_TOKEN and SONAR_ORGANIZATION must be inherited from library groups/etc.
+  - name: sonar_url
+    value: "https://sonarcloud.io"
+  - name: sonar_properties
+    value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
+  - name: sonar_project_name
+    value: {{ .Project.Name }}
+
   # Test Configuration
   - name: FUNCTIONAL_TESTS_SRC_DIR
     value: src/tests/Functional
@@ -105,6 +114,12 @@ variables:
   - name: k8s_resource_file
     value: "deploy/k8s/app/api-deploy.yml"
 
+  # Helm file locations
+  - name: helm_chart_file
+    value: "deploy/helm/stacks-dotnet"
+  - name: helm_value_file
+    value: "deploy/helm/stacks-dotnet/values.yaml"
+
   # Versioning
   - name: version_major
     value: 0
@@ -122,7 +137,7 @@ variables:
     value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
   - name: DASHBOARD_MEASUREMENT
     value: deployment # Static definition within Influx Config
-  - group: amido-stacks-influx-credentials-prod
+   # - group: InfluxCloud_Credentials_Group_Name
     # Group should contain:
       # DASHBOARD_INFLUX_ORG
       # DASHBOARD_INFLUX_BUCKET

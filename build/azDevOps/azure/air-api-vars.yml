@@ -119,7 +119,6 @@ variables:
   - name: k8s_resource_file
     value: "deploy/k8s/app/api-deploy.yml"
 
-
   # Helm file locations
   - name: helm_chart_file
     value: "deploy/helm/stacks-dotnet"
@@ -136,7 +135,6 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
-
   # Dashboard
   - name: DASHBOARD_VERSION
     value: $(Build.BuildNumber)
@@ -150,4 +148,3 @@ variables:
       # DASHBOARD_INFLUX_BUCKET
       # DASHBOARD_INFLUX_TOKEN
       # DASHBOARD_INFLUX_SERVER
-
