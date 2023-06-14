@@ -381,8 +381,8 @@ stages:
                     # Check base_ prefixed file at $(k8s_resource_file) to see what should be replaced.
                     # The file deployment_list.ps1 can contain custom mappings, otherwise
                     # all other ${var} syntax entries will be replaced with like named env vars
-                    K8S_CLUSTER_TARGET: $(k8s_cluster_target_nonprod)
-                    K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_nonprod)
+                    K8S_CLUSTER_TARGET: $(k8s_cluster_target_prod)
+                    K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_prod)
                     K8S_RESOURCE_FILE: $(k8s_resource_file)
                     # Helm Config
                     HELM_VALUE_FILEPATH: ${helm_value_file}
