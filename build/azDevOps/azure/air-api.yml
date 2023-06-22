@@ -8,6 +8,7 @@ trigger:
     include:
       - 'master'
       - 'main'
+      - 'bugfix/workspaces' # Temporary! 
   paths:
     include:
       - '*'
@@ -95,7 +96,7 @@ stages:
 
   - stage: Dev
     dependsOn: Build
-    condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main')))
+    # condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
       - group: amido-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
@@ -235,14 +236,14 @@ stages:
                     # all other ${var} syntax entries will be replaced with like named env vars
                     K8S_CLUSTER_TARGET: $(k8s_cluster_target_nonprod)
                     K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_nonprod)
-                    K8S_RESOURCE_FILE: $(k8s_resource_file)
+                    # DEPRECIATED K8S_RESOURCE_FILE: $(k8s_resource_file)
                     # Helm Config
                     HELM_VALUE_FILE: ${helm_value_file}
                     HELM_CHART_FILE: ${helm_chart_file}
 
   - stage: Prod
     dependsOn: Build
-    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
+    # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
       - group: amido-stacks-infra-credentials-prod
       - group: stacks-credentials-prod-kv
@@ -383,7 +384,7 @@ stages:
                     # all other ${var} syntax entries will be replaced with like named env vars
                     K8S_CLUSTER_TARGET: $(k8s_cluster_target_prod)
                     K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_prod)
-                    K8S_RESOURCE_FILE: $(k8s_resource_file)
+                    # DEPRECIATED K8S_RESOURCE_FILE: $(k8s_resource_file)
                     # Helm Config
                     HELM_VALUE_FILEPATH: ${helm_value_file}
                     HELM_CHART_FILEPATH: ${helm_chart_file}
