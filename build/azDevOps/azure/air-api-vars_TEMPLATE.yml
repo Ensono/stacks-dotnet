@@ -110,10 +110,6 @@ variables:
   - name: k8s_cluster_identifier_prod
     value:
 
-  # Kubernetes target file location
-  - name: k8s_resource_file
-    value: "deploy/k8s/app/api-deploy.yml"
-
   # Helm file locations
   - name: helm_chart_file
     value: "deploy/helm/stacks-dotnet"

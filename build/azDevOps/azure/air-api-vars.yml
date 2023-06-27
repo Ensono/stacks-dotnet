@@ -115,10 +115,6 @@ variables:
   - name: k8s_cluster_identifier_prod
     value: amido-stacks-prod-euw-core
 
-  # Kubernetes target file location
-  # DEPRECIATED - name: k8s_resource_file
-  #               value: "deploy/k8s/app/api-deploy.yml"
-
   # Helm file locations
   - name: helm_chart_file
     value: "deploy/helm/stacks-dotnet"

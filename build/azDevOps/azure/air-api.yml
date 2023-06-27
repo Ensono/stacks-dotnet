@@ -8,7 +8,6 @@ trigger:
     include:
       - 'master'
       - 'main'
-      - 'bugfix/workspaces' # Temporary! 
   paths:
     include:
       - '*'
