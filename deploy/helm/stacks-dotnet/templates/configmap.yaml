@@ -8,6 +8,7 @@ metadata:
   name: {{ include "stacks-dotnet.fullname" . }}
   namespace: {{ .Values.namespace }}
 data:
+{{- if eq .Values.ingress.cloudProvider "azure" }}
   appsettings.json: |
     {
       "Serilog": {
@@ -16,7 +17,7 @@ data:
               "Serilog.Sinks.ApplicationInsights"
           ],
           "MinimumLevel": {
-              "Default": " {{ .Values.pod.loglevel }}",
+              "Default": " {{ .Values.logging.loglevel }}",
               "Override": {}
           },
           "WriteTo": [
@@ -54,3 +55,54 @@ data:
         ]
       }
     }
+{{- end }}
+{{- if eq .Values.ingress.cloudProvider "aws" }}
+  appsettings.json: |
+    {
+      "Serilog": {
+          "Using": [
+              "Serilog.Sinks.Console",
+              "Serilog.Sinks.ApplicationInsights"
+          ],
+          "MinimumLevel": {
+              "Default": "${log_level}",
+              "Override": {}
+          },
+          "WriteTo": [
+              { "Name": "Console" },
+          ],
+          "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+          "Destructure": [],
+          "Properties": {
+              "Application": "Menu API"
+          }
+      },
+      "AllowedHosts": "*",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${cloudwatch_log_group_name}",
+          "awslogs-region": "${region}",
+          "awslogs-stream-prefix": "${cloudwatch_log_prefix}"
+        }
+      },
+      "JwtBearerAuthentication": {
+          "Audience": "${jwtbearerauthentication_audience}",
+          "Authority": "${jwtbearerauthentication_authority}",
+          "Enabled": false,
+          "OpenApi": {
+              "AuthorizationUrl": "${jwtbearerauthentication_openapiauthorizationurl}",
+              "ClientId": "${jwtbearerauthentication_openapiclientid}",
+              "TokenUrl": "${jwtbearerauthentication_openapitokenurl}"
+          }
+      },
+      "TestConfig": "Test value from file",
+      "Values": {
+        "Items": [
+          "Item A from config",
+          "Item B from congig",
+          "Item C from config"
+        ]
+      }
+    }
+{{- end }}

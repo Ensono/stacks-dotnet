@@ -31,8 +31,15 @@ aadPodIdentityBinding: ${aadpodidentitybinding}
 
 pod:
   secretSuffix: secret
-  appInsightsKey: ${app_insights_key}
+
+logging:
+  target: appinsights   # cloudwatch or appinsights
   loglevel:  ${loglevel}
+  # appinsights
+  appInsightsKey: ${app_insights_key}
+  # cloudwatch 
+  cloudwatchLogGroup: ${cloudwatch_log_group}
+  cloudwatchStreamPrefix: ${cloudwatch_stream_prefix}
 
 namespace: ${namespace}
 
@@ -52,11 +59,27 @@ service:
 ingress:
   enabled: false
   className: ""
+  cloudProvider: azure # azure or aws
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: ${rewrite_target}
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    azure:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/rewrite-target: ${rewrite_target}
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    aws:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=120 # resolved 502 error while deployment "https://www.tessian.com/blog/how-to-fix-http-502-errors/"
+      alb.ingress.kubernetes.io/certificate-arn: ${k8s_ingress_cert_arn}
+      alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+      alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+      alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/success-codes: "200"
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
   host: ${host}
   path: ${apppath}
   pathType: ImplementationSpecific
@@ -82,7 +105,7 @@ affinity: {}
 
 app:
   project: ${project}
-  company: {$company}
+  company: ${company}
   component: ${component}
   name: ${resource_def_name}
   version: 0.0.1
