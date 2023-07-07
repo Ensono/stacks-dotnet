@@ -41,13 +41,11 @@ env:
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
   # App Config (for both TF and K8S)
-  RESOURCE_DEF_NAME: "dotnet-api"
-  COMPONENT: "api"
-  ROLE: "backend"
-  APP_NAME: "yumido-netcore-api"
-  DOMAIN: "dev-netcore-api"
-  COMPANY: "amido"
+  RESOURCE_DEF_NAME: "stacks-api" # To be checked if required after refactor
+  APP_NAME: "stacks-api"  # To be checked if required after refactor
+  COMPANY: "ensono"
   PROJECT: "stacks"
+  COMPONENT: "api"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
@@ -119,15 +117,14 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env: "nonprod"
-          TF_VAR_owner: ${{ env.OWNER }}
+          TF_VAR_name_environment: "nonprod"
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_create_docker_repositories: true # Required for one environment per AWS account
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_component: "{{ env.COMPONENT }}"
 
   DeployDev:
     if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
@@ -160,22 +157,21 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "nonprod"
-          TF_VAR_owner: ${{ env.OWNER }}
+          TF_VAR_name_environment:  "nonprod"
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_component: "{{ env.COMPONENT }}"
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-dev-h0ax6owA"  # TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
-          K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279"
-          NAMESPACE: "nonprod-${{ env.DOMAIN }}"
+          K8S_INGRESS_CERT_ARN: "TBC"
+          NAMESPACE: "${{ env.RESOURCE_DEF_NAME }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: “amido-stacks-dev-h0ax6owA-logs” # TODO: To be read from core state
-          CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
+          CLOUDWATCH_LOG_GROUP: “ensono-stacks-nonprod-ew2-eks-logs” # TODO: To be read from core state
+          CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.COMPONENT }}"
           DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
@@ -211,14 +207,14 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "prod"
+          TF_VAR_name_environment:  "prod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_stage: "prod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_component: "{{ env.COMPONENT }}"
 
   DeployProd:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
@@ -251,22 +247,22 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "prod"
+          TF_VAR_name_environment:  "prod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_stage: "prod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_component: "{{ env.COMPONENT }}"
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
-          K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/2e4208b5-a86e-4096-b6b7-83c032d7d5e2"  # TODO: To be read from core state
-          NAMESPACE: "prod-${{ env.DOMAIN }}"
+          K8S_INGRESS_CERT_ARN: "TBC"  # TODO: To be read from core state
+          NAMESPACE: "${{ env.RESOURCE_DEF_NAME }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: “amido-stacks-prod-0cvO68Bj-logs” # TODO: To be read from core state
-          CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
+          CLOUDWATCH_LOG_GROUP: “ensono-stacks-prod-ew2-eks-logs” # TODO: To be read from core state
+          CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.COMPONENT }}"
           DNS_BASE_DOMAIN: "prodaws.amidostacks.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
