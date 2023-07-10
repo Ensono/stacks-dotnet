@@ -4,6 +4,4 @@ resource "aws_ecr_repository" "docker_image" {
   image_scanning_configuration {
     scan_on_push = false
   }
-  # Pass Default Tag Values to Underlying Modules
-  tags = local.default_tags
 }
