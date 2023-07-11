@@ -33,8 +33,8 @@ pod:
   secretSuffix: secret
 
 logging:
-  target: appinsights   # cloudwatch or appinsights
-  loglevel:  ${loglevel}
+  loglevel:  ${log_level} # warning
+  target: ${log_target} # cloudwatch or appinsights
   # appinsights
   appInsightsKey: ${app_insights_key}
   # cloudwatch 
@@ -59,7 +59,7 @@ service:
 ingress:
   enabled: false
   className: ""
-  cloudProvider: azure # azure or aws
+  cloudProvider: ${cloud_provider} # azure or aws
   annotations:
     azure:
       kubernetes.io/ingress.class: nginx

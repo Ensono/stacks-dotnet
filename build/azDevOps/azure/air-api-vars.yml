@@ -131,6 +131,12 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
+  # Logging
+  - name: log_target
+    value: appinsights
+  - name: log_level
+    value: warning
+
   # Dashboard
   - name: DASHBOARD_VERSION
     value: $(Build.BuildNumber)

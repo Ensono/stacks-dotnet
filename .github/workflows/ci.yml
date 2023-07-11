@@ -51,6 +51,9 @@ env:
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
+  LOG_TARGET: cloudwatch
+  LOG_LEVEL: warning
+
 jobs:
   Lint:
     runs-on: ubuntu-latest
