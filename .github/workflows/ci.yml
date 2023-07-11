@@ -6,7 +6,7 @@ on:
       - 'build/github/**'
       - 'src/**'
       - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/k8s/aws/**'  # TODO: Review this as new cloud provider targets are used
+      - 'deploy/helm/**'  # TODO: Review this as new cloud provider targets are used
       - '.github/workflows/ci.yml'
       - 'build/taskctl/**'
   pull_request:
