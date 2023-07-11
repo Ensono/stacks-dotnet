@@ -183,7 +183,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: k8s_manifest_nonprod
-          path: ${{ env.K8S_RESOURCE_FILE }}
+          path: ${{ env.HELM_VALUE_FILE }}
 
   AppInfraProd:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
@@ -274,4 +274,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: k8s_manifest_prod
-          path: ${{ env.K8S_RESOURCE_FILE }}
+          path: ${{ env.HELM_VALUE_FILE }}
