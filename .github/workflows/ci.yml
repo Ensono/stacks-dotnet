@@ -36,8 +36,9 @@ env:
   OWNER: "stacks_team"
   REGION: "eu-west-2"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  # K8S Configuration
-  K8S_RESOURCE_FILE: "deploy/k8s/aws/api-deploy.yml"
+  # Helm file locations
+  HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
+  HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
