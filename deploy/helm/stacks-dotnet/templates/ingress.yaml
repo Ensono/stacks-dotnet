@@ -18,7 +18,10 @@ metadata:
     {{- include "stacks-dotnet.labels" . | nindent 8 }}
   name: {{ include "stacks-dotnet.fullname" . }}
   namespace: {{ .Values.namespace }}
-
+{{- if eq .Values.ingress.cloudProvider "aws" }}
+  finalizers:
+  - ingress.k8s.aws/resources
+  {{- end}}
 spec:
   {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.ingress.className }}
@@ -42,7 +45,3 @@ spec:
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
-{{- if eq .Values.ingress.cloudProvider "aws" }}
-  finalizers:
-  - ingress.k8s.aws/resources
-  {{- end}}
