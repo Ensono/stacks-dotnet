@@ -17,7 +17,7 @@ data:
               "Serilog.Sinks.ApplicationInsights"
           ],
           "MinimumLevel": {
-              "Default": " {{ .Values.logging.loglevel }}",
+              "Default": "{{ .Values.logging.loglevel }}",
               "Override": {}
           },
           "WriteTo": [
@@ -65,7 +65,7 @@ data:
               "Serilog.Sinks.ApplicationInsights"
           ],
           "MinimumLevel": {
-              "Default": "${log_level}",
+              "Default": "{{ .Values.logging.loglevel }}",
               "Override": {}
           },
           "WriteTo": [
@@ -81,9 +81,9 @@ data:
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "${cloudwatch_log_group_name}",
-          "awslogs-region": "${region}",
-          "awslogs-stream-prefix": "${cloudwatch_log_prefix}"
+          "awslogs-group": "{{ .Values.logging.cloudwatchLogGroup }}",
+          "awslogs-region": "{{ .Values.logging.cloudwatchcloudwatchRegion }}",
+          "awslogs-stream-prefix": "{{ .Values.logging.cloudwatchStreamPrefix }}"
         }
       },
       "JwtBearerAuthentication": {

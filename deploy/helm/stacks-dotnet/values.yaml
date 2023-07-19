@@ -33,13 +33,14 @@ pod:
   secretSuffix: secret
 
 logging:
-  loglevel:  ${log_level} # warning
+  loglevel: ${log_level} # warning
   target: ${log_target} # cloudwatch or appinsights
   # appinsights
   appInsightsKey: ${app_insights_key}
   # cloudwatch 
   cloudwatchLogGroup: ${cloudwatch_log_group}
   cloudwatchStreamPrefix: ${cloudwatch_stream_prefix}
+  cloudwatchRegion: eu-west-2 # TBC fit into GH vars
 
 namespace: ${namespace}
 

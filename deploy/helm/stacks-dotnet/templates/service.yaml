@@ -4,7 +4,7 @@ metadata:
   annotations:
     {{- include "stacks-dotnet.annotations" . | nindent 8 }}
     {{- if eq .Values.ingress.cloudProvider "aws" }}
-        alb.ingress.kubernetes.io/healthcheck-path: ${k8s_app_route}/swagger/index.html
+        alb.ingress.kubernetes.io/healthcheck-path: {{ .Values.ingress.path }}/swagger/index.html
     {{- end }}
   name: {{ include "stacks-dotnet.fullname" . }}
   labels:
