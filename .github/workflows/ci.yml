@@ -173,7 +173,7 @@ jobs:
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
-          K8S_INGRESS_CERT_ARN: "TBC"
+          K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:640853641954:certificate/0e838e73-4f11-47f4-99c0-97cb195d7f0c"
           NAMESPACE: "${{ env.RESOURCE_DEF_NAME }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: “ensono-stacks-nonprod-ew2-eks-logs” # TODO: To be read from core state
