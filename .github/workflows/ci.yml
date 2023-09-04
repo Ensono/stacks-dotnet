@@ -178,11 +178,11 @@ jobs:
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: “ensono-stacks-nonprod-ew2-eks-logs” # TODO: To be read from core state
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.COMPONENT }}"
-          DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com" # TODO: To be read from core state
           DOMAIN: "${{ env.DOMAIN }}" # Used for DNS
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://nonprod-dev-netcore-api.nonprodaws.amidostacks.com/api/menu/"  # TODO: To be read from core state
+          BaseUrl: "https://netcore-api.nnonprod.aws.stacks.ensono.com/api/menu/"  # TODO: To be read from core state
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
@@ -271,10 +271,10 @@ jobs:
           CLOUDWATCH_LOG_GROUP: “ensono-stacks-prod-ew2-eks-logs” # TODO: To be read from core state
           CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.COMPONENT }}"
           DOMAIN: "${{ env.DOMAIN }}" # Used for DNS
-          DNS_BASE_DOMAIN: "prodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "prod.aws.stacks.ensono.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://prod-dev-netcore-api.prodaws.amidostacks.com/api/menu/"  # TODO: To be read from core state
+          BaseUrl: "https://netcore-api.prod.aws.stacks.ensono.com/api/menu/"  # TODO: To be read from core state
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
