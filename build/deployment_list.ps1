@@ -1,22 +1,4 @@
 @(
-    @{
-#       displayName = "AwsDeployment"
-#       template = "deploy/k8s/aws/base_api-deploy.yml"
-#       vars = @{
-#           dns_pointer = "`${ENV_NAME}-`${DOMAIN}.`${DNS_BASE_DOMAIN}"
-#           environment = "`${ENV_NAME}"
-#           tls_domain = "`${DNS_BASE_DOMAIN}"
-#           k8s_app_route = "`${K8S_APP_ROUTE}"
-#           log_level = "Debug"
-#           k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
-#           cloudwatch_log_group_name = "`${CLOUDWATCH_LOG_GROUP}"
-#           cloudwatch_log_prefix ="`${CLOUDWATCH_STREAM_PREFIX}"
-#           cloudwatch_region = "`${REGION}"
-#           version = "`${DOCKER_IMAGE_TAG}"
-#           rewrite_target = '/$([char]0x0024)2' # Using UniCode to prevent substitution
-#       }
-#   }
-
   @{
     displayName = "AzureHelm"
     template = "deploy/helm/stacks-dotnet/values.yaml"
