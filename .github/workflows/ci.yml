@@ -184,7 +184,7 @@ jobs:
           APP_INSIGHTS_INSTRUMENTATION_KEY: "unset" # Used for AppInsights logging
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://netcore-api.nnonprod.aws.stacks.ensono.com/api/menu/"  # TODO: To be read from core state
+          BaseUrl: "https://netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"  # TODO: To be read from core state
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
