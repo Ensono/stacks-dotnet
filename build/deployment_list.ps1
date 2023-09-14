@@ -1,21 +1,21 @@
 @(
     @{
-      displayName = "AwsDeployment"
-      template = "deploy/k8s/aws/base_api-deploy.yml"
-      vars = @{
-          dns_pointer = "`${ENV_NAME}-`${DOMAIN}.`${DNS_BASE_DOMAIN}"
-          environment = "`${ENV_NAME}"
-          tls_domain = "`${DNS_BASE_DOMAIN}"
-          k8s_app_route = "`${K8S_APP_ROUTE}"
-          log_level = "Debug"
-          k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
-          cloudwatch_log_group_name = "`${CLOUDWATCH_LOG_GROUP}"
-          cloudwatch_log_prefix ="`${CLOUDWATCH_STREAM_PREFIX}"
-          cloudwatch_region = "`${REGION}"
-          version = "`${DOCKER_IMAGE_TAG}"
-          rewrite_target = '/$([char]0x0024)2' # Using UniCode to prevent substitution
-      }
-  }
+#       displayName = "AwsDeployment"
+#       template = "deploy/k8s/aws/base_api-deploy.yml"
+#       vars = @{
+#           dns_pointer = "`${ENV_NAME}-`${DOMAIN}.`${DNS_BASE_DOMAIN}"
+#           environment = "`${ENV_NAME}"
+#           tls_domain = "`${DNS_BASE_DOMAIN}"
+#           k8s_app_route = "`${K8S_APP_ROUTE}"
+#           log_level = "Debug"
+#           k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
+#           cloudwatch_log_group_name = "`${CLOUDWATCH_LOG_GROUP}"
+#           cloudwatch_log_prefix ="`${CLOUDWATCH_STREAM_PREFIX}"
+#           cloudwatch_region = "`${REGION}"
+#           version = "`${DOCKER_IMAGE_TAG}"
+#           rewrite_target = '/$([char]0x0024)2' # Using UniCode to prevent substitution
+#       }
+#   }
 
   @{
     displayName = "AzureHelm"
@@ -27,7 +27,14 @@
         loglevel = "Debug"
         k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
         aadpodidentitybinding = "stacks-webapp-identity"
+        # Logging target in values file needs to be set to appinsights for this to take effect
+        # TODO: Logic to add a default value if none is provided, as the helm logic for B64enc requires a non-null string
         app_insights_key = "`${APP_INSIGHTS_INSTRUMENTATION_KEY}"
+        # Logging target in values file needs to be set to cloudwatch for this to take effect
+        # TODO: Logic to add a default value if none is provided, as the helm logic for B64enc requires a non-null string
+        cloudwatch_log_group_name = "`${CLOUDWATCH_LOG_GROUP}"
+        cloudwatch_log_prefix ="`${CLOUDWATCH_STREAM_PREFIX}"
+        cloudwatch_region = "`${REGION}"
         version = "`${DOCKER_IMAGE_TAG}"
         rewrite_target = '/$([char]0x0024)2' # Using UniCode to prevent substitution
     }
