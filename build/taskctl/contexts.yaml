@@ -20,7 +20,7 @@ contexts:
         - -NoProfile
         - -Command
     quote: "'"
-    before: env | grep -v PATH | grep -v SOURCEVERSIONMESSAGE | grep -v HOME > envfile
+    before: envfile -e path,sourceversionmessage,home 
 
   powershell-dotnet:
     executable:
