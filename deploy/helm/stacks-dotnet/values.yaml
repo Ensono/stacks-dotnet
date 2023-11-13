@@ -7,7 +7,7 @@ env: dev
 replicaCount: 1
 
 image:
-  name: ${k8s_image} # should include repository, image and tag
+  name: ${k8s_image}  # should include repository, image and tag
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -32,7 +32,7 @@ aadPodIdentityBinding: ${aadpodidentitybinding}
 pod:
   secretSuffix: secret
   appInsightsKey: ${app_insights_key}
-  loglevel:  ${loglevel}
+  loglevel: ${loglevel}
 
 namespace: ${namespace}
 

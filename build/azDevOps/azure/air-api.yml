@@ -12,8 +12,8 @@ trigger:
     include:
       - '*'
     exclude:
-      - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/k8s/aws**' # TODO: Review this as new cloud provider targets are used
+      - 'deploy/aws/**'  # TODO: Review this as new cloud provider targets are used
+      - 'deploy/k8s/aws**'  # TODO: Review this as new cloud provider targets are used
       - '.github/workflows/**'
       - 'build/github/**'
 variables:
@@ -52,7 +52,7 @@ stages:
               # Dotnet Build
               SELF_REPO_SRC: $(self_repo_src)
               # Azure
-              CLOUD_PROVIDER: "$(cloud_provider)" # Azure
+              CLOUD_PROVIDER: "$(cloud_provider)"  # Azure
               ARM_TENANT_ID: "$(azure-tenant-id)"
               ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
               ARM_CLIENT_ID: "$(azure-client-id)"
@@ -83,7 +83,7 @@ stages:
               testResultsFormat: VSTest
               testResultsFiles: '**/*.trx'
               searchFolder: $(Pipeline.Workspace)/s/testresults
-              failTaskOnFailedTests: true # Optional
+              failTaskOnFailedTests: true  # Optional
               testRunTitle: Unit
 
           # Upload functional tests as artifacts
@@ -101,7 +101,7 @@ stages:
       - group: stacks-credentials-nonprod-kv
       - name: Environment.ShortName
         value: dev
-      - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
+      - name: dns_base_domain  # Available in Terraform Output, but not yet enabled to export as pipeline vars
         value: nonprod.amidostacks.com
       - name: core_environment
         value: nonprod
@@ -129,7 +129,7 @@ stages:
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     # Azure Authentication
-                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
+                    CLOUD_PROVIDER: "$(cloud_provider)"  # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -189,7 +189,7 @@ stages:
                     informationPreference: continue
                   env:
                     # Azure Authentication
-                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
+                    CLOUD_PROVIDER: "$(cloud_provider)"  # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -224,7 +224,7 @@ stages:
                     # Configuration
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
-                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
+                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR)  # Must match RELATIVE path from repo root that artefact is downloaded to.
                     BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     # Invoke-KubeCTL control variables
                     NAMESPACE: $(namespace)
@@ -247,7 +247,7 @@ stages:
       - group: stacks-credentials-prod-kv
       - name: Environment.ShortName
         value: prod
-      - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
+      - name: dns_base_domain  # Available in Terraform Output, but not yet enabled to export as pipeline vars
         value: prod.amidostacks.com
       - name: core_environment
         value: prod
@@ -276,7 +276,7 @@ stages:
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     # Azure Authentication
-                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
+                    CLOUD_PROVIDER: "$(cloud_provider)"  # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -336,7 +336,7 @@ stages:
                     informationPreference: continue
                   env:
                     # Azure Authentication
-                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
+                    CLOUD_PROVIDER: "$(cloud_provider)"  # Azure
                     ARM_CLIENT_ID: $(azure-client-id)
                     ARM_CLIENT_SECRET: $(azure-client-secret)
                     ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
@@ -371,7 +371,7 @@ stages:
                     # Configuration
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
-                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
+                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR)  # Must match RELATIVE path from repo root that artefact is downloaded to.
                     BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     # Invoke-KubeCTL control variables
                     NAMESPACE: $(namespace)
