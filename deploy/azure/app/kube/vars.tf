@@ -126,7 +126,7 @@ variable "tfstate_key" {
 variable "tfstate_storage_account" {
   type        = string
   description = "Name of the storage account that holds the Terraform state"
-  default     = "amidostackstfstate"
+  default     = "stacksstatehjfis"
 }
 
 variable "tfstate_container_name" {
@@ -138,5 +138,5 @@ variable "tfstate_container_name" {
 variable "tfstate_resource_group_name" {
   type        = string
   description = "Name of the resource group that holds the the above resources"
-  default     = "Stacks-Ancillary-Resources"
+  default     = "stacks-terraform-state"
 }
