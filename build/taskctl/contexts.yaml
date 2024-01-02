@@ -67,6 +67,8 @@ contexts:
         - /var/run/docker.sock:/var/run/docker.sock
         - -e
         - PSModulePath=/modules
+        - -e
+        - JAVA_HOME=/usr/lib/jvm/zulu17-ca
         - -w
         - /app
         - --env-file

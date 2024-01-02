@@ -37,7 +37,7 @@ tasks:
     context: powershell-dotnet
     description: Run Tests
     command:
-      - echo $env:PATH && which java && Invoke-SonarScanner -start &&
+      - env && echo $env:PATH && which java && Invoke-SonarScanner -start &&
         Invoke-DotNet -Build -Path $env:SELF_REPO_SRC &&
         Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
