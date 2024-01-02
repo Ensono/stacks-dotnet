@@ -16,7 +16,7 @@ tasks:
     context: powershell-python
     description: Perform YAML linting
     command:
-      - Invoke-YamlLint
+      - Invoke-YamlLint -a /app/yamllint.conf
 
   lint:terraform:format:
     context: powershell
@@ -183,8 +183,8 @@ tasks:
     description: Update the Deployment Dashboard
     command:
       - Update-InfluxDashboard
-    # env:
-    #  PUBLISH_RELEASE: $true
+      # env:
+      #  PUBLISH_RELEASE: $true
 
   publish:nuget:
     context: powershell

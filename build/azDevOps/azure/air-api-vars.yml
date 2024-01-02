@@ -132,13 +132,13 @@ variables:
     value: $(version_major).$(version_minor).$(version_revision)
 
   # Dashboard
-  #- name: DASHBOARD_VERSION
+  # - name: DASHBOARD_VERSION
   #  value: $(Build.BuildNumber)
-  #- name: DASHBOARD_TAGS
+  # - name: DASHBOARD_TAGS
   #  value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
-  #- name: DASHBOARD_MEASUREMENT
+  # - name: DASHBOARD_MEASUREMENT
   #  value: deployment # Static definition within Influx Config
-  #- group: amido-stacks-influx-credentials-prod
+  # - group: amido-stacks-influx-credentials-prod
     # Group should contain:
       # DASHBOARD_INFLUX_ORG
       # DASHBOARD_INFLUX_BUCKET

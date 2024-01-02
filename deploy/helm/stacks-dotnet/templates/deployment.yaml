@@ -4,7 +4,7 @@ metadata:
   annotations:
     {{- include "stacks-dotnet.annotations" . | nindent 8 }}
   labels:
-        aadpodidbinding: {{ .Values.aadPodIdentityBinding }}
+    aadpodidbinding: {{ .Values.aadPodIdentityBinding }}
     {{- include "stacks-dotnet.labels" . | nindent 8 }}
   name: {{ include "stacks-dotnet.fullname" . }}
   namespace: {{ .Values.namespace }}

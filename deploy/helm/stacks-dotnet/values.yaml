@@ -32,7 +32,7 @@ aadPodIdentityBinding: ${aadpodidentitybinding}
 pod:
   secretSuffix: secret
   appInsightsKey: ${app_insights_key}
-  loglevel:  ${loglevel}
+  loglevel: ${loglevel}
 
 namespace: ${namespace}
 
