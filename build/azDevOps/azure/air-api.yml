@@ -22,8 +22,10 @@ variables:
 stages:
   - stage: Build
     variables:
-      - group: amido-stacks-infra-credentials-nonprod
-      - group: stacks-credentials-nonprod-kv
+      # - group: amido-stacks-infra-credentials-nonprod
+      # - group: stacks-credentials-nonprod-kv
+      - group: infra-creds-nonprod
+      - group: azsub-ensono-spn
 
     jobs:
       - job: AppBuild
@@ -97,8 +99,10 @@ stages:
     dependsOn: Build
     condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
-      - group: amido-stacks-infra-credentials-nonprod
-      - group: stacks-credentials-nonprod-kv
+      # - group: amido-stacks-infra-credentials-nonprod
+      # - group: stacks-credentials-nonprod-kv
+      - group: infra-creds-nonprod
+      - group: azsub-ensono-spn
       - name: Environment.ShortName
         value: dev
       - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
@@ -243,8 +247,10 @@ stages:
     dependsOn: Build
     condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
-      - group: amido-stacks-infra-credentials-prod
-      - group: stacks-credentials-prod-kv
+      # - group: amido-stacks-infra-credentials-prod
+      # - group: stacks-credentials-prod-kv
+      - group: infra-creds-prod
+      - group: azsub-ensono-spn
       - name: Environment.ShortName
         value: prod
       - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars

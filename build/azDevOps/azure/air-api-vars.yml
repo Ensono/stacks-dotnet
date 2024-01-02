@@ -2,7 +2,7 @@ variables:
   - name: region
     value: westeurope
   - name: company
-    value: amido
+    value: ensono
   - name: project
     value: stacks
   - name: domain
@@ -29,9 +29,9 @@ variables:
   # avoid running anything past dev that is not on master
   # sample value: company-webapp
   - name: tf_state_rg
-    value: Stacks-Ancillary-Resources
+    value: stacks-terraform-state
   - name: tf_state_storage
-    value: amidostackstfstate
+    value: stacksstatehjfis
   - name: tf_state_container
     value: tfstate
   - name: tf_state_key
@@ -53,9 +53,9 @@ variables:
 
   # Agent configuration
   - name: TaskctlVersion
-    value: 1.4.2
+    value: 1.5.1
   - name: pool_vm_image
-    value: ubuntu-20.04
+    value: ubuntu-22.04
 
   # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
@@ -90,13 +90,13 @@ variables:
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
   - name: docker_container_registry_rg_name_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: stacks-ancillary-resources
   - name: docker_container_registry_name_nonprod
-    value: amidostacksnonprodeuwcore
+    value: ensonodigitaleuw
   - name: docker_container_registry_rg_name_prod
-    value: amido-stacks-prod-euw-core
+    value: stacks-ancillary-resources
   - name: docker_container_registry_name_prod
-    value: amidostacksprodeuwcore
+    value: ensonodigitaleuw
 
   # Kubernetes & Docker Image Settings
   - name: docker_image_tag
@@ -107,13 +107,13 @@ variables:
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
   - name: k8s_cluster_target_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: ed-stacks-nonprod-euw-core
   - name: k8s_cluster_identifier_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: aed-stacks-nonprod-euw-core
   - name: k8s_cluster_target_prod
-    value: amido-stacks-prod-euw-core
+    value: ed-stacks-prod-euw-core
   - name: k8s_cluster_identifier_prod
-    value: amido-stacks-prod-euw-core
+    value: ed-stacks-prod-euw-core
 
   # Helm file locations
   - name: helm_chart_file
@@ -132,13 +132,13 @@ variables:
     value: $(version_major).$(version_minor).$(version_revision)
 
   # Dashboard
-  - name: DASHBOARD_VERSION
-    value: $(Build.BuildNumber)
-  - name: DASHBOARD_TAGS
-    value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
-  - name: DASHBOARD_MEASUREMENT
-    value: deployment # Static definition within Influx Config
-  - group: amido-stacks-influx-credentials-prod
+  #- name: DASHBOARD_VERSION
+  #  value: $(Build.BuildNumber)
+  #- name: DASHBOARD_TAGS
+  #  value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
+  #- name: DASHBOARD_MEASUREMENT
+  #  value: deployment # Static definition within Influx Config
+  #- group: amido-stacks-influx-credentials-prod
     # Group should contain:
       # DASHBOARD_INFLUX_ORG
       # DASHBOARD_INFLUX_BUCKET
