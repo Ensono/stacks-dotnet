@@ -120,7 +120,7 @@ variable "core_environment" {
 variable "tfstate_key" {
   type        = string
   description = "Name of the key in remote storage for the core environmnent"
-  default     = "core-sharedservicesenv"
+  default     = "coreenv"
 }
 
 variable "tfstate_storage_account" {
