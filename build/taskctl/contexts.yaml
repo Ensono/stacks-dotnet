@@ -43,7 +43,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-python:0.4.60-stable
+        - amidostacks/runner-pwsh:0.4.60-stable
         - pwsh
         - -NoProfile
         - -Command
