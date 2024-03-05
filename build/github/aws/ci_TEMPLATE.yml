@@ -10,8 +10,8 @@ on:
       - '.github/workflows/ci.yml'
   pull_request:
     branches:
-        - master
-        - main
+      - master
+      - main
 
 env:
   # The following SECRETS are required in your GH Repository:
@@ -160,7 +160,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "nonprod"
+          TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
@@ -174,7 +174,7 @@ jobs:
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" #i.e. “amido-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: "replaceme" # i.e. “amido-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com" # TODO: To be read from core state
           # Functional Test Configuration
@@ -211,7 +211,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "prod"
+          TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
@@ -251,7 +251,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "prod"
+          TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
@@ -265,7 +265,7 @@ jobs:
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" #i.e. “amido-stacks-prod-h0ax6owA-logs”  TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: "replaceme" # i.e. “amido-stacks-prod-h0ax6owA-logs”  TODO: To be read from core state
           CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com" # TODO: To be read from core state
           # Functional Test Configuration

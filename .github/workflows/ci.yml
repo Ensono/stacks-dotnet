@@ -6,12 +6,12 @@ on:
       - 'build/github/**'
       - 'src/**'
       - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/k8s/aws/**'  # TODO: Review this as new cloud provider targets are used
+      - 'deploy/k8s/aws/**' # TODO: Review this as new cloud provider targets are used
       - '.github/workflows/ci.yml'
   pull_request:
     branches:
-        - master
-        - main
+      - master
+      - main
 
 env:
   # The following SECRETS are required in your GH Repository:
@@ -28,7 +28,7 @@ env:
   #   AWS_TF_STATE_KEY
   #   AWS_TF_STATE_REGION
   CLOUD_PROVIDER: "aws"
-  TaskctlVersion: '1.4.2'
+  TaskctlVersion: '1.5.2'
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
   DOCKER_IMAGE_NAME: "stacks-api"
   DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com"
@@ -160,7 +160,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "nonprod"
+          TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
@@ -169,17 +169,17 @@ jobs:
           TF_VAR_name_project: ${{ env.PROJECT }}
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-dev-h0ax6owA"  # TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
           K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: “amido-stacks-dev-h0ax6owA-logs” # TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: “ensono-stacks-nonprod-ew2-eks” # TODO: To be read from core state
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://nonprod-dev-netcore-api.nonprodaws.amidostacks.com/api/menu/"  # TODO: To be read from core state
+          BaseUrl: "https://nonprod-dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"  # TODO: To be read from core state
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
@@ -211,7 +211,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "prod"
+          TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
@@ -251,7 +251,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "prod"
+          TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}

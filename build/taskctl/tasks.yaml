@@ -13,7 +13,7 @@ tasks:
       - Invoke-GitClone -repo amido/stacks-pipeline-templates -ref refs/tags/v2.0.6 -path support
 
   lint:yaml:
-    context: powershell-python
+    context: powershell
     description: Perform YAML linting
     command:
       - Invoke-YamlLint
@@ -183,8 +183,6 @@ tasks:
     description: Update the Deployment Dashboard
     command:
       - Update-InfluxDashboard
-    # env:
-    #  PUBLISH_RELEASE: $true
 
   publish:nuget:
     context: powershell
