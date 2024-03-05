@@ -54,7 +54,7 @@ variables:
 
   # Agent configuration
   - name: TaskctlVersion
-    value: 1.4.2
+    value: 1.5.2
   - name: pool_vm_image
     value: ubuntu-20.04
 
@@ -141,6 +141,7 @@ variables:
   - name: DASHBOARD_MEASUREMENT
     value: deployment # Static definition within Influx Config
   - group: amido-stacks-influx-credentials-prod
+    # yamllint disable rule:comments-indentation
     # Group should contain:
       # DASHBOARD_INFLUX_ORG
       # DASHBOARD_INFLUX_BUCKET

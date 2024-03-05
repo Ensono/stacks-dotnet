@@ -17,7 +17,9 @@ pipelines:
   lint:
     - task: lint:yaml
     - task: lint:terraform:format
+      depends_on: lint:yaml
     - task: lint:terraform:validate
+      depends_on: lint:terraform:format
 
   # Pipeline to perform the build of the project
   build:

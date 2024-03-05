@@ -40,7 +40,7 @@ variables:
   - name: self_pipeline_scripts_dir
     value: "$(self_pipeline_repo)/scripts"
 
-   # AppConfig
+  # AppConfig
   - name: component
     value: api
   - name: role
