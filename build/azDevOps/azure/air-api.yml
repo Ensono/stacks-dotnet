@@ -151,6 +151,10 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
+                    TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
 
       - deployment: DeployDev
         dependsOn: AppInfraDev
@@ -207,6 +211,10 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
+                    TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
                     # Docker Image Information
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
@@ -289,6 +297,10 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
+                    TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
 
       - deployment: DeployProd
         dependsOn:
@@ -349,6 +361,10 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
+                    TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
                     # Docker Image Information
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
