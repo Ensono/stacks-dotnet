@@ -28,31 +28,11 @@ resources:
       ref: refs/tags/v2.0.6
       endpoint: amidostacks
 
-  # containers:
-  #   - container: sonar_scanner
-  #     image: amidostacks/ci-sonarscanner:0.0.3
-  #   - container: k8s_deploy
-  #     image: amidostacks/ci-k8s:0.0.12
-  #   - container: terraform_custom
-  #     image: amidostacks/ci-tf:1.1.6
-
 variables:
   - template: nuget-packages-api-vars.yml
 
 stages:
   - stage: Build
-    # variables:
-    #   - group: amido-stacks-infra-credentials-nonprod
-    #   - group: stacks-credentials-nonprod-kv
-    #   - group: amido-stacks-webapp
-    #   - name: azure_tenant_id
-    #     value: "$(azure-tenant-id)"
-    #   - name: azure_subscription_id
-    #     value: "$(azure-subscription-id)"
-    #   - name: azure_client_id
-    #     value: "$(azure-client-id)"
-    #   - name: azure_client_secret
-    #     value: "$(azure-client-secret)"
     jobs:
       - job: AppBuild
         pool:
@@ -103,10 +83,7 @@ stages:
       - Build
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['create_release'], 'true'))
     variables:
-      - group: amido-stacks-infra-credentials-prod
-      # Note: Following group is not used, because it contains api key information and we are using a service connection in this pipeline.
-      # - group: amido-stacks-nuget-credentials
-
+      - group: amido-stacks-webapp
     jobs:
       - job: CreateGitHubRelease
         pool:

@@ -2,7 +2,7 @@ variables:
   - name: region
     value: westeurope
   - name: company
-    value: amido
+    value: ensono
   - name: project
     value: stacks
   - name: domain
@@ -12,6 +12,7 @@ variables:
   - name: self_generic_name
     value: stacks-api
 
+  # TODO: Why is this needed..?
   - group: amido-stacks-webapp
 
   - name: cloud_provider
@@ -31,7 +32,7 @@ variables:
   - name: tf_state_rg
     value: Stacks-Ancillary-Resources
   - name: tf_state_storage
-    value: amidostackstfstate
+    value: stacksstatehjfis
   - name: tf_state_container
     value: tfstate
   - name: tf_state_key
@@ -89,14 +90,15 @@ variables:
   # Docker Container registry configuration (used for image tagging and pushing)
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
+  # TODO: Promotion is now doing nothing as same registry for both envs, consider removing or creating another registry for Prod
   - name: docker_container_registry_rg_name_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: Stacks-Ancillary-Resources
   - name: docker_container_registry_name_nonprod
-    value: amidostacksnonprodeuwcore
+    value: ensonodigitaleuw
   - name: docker_container_registry_rg_name_prod
-    value: amido-stacks-prod-euw-core
+    value: Stacks-Ancillary-Resources
   - name: docker_container_registry_name_prod
-    value: amidostacksprodeuwcore
+    value: ensonodigitaleuw
 
   # Kubernetes & Docker Image Settings
   - name: docker_image_tag
@@ -107,13 +109,13 @@ variables:
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
   - name: k8s_cluster_target_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: ed-stacks-nonprod-euw-core
   - name: k8s_cluster_identifier_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: ed-stacks-nonprod-euw-core
   - name: k8s_cluster_target_prod
-    value: amido-stacks-prod-euw-core
+    value: ed-stacks-prod-euw-core
   - name: k8s_cluster_identifier_prod
-    value: amido-stacks-prod-euw-core
+    value: ed-stacks-prod-euw-core
 
   # Helm file locations
   - name: helm_chart_file
