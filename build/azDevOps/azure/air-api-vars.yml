@@ -30,7 +30,7 @@ variables:
   # avoid running anything past dev that is not on master
   # sample value: company-webapp
   - name: tf_state_rg
-    value: Stacks-Ancillary-Resources
+    value: stacks-terraform-state
   - name: tf_state_storage
     value: stacksstatehjfis
   - name: tf_state_container
