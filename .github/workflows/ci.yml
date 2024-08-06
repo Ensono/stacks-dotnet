@@ -168,6 +168,9 @@ jobs:
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          # Helm Chart Configuration
+          HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
+          HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
