@@ -46,10 +46,10 @@ pipelines:
     - task: infra:init
     - task: deploy:templater
       depends_on: infra:init
-    - task: deploy:helm
+    - task: deploy:kubernetes
       depends_on: deploy:templater
     - task: debug:sleep
-      depends_on: deploy:helm
+      depends_on: deploy:kubernetes
       variables:
         - sleep: 30
     - task: deploy:functional_tests
