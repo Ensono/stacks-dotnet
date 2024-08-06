@@ -2,16 +2,11 @@ name: air.stacks-dotnet
 
 on:
   push:
-    paths:
-      - 'build/github/**'
-      - 'src/**'
-      - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/k8s/aws/**'  # TODO: Review this as new cloud provider targets are used
-      - '.github/workflows/ci.yml'
+    branches:
+      - master
   pull_request:
     branches:
       - master
-      - main
 
 env:
   # The following SECRETS are required in your GH Repository:
@@ -68,7 +63,9 @@ jobs:
     environment: nonprod
     steps:
       - uses: actions/checkout@v3
+
       - uses: ./build/github/templates/install-taskctl
+
       - run: taskctl build
         env:
           # TF Linting and Validation
@@ -96,14 +93,16 @@ jobs:
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
-    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
       - uses: actions/checkout@v3
+
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl infrastructure # TODO: This is tactical, will require refactor of task to take arguments as separate var
+
+      - run: taskctl infrastructure
         env:
           ENV_NAME: nonprod
           # AWS Environmental Config
@@ -127,22 +126,25 @@ jobs:
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployDev:
-    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/master'
     needs: AppInfraDev
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
       - uses: actions/checkout@v3
+
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+
       - name: Download Functional Tests
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+
       - name: TaskCTL Deploy
         run: taskctl deploy
         env:
@@ -167,19 +169,19 @@ jobs:
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA" TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA"
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
-          K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
+          K8S_INGRESS_CERT_ARN: "replaceme"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" # i.e. “amido-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: "replaceme" # i.e. “amido-stacks-dev-h0ax6owA-logs”
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api-cqrs.nonprodaws.amidostacks.com/api/menu/"  # TODO: To be read and constructed at runtime from core state
+          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api-cqrs.nonprodaws.amidostacks.com/api/menu/"
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
@@ -188,14 +190,16 @@ jobs:
           path: ${{ env.K8S_RESOURCE_FILE }}
 
   AppInfraProd:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     environment: prod
     steps:
       - uses: actions/checkout@v3
+
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl infrastructure # TODO: This is tactical, will require refactor of task to take arguments as separate var
+
+      - run: taskctl infrastructure
         env:
           ENV_NAME: prod
           # AWS Environmental Config
@@ -218,7 +222,7 @@ jobs:
           TF_VAR_stage: "prod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployProd:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
@@ -227,13 +231,16 @@ jobs:
     environment: prod
     steps:
       - uses: actions/checkout@v3
+
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+
       - name: Download Functional Tests
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+
       - name: TaskCTL Deploy
         run: taskctl deploy
         env:
@@ -258,19 +265,19 @@ jobs:
           TF_VAR_stage: "prod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
-          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"
+          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "prod-${{ env.DOMAIN }}"
-          K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
+          K8S_INGRESS_CERT_ARN: "replaceme"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" # i.e. “amido-stacks-prod-h0ax6owA-logs”  TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: "replaceme" # i.e. “amido-stacks-prod-h0ax6owA-logs”
           CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "replaceme" # i.e. "https://prod-dev-netcore-api.nonprodaws.amidostacks.com/${{ env.K8S_APP_ROUTE }}"  # TODO: To be read and constructed at runtime from core state
+          BaseUrl: "replaceme" # i.e. "https://prod-dev-netcore-api.nonprodaws.amidostacks.com/${{ env.K8S_APP_ROUTE }}"
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3

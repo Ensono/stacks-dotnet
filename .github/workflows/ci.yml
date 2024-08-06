@@ -96,7 +96,7 @@ jobs:
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
-    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     environment: nonprod
@@ -132,19 +132,22 @@ jobs:
           TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployDev:
-    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/master'
     needs: AppInfraDev
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
       - uses: actions/checkout@v3
+
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+
       - name: Download Functional Tests
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+
       - name: TaskCTL Deploy
         run: taskctl deploy
         env:
@@ -193,13 +196,15 @@ jobs:
           path: ${{ env.K8S_RESOURCE_FILE }}
 
   AppInfraProd:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     environment: prod
     steps:
       - uses: actions/checkout@v3
+
       - uses: ./build/github/templates/install-taskctl
+
       - run: taskctl infrastructure
         env:
           ENV_NAME: prod
@@ -226,19 +231,22 @@ jobs:
           TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployProd:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     needs: AppInfraProd
     runs-on: ubuntu-latest
     environment: prod
     steps:
       - uses: actions/checkout@v3
+
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+
       - name: Download Functional Tests
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+
       - name: TaskCTL Deploy
         run: taskctl deploy
         env:
