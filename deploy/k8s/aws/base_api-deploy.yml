@@ -39,8 +39,11 @@ spec:
                 name: ${resource_def_name}
                 port: 
                   number: 80
-            path: ${k8s_app_route}/*
+            path: ${k8s_app_route}
             pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - ${dns_pointer}
 ---
 
 apiVersion: v1
