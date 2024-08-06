@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./build/github/templates/install-taskctl
       - run: taskctl lint
         env:
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./build/github/templates/install-taskctl
 
@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./build/github/templates/install-taskctl
 
@@ -134,7 +134,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
@@ -195,7 +195,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./build/github/templates/install-taskctl
 
@@ -230,7 +230,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
