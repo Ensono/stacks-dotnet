@@ -52,7 +52,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: ./build/github/templates/install-taskctl
+
+      - run: taskctl image-pull
+
       - run: taskctl lint
         env:
           TF_FILE_LOCATION: deploy/aws/app/kube
@@ -65,6 +69,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ./build/github/templates/install-taskctl
+
+      - run: taskctl image-pull
+
+      - run: taskctl image-pull-dotnet
 
       - run: taskctl build
         env:
@@ -102,6 +110,8 @@ jobs:
 
       - uses: ./build/github/templates/install-taskctl
 
+      - run: taskctl image-pull
+
       - run: taskctl infrastructure
         env:
           ENV_NAME: nonprod
@@ -138,6 +148,10 @@ jobs:
 
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+
+      - run: taskctl image-pull
+
+      - run: taskctl image-pull-dotnet
 
       - name: Download Functional Tests
         uses: actions/download-artifact@v3
@@ -199,6 +213,8 @@ jobs:
 
       - uses: ./build/github/templates/install-taskctl
 
+      - run: taskctl image-pull
+
       - run: taskctl infrastructure
         env:
           ENV_NAME: prod
@@ -234,6 +250,10 @@ jobs:
 
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+
+      - run: taskctl image-pull
+
+      - run: taskctl image-pull-dotnet
 
       - name: Download Functional Tests
         uses: actions/download-artifact@v3
