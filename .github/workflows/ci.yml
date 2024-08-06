@@ -2,16 +2,11 @@ name: air.stacks-dotnet
 
 on:
   push:
-    paths:
-      - 'build/github/**'
-      - 'src/**'
-      - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/k8s/aws/**' # TODO: Review this as new cloud provider targets are used
-      - '.github/workflows/ci.yml'
+    branches:
+      - master
   pull_request:
     branches:
       - master
-      - main
 
 env:
   # The following SECRETS are required in your GH Repository:
@@ -46,7 +41,7 @@ env:
   ROLE: "backend"
   APP_NAME: "yumido-netcore-api"
   DOMAIN: "dev-netcore-api"
-  COMPANY: "amido"
+  COMPANY: "ensono"
   PROJECT: "stacks"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
@@ -57,7 +52,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - uses: ./build/github/templates/install-taskctl
+
       - run: taskctl lint
         env:
           TF_FILE_LOCATION: deploy/aws/app/kube
@@ -68,7 +65,9 @@ jobs:
     environment: nonprod
     steps:
       - uses: actions/checkout@v3
+
       - uses: ./build/github/templates/install-taskctl
+
       - run: taskctl build
         env:
           # TF Linting and Validation
@@ -89,6 +88,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.REGION }}
+
       - name: Publish Functional Tests
         uses: actions/upload-artifact@v3
         with:
@@ -102,8 +102,10 @@ jobs:
     environment: nonprod
     steps:
       - uses: actions/checkout@v3
+
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl infrastructure # TODO: This is tactical, will require refactor of task to take arguments as separate var
+
+      - run: taskctl infrastructure
         env:
           ENV_NAME: nonprod
           # AWS Environmental Config
@@ -127,7 +129,7 @@ jobs:
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployDev:
     if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
@@ -167,19 +169,22 @@ jobs:
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
+          # Helm Chart Configuration
+          HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
+          HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"  # TODO: To be read from core state
-          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"
+          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: “ensono-stacks-nonprod-ew2-eks” # TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: "ensono-stacks-nonprod-ew2-eks"
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://nonprod-dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"  # TODO: To be read from core state
+          BaseUrl: "https://nonprod-dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
@@ -195,7 +200,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl infrastructure # TODO: This is tactical, will require refactor of task to take arguments as separate var
+      - run: taskctl infrastructure
         env:
           ENV_NAME: prod
           # AWS Environmental Config
@@ -218,7 +223,7 @@ jobs:
           TF_VAR_stage: "prod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployProd:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
@@ -258,19 +263,19 @@ jobs:
           TF_VAR_stage: "prod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
-          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
-          K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/2e4208b5-a86e-4096-b6b7-83c032d7d5e2"  # TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "ensono-stacks-prod-ew2-eks"
+          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
+          K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/2e4208b5-a86e-4096-b6b7-83c032d7d5e2"
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: “amido-stacks-prod-0cvO68Bj-logs” # TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: "ensono-stacks-prod-ew2-eks"
           CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "prodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "prod.aws.stacks.ensono.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://prod-dev-netcore-api.prodaws.amidostacks.com/api/menu/"  # TODO: To be read from core state
+          BaseUrl: "https://prod-dev-netcore-api.prod.aws.stacks.ensono.com/api/menu/"
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3

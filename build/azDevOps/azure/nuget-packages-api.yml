@@ -26,7 +26,7 @@ resources:
       type: github
       name: Ensono/stacks-pipeline-templates
       ref: refs/tags/v2.0.6
-      endpoint: amidostacks
+      endpoint: ensonostacks
 
 variables:
   - template: nuget-packages-api-vars.yml
@@ -83,7 +83,8 @@ stages:
       - Build
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['create_release'], 'true'))
     variables:
-      - group: amido-stacks-webapp
+      - group: stacks-infra-credentials-prod
+
     jobs:
       - job: CreateGitHubRelease
         pool:

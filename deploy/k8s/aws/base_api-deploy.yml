@@ -9,29 +9,15 @@ metadata:
 
 ---
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=120 # resolved 502 error while deployment "https://www.tessian.com/blog/how-to-fix-http-502-errors/"
-    alb.ingress.kubernetes.io/certificate-arn: ${k8s_ingress_cert_arn}
-    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
-    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
-    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
-    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
-    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/success-codes: "200"
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
-    external-dns.alpha.kubernetes.io/hostname: ${dns_pointer}
     app.kubernetes.io/instance: ${project}-${app_name}
     app.kubernetes.io/version: ${version}
     applicationId: ${project}/${app_name}
     applicationName: ${project}-${app_name}
     customerID: ${company}
-    kubernetes.io/ingress.class: alb
     owner: ${company}/${project}
     projectID: ${project}
     version: ${version}
@@ -40,19 +26,24 @@ metadata:
     app.kubernetes.io/name: ${resource_def_name}
     app.kubernetes.io/part-of: ${project}
     environment: ${environment}
-  finalizers:
-    - ingress.k8s.aws/resources
   name: ${resource_def_name}
   namespace: ${namespace}
 spec:
+  ingressClassName: nginx
   rules:
-    - http:
+    - host: ${dns_pointer}
+      http:
         paths:
           - backend:
-              serviceName: ${resource_def_name}
-              servicePort: 80
-            path: ${k8s_app_route}/*
+              service:
+                name: ${resource_def_name}
+                port:
+                  number: 80
+            path: ${k8s_app_route}
             pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - ${dns_pointer}
 ---
 
 apiVersion: v1

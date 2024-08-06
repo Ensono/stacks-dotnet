@@ -6,16 +6,11 @@ pr:
 trigger:
   branches:
     include:
-      - 'master'
-      - 'main'
+      - master
   paths:
     include:
-      - '*'
-    exclude:
-      - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/k8s/aws**' # TODO: Review this as new cloud provider targets are used
-      - '.github/workflows/**'
-      - 'build/github/**'
+      - "*"
+
 variables:
   - template: air-api-vars.yml
 
