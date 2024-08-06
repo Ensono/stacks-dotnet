@@ -74,10 +74,10 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           # Testing
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: amido
+          SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
           SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
-          PROJECT_NAME: stacks-dotnet
+          PROJECT_NAME: Ensono_stacks-dotnet
           BUILD_BUILDNUMBER: 0.0.${{env.GITHUB_RUN_NUMBER}}
           # Dotnet Build
           SELF_REPO_SRC: src/api
