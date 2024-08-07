@@ -42,7 +42,7 @@ namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Extensions
         public void MessageExtensionSetSessionIdIgnoresMissingSessionId()
         {
             var message = new Message();
-            message.SetSessionId(new DummyEvent());
+            message.SetSessionId(new DummyEventSb());
             message.SessionId.ShouldBeNull();
         }
     }

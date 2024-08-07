@@ -157,7 +157,7 @@ namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Routers
 
             await senderClients.First().Received(1).SendAsync(Arg.Is<Message>(m => m.CorrelationId == guid.ToString()));
 
-            await eventPublisher.PublishAsync(new DummyEvent());
+            await eventPublisher.PublishAsync(new DummyEventSb());
             senderClients.First().Received(2);
         }
 
@@ -274,14 +274,14 @@ namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Routers
 
             var guid2 = Guid.NewGuid();
             var route2 = config.Sender.Routing.Topics.Skip(1).First();
-            route2.TypeFilter = new[] { typeof(DummyEvent).FullName };
+            route2.TypeFilter = new[] { typeof(DummyEventSb).FullName };
 
             services.AddServiceBus();
 
             //ACT
             var publisher = services.BuildServiceProvider().GetRequiredService<IApplicationEventPublisher>();
             await publisher.PublishAsync(new NotifyEvent(guid1, 1));
-            await publisher.PublishAsync(new DummyEvent(guid2));
+            await publisher.PublishAsync(new DummyEventSb(guid2));
 
             //ASSERT
             await senderClients.Single(s => s.Path == route1.SendTo.First())

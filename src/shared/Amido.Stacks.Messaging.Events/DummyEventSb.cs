@@ -1,13 +1,15 @@
 ﻿using System;
 using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using Amido.Stacks.Core.Operations;
+using Newtonsoft.Json;
 
 namespace Amido.Stacks.Messaging.Events
 {
-    public class DummyEvent : IApplicationEvent
+    public class DummyEventSb : IApplicationEvent
     {
-        public DummyEvent() { }
+        public DummyEventSb() { }
 
-        public DummyEvent(Guid correlationId)
+        public DummyEventSb(Guid correlationId)
         {
             this.CorrelationId = correlationId;
         }
