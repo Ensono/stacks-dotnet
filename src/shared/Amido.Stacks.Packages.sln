@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.DynamoDB", "Am
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.DynamoDB.Tests", "Amido.Stacks.DynamoDB.Tests\Amido.Stacks.DynamoDB.Tests.csproj", "{8D556317-7C2B-445A-AE5E-92FF04969031}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Data.Documents.Abstractions", "Amido.Stacks.Data.Documents.Abstractions\Amido.Stacks.Data.Documents.Abstractions.csproj", "{7B827585-4F7A-473B-B994-681BE96B0C04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +186,18 @@ Global
 		{8D556317-7C2B-445A-AE5E-92FF04969031}.Release|x64.Build.0 = Release|Any CPU
 		{8D556317-7C2B-445A-AE5E-92FF04969031}.Release|x86.ActiveCfg = Release|Any CPU
 		{8D556317-7C2B-445A-AE5E-92FF04969031}.Release|x86.Build.0 = Release|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Debug|x64.Build.0 = Debug|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Debug|x86.Build.0 = Debug|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Release|x64.ActiveCfg = Release|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Release|x64.Build.0 = Release|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Release|x86.ActiveCfg = Release|Any CPU
+		{7B827585-4F7A-473B-B994-681BE96B0C04}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
