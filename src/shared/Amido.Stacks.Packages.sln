@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Core.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.DependencyInjection", "Amido.Stacks.DependencyInjection\Amido.Stacks.DependencyInjection.csproj", "{2E79D304-47AE-4D7F-8E32-C08A106C5F72}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Domain", "Amido.Stacks.Domain\Amido.Stacks.Domain.csproj", "{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -240,6 +242,18 @@ Global
 		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|x64.Build.0 = Release|Any CPU
 		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|x86.Build.0 = Release|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|x64.Build.0 = Debug|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|x86.Build.0 = Debug|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|x64.ActiveCfg = Release|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|x64.Build.0 = Release|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|x86.ActiveCfg = Release|Any CPU
+		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
