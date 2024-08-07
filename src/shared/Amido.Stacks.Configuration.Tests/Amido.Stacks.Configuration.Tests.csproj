@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amido.Stacks.Testing" Version="0.2.29" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
@@ -20,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Amido.Stacks.Configuration\Amido.Stacks.Configuration.csproj" />
+    <ProjectReference Include="..\Amido.Stacks.Testing\Amido.Stacks.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>

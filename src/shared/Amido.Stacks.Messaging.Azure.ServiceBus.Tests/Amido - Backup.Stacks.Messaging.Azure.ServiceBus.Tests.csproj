@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-
+    <LangVersion>10.0</LangVersion>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
- <ItemGroup>
-	<PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
+  <ItemGroup>
+    <PackageReference Include="Amido.Stacks.Testing" Version="0.2.29" />
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
@@ -29,19 +30,23 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Amido.Stacks.DependencyInjection\Amido.Stacks.DependencyInjection.csproj" />
-    <ProjectReference Include="..\Amido.Stacks.Messaging.Azure.EventHub\Amido.Stacks.Messaging.Azure.EventHub.csproj" />
+    <ProjectReference Include="..\Amido.Stacks.Messaging.Azure.ServiceBus\Amido.Stacks.Messaging.Azure.ServiceBus.csproj" />
+    <ProjectReference Include="..\Amido.Stacks.Messaging.Commands\Amido.Stacks.Messaging.Commands.csproj" />
     <ProjectReference Include="..\Amido.Stacks.Messaging.Events\Amido.Stacks.Messaging.Events.csproj" />
+    <ProjectReference Include="..\Amido.Stacks.Messaging.Handlers\Amido.Stacks.Messaging.Handlers.csproj" />
     <ProjectReference Include="..\Amido.Stacks.Testing\Amido.Stacks.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.integration.topics.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.integration.queues.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Events\" />
   </ItemGroup>
 
 </Project>

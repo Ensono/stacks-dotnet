@@ -14,7 +14,9 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.300.1" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.7" />
-    <PackageReference Include="Amido.Stacks.Data.Documents.Abstractions" Version="0.2.15" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Amido.Stacks.Data.Documents.Abstractions\Amido.Stacks.Data.Documents.Abstractions.csproj" />
   </ItemGroup>
 </Project>

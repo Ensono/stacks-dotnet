@@ -11,9 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amido.Stacks.Core" Version="0.2.35" />
-    <PackageReference Include="Amido.Stacks.Data.Documents.Abstractions" Version="0.2.15" />
-    <PackageReference Include="Amido.Stacks.Configuration" Version="0.2.25" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.36.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
@@ -22,6 +19,12 @@
     <!-- Explicit package references to reduce security vulnerabilities in transitive dependencies identified by Snyk -->
     <PackageReference Include="System.Net.Http" Version="4.3.*" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Amido.Stacks.Configuration\Amido.Stacks.Configuration.csproj" />
+    <ProjectReference Include="..\Amido.Stacks.Core\Amido.Stacks.Core.csproj" />
+    <ProjectReference Include="..\Amido.Stacks.Data.Documents.Abstractions\Amido.Stacks.Data.Documents.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

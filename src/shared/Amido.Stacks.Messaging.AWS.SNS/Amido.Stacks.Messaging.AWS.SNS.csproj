@@ -14,12 +14,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.2.23" />
-      <PackageReference Include="Amido.Stacks.Configuration" Version="0.2.25" />
-      <PackageReference Include="Amido.Stacks.DependencyInjection" Version="0.2.21" />
       <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.7" />
       <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.300.1" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Amido.Stacks.Application.CQRS.Abstractions\Amido.Stacks.Application.CQRS.Abstractions.csproj" />
+      <ProjectReference Include="..\Amido.Stacks.Configuration\Amido.Stacks.Configuration.csproj" />
+      <ProjectReference Include="..\Amido.Stacks.DependencyInjection\Amido.Stacks.DependencyInjection.csproj" />
     </ItemGroup>
 
 </Project>
