@@ -52,6 +52,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Azur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Azure.EventHub.Tests", "Amido.Stacks.Messaging.Azure.EventHub.Tests\Amido.Stacks.Messaging.Azure.EventHub.Tests.csproj", "{70705814-2618-48A3-AD93-EF77089BE7B3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Application.CQRS.Abstractions", "Amido.Stacks.Application.CQRS.Abstractions\Amido.Stacks.Application.CQRS.Abstractions.csproj", "{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -338,6 +340,18 @@ Global
 		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|x64.Build.0 = Release|Any CPU
 		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|x86.ActiveCfg = Release|Any CPU
 		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|x86.Build.0 = Release|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|x64.Build.0 = Debug|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|x86.Build.0 = Debug|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Release|x64.ActiveCfg = Release|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Release|x64.Build.0 = Release|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
