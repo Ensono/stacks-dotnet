@@ -2,7 +2,7 @@
 
   @{
     displayName = "Helm"
-    template = "deploy/helm/stacks-dotnet/base_values.yaml"
+    template = "deploy/helm/stacks-dotnet/values.yaml"
     vars = @{
         host = "`${ENV_NAME}-`${DOMAIN}.`${DNS_BASE_DOMAIN}"
         environment = "`${ENV_NAME}"
