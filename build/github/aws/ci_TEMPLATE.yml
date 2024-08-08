@@ -75,17 +75,25 @@ jobs:
 
       - run: taskctl image-pull-dotnet
 
-      - run: taskctl build
+      - run: taskctl test
         env:
-          # TF Linting and Validation
-          TF_FILE_LOCATION: deploy/aws/app/kube
           # Testing
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: amido
+          SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
           SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
-          PROJECT_NAME: stacks-dotnet
-          BUILD_BUILDNUMBER: 0.0.${{env.GITHUB_RUN_NUMBER}}
+          PROJECT_NAME: Ensono_stacks-dotnet-aws
+          BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
+          # Dotnet Build
+          SELF_REPO_SRC: src/api
+
+      - run: taskctl build:functional_tests
+        env:
+          # Dotnet Build
+          SELF_REPO_SRC: src/api
+
+      - run: taskctl build
+        env:
           # Dotnet Build
           SELF_REPO_SRC: src/api
           # Docker
@@ -95,6 +103,9 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.REGION }}
+          IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
+          BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
+
       - name: Publish Functional Tests
         uses: actions/upload-artifact@v3
         with:
