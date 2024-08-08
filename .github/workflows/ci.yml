@@ -35,8 +35,9 @@ env:
   OWNER: "stacks_team"
   REGION: "eu-west-2"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  # K8S Configuration
-  K8S_RESOURCE_FILE: "deploy/k8s/aws/api-deploy.yml"
+  # Helm Chart Configuration
+  HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
+  HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
@@ -168,13 +169,9 @@ jobs:
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
           TF_VAR_name_domain: "{{ env.DOMAIN }}"
-          # Helm Chart Configuration
-          HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
-          HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
-          K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           CLOUDWATCH_LOG_GROUP: “ensono-stacks-nonprod-ew2-eks # TODO: To be read from core state
@@ -188,7 +185,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: k8s_manifest_nonprod
-          path: ${{ env.K8S_RESOURCE_FILE }}
+          path: ${{ env.HELM_VALUE_FILE }}
 
   AppInfraProd:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'

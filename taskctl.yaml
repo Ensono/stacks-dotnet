@@ -49,7 +49,7 @@ pipelines:
     - task: deploy:kubernetes
       depends_on: deploy:templater
     - task: debug:sleep
-      depends_on: deploy:kubernetes
+      depends_on: deploy:helm
       variables:
         - sleep: 30
     - task: deploy:functional_tests
