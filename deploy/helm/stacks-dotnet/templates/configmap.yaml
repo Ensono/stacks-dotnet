@@ -21,12 +21,14 @@ data:
           },
           "WriteTo": [
               { "Name": "Console" },
+              {{- if eq .Values.cloudProvider "azure" }}
               {
                   "Name": "ApplicationInsights",
                   "Args": {
                       "telemetryConverter": "Serilog.Sinks.ApplicationInsights.Sinks.ApplicationInsights.TelemetryConverters.TraceTelemetryConverter, Serilog.Sinks.ApplicationInsights"
                   }
               }
+              {{- end }}
           ],
           "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
           "Destructure": [],

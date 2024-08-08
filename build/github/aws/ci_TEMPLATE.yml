@@ -6,7 +6,7 @@ on:
       - 'build/github/**'
       - 'src/**'
       - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/k8s/aws/**'  # TODO: Review this as new cloud provider targets are used
+      - 'deploy/helm/**'  # TODO: Review this as new cloud provider targets are used
       - '.github/workflows/ci.yml'
   pull_request:
     branches:
@@ -35,8 +35,9 @@ env:
   OWNER: "stacks_team"
   REGION: "{{ .Project.Cloud.Region }}"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  # K8S Configuration
-  K8S_RESOURCE_FILE: "deploy/k8s/aws/api-deploy.yml"
+  # Helm Chart Configuration
+  HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
+  HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # #TODO: Parse this with region, duplicates DOCKER_REGISTRY_NAME
   K8S_APP_ROUTE: "/api/menu"
@@ -172,10 +173,7 @@ jobs:
           K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA" TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
-          K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" #i.e. “amido-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
-          CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
@@ -184,8 +182,8 @@ jobs:
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
         with:
-          name: k8s_manifest_nonprod
-          path: ${{ env.K8S_RESOURCE_FILE }}
+          name: helm_values_nonprod
+          path: ${{ env.HELM_VALUE_FILE }}
 
   AppInfraProd:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
@@ -263,10 +261,7 @@ jobs:
           K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
           NAMESPACE: "prod-${{ env.DOMAIN }}"
-          K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" #i.e. “amido-stacks-prod-h0ax6owA-logs”  TODO: To be read from core state
-          CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
@@ -275,5 +270,5 @@ jobs:
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
         with:
-          name: k8s_manifest_prod
-          path: ${{ env.K8S_RESOURCE_FILE }}
+          name: helm_values_prod
+          path: ${{ env.HELM_VALUE_FILE }}
