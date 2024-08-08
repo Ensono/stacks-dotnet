@@ -2,61 +2,61 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.API", "Amido.Stacks.API\Amido.Stacks.API.csproj", "{78EA9F72-72DA-4F0C-A647-B315CF9DBD72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.API", "xxAMIDOxx.xxSTACKSxx.Shared.API\xxAMIDOxx.xxSTACKSxx.Shared.API.csproj", "{78EA9F72-72DA-4F0C-A647-B315CF9DBD72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.API.Tests", "Amido.Stacks.API.Tests\Amido.Stacks.API.Tests.csproj", "{F4B072C7-1AF9-4ADE-A055-7C0E4257035C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.API.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.API.Tests\xxAMIDOxx.xxSTACKSxx.Shared.API.Tests.csproj", "{F4B072C7-1AF9-4ADE-A055-7C0E4257035C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.API.Swagger", "Amido.Stacks.API.Swagger\Amido.Stacks.API.Swagger.csproj", "{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger", "xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger\xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger.csproj", "{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Testing", "Amido.Stacks.Testing\Amido.Stacks.Testing.csproj", "{5375FD38-BB3F-45B6-A42C-E62D7F4C3834}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Testing", "xxAMIDOxx.xxSTACKSxx.Shared.Testing\xxAMIDOxx.xxSTACKSxx.Shared.Testing.csproj", "{5375FD38-BB3F-45B6-A42C-E62D7F4C3834}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Testing.Tests", "Amido.Stacks.Testing.Tests\Amido.Stacks.Testing.Tests.csproj", "{6D545555-2426-4478-82A9-D756A00F1E39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests\xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests.csproj", "{6D545555-2426-4478-82A9-D756A00F1E39}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Azure.ServiceBus", "Amido.Stacks.Messaging.Azure.ServiceBus\Amido.Stacks.Messaging.Azure.ServiceBus.csproj", "{DAA32E63-80B5-49B6-890E-7A11FDA6A85B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj", "{DAA32E63-80B5-49B6-890E-7A11FDA6A85B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestingResources", "TestingResources", "{BCB11287-5713-4A3B-B4C0-88CEFFCA412D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Azure.ServiceBus.Tests", "Amido.Stacks.Messaging.Azure.ServiceBus.Tests\Amido.Stacks.Messaging.Azure.ServiceBus.Tests.csproj", "{4D619C55-D348-464D-A0D2-F18427DCAA49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.csproj", "{4D619C55-D348-464D-A0D2-F18427DCAA49}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Amido.Stacks.Messaging.Azure.ServiceBus", "Amido.Stacks.Messaging.Azure.ServiceBus", "{5CB0D9F6-B749-4FF1-9571-431396D80860}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus", "{5CB0D9F6-B749-4FF1-9571-431396D80860}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Commands", "Amido.Stacks.Messaging.Commands\Amido.Stacks.Messaging.Commands.csproj", "{7290B15D-B0DB-48FA-9A2A-1E8E15447CD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands.csproj", "{7290B15D-B0DB-48FA-9A2A-1E8E15447CD2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Events", "Amido.Stacks.Messaging.Events\Amido.Stacks.Messaging.Events.csproj", "{51D0C76D-9F7F-4213-9BC1-0D7DE060E4AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events.csproj", "{51D0C76D-9F7F-4213-9BC1-0D7DE060E4AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Handlers", "Amido.Stacks.Messaging.Handlers\Amido.Stacks.Messaging.Handlers.csproj", "{6C460E51-98B2-4DD7-B4FC-C25C6C3F739E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers.csproj", "{6C460E51-98B2-4DD7-B4FC-C25C6C3F739E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.DynamoDB", "Amido.Stacks.DynamoDB\Amido.Stacks.DynamoDB.csproj", "{3F45C828-B6C2-4D16-90DA-F8D034EC11D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB", "xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB\xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.csproj", "{3F45C828-B6C2-4D16-90DA-F8D034EC11D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.DynamoDB.Tests", "Amido.Stacks.DynamoDB.Tests\Amido.Stacks.DynamoDB.Tests.csproj", "{8D556317-7C2B-445A-AE5E-92FF04969031}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Tests\xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Tests.csproj", "{8D556317-7C2B-445A-AE5E-92FF04969031}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Data.Documents.Abstractions", "Amido.Stacks.Data.Documents.Abstractions\Amido.Stacks.Data.Documents.Abstractions.csproj", "{7B827585-4F7A-473B-B994-681BE96B0C04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions", "xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions\xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions.csproj", "{7B827585-4F7A-473B-B994-681BE96B0C04}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Core", "Amido.Stacks.Core\Amido.Stacks.Core.csproj", "{3F133394-CF28-4110-BA3D-EBF404208A81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Core", "xxAMIDOxx.xxSTACKSxx.Shared.Core\xxAMIDOxx.xxSTACKSxx.Shared.Core.csproj", "{3F133394-CF28-4110-BA3D-EBF404208A81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Core.Tests", "Amido.Stacks.Core.Tests\Amido.Stacks.Core.Tests.csproj", "{06DE9A76-034B-4975-8365-A7F88EF7954E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests\xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests.csproj", "{06DE9A76-034B-4975-8365-A7F88EF7954E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.DependencyInjection", "Amido.Stacks.DependencyInjection\Amido.Stacks.DependencyInjection.csproj", "{2E79D304-47AE-4D7F-8E32-C08A106C5F72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection", "xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection.csproj", "{2E79D304-47AE-4D7F-8E32-C08A106C5F72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Domain", "Amido.Stacks.Domain\Amido.Stacks.Domain.csproj", "{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Domain", "xxAMIDOxx.xxSTACKSxx.Shared.Domain\xxAMIDOxx.xxSTACKSxx.Shared.Domain.csproj", "{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Data.Documents.CosmosDB", "Amido.Stacks.Data.Documents.CosmosDB\Amido.Stacks.Data.Documents.CosmosDB.csproj", "{4856749F-880C-4F3E-B9C9-4E79ADAD09A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB", "xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB\xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.csproj", "{4856749F-880C-4F3E-B9C9-4E79ADAD09A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Data.Documents.CosmosDB.Tests", "Amido.Stacks.Data.Documents.CosmosDB.Tests\Amido.Stacks.Data.Documents.CosmosDB.Tests.csproj", "{688708D6-CF24-452C-BBFD-59161F982AA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests\xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.csproj", "{688708D6-CF24-452C-BBFD-59161F982AA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.AWS.SNS", "Amido.Stacks.Messaging.AWS.SNS\Amido.Stacks.Messaging.AWS.SNS.csproj", "{7BEFAEE8-4F24-434B-ABEA-4E904804266C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.csproj", "{7BEFAEE8-4F24-434B-ABEA-4E904804266C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.AWS.SNS.Tests", "Amido.Stacks.Messaging.AWS.SNS.Tests\Amido.Stacks.Messaging.AWS.SNS.Tests.csproj", "{C63011EA-2C53-495B-96F8-71124DB6236C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests.csproj", "{C63011EA-2C53-495B-96F8-71124DB6236C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Azure.EventHub", "Amido.Stacks.Messaging.Azure.EventHub\Amido.Stacks.Messaging.Azure.EventHub.csproj", "{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj", "{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Messaging.Azure.EventHub.Tests", "Amido.Stacks.Messaging.Azure.EventHub.Tests\Amido.Stacks.Messaging.Azure.EventHub.Tests.csproj", "{70705814-2618-48A3-AD93-EF77089BE7B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests.csproj", "{70705814-2618-48A3-AD93-EF77089BE7B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Application.CQRS.Abstractions", "Amido.Stacks.Application.CQRS.Abstractions\Amido.Stacks.Application.CQRS.Abstractions.csproj", "{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions", "xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj", "{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Configuration", "Amido.Stacks.Configuration\Amido.Stacks.Configuration.csproj", "{BFE98A28-8B88-4CC6-BECF-324D0D4CD760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Configuration", "xxAMIDOxx.xxSTACKSxx.Shared.Configuration\xxAMIDOxx.xxSTACKSxx.Shared.Configuration.csproj", "{BFE98A28-8B88-4CC6-BECF-324D0D4CD760}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amido.Stacks.Configuration.Tests", "Amido.Stacks.Configuration.Tests\Amido.Stacks.Configuration.Tests.csproj", "{80757BB7-48FF-4EE0-9CBF-AF49B20D07E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests", "xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests\xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests.csproj", "{80757BB7-48FF-4EE0-9CBF-AF49B20D07E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

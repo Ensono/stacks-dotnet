@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events.csproj" />
+  </ItemGroup>
+
+</Project>
