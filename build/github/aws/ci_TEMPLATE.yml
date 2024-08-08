@@ -92,7 +92,7 @@ jobs:
           # Dotnet Build
           SELF_REPO_SRC: src/api
 
-      - run: taskctl build
+      - run: taskctl build:container
         env:
           # Dotnet Build
           SELF_REPO_SRC: src/api
