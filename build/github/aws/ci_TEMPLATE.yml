@@ -30,8 +30,9 @@ env:
   OWNER: "stacks_team"
   REGION: "{{ .Project.Cloud.Region }}"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  # K8S Configuration
-  K8S_RESOURCE_FILE: "deploy/k8s/aws/api-deploy.yml"
+  # Helm Chart Configuration
+  HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
+  HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # #TODO: Parse this with region, duplicates DOCKER_REGISTRY_NAME
   K8S_APP_ROUTE: "/api/menu"
@@ -190,8 +191,6 @@ jobs:
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           K8S_INGRESS_CERT_ARN: "replaceme"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" # i.e. “amido-stacks-dev-h0ax6owA-logs”
-          CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
@@ -200,8 +199,8 @@ jobs:
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
         with:
-          name: k8s_manifest_nonprod
-          path: ${{ env.K8S_RESOURCE_FILE }}
+          name: helm_values_nonprod
+          path: ${{ env.HELM_VALUE_FILE }}
 
   AppInfraProd:
     if: github.ref == 'refs/heads/master'
@@ -292,8 +291,6 @@ jobs:
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           K8S_INGRESS_CERT_ARN: "replaceme"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" # i.e. “amido-stacks-prod-h0ax6owA-logs”
-          CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
@@ -302,5 +299,5 @@ jobs:
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
         with:
-          name: k8s_manifest_prod
-          path: ${{ env.K8S_RESOURCE_FILE }}
+          name: helm_values_prod
+          path: ${{ env.HELM_VALUE_FILE }}

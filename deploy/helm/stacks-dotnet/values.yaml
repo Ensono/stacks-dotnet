@@ -2,7 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-env: dev
+env: ${env_name}
+cloudProvider: ${cloud_provider}
 
 replicaCount: 1
 
@@ -82,7 +83,7 @@ affinity: {}
 
 app:
   project: ${project}
-  company: {$company}
+  company: ${company}
   component: ${component}
   name: ${resource_def_name}
   version: 0.0.1
