@@ -1,3 +1,199 @@
+function Stop-Task() {
+
+    <#
+
+    .SYNOPSIS
+    Stops a task being run in a Taskctl pipeline
+
+    .DESCRIPTION
+    When commands or other process fail in the pipeline, the entire pipeline must be stopped, it is not enough
+    to call `exit` with an exit code as this does not stop the pipeline. It also causes issues when the module
+    is run on a local development workstation as any failure will cause the console to be terminted.
+
+    This function is intended to be used in place of `exit` and will throw a PowerShell exception after the
+    error has been written out. This is will stop the pipeline from running and does not close the current
+    console
+
+    The function will also attempt to detect the pipeline that it is being run on and output the correct message
+    string for that CI/CD platform.
+    #>
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$false)]
+        [string]
+        # Error message to be displayed
+        $Message,
+        [Parameter(Mandatory=$false)]
+        [string]
+        # Exit Code of the failing command or process
+        $ExitCode = -1
+    )
+
+    $exceptionMessage = "Task failed due to errors detailed above"
+
+    if (![string]::IsNullOrEmpty($Message)) {
+        # Also prepend the message to the exception for easier catching
+        $exceptionMessage = $Message + "`n" + $exceptionMessage
+
+        # Attempt to detect the CI/CD the pipeline is running in and write out messages
+        # in the correct format to be picked up the pipeline
+        # For example if running in Azure DevOps then write a message according to the format
+        #   "##[error]<MESSAGE>"
+        # https://docs.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash
+
+        #### Azure DevOps Detection
+        $azdo = Get-ChildItem -Path env:\TF_BUILD -ErrorAction SilentlyContinue
+        if (![String]::IsNullOrEmpty($azdo)) {
+            $Message = "##[error]{0}" -f $Message
+        }
+
+        # Write an error
+        # The throw method does not allow formatted text, so use Write-Error here to display a nicely formatted error
+        Write-Error $Message
+    }
+
+    # Throw an exception to stop the process
+    throw [StopTaskException]::new($exitCode, $exceptionMessage)
+}
+
+<#
+
+.SYNOPSIS
+Runs external commands with the specified options
+
+.DESCRIPTION
+This is a helper function that executes external binaries. All cmdlets and functions that require
+executables to be run should use this function. This is so that the Pester tests can mock the function
+and Unit tests are possible on all scripts
+
+#>
+
+function Invoke-External {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [string[]]
+        # Command and arguments to be run
+        $commands,
+
+        [switch]
+        # State if should be run in DryRun mode, e.g. do not execute the command
+        $dryrun,
+
+        [Int[]]
+        # Additional exit codes that are acceptable from the command
+        $AdditionalExitCodes = @()
+    )
+
+    # Set all of the exit codes that are acceptable
+    $exitCodes = @(0) + $AdditionalExitCodes
+
+    foreach ($command in $commands) {
+
+        # Trim the command
+        $command = $command.Trim()
+
+        Write-Debug -Message $command
+
+        # Determine if the command should be executed or not
+        if (!$dryrun.IsPresent) {
+            $execute = $true
+        }
+
+        # Add the command to the session so all can be retrieved at a later date, if
+        # the session variable exists
+        if (Get-Variable -Name Session -Scope global -ErrorAction SilentlyContinue) {
+            $global:Session.commands.list += $command
+
+            if ($global:Session.dryrun) {
+                $execute = $false
+            }
+        }
+
+        # If a file has been set in the session, append the command to the file
+        if (![String]::IsNullOrEmpty($Session.commands.file)) {
+            Add-Content -Path $Session.commands.file -Value $command
+        }
+
+        if ($execute) {
+
+            # Output the command being called
+            Write-Information -MessageData $command
+
+            # Reset the LASTEXITCODE as it can be tripped from a variety of places...
+            $global:LASTEXITCODE = 0
+
+            Invoke-Expression -Command $command | Tee-Object -variable output
+
+            # Add the exit code to the session, if it exists
+            if (Get-Variable -Name Session -Scope global -ErrorAction SilentlyContinue) {
+                $global:Session.commands.exitcodes += $LASTEXITCODE
+            }
+
+            # Stop the task if the LASTEXITCODE is greater than 0
+            Write-Host ("Permitted exit codes: {0}" -f ($exitCodes -join ", "))
+            Write-Host ("Exit code: {0}" -f $LASTEXITCODE)
+            if ($LASTEXITCODE -notin $exitCodes) {
+                Stop-Task -ExitCode $LASTEXITCODE
+            }
+
+        }
+    }
+}
+
+
+
+function Get-CPUArchitecture() {
+
+    [CmdletBinding()]
+    param (
+
+        [string]
+        # Specify the operating system to use
+        # If not specified the inbuilt IsWindws, IsMacOs, IsLinux vars will be uused
+        $os
+    )
+
+    # Define variable to rteturn
+    $arch = ""
+
+    if ([string]::IsNullOrEmpty($os)) {
+
+        # determine the operating system based on the magic variable
+        if ($IsWindows) {
+            $os = "windows"
+        } elseif ($IsMacOS) {
+            $os = "macos"
+        } else {
+            $os = "linux"
+        }
+    }
+
+    # Use the $os variable to call necessary commands to get the architecture
+    switch ($os) {
+        "windows" {
+            $arch = $env:PROCESSOR_ARCHITECTURE
+        }
+        default {
+            $processor = Invoke-External "uname -m"
+            switch ($processor) {
+              "x86_64" {
+                $arch = "amd64"
+              }
+              "arm64" {
+                $arch = "arm64"
+              }
+            }
+        }
+    }
+
+    return $arch.ToLower()
+}
+
+
+
+
 function Build-DockerImage() {
 
 	<#
