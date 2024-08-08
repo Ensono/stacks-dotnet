@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>10.0</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.Integration\xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj" />
+        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Amido.Stacks.Data.Documents.Abstractions" Version="0.2.15" />
+        <PackageReference Include="Amido.Stacks.DynamoDB" Version="0.2.95" />
+    </ItemGroup>
+</Project>

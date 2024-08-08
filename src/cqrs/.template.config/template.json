@@ -1,0 +1,362 @@
+{
+	"$schema": "http://json.schemastore.org/template",
+	"author": "stacks@amido.com",
+	"classifications": [
+		"Stacks",
+		"Application",
+		"Infrastructure",
+		"CQRS",
+		"Events",
+		"WebAPI"
+	],
+	"name": "Amido Stacks CQRS Web API",
+	"identity": "Amido.Stacks.CQRS.WebApi.CSharp",
+	"groupIdentity": "Amido.Stacks.CQRS.WebApi",
+	"shortName": "stacks-cqrs-app",
+	"tags": {
+		"language": "C#",
+		"type": "project"
+	},
+	"sourceName": "xxAMIDOxx.xxSTACKSxx",
+	"preferNameDirectory": true,
+	"symbols": {
+		"domain": {
+			"type": "parameter",
+			"isRequired": true,
+			"replaces": "Menu",
+			"fileRename": "Menu",
+			"defaultValue": "DOMAIN",
+			"forms": {
+				"global": [
+					"identity",
+					"lowerCase"
+				]
+			}
+		},
+		"eventPublisher": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "None",
+			"choices": [
+				{
+					"choice": "ServiceBus",
+					"description": "Targets Azure Service Bus for publishing events."
+				},
+				{
+					"choice": "EventHub",
+					"description": "Targets Azure Event Hubs for publishing events."
+				},
+				{
+					"choice": "AwsSns",
+					"description": "Targets AWS SNS for publishing events."
+				},
+				{
+					"choice": "None",
+					"description": "Use a dummy event publisher"
+				}
+			],
+			"description": "Adds event publishing."
+		},
+		"database": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "InMemoryDb",
+			"choices": [
+				{
+					"choice": "CosmosDb",
+					"description": "Targets Azure CosmosDB for storing data."
+				},
+				{
+					"choice": "DynamoDb",
+					"description": "Targets AWS DynamoDB for storing data."
+				},
+				{
+					"choice": "InMemoryDb",
+					"description": "Targets an In-Memory database for storing data."
+				}
+			],
+			"description": "Adds saving to database."
+		},
+		"cloudProvider": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "None",
+			"choices": [
+				{
+					"choice": "Azure",
+					"description": "Targets Azure DevOps"
+				},
+				{
+					"choice": "AWS",
+					"description": "Targets AWS pipelines"
+				},
+				{
+					"choice": "GCP",
+					"description": "Targets Google Cloud Platform"
+				},
+				{
+					"choice": "None",
+					"description": "Targets no platform and leaves all provider templates"
+				}
+
+			],
+			"description": "Adds cloud provider build pipelines."
+		},
+		"cicdProvider": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "None",
+			"choices": [
+				{
+					"choice": "Azure",
+					"description": "Targets Azure DevOps for CI/CD templates"
+				},
+				{
+					"choice": "GitHub",
+					"description": "Targets GitHub Actions for CI/CD templates"
+				},
+				{
+					"choice": "None",
+					"description": "Targets no platform and leaves all provider templates"
+				}
+
+			],
+			"description": "Adds specified CI/CD provider build pipelines."
+		},
+		"CosmosDb": {
+			"type": "computed",
+			"value": "(database == \"CosmosDb\")"
+		},
+		"DynamoDb": {
+			"type": "computed",
+			"value": "(database == \"DynamoDb\")"
+		},
+		"InMemoryDb": {
+			"type": "computed",
+			"value": "(database == \"InMemoryDb\")"
+		},
+		"EventPublisherServiceBus": {
+			"type": "computed",
+			"value": "(eventPublisher == \"ServiceBus\")"
+		},
+		"EventPublisherEventHub": {
+			"type": "computed",
+			"value": "(eventPublisher == \"EventHub\")"
+		},
+		"EventPublisherAwsSns": {
+			"type": "computed",
+			"value": "(eventPublisher == \"AwsSns\")"
+		},
+		"EventPublisherNone": {
+			"type": "computed",
+			"value": "(eventPublisher == \"None\")"
+		},
+		"CloudProviderAzure": {
+			"type": "computed",
+			"value": "(cloudProvider == \"Azure\")"
+		},
+		"CloudProviderAws": {
+			"type": "computed",
+			"value": "(cloudProvider == \"AWS\")"
+		},
+		"CloudProviderGcp": {
+			"type": "computed",
+			"value": "(cloudProvider == \"GCP\")"
+		},
+		"CloudProviderNone": {
+			"type": "computed",
+			"value": "(cloudProvider == \"None\")"
+		},
+		"CiCdAzure": {
+			"type": "computed",
+			"value": "(cloudProvider == \"Azure\")"
+		},
+		"CiCdGitHub": {
+			"type": "computed",
+			"value": "(cloudProvider == \"GitHub\")"
+		},
+		"CiCdNone": {
+			"type": "computed",
+			"value": "(cloudProvider == \"None\")"
+		},
+		"enableFunctionWorker": {
+			"type": "parameter",
+			"dataType": "bool",
+			"defaultValue": "false"
+		},
+		"enableFunctionListener": {
+			"type": "parameter",
+			"dataType": "bool",
+			"defaultValue": "false"
+		},
+		"enableBackgroundWorker": {
+			"type": "parameter",
+			"dataType": "bool",
+			"defaultValue": "false"
+		}
+	},
+	"sources": [
+		{
+			"source": "./",
+			"include": [
+				"**/*"
+			],
+			"exclude": [
+				"**/[Bb]in/**",
+				"**/[Oo]bj/**",
+				"**/.template.config/**",
+				"**/*.filelist",
+				"**/*.user",
+				"**/*.lock.json",
+				"**/.git/**",
+				"**/.vs/**",
+				"**/.vscode/**",
+				"_rels/**",
+				"package/**",
+				"**/*.nuspec",
+				"*Content_Types*.xml"
+			],
+			"rename": {
+				"_gitignore": ".gitignore",
+				"_gitattributes": ".gitattributes"
+			},
+			"modifiers": [
+				{
+					"condition": "(CosmosDb)",
+					"exclude": [
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
+					]
+				},
+				{
+					"condition": "(DynamoDb)",
+					"exclude": [
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
+						"**src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests/HandlerTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.API.ComponentTests/Fixtures/CreateCategoryFixture.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.API.ComponentTests/Features/CreateCategoryFeature.cs"
+					]
+				},
+				{
+					"condition": "(!CosmosDb && !DynamoDb)",
+					"exclude": [
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/DynamoDbMenuRepositoryTests.cs"
+					]
+				},
+				{
+					"condition": "(enableFunctionWorker == false)",
+					"exclude": [
+						"**/src/functions/func-cosmosdb-worker/**"
+					]
+				},
+				{
+					"condition": "(enableFunctionListener == false)",
+					"exclude": [
+						"**/src/functions/func-aeh-listener/*"
+					]
+				},
+				{
+					"condition": "(enableFunctionListener && EventPublisherServiceBus)",
+					"exclude": [
+						"**/src/functions/func-aeh-listener/**"
+					]
+				},
+				{
+					"condition": "(enableFunctionListener && EventPublisherEventHub)",
+					"exclude": [
+						"**/src/functions/func-asb-listener/**"
+					]
+				},
+				{
+					"condition": "(!enableFunctionListener && !enableFunctionWorker)",
+					"exclude": [
+						"**/src/functions/**",
+						"**/build/azDevOps/azure/templates/steps/build/build-function.yml"
+					]
+				},
+				{
+					"condition": "(enableBackgroundWorker == false)",
+					"exclude": [
+						"**/src/worker/**"
+					]
+				},
+				{
+					"condition": "(EventPublisherServiceBus || EventPublisherEventHub || EventPublisherAwsSns)",
+					"exclude": [
+						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Fakes/DummyEventPublisher.cs"
+					]
+				},
+				{
+					"condition": "(CloudProviderAzure)",
+					"exclude": [
+						"**/build/azDevOps/aws/**",
+						"**/build/azDevOps/gcp/**",
+						"**/build/github/aws/**",
+						"**/build/github/gcp/**",
+						"**/deploy/aws/**",
+						"**/deploy/gcp/**"
+					]
+				},
+				{
+					"condition": "(CloudProviderGcp)",
+					"exclude": [
+						"**/build/azDevOps/aws/**",
+						"**/build/azDevOps/azure/**",
+						"**/build/github/aws/**",
+						"**/deploy/aws/**",
+						"**/deploy/azure/**"
+					]
+				},
+				{
+					"condition": "(CloudProviderAws)",
+					"exclude": [
+						"**/build/azDevOps/azure/**",
+						"**/build/azDevOps/gcp/**",
+						"**/build/github/azure/**",
+						"**/build/github/gcp/**",
+						"**/deploy/azure/**",
+						"**/deploy/gcp/**"
+					]
+				},
+				{
+					"condition": "(CiCdAzure)",
+					"exclude": [
+						"**/build/github/**"
+					]
+				},
+				{
+					"condition": "(CiCdGitHub)",
+					"exclude": [
+						"**/build/azDevOps/**"
+					]
+				}
+			]
+		}
+	],
+	"SpecialCustomOperations": {
+		"**/*.yml": {
+			"Operations": [
+				{
+					"type": "conditional",
+					"configuration": {
+						"style": "line",
+						"token": "#"
+					}
+				}
+			]
+		}
+	}
+}

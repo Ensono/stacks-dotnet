@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "stacks@amido.com",
+    "classifications": [
+        "Stacks",
+        "Azure Function",
+        "CosmosDb",
+        "Worker"
+    ],
+    "name": "Amido Stacks Azure Function CosmosDb Worker",
+    "identity": "Amido.Stacks.AzFunc.CosmosDb.Worker.CSharp",
+    "groupIdentity": "Amido.Stacks.AzFunc.CosmosDb.Worker",
+    "shortName": "stacks-az-func-cosmosdb-worker",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "sourceName": "xxAMIDOxx.xxSTACKSxx",
+    "preferNameDirectory": true,
+    "symbols": {},
+    "sources": [
+        {
+            "source": "./",
+            "include": [
+                "**/*"
+            ],
+            "exclude": [
+                "**/[Bb]in/**",
+                "**/[Oo]bj/**",
+                "**/.template.config/**",
+                "**/*.filelist",
+                "**/*.user",
+                "**/*.lock.json",
+                "**/.git/**",
+                "**/.vs/**",
+                "**/.vscode/**",
+                "_rels/**",
+                "package/**",
+                "**/*.nuspec",
+                "*Content_Types*.xml"
+            ],
+            "rename": {
+                "_gitignore": ".gitignore",
+                "_gitattributes": ".gitattributes"
+            },
+            "modifiers": []
+        }
+    ],
+    "SpecialCustomOperations": {
+        "**/*.yml": {
+            "Operations": [
+                {
+                    "type": "conditional",
+                    "configuration": {
+                        "style": "line",
+                        "token": "#"
+                    }
+                }
+            ]
+        }
+    }
+}

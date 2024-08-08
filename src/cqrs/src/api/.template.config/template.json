@@ -1,0 +1,266 @@
+﻿{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "stacks@amido.com",
+    "classifications": [
+        "Stacks",
+        "CQRS"
+    ],
+    "name": "Amido Stacks CQRS Projects",
+    "identity": "Amido.Stacks.Add.CQRS.CSharp",
+    "groupIdentity": "Amido.Stacks.Add.CQRS",
+    "shortName": "stacks-add-cqrs",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "sourceName": "xxAMIDOxx.xxSTACKSxx",
+    "symbols": {
+        "domain": {
+            "type": "parameter",
+            "isRequired": true,
+            "replaces": "Menu",
+            "fileRename": "Menu",
+            "defaultValue": "DOMAIN",
+            "forms": {
+                "global": [
+                    "identity",
+                    "lowerCase"
+                ]
+            }
+        },
+        "eventPublisher": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "None",
+			"choices": [
+				{
+					"choice": "ServiceBus",
+					"description": "Targets Azure Service Bus for publishing events."
+				},
+				{
+					"choice": "EventHub",
+					"description": "Targets Azure Event Hubs for publishing events."
+				},
+				{
+					"choice": "AwsSns",
+					"description": "Targets AWS SNS for publishing events."
+				},
+				{
+					"choice": "None",
+					"description": "Use a dummy event publisher"
+				}
+			],
+			"description": "Adds event publishing."
+		},
+        "database": {
+            "type": "parameter",
+            "datatype": "choice",
+            "defaultValue": "InMemoryDb",
+            "choices": [
+                {
+                    "choice": "CosmosDb",
+                    "description": "Targets Azure Cosmos database for storing data."
+                },
+                {
+                    "choice": "DynamoDb",
+                    "description": "Targets AWS Dynamo database for storing data."
+                },
+                {
+                    "choice": "InMemoryDb",
+                    "description": "Targets an In Memory database for storing data."
+                }
+            ],
+            "description": "Adds saving to database."
+        },
+        "CosmosDb": {
+            "type": "computed",
+            "value": "(database == \"CosmosDb\")"
+        },
+        "DynamoDb": {
+            "type": "computed",
+            "value": "(database == \"DynamoDb\")"
+        },
+        "InMemoryDb": {
+            "type": "computed",
+            "value": "(database == \"InMemoryDb\")"
+        },
+        "EventPublisherServiceBus": {
+			"type": "computed",
+			"value": "(eventPublisher == \"ServiceBus\")"
+		},
+		"EventPublisherEventHub": {
+			"type": "computed",
+			"value": "(eventPublisher == \"EventHub\")"
+		},
+		"EventPublisherAwsSns": {
+			"type": "computed",
+			"value": "(eventPublisher == \"AwsSns\")"
+		},
+		"EventPublisherNone": {
+			"type": "computed",
+			"value": "(eventPublisher == \"None\")"
+		}
+    },
+    "sources": [
+        {
+            "source": "./",
+            "include": [
+                "**/xxAMIDOxx.xxSTACKSxx.API/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Application.Integration/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Common/**",
+                "**/xxAMIDOxx.xxSTACKSxx.CQRS/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Domain/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Infrastructure/**",
+                "**/xxAMIDOxx.xxSTACKSxx.API.ComponentTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.API.ContractTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.API.UnitTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Common.UnitTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/**",
+                "**/xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/**"
+            ],
+            "exclude": [
+                "**/[Bb]in/**",
+                "**/[Oo]bj/**",
+                "**/.template.config/**",
+                "**/*.filelist",
+                "**/*.user",
+                "**/*.lock.json",
+                "**/.git/**",
+                "**/.vs/**",
+                "**/.vscode/**",
+                "_rels/**",
+                "package/**",
+                "**/*.nuspec",
+                "**/[Tt]emplate.csproj",
+                "*Content_Types*.xml"
+            ],
+            "modifiers": [
+                {
+					"condition": "(CosmosDb)",
+					"exclude": [
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
+						"xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
+					]
+				},
+				{
+					"condition": "(DynamoDb)",
+					"exclude": [
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs"
+					]
+				},
+				{
+					"condition": "(!CosmosDb && !DynamoDb)",
+					"exclude": [
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
+						"xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
+					]
+				},
+                {
+					"condition": "(EventPublisherServiceBus || EventPublisherEventHub || EventPublisherAwsSns)",
+					"exclude": [
+						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Fakes/DummyEventPublisher.cs"
+					]
+				}
+            ]
+        }
+    ],
+    "postActions": [
+        {
+            "description": "Adding projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (API folder): Infrastructure, API"
+                }
+            ],
+            "args": {
+                "solutionFolder": "API",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.API.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+        {
+            "description": "Adding projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (application folder): Application.CommandHandlers, Application.Integration, Application.QueryHandlers."
+                }
+            ],
+            "args": {
+                "solutionFolder": "Application",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+        {
+            "description": "Adding projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (domain folder): Domain."
+                }
+            ],
+            "args": {
+                "solutionFolder": "Domain",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Domain.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+        {
+            "description": "Adding projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (shared folder): Common, CQRS."
+                }
+            ],
+            "args": {
+                "solutionFolder": "Shared",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Common.csproj",
+                    "xxAMIDOxx.xxSTACKSxx.CQRS.csproj"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        },
+        {
+            "description": "Adding test projects to solution",
+            "manualInstructions": [
+                {
+                    "text": "Add the following projects to solution manually (tests folder): Common.UnitTests, CQRS.UnitTests, Domain.UnitTests, Infrastructure.IntegrationTests."
+                }
+            ],
+            "args": {
+                "solutionFolder": "Tests",
+                "projectFiles": [
+                    "xxAMIDOxx.xxSTACKSxx.Common.UnitTests/**",
+                    "xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests/**",
+                    "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/**",
+                    "xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/**",
+                    "xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/**"
+                ]
+            },
+            "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+            "continueOnError": true
+        }
+    ]
+}
