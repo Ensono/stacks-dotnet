@@ -9,10 +9,8 @@ contexts:
         - ${PWD}:/app
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
-        - -v
-        - ${PWD}/../independent-runner/outputs/module/:/modules2
         - -e
-        - PSModulePath=/modules2
+        - PSModulePath=/modules
         - -w
         - /app
         - --env-file
