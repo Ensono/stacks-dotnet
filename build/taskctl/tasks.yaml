@@ -123,7 +123,9 @@ tasks:
     description: Create container image for application
     command:
       # - Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -buildargs src/api -push
-      - . /app/build/scripts/Build-DockerImage && Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -buildargs src/api -push
+      - $ErrorActionPreference = "Stop";
+        . /app/build/scripts/Build-DockerImage &&
+        Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -BuildPath src/api -push
       # TODO: -region $env:ECR_REGION is specified due to a missing -Or statement in the PS module. This module bug will need to be restored before this can be merged to main.
 
   build:functional_tests:
