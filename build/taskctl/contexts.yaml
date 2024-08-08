@@ -15,7 +15,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh:0.4.135-stable
+        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.1.91
         - pwsh
         - -NoProfile
         - -Command
@@ -44,7 +44,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-dotnet:0.4.135-stable
+        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.91
         - pwsh
         - -NoProfile
         - -Command
