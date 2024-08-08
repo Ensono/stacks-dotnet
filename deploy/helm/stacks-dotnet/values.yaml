@@ -33,8 +33,6 @@ aadPodIdentityBinding: ${aadpodidentitybinding}
 pod:
   secretSuffix: secret
   appInsightsKey: ${app_insights_key}
-  cloudwatchLogGroup: ${cloudwatch_log_group}
-  cloudwatchStreamPrefix: ${cloudwatch_stream_prefix}
   loglevel:  ${loglevel}
 
 namespace: ${namespace}
