@@ -125,8 +125,8 @@ tasks:
       # - $ErrorActionPreference = "Stop";
       #   Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -BuildPath src/api -push
       - $ErrorActionPreference = "Stop";
-        mkdir -p /usr/libexec/docker/cli-plugins &&
         $DOCKER_BUILDX_VERSION = "v0.16.2";
+        mkdir -p /usr/libexec/docker/cli-plugins &&
         curl --fail-with-body -L "https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.linux-amd64" -o /usr/libexec/docker/cli-plugins/docker-buildx &&
         chmod +x /usr/libexec/docker/cli-plugins/docker-buildx &&
         . /app/build/scripts/Build-DockerImage &&
