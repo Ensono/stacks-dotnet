@@ -15,7 +15,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.1.91
+        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.1.106
         - pwsh
         - -NoProfile
         - -Command
@@ -44,7 +44,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.91
+        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.106
         - pwsh
         - -NoProfile
         - -Command
