@@ -37,16 +37,6 @@ data:
           }
       },
       "AllowedHosts": "*",
-      {{- if eq .Values.cloudProvider "aws" }}
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "${cloudwatch_log_group_name}",
-          "awslogs-region": "${region}",
-          "awslogs-stream-prefix": "${cloudwatch_log_prefix}"
-        }
-      },
-      {{- end }}
       "JwtBearerAuthentication": {
           "Audience": "${jwtbearerauthentication_audience}",
           "Authority": "${jwtbearerauthentication_authority}",

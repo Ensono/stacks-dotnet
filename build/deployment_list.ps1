@@ -11,8 +11,6 @@
         k8s_image = "`${DOCKER_REGISTRY}/`${DOCKER_IMAGE_NAME}:`${DOCKER_IMAGE_TAG}"
         aadpodidentitybinding = "stacks-webapp-identity"
         app_insights_key = "`${APP_INSIGHTS_INSTRUMENTATION_KEY}"
-        cloudwatch_log_group_name = "`${CLOUDWATCH_LOG_GROUP}"
-        cloudwatch_log_prefix ="`${CLOUDWATCH_STREAM_PREFIX}"
         version = "`${DOCKER_IMAGE_TAG}"
         rewrite_target = '/$([char]0x0024)2' # Using UniCode to prevent substitution
     }

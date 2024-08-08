@@ -174,8 +174,6 @@ jobs:
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: “ensono-stacks-nonprod-ew2-eks # TODO: To be read from core state
-          CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
           DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
