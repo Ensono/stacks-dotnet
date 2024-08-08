@@ -331,7 +331,7 @@ ASALocalRun/
 .mfractor/
 
 # PROJECT SPECIFIC FILES
-/src/api/xxAMIDOxx.xxSTACKSxx.API/out
+/src/simple-api/xxAMIDOxx.xxSTACKSxx.API/out
 pacts/
 
 # scala files

@@ -26,7 +26,7 @@ variables:
 
   # Tests
   - name: Test.ProviderContractTestProjectSourcePath
-    value: '$(Build.SourcesDirectory)/src/api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'
+    value: '$(Build.SourcesDirectory)/src/simple-api/xxAMIDOxx.xxSTACKSxx.API.ContractTests'
 
   # Docker Config
   - name: Docker.ImageTag

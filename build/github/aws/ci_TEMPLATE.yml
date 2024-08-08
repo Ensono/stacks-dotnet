@@ -81,7 +81,7 @@ jobs:
           PROJECT_NAME: stacks-dotnet
           BUILD_BUILDNUMBER: 0.0.${{env.GITHUB_RUN_NUMBER}}
           # Dotnet Build
-          SELF_REPO_SRC: src/api
+          SELF_REPO_SRC: src/simple-api
           # Docker
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ env.DOCKER_REGISTRY_NAME }}
           ECR_REGION: ${{ env.REGION }}
