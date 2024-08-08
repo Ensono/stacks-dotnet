@@ -81,7 +81,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
-          SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
+          SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" /d:sonar.pullrequest.key="${{ github.event.number }}" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.event.repository.name }}'
           PROJECT_NAME: Ensono_stacks-dotnet-aws
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
           # Dotnet Build
