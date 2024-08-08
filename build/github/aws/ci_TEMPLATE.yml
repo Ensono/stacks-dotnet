@@ -23,10 +23,10 @@ env:
   #   AWS_TF_STATE_KEY
   #   AWS_TF_STATE_REGION
   CLOUD_PROVIDER: "aws"
-  TaskctlVersion: '1.4.2'
+  TaskctlVersion: '1.5.2'
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
-  DOCKER_IMAGE_NAME: "stacks-api"
-  DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com"
+  DOCKER_IMAGE_NAME: "{{ .Input.Business.Domain }}-{{ .Project.Name }}-api"
+  DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.{{ .Project.Cloud.Region }}.amazonaws.com"
   OWNER: "stacks_team"
   REGION: "{{ .Project.Cloud.Region }}"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
@@ -34,7 +34,7 @@ env:
   HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
   HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
   # K8S Additional Deploy-Templater var substitutions
-  DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # #TODO: Parse this with region, duplicates DOCKER_REGISTRY_NAME
+  DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.{{ .Project.Cloud.Region }}.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
   # App Config (for both TF and K8S)
   RESOURCE_DEF_NAME: "{{ .Project.Name }}-api"
@@ -84,7 +84,7 @@ jobs:
           SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
           SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" /d:sonar.pullrequest.key="${{ github.event.number }}" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.event.repository.name }}'
-          PROJECT_NAME: Ensono_stacks-dotnet
+          PROJECT_NAME: ${{ env.COMPANY }}_${{ env.APP_NAME }}-aws
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
           # Dotnet Build
           SELF_REPO_SRC: src/api
@@ -198,16 +198,18 @@ jobs:
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
           TF_VAR_name_domain: ${{ env.DOMAIN }}
+          # Helm Chart Configuration
+          HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
+          HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA"
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
-          K8S_INGRESS_CERT_ARN: "replaceme"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api-cqrs.nonprodaws.amidostacks.com/api/menu/"
+          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api.nonprodaws.amidostacks.com/api/menu/"
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
@@ -253,7 +255,7 @@ jobs:
           TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployProd:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     needs: AppInfraProd
     runs-on: ubuntu-latest
     environment: prod
@@ -272,6 +274,10 @@ jobs:
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+
+      - run: taskctl image-pull
+
+      - run: taskctl image-pull-dotnet
 
       - name: TaskCTL Deploy
         run: taskctl deploy
@@ -302,12 +308,11 @@ jobs:
           K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "prod-${{ env.DOMAIN }}"
-          K8S_INGRESS_CERT_ARN: "replaceme"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "replaceme" # i.e. "https://prod-dev-netcore-api.nonprodaws.amidostacks.com/${{ env.K8S_APP_ROUTE }}"
+          BaseUrl: "replaceme" # i.e. "https://prod-dev-netcore-api.prod.aws.stacks.ensono.com/api/menu/"
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
