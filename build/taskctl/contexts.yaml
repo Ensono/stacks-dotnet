@@ -9,13 +9,15 @@ contexts:
         - ${PWD}:/app
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
+        - -v
+        - ${PWD}/../independent-runner/outputs/module/:/modules2
         - -e
-        - PSModulePath=/modules
+        - PSModulePath=/modules2
         - -w
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh:0.4.116-stable
+        - amidostacks/runner-pwsh:0.4.135-stable
         - pwsh
         - -NoProfile
         - -Command
@@ -44,7 +46,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-dotnet:0.4.116-stable
+        - amidostacks/runner-pwsh-dotnet:0.4.135-stable
         - pwsh
         - -NoProfile
         - -Command

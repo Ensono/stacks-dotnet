@@ -62,8 +62,8 @@ jobs:
         env:
           TF_FILE_LOCATION: deploy/aws/app/kube
 
-  build:
-    needs: lint
+  Build:
+    needs: Lint
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
@@ -104,7 +104,7 @@ jobs:
 
   AppInfraDev:
     if: github.ref != 'refs/heads/master'
-    needs: build
+    needs: Build
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
@@ -207,13 +207,15 @@ jobs:
 
   AppInfraProd:
     if: github.ref == 'refs/heads/master'
-    needs: build
+    needs: Build
     runs-on: ubuntu-latest
     environment: prod
     steps:
       - uses: actions/checkout@v4
 
       - uses: ./build/github/templates/install-taskctl
+
+      - run: taskctl image-pull
 
       - run: taskctl infrastructure
         env:
@@ -256,6 +258,10 @@ jobs:
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+
+      - run: taskctl image-pull
+
+      - run: taskctl image-pull-dotnet
 
       - name: TaskCTL Deploy
         run: taskctl deploy

@@ -62,8 +62,8 @@ jobs:
         env:
           TF_FILE_LOCATION: deploy/aws/app/kube
 
-  build:
-    needs: lint
+  Build:
+    needs: Lint
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
@@ -103,7 +103,7 @@ jobs:
 
   AppInfraDev:
     if: github.ref != 'refs/heads/master'
-    needs: build
+    needs: Build
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
@@ -204,7 +204,7 @@ jobs:
 
   AppInfraProd:
     if: github.ref == 'refs/heads/master'
-    needs: build
+    needs: Build
     runs-on: ubuntu-latest
     environment: prod
     steps:
