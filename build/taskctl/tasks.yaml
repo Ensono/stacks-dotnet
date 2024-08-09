@@ -1,4 +1,11 @@
 tasks:
+  image-pull:
+    context: powershell
+    command: ""
+
+  image-pull-dotnet:
+    context: powershell-dotnet
+    command: ""
 
   buildnumber:
     context: powershell
@@ -13,7 +20,7 @@ tasks:
       - Invoke-GitClone -repo amido/stacks-pipeline-templates -ref refs/tags/v2.0.6 -path support
 
   lint:yaml:
-    context: powershell-python
+    context: powershell
     description: Perform YAML linting
     command:
       - Invoke-YamlLint
@@ -37,7 +44,8 @@ tasks:
     context: powershell-dotnet
     description: Run Tests
     command:
-      - Invoke-SonarScanner -start &&
+      - $ErrorActionPreference = "Stop";
+        Invoke-SonarScanner -start &&
         Invoke-DotNet -Build -Path $env:SELF_REPO_SRC &&
         Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
@@ -114,8 +122,15 @@ tasks:
     context: powershell-dotnet
     description: Create container image for application
     command:
-      - env
-      - Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -buildargs src/api -push
+      - $ErrorActionPreference = "Stop";
+        Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -BuildPath src/api -push
+      # - $ErrorActionPreference = "Stop";
+      #   $DOCKER_BUILDX_VERSION = "v0.16.2";
+      #   mkdir -p /usr/libexec/docker/cli-plugins &&
+      #   curl --fail-with-body -L "https://github.com/docker/buildx/releases/download/${DOCKER_BUILDX_VERSION}/buildx-${DOCKER_BUILDX_VERSION}.linux-amd64" -o /usr/libexec/docker/cli-plugins/docker-buildx &&
+      #   chmod +x /usr/libexec/docker/cli-plugins/docker-buildx &&
+      #   . /app/build/scripts/Build-DockerImage &&
+      #   Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -BuildPath src/api -push
       # TODO: -region $env:ECR_REGION is specified due to a missing -Or statement in the PS module. This module bug will need to be restored before this can be merged to main.
 
   build:functional_tests:
@@ -183,8 +198,6 @@ tasks:
     description: Update the Deployment Dashboard
     command:
       - Update-InfluxDashboard
-    # env:
-    #  PUBLISH_RELEASE: $true
 
   publish:nuget:
     context: powershell
