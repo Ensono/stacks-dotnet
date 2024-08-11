@@ -236,7 +236,7 @@ jobs:
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "https://nonprod-dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"
 
-      - name: Dotnet Functional Test Report
+      - name: "Dev: Dotnet Functional Test Report"
         uses: dorny/test-reporter@v1
         if: always()
         with:
@@ -348,6 +348,16 @@ jobs:
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "https://prod-dev-netcore-api.prod.aws.stacks.ensono.com/api/menu/"
+
+      - name: "Prod: Dotnet Functional Test Report"
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Dotnet Functional Tests
+          path: testresults/*.trx
+          reporter: dotnet-trx
+          fail-on-error: true
+          fail-on-empty: true
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v4
