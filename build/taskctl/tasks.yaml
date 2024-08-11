@@ -38,21 +38,16 @@ tasks:
       - Invoke-Terraform -Validate -Path $env:TF_FILE_LOCATION
 
   # TESTS
-  # TODO: Wrapper for a Build and all Tests with SonarScanner, may be able to be split
-  # TODO: Update base image to have jdk-11
   test:
     context: powershell-dotnet
     description: Run Tests
     command:
       - $ErrorActionPreference = "Stop";
-        Invoke-SonarScanner -start &&
         Invoke-DotNet -Build -Path $env:SELF_REPO_SRC &&
-        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
-        Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
-        Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
-        Invoke-DotNet -Coverage -target /app/coverage &&
-        Remove-Item Env:\SONAR_PROPERTIES &&
-        Invoke-SonarScanner -stop
+        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/ --no-build" &&
+        Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/ --no-build" &&
+        Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/ --no-build" &&
+        Invoke-DotNet -Coverage -target /app/coverage
     condition: exit $TEST_NO_RUN
 
   # TODO: Not currently used
@@ -174,7 +169,7 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path $env:FUNCTIONAL_TESTS_RUN_DIR
+      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -arguments "--logger 'trx' --results-directory /app/testresults --no-build"
 
   publish:github:
     context: powershell
