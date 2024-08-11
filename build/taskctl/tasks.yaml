@@ -169,7 +169,7 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -arguments "--logger 'trx' --results-directory /app/testresults --no-build"
+      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults --no-build"
 
   publish:github:
     context: powershell
