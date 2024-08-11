@@ -8,6 +8,11 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 env:
   # The following SECRETS are required in your GH Repository:
   #   PACT_BEARER_TOKEN
