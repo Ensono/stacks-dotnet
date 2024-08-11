@@ -8,6 +8,12 @@ on:
     branches:
       - master
 
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  pull-requests: write
+
 env:
   # The following SECRETS are required in your GH Repository:
   #   PACT_BEARER_TOKEN
@@ -48,22 +54,7 @@ env:
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
 jobs:
-  Lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./build/github/templates/install-taskctl
-
-      - run: taskctl image-pull
-
-      - run: taskctl lint
-        env:
-          TF_FILE_LOCATION: deploy/aws/app/kube
-
   Build:
-    needs: Lint
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
@@ -74,6 +65,10 @@ jobs:
       - uses: ./build/github/templates/install-taskctl
 
       - run: taskctl image-pull
+
+      - run: taskctl lint
+        env:
+          TF_FILE_LOCATION: deploy/aws/app/kube
 
       - run: taskctl image-pull-dotnet
 
@@ -108,8 +103,38 @@ jobs:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
+      - name: Dotnet Unit Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Dotnet Unit Tests
+          path: testresults/*.trx
+          reporter: dotnet-trx
+          fail-on-error: true
+          fail-on-empty: true
+
+      - name: Generate Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        if: always()
+        continue-on-error: false
+        with:
+          filename: coverage/Cobertura.xml
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: false
+          output: both
+
+      - name: Publish Coverage Report
+        if: always()
+        continue-on-error: false
+        run: |
+          if [ -f code-coverage-results.md ]; then
+            echo "## Dotnet Code Coverage" >> $GITHUB_STEP_SUMMARY
+            cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Publish Functional Tests
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
@@ -168,7 +193,7 @@ jobs:
       - run: taskctl image-pull-dotnet
 
       - name: Download Functional Tests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
@@ -211,8 +236,18 @@ jobs:
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api.nonprodaws.amidostacks.com/api/menu/"
 
+      - name: "Dev: Dotnet Functional Test Report"
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Dotnet Functional Tests
+          path: testresults/*.trx
+          reporter: dotnet-trx
+          fail-on-error: true
+          fail-on-empty: true
+
       - name: Publish Manifest File
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm_values_nonprod
           path: ${{ env.HELM_VALUE_FILE }}
@@ -270,7 +305,7 @@ jobs:
       - run: taskctl image-pull-dotnet
 
       - name: Download Functional Tests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
@@ -313,9 +348,18 @@ jobs:
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "replaceme" # i.e. "https://prod-dev-netcore-api.prod.aws.stacks.ensono.com/api/menu/"
+      - name: "Prod: Dotnet Functional Test Report"
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Dotnet Functional Tests
+          path: testresults/*.trx
+          reporter: dotnet-trx
+          fail-on-error: true
+          fail-on-empty: true
 
       - name: Publish Manifest File
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm_values_prod
           path: ${{ env.HELM_VALUE_FILE }}
