@@ -109,7 +109,7 @@ jobs:
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
       - name: Publish Functional Tests
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
@@ -168,7 +168,7 @@ jobs:
       - run: taskctl image-pull-dotnet
 
       - name: Download Functional Tests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
@@ -212,7 +212,7 @@ jobs:
           BaseUrl: "https://nonprod-dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"
 
       - name: Publish Manifest File
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm_values_nonprod
           path: ${{ env.HELM_VALUE_FILE }}
@@ -270,7 +270,7 @@ jobs:
       - run: taskctl image-pull-dotnet
 
       - name: Download Functional Tests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
@@ -315,7 +315,7 @@ jobs:
           BaseUrl: "https://prod-dev-netcore-api.prod.aws.stacks.ensono.com/api/menu/"
 
       - name: Publish Manifest File
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm_values_prod
           path: ${{ env.HELM_VALUE_FILE }}
