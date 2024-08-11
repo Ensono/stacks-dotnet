@@ -124,14 +124,12 @@ jobs:
           fail-on-error: true
           fail-on-empty: true
 
-      - run: ls -la coverage/ && cat coverage/coverage.opencover.xml
-
       - name: Generate Coverage Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         if: always()
         continue-on-error: false
         with:
-          filename: coverage/coverage.opencover.xml
+          filename: coverage/Cobertura.xml
           format: markdown
           hide_branch_rate: false
           hide_complexity: false
@@ -141,7 +139,7 @@ jobs:
         if: always()
         continue-on-error: false
         run: |
-          if [ ! -f code-coverage-results.md ]; then
+          if [ -f code-coverage-results.md ]; then
             echo "## Dotnet Code Coverage" >> $GITHUB_STEP_SUMMARY
             cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
           fi
