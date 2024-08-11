@@ -44,7 +44,7 @@ contexts:
         - /app
         - --env-file
         - envfile
-        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.153
+        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.153-amd64
         - pwsh
         - -NoProfile
         - -Command
