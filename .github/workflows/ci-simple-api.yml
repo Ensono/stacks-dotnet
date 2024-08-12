@@ -1,6 +1,8 @@
 name: air.stacks-dotnet
 
 on:
+  workflow_dispatch:
+    inputs: []
   push:
     branches:
       - master
