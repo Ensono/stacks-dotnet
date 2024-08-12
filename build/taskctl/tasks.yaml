@@ -1,4 +1,23 @@
 tasks:
+  ######
+  # These `image-pull*` tasks are dummy tasks used for pulling
+  # images in the Pipeline to help de-clutter the build logs:
+  # e.g.:
+  # - run: taskctl image-pull
+
+  # - run: taskctl lint
+  #   env:
+  #     TF_FILE_LOCATION: deploy/aws/app/kube
+
+  # - run: taskctl image-pull-dotnet
+  image-pull:
+    context: powershell
+    command: ""
+
+  image-pull-dotnet:
+    context: powershell-dotnet
+    command: ""
+  ######
 
   buildnumber:
     context: powershell
@@ -13,7 +32,7 @@ tasks:
       - Invoke-GitClone -repo amido/stacks-pipeline-templates -ref refs/tags/v2.0.6 -path support
 
   lint:yaml:
-    context: powershell-python
+    context: powershell
     description: Perform YAML linting
     command:
       - Invoke-YamlLint
@@ -31,13 +50,12 @@ tasks:
       - Invoke-Terraform -Validate -Path $env:TF_FILE_LOCATION
 
   # TESTS
-  # TODO: Wrapper for a Build and all Tests with SonarScanner, may be able to be split
-  # TODO: Update base image to have jdk-11
   test:
     context: powershell-dotnet
     description: Run Tests
     command:
-      - Invoke-SonarScanner -start &&
+      - $ErrorActionPreference = "Stop";
+        Invoke-SonarScanner -start &&
         Invoke-DotNet -Build -Path $env:SELF_REPO_SRC &&
         Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
@@ -111,12 +129,11 @@ tasks:
 
   # Compilation tasks
   build:container:
-    context: powershell-dotnet
+    context: powershell
     description: Create container image for application
     command:
-      - env
-      - Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -buildargs src/api -push
-      # TODO: -region $env:ECR_REGION is specified due to a missing -Or statement in the PS module. This module bug will need to be restored before this can be merged to main.
+      - $ErrorActionPreference = "Stop";
+        Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -BuildPath src/api -push
 
   build:functional_tests:
     context: powershell-dotnet
@@ -167,7 +184,7 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path $env:FUNCTIONAL_TESTS_RUN_DIR
+      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults --no-build"
 
   publish:github:
     context: powershell
@@ -183,8 +200,6 @@ tasks:
     description: Update the Deployment Dashboard
     command:
       - Update-InfluxDashboard
-    # env:
-    #  PUBLISH_RELEASE: $true
 
   publish:nuget:
     context: powershell
