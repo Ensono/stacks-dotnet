@@ -14,8 +14,14 @@ variable "tags" {
 }
 
 variable "env" {
-  description = "The name of the environment."
+  description = "The name of the environment, e.g. NonProd, Prod"
   default     = "nonprod"
+  type        = string
+}
+
+variable "stage" {
+  description = "The name of the Stage, e.g. Dev, Test, Prod."
+  default     = "dev"
   type        = string
 }
 

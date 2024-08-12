@@ -42,7 +42,6 @@ pipelines:
     - task: infra:apply
       depends_on: infra:plan
 
-
   # Deploy pipeline
   deploy:
     - task: infra:init
