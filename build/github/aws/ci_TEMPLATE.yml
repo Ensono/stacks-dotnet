@@ -248,7 +248,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Dotnet Functional Tests
+          name: "Dev: Dotnet Functional Test Report"
           path: testresults/*.trx
           reporter: dotnet-trx
           fail-on-error: true
@@ -361,7 +361,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Dotnet Functional Tests
+          name: "Prod: Dotnet Functional Test Report"
           path: testresults/*.trx
           reporter: dotnet-trx
           fail-on-error: true
