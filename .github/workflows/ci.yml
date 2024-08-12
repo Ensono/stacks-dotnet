@@ -72,13 +72,24 @@ jobs:
 
       - run: taskctl image-pull-dotnet
 
+      - name: Set Sonar PR Arguments
+        id: sonar-pr
+        run: |
+          prArguments=""
+
+          if [ ! -z "${{ github.event.number }}" ]; then
+            prArguments="/d:sonar.pullrequest.key=\"${{ github.event.number }}\" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.repository }}"
+          fi
+
+          echo "arguments=${prArguments}" >> "${GITHUB_OUTPUT}"
+
       - run: taskctl test
         env:
           # Testing
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
-          SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" /d:sonar.pullrequest.key="${{ github.event.number }}" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.event.repository.name }}'
+          SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" ${{ steps.sonar-pr.outputs.arguments }}'
           PROJECT_NAME: Ensono_stacks-dotnet-aws
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
           # Dotnet Build
