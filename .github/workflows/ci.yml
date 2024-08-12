@@ -47,7 +47,7 @@ env:
   COMPONENT: "api"
   ROLE: "backend"
   APP_NAME: "yumido-netcore-api"
-  DOMAIN: "dev-netcore-api"
+  DOMAIN: "netcore-api"
   COMPANY: "ensono"
   PROJECT: "stacks"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
@@ -164,7 +164,7 @@ jobs:
 
       - run: taskctl infrastructure
         env:
-          ENV_NAME: nonprod
+          ENV_NAME: dev
           # AWS Environmental Config
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -183,7 +183,7 @@ jobs:
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_create_docker_repositories: true # Required for one environment per AWS account
-          TF_VAR_stage: "nonprod"
+          TF_VAR_stage: "dev"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
           TF_VAR_name_domain: ${{ env.DOMAIN }}
@@ -212,7 +212,7 @@ jobs:
       - name: TaskCTL Deploy
         run: taskctl deploy
         env:
-          ENV_NAME: nonprod
+          ENV_NAME: dev
           # AWS Environmental Config
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -230,19 +230,19 @@ jobs:
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
-          TF_VAR_stage: "nonprod"
+          TF_VAR_stage: "dev"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
           TF_VAR_name_domain: ${{ env.DOMAIN }}
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
-          NAMESPACE: "nonprod-${{ env.DOMAIN }}"
+          NAMESPACE: "dev-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://nonprod-dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"
+          BaseUrl: "https://dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"
 
       - name: "Dev: Dotnet Functional Test Report"
         uses: dorny/test-reporter@v1

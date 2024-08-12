@@ -1,5 +1,4 @@
 @(
-
   @{
     displayName = "Helm"
     template = "deploy/helm/stacks-dotnet/values.yaml"
@@ -14,7 +13,7 @@
         version = "`${DOCKER_IMAGE_TAG}"
         rewrite_target = '/$([char]0x0024)2' # Using UniCode to prevent substitution
     }
-}
+  }
 )
 
 # # AWS is expecting env vars or TF outputs for:
