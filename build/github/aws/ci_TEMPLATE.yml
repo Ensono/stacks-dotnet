@@ -237,7 +237,7 @@ jobs:
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA"
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
-          NAMESPACE: "nonprod-${{ env.DOMAIN }}"
+          NAMESPACE: "dev-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com"
           # Functional Test Configuration

@@ -47,7 +47,7 @@ env:
   COMPONENT: "api"
   ROLE: "backend"
   APP_NAME: "yumido-netcore-api"
-  DOMAIN: "dev-netcore-api"
+  DOMAIN: "netcore-api"
   COMPANY: "ensono"
   PROJECT: "stacks"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
@@ -237,12 +237,12 @@ jobs:
           # K8S Target Configuration
           K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
-          NAMESPACE: "nonprod-${{ env.DOMAIN }}"
+          NAMESPACE: "dev-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://nonprod-dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"
+          BaseUrl: "https://dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"
 
       - name: "Dev: Dotnet Functional Test Report"
         uses: dorny/test-reporter@v1
