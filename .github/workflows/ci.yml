@@ -72,12 +72,13 @@ jobs:
 
       - run: taskctl image-pull-dotnet
 
-      - id: sonar-pr
+      - name: Set Sonar PR Arguments
+        id: sonar-pr
         run: |
           prArguments=""
 
           if [ ! -z "${{ github.event.number }}" ]; then
-            prArguments="/d:sonar.pullrequest.key=\"${{ github.event.number }}\" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.repository_owner }}/${{ github.repository }}"
+            prArguments="/d:sonar.pullrequest.key=\"${{ github.event.number }}\" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.repository }}"
           fi
 
           echo "arguments=${prArguments}" >> "${GITHUB_OUTPUT}"
