@@ -3,7 +3,7 @@ name: air.stacks-dotnet
 on:
   push:
     branches:
-      - 7686-pipeline
+      - master
   pull_request:
     branches:
       - master
