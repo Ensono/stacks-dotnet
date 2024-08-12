@@ -2,16 +2,17 @@ name: air.stacks-dotnet
 
 on:
   push:
-    paths:
-      - 'build/github/**'
-      - 'src/**'
-      - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/helm/**'  # TODO: Review this as new cloud provider targets are used
-      - '.github/workflows/ci.yml'
+    branches:
+      - master
   pull_request:
     branches:
-        - master
-        - main
+      - master
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  pull-requests: write
 
 env:
   # The following SECRETS are required in your GH Repository:
@@ -28,10 +29,10 @@ env:
   #   AWS_TF_STATE_KEY
   #   AWS_TF_STATE_REGION
   CLOUD_PROVIDER: "aws"
-  TaskctlVersion: '1.4.2'
+  TaskctlVersion: '1.5.2'
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
-  DOCKER_IMAGE_NAME: "stacks-api"
-  DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com"
+  DOCKER_IMAGE_NAME: "{{ .Input.Business.Domain }}-{{ .Project.Name }}-api"
+  DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.{{ .Project.Cloud.Region }}.amazonaws.com"
   OWNER: "stacks_team"
   REGION: "{{ .Project.Cloud.Region }}"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
@@ -39,7 +40,7 @@ env:
   HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
   HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
   # K8S Additional Deploy-Templater var substitutions
-  DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com" # #TODO: Parse this with region, duplicates DOCKER_REGISTRY_NAME
+  DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.{{ .Project.Cloud.Region }}.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
   # App Config (for both TF and K8S)
   RESOURCE_DEF_NAME: "{{ .Project.Name }}-api"
@@ -53,34 +54,43 @@ env:
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
 jobs:
-  Lint:
+  Build:
     runs-on: ubuntu-latest
-
+    environment: nonprod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: ./build/github/templates/install-taskctl
+
+      - run: taskctl image-pull
+
       - run: taskctl lint
         env:
           TF_FILE_LOCATION: deploy/aws/app/kube
 
-  build:
-    needs: lint
-    runs-on: ubuntu-latest
-    environment: nonprod
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./build/github/templates/install-taskctl
-      - run: taskctl build
+      - run: taskctl image-pull-dotnet
+
+      - run: taskctl test
         env:
-          # TF Linting and Validation
-          TF_FILE_LOCATION: deploy/aws/app/kube
           # Testing
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: amido
+          SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
-          SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
-          PROJECT_NAME: stacks-dotnet
-          BUILD_BUILDNUMBER: 0.0.${{env.GITHUB_RUN_NUMBER}}
+          SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" /d:sonar.pullrequest.key="${{ github.event.number }}" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.event.repository.name }}'
+          PROJECT_NAME: ${{ env.COMPANY }}_${{ env.APP_NAME }}-aws
+          BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
+          # Dotnet Build
+          SELF_REPO_SRC: src/api
+
+      - run: taskctl build:functional_tests
+        env:
+          # Dotnet Build
+          SELF_REPO_SRC: src/api
+
+      - run: taskctl build:container
+        env:
           # Dotnet Build
           SELF_REPO_SRC: src/api
           # Docker
@@ -90,21 +100,58 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.REGION }}
+          IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
+          BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
+
+      - name: Dotnet Unit Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Dotnet Unit Tests
+          path: testresults/*.trx
+          reporter: dotnet-trx
+          fail-on-error: true
+          fail-on-empty: true
+
+      - name: Generate Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        if: always()
+        continue-on-error: false
+        with:
+          filename: coverage/Cobertura.xml
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: false
+          output: both
+
+      - name: Publish Coverage Report
+        if: always()
+        continue-on-error: false
+        run: |
+          if [ -f code-coverage-results.md ]; then
+            echo "## Dotnet Code Coverage" >> $GITHUB_STEP_SUMMARY
+            cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Publish Functional Tests
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
-    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
-    needs: build
+    if: github.ref != 'refs/heads/master'
+    needs: Build
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl infrastructure # TODO: This is tactical, will require refactor of task to take arguments as separate var
+
+      - run: taskctl image-pull
+
+      - run: taskctl infrastructure
         env:
           ENV_NAME: nonprod
           # AWS Environmental Config
@@ -128,22 +175,29 @@ jobs:
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployDev:
-    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/master'
     needs: AppInfraDev
     runs-on: ubuntu-latest
     environment: nonprod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+
+      - run: taskctl image-pull
+
+      - run: taskctl image-pull-dotnet
+
       - name: Download Functional Tests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+
       - name: TaskCTL Deploy
         run: taskctl deploy
         env:
@@ -161,39 +215,53 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "nonprod"
+          TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_stage: "nonprod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA" TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "" # i.e. "amido-stacks-dev-h0ax6owA"
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api-cqrs.nonprodaws.amidostacks.com/api/menu/"  # TODO: To be read and constructed at runtime from core state
+          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api.nonprodaws.amidostacks.com/api/menu/"
+
+      - name: "Dev: Dotnet Functional Test Report"
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Dotnet Functional Tests
+          path: testresults/*.trx
+          reporter: dotnet-trx
+          fail-on-error: true
+          fail-on-empty: true
 
       - name: Publish Manifest File
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm_values_nonprod
           path: ${{ env.HELM_VALUE_FILE }}
 
   AppInfraProd:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-    needs: build
+    if: github.ref == 'refs/heads/master'
+    needs: Build
     runs-on: ubuntu-latest
     environment: prod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - uses: ./build/github/templates/install-taskctl
-      - run: taskctl infrastructure # TODO: This is tactical, will require refactor of task to take arguments as separate var
+
+      - run: taskctl image-pull
+
+      - run: taskctl infrastructure
         env:
           ENV_NAME: prod
           # AWS Environmental Config
@@ -209,29 +277,40 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "prod"
+          TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_stage: "prod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
 
   DeployProd:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     needs: AppInfraProd
     runs-on: ubuntu-latest
     environment: prod
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
+
+      - run: taskctl image-pull
+
+      - run: taskctl image-pull-dotnet
+
       - name: Download Functional Tests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+
+      - run: taskctl image-pull
+
+      - run: taskctl image-pull-dotnet
+
       - name: TaskCTL Deploy
         run: taskctl deploy
         env:
@@ -249,26 +328,35 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
-          TF_VAR_env:  "prod"
+          TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
           TF_VAR_region: ${{ env.REGION }}
           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
           TF_VAR_stage: "prod"
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: "{{ env.DOMAIN }}"
+          TF_VAR_name_domain: ${{ env.DOMAIN }}
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"  # TODO: To be read from core state
-          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}" # TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"
+          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "replaceme" # i.e. "https://prod-dev-netcore-api.nonprodaws.amidostacks.com/${{ env.K8S_APP_ROUTE }}"  # TODO: To be read and constructed at runtime from core state
+          BaseUrl: "replaceme" # i.e. "https://prod-dev-netcore-api.prod.aws.stacks.ensono.com/api/menu/"
+      - name: "Prod: Dotnet Functional Test Report"
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Dotnet Functional Tests
+          path: testresults/*.trx
+          reporter: dotnet-trx
+          fail-on-error: true
+          fail-on-empty: true
 
       - name: Publish Manifest File
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm_values_prod
           path: ${{ env.HELM_VALUE_FILE }}

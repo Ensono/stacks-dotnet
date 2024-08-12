@@ -6,24 +6,18 @@ pr:
 trigger:
   branches:
     include:
-      - 'master'
-      - 'main'
+      - master
   paths:
     include:
-      - '*'
-    exclude:
-      - 'deploy/aws/**' # TODO: Review this as new cloud provider targets are used
-      - 'deploy/k8s/aws**' # TODO: Review this as new cloud provider targets are used
-      - '.github/workflows/**'
-      - 'build/github/**'
+      - "*"
+
 variables:
   - template: air-api-vars.yml
 
 stages:
   - stage: Build
     variables:
-      - group: amido-stacks-infra-credentials-nonprod
-      - group: stacks-credentials-nonprod-kv
+      - group: ensono-sp-creds
 
     jobs:
       - job: AppBuild
@@ -97,12 +91,11 @@ stages:
     dependsOn: Build
     condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
-      - group: amido-stacks-infra-credentials-nonprod
-      - group: stacks-credentials-nonprod-kv
+      - group: ensono-sp-creds
       - name: Environment.ShortName
         value: dev
-      - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
-        value: nonprod.amidostacks.com
+      - name: dns_base_domain
+        value: nonprod.stacks.ensono.com
       - name: core_environment
         value: nonprod
     jobs:
@@ -129,17 +122,13 @@ stages:
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     # Azure Authentication
-                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
-                    ARM_CLIENT_ID: $(azure-client-id)
-                    ARM_CLIENT_SECRET: $(azure-client-secret)
-                    ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
-                    ARM_TENANT_ID: $(azure-tenant-id)
+                    CLOUD_PROVIDER: "$(cloud_provider)"
                     # Terraform Backend Configuration
                     TF_STATE_CONTAINER: $(tf_state_container)
                     TF_STATE_KEY: $(tf_state_key)
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
-                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(azure-subscription-id),tenant_id=$(azure-tenant-id),client_id=$(azure-client-id),client_secret= $(azure-client-secret)"                    # Deployment Specific Configuration
+                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration
                     TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
@@ -157,6 +146,10 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
+                    TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
 
       - deployment: DeployDev
         dependsOn: AppInfraDev
@@ -189,17 +182,13 @@ stages:
                     informationPreference: continue
                   env:
                     # Azure Authentication
-                    CLOUD_PROVIDER: "$(cloud_provider)" # Azure
-                    ARM_CLIENT_ID: $(azure-client-id)
-                    ARM_CLIENT_SECRET: $(azure-client-secret)
-                    ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
-                    ARM_TENANT_ID: $(azure-tenant-id)
+                    CLOUD_PROVIDER: "$(cloud_provider)"
                     # Terraform Backend Configuration (used for Terraform Outputs)
                     TF_STATE_CONTAINER: $(tf_state_container)
                     TF_STATE_KEY: $(tf_state_key)
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
-                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(azure-subscription-id),tenant_id=$(azure-tenant-id),client_id=$(azure-client-id),client_secret= $(azure-client-secret)"                    # Deployment Specific Configuration
+                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration  (used for Terraform Outputs)
                     TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
@@ -217,6 +206,10 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
+                    TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
                     # Docker Image Information
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)
@@ -243,12 +236,11 @@ stages:
     dependsOn: Build
     condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
-      - group: amido-stacks-infra-credentials-prod
-      - group: stacks-credentials-prod-kv
+      - group: ensono-sp-creds
       - name: Environment.ShortName
         value: prod
-      - name: dns_base_domain # Available in Terraform Output, but not yet enabled to export as pipeline vars
-        value: prod.amidostacks.com
+      - name: dns_base_domain
+        value: prod.stacks.ensono.com
       - name: core_environment
         value: prod
     jobs:
@@ -277,16 +269,12 @@ stages:
                     ENV_NAME: $(Environment.ShortName)
                     # Azure Authentication
                     CLOUD_PROVIDER: "$(cloud_provider)" # Azure
-                    ARM_CLIENT_ID: $(azure-client-id)
-                    ARM_CLIENT_SECRET: $(azure-client-secret)
-                    ARM_SUBSCRIPTION_ID: $(azure-subscription-id)
-                    ARM_TENANT_ID: $(azure-tenant-id)
                     # Terraform Backend Configuration
                     TF_STATE_CONTAINER: $(tf_state_container)
                     TF_STATE_KEY: $(tf_state_key)
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
-                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(azure-subscription-id),tenant_id=$(azure-tenant-id),client_id=$(azure-client-id),client_secret= $(azure-client-secret)"                    # Deployment Specific Configuration
+                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration
                     TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
@@ -304,6 +292,10 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
+                    TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
 
       - deployment: DeployProd
         dependsOn:
@@ -346,7 +338,7 @@ stages:
                     TF_STATE_KEY: $(tf_state_key)
                     TS_STATE_RG: $(tf_state_rg)
                     TF_STATE_STORAGE: $(tf_state_storage)
-                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(azure-subscription-id),tenant_id=$(azure-tenant-id),client_id=$(azure-client-id),client_secret= $(azure-client-secret)"                    # Deployment Specific Configuration
+                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration  (used for Terraform Outputs)
                     TF_VAR_core_environment: $(core_environment)
                     TF_VAR_name_component: $(component)
@@ -364,6 +356,10 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
+                    TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
                     # Docker Image Information
                     DOCKER_IMAGE_NAME: $(docker_image_name)
                     DOCKER_IMAGE_TAG: $(docker_image_tag)

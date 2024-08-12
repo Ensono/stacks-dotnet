@@ -19,7 +19,7 @@ pipeline:
       - name: variable
         path: build/azDevOps/azure/air-api-vars_TEMPLATE.yml
     replacements:
-      - pattern: ^.*stacks-credentials-nonprod-kv$
+      - pattern: ^.*ensono-sp-creds$
         value: ""
   # Pipeline files for GHA
   - type: gha
