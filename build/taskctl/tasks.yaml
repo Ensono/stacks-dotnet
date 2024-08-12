@@ -1,4 +1,15 @@
 tasks:
+  ######
+  # These `image-pull*` tasks are dummy tasks used for pulling
+  # images in the Pipeline to help de-clutter the build logs:
+  # e.g.:
+  # - run: taskctl image-pull
+
+  # - run: taskctl lint
+  #   env:
+  #     TF_FILE_LOCATION: deploy/aws/app/kube
+
+  # - run: taskctl image-pull-dotnet
   image-pull:
     context: powershell
     command: ""
@@ -6,6 +17,7 @@ tasks:
   image-pull-dotnet:
     context: powershell-dotnet
     command: ""
+  ######
 
   buildnumber:
     context: powershell
