@@ -72,7 +72,7 @@ jobs:
 
       - run: taskctl image-pull-dotnet
 
-      - name: sonar-pr
+      - id: sonar-pr
         run: |
           prArguments=""
 
