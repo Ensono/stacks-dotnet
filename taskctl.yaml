@@ -17,7 +17,9 @@ pipelines:
   lint:
     - task: lint:yaml
     - task: lint:terraform:format
+      depends_on: lint:yaml
     - task: lint:terraform:validate
+      depends_on: lint:terraform:format
 
   # Pipeline to perform the build of the project
   build:
@@ -48,9 +50,5 @@ pipelines:
       depends_on: infra:init
     - task: deploy:helm
       depends_on: deploy:templater
-    - task: debug:sleep
-      depends_on: deploy:helm
-      variables:
-        - sleep: 30
     - task: deploy:functional_tests
-      depends_on: debug:sleep
+      depends_on: deploy:helm
