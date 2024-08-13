@@ -1,0 +1,76 @@
+﻿{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "stacks@amido.com",
+    "classifications": [
+        "Stacks",
+        "Azure Function",
+        "Event Hub",
+        "Listener"
+    ],
+    "name": "Amido Stacks Azure Function Event Hub Trigger",
+    "identity": "Amido.Stacks.AzFunc.EventHub.Listener.CSharp",
+    "groupIdentity": "Amido.Stacks.AzFunc.EventHub.Listener",
+    "shortName": "stacks-az-func-aeh-listener",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "sourceName": "xxAMIDOxx.xxSTACKSxx",
+    "preferNameDirectory": true,
+    "symbols": {
+        "domain": {
+            "type": "parameter",
+            "isRequired": true,
+            "replaces": "Menu",
+            "fileRename": "Menu",
+            "defaultValue": "DOMAIN",
+            "forms": {
+                "global": [
+                    "identity",
+                    "lowerCase"
+                ]
+            }
+        }
+    },
+    "sources": [
+        {
+            "source": "./",
+            "include": [
+                "**/*"
+            ],
+            "exclude": [
+                "**/[Bb]in/**",
+                "**/[Oo]bj/**",
+                "**/.template.config/**",
+                "**/*.filelist",
+                "**/*.user",
+                "**/*.lock.json",
+                "**/.git/**",
+                "**/.vs/**",
+                "**/.vscode/**",
+                "_rels/**",
+                "package/**",
+                "**/*.nuspec",
+                "*Content_Types*.xml"
+            ],
+            "rename": {
+                "_gitignore": ".gitignore",
+                "_gitattributes": ".gitattributes"
+            },
+            "modifiers": []
+        }
+    ],
+    "SpecialCustomOperations": {
+        "**/*.yml": {
+            "Operations": [
+                {
+                    "type": "conditional",
+                    "configuration": {
+                        "style": "line",
+                        "token": "#"
+                    }
+                }
+            ]
+        }
+    }
+}
