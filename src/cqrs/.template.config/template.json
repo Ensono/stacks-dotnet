@@ -197,9 +197,10 @@
 	},
 	"sources": [
 		{
-			"source": "./",
+			"source": "../",
 			"include": [
-				"**/*"
+				"cqrs/**",
+				"shared/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",
