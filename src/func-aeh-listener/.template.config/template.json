@@ -36,7 +36,16 @@
         {
             "source": "../",
             "include": [
-                "func-aeh-listener/**"
+                "func-aeh-listener/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests/**",                
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",
