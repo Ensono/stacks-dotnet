@@ -36,7 +36,8 @@
         {
             "source": "./",
             "include": [
-                "**/*"
+                "func-asb-listener/*",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",
