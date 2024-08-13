@@ -178,21 +178,6 @@
 		"CiCdNone": {
 			"type": "computed",
 			"value": "(cloudProvider == \"None\")"
-		},
-		"enableFunctionWorker": {
-			"type": "parameter",
-			"dataType": "bool",
-			"defaultValue": "false"
-		},
-		"enableFunctionListener": {
-			"type": "parameter",
-			"dataType": "bool",
-			"defaultValue": "false"
-		},
-		"enableBackgroundWorker": {
-			"type": "parameter",
-			"dataType": "bool",
-			"defaultValue": "false"
 		}
 	},
 	"sources": [
@@ -258,44 +243,7 @@
 					]
 				},
 				{
-					"condition": "(enableFunctionWorker == false)",
-					"exclude": [
-						"**/src/functions/func-cosmosdb-worker/**"
-					]
-				},
-				{
-					"condition": "(enableFunctionListener == false)",
-					"exclude": [
-						"**/src/functions/func-aeh-listener/*"
-					]
-				},
-				{
-					"condition": "(enableFunctionListener && EventPublisherServiceBus)",
-					"exclude": [
-						"**/src/functions/func-aeh-listener/**"
-					]
-				},
-				{
-					"condition": "(enableFunctionListener && EventPublisherEventHub)",
-					"exclude": [
-						"**/src/functions/func-asb-listener/**"
-					]
-				},
-				{
-					"condition": "(!enableFunctionListener && !enableFunctionWorker)",
-					"exclude": [
-						"**/src/functions/**",
-						"**/build/azDevOps/azure/templates/steps/build/build-function.yml"
-					]
-				},
-				{
-					"condition": "(enableBackgroundWorker == false)",
-					"exclude": [
-						"**/src/worker/**"
-					]
-				},
-				{
-					"condition": "(EventPublisherServiceBus || EventPublisherEventHub || EventPublisherAwsSns)",
+					"condition": "(EventPublisherAwsSns)",
 					"exclude": [
 						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Fakes/DummyEventPublisher.cs"
 					]
