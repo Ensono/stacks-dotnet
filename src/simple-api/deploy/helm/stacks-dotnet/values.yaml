@@ -2,7 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-env: dev
+env: ${env_name}
+cloudProvider: ${cloud_provider}
 
 replicaCount: 1
 
@@ -54,9 +55,9 @@ ingress:
   className: ""
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/rewrite-target: ${rewrite_target}
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
   host: ${host}
   path: ${apppath}
   pathType: ImplementationSpecific
@@ -82,7 +83,7 @@ affinity: {}
 
 app:
   project: ${project}
-  company: {$company}
+  company: ${company}
   component: ${component}
   name: ${resource_def_name}
   version: 0.0.1
