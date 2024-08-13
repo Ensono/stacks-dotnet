@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Create directory for the repository and testing
+cd ../..
+mkdir STACKS-TESTING
+cd STACKS-TESTING
+
 # Clone repository and checkout to the specified branch
 git clone git@github.com:Ensono/stacks-dotnet.git
 cd stacks-dotnet
@@ -87,7 +92,14 @@ dotnet test
 cd ../../..
 
 # Print success message
-echo "All tests completed successfully."
+echo " _________ _______  _______ _________ _______    _______  _______  _______  _______  _______  ______  "
+echo " \__   __/(  ____ \(  ____ \\__   __/(  ____ \  (  ____ )(  ___  )(  ____ \(  ____ \(  ____ \(  __  \ "
+echo "    ) (   | (    \/| (    \/   ) (   | (    \/  | (    )|| (   ) || (    \/| (    \/| (    \/| (  \  )"
+echo "    | |   | (__    | (_____    | |   | (_____   | (____)|| (___) || (_____ | (_____ | (__    | |   ) |"
+echo "    | |   |  __)   (_____  )   | |   (_____  )  |  _____)|  ___  |(_____  )(_____  )|  __)   | |   | |"
+echo "    | |   | (            ) |   | |         ) |  | (      | (   ) |      ) |      ) || (      | |   ) |"
+echo "    | |   | (____/\/\____) |   | |   /\____) |  | )      | )   ( |/\____) |/\____) || (____/\| (__/  )"
+echo "    )_(   (_______/\_______)   )_(   \_______)  |/       |/     \|\_______)\_______)(_______/(______/ "
 
 # Exit script
 exit 0
