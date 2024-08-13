@@ -37,6 +37,8 @@
             "source": "./",
             "include": [
                 "func-asb-listener/*",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests/**",
 				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**"
             ],
             "exclude": [
