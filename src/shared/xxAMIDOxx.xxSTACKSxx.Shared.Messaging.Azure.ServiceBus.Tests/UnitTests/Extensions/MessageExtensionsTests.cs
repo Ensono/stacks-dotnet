@@ -27,7 +27,7 @@ namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Extensions
             message.SetEnclosedMessageType(typeof(NotifyCommand))
                 .SetEnclosedMessageType(typeof(NotifyCommand));
             message.UserProperties.Count.ShouldBe(1);
-            message.UserProperties["EnclosedMessageType"].ShouldBe("Amido.Stacks.Messaging.Commands.NotifyCommand, Amido.Stacks.Messaging.Commands");
+            message.UserProperties["EnclosedMessageType"].ShouldBe("xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands.NotifyCommand, xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands");
         }
         
         [Fact]
