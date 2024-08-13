@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Messaging.Handlers.TestDependency
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers.TestDependency
 {
     public interface ITestable<T>
     {

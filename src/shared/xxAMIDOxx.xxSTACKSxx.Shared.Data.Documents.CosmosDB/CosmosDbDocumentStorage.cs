@@ -5,18 +5,18 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Amido.Stacks.Configuration;
-using Amido.Stacks.Core.Utilities;
-using Amido.Stacks.Data.Documents.Abstractions;
-using Amido.Stacks.Data.Documents.CosmosDB.Events;
-using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Utilities;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Exceptions;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB
 {
     // but might be useful if reused with other sdks like Table Storage or MongoDB
     public class CosmosDbDocumentStorage<TEntity> : IDocumentStorage<TEntity>, IDocumentSearch<TEntity>, IHealthCheck where TEntity : class

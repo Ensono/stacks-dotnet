@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions
 {
     [Serializable]
     public class MessageSenderNotDefinedException : ServiceBusExceptionBase

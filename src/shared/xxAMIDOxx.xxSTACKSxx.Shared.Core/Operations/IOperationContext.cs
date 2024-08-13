@@ -1,6 +1,6 @@
 using System;
 
-namespace Amido.Stacks.Core.Operations
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations
 {
     public interface IOperationContext
     {

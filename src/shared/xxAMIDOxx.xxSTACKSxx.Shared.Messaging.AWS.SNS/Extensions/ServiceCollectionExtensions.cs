@@ -1,10 +1,10 @@
 using Amazon.SimpleNotificationService;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Messaging.AWS.SNS.Publisher;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Amido.Stacks.Messaging.AWS.SNS.Extensions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Extensions
 {
     public static class ServiceCollectionExtensions
     {

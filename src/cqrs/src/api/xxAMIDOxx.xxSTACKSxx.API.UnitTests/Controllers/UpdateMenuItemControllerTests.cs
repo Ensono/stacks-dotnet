@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.Model;
-using Amido.Stacks.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

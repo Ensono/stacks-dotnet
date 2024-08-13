@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using Amido.Stacks.DynamoDB.Converters;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Converters;
 using AutoFixture.Xunit2;
 using Xunit;
 
-namespace Amido.Stacks.DynamoDB.Tests;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Tests;
 
 [Trait("TestType", "UnitTests")]
 public class DynamoDbGuidConverterTests

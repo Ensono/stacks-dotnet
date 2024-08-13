@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using Amido.Stacks.Configuration;
-using Amido.Stacks.Data.Documents.CosmosDB.Exceptions;
-using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
-using Amido.Stacks.Data.Documents.CosmosDB.Tests.Fakes;
-using Amido.Stacks.Testing.Extensions;
-using Amido.Stacks.Testing.Settings;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Fakes;
+using xxAMIDOxx.xxSTACKSxx.Shared.Testing.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Logging;
@@ -14,9 +14,9 @@ using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
-using config = Amido.Stacks.Testing.Settings.Configuration;
+using config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
 {
     /// <summary>
     /// The purpose of this integration test is to validate the implementation

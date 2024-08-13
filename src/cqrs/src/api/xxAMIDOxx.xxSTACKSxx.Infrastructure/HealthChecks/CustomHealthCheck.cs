@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Amido.Stacks.Data.Documents.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 //using xxAMIDOxx.xxSTACKSxx.Domain.Entities;

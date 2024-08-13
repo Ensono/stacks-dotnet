@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
-using Amido.Stacks.API.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.API.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Serilog.Context;
 
-namespace Amido.Stacks.API.Middleware
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Middleware
 {
     public class CorrelationIdMiddleware
     {

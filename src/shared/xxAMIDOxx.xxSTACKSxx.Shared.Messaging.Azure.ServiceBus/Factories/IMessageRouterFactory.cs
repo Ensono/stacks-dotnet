@@ -1,7 +1,7 @@
-﻿using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Senders.Routers;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Routers;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
     public interface IMessageRouterFactory
     {

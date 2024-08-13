@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Senders
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders
 {
     public interface IMessageSender
     {

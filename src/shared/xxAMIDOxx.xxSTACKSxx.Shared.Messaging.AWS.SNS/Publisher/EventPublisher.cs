@@ -2,13 +2,13 @@ using System.Text.Json;
 using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Configuration;
-using Amido.Stacks.Messaging.AWS.SNS.Logging;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Amido.Stacks.Messaging.AWS.SNS.Publisher
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
 {
     /// <summary>
     /// Class implementing the ability to publish an event to AWS SNS

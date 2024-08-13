@@ -1,13 +1,13 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Configuration.Extensions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Senders;
-using Amido.Stacks.Messaging.Commands;
-using Amido.Stacks.Messaging.Handlers;
-using Amido.Stacks.Messaging.Handlers.TestDependency;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers.TestDependency;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using NSubstitute;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.IntegrationTests.Steps
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.IntegrationTests.Steps
 {
     public class SendingCommandFixtures
     {

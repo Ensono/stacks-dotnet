@@ -1,6 +1,6 @@
 ﻿using System;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 using Newtonsoft.Json;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;

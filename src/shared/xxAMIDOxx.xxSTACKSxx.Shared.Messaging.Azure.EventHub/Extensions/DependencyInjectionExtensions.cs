@@ -1,6 +1,6 @@
-﻿using Amido.Stacks.Configuration;
-using Amido.Stacks.Messaging.Azure.EventHub.Configuration;
-using Amido.Stacks.Messaging.Azure.EventHub.Consumer;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Consumer;
 using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Consumer;
 using Azure.Messaging.EventHubs.Producer;

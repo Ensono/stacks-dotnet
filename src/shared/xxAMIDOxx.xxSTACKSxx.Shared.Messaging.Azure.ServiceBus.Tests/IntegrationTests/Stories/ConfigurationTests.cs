@@ -1,9 +1,9 @@
-﻿using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using FluentAssertions;
 using Xunit;
-using Config = Amido.Stacks.Testing.Settings.Configuration;
+using Config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.IntegrationTests.Stories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.IntegrationTests.Stories
 {
     public class ConfigurationTests
     {

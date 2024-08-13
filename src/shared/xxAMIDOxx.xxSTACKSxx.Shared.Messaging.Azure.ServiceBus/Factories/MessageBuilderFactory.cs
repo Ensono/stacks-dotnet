@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Extensions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Serializers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
     public class MessageBuilderFactory : IMessageBuilderFactory
     {

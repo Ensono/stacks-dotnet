@@ -1,6 +1,6 @@
-﻿using Amido.Stacks.Configuration;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Configuration
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration
 {
     /// <summary>
     /// General configuration for service bus messaging

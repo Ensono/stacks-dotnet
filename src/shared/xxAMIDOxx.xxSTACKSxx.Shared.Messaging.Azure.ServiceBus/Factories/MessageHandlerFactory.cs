@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
     public class MessageHandlerFactory : IMessageHandlerFactory
     {

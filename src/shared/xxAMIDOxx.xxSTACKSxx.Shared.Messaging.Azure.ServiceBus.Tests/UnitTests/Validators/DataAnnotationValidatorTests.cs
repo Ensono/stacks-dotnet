@@ -1,11 +1,11 @@
 ﻿using System;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Exceptions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Validators;
-using Amido.Stacks.Messaging.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands;
 using Shouldly;
 using Xunit;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Validators
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Validators
 {
     public class DataAnnotationValidatorTests
     {

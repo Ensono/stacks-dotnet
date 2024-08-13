@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Extensions;
-using Amido.Stacks.Messaging.Commands;
-using Amido.Stacks.Messaging.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events;
 using Microsoft.Azure.ServiceBus;
 using Shouldly;
 using Xunit;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Extensions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Extensions
 {
     public class MessageExtensionsTests
     {

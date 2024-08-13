@@ -1,8 +1,8 @@
 using System;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Serializers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 using Microsoft.Azure.ServiceBus;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Extensions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions
 {
     public static class MessageExtensions
     {

@@ -1,7 +1,7 @@
 using System;
-using Amido.Stacks.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB
 {
     public class CosmosDbConfiguration
     {

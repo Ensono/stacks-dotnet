@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Amido.Stacks.Data.Documents
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents
 {
     public class OperationResult<TContent> : OperationResult
     {

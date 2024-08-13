@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Listeners;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Hosts
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Hosts
 {
     public class ServiceBusListenerHost : IHostedService
     {

@@ -1,5 +1,5 @@
-using Amido.Stacks.Configuration.Extensions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

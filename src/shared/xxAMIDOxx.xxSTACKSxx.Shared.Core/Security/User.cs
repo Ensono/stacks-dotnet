@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Core.Security
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Security
 {
     public class User
     {

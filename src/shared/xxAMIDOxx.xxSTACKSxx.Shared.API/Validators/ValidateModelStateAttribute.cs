@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-namespace Amido.Stacks.API.Validators
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Validators
 {
     /// <summary>
     /// Model state validation attribute

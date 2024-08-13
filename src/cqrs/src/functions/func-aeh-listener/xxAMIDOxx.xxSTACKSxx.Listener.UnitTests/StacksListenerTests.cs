@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Amido.Stacks.Messaging.Azure.EventHub.Serializers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers;
 using Azure.Messaging.EventHubs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

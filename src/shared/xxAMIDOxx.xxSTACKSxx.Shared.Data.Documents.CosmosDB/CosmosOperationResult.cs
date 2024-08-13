@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB
 {
     public class CosmosOperationResult<T> : OperationResult<T>
     {

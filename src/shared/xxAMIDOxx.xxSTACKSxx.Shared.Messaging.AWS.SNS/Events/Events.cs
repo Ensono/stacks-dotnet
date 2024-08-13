@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Messaging.AWS.SNS.Events;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Events;
 
 public enum EventCode
 {

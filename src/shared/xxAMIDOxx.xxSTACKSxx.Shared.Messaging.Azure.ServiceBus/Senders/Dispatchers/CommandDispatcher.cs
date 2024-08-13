@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Senders.Routers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Routers;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Senders.Dispatchers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Dispatchers
 {
     // TODO: This will become MagicRouterLogicToWithCustomStrategies
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;

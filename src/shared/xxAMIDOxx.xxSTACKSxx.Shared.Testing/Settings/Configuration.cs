@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Amido.Stacks.Testing.Settings
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings
 {
     public static class Configuration
     {

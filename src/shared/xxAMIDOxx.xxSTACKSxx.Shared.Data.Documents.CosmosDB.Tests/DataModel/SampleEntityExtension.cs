@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel
 {
     /*
      * This is an extensibility example that can be used with CosmosDB Storage or other implementations

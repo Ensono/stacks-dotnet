@@ -1,6 +1,6 @@
-using Amido.Stacks.Data.Documents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents;
 
-namespace Amido.Stacks.DynamoDB.Abstractions;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
 
 public interface IDynamoDbObjectStorage<TEntity> where TEntity : class
 {

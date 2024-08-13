@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Validators
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators
 {
     public interface IValidator<in T> where T: IOperationContext
     {

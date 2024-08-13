@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Amido.Stacks.Core.Operations;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Exceptions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Extensions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Factories;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Validators;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Listeners
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners
 {
     public class ServiceBusListenerMessageProcessor<T> : IMessageProcessor
     {

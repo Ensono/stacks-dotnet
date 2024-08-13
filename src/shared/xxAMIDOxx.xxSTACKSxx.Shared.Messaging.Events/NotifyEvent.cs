@@ -1,8 +1,8 @@
 using System;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Serializers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 
-namespace Amido.Stacks.Messaging.Events
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events
 {
     public class NotifyEvent : IApplicationEvent, ICloudEvent, ISessionContext
     {

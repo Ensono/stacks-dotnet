@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Messaging.Commands;
-using Amido.Stacks.Messaging.Handlers.TestDependency;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers.TestDependency;
 
-namespace Amido.Stacks.Messaging.Handlers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers
 {
     public class NotifyCommandHandler : ICommandHandler<NotifyCommand, bool>
     {

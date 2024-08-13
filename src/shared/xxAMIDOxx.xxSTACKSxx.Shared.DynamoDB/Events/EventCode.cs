@@ -1,4 +1,4 @@
-namespace Amido.Stacks.DynamoDB.Events;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Events;
 
 public enum EventCode
 {

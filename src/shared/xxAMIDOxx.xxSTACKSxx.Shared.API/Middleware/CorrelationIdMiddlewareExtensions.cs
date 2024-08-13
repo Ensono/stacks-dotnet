@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace Amido.Stacks.API.Middleware
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Middleware
 {
     public static class CorrelationIdMiddlewareExtensions
     {

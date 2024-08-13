@@ -1,11 +1,11 @@
-using Amido.Stacks.API.Models;
-using Amido.Stacks.Core.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.API.Models;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.API.Middleware
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Middleware
 {
     public static class ExceptionHandlerMiddlewareExtensions
     {

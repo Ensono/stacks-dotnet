@@ -1,12 +1,12 @@
 using System;
 using System.Text;
-using Amido.Stacks.Core.Operations;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Exceptions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Serializers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers
 {
     public class JsonMessageSerializer : IMessageReader, IMessageBuilder
     {

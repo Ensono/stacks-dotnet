@@ -1,6 +1,6 @@
-﻿using Amido.Stacks.Messaging.Azure.ServiceBus.Serializers;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
     public interface IMessageBuilderFactory
     {

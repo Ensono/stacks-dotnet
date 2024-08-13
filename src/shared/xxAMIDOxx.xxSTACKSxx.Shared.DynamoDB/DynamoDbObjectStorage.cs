@@ -1,13 +1,13 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
-using Amido.Stacks.Data.Documents;
-using Amido.Stacks.DynamoDB.Abstractions;
-using Amido.Stacks.DynamoDB.Logging;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Amido.Stacks.DynamoDB;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB;
 
 public class DynamoDbObjectStorage<TEntity> : IDynamoDbObjectStorage<TEntity> where TEntity : class
 {

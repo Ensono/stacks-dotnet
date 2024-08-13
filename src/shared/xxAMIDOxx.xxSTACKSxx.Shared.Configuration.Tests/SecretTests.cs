@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Amido.Stacks.Configuration.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Exceptions;
 using AutoFixture.Xunit2;
 using Xunit;
 using Xunit.Abstractions;
-using Config = Amido.Stacks.Testing.Settings.Configuration;
+using Config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
-namespace Amido.Stacks.Configuration.Tests
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests
 {
     [Trait("TestType", "IntegrationTests")]
     public class SecretTests

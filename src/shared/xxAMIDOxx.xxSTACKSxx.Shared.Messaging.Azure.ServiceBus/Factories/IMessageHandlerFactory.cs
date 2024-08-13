@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
     public interface IMessageHandlerFactory
     {

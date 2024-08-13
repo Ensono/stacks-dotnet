@@ -1,7 +1,7 @@
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 
-namespace Amido.Stacks.DynamoDB.Converters;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Converters;
 
 public class DynamoDbGuidConverter : IPropertyConverter
 {

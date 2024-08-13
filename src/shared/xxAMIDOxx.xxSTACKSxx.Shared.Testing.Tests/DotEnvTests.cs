@@ -1,8 +1,8 @@
 using System;
-using Amido.Stacks.Testing.Settings;
+using xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings;
 using Xunit;
 
-namespace Amido.Stacks.Testing.Tests
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests
 {
     public class DotEnvTests
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.Serialization;
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 
-namespace Amido.Stacks.Core.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Exceptions
 {
     public abstract class ApplicationExceptionBase : ApplicationException, IException, IOperationContext
     {

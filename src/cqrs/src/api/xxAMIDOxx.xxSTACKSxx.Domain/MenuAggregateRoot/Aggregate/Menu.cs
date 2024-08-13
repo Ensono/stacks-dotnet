@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using Amido.Stacks.Domain;
+using xxAMIDOxx.xxSTACKSxx.Shared.Domain;
 using xxAMIDOxx.xxSTACKSxx.Domain.Entities;
 using xxAMIDOxx.xxSTACKSxx.Domain.Events;
 using xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
-using Amido.Stacks.Domain.Events;
-using Amido.Stacks.DynamoDB.Converters;
+using xxAMIDOxx.xxSTACKSxx.Shared.Domain.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Converters;
 using xxAMIDOxx.xxSTACKSxx.Domain.Converters;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain;

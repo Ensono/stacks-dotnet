@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Queries;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;

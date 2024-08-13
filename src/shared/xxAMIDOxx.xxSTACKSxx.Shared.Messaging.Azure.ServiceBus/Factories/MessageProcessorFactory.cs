@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Core.Operations;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Listeners;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Validators;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
     public class MessageProcessorFactory : IMessageProcessorFactory
     {

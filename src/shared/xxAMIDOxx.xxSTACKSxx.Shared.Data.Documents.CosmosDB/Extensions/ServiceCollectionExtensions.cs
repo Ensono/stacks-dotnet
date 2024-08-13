@@ -1,7 +1,7 @@
-using Amido.Stacks.Data.Documents.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB.Extensions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Extensions
 {
     public static class ServiceCollectionExtensions
     {

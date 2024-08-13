@@ -1,6 +1,6 @@
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 
-namespace Amido.Stacks.Application.CQRS.ApplicationEvents
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents
 {
     public interface IApplicationEvent : IOperationContext
     {

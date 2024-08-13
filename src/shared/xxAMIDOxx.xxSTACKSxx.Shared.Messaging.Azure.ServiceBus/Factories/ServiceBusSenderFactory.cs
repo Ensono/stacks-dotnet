@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Senders;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
     public class ServiceBusSenderFactory : IServiceBusSenderFactory
     {

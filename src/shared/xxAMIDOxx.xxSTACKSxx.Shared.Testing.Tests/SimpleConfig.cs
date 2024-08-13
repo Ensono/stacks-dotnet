@@ -1,4 +1,4 @@
-﻿namespace Amido.Stacks.Testing.Tests
+﻿namespace xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests
 {
     public class SimpleConfig
     {

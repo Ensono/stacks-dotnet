@@ -1,5 +1,5 @@
-using Amido.Stacks.API.Configuration;
-using Amido.Stacks.API.Middleware;
+using xxAMIDOxx.xxSTACKSxx.Shared.API.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +13,7 @@ using Serilog;
 using Serilog.Sinks.InMemory;
 using Serilog.Sinks.InMemory.Assertions;
 
-namespace Amido.Stacks.API.Tests.IntegrationTests.Middleware;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Tests.IntegrationTests.Middleware;
 
 public class CorrelationIdMiddlewareTestSteps
 {

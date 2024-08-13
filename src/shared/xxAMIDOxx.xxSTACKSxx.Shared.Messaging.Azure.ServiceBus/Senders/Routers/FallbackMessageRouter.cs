@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amido.Stacks.Core.Operations;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Senders.Routers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Routers
 {
     public class FallbackMessageRouter<T> : ITopicRouter, IQueueRouter
         where T : IMessageSender

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Amido.Stacks.Testing.Settings
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings
 {
     public class DotEnv
     {

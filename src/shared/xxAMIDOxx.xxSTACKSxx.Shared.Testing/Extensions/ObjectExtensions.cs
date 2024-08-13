@@ -2,7 +2,7 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Amido.Stacks.Testing.Extensions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Testing.Extensions
 {
     public static class ObjectExtensions
     {

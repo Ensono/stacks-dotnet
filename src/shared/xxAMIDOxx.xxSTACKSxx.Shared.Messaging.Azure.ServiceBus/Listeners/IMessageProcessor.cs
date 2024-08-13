@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Listeners
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners
 {
     public interface IMessageProcessor
     {

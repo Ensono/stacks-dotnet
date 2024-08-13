@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Configuration.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Exceptions
 {
     public enum ExceptionIds
     {

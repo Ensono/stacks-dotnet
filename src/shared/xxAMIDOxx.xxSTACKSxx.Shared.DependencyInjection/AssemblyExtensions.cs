@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Amido.Stacks.DependencyInjection
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection
 {
     public static class AssemblyExtensions
     {

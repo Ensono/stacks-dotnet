@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.API.Tests.IntegrationTests.Middleware;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Tests.IntegrationTests.Middleware;
 
 /// <summary>
 /// Middleware intended to be called after the Correlation ID Middleware when testing.

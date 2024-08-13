@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Amido.Stacks.Application.CQRS.Queries
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Queries
 {
     public interface IQueryHandler<in TQueryCriteria, TResult> where TQueryCriteria : class, IQueryCriteria
     {

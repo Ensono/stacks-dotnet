@@ -1,13 +1,13 @@
 ﻿using System;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Serializers;
-using Amido.Stacks.Messaging.Commands;
-using Amido.Stacks.Messaging.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events;
 using Shouldly;
 using Xunit;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Deserializers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Deserializers
 {
     public class CloudEventMessageReaderTests
     {

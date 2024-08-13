@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Messaging.Handlers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers
 {
     public class NotifyFaultyCommandHandler
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

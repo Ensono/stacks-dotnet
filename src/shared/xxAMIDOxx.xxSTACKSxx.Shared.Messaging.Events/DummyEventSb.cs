@@ -1,9 +1,9 @@
 ﻿using System;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 using Newtonsoft.Json;
 
-namespace Amido.Stacks.Messaging.Events
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events
 {
     public class DummyEventSb : IApplicationEvent
     {

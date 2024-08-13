@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.Azure.ServiceBus;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Listeners
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Listeners
 {
     public static class MessageTestHelperExtensions
     {

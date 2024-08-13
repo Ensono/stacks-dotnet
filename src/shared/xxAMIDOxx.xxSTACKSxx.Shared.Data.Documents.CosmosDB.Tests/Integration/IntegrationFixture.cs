@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Amido.Stacks.Configuration;
-using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
-using Amido.Stacks.Data.Documents.CosmosDB.Tests.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Extensions;
 using Microsoft.Azure.Cosmos;
 using Xunit;
-using config = Amido.Stacks.Testing.Settings.Configuration;
+using config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Integration
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
 {
     public class IntegrationFixture : IAsyncLifetime
     {

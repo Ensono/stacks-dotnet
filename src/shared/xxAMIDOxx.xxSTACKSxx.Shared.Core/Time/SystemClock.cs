@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Amido.Stacks.Core.Time
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Time
 {
     /// <summary>
     /// Provides access to system time while allowing it to be set to a fixed <see cref="DateTime"/> value.

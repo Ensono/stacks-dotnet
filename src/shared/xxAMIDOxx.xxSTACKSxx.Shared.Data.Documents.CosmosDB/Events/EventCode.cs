@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Data.Documents.CosmosDB.Events
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
 {
     public enum EventCode
     {

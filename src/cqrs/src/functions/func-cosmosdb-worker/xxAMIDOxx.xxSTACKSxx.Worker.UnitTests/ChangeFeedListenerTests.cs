@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;

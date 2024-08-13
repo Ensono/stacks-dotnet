@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Extensions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions
 {
     public static class HandlerExtensions
     {

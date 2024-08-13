@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Amido.Stacks.Domain.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.Domain.Events;
 using Newtonsoft.Json;
 
-namespace Amido.Stacks.Domain
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Domain
 {
     public class AggregateRoot<TIdentityType> : IAggregateRoot<TIdentityType>
     {

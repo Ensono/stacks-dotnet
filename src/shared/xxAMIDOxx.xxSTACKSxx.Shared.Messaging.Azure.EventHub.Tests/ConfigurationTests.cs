@@ -1,9 +1,9 @@
-﻿using Amido.Stacks.Messaging.Azure.EventHub.Configuration;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Configuration;
 using FluentAssertions;
 using Xunit;
-using Config = Amido.Stacks.Testing.Settings.Configuration;
+using Config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
-namespace Amido.Stacks.Messaging.Azure.EventHub.Tests
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests
 {
     public class  ConfigurationTests
     {

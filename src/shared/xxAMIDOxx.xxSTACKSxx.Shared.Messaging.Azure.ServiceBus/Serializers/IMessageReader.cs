@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.ServiceBus;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Serializers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers
 {
     public interface IMessageReader
     {

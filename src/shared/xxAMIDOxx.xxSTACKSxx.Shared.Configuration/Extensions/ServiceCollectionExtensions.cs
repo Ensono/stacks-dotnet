@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Amido.Stacks.Configuration.Extensions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Extensions
 {
     public static class ServiceCollectionExtensions
     {

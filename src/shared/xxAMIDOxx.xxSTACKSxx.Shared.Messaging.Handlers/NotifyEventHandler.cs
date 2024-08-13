@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Messaging.Events;
-using Amido.Stacks.Messaging.Handlers.TestDependency;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers.TestDependency;
 
-namespace Amido.Stacks.Messaging.Handlers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers
 {
     public class NotifyEventHandler : IApplicationEventHandler<NotifyEvent>
     {

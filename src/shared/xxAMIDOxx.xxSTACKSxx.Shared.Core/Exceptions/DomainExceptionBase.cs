@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Amido.Stacks.Core.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Exceptions
 {
     public abstract class DomainExceptionBase : ApplicationException, IException
     {

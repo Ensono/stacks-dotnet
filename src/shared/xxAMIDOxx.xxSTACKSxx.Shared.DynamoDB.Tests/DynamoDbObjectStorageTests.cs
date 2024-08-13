@@ -9,7 +9,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Xunit;
 
-namespace Amido.Stacks.DynamoDB.Tests;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Tests;
 
 public class DynamoDbObjectStorageTests
 {

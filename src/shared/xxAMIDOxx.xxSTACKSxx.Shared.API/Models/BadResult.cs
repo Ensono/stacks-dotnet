@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Amido.Stacks.API.Models
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Models
 {
     public class BadResult : ProblemDetails
     {

@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions
 {
     public enum ExceptionIds
     {

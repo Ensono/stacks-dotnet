@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;

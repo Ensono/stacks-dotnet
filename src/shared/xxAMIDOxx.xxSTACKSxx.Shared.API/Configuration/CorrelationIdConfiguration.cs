@@ -1,4 +1,4 @@
-namespace Amido.Stacks.API.Configuration
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Configuration
 {
     public class CorrelationIdConfiguration
     {

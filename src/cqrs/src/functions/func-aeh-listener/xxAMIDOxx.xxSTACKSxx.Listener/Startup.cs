@@ -1,4 +1,4 @@
-﻿using Amido.Stacks.Messaging.Azure.EventHub.Serializers;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,7 +1,7 @@
 using System;
-using Amido.Stacks.Core.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Exceptions;
 
-namespace Amido.Stacks.Configuration.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Exceptions
 {
     public abstract class SecretException : InfrastructureExceptionBase
     {

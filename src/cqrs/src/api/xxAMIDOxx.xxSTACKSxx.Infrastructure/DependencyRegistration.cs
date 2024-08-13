@@ -1,8 +1,9 @@
-﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Application.CQRS.Queries;
-using Amido.Stacks.Configuration.Extensions;
-using Amido.Stacks.DependencyInjection;
+﻿using System.Diagnostics;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -13,15 +14,15 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.HealthChecks;
 #if (EventPublisherAwsSns)
-using Amido.Stacks.Messaging.AWS.SNS;
-using Amido.Stacks.Messaging.AWS.SNS.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Extensions;
 #endif
 #if (CosmosDb || DynamoDb)
-using Amido.Stacks.DynamoDB;
-using Amido.Stacks.DynamoDB.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Extensions;
 using Amazon.DynamoDBv2;
 using xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
-using Amido.Stacks.Data.Documents.CosmosDB.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Extensions;
 #endif
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure;
@@ -49,17 +50,17 @@ public static class DependencyRegistration
         services.AddSecrets();
 
 #if (EventPublisherServiceBus)
-        services.Configure<Amido.Stacks.Messaging.Azure.ServiceBus.Configuration.ServiceBusConfiguration>(context.Configuration.GetSection("ServiceBusConfiguration"));
+        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration.ServiceBusConfiguration>(context.Configuration.GetSection("ServiceBusConfiguration"));
         services.AddServiceBus();
-        services.AddTransient<IApplicationEventPublisher, Amido.Stacks.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
 #elif (EventPublisherEventHub)
-        services.Configure<Amido.Stacks.Messaging.Azure.EventHub.Configuration.EventHubConfiguration>(context.Configuration.GetSection("EventHubConfiguration"));
+        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Configuration.EventHubConfiguration>(context.Configuration.GetSection("EventHubConfiguration"));
         services.AddEventHub();
-        services.AddTransient<IApplicationEventPublisher, Amido.Stacks.Messaging.Azure.EventHub.Publisher.EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Publisher.EventPublisher>();
 #elif (EventPublisherAwsSns)
         services.Configure<AwsSnsConfiguration>(context.Configuration.GetSection("AwsSnsConfiguration"));
         services.AddAwsSns(context.Configuration);
-        services.AddTransient<IApplicationEventPublisher, Amido.Stacks.Messaging.AWS.SNS.Publisher.EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher.EventPublisher>();
 #elif (EventPublisherNone)
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #else
@@ -67,7 +68,7 @@ public static class DependencyRegistration
 #endif
 
 #if (CosmosDb)
-        services.Configure<Amido.Stacks.Data.Documents.CosmosDB.CosmosDbConfiguration>(context.Configuration.GetSection("CosmosDb"));
+        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.CosmosDbConfiguration>(context.Configuration.GetSection("CosmosDb"));
         services.AddCosmosDB();
         services.AddTransient<IMenuRepository, CosmosDbMenuRepository>();
 #elif (DynamoDb)
@@ -82,9 +83,13 @@ public static class DependencyRegistration
         var healthChecks = services.AddHealthChecks();
 #if (CosmosDb)
         healthChecks.AddCheck<CustomHealthCheck>("Sample"); //This is a sample health check, remove if not needed, more info: https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health
-        healthChecks.AddCheck<Amido.Stacks.Data.Documents.CosmosDB.CosmosDbDocumentStorage<Menu>>("CosmosDB");
+        healthChecks.AddCheck<xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.CosmosDbDocumentStorage<Menu>>("CosmosDB");
 #endif
+
+        Debug.WriteLine("ConfigureProductionDependencies");
     }
+
+    
 
     private static void AddCommandHandlers(IServiceCollection services)
     {

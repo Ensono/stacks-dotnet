@@ -1,7 +1,7 @@
 using System;
-using Amido.Stacks.Core.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Exceptions;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB
 {
     public abstract class CosmosDBException : InfrastructureExceptionBase
     {

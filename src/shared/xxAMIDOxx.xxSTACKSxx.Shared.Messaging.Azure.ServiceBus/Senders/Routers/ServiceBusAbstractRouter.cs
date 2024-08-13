@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Senders.Routers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Routers
 {
     /// <summary>
     /// An object router that accepts anything to dispatched to a queue or topic using configured routes

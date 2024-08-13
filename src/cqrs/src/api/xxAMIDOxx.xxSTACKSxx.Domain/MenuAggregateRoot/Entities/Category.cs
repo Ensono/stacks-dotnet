@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Amido.Stacks.Domain;
+using xxAMIDOxx.xxSTACKSxx.Shared.Domain;
 using Newtonsoft.Json;
 using xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 

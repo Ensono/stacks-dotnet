@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Amido.Stacks.Configuration;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Factories
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
     public class ServiceBusClientFactory : IMessageSenderClientFactory, IMessageReceiverClientFactory
     {

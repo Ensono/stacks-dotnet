@@ -1,6 +1,6 @@
-using Amido.Stacks.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
 
-namespace Amido.Stacks.Messaging.AWS.SNS;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS;
 
 public class AwsSnsConfiguration
 {

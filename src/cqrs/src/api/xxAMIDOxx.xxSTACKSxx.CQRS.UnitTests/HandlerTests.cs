@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Core.Operations;
-using Amido.Stacks.Data.Documents;
-using Amido.Stacks.Data.Documents.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using NSubstitute;

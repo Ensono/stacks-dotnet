@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Listeners;
-using Amido.Stacks.Messaging.Events;
-using Amido.Stacks.Messaging.Handlers.TestDependency;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers.TestDependency;
 using Microsoft.Azure.ServiceBus;
 
-namespace Amido.Stacks.Messaging.Handlers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers
 {
     /// <summary>
     /// Represents a custom message processor used

@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Amido.Stacks.Configuration
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration
 {
     public interface ISecretResolver<T>
     {

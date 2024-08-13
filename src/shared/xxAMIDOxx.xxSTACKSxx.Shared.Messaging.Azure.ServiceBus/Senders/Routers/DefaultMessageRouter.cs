@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Senders.Routers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Routers
 {
     /// <summary>
     /// A simple router used by default when a single entity is configured and no routes configured

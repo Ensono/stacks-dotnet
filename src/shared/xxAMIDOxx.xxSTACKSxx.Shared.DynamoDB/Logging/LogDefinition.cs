@@ -1,7 +1,7 @@
-using Amido.Stacks.DynamoDB.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Events;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.DynamoDB.Logging;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Logging;
 
 /// <summary>
 /// Contains log definitions for DynamoDB component

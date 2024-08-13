@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Amido.Stacks.Core.Time;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Time;
 using Xunit;
 
-namespace Amido.Stacks.Core.Tests.Time
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests.Time
 {
     [Trait("TestType", "UnitTests")]
     public class SystemClockTests

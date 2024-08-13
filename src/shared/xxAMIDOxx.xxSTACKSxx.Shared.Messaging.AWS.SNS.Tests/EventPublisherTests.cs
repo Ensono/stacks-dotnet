@@ -3,16 +3,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Configuration;
-using Amido.Stacks.Messaging.AWS.SNS.Publisher;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Amido.Stacks.Messaging.AWS.SNS.Tests;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests;
 
 public class EventPublisherTests
 {

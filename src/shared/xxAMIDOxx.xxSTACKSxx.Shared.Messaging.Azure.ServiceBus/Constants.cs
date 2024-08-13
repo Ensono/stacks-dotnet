@@ -1,8 +1,8 @@
-﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Application.CQRS.Commands;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Listeners;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus
 {
     internal static class Constants
     {

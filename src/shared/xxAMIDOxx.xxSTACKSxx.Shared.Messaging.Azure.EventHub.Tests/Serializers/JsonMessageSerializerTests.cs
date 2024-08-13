@@ -1,5 +1,5 @@
-﻿using Amido.Stacks.Messaging.Azure.EventHub.Serializers;
-using Amido.Stacks.Messaging.Events;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events;
 using Azure.Messaging.EventHubs;
 using Newtonsoft.Json;
 using Shouldly;
@@ -7,7 +7,7 @@ using System;
 using System.Text;
 using Xunit;
 
-namespace Amido.Stacks.Messaging.Azure.EventHub.Tests.Serializers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests.Serializers
 {
     public class JsonMessageSerializerTests
     {

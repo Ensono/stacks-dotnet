@@ -1,5 +1,5 @@
 ﻿using System;
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 
 namespace xxAMIDOxx.xxSTACKSxx.Listener.UnitTests;
 

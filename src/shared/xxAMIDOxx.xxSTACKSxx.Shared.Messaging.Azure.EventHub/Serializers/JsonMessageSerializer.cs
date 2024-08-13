@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Amido.Stacks.Messaging.Azure.EventHub.Serializers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers
 {
     public class JsonMessageSerializer : IMessageReader
     {

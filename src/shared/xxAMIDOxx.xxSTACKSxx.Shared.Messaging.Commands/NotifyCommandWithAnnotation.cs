@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Amido.Stacks.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 
-namespace Amido.Stacks.Messaging.Commands
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands
 {
     public class NotifyCommandWithAnnotation : ICommand
     {

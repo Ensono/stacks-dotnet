@@ -1,6 +1,6 @@
 using System;
 
-namespace Amido.Stacks.DynamoDB.Tests;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Tests;
 
 public class FakeMenu
 {

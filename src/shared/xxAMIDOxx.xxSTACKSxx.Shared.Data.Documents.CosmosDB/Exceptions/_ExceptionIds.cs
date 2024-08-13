@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Data.Documents.CosmosDB.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Exceptions
 {
     public enum ExceptionIds
     {

@@ -1,4 +1,4 @@
-namespace Amido.Stacks.DynamoDB;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB;
 
 public class DynamoDbConfiguration
 {

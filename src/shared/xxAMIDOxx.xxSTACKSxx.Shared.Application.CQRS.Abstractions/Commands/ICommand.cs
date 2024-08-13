@@ -1,6 +1,6 @@
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 
-namespace Amido.Stacks.Application.CQRS.Commands
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands
 {
     public interface ICommand : IOperationContext
     {

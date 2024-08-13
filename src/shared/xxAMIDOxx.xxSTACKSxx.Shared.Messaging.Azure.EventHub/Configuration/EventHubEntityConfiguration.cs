@@ -1,6 +1,6 @@
-﻿using Amido.Stacks.Configuration;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
 
-namespace Amido.Stacks.Messaging.Azure.EventHub.Configuration
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Configuration
 {
     public abstract class EventHubEntityConfiguration
     {

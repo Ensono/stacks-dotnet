@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Amido.Stacks.API.Swagger.Filters
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger.Filters
 {
     /// <summary>
     /// Filter operation based on path versioning

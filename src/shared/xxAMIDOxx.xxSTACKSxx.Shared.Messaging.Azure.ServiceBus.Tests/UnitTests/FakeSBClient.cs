@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests
 {
     /// <summary>
     /// Test implementation used to mock/fake behaviours of ServiceBusClient(Sender/Receiver)

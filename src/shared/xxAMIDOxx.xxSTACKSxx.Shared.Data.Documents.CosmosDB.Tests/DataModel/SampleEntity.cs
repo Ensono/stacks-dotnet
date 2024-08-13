@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel
 {
     /// <summary>
     /// This is a sample entity to test cosmos db package

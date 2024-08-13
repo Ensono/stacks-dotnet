@@ -1,6 +1,6 @@
 using System;
 
-namespace Amido.Stacks.Configuration.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Exceptions
 {
     public class InvalidSecretDefinitionException : SecretException
     {

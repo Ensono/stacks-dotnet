@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Amido.Stacks.Data.Documents.CosmosDB.Tests.DataModel;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Fakes
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Fakes
 {
     public class SampleRepository
     {

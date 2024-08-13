@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Amido.Stacks.Core.Utilities
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Utilities
 {
     /// The class AsyncLazy<T> is planned to be part of the CoreFx in the future
     /// Internal class for use by CosmosDB only, until available by CoreFX

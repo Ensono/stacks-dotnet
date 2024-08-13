@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Text;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Exceptions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Extensions;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Serializers;
-using Amido.Stacks.Messaging.Commands;
-using Amido.Stacks.Messaging.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Tests.UnitTests.Deserializers
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Deserializers
 {
     public class JsonMessageReaderTests
     {

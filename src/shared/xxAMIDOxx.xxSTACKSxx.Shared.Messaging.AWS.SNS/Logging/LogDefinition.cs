@@ -1,7 +1,7 @@
-using Amido.Stacks.Messaging.AWS.SNS.Events;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Events;
 using Microsoft.Extensions.Logging;
 
-namespace Amido.Stacks.Messaging.AWS.SNS.Logging
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
 {
     /// <summary>
     /// Contains log definitions for SNS component

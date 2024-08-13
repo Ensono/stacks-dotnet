@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Amido.Stacks.Data.Documents.CosmosDB.Tests.Extensions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Extensions
 {
     internal static class StringExtensions
     {

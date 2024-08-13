@@ -1,10 +1,10 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
-using Amido.Stacks.Data.Documents.Abstractions;
-using Amido.Stacks.DynamoDB.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Amido.Stacks.DynamoDB.Extensions;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Extensions;
 
 public static class ServiceCollectionExtensions
 {

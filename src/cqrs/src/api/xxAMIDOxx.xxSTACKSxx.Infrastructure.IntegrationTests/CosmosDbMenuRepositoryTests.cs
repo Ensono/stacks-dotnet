@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Amido.Stacks.Configuration;
-using Amido.Stacks.Data.Documents.Abstractions;
-using Amido.Stacks.Data.Documents.CosmosDB;
-using Amido.Stacks.Testing.Settings;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB;
+using xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Logging;

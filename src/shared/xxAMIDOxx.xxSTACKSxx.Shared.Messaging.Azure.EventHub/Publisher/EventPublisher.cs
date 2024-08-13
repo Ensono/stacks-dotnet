@@ -1,4 +1,4 @@
-﻿using Amido.Stacks.Application.CQRS.ApplicationEvents;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Producer;
 using Microsoft.Extensions.Logging;
@@ -7,7 +7,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Amido.Stacks.Messaging.Azure.EventHub.Publisher
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Publisher
 {
     public class EventPublisher : IApplicationEventPublisher
     {

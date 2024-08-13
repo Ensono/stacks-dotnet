@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
-using Amido.Stacks.Configuration.Extensions;
-using Amido.Stacks.DependencyInjection;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Configuration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Extensions;
+using xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

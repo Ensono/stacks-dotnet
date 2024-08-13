@@ -1,4 +1,4 @@
-﻿namespace Amido.Stacks.Messaging.Commands
+﻿namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands
 {
     public interface IMember
     {

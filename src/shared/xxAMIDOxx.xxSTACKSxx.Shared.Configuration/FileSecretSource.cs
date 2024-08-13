@@ -1,8 +1,8 @@
 using System.IO;
 using System.Threading.Tasks;
-using Amido.Stacks.Configuration.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Exceptions;
 
-namespace Amido.Stacks.Configuration
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration
 {
     public class FileSecretSource : ISecretSource<string>
     {

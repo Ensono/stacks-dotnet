@@ -1,4 +1,4 @@
-namespace Amido.Stacks.API.Tests.IntegrationTests.Middleware;
+namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Tests.IntegrationTests.Middleware;
 
 public class CorrelationIdMiddlewareTestStories
 {

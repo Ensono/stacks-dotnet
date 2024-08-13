@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Amido.Stacks.Core.Operations;
-using Amido.Stacks.Messaging.Azure.ServiceBus.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
 
-namespace Amido.Stacks.Messaging.Azure.ServiceBus.Validators
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators
 {
     public class DataAnnotationValidator : IValidator<IOperationContext>
     {

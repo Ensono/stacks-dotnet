@@ -1,4 +1,4 @@
-namespace Amido.Stacks.Core.Exceptions
+namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Exceptions
 {
     public interface IException
     {
