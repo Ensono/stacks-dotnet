@@ -5,8 +5,11 @@
   </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.2.23" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>
