@@ -33,9 +33,22 @@
     },
     "sources": [
         {
-            "source": "./",
+            "source": "../",
             "include": [
-                "**/*"
+                "background-worker/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Configuration/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",
