@@ -109,11 +109,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Listen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Listener.UnitTests", "src\cqrs\src\functions\func-asb-listener\xxAMIDOxx.xxSTACKSxx.Listener.UnitTests\xxAMIDOxx.xxSTACKSxx.Listener.UnitTests.csproj", "{8702472A-D791-4ADA-83A4-2A272E90F162}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events", "src\cqrs\src\functions\func-aeh-listener\xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events\xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events.csproj", "{86432CF1-F12B-488F-8F03-DA7978ACBDBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events", "src\func-aeh-listener\src\functions\xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events\xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events.csproj", "{86432CF1-F12B-488F-8F03-DA7978ACBDBB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Listener", "src\cqrs\src\functions\func-aeh-listener\xxAMIDOxx.xxSTACKSxx.Listener\xxAMIDOxx.xxSTACKSxx.Listener.csproj", "{E92BEDC6-49F4-44FD-8B7A-6ED6AC921FD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Listener", "src\func-aeh-listener\src\functions\xxAMIDOxx.xxSTACKSxx.Listener\xxAMIDOxx.xxSTACKSxx.Listener.csproj", "{E92BEDC6-49F4-44FD-8B7A-6ED6AC921FD2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Listener.UnitTests", "src\cqrs\src\functions\func-aeh-listener\xxAMIDOxx.xxSTACKSxx.Listener.UnitTests\xxAMIDOxx.xxSTACKSxx.Listener.UnitTests.csproj", "{5FE23DA4-70CD-4151-BC8A-2A4B020ECF90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Listener.UnitTests", "src\func-aeh-listener\src\functions\xxAMIDOxx.xxSTACKSxx.Listener.UnitTests\xxAMIDOxx.xxSTACKSxx.Listener.UnitTests.csproj", "{5FE23DA4-70CD-4151-BC8A-2A4B020ECF90}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events", "src\cqrs\src\functions\func-cosmosdb-worker\xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events\xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events.csproj", "{8D26B4E8-B88D-4468-A466-B4002859C85E}"
 EndProject

@@ -34,9 +34,9 @@
     },
     "sources": [
         {
-            "source": "./",
+            "source": "../",
             "include": [
-                "**/*"
+                "func-aeh-listener/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",
