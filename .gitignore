@@ -9,7 +9,6 @@
 *.userosscache
 *.sln.docstates
 .vscode
-.env
 *.userprefs
 .DS_Store
 
@@ -362,7 +361,6 @@ coverage.opencover.xml
 .store/
 dotnet-sonarscanner
 reportgenerator
-**/appsettings.[Dd]evelopment.json
 
 # Other tools
 .terraform
