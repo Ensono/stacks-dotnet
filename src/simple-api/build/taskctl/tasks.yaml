@@ -59,7 +59,6 @@ tasks:
         Invoke-DotNet -Build -Path $env:SELF_REPO_SRC &&
         Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
-        Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Coverage -target /app/coverage &&
         Remove-Item Env:\SONAR_PROPERTIES &&
         Invoke-SonarScanner -stop
@@ -108,17 +107,6 @@ tasks:
     command:
       - Invoke-DotNet -Tests -pattern "*IntegrationTests"
     condition: exit $INTEGRATIONTEST_NO_RUN
-
-  # TODO: Need to work out how to pass in additional environment variables that may have been set
-  # They will not always have the same name so we need to accept a list of them, which may not always
-  # be formatted correctly for this conversion to be done
-  # TODO: Not currently used
-  test:contract:
-    context: powershell-dotnet
-    description: Perform contract tests
-    command:
-      - Invoke-DotNet -Tests -pattern "*ContractTests"
-    condition: exit $CONTRACTTEST_NO_RUN
 
   # TODO: Not currently used
   test:coverage:

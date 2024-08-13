@@ -114,7 +114,6 @@
                 "**/xxAMIDOxx.xxSTACKSxx.Domain/**",
                 "**/xxAMIDOxx.xxSTACKSxx.Infrastructure/**",
                 "**/xxAMIDOxx.xxSTACKSxx.API.ComponentTests/**",
-                "**/xxAMIDOxx.xxSTACKSxx.API.ContractTests/**",
                 "**/xxAMIDOxx.xxSTACKSxx.API.UnitTests/**",
                 "**/xxAMIDOxx.xxSTACKSxx.Common.UnitTests/**",
                 "**/xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests/**",
