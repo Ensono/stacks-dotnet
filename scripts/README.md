@@ -37,7 +37,17 @@ These scripts have been created to simplify the testing of each template within 
 
 Output directory:
 
-![alt text](STACKS-TESTING.png)
+STACKS-TESTING
+├── stacks-dotnet
+└── test-templates
+    ├── CQRS.Added.Project
+    ├── CQRS.Project
+    ├── Cosmos.Worker.Project
+    ├── EventHub.Listener.Project
+    ├── ServiceBus.Listener.Project
+    ├── ServiceBus.Worker.Project
+    └── Simple.WebAPI
+
 
 ### Clean-Up-Template-Test
 
