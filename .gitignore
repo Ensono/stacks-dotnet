@@ -10,6 +10,8 @@
 *.sln.docstates
 .vscode
 *.userprefs
+.env
+**/appsettings.[Dd]evelopment.json
 .DS_Store
 
 # Build results
@@ -52,6 +54,7 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+**/Properties/launchSettings.json
 
 # StyleCop
 StyleCopReport.xml
