@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Core package for common features used throughout the projects. Base Exception, Operations, Common models</Description>
+    <Company>Amido</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/amido/stacks-dotnet-packages-core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/amido/stacks-dotnet-packages-core</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+  </PropertyGroup>
+
+</Project>

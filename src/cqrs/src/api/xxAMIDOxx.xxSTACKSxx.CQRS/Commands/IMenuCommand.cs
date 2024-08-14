@@ -1,5 +1,5 @@
 using System;
-using Amido.Stacks.Application.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 

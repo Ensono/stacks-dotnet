@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Queries;
-using Amido.Stacks.Data.Documents.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 #if (DynamoDb)
 using Amazon.DynamoDBv2.DocumentModel;
-using Amido.Stacks.DynamoDB.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
 #endif
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxAMIDOxx.xxSTACKSxx.Domain;

@@ -107,9 +107,16 @@
 	},
 	"sources": [
 		{
-			"source": "./",
+			"source": "../",
 			"include": [
-				"**/*"
+				"simple-api/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API.Tests/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",

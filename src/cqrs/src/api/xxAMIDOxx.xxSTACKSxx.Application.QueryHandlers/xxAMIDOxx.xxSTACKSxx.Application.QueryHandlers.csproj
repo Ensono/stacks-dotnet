@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -8,10 +8,8 @@
     <ItemGroup>
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.Integration\xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions\xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB\xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Data.Documents.Abstractions" Version="0.2.15" />
-        <PackageReference Include="Amido.Stacks.DynamoDB" Version="0.2.95" />
-    </ItemGroup>
 </Project>

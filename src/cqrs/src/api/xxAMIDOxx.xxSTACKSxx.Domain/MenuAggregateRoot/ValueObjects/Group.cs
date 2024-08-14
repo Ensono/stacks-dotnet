@@ -1,5 +1,5 @@
 using System;
-using Amido.Stacks.Domain;
+using xxAMIDOxx.xxSTACKSxx.Shared.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects;
 

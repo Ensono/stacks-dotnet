@@ -6,12 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.2.23" />
         <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Common\xxAMIDOxx.xxSTACKSxx.Common.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
     </ItemGroup>

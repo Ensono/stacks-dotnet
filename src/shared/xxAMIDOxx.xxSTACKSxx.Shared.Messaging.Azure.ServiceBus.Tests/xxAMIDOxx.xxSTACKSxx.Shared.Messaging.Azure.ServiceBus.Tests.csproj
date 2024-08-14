@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NSubstitute" Version="5.1.0" />
+    <PackageReference Include="Shouldly" Version="4.2.1" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="6.0.2" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="TestStack.BDDfy" Version="4.3.2" />
+    <PackageReference Include="xunit" Version="2.6.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers.csproj" />
+    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Testing\xxAMIDOxx.xxSTACKSxx.Shared.Testing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.integration.topics.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.integration.queues.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -8,7 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.Testing" Version="0.2.29" />
         <PackageReference Include="AutoFixture.Xunit2" Version="4.18.1" />
         <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.25" />
@@ -31,8 +30,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Testing\xxAMIDOxx.xxSTACKSxx.Shared.Testing.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API\xxAMIDOxx.xxSTACKSxx.API.csproj" />
-        <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.API.Models\xxAMIDOxx.xxSTACKSxx.API.Models.csproj" />
     </ItemGroup>
 
 </Project>

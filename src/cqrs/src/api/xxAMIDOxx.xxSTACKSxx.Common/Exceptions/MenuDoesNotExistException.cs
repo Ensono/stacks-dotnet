@@ -1,6 +1,6 @@
 using System;
-using Amido.Stacks.Core.Exceptions;
-using Amido.Stacks.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 using xxAMIDOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxAMIDOxx.xxSTACKSxx.Common.Exceptions;

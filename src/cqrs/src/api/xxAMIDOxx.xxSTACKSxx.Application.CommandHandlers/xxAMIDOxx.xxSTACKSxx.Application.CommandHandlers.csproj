@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>10.0</LangVersion>
@@ -8,9 +8,7 @@
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Common\xxAMIDOxx.xxSTACKSxx.Common.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Amido.Stacks.Messaging.Azure.ServiceBus" Version="0.3.75" />
-    <PackageReference Include="Amido.Stacks.DynamoDB" Version="0.2.95" />
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB\xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.csproj" />
   </ItemGroup>
 </Project>

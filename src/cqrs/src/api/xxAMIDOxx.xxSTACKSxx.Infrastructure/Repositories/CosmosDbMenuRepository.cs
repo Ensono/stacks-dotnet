@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Amido.Stacks.Data.Documents.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 

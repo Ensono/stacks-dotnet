@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.Queries;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 

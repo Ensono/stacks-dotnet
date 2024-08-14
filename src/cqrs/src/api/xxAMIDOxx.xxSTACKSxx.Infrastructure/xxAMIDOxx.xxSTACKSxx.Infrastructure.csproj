@@ -6,18 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amido.Stacks.Data.Documents.CosmosDB" Version="0.2.56" />
-    <PackageReference Include="Amido.Stacks.Messaging.AWS.SNS" Version="0.2.72" />
-    <PackageReference Include="Amido.Stacks.Messaging.Azure.ServiceBus" Version="0.3.75" />
-    <PackageReference Include="Amido.Stacks.Messaging.Azure.EventHub" Version="0.2.32" />
-    <PackageReference Include="Amido.Stacks.DependencyInjection" Version="0.2.21" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.25" />
-    <PackageReference Include="Amido.Stacks.DynamoDB" Version="0.2.95" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.300.19" />
   </ItemGroup>
 
@@ -27,6 +21,14 @@
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers\xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Domain\xxAMIDOxx.xxSTACKSxx.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB\xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB\xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.csproj" />
+
+
   </ItemGroup>
 
 </Project>

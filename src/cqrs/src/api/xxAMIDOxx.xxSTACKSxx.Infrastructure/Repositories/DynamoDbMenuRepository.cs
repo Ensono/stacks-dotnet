@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Amido.Stacks.DynamoDB.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 using xxAMIDOxx.xxSTACKSxx.Domain;
 

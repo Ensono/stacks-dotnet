@@ -1,4 +1,4 @@
-﻿using Amido.Stacks.Testing.Settings;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Options;

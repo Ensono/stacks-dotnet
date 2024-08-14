@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
-using Amido.Stacks.Core.Operations;
-using Amido.Stacks.DependencyInjection;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection;
 using AutoFixture;
 using AutoFixture.Kernel;
 using NSubstitute;

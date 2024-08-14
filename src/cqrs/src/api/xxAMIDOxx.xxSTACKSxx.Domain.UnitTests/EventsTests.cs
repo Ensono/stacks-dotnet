@@ -1,4 +1,4 @@
-﻿using Amido.Stacks.Domain.Events;
+﻿using xxAMIDOxx.xxSTACKSxx.Shared.Domain.Events;
 using FluentAssertions;
 using Xunit;
 using xxAMIDOxx.xxSTACKSxx.Domain.Events;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Amido.Stacks.Data.Documents;
-using Amido.Stacks.DynamoDB.Abstractions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents;
+using xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;

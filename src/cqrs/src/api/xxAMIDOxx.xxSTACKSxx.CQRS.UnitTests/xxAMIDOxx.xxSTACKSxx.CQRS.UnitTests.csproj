@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Amido.Stacks.DependencyInjection" Version="0.2.21" />
         <PackageReference Include="AutoFixture.Xunit2" Version="4.18.1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
         <PackageReference Include="NSubstitute" Version="5.1.0" />
@@ -28,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers\xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers\xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />

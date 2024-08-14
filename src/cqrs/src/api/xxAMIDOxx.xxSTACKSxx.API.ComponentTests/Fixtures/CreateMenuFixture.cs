@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Amido.Stacks.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

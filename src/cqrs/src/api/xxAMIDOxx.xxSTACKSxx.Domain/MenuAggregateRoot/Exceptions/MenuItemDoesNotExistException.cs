@@ -1,5 +1,5 @@
 using System;
-using Amido.Stacks.Core.Exceptions;
+using xxAMIDOxx.xxSTACKSxx.Shared.Core.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 

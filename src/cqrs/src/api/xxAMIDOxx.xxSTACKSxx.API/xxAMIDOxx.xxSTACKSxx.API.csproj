@@ -13,12 +13,12 @@
     <ItemGroup>
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj" />
         <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Infrastructure\xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.API\xxAMIDOxx.xxSTACKSxx.Shared.API.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger\xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj" />
     </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amido.Stacks.API" Version="0.2.26" />
-    <PackageReference Include="Amido.Stacks.API.Swagger" Version="0.2.35" />
-    <PackageReference Include="Amido.Stacks.Application.CQRS.Abstractions" Version="0.2.23" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.25" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.22.0" />
