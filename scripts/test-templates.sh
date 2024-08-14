@@ -43,50 +43,50 @@ dotnet new stacks-asb-worker -n ServiceBus.Worker.Project -do Menu
 
 # Generate the additional template
 dotnet new stacks-webapi -n CQRS.Added.Project -do Menu
-cd CQRS.Added.Project/src/api
+cd CQRS.Added.Project/simple-api/src/api
 dotnet new stacks-add-cqrs -n CQRS.Project -do Menu
 
 # Test each generated projects unit tests
-cd ../../..
+cd ../../../..
 
 # Test the Simple.WebAPI project
-cd Simple.WebAPI/src/api
+cd Simple.WebAPI/simple-api/src/api
 dotnet restore
 dotnet test
-cd ../../..
+cd ../../../..
 
 # Test the CQRS.Project project
-cd CQRS.Project/src/api
+cd CQRS.Project/cqrs/src/api
 dotnet restore
 dotnet test
-cd ../../..
+cd ../../../..
 
 # Test the Cosmos.Worker.Project project
-cd Cosmos.Worker.Project
+cd Cosmos.Worker.Project/func-cosmosdb-worker/src/functions
 dotnet restore
 dotnet test
-cd ..
+cd ../../../..
 
 # Test the EventHub.Listener.Project project
-cd EventHub.Listener.Project
+cd EventHub.Listener.Project/func-aeh-listener/src/functions
 dotnet restore
 dotnet test
-cd ..
+cd ../../../..
 
 # Test the ServiceBus.Listener.Project project
-cd ServiceBus.Listener.Project
+cd ServiceBus.Listener.Project/func-asb-listener/src/functions
 dotnet restore
 dotnet test
-cd ..
+cd ../../../..
 
 # Test the ServiceBus.Worker.Project project
-cd ServiceBus.Worker.Project
+cd ServiceBus.Worker.Project/background-worker/src/worker
 dotnet restore
 dotnet test
-cd ..
+cd ../../../..
 
 # Test the CQRS.Added.Project project
-cd CQRS.Added.Project/src/api
+cd CQRS.Added.Project/simple-api/src/api
 dotnet restore
 dotnet test
 cd ../../..
