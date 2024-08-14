@@ -14,6 +14,7 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events\xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events.csproj" />
   </ItemGroup>
 

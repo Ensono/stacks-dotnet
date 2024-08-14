@@ -1,5 +1,4 @@
 ﻿using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers;
-using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events;
 using Azure.Messaging.EventHubs;
 using Newtonsoft.Json;
 using Shouldly;

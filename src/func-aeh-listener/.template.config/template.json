@@ -38,6 +38,8 @@
             "include": [
                 "func-aeh-listener/**",
 				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Configuration/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests/**",
 				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core/**",
 				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests/**",
 				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions/**",

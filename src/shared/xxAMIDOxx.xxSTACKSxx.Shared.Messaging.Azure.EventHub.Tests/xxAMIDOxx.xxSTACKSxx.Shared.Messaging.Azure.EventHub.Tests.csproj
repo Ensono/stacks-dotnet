@@ -36,7 +36,6 @@
   <ItemGroup>
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection\xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj" />
-    <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events\xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events.csproj" />
     <ProjectReference Include="..\xxAMIDOxx.xxSTACKSxx.Shared.Testing\xxAMIDOxx.xxSTACKSxx.Shared.Testing.csproj" />
   </ItemGroup>
 
