@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Domain
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5829769F-3B52-4C7A-A77E-2E03F57893A8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{5C2EF365-4E4D-4446-A3C6-325168F0531F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5C2EF365-4E4D-4446-A3C6-325168F0531F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.CQRS", "xxAMIDOxx.xxSTACKSxx.CQRS\xxAMIDOxx.xxSTACKSxx.CQRS.csproj", "{199D0800-147E-41BC-ACF0-39F9F87A2B57}"
 EndProject
@@ -94,6 +94,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Configuration", "..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Configuration\xxAMIDOxx.xxSTACKSxx.Shared.Configuration.csproj", "{BFE98A28-8B88-4CC6-BECF-324D0D4CD760}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests", "..\..\..\shared\xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests\xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests.csproj", "{80757BB7-48FF-4EE0-9CBF-AF49B20D07E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{B77E9CB7-105E-4467-AB4A-0EA0245B394D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
