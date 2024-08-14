@@ -28,6 +28,7 @@ public static class Program
                     .CreateLogger();
             })
             .UseStartup<Startup>()
+            //TODO: fix this obsolete warning 
             .UseSerilog()
     //.ConfigureServices(ConfigureStaticDependencies)
     //.ConfigureServices(ConfigureProductionDependencies)

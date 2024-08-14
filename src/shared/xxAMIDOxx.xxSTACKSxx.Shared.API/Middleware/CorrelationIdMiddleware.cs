@@ -8,16 +8,9 @@ using Serilog.Context;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Middleware
 {
-    public class CorrelationIdMiddleware
+    public class CorrelationIdMiddleware(RequestDelegate next, IOptions<CorrelationIdConfiguration> options)
     {
-        private readonly RequestDelegate _next;
-        private readonly CorrelationIdConfiguration _options;
-
-        public CorrelationIdMiddleware(RequestDelegate next, IOptions<CorrelationIdConfiguration> options)
-        {
-            _next = next;
-            _options = options.Value;
-        }
+        private readonly CorrelationIdConfiguration _options = options.Value;
 
         public async Task InvokeAsync(HttpContext context)
         {
@@ -25,7 +18,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Middleware
 
             using (LogContext.PushProperty(_options.HeaderName, correlationId.ToString()))
             {
-                await _next(context);
+                await next(context);
             }
         }
 
@@ -37,7 +30,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Middleware
             {
                 correlationId = new StringValues(Guid.NewGuid().ToString());
 
-                context.Request.Headers.Add(_options.HeaderName, correlationId);
+                context.Request.Headers.Append(_options.HeaderName, correlationId);
             }
 
             if (_options.IncludeInResponse)
@@ -46,7 +39,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Middleware
                 {
                     if (!context.Response.Headers.ContainsKey(_options.HeaderName))
                     {
-                        context.Response.Headers.Add(_options.HeaderName, correlationId);
+                        context.Response.Headers.Append(_options.HeaderName, correlationId);
                     }
 
                     return Task.CompletedTask;
