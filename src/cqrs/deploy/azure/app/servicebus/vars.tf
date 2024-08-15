@@ -120,7 +120,7 @@ variable "az_function_extension_version" {
 
 variable "az_function_dotnet_version" {
   type        = string
-  default     = "v6.0"
+  default     = "v8.0"
   description = "Version of the .NET framework to use in the function"
 }
 
