@@ -8,8 +8,7 @@ indent_style = space
 end_of_line = lf
 indent_size = 4 
 insert_final_newline = true 
-charset = utf-8-bom 
-
+charset = utf-8
 
 ############################### 
 # MS Coding Conventions       # 
@@ -19,7 +18,7 @@ indent_style = space
 end_of_line = lf
 indent_size = 2 
 insert_final_newline = true 
-charset = utf-8-bom 
+charset = utf-8
 
 ############################### 
 # .NET Coding Conventions     # 
