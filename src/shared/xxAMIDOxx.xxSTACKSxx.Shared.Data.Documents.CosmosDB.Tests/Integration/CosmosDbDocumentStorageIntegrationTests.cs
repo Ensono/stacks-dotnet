@@ -9,12 +9,11 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
-using config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
+using Config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
 {
@@ -31,19 +30,19 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
     public class CosmosDbDocumentStorageIntegrationTests
     {
         private readonly ITestOutputHelper output;
-        CosmosDbDocumentStorage<SampleEntity> repository;
-        Fixture fixture = new Fixture();
+        private readonly CosmosDbDocumentStorage<SampleEntity> repository;
+        private Fixture fixture = new();
 
         public CosmosDbDocumentStorageIntegrationTests(ITestOutputHelper output)
         {
             this.output = output;
-            var settings = config.For<CosmosDbConfiguration>("CosmosDB");
+            var settings = Config.For<CosmosDbConfiguration>("CosmosDB");
             var loggerFactory = Substitute.For<ILoggerFactory>();
 
             fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntity>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));
             fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntityExtension>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntityExtension>>(loggerFactory)); //for named collection
             fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
-            fixture.Register<IOptions<CosmosDbConfiguration>>(() => settings.AsOption());
+            fixture.Register(() => settings.AsOption());
 
             repository = fixture.Create<CosmosDbDocumentStorage<SampleEntity>>();
         }
@@ -142,7 +141,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
             var dbItem = await GetItem(entity);
             Assert.NotNull(dbItem);
 
-            Fixture fixture = new Fixture();
+            fixture = new Fixture();
             var newName = fixture.Create<string>();
             var newAge = fixture.Create<int>();
             var newExpiryDate = fixture.Create<DateTimeOffset>();
