@@ -3,26 +3,18 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 
-public class SearchMenu : IQueryCriteria
+public class SearchMenu(Guid correlationId, string searchText, Guid? restaurantId, int? pageSize, int? pageNumber)
+    : IQueryCriteria
 {
     public int OperationCode => (int)Common.Operations.OperationCode.SearchMenu;
 
-    public Guid CorrelationId { get; }
+    public Guid CorrelationId { get; } = correlationId;
 
-    public string SearchText { get; }
+    public string SearchText { get; } = searchText;
 
-    public Guid? TenantId { get; }
+    public Guid? TenantId { get; } = restaurantId;
 
-    public int? PageSize { get; }
+    public int? PageSize { get; } = pageSize;
 
-    public int? PageNumber { get; }
-
-    public SearchMenu(Guid correlationId, string searchText, Guid? restaurantId, int? pageSize, int? pageNumber)
-    {
-        CorrelationId = correlationId;
-        SearchText = searchText;
-        TenantId = restaurantId;
-        PageSize = pageSize;
-        PageNumber = pageNumber;
-    }
+    public int? PageNumber { get; } = pageNumber;
 }

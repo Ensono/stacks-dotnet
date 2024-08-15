@@ -7,23 +7,16 @@ using xxAMIDOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities;
 
-public class Category : IEntity<Guid>
+public class Category(Guid id, string name, string description, List<MenuItem> items = null)
+    : IEntity<Guid>
 {
-    public Category(Guid id, string name, string description, List<MenuItem> items = null)
-    {
-        Id = id;
-        Name = name;
-        Description = description;
-        this.items = items ?? new List<MenuItem>();
-    }
-
     [JsonProperty("Items")]
-    private List<MenuItem> items;
+    private List<MenuItem> items = items ?? new List<MenuItem>();
 
 
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public Guid Id { get; set; } = id;
+    public string Name { get; set; } = name;
+    public string Description { get; set; } = description;
 
     [JsonIgnore]
     public IReadOnlyList<MenuItem> Items { get => items?.AsReadOnly(); }

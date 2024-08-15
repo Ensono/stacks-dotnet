@@ -1,4 +1,4 @@
-﻿using xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings;
+using xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Options;
@@ -6,12 +6,8 @@ using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests;
 
-public class CustomAutoDataAttribute : AutoDataAttribute
+public class CustomAutoDataAttribute() : AutoDataAttribute(Customizations)
 {
-    public CustomAutoDataAttribute() : base(Customizations)
-    {
-    }
-
     public static IFixture Customizations()
     {
         var fixture = new Fixture();

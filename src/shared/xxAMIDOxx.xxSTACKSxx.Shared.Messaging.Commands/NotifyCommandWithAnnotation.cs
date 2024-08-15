@@ -1,23 +1,17 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands
 {
-    public class NotifyCommandWithAnnotation : ICommand
+    public class NotifyCommandWithAnnotation(Guid correlationId, string testProperty) : ICommand
     {
-        public NotifyCommandWithAnnotation(Guid correlationId, string testProperty)
-        {
-            CorrelationId = correlationId;
-            TestProperty = testProperty;
-        }
-
         public int OperationCode => 536;
 
         [Required]
-        public Guid CorrelationId { get; }
+        public Guid CorrelationId { get; } = correlationId;
 
         [Required]
-        public string TestProperty { get; }
+        public string TestProperty { get; } = testProperty;
     }
 }

@@ -14,15 +14,8 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests;
 /// Configuration issues will be surfaced on e2e or acceptance tests
 /// </summary>
 [Trait("TestType", "IntegrationTests")]
-public class InMemoryMenuRepositoryTests
+public class InMemoryMenuRepositoryTests(ITestOutputHelper output)
 {
-    private readonly ITestOutputHelper output;
-
-    public InMemoryMenuRepositoryTests(ITestOutputHelper output)
-    {
-        this.output = output;
-    }
-
     //GetByIdTest will be tested as part of Save+Get OR Get+Delete+Get
     //public void GetByIdTest() { }
 

@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
@@ -8,17 +8,9 @@ using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 
-public class DeleteMenuCommandHandler : ICommandHandler<DeleteMenu, bool>
+public class DeleteMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
+    : ICommandHandler<DeleteMenu, bool>
 {
-    readonly IMenuRepository repository;
-    readonly IApplicationEventPublisher applicationEventPublisher;
-
-    public DeleteMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
-    {
-        this.repository = repository;
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
-
     public async Task<bool> HandleAsync(DeleteMenu command)
     {
         var menu = await repository.GetByIdAsync(command.MenuId);

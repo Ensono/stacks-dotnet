@@ -5,18 +5,11 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers.TestDependency;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers
 {
-    public class NotifyEventHandler : IApplicationEventHandler<NotifyEvent>
+    public class NotifyEventHandler(ITestable<NotifyEvent> testable) : IApplicationEventHandler<NotifyEvent>
     {
-        private readonly ITestable<NotifyEvent> _testable;
-
-        public NotifyEventHandler(ITestable<NotifyEvent> testable)
-        {
-            _testable = testable;
-        }
-
         public Task HandleAsync(NotifyEvent applicationEvent)
         {
-            _testable.Complete(applicationEvent);
+            testable.Complete(applicationEvent);
             return Task.CompletedTask;
         }
     }

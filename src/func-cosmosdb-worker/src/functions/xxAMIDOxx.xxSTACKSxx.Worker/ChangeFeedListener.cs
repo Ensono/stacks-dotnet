@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Microsoft.Azure.Documents;
@@ -8,19 +8,10 @@ using xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events;
 
 namespace xxAMIDOxx.xxSTACKSxx.Worker;
 
-public class ChangeFeedListener
+public class ChangeFeedListener(
+    IApplicationEventPublisher appEventPublisher,
+    ILogger<ChangeFeedListener> logger)
 {
-    private readonly IApplicationEventPublisher appEventPublisher;
-    private readonly ILogger<ChangeFeedListener> logger;
-
-    public ChangeFeedListener(
-        IApplicationEventPublisher appEventPublisher,
-        ILogger<ChangeFeedListener> logger)
-    {
-        this.appEventPublisher = appEventPublisher;
-        this.logger = logger;
-    }
-
     [FunctionName(Constants.FunctionNames.CosmosDbChangeFeedListener)]
     public void Run([CosmosDBTrigger(
         databaseName: "%COSMOSDB_DATABASE_NAME%",

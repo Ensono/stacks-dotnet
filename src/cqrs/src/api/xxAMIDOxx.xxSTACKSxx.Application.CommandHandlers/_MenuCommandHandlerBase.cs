@@ -18,16 +18,13 @@ namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 /// </summary>
 /// <typeparam name="TCommand">The type of command being handled</typeparam>
 /// <typeparam name="TResult">The type of result expected. Use bool when no return value is expected</typeparam>
-public abstract class MenuCommandHandlerBase<TCommand, TResult> : ICommandHandler<TCommand, TResult> where TCommand : IMenuCommand
+public abstract class MenuCommandHandlerBase<TCommand, TResult>(
+    IMenuRepository repository,
+    IApplicationEventPublisher applicationEventPublisher)
+    : ICommandHandler<TCommand, TResult>
+    where TCommand : IMenuCommand
 {
-    protected IMenuRepository repository;
-    private readonly IApplicationEventPublisher applicationEventPublisher;
-
-    public MenuCommandHandlerBase(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
-    {
-        this.repository = repository;
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
+    protected IMenuRepository repository = repository;
 
     public async Task<TResult> HandleAsync(TCommand command)
     {

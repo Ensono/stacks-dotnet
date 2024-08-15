@@ -6,10 +6,8 @@ using xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests;
 
-public class InMemoryMenuRepositoryAutoDataAttribute : AutoDataAttribute
+public class InMemoryMenuRepositoryAutoDataAttribute() : AutoDataAttribute(Customizations)
 {
-    public InMemoryMenuRepositoryAutoDataAttribute() : base(Customizations) { }
-
     public static IFixture Customizations()
     {
         IFixture fixture = new Fixture();

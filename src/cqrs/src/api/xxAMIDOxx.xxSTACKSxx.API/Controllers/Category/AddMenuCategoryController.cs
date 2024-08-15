@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -17,14 +17,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers;
 [Consumes("application/json")]
 [Produces("application/json")]
 [ApiExplorerSettings(GroupName = "Category")]
-public class AddMenuCategoryController : ApiControllerBase
+public class AddMenuCategoryController(ICommandHandler<CreateCategory, Guid> commandHandler) : ApiControllerBase
 {
-    readonly ICommandHandler<CreateCategory, Guid> commandHandler;
-
-    public AddMenuCategoryController(ICommandHandler<CreateCategory, Guid> commandHandler)
-    {
-        this.commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-    }
+    readonly ICommandHandler<CreateCategory, Guid> commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
 
     /// <summary>
     /// Create a category in the menu

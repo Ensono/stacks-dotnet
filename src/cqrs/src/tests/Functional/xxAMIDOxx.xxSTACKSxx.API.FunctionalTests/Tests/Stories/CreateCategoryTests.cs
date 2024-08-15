@@ -10,19 +10,13 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Stories;
     AsA = "restaurant administrator",
     IWant = "to be able to create menus with categories",
     SoThat = "customers know what we have on offer")]
-public class CreateCategoryTests : IClassFixture<AuthFixture>
+public class CreateCategoryTests(AuthFixture fixture) : IClassFixture<AuthFixture>
 {
-    private readonly CategorySteps categorySteps;
-    private readonly AuthFixture fixture;
+    private readonly CategorySteps categorySteps = new();
 
 
-    public CreateCategoryTests(AuthFixture fixture)
-    {
-        //Get instances of the fixture and steps required for the test
-        this.fixture = fixture;
-        categorySteps = new CategorySteps();
-    }
-        
+    //Get instances of the fixture and steps required for the test
+
     //Add all tests that make up the story to this class.
     [Fact]
     public void Create_category_for_menu()

@@ -1,36 +1,25 @@
-﻿using System;
+using System;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Shared.Core.Operations;
 using Newtonsoft.Json;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events;
 
-public class CategoryUpdatedEvent : IApplicationEvent
+[method: JsonConstructor]
+public class CategoryUpdatedEvent(int operationCode, Guid correlationId, Guid menuId, Guid categoryId)
+    : IApplicationEvent
 {
-    [JsonConstructor]
-    public CategoryUpdatedEvent(int operationCode, Guid correlationId, Guid menuId, Guid categoryId)
+    public CategoryUpdatedEvent(IOperationContext context, Guid menuId, Guid categoryId) : this(context.OperationCode, context.CorrelationId, menuId, categoryId)
     {
-        OperationCode = operationCode;
-        CorrelationId = correlationId;
-        MenuId = menuId;
-        CategoryId = categoryId;
-    }
-
-    public CategoryUpdatedEvent(IOperationContext context, Guid menuId, Guid categoryId)
-    {
-        OperationCode = context.OperationCode;
-        CorrelationId = context.CorrelationId;
-        MenuId = menuId;
-        CategoryId = categoryId;
     }
 
     public int EventCode => (int)Enums.EventCode.CategoryUpdated;
 
-    public int OperationCode { get; }
+    public int OperationCode { get; } = operationCode;
 
-    public Guid CorrelationId { get; }
+    public Guid CorrelationId { get; } = correlationId;
 
-    public Guid MenuId { get; set; }
+    public Guid MenuId { get; set; } = menuId;
 
-    public Guid CategoryId { get; set; }
+    public Guid CategoryId { get; set; } = categoryId;
 }

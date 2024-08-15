@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -19,16 +19,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 /// ApiClientFixture handles the communication with TestServer
 /// and httpClient handling
 /// </summary>
-public abstract class ApiClientFixture : ApiFixture<Startup>
+public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
+    : ApiFixture<Startup>
 {
-    private readonly IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions;
-
-    protected ApiClientFixture(
-        IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
-    {
-        this.jwtBearerAuthenticationOptions = jwtBearerAuthenticationOptions;
-    }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureAppConfiguration(configurationBuilder =>

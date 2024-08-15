@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
@@ -11,17 +11,13 @@ using xxAMIDOxx.xxSTACKSxx.Application.Integration;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 
-public class CreateMenuFixture : ApiClientFixture
+public class CreateMenuFixture(
+    CreateMenuRequest newMenu,
+    IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
+    : ApiClientFixture(jwtBearerAuthenticationOptions)
 {
-    readonly CreateMenuRequest newMenu;
     IMenuRepository repository;
     IApplicationEventPublisher applicationEventPublisher;
-
-    public CreateMenuFixture(CreateMenuRequest newMenu, IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
-        : base(jwtBearerAuthenticationOptions)
-    {
-        this.newMenu = newMenu;
-    }
 
     protected override void RegisterDependencies(IServiceCollection collection)
     {

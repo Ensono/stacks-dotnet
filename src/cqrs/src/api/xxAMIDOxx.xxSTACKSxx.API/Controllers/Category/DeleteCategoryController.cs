@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
@@ -14,14 +14,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers;
 [Consumes("application/json")]
 [Produces("application/json")]
 [ApiExplorerSettings(GroupName = "Category")]
-public class DeleteCategoryController : ApiControllerBase
+public class DeleteCategoryController(ICommandHandler<DeleteCategory, bool> commandHandler) : ApiControllerBase
 {
-    readonly ICommandHandler<DeleteCategory, bool> commandHandler;
-
-    public DeleteCategoryController(ICommandHandler<DeleteCategory, bool> commandHandler)
-    {
-        this.commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-    }
+    readonly ICommandHandler<DeleteCategory, bool> commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
 
 
     /// <summary>

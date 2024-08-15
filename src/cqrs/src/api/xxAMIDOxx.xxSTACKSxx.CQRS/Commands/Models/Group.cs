@@ -2,14 +2,8 @@ using System;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands.Models;
 
-public class Group
+public class Group(Guid id, string name)
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-
-    public Group(Guid id, string name)
-    {
-        Id = id;
-        Name = name;
-    }
+    public Guid Id { get; set; } = id;
+    public string Name { get; set; } = name;
 }
