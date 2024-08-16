@@ -14,7 +14,7 @@ output "dynamodb_table_id" {
 # TODO: This needs to be an output from the app module, rather than being constructed
 output "dynamodb_table_name" {
   description = "Name of the DynamoDB table (constructed)"
-  value       = "${module.app_label.id}-${var.table_name}"
+  value       = var.enable_dynamodb ? "${module.app_label.id}-${var.table_name}" : null
 }
 
 ############

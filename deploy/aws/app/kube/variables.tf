@@ -6,29 +6,55 @@ variable "create_docker_repositories" {
   type    = bool
   default = false
 }
+
 variable "docker_image_name" {
   description = "Main docker image."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.create_docker_repositories == true ? length(var.docker_image_name) > 0 : true
+    error_message = "You must specify a value for docker_image_name if create_docker_repositories is true."
+  }
 }
 
 variable "docker_image_name_bg_worker" {
   description = "BG Worker docker image name."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.create_docker_repositories == true && (var.app_bus_type == "servicebus" || var.app_bus_type == "eventhub") ? length(var.docker_image_name_bg_worker) > 0 : true
+    error_message = "You must specify a value for docker_image_name_bg_worker if create_docker_repositories is true and app_bus_type is either servicebus or eventhub."
+  }
 }
 
 variable "docker_image_name_worker" {
   description = "K8S Worker docker image name."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.create_docker_repositories == true && (var.app_bus_type == "servicebus" || var.app_bus_type == "eventhub") ? length(var.docker_image_name_worker) > 0 : true
+    error_message = "You must specify a value for docker_image_name_worker if create_docker_repositories is true and app_bus_type is either servicebus or eventhub."
+  }
 }
 
 variable "docker_image_name_asb_listener" {
   description = "ASB Listener docker image name."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.create_docker_repositories == true && var.app_bus_type == "servicebus" ? length(var.docker_image_name_asb_listener) > 0 : true
+    error_message = "You must specify a value for docker_image_name_asb_listener if create_docker_repositories is true and app_bus_type is servicebus."
+  }
 }
 
 variable "docker_image_name_aeh_listener" {
   description = "ASB Listener docker image name."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.create_docker_repositories == true && var.app_bus_type == "eventhub" ? length(var.docker_image_name_aeh_listener) > 0 : true
+    error_message = "You must specify a value for docker_image_name_aeh_listener if create_docker_repositories is true and app_bus_type is eventhub."
+  }
 }
 
 ############################################
@@ -116,26 +142,32 @@ variable "location_name_map" {
 variable "app_bus_type" {
   description = "Which app bus to use."
   type        = string
-  nullable    = true
+  default     = ""
   validation {
     condition = anytrue([
       var.app_bus_type == "servicebus",
       var.app_bus_type == "eventhub",
       var.app_bus_type == "sns",
-      var.app_bus_type == null
+      var.app_bus_type == ""
     ])
-    error_message = "The app_bus_type variable must be null, servicebus, eventhub, or sns."
+    error_message = "The app_bus_type variable must be servicebus, eventhub, or sns."
   }
 }
 
 variable "enable_queue" {
   description = "Whether to create SQS queue and SNS topic. Must match app_bus_type above."
   type        = bool
+  default     = false
 }
 
 variable "queue_name" {
-  description = "This is the human-readable name of the queue and topic. If omitted, Terraform will assign a random name."
+  description = "This is the human-readable name of the queue and topic."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.enable_queue == true ? length(var.queue_name) > 0 : true
+    error_message = "You must specify a value for queue_name if enable_queue is true."
+  }
 }
 
 ##################################################
@@ -144,24 +176,45 @@ variable "queue_name" {
 variable "enable_dynamodb" {
   description = "Whether to create dynamodb table."
   type        = bool
+  default     = false
 }
 
 variable "table_name" {
   description = "The name of the table, this needs to be unique within a region."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.enable_dynamodb == true ? length(var.table_name) > 0 : true
+    error_message = "You must specify a value for table_name if enable_dynamodb is true."
+  }
 }
 
 variable "hash_key" {
   description = "The attribute to use as the hash (partition) key."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.enable_dynamodb == true ? length(var.hash_key) > 0 : true
+    error_message = "You must specify a value for hash_key if enable_dynamodb is true."
+  }
 }
 
 variable "attribute_name" {
   description = "Name of the attribute."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.enable_dynamodb == true ? length(var.attribute_name) > 0 : true
+    error_message = "You must specify a value for attribute_name if enable_dynamodb is true."
+  }
 }
 
 variable "attribute_type" {
   description = "Type of the attribute, which must be a scalar type: S, N, or B for (S)tring, (N)umber or (B)inary data."
   type        = string
+  default     = ""
+  validation {
+    condition     = var.enable_dynamodb == true ? length(var.attribute_type) > 0 : true
+    error_message = "You must specify a value for attribute_type if enable_dynamodb is true."
+  }
 }

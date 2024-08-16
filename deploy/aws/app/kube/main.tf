@@ -39,7 +39,7 @@ resource "aws_ecr_repository" "docker_image" {
 }
 
 resource "aws_ecr_repository" "docker_image_bg_worker" {
-  count = var.create_docker_repositories ? (contains(split(",", var.app_bus_type), "servicebus") || contains(split(",", var.app_bus_type), "eventhub") ? 1 : 0) : 0
+  count = var.create_docker_repositories && (var.app_bus_type == "servicebus" || var.app_bus_type == "eventhub") ? 1 : 0
   name  = var.docker_image_name_bg_worker
   image_scanning_configuration {
     scan_on_push = false
@@ -49,7 +49,7 @@ resource "aws_ecr_repository" "docker_image_bg_worker" {
 }
 
 resource "aws_ecr_repository" "docker_image_worker_function" {
-  count = var.create_docker_repositories ? (contains(split(",", var.app_bus_type), "servicebus") || contains(split(",", var.app_bus_type), "eventhub") ? 1 : 0) : 0
+  count = var.create_docker_repositories && (var.app_bus_type == "servicebus" || var.app_bus_type == "eventhub") ? 1 : 0
   name  = var.docker_image_name_worker
   image_scanning_configuration {
     scan_on_push = false
@@ -59,7 +59,7 @@ resource "aws_ecr_repository" "docker_image_worker_function" {
 }
 
 resource "aws_ecr_repository" "docker_image_asb_function" {
-  count = var.create_docker_repositories ? (contains(split(",", var.app_bus_type), "servicebus") ? 1 : 0) : 0
+  count = var.create_docker_repositories && var.app_bus_type == "servicebus" ? 1 : 0
   name  = var.docker_image_name_asb_listener
   image_scanning_configuration {
     scan_on_push = false
@@ -69,7 +69,7 @@ resource "aws_ecr_repository" "docker_image_asb_function" {
 }
 
 resource "aws_ecr_repository" "docker_image_aeh_function" {
-  count = var.create_docker_repositories ? (contains(split(",", var.app_bus_type), "eventhub") ? 1 : 0) : 0
+  count = var.create_docker_repositories && var.app_bus_type == "eventhub" ? 1 : 0
   name  = var.docker_image_name_aeh_listener
   image_scanning_configuration {
     scan_on_push = false
