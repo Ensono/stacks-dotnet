@@ -12,13 +12,18 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel
      * by infrastructure and not leak these details to the domain
     */
     [Table("SampleEntity")]
-    public class SampleEntityExtension : SampleEntity
+    public class SampleEntityExtension(
+        Guid id,
+        Guid ownerId,
+        string name,
+        int age,
+        DateTime dateOfBirth,
+        DateTimeOffset expiryDate,
+        string[] emailAddresses,
+        List<Person> siblings,
+        bool active)
+        : SampleEntity(id, ownerId, name, age, dateOfBirth, expiryDate, emailAddresses, siblings, active)
     {
-        public SampleEntityExtension(Guid id, Guid ownerId, string name, int age, DateTime dateOfBirth, DateTimeOffset expiryDate, string[] emailAddresses, List<Person> siblings, bool active)
-            : base(id, ownerId, name, age, dateOfBirth, expiryDate, emailAddresses, siblings, active)
-        {
-        }
-
         public string DisplayName => $"{Name} ({Age} yo)";
 
         [JsonProperty(PropertyName = "_etag")]

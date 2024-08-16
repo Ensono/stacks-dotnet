@@ -8,25 +8,14 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Tests.IntegrationTests.Middleware;
 /// This middleware writes logs that are checked to ensure that the Correlation ID
 /// property has been included.
 /// </summary>
-public class LoggingMiddleware
+public class LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILoggerFactory _loggerFactory;
-
-
-    public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
-    {
-        _next = next;
-        _loggerFactory = loggerFactory;
-
-    }
-
     public async Task Invoke(HttpContext context)
     {
-        var logger = _loggerFactory.CreateLogger(nameof(LoggingMiddleware));
+        var logger = loggerFactory.CreateLogger(nameof(LoggingMiddleware));
 
         logger.LogInformation(MiddlewareStartingLogMessage);
-        await _next(context);
+        await next(context);
         logger.LogInformation(MiddlewareCompleteLogMessage);
     }
 

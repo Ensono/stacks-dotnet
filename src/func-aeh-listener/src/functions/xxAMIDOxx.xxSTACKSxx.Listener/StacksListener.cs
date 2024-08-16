@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers;
@@ -9,17 +9,8 @@ using xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events;
 
 namespace xxAMIDOxx.xxSTACKSxx.Listener;
 
-public class StacksListener
+public class StacksListener(IMessageReader msgReader, ILogger<StacksListener> logger)
 {
-    private readonly IMessageReader msgReader;
-    private readonly ILogger<StacksListener> logger;
-
-    public StacksListener(IMessageReader msgReader, ILogger<StacksListener> logger)
-    {
-        this.msgReader = msgReader;
-        this.logger = logger;
-    }
-
     [FunctionName("StacksListener")]
     public void Run([EventHubTrigger(
         "%EVENTHUB_NAME%",

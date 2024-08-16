@@ -54,15 +54,8 @@ public class SearchMenuQueryHandler : IQueryHandler<SearchMenu, SearchMenuResult
     }
 }
 #else
-public class SearchMenuQueryHandler : IQueryHandler<SearchMenu, SearchMenuResult>
+public class SearchMenuQueryHandler(IDocumentSearch<Menu> storage) : IQueryHandler<SearchMenu, SearchMenuResult>
 {
-    readonly IDocumentSearch<Menu> storage;
-
-    public SearchMenuQueryHandler(IDocumentSearch<Menu> storage)
-    {
-        this.storage = storage;
-    }
-
     public Task<SearchMenuResult> ExecuteAsync(SearchMenu criteria)
     {
         if (criteria == null)

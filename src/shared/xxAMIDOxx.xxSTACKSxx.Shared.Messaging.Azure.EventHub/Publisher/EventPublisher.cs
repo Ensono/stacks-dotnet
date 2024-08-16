@@ -1,4 +1,4 @@
-﻿using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Producer;
 using Microsoft.Extensions.Logging;
@@ -9,36 +9,28 @@ using System.Threading.Tasks;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Publisher
 {
-    public class EventPublisher : IApplicationEventPublisher
+    public class EventPublisher(
+        ILogger<EventPublisher> log,
+        EventHubProducerClient eventHubProducerClient)
+        : IApplicationEventPublisher
     {
-        private readonly ILogger<EventPublisher> _log;
-        private readonly EventHubProducerClient _eventHubProducerClient;
-
-        public EventPublisher(
-            ILogger<EventPublisher> log, 
-            EventHubProducerClient eventHubProducerClient)
-        {
-            _log = log;
-            _eventHubProducerClient = eventHubProducerClient;
-        }
-
         public async Task PublishAsync(IApplicationEvent applicationEvent)
         {
-            _log.LogInformation($"Publishing event {applicationEvent.CorrelationId}");
+            log.LogInformation($"Publishing event {applicationEvent.CorrelationId}");
 
-            EventDataBatch eventDataBatch = await _eventHubProducerClient.CreateBatchAsync();
+            EventDataBatch eventDataBatch = await eventHubProducerClient.CreateBatchAsync();
 
             var eventReading = JsonConvert.SerializeObject(applicationEvent);
             eventDataBatch.TryAdd(new EventData(Encoding.UTF8.GetBytes(eventReading)));
 
             try
             {
-                await _eventHubProducerClient.SendAsync(eventDataBatch);
-                _log.LogInformation($"Event {applicationEvent.CorrelationId} has been published.");
+                await eventHubProducerClient.SendAsync(eventDataBatch);
+                log.LogInformation($"Event {applicationEvent.CorrelationId} has been published.");
             }
             catch (Exception exception)
             {
-                _log.LogError($"Something went wrong. Exception thrown: {exception.Message}");
+                log.LogError($"Something went wrong. Exception thrown: {exception.Message}");
             }
         }
     }

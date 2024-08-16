@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
@@ -90,10 +90,8 @@ public class CosmosDbMenuRepositoryTests
     }
 }
 
-public class MenuRepositoryAutoData : AutoDataAttribute
+public class MenuRepositoryAutoData() : AutoDataAttribute(Customizations)
 {
-    public MenuRepositoryAutoData() : base(Customizations) { }
-
     public static IFixture Customizations()
     {
         var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");

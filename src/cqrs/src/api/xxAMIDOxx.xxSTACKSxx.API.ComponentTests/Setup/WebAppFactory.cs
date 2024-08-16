@@ -13,17 +13,12 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests;
 /// WebAppFactory will be responsible for creating a TestServer and HttpClient handlers
 /// </summary>
 /// <typeparam name="TStartup">The API Startup class</typeparam>
-public class WebAppFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+public class WebAppFactory<TStartup>(
+    Action<IServiceCollection> configureTestServices,
+    Action<IWebHostBuilder> configureBuilder)
+    : WebApplicationFactory<TStartup>
+    where TStartup : class
 {
-    private readonly Action<IServiceCollection> configureTestServices;
-    private readonly Action<IWebHostBuilder> configureBuilder;
-
-    public WebAppFactory(Action<IServiceCollection> configureTestServices, Action<IWebHostBuilder> configureBuilder)
-    {
-        this.configureTestServices = configureTestServices;
-        this.configureBuilder = configureBuilder;
-    }
-
     protected override IWebHostBuilder CreateWebHostBuilder()
     {
         var builder = WebHost.CreateDefaultBuilder();

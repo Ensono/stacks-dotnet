@@ -3,14 +3,8 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.ValueObjects;
 
-public class Group : IValueObject
+public class Group(Guid id, string name) : IValueObject
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-
-    public Group(Guid id, string name)
-    {
-        Id = id;
-        Name = name;
-    }
+    public Guid Id { get; set; } = id;
+    public string Name { get; set; } = name;
 }

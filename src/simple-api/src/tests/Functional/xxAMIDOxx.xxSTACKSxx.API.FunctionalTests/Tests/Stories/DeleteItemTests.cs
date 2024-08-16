@@ -9,17 +9,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Functional;
 [Story(AsA = "Administrator of a restaurant",
     IWant = "To be able to delete old items",
     SoThat = "Customers do not see out of date options")]
-public class DeleteItemTests : IClassFixture<AuthFixture>
+public class DeleteItemTests(AuthFixture fixture) : IClassFixture<AuthFixture>
 {
-    private readonly ItemSteps itemSteps;
-    private readonly AuthFixture fixture;
+    private readonly ItemSteps itemSteps = new();
 
-    public DeleteItemTests(AuthFixture fixture)
-    {
-        //Get instances of the fixture and steps required for the test
-        this.fixture = fixture;
-        itemSteps = new ItemSteps();
-    }
+    //Get instances of the fixture and steps required for the test
 
     //Add all tests that make up the story to this class
     [Fact]

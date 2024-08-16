@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
@@ -15,14 +15,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers;
 [Consumes("application/json")]
 [Produces("application/json")]
 [ApiExplorerSettings(GroupName = "Item")]
-public class UpdateMenuItemController : ApiControllerBase
+public class UpdateMenuItemController(ICommandHandler<UpdateMenuItem, bool> commandHandler) : ApiControllerBase
 {
-    readonly ICommandHandler<UpdateMenuItem, bool> commandHandler;
-
-    public UpdateMenuItemController(ICommandHandler<UpdateMenuItem, bool> commandHandler)
-    {
-        this.commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-    }
+    readonly ICommandHandler<UpdateMenuItem, bool> commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
 
     /// <summary>
     /// Update an item in the menu

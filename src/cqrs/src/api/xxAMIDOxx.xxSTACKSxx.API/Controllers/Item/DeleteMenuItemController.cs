@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
@@ -14,14 +14,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers;
 [Consumes("application/json")]
 [Produces("application/json")]
 [ApiExplorerSettings(GroupName = "Item")]
-public class DeleteMenuItemController : ApiControllerBase
+public class DeleteMenuItemController(ICommandHandler<DeleteMenuItem, bool> commandHandler) : ApiControllerBase
 {
-    readonly ICommandHandler<DeleteMenuItem, bool> commandHandler;
-
-    public DeleteMenuItemController(ICommandHandler<DeleteMenuItem, bool> commandHandler)
-    {
-        this.commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-    }
+    readonly ICommandHandler<DeleteMenuItem, bool> commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
 
     /// <summary>
     /// Removes an item from menu

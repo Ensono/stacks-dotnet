@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
@@ -8,13 +8,11 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 
-public class UpdateMenuItemCommandHandler : MenuCommandHandlerBase<UpdateMenuItem, bool>
+public class UpdateMenuItemCommandHandler(
+    IMenuRepository repository,
+    IApplicationEventPublisher applicationEventPublisher)
+    : MenuCommandHandlerBase<UpdateMenuItem, bool>(repository, applicationEventPublisher)
 {
-    public UpdateMenuItemCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
-        : base(repository, applicationEventPublisher)
-    {
-    }
-
     public override Task<bool> HandleCommandAsync(Menu menu, UpdateMenuItem command)
     {
         menu.UpdateMenuItem(

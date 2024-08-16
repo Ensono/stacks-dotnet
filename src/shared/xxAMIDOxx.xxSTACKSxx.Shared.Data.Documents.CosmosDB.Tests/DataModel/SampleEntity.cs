@@ -10,31 +10,28 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel
     /// This represents an aggregate root in a ordinary project
     /// It should implement at least one property of each type to ensure parsing consistency
     /// </summary>
-    public class SampleEntity
+    public class SampleEntity(
+        Guid id,
+        Guid ownerId,
+        string name,
+        int age,
+        DateTime dateOfBirth,
+        DateTimeOffset expiryDate,
+        string[] emailAddresses,
+        List<Person> siblings,
+        bool active)
     {
         [JsonProperty(PropertyName = "id")]
-        public Guid Id { get; }
-        public Guid OwnerId { get; }
-        public string Name { get; private set; }
-        public int Age { get; private set; }
-        public DateTime DateOfBirth { get; }
-        public DateTimeOffset ExpiryDate { get; private set; }
-        public string[] EmailAddresses { get; }
-        public List<Person> Siblings { get; }
-        public bool Active { get; }
+        public Guid Id { get; } = id;
 
-        public SampleEntity(Guid id, Guid ownerId, string name, int age, DateTime dateOfBirth, DateTimeOffset expiryDate, string[] emailAddresses, List<Person> siblings, bool active)
-        {
-            Id = id;
-            OwnerId = ownerId;
-            Name = name;
-            Age = age;
-            DateOfBirth = dateOfBirth;
-            ExpiryDate = expiryDate;
-            EmailAddresses = emailAddresses;
-            Siblings = siblings;
-            Active = active;
-        }
+        public Guid OwnerId { get; } = ownerId;
+        public string Name { get; private set; } = name;
+        public int Age { get; private set; } = age;
+        public DateTime DateOfBirth { get; } = dateOfBirth;
+        public DateTimeOffset ExpiryDate { get; private set; } = expiryDate;
+        public string[] EmailAddresses { get; } = emailAddresses;
+        public List<Person> Siblings { get; } = siblings;
+        public bool Active { get; } = active;
 
         public void SetNewValues(string newName, int newAge, DateTimeOffset newExpiryDate)
         {
@@ -44,16 +41,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel
         }
     }
 
-    public class Person : IEqualityComparer, IEqualityComparer<Person>
+    public class Person(string name, List<Child> children) : IEqualityComparer, IEqualityComparer<Person>
     {
-        public string Name { get; }
-        public List<Child> Children { get; }
-
-        public Person(string name, List<Child> children)
-        {
-            Name = name;
-            Children = children;
-        }
+        public string Name { get; } = name;
+        public List<Child> Children { get; } = children;
 
         public bool Equals(Person x, Person y)
         {
@@ -77,45 +68,36 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel
         }
     }
 
-    public class Child
+    public class Child(string name, int age)
     {
-        public string Name { get; }
-        public int Age { get; }
-
-        public Child(string name, int age)
-        {
-            Name = name;
-            Age = age;
-        }
+        public string Name { get; } = name;
+        public int Age { get; } = age;
     }
 
 
     /// <summary>
     /// PartialEntity used for custom queries
     /// </summary>
-    public class PartialEntity
+    public class PartialEntity(
+        Guid id,
+        Guid ownerId,
+        string name,
+        int age,
+        DateTime dateOfBirth,
+        DateTimeOffset expiryDate,
+        string[] emailAddresses,
+        bool active)
     {
 
         [JsonProperty(PropertyName = "id")]
-        public Guid Id { get; }
-        public Guid OwnerId { get; }
-        public string Name { get; private set; }
-        public int Age { get; private set; }
-        public DateTime DateOfBirth { get; }
-        public DateTimeOffset ExpiryDate { get; private set; }
-        public string[] EmailAddresses { get; }
-        public bool Active { get; }
+        public Guid Id { get; } = id;
 
-        public PartialEntity(Guid id, Guid ownerId, string name, int age, DateTime dateOfBirth, DateTimeOffset expiryDate, string[] emailAddresses, bool active)
-        {
-            Id = id;
-            OwnerId = ownerId;
-            Name = name;
-            Age = age;
-            DateOfBirth = dateOfBirth;
-            ExpiryDate = expiryDate;
-            EmailAddresses = emailAddresses;
-            Active = active;
-        }
+        public Guid OwnerId { get; } = ownerId;
+        public string Name { get; private set; } = name;
+        public int Age { get; private set; } = age;
+        public DateTime DateOfBirth { get; } = dateOfBirth;
+        public DateTimeOffset ExpiryDate { get; private set; } = expiryDate;
+        public string[] EmailAddresses { get; } = emailAddresses;
+        public bool Active { get; } = active;
     }
 }

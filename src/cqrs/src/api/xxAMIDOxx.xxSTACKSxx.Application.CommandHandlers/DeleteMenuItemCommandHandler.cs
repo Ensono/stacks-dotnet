@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
@@ -8,13 +8,11 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 
-public class DeleteMenuItemCommandHandler : MenuCommandHandlerBase<DeleteMenuItem, bool>
+public class DeleteMenuItemCommandHandler(
+    IMenuRepository repository,
+    IApplicationEventPublisher applicationEventPublisher)
+    : MenuCommandHandlerBase<DeleteMenuItem, bool>(repository, applicationEventPublisher)
 {
-    public DeleteMenuItemCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
-        : base(repository, applicationEventPublisher)
-    {
-    }
-
     public override Task<bool> HandleCommandAsync(Menu menu, DeleteMenuItem command)
     {
         menu.RemoveMenuItem(command.CategoryId, command.MenuItemId);

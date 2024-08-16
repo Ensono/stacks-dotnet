@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,14 +17,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers;
 [Consumes("application/json")]
 [ApiExplorerSettings(GroupName = "Menu")]
 [ApiController]
-public class SearchMenuController : ApiControllerBase
+public class SearchMenuController(IQueryHandler<SearchMenu, SearchMenuResult> queryHandler) : ApiControllerBase
 {
-    readonly IQueryHandler<SearchMenu, SearchMenuResult> queryHandler;
-
-    public SearchMenuController(IQueryHandler<SearchMenu, SearchMenuResult> queryHandler)
-    {
-        this.queryHandler = queryHandler ?? throw new ArgumentNullException(nameof(queryHandler));
-    }
+    readonly IQueryHandler<SearchMenu, SearchMenuResult> queryHandler = queryHandler ?? throw new ArgumentNullException(nameof(queryHandler));
 
 
     /// <summary>

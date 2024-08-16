@@ -2,10 +2,11 @@ using System;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB.Tests;
 
-public class FakeMenu
+public class FakeMenu(Guid id)
 {
-	public FakeMenu() => Id = Guid.NewGuid();
-	public FakeMenu(Guid id) => Id = id;
+	public FakeMenu() : this(Guid.NewGuid())
+    {
+    }
 
-	public Guid Id { get; }
+    public Guid Id { get; } = id;
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 using Azure.Messaging.ServiceBus;
@@ -10,15 +10,8 @@ using xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events;
 
 namespace xxAMIDOxx.xxSTACKSxx.Listener;
 
-public class StacksListener
+public class StacksListener(ILogger<StacksListener> logger)
 {
-    private readonly ILogger<StacksListener> logger;
-
-    public StacksListener(ILogger<StacksListener> logger)
-    {
-        this.logger = logger;
-    }
-
     [FunctionName("StacksListener")]
     public void Run([ServiceBusTrigger(
         "%TOPIC_NAME%",

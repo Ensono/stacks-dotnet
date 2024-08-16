@@ -9,27 +9,23 @@ using Microsoft.Extensions.Options;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB;
 
-public class DynamoDbObjectStorage<TEntity> : IDynamoDbObjectStorage<TEntity> where TEntity : class
+public class DynamoDbObjectStorage<TEntity>(
+    ILogger<DynamoDbObjectStorage<TEntity>> logger,
+    IDynamoDBContext context,
+    IOptions<DynamoDbConfiguration> config)
+    : IDynamoDbObjectStorage<TEntity>
+    where TEntity : class
 {
-	private ILogger<DynamoDbObjectStorage<TEntity>> logger;
-	private readonly IDynamoDBContext context;
-	private readonly IOptions<DynamoDbConfiguration> config;
-	private readonly DynamoDBOperationConfig opearationConfig;
+	private ILogger<DynamoDbObjectStorage<TEntity>> logger = logger ?? throw new ArgumentNullException(nameof(logger));
+	private readonly IDynamoDBContext context = context ?? throw new ArgumentNullException(nameof(context));
+	private readonly IOptions<DynamoDbConfiguration> config = config ?? throw new ArgumentNullException(nameof(config));
+	private readonly DynamoDBOperationConfig opearationConfig = new()
+    {
+        OverrideTableName = config.Value.TableName,
+        TableNamePrefix = config.Value.TablePrefix
+    };
 
-	public DynamoDbObjectStorage(ILogger<DynamoDbObjectStorage<TEntity>> logger, IDynamoDBContext context, IOptions<DynamoDbConfiguration> config)
-	{
-		this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-		this.context = context ?? throw new ArgumentNullException(nameof(context));
-		this.config = config ?? throw new ArgumentNullException(nameof(config));
-
-		opearationConfig = new()
-		{
-			OverrideTableName = config.Value.TableName,
-			TableNamePrefix = config.Value.TablePrefix
-		};
-	}
-
-	public async Task<OperationResult> DeleteAsync(string partitionKey)
+    public async Task<OperationResult> DeleteAsync(string partitionKey)
 	{
 		try
 		{

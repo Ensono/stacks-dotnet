@@ -4,16 +4,11 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration
 {
-    public class FileSecretSource : ISecretSource<string>
+    public class FileSecretSource(string source) : ISecretSource<string>
     {
-        public string Source { get; }
+        public string Source { get; } = source;
 
         public FileSecretSource() : this("FILE") { }
-
-        public FileSecretSource(string source)
-        {
-            Source = source;
-        }
 
         public async Task<string> ResolveAsync(Secret secret)
         {

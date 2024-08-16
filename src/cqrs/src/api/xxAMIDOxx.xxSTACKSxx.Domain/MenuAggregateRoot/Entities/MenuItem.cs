@@ -3,24 +3,16 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Domain.Entities;
 
-public class MenuItem : IEntity<Guid>
+public class MenuItem(Guid id, string name, string description, double price, bool available)
+    : IEntity<Guid>
 {
-    public MenuItem(Guid id, string name, string description, double price, bool available)
-    {
-        Id = id;
-        Name = name;
-        Description = description;
-        Price = price;
-        Available = available;
-    }
+    public Guid Id { get; set; } = id;
 
-    public Guid Id { get; set; }
+    public string Name { get; set; } = name;
 
-    public string Name { get; set; }
+    public string Description { get; set; } = description;
 
-    public string Description { get; set; }
+    public double Price { get; set; } = price;
 
-    public double Price { get; set; }
-
-    public bool Available { get; set; }
+    public bool Available { get; set; } = available;
 }

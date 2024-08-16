@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
@@ -9,13 +9,11 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 
-public class CreateCategoryCommandHandler : MenuCommandHandlerBase<CreateCategory, Guid>
+public class CreateCategoryCommandHandler(
+    IMenuRepository repository,
+    IApplicationEventPublisher applicationEventPublisher)
+    : MenuCommandHandlerBase<CreateCategory, Guid>(repository, applicationEventPublisher)
 {
-    public CreateCategoryCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
-        : base(repository, applicationEventPublisher)
-    {
-    }
-
     Guid id;
     public override Task<Guid> HandleCommandAsync(Menu menu, CreateCategory command)
     {

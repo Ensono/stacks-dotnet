@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
@@ -9,17 +9,9 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
 
-public class CreateMenuCommandHandler : ICommandHandler<CreateMenu, Guid>
+public class CreateMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
+    : ICommandHandler<CreateMenu, Guid>
 {
-    private readonly IMenuRepository repository;
-    private readonly IApplicationEventPublisher applicationEventPublisher;
-
-    public CreateMenuCommandHandler(IMenuRepository repository, IApplicationEventPublisher applicationEventPublisher)
-    {
-        this.repository = repository;
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
-
     public async Task<Guid> HandleAsync(CreateMenu command)
     {
         var id = Guid.NewGuid();

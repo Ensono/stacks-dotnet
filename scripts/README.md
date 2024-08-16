@@ -37,6 +37,7 @@ These scripts have been created to simplify the testing of each template within 
 
 Output directory:
 
+```
 STACKS-TESTING
 ├── stacks-dotnet
 └── test-templates
@@ -47,7 +48,7 @@ STACKS-TESTING
     ├── ServiceBus.Listener.Project
     ├── ServiceBus.Worker.Project
     └── Simple.WebAPI
-
+```
 
 ### Clean-Up-Template-Test
 

@@ -2,23 +2,16 @@ using System;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
-public class DeleteMenuItem : IMenuItemCommand
+public class DeleteMenuItem(Guid correlationId, Guid menuId, Guid categoryId, Guid menuItemId)
+    : IMenuItemCommand
 {
     public int OperationCode => (int)Common.Operations.OperationCode.DeleteMenuItem;
 
-    public Guid CorrelationId { get; }
+    public Guid CorrelationId { get; } = correlationId;
 
-    public Guid MenuId { get; set; }
+    public Guid MenuId { get; set; } = menuId;
 
-    public Guid CategoryId { get; set; }
+    public Guid CategoryId { get; set; } = categoryId;
 
-    public Guid MenuItemId { get; set; }
-
-    public DeleteMenuItem(Guid correlationId, Guid menuId, Guid categoryId, Guid menuItemId)
-    {
-        CorrelationId = correlationId;
-        MenuId = menuId;
-        CategoryId = categoryId;
-        MenuItemId = menuItemId;
-    }
+    public Guid MenuItemId { get; set; } = menuItemId;
 }
