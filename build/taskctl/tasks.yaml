@@ -174,7 +174,9 @@ tasks:
     context: powershell
     description: Render deployment templates
     command:
-      - Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
+      - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
+        terraform --version;
+        Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
 
   deploy:kubernetes:
     context: powershell
