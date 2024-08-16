@@ -62,7 +62,7 @@ tasks:
         Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         popd &&
-        Invoke-DotNet -Coverage -target /app/coverage
+        Invoke-DotNet -Coverage -target /app/coverage &&
         Remove-Item Env:\SONAR_PROPERTIES &&
         Invoke-SonarScanner -stop
     condition: exit $TEST_NO_RUN
@@ -135,7 +135,7 @@ tasks:
     description: Create container image for application
     command:
       - $ErrorActionPreference = "Stop";
-        Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -BuildPath src/api -push
+        Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:DOCKER_IMAGE_NAME -region $env:ECR_REGION -BuildPath $env:SELF_REPO_SRC -push
 
   build:functional_tests:
     context: powershell-dotnet
