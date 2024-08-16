@@ -69,13 +69,9 @@ jobs:
           rm -rf src
           mv temp src
 
-      - name: Set envirnoment variables
+      - name: Set environment variables
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
-
-      - name: Check environment variables
-        run: |
-          echo $DOCKER_IMAGE_NAME
 
       - uses: ./build/github/templates/install-taskctl
 
@@ -173,6 +169,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set environment variables
+        run: |
+          cat .github/workflows/simple-api.env >> $GITHUB_ENV
+
       - uses: ./build/github/templates/install-taskctl
 
       - run: taskctl image-pull
@@ -210,6 +210,10 @@ jobs:
     environment: nonprod
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set environment variables
+        run: |
+          cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
@@ -283,6 +287,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set environment variables
+        run: |
+          cat .github/workflows/simple-api.env >> $GITHUB_ENV
+
       - uses: ./build/github/templates/install-taskctl
 
       - run: taskctl image-pull
@@ -319,6 +327,10 @@ jobs:
     environment: prod
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set environment variables
+        run: |
+          cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl

@@ -13,10 +13,10 @@ provider "aws" {
 terraform {
   required_version = ">= 1.9"
 
-  backend "s3" {
-    # Configured via runtime command line flags
-    encrypt = true
-  }
+  # backend "s3" {
+  #   # Configured via runtime command line flags
+  #   encrypt = true
+  # }
 
   required_providers {
     aws = {
