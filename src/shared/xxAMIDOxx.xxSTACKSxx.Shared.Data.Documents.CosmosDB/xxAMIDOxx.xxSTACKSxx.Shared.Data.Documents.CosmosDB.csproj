@@ -8,6 +8,7 @@
     <PackageProjectUrl>https://github.com/amido/stacks-dotnet-packages-cosmosdb</PackageProjectUrl>
     <RepositoryUrl>https://github.com/amido/stacks-dotnet-packages-cosmosdb</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
+    <LangVersion>12.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

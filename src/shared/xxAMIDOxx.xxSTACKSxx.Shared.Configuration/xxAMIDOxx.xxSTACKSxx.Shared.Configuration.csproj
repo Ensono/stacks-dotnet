@@ -8,6 +8,7 @@
     <PackageProjectUrl>https://github.com/amido/stacks-dotnet-packages-configuration</PackageProjectUrl>
     <RepositoryUrl>https://github.com/amido/stacks-dotnet-packages-configuration</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
+    <LangVersion>12.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
