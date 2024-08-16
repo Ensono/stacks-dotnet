@@ -51,7 +51,7 @@ env:
   DOMAIN: "dev-netcore-api"
   COMPANY: "ensono"
   PROJECT: "stacks"
-  FUNCTIONAL_TESTS_SRC_DIR: src/simple-api/src/tests/Functional
+  FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
 jobs:
@@ -62,6 +62,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Replace src directory
+        run: |
+          mv src/simple-api/src temp
+          rm -rf src
+          mv temp src
 
       - uses: ./build/github/templates/install-taskctl
 
@@ -94,17 +100,17 @@ jobs:
           PROJECT_NAME: Ensono_stacks-dotnet-aws
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
           # Dotnet Build
-          SELF_REPO_SRC: src/simple-api/src/api
+          SELF_REPO_SRC: src/api
 
       - run: taskctl build:functional_tests
         env:
           # Dotnet Build
-          SELF_REPO_SRC: src/simple-api/src/api
+          SELF_REPO_SRC: src/api
 
       - run: taskctl build:container
         env:
           # Dotnet Build
-          SELF_REPO_SRC: src/simple-api/src/api
+          SELF_REPO_SRC: src/api
           # Docker
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ env.DOCKER_REGISTRY_NAME }}
           ECR_REGION: ${{ env.REGION }}
