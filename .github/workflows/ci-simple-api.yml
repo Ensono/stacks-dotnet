@@ -1,4 +1,4 @@
-name: air.stacks-dotnet-simple-api
+name: air.stacks-dotnet
 
 on:
   workflow_dispatch:
@@ -179,7 +179,7 @@ jobs:
 
       - run: taskctl infrastructure
         env:
-          ENV_NAME: nonprod
+          ENV_NAME: dev
           # AWS Environmental Config
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -231,7 +231,7 @@ jobs:
       - name: TaskCTL Deploy
         run: taskctl deploy
         env:
-          ENV_NAME: nonprod
+          ENV_NAME: dev
           # AWS Environmental Config
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
