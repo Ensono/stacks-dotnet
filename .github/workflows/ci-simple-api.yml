@@ -71,7 +71,7 @@ jobs:
 
       - name: Set envirnoment variables
         run: |
-          eval $(cat .github/workflows/simple-api.env)
+          cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
       - name: Check environment variables
         run: |
