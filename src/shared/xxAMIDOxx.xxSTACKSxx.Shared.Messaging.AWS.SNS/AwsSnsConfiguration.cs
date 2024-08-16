@@ -6,3 +6,4 @@ public class AwsSnsConfiguration
 {
     public Secret TopicArn { get; init; }
 }
+

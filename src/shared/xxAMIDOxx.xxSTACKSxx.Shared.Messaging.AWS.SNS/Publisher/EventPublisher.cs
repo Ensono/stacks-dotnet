@@ -13,24 +13,17 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
     /// <summary>
     /// Class implementing the ability to publish an event to AWS SNS
     /// </summary>
-    public class EventPublisher : IApplicationEventPublisher
+    public class EventPublisher(
+        IOptions<AwsSnsConfiguration> configuration,
+        ISecretResolver<string> secretResolver,
+        IAmazonSimpleNotificationService snsClient,
+        ILogger<EventPublisher> logger)
+        : IApplicationEventPublisher
     {
-        private readonly IOptions<AwsSnsConfiguration> configuration;
-        private readonly ISecretResolver<string> secretResolver;
-        private readonly IAmazonSimpleNotificationService snsClient;
-        private readonly ILogger<EventPublisher> logger;
-
-        public EventPublisher(
-            IOptions<AwsSnsConfiguration> configuration,
-            ISecretResolver<string> secretResolver,
-            IAmazonSimpleNotificationService snsClient,
-            ILogger<EventPublisher> logger)
-        {
-            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this.secretResolver = secretResolver ?? throw new ArgumentNullException(nameof(secretResolver));
-            this.snsClient = snsClient ?? throw new ArgumentNullException(nameof(snsClient));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
+        private readonly IOptions<AwsSnsConfiguration> configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        private readonly ISecretResolver<string> secretResolver = secretResolver ?? throw new ArgumentNullException(nameof(secretResolver));
+        private readonly IAmazonSimpleNotificationService snsClient = snsClient ?? throw new ArgumentNullException(nameof(snsClient));
+        private readonly ILogger<EventPublisher> logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         /// <summary>
         /// Publishes an event message to the configured SNS

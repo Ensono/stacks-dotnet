@@ -7,14 +7,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger.Filters
     /// <summary>
     /// Filter operation based on path versioning
     /// </summary>
-    public class VersionPathFilter : IDocumentFilter
+    public class VersionPathFilter(string basePath) : IDocumentFilter
     {
-        public VersionPathFilter(string basePath)
-        {
-            BasePath = basePath;
-        }
-
-        public string BasePath { get; }
+        public string BasePath { get; } = basePath;
 
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {

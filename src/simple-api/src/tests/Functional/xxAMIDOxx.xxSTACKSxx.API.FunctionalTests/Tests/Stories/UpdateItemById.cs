@@ -10,17 +10,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Functional;
     IWant = "To be able to update existing items",
     SoThat = "The menus are always showing our latest offerings"
 )]
-public class UpdateItemById : IClassFixture<AuthFixture>
+public class UpdateItemById(AuthFixture fixture) : IClassFixture<AuthFixture>
 {
-    private readonly AuthFixture fixture;
-    private readonly ItemSteps itemSteps;
+    private readonly ItemSteps itemSteps = new();
 
-    public UpdateItemById(AuthFixture fixture)
-    {
-        //Get instances of the fixture and steps required for the test
-        this.fixture = fixture;
-        itemSteps = new ItemSteps();
-    }
+    //Get instances of the fixture and steps required for the test
 
     //Add all tests that make up the story to this class
     [Fact]

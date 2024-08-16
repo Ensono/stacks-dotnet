@@ -9,12 +9,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Core.Utilities
     /// https://github.com/dotnet/corefx/issues/32552
     ///
     /// source: https://devblogs.microsoft.com/pfxteam/asynclazyt/
-    internal class AsyncLazy<T> : Lazy<Task<T>>
+    internal class AsyncLazy<T>(Func<Task<T>> taskFactory)
+        : Lazy<Task<T>>(() => Task.Factory.StartNew(() => taskFactory()).Unwrap())
     {
-        public AsyncLazy(Func<Task<T>> taskFactory) :
-            base(() => Task.Factory.StartNew(() => taskFactory()).Unwrap())
-        { }
-
         public TaskAwaiter<T> GetAwaiter() { return Value.GetAwaiter(); }
     }
 }

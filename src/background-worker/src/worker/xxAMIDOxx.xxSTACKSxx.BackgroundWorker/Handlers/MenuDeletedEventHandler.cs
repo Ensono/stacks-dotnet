@@ -1,19 +1,12 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.Logging;
 using xxAMIDOxx.xxSTACKSxx.Application.CQRS.Events;
 
 namespace xxAMIDOxx.xxSTACKSxx.BackgroundWorker.Handlers;
 
-public class MenuDeletedEventHandler : IApplicationEventHandler<MenuDeletedEvent>
+public class MenuDeletedEventHandler(ILogger<MenuDeletedEventHandler> log) : IApplicationEventHandler<MenuDeletedEvent>
 {
-    private readonly ILogger<MenuDeletedEventHandler> log;
-
-    public MenuDeletedEventHandler(ILogger<MenuDeletedEventHandler> log)
-    {
-        this.log = log;
-    }
-
     public Task HandleAsync(MenuDeletedEvent appEvent)
     {
         log.LogInformation($"Executing MenuDeletedEventHandler...");

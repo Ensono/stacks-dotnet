@@ -8,12 +8,9 @@ namespace xxAMIDOxx.xxSTACKSxx.Listener.Logging;
 ///     Required to bypass issue with Azure Function DI not registering
 ///     logging dependencies soon enough
 /// </summary>
-public class LogAdapter<T> : ILogger<T>
+public class LogAdapter<T>(ILoggerProvider provider) : ILogger<T>
 {
-    private readonly Lazy<ILogger> logger;
-
-    public LogAdapter(ILoggerProvider provider) =>
-        logger = new Lazy<ILogger>(() => provider.CreateLogger(typeof(T).Name));
+    private readonly Lazy<ILogger> logger = new(() => provider.CreateLogger(typeof(T).Name));
 
     public IDisposable BeginScope<TState>(TState state) => logger.Value.BeginScope(state);
 

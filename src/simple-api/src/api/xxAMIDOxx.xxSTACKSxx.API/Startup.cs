@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -23,28 +23,17 @@ using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 
 namespace xxAMIDOxx.xxSTACKSxx.API;
 
-public class Startup
+public class Startup(IWebHostEnvironment env, IConfiguration configuration, ILogger<Startup> logger)
 {
-    private readonly ILogger logger;
+    private readonly ILogger logger = logger;
 
-    private IConfiguration configuration { get; }
-    private readonly IWebHostEnvironment hostingEnv;
-    private readonly string pathBase;
-    private readonly bool useAppInsights;
-    private readonly bool useOpenTelemetry;
+    private IConfiguration configuration { get; } = configuration;
+    private readonly IWebHostEnvironment hostingEnv = env;
+    private readonly string pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
+    private readonly bool useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
+    private readonly bool useOpenTelemetry = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName));
 
     private const string projectUrl = "https://github.com/amido/stacks-dotnet";
-
-    public Startup(IWebHostEnvironment env, IConfiguration configuration, ILogger<Startup> logger)
-    {
-        this.hostingEnv = env;
-        this.configuration = configuration;
-        this.logger = logger;
-
-        pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
-        useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
-        useOpenTelemetry = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName));
-    }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     // Add dependent service required by the application

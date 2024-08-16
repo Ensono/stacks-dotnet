@@ -10,17 +10,11 @@ namespace xxAMIDOxx.xxSTACKSxx.API.FunctionalTests.Tests.Functional;
     AsA = "user of the Yumido website",
     IWant = "to be able to view specific menus",
     SoThat = "I can choose what to eat")]
-public class GetMenuByIdTests : IClassFixture<AuthFixture>
+public class GetMenuByIdTests(AuthFixture fixture) : IClassFixture<AuthFixture>
 {
-    private readonly AuthFixture fixture;
-    private readonly MenuSteps steps;
+    private readonly MenuSteps steps = new();
 
-    public GetMenuByIdTests(AuthFixture fixture)
-    {
-        //Get instances of the fixture and steps required for the test
-        this.fixture = fixture;
-        steps = new MenuSteps();
-    }
+    //Get instances of the fixture and steps required for the test
 
     //Add all tests that make up the story to this class.
     [Fact]

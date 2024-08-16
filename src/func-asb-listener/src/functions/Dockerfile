@@ -5,7 +5,7 @@
 #
 # docker build -t stacks-dotnet-cqrs --build-arg function=xxAMIDOxx.xxSTACKSxx.Listener .\src\functions
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 as build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 
 ARG function
 ARG outdir=out

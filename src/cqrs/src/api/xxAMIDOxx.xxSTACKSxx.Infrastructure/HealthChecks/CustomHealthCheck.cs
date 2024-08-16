@@ -13,15 +13,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.HealthChecks;
 /// Resources implementing IHealthCheck should be added directly to the pipeline:
 /// i.e: services.AddHealthChecks().AddCheck<CosmosDbDocumentStorage<Menu>>("CosmosDB");
 /// </summary>
-public class CustomHealthCheck : IHealthCheck
+public class CustomHealthCheck(IDocumentStorage<Menu> documentStorage) : IHealthCheck
 {
     //Example: do not add this example, CosmosDBStorage already implements IHealthCheck
-    readonly IDocumentStorage<Menu> documentStorage;
-
-    public CustomHealthCheck(IDocumentStorage<Menu> documentStorage)
-    {
-        this.documentStorage = documentStorage;
-    }
+    readonly IDocumentStorage<Menu> documentStorage = documentStorage;
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {

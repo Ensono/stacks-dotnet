@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
-using config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
+using Config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
 {
@@ -33,7 +33,7 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
         public CosmosDbDocumentStorageQueriesIntegrationTests(ITestOutputHelper output, IntegrationFixture integrationFixture)
         {
             this.output = output;
-            var settings = config.For<CosmosDbConfiguration>("CosmosDB");
+            var settings = Config.For<CosmosDbConfiguration>("CosmosDB");
             var loggerFactory = Substitute.For<ILoggerFactory>();
             Fixture fixture = new Fixture();
             fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntity>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));

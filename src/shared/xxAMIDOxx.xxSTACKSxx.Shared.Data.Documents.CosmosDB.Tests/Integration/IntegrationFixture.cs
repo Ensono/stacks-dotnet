@@ -2,22 +2,21 @@
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Configuration;
 using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel;
-using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Extensions;
 using Microsoft.Azure.Cosmos;
 using Xunit;
-using config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
+using Config = xxAMIDOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
 {
     public class IntegrationFixture : IAsyncLifetime
     {
-        public CosmosClient CosmosClient;
-        public CosmosDbConfiguration Settings;
+        private CosmosClient CosmosClient;
+        private CosmosDbConfiguration Settings;
         private SecretResolver _secretResolver;
 
         public async Task InitializeAsync()
         {
-            Settings = config.For<CosmosDbConfiguration>("CosmosDB");
+            Settings = Config.For<CosmosDbConfiguration>("CosmosDB");
             _secretResolver = new SecretResolver();
 
             //Notes:
@@ -42,10 +41,10 @@ namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Integration
                 }
             }
 
-            string cosmosDbKey = await _secretResolver.ResolveSecretAsync(Settings.SecurityKeySecret);
+            var cosmosDbKey = await _secretResolver.ResolveSecretAsync(Settings.SecurityKeySecret);
             CosmosClient = new CosmosClient(Settings.DatabaseAccountUri, cosmosDbKey);
             await CosmosClient.CreateDatabaseIfNotExistsAsync(Settings.DatabaseName);
-            Database database = CosmosClient.GetDatabase(Settings.DatabaseName);
+            var database = CosmosClient.GetDatabase(Settings.DatabaseName);
             await database.CreateContainerIfNotExistsAsync(nameof(SampleEntity), $"/{nameof(SampleEntity.OwnerId)}");
         }
 

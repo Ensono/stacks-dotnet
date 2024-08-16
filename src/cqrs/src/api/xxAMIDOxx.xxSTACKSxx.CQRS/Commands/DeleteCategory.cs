@@ -2,20 +2,13 @@ using System;
 
 namespace xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
 
-public class DeleteCategory : ICategoryCommand
+public class DeleteCategory(Guid correlationId, Guid menuId, Guid categoryId) : ICategoryCommand
 {
     public int OperationCode => (int)Common.Operations.OperationCode.DeleteCategory;
 
-    public Guid CorrelationId { get; }
+    public Guid CorrelationId { get; } = correlationId;
 
-    public Guid MenuId { get; set; }
+    public Guid MenuId { get; set; } = menuId;
 
-    public Guid CategoryId { get; set; }
-
-    public DeleteCategory(Guid correlationId, Guid menuId, Guid categoryId)
-    {
-        CorrelationId = correlationId;
-        MenuId = menuId;
-        CategoryId = categoryId;
-    }
+    public Guid CategoryId { get; set; } = categoryId;
 }

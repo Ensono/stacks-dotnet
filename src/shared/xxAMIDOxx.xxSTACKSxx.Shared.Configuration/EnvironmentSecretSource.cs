@@ -4,16 +4,11 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Exceptions;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Configuration
 {
-    public class EnvironmentSecretSource : ISecretSource<string>
+    public class EnvironmentSecretSource(string source) : ISecretSource<string>
     {
-        public string Source { get; }
+        public string Source { get; } = source;
 
         public EnvironmentSecretSource() : this("ENVIRONMENT") { }
-
-        public EnvironmentSecretSource(string source)
-        {
-            Source = source;
-        }
 
         public async Task<string> ResolveAsync(Secret secret)
         {

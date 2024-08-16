@@ -6,15 +6,8 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Repositories;
 
-public class CosmosDbMenuRepository : IMenuRepository
+public class CosmosDbMenuRepository(IDocumentStorage<Menu> documentStorage) : IMenuRepository
 {
-    readonly IDocumentStorage<Menu> documentStorage;
-
-    public CosmosDbMenuRepository(IDocumentStorage<Menu> documentStorage)
-    {
-        this.documentStorage = documentStorage;
-    }
-
     public async Task<Menu> GetByIdAsync(Guid id)
     {
         var result = await documentStorage.GetByIdAsync(id.ToString(), id.ToString());

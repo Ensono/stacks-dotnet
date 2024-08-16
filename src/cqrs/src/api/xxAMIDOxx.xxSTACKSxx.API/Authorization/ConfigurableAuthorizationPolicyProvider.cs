@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
@@ -6,18 +6,12 @@ using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.Authorization;
 
-public class ConfigurableAuthorizationPolicyProvider : IAuthorizationPolicyProvider
+public class ConfigurableAuthorizationPolicyProvider(
+    IOptions<AuthorizationOptions> options,
+    IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
+    : IAuthorizationPolicyProvider
 {
-    private readonly IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions;
-    private readonly DefaultAuthorizationPolicyProvider fallbackPolicyProvider;
-
-    public ConfigurableAuthorizationPolicyProvider(
-        IOptions<AuthorizationOptions> options,
-        IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
-    {
-        this.jwtBearerAuthenticationOptions = jwtBearerAuthenticationOptions;
-        fallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
-    }
+    private readonly DefaultAuthorizationPolicyProvider fallbackPolicyProvider = new(options);
 
     public Task<AuthorizationPolicy> GetDefaultPolicyAsync() =>
         BuildAuthorizationPolicy(() => fallbackPolicyProvider.GetDefaultPolicyAsync());

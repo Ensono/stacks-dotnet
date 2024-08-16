@@ -1,17 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger.Filters
 {
-    public class BasePathFilter : IDocumentFilter
+    public class BasePathFilter(string basePath) : IDocumentFilter
     {
-        public BasePathFilter(string basePath)
-        {
-            BasePath = basePath;
-        }
-
-        public string BasePath { get; }
+        public string BasePath { get; } = basePath;
 
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {

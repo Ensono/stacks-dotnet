@@ -214,7 +214,7 @@ public class CorrelationIdMiddlewareTestSteps
                       })
                       .ConfigureAppConfiguration((_, configBuilder) =>
                       {
-                          configBuilder.AddInMemoryCollection(_configurationCollection);
+                          configBuilder.AddInMemoryCollection(_configurationCollection!);
                       })
                       .ConfigureLogging((_, builder) =>
                       {

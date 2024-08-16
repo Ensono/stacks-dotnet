@@ -7,16 +7,10 @@ using xxAMIDOxx.xxSTACKSxx.Domain;
 
 namespace xxAMIDOxx.xxSTACKSxx.Infrastructure.Fakes;
 
-public class InMemoryMenuRepository : IMenuRepository
+public class InMemoryMenuRepository(ILogger<InMemoryMenuRepository> logger) : IMenuRepository
 {
-    ILogger<InMemoryMenuRepository> logger;
     private static readonly Object @lock = new Object();
     private static readonly Dictionary<Guid, Menu> storage = new Dictionary<Guid, Menu>();
-
-    public InMemoryMenuRepository(ILogger<InMemoryMenuRepository> logger)
-    {
-        this.logger = logger;
-    }
 
     public async Task<Menu> GetByIdAsync(Guid id)
     {

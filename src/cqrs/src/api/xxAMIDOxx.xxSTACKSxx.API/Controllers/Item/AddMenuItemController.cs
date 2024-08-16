@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
@@ -17,14 +17,9 @@ namespace xxAMIDOxx.xxSTACKSxx.API.Controllers;
 [Consumes("application/json")]
 [Produces("application/json")]
 [ApiExplorerSettings(GroupName = "Item")]
-public class AddMenuItemController : ApiControllerBase
+public class AddMenuItemController(ICommandHandler<CreateMenuItem, Guid> commandHandler) : ApiControllerBase
 {
-    readonly ICommandHandler<CreateMenuItem, Guid> commandHandler;
-
-    public AddMenuItemController(ICommandHandler<CreateMenuItem, Guid> commandHandler)
-    {
-        this.commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-    }
+    readonly ICommandHandler<CreateMenuItem, Guid> commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
 
     /// <summary>
     /// Create an item to a category in the menu

@@ -9,25 +9,21 @@ using Microsoft.Extensions.Options;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.DynamoDB;
 
-public class DynamoDbObjectSearch<TEntity> : IDynamoDbObjectSearch<TEntity> where TEntity : class
+public class DynamoDbObjectSearch<TEntity>(
+    ILogger<DynamoDbObjectSearch<TEntity>> logger,
+    IDynamoDBContext context,
+    IOptions<DynamoDbConfiguration> config)
+    : IDynamoDbObjectSearch<TEntity>
+    where TEntity : class
 {
-    private ILogger<DynamoDbObjectSearch<TEntity>> logger;
-    private readonly IDynamoDBContext context;
-    private readonly IOptions<DynamoDbConfiguration> config;
-    private readonly DynamoDBOperationConfig opearationConfig;
-
-    public DynamoDbObjectSearch(ILogger<DynamoDbObjectSearch<TEntity>> logger, IDynamoDBContext context, IOptions<DynamoDbConfiguration> config)
+    private ILogger<DynamoDbObjectSearch<TEntity>> logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly IDynamoDBContext context = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly IOptions<DynamoDbConfiguration> config = config ?? throw new ArgumentNullException(nameof(config));
+    private readonly DynamoDBOperationConfig opearationConfig = new()
     {
-        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-        this.config = config ?? throw new ArgumentNullException(nameof(config));
-
-        opearationConfig = new()
-        {
-            OverrideTableName = config.Value.TableName,
-            TableNamePrefix = config.Value.TablePrefix
-        };
-    }
+        OverrideTableName = config.Value.TableName,
+        TableNamePrefix = config.Value.TablePrefix
+    };
 
     // Note:
     // ScanInternalAsync and QueryInternalAsync cannot be unit tested because IDynamoDBContext.GetTargetTable returns and object that cannot be mocked.

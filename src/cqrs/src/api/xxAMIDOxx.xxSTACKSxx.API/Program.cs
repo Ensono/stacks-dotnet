@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,9 +28,10 @@ public static class Program
                 Log.Logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(context.Configuration)
                     .CreateLogger();
+                builder.Services.AddSerilog(lc => lc
+                    .ReadFrom.Configuration(context.Configuration));
             })
             .UseStartup<Startup>()
-            .UseSerilog()
             .ConfigureServices(DependencyRegistration.ConfigureStaticDependencies)
             .ConfigureServices(DependencyRegistration.ConfigureProductionDependencies);
 }

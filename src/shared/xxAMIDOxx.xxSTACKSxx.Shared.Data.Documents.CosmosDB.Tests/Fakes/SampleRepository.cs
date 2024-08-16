@@ -4,16 +4,10 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.DataModel;
 
 namespace xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.Fakes
 {
-    public class SampleRepository
+    public class SampleRepository(CosmosDbDocumentStorage<SampleEntityExtension> repository)
     {
-        CosmosDbDocumentStorage<SampleEntityExtension> repository;
-
         //this is a simple and dummy repository for testing real world scenario
         //it shall not be used as reference implementation
-        public SampleRepository(CosmosDbDocumentStorage<SampleEntityExtension> repository)
-        {
-            this.repository = repository;
-        }
 
         public async Task<SampleEntity> GetByIdAsync(string id, string partition)
         {
