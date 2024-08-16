@@ -1,4 +1,4 @@
-name: air.stacks-dotnet
+name: air.stacks-dotnet-simple-api
 
 on:
   workflow_dispatch:
