@@ -43,14 +43,6 @@ env:
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
-  # App Config (for both TF and K8S)
-  RESOURCE_DEF_NAME: "dotnet-api"
-  COMPONENT: "api"
-  ROLE: "backend"
-  APP_NAME: "yumido-netcore-api-cqrs"
-  DOMAIN: "netcore-api-cqrs"
-  COMPANY: "ensono"
-  PROJECT: "stacks"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
@@ -262,7 +254,7 @@ jobs:
           DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://dev-netcore-api-cqrs.nonprod.aws.stacks.ensono.com/api/menu/"
+          BaseUrl: "https://dev-${{ env.DOMAIN }}.nonprod.aws.stacks.ensono.com/api/menu/"
 
       - name: "Dev: Dotnet Functional Test Report"
         uses: dorny/test-reporter@v1
@@ -383,7 +375,7 @@ jobs:
           DNS_BASE_DOMAIN: "prod.aws.stacks.ensono.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://prod-netcore-api-cqrs.prod.aws.stacks.ensono.com/api/menu/"
+          BaseUrl: "https://prod-${{ env.DOMAIN }}.prod.aws.stacks.ensono.com/api/menu/"
 
       - name: "Prod: Dotnet Functional Test Report"
         uses: dorny/test-reporter@v1
