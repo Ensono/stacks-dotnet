@@ -189,7 +189,7 @@ jobs:
           AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
           AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
+          AWS_TF_STATE_KEY: stacks-dotnet-cqrs
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
@@ -241,7 +241,7 @@ jobs:
           AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
           AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
+          AWS_TF_STATE_KEY: stacks-dotnet-cqrs
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
@@ -307,7 +307,7 @@ jobs:
           AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
           AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
+          AWS_TF_STATE_KEY: stacks-dotnet-cqrs
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
@@ -362,7 +362,7 @@ jobs:
           AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
           AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
+          AWS_TF_STATE_KEY: stacks-dotnet-cqrs
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
