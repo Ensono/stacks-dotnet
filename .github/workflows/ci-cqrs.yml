@@ -5,8 +5,7 @@ on:
     inputs: {}
   push:
     branches:
-      - 7686-pipelines
-  pull_request:
+      - master
     branches:
       - master
 

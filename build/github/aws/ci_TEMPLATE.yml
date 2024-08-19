@@ -41,14 +41,6 @@ env:
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.{{ .Project.Cloud.Region }}.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
-  # App Config (for both TF and K8S)
-  RESOURCE_DEF_NAME: "{{ .Project.Name }}-api"
-  COMPONENT: "api"
-  ROLE: "backend"
-  APP_NAME: "{{ .Input.Business.Domain }}-{{ .Project.Name }}-api"
-  DOMAIN: "{{ .Input.Business.Domain }}"
-  COMPANY: "{{ .Input.Business.Company }}"
-  PROJECT: "{{ .Project.Name }}"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
@@ -92,7 +84,8 @@ jobs:
           SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
           SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" ${{ steps.sonar-pr.outputs.arguments }}'
-          PROJECT_NAME: ${{ env.COMPANY }}_${{ env.APP_NAME }}-aws
+          PACT_BEARER_TOKEN: ${{ secrets.PACT_BEARER_TOKEN }}
+          PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
           # Dotnet Build
           SELF_REPO_SRC: src/api
@@ -163,6 +156,7 @@ jobs:
       - name: Set environment variables
         run: |
           cat .github/workflows/{{ .Project.Framework.Option }}.env >> $GITHUB_ENV
+
       - uses: ./build/github/templates/install-taskctl
 
       - run: taskctl image-pull
@@ -175,13 +169,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.REGION }}
           # Terraform Backend Configuration
-          AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
-          AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
-          AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
-          AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -227,13 +216,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.REGION }}
           # Terraform Backend Configuration (for outputs)
-          AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
-          AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
-          AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
-          AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -280,6 +264,7 @@ jobs:
       - name: Set environment variables
         run: |
           cat .github/workflows/{{ .Project.Framework.Option }}.env >> $GITHUB_ENV
+
       - uses: ./build/github/templates/install-taskctl
 
       - run: taskctl image-pull
@@ -292,13 +277,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.REGION }}
           # Terraform Backend Configuration
-          AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
-          AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
-          AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
-          AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -320,6 +300,7 @@ jobs:
       - name: Set environment variables
         run: |
           cat .github/workflows/{{ .Project.Framework.Option }}.env >> $GITHUB_ENV
+
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
 
@@ -346,13 +327,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.REGION }}
           # Terraform Backend Configuration (for outputs)
-          AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
-          AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
-          AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: ${{ secrets.AWS_TF_STATE_KEY }}
-          AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ secrets.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
