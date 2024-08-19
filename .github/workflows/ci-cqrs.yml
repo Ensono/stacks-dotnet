@@ -94,7 +94,7 @@ jobs:
           SONAR_URL: "https://sonarcloud.io"
           SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" ${{ steps.sonar-pr.outputs.arguments }}'
           PACT_BEARER_TOKEN: ${{ secrets.PACT_BEARER_TOKEN }}
-          PROJECT_NAME: Ensono_stacks-dotnet-aws
+          PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
           # Dotnet Build
           SELF_REPO_SRC: src/api
@@ -181,10 +181,9 @@ jobs:
           AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
           AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: stacks-dotnet-cqrs
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=stacks-dotnet-cqrs,dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ env.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -233,10 +232,9 @@ jobs:
           AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
           AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: stacks-dotnet-cqrs
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=stacks-dotnet-cqrs,dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ env.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -299,10 +297,9 @@ jobs:
           AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
           AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: stacks-dotnet-cqrs
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=stacks-dotnet-cqrs,dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ env.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -354,10 +351,9 @@ jobs:
           AWS_TF_STATE_BUCKET: ${{ secrets.AWS_TF_STATE_BUCKET }}
           AWS_TF_STATE_DYNAMOTABLE: ${{ secrets.AWS_TF_STATE_DYNAMOTABLE }}
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          AWS_TF_STATE_KEY: stacks-dotnet-cqrs
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=stacks-dotnet-cqrs,dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ env.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
