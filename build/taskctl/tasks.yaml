@@ -146,10 +146,9 @@ tasks:
   # Infrastructure tasks
   infra:init:
     context: powershell
-    description: Initialise Terraform for Azure
+    description: Initialise Terraform for the environment
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        terraform --version;
         Invoke-Terraform -Init -backend "$env:TF_BACKEND_ARGS" -Path $env:TF_FILE_LOCATION -Debug;
         Invoke-Terraform -Workspace -Arguments $env:ENV_NAME -Path $env:TF_FILE_LOCATION -Debug
 
@@ -158,7 +157,6 @@ tasks:
     description: Plan Terraform
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        terraform --version;
         Invoke-Terraform -Plan -Path $env:TF_FILE_LOCATION -Arguments "-input=false","-out=tfplan" -Debug
 
   infra:apply:
@@ -166,7 +164,6 @@ tasks:
     description: Apply Terraform Plan
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        terraform --version;
         Push-Location $env:TF_FILE_LOCATION && Invoke-Terraform -Apply -Path tfplan -Debug
 
   # Deployment Tasks
@@ -175,7 +172,6 @@ tasks:
     description: Render deployment templates
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        terraform --version;
         Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
 
   deploy:kubernetes:
