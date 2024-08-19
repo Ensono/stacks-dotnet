@@ -183,7 +183,7 @@ jobs:
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ env.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -234,7 +234,7 @@ jobs:
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ env.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "nonprod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -299,7 +299,7 @@ jobs:
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ env.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
@@ -353,7 +353,7 @@ jobs:
           AWS_TF_STATE_ENCRYPTION: ${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           AWS_TF_STATE_REGION: ${{ secrets.AWS_TF_STATE_REGION }}
           TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ env.AWS_TF_STATE_ENCRYPTION }}
+          TF_BACKEND_ARGS: region=${{ env.AWS_TF_STATE_REGION }},access_key=${{ env.AWS_ACCESS_KEY_ID }},secret_key=${{ env.AWS_SECRET_ACCESS_KEY }},bucket=${{ env.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ env.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Terraform Resource Configuration
           TF_VAR_env: "prod"
           TF_VAR_owner: ${{ env.OWNER }}
