@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Shouldly;
 using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
@@ -20,7 +21,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 /// and httpClient handling
 /// </summary>
 public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
-    : ApiFixture<Startup>
+    : ApiFixture<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
