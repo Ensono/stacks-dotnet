@@ -75,11 +75,6 @@ variable "name_domain" {
   type        = string
 }
 
-variable "stage" {
-  description = "ID element. Usually used to indicate role, e.g. 'prod', 'staging','test', 'deploy', 'release'."
-  type        = string
-}
-
 variable "attributes" {
   description = "ID element. List of attributes."
   default     = []
