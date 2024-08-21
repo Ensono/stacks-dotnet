@@ -73,7 +73,6 @@ stages:
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
               REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
 
-
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
             displayName: "Upload: coverage results"
@@ -303,7 +302,7 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_tfstate_key: "$(TF_STATE_KEY)"
+                    TF_VAR_tfstate_key: "core"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
