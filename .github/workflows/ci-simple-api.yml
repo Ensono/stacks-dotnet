@@ -91,17 +91,17 @@ jobs:
           PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
           # Dotnet Build
-          SELF_REPO_SRC: src/simple-api/src/api
+          SELF_REPO_SRC: src/api
 
       - run: taskctl build:functional_tests
         env:
           # Dotnet Build
-          SELF_REPO_SRC: src/simple-api/src/api
+          SELF_REPO_SRC: src/api
 
       - run: taskctl build:container
         env:
           # Dotnet Build
-          SELF_REPO_SRC: src/simple-api/src/api
+          SELF_REPO_SRC: src/api
           # Docker
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ env.DOCKER_REGISTRY_NAME }}
           ECR_REGION: ${{ env.REGION }}
