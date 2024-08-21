@@ -13,7 +13,7 @@ variables:
     value: stacks-api
 
   # TODO: Why is this needed..?
-  - group: amido-stacks-webapp
+  - group: stacks-dotnet-api
 
   - name: cloud_provider
     value: "azure"
@@ -71,13 +71,15 @@ variables:
     value: "$(self_repo_dir)/$(self_repo_tf_src)"
 
   # SonarQube Configuration
-  # SONAR_TOKEN and SONAR_ORGANIZATION must be inherited from library groups/etc.
+  # SONAR_TOKEN must be inherited from library groups/etc.
+  - name: sonar_organization
+    value: ensono
   - name: sonar_url
     value: "https://sonarcloud.io"
   - name: sonar_properties
     value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
   - name: sonar_project_name
-    value: stacks-dotnet
+    value: Ensono_stacks-dotnet-azure
 
   # Test Configuration
   - name: FUNCTIONAL_TESTS_SRC_DIR
@@ -94,11 +96,11 @@ variables:
   - name: docker_container_registry_rg_name_nonprod
     value: Stacks-Ancillary-Resources
   - name: docker_container_registry_name_nonprod
-    value: ensonodigitaleuw
+    value: ensonoeuw
   - name: docker_container_registry_rg_name_prod
     value: Stacks-Ancillary-Resources
   - name: docker_container_registry_name_prod
-    value: ensonodigitaleuw
+    value: ensonoeuw
 
   # Kubernetes & Docker Image Settings
   - name: docker_image_tag

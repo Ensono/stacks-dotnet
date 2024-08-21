@@ -17,7 +17,7 @@ variables:
 stages:
   - stage: Build
     variables:
-      - group: ensono-sp-creds
+      - group: azure-sp-creds
 
     jobs:
       - job: AppBuild
@@ -25,6 +25,16 @@ stages:
           vmImage: $(pool_vm_image)
 
         steps:
+          - task: Bash@3
+            displayName: "Replace src directory"
+            inputs:
+              targetType: inline
+              script: |
+                mv src/simple-api/src temp
+                rm -rf src
+                mv temp src
+              informationPreference: continue
+
           - template: ../templates/air-api-setup.yml
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
@@ -52,7 +62,7 @@ stages:
               ARM_CLIENT_ID: "$(azure-client-id)"
               ARM_CLIENT_SECRET: "$(azure-client-secret)"
               # SonarQube
-              SONAR_ORG: $(SONAR_ORGANIZATION)
+              SONAR_ORG: $(sonar_organization)
               SONAR_URL: $(sonar_url)
               SONAR_TOKEN: $(SONAR_TOKEN)
               SONAR_PROPERTIES: $(sonar_properties)
@@ -89,7 +99,7 @@ stages:
 
   - stage: Dev
     dependsOn: Build
-    condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main')))
+    condition: false
     variables:
       - group: ensono-sp-creds
       - name: Environment.ShortName
