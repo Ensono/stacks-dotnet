@@ -43,7 +43,7 @@ env:
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
-  FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
+  FUNCTIONAL_TESTS_SRC_DIR: src/simple-api/src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
 jobs:
