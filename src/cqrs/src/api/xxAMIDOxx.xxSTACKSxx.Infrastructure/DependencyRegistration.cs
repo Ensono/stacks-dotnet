@@ -5,6 +5,7 @@ using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 using xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Extensions;
 using xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
@@ -45,21 +46,21 @@ public static class DependencyRegistration
     /// Register dynamic services that changes between environments or context(i.e: tests)
     /// </summary>
     /// <param name="services"></param>
-    public static void ConfigureProductionDependencies(WebHostBuilderContext context, IServiceCollection services)
+    public static void ConfigureProductionDependencies(IConfiguration configuration, IServiceCollection services)
     {
         services.AddSecrets();
 
 #if (EventPublisherServiceBus)
-        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration.ServiceBusConfiguration>(context.Configuration.GetSection("ServiceBusConfiguration"));
+        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration.ServiceBusConfiguration>(configuration.GetSection("ServiceBusConfiguration"));
         services.AddServiceBus();
         services.AddTransient<IApplicationEventPublisher, xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
 #elif (EventPublisherEventHub)
-        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Configuration.EventHubConfiguration>(context.Configuration.GetSection("EventHubConfiguration"));
+        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Configuration.EventHubConfiguration>(configuration.GetSection("EventHubConfiguration"));
         services.AddEventHub();
         services.AddTransient<IApplicationEventPublisher, xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Publisher.EventPublisher>();
 #elif (EventPublisherAwsSns)
-        services.Configure<AwsSnsConfiguration>(context.Configuration.GetSection("AwsSnsConfiguration"));
-        services.AddAwsSns(context.Configuration);
+        services.Configure<AwsSnsConfiguration>(configuration.GetSection("AwsSnsConfiguration"));
+        services.AddAwsSns(configuration);
         services.AddTransient<IApplicationEventPublisher, xxAMIDOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher.EventPublisher>();
 #elif (EventPublisherNone)
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
@@ -68,11 +69,11 @@ public static class DependencyRegistration
 #endif
 
 #if (CosmosDb)
-        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.CosmosDbConfiguration>(context.Configuration.GetSection("CosmosDb"));
+        services.Configure<xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.CosmosDbConfiguration>(configuration.GetSection("CosmosDb"));
         services.AddCosmosDB();
         services.AddTransient<IMenuRepository, CosmosDbMenuRepository>();
 #elif (DynamoDb)
-        services.Configure<DynamoDbConfiguration>(context.Configuration.GetSection("DynamoDb"));
+        services.Configure<DynamoDbConfiguration>(configuration.GetSection("DynamoDb"));
         services.AddDynamoDB();
         services.AddTransient<IMenuRepository, DynamoDbMenuRepository>();
 #elif (InMemoryDb)
