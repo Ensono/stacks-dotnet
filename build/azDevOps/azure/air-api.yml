@@ -30,6 +30,14 @@ stages:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
           - task: Bash@3
+            displayName: "TaskCTL: Pull images"
+            inputs:
+              targetType: inline
+              script: |
+                taskctl image-pull
+                taskctl image-pull-dotnet
+
+          - task: Bash@3
             displayName: "TaskCTL: Setup"
             inputs:
               targetType: inline
@@ -124,6 +132,12 @@ stages:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
                 - task: Bash@3
+                  displayName: "TaskCTL: Pull images"
+                  inputs:
+                    targetType: inline
+                    script: taskctl image-pull
+
+                - task: Bash@3
                   displayName: "Taskctl: Infrastructure"
                   inputs:
                     targetType: inline
@@ -177,6 +191,14 @@ stages:
                 - template: ../templates/air-api-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
+
+                - task: Bash@3
+                  displayName: "TaskCTL: Pull images"
+                  inputs:
+                    targetType: inline
+                    script: |
+                      taskctl image-pull
+                      taskctl image-pull-dotnet
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
@@ -270,6 +292,12 @@ stages:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
                 - task: Bash@3
+                  displayName: "TaskCTL: Pull images"
+                  inputs:
+                    targetType: inline
+                    script: taskctl image-pull
+
+                - task: Bash@3
                   displayName: "Taskctl: Infrastructure"
                   inputs:
                     targetType: inline
@@ -323,6 +351,14 @@ stages:
                 - template: ../templates/air-api-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
+
+                - task: Bash@3
+                  displayName: "TaskCTL: Pull images"
+                  inputs:
+                    targetType: inline
+                    script: |
+                      taskctl image-pull
+                      taskctl image-pull-dotnet
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
