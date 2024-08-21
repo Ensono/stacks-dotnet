@@ -25,6 +25,18 @@ stages:
           vmImage: $(pool_vm_image)
 
         steps:
+          - template: ../templates/air-api-setup.yml
+            parameters:
+              TaskctlVersion: ${{ variables.TaskctlVersion }}
+          
+          - task: Bash@3
+            displayName: "TaskCTL: Setup"
+            inputs:
+              targetType: inline
+              script: taskctl setup
+            env:
+              DOCKER_IMAGE_TAG: $(version_number)
+
           - task: Bash@3
             displayName: "Replace src directory"
             inputs:
@@ -34,18 +46,6 @@ stages:
                 rm -rf src
                 mv temp src
               informationPreference: continue
-
-          - template: ../templates/air-api-setup.yml
-            parameters:
-              TaskctlVersion: ${{ variables.TaskctlVersion }}
-
-          - task: Bash@3
-            displayName: "TaskCTL: Setup"
-            inputs:
-              targetType: inline
-              script: taskctl setup
-            env:
-              DOCKER_IMAGE_TAG: $(version_number)
 
           - task: Bash@3
             displayName: "TaskCTL: Build"
