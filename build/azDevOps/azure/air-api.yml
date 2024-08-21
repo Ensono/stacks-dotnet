@@ -46,16 +46,6 @@ stages:
               DOCKER_IMAGE_TAG: $(version_number)
 
           - task: Bash@3
-            displayName: "Replace src directory"
-            inputs:
-              targetType: inline
-              script: |
-                mv src/simple-api/src temp
-                rm -rf src
-                mv temp src
-              informationPreference: continue
-
-          - task: Bash@3
             displayName: "TaskCTL: Build"
             inputs:
               targetType: inline
