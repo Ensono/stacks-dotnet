@@ -1,0 +1,47 @@
+parameters:
+  condition:
+  azureSubscription:
+  container_registry_name:
+  function_name:
+  function_image_name:
+  function_image_tag:
+  function_resource_group:
+steps:
+  # Update the functions with the credentials to access the container registry
+  - task: AzureCLI@2
+    ${{ if parameters.condition }}:
+      condition: ${{ parameters.condition }}
+    displayName: Set ${{parameters.function_name}} ACR access
+    inputs:
+      azureSubscription: ${{ parameters.azureSubscription }}
+      scriptType: 'pscore'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        # Get the registry credentials
+        $registryCredentials = (
+          az acr credential show `
+            --name ${{ parameters.container_registry_name }} `
+          | ConvertFrom-Json
+        )
+
+        $registryUsername = $registryCredentials.username
+        $registryPassword = $registryCredentials.passwords[0].value
+
+        # Set the permissions on each function
+            az functionapp config container set `
+              --resource-group "${{ parameters.function_resource_group}}" `
+              --name "${{parameters.function_name}}" `
+              --docker-registry-server-url "https://${{ parameters.container_registry_name }}.azurecr.io" `
+              --docker-registry-server-user "$registryUsername" `
+              --docker-registry-server-password "$registryPassword"
+
+  # Deploy the function containers to the function apps
+  - task: AzureFunctionAppContainer@1
+    ${{ if parameters.condition }}:
+      condition: ${{ parameters.condition }}
+    displayName: Deploy container ${{parameters.function_name}}
+    inputs:
+      azureSubscription: ${{ parameters.azureSubscription }}
+      resourceGroupName: ${{ parameters.function_resource_group }}
+      appName: ${{ parameters.function_name }}
+      imageName: ${{ parameters.container_registry_name }}/${{ parameters.function_image_name }}:${{ parameters.function_image_tag }}

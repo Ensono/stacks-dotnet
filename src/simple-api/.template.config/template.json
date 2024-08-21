@@ -1,0 +1,202 @@
+{
+	"$schema": "http://json.schemastore.org/template",
+	"author": "stacks@amido.com",
+	"classifications": [
+		"Stacks",
+		"Infrastructure",
+		"WebAPI"
+	],
+	"name": "Amido Stacks Web API",
+	"identity": "Amido.Stacks.WebApi.CSharp",
+	"groupIdentity": "Amido.Stacks.WebApi",
+	"shortName": "stacks-webapi",
+	"tags": {
+		"language": "C#",
+		"type": "project"
+	},
+	"sourceName": "xxAMIDOxx.xxSTACKSxx",
+	"preferNameDirectory": true,
+	"symbols": {
+		"domain": {
+			"type": "parameter",
+			"isRequired": false,
+			"replaces": "Menu",
+			"fileRename": "Menu",
+			"defaultValue": "DOMAIN",
+			"forms": {
+				"global": [
+					"identity",
+					"lowerCase"
+				]
+			}
+		},
+		"cloudProvider": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "None",
+			"choices": [
+				{
+					"choice": "Azure",
+					"description": "Targets Azure DevOps"
+				},
+				{
+					"choice": "AWS",
+					"description": "Targets AWS pipelines"
+				},
+				{
+					"choice": "GCP",
+					"description": "Targets Google Cloud Platform"
+				},
+				{
+					"choice": "None",
+					"description": "Targets no platform and leaves all provider templates"
+				}
+
+			],
+			"description": "Adds cloud provider build pipelines."
+		},
+		"cicdProvider": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "None",
+			"choices": [
+				{
+					"choice": "Azure",
+					"description": "Targets Azure DevOps for CI/CD templates"
+				},
+				{
+					"choice": "GitHub",
+					"description": "Targets GitHub Actions for CI/CD templates"
+				},
+				{
+					"choice": "None",
+					"description": "Targets no platform and leaves all provider templates"
+				}
+
+			],
+			"description": "Adds specified CI/CD provider build pipelines."
+		},
+		"CloudProviderAzure": {
+			"type": "computed",
+			"value": "(cloudProvider == \"Azure\")"
+		},
+		"CloudProviderAws": {
+			"type": "computed",
+			"value": "(cloudProvider == \"AWS\")"
+		},
+		"CloudProviderGcp": {
+			"type": "computed",
+			"value": "(cloudProvider == \"GCP\")"
+		},
+		"CloudProviderNone": {
+			"type": "computed",
+			"value": "(cloudProvider == \"None\")"
+		},
+		"CiCdAzure": {
+			"type": "computed",
+			"value": "(cloudProvider == \"Azure\")"
+		},
+		"CiCdGitHub": {
+			"type": "computed",
+			"value": "(cloudProvider == \"GitHub\")"
+		},
+		"CiCdNone": {
+			"type": "computed",
+			"value": "(cloudProvider == \"None\")"
+		}
+	},
+	"sources": [
+		{
+			"source": "../",
+			"include": [
+				"simple-api/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API.Tests/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing/**",
+				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+			],
+			"exclude": [
+				"**/[Bb]in/**",
+				"**/[Oo]bj/**",
+				"**/.template.config/**",
+				"**/*.filelist",
+				"**/*.user",
+				"**/*.lock.json",
+				"**/.git/**",
+				"**/.vs/**",
+				"**/.vscode/**",
+				"**/[Tt]emplate.csproj",
+				"_rels/**",
+				"package/**",
+				"**/*.nuspec",
+				"*Content_Types*.xml"
+			],
+			"rename": {
+				"_gitignore": ".gitignore",
+				"_gitattributes": ".gitattributes"
+			},
+			"modifiers": [
+				{
+					"condition": "(CloudProviderAzure)",
+					"exclude": [
+						"**/build/azDevOps/aws/**",
+						"**/build/azDevOps/gcp/**",
+						"**/build/github/aws/**",
+						"**/build/github/gcp/**",
+						"**/deploy/aws/**",
+						"**/deploy/gcp/**"
+					]
+				},
+				{
+					"condition": "(CloudProviderGcp)",
+					"exclude": [
+						"**/build/azDevOps/aws/**",
+						"**/build/azDevOps/azure/**",
+						"**/build/github/aws/**",
+						"**/deploy/aws/**",
+						"**/deploy/azure/**"
+					]
+				},
+				{
+					"condition": "(CloudProviderAws)",
+					"exclude": [
+						"**/build/azDevOps/azure/**",
+						"**/build/azDevOps/gcp/**",
+						"**/build/github/azure/**",
+						"**/build/github/gcp/**",
+						"**/deploy/azure/**",
+						"**/deploy/gcp/**"
+					]
+				},
+				{
+					"condition": "(CiCdAzure)",
+					"exclude": [
+						"**/build/github/**"
+					]
+				},
+				{
+					"condition": "(CiCdGitHub)",
+					"exclude": [
+						"**/build/azDevOps/**"
+					]
+				}
+			]
+		}
+	],
+	"SpecialCustomOperations": {
+		"**/*.yml": {
+			"Operations": [
+				{
+					"type": "conditional",
+					"configuration": {
+						"style": "line",
+						"token": "#"
+					}
+				}
+			]
+		}
+	}
+}

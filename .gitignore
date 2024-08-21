@@ -9,8 +9,9 @@
 *.userosscache
 *.sln.docstates
 .vscode
-.env
 *.userprefs
+.env
+**/appsettings.[Dd]evelopment.json
 .DS_Store
 
 # Build results
@@ -330,6 +331,21 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder
 .mfractor/
 
+# Local History for Visual Studio
+.localhistory/
+
+# BeatPulse healthcheck temp database
+healthchecksdb
+
+# Backup folder for Package Reference Convert tool in Visual Studio 2017
+MigrationBackup/
+
+# Ionide (cross platform F# VS Code tools) working folder
+.ionide/
+
+# JetBrains
+.idea/
+
 # PROJECT SPECIFIC FILES
 /src/api/xxAMIDOxx.xxSTACKSxx.API/out
 pacts/
@@ -347,7 +363,6 @@ coverage.opencover.xml
 .store/
 dotnet-sonarscanner
 reportgenerator
-**/appsettings.[Dd]evelopment.json
 
 # Other tools
 .terraform

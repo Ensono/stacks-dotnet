@@ -1,0 +1,38 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.CQRS.ApplicationEvents;
+using xxAMIDOxx.xxSTACKSxx.Application.Integration;
+using xxAMIDOxx.xxSTACKSxx.CQRS.Commands;
+using xxAMIDOxx.xxSTACKSxx.Domain;
+
+namespace xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers;
+
+public class UpdateMenuItemCommandHandler(
+    IMenuRepository repository,
+    IApplicationEventPublisher applicationEventPublisher)
+    : MenuCommandHandlerBase<UpdateMenuItem, bool>(repository, applicationEventPublisher)
+{
+    public override Task<bool> HandleCommandAsync(Menu menu, UpdateMenuItem command)
+    {
+        menu.UpdateMenuItem(
+            command.CategoryId,
+            command.MenuItemId,
+            command.Name,
+            command.Description,
+            command.Price,
+            command.Available
+        );
+
+        return Task.FromResult(true);
+    }
+
+    public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, UpdateMenuItem command)
+    {
+        return new IApplicationEvent[] {
+            new MenuUpdatedEvent(command, command.MenuId),
+            //new CategoryUpdated(command, command.MenuId, command.CategoryId),
+            new MenuItemUpdatedEvent(command, command.MenuId, command.CategoryId, command.MenuItemId)
+        };
+    }
+}

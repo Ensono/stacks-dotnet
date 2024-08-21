@@ -1,0 +1,37 @@
+{
+	"$schema": "http://json.schemastore.org/dotnetcli.host",
+	"symbolInfo": {
+		"domain": {
+			"longName": "domain",
+			"shortName": "do"
+		},
+		"eventPublisher": {
+			"longName": "eventPublisher",
+			"shortName": "e"
+		},
+		"database": {
+			"longName": "database",
+			"shortName": "db"
+		},
+		"enableFunctionWorker": {
+			"longName": "enableFunctionWorker",
+			"shortName": "e:fw"
+		},
+		"enableFunctionListener": {
+			"longName": "enableFunctionListener",
+			"shortName": "e:fl"
+		},
+		"enableBackgroundWorker": {
+			"longName": "enableBackgroundWorker",
+			"shortName": "e:bw"
+		},
+		"cloudProvider": {
+			"longName": "cloudProvider",
+			"shortName": "cp"
+		},
+		"cicdProvider": {
+			"longName": "cicdProvider",
+			"shortName": "cicd"
+		}
+	}
+}
