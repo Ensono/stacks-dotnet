@@ -32,7 +32,7 @@ pipelines:
       depends_on:
         - test
       variables:
-        IMAGE_NAME: stacks-api
+        IMAGE_NAME: $env:DOCKER_IMAGE_NAME
 
   # Pipeline to ensure that the infrastructure is valid
   infrastructure:
@@ -41,6 +41,7 @@ pipelines:
       depends_on: infra:init
     - task: infra:apply
       depends_on: infra:plan
+
 
   # Deploy pipeline
   deploy:
