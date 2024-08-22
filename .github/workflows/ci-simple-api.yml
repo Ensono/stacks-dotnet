@@ -1,8 +1,6 @@
 name: air.stacks-dotnet-simple-api
 
 on:
-  workflow_dispatch: # TODO: remove before merge
-    inputs: {}
   push:
     branches:
       - master
