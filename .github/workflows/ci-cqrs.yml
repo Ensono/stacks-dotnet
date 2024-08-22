@@ -104,11 +104,11 @@ jobs:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
-      - name: Dotnet Unit Test Report
+      - name: ${{ env.DOMAIN }} Unit Test Report
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Dotnet Unit Tests
+          name: ${{ env.DOMAIN }} Unit Tests
           path: testresults/*.trx
           reporter: dotnet-trx
           fail-on-error: true
@@ -232,11 +232,11 @@ jobs:
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "https://dev-${{ env.DOMAIN }}.nonprod.aws.stacks.ensono.com/api/menu/"
 
-      - name: "Dev: Dotnet Functional Test Report"
+      - name: "Dev: ${{ env.DOMAIN }} Functional Test Report"
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: "Dev: Dotnet Functional Test Report"
+          name: "Dev: ${{ env.DOMAIN }} Functional Test Report"
           path: testresults/*.trx
           reporter: dotnet-trx
           fail-on-error: true
@@ -343,11 +343,11 @@ jobs:
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "https://prod-${{ env.DOMAIN }}.prod.aws.stacks.ensono.com/api/menu/"
 
-      - name: "Prod: Dotnet Functional Test Report"
+      - name: "Prod: ${{ env.DOMAIN }} Functional Test Report"
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: "Prod: Dotnet Functional Test Report"
+          name: "Prod: ${{ env.DOMAIN }} Functional Test Report"
           path: testresults/*.trx
           reporter: dotnet-trx
           fail-on-error: true
