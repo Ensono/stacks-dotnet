@@ -102,7 +102,7 @@ jobs:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
-      - name: ${{ env.DOMAIN }} Unit Test Report
+      - name: Unit Test Report
         uses: dorny/test-reporter@v1
         if: always()
         with:
@@ -230,7 +230,7 @@ jobs:
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "https://dev-${{ env.DOMAIN }}.nonprod.aws.stacks.ensono.com/api/menu/"
 
-      - name: "Dev: ${{ env.DOMAIN }} Functional Test Report"
+      - name: "Dev: Functional Test Report"
         uses: dorny/test-reporter@v1
         if: always()
         with:
@@ -341,7 +341,7 @@ jobs:
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "https://prod-${{ env.DOMAIN }}.prod.aws.stacks.ensono.com/api/menu/"
 
-      - name: "Prod: ${{ env.DOMAIN }} Functional Test Report"
+      - name: "Prod: Functional Test Report"
         uses: dorny/test-reporter@v1
         if: always()
         with:
