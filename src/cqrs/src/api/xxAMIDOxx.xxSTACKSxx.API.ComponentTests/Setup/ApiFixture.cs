@@ -4,9 +4,14 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using xxAMIDOxx.xxSTACKSxx.Infrastructure;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests;
 
@@ -17,18 +22,18 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests;
 /// Each fixture talking to the API should inherit from this class
 /// </summary>
 /// <typeparam name="TStartup">The Startup file from the API project</typeparam>
-public abstract class ApiFixture<TStartup> where TStartup : class
+public abstract class ApiFixture
 {
     private readonly Lazy<HttpClient> httpClient;
-    private readonly WebAppFactory<TStartup> webAppFactory;
 
     protected HttpClient HttpClient => httpClient.Value;
+    private readonly WebApplicationFactory<Program> webAppFactory;
 
     public HttpResponseMessage LastResponse { get; protected set; }
 
     protected ApiFixture()
     {
-        webAppFactory = new WebAppFactory<TStartup>(RegisterDependencies, ConfigureWebHost);
+        webAppFactory = new TestWebApplicationFactory(RegisterDependencies);
         httpClient = new Lazy<HttpClient>(() => webAppFactory.CreateClient());
     }
 

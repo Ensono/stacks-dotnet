@@ -12,6 +12,7 @@ using xxAMIDOxx.xxSTACKSxx.API.Authentication;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Requests;
 using xxAMIDOxx.xxSTACKSxx.API.Models.Responses;
 using xxAMIDOxx.xxSTACKSxx.Application.Integration;
+using xxAMIDOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 
 namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 
@@ -33,10 +34,12 @@ public class CreateCategoryFixture(
         // Mocked external dependencies, the setup should
         // come later according to each scenario
         repository = Substitute.For<IMenuRepository>();
+        var dou = Substitute.For<IDocumentSearch<Menu>>();
         applicationEventPublisher = Substitute.For<IApplicationEventPublisher>();
 
-        collection.AddTransient(IoC => repository);
-        collection.AddTransient(IoC => applicationEventPublisher);
+        collection.AddTransient(_ => dou);
+        collection.AddTransient(_ => repository);
+        collection.AddTransient(_ => applicationEventPublisher);
     }
 
     /****** GIVEN ******************************************************/

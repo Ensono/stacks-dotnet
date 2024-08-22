@@ -21,7 +21,7 @@ namespace xxAMIDOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 /// and httpClient handling
 /// </summary>
 public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
-    : ApiFixture<Program>
+    : ApiFixture
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -45,7 +45,7 @@ public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfigura
     {
         DependencyRegistration.ConfigureStaticDependencies(collection);
 
-        collection.AddSingleton<IOptions<JwtBearerAuthenticationConfiguration>>(serviceProvider => jwtBearerAuthenticationOptions);
+        collection.AddSingleton(_ => jwtBearerAuthenticationOptions);
     }
 
     /// <summary>

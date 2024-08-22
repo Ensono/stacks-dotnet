@@ -28,7 +28,7 @@ public class CustomAutoDataAttribute() : AutoDataAttribute(Customizations)
             UseStubbedBackchannelHandler = true
         };
 
-        fixture.Register<IOptions<JwtBearerAuthenticationConfiguration>>(() => jwtBearerAuthenticationConfiguration.AsOption());
+        fixture.Register(() => jwtBearerAuthenticationConfiguration.AsOption());
 
         return fixture;
     }
