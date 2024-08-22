@@ -54,7 +54,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          cat .github/workflows/{{ .Project.Framework.Option }}.env >> $GITHUB_ENV
+          cat .github/workflows/ci.env >> $GITHUB_ENV
 
       - uses: ./build/github/templates/install-taskctl
 
@@ -148,7 +148,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          cat .github/workflows/{{ .Project.Framework.Option }}.env >> $GITHUB_ENV
+          cat .github/workflows/ci.env >> $GITHUB_ENV
 
       - uses: ./build/github/templates/install-taskctl
 
@@ -185,7 +185,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          cat .github/workflows/{{ .Project.Framework.Option }}.env >> $GITHUB_ENV
+          cat .github/workflows/ci.env >> $GITHUB_ENV
 
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
@@ -256,7 +256,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          cat .github/workflows/{{ .Project.Framework.Option }}.env >> $GITHUB_ENV
+          cat .github/workflows/ci.env >> $GITHUB_ENV
 
       - uses: ./build/github/templates/install-taskctl
 
@@ -292,7 +292,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          cat .github/workflows/{{ .Project.Framework.Option }}.env >> $GITHUB_ENV
+          cat .github/workflows/ci.env >> $GITHUB_ENV
 
       - name: Install TaskCTL
         uses: ./build/github/templates/install-taskctl
