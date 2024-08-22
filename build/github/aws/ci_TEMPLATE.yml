@@ -41,7 +41,6 @@ env:
   # K8S Additional Deploy-Templater var substitutions
   DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.{{ .Project.Cloud.Region }}.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
-  FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
 jobs:
@@ -87,18 +86,11 @@ jobs:
           PACT_BEARER_TOKEN: ${{ secrets.PACT_BEARER_TOKEN }}
           PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
-          # Dotnet Build
-          SELF_REPO_SRC: src/api
 
       - run: taskctl build:functional_tests
-        env:
-          # Dotnet Build
-          SELF_REPO_SRC: src/api
 
       - run: taskctl build:container
         env:
-          # Dotnet Build
-          SELF_REPO_SRC: src/api
           # Docker
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ env.DOCKER_REGISTRY_NAME }}
           ECR_REGION: ${{ env.REGION }}
