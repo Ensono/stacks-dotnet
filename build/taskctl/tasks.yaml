@@ -48,7 +48,6 @@ tasks:
     description: Perform Terraform validation
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        terraform --version;
         Invoke-Terraform -Validate -Path $env:TF_FILE_LOCATION
 
   # TESTS
