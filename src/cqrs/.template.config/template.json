@@ -169,23 +169,29 @@
 		},
 		"CiCdAzure": {
 			"type": "computed",
-			"value": "(cloudProvider == \"Azure\")"
+			"value": "(cicdProvider == \"Azure\")"
 		},
 		"CiCdGitHub": {
 			"type": "computed",
-			"value": "(cloudProvider == \"GitHub\")"
+			"value": "(cicdProvider == \"GitHub\")"
 		},
 		"CiCdNone": {
 			"type": "computed",
-			"value": "(cloudProvider == \"None\")"
+			"value": "(cicdProvider == \"None\")"
 		}
 	},
 	"sources": [
 		{
-			"source": "../",
+			"source": "../../",
 			"include": [
-				"cqrs/**",
-				"shared/**"
+				"build/**",
+				"deploy/**",
+				"taskctl.yaml",
+				"stackscli.yml",
+				".gitignore",
+				".gitattributes",
+				"src/cqrs/**",
+				"src/shared/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",
@@ -204,7 +210,9 @@
 			],
 			"rename": {
 				"_gitignore": ".gitignore",
-				"_gitattributes": ".gitattributes"
+				"_gitattributes": ".gitattributes",
+				"build/github/aws/ci_TEMPLATE.yml": ".github/workflows/ci.yml",
+				"build/github/aws/env/cqrs.env": ".github/workflows/ci.env"
 			},
 			"modifiers": [
 				{
@@ -276,6 +284,7 @@
 						"**/build/azDevOps/gcp/**",
 						"**/build/github/azure/**",
 						"**/build/github/gcp/**",
+						"**/build/github/aws/env/simple-api.env",
 						"**/deploy/azure/**",
 						"**/deploy/gcp/**"
 					]
