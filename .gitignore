@@ -10,7 +10,6 @@
 *.sln.docstates
 .vscode
 *.userprefs
-**/appsettings.[Dd]evelopment.json
 .DS_Store
 
 # Build results
