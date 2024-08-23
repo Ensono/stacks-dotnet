@@ -14,7 +14,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_app"></a> [app](#module\_app) | git::https://github.com/amido/stacks-terraform//aws/modules/infrastructure_modules/stacks_app | n/a |
+| <a name="module_app"></a> [app](#module\_app) | git::https://github.com/ensono/stacks-terraform//aws/modules/infrastructure_modules/stacks_app | n/a |
 | <a name="module_app_label"></a> [app\_label](#module\_app\_label) | cloudposse/label/null | 0.25.0 |
 
 ## Resources

@@ -2,7 +2,7 @@ variables:
   - name: region
     value: westeurope
   - name: company
-    value: amido
+    value: ensono
   - name: project
     value: stacks
   - name: domain
@@ -22,7 +22,7 @@ variables:
 
   # Nuget information
   - name: nuget_connection
-    value: NuGetAmidoStacksServiceConnection
+    value: NuGetEnsonoStacksServiceConnection
 
   # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here

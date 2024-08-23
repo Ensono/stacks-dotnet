@@ -131,7 +131,7 @@ variable "tfstate_key" {
 variable "tfstate_storage_account" {
   type        = string
   description = "Name of the storage account that holds the Terraform state"
-  default     = "amidostackstfstate"
+  default     = "ensonostackstfstate"
 }
 
 variable "tfstate_container_name" {

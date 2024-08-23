@@ -76,15 +76,15 @@ variables:
   - name: docker_image_name_worker
     value: "$(self_generic_name)-worker-function"
   - name: docker_image_args_worker
-    value: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Worker src/functions/func-cosmosdb-worker"
+    value: "--build-arg function=xxENSONOxx.xxSTACKSxx.Worker src/functions/func-cosmosdb-worker"
   - name: docker_image_name_asb_listener
     value: "$(self_generic_name)-listener-asb-function"
   - name: docker_image_args_asb_listener
-    value: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Listener src/functions/func-asb-listener"
+    value: "--build-arg function=xxENSONOxx.xxSTACKSxx.Listener src/functions/func-asb-listener"
   - name: docker_image_name_aeh_listener
     value: "$(self_generic_name)--listener-aeh-function"
   - name: docker_image_args_aeh_listener
-    value: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Listener src/functions/func-aeh-listener"
+    value: "--build-arg function=xxENSONOxx.xxSTACKSxx.Listener src/functions/func-aeh-listener"
 
   # SonarQube Configuration
   # SONAR_TOKEN and SONAR_ORGANIZATION must be inherited from library groups/etc.
@@ -159,7 +159,7 @@ variables:
     value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
   - name: DASHBOARD_MEASUREMENT
     value: deployment # Static definition within Influx Config
-  - group: amido-stacks-influx-credentials-prod
+  - group: ensono-stacks-influx-credentials-prod
     # Group should contain:
       # DASHBOARD_INFLUX_ORG
       # DASHBOARD_INFLUX_BUCKET

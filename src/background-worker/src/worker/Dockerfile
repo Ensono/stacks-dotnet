@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet publish -c Release -o out xxAMIDOxx.xxSTACKSxx.BackgroundWorker
+RUN dotnet publish -c Release -o out xxENSONOxx.xxSTACKSxx.BackgroundWorker
 #list files copied to output
 RUN find
 RUN du -ch out/
@@ -20,4 +20,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 EXPOSE 80
 WORKDIR /app
 COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "xxAMIDOxx.xxSTACKSxx.BackgroundWorker.dll"]
+ENTRYPOINT ["dotnet", "xxENSONOxx.xxSTACKSxx.BackgroundWorker.dll"]

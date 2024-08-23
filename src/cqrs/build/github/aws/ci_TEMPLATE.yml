@@ -58,14 +58,14 @@ env:
   DOCKER_IMAGE_NAME_BG_WORKER: "stacks-api-events-bg-worker"
   DOCKER_IMAGE_ARGS_BG_WORKER: "src/worker"
   DOCKER_IMAGE_NAME_ASB_LISTENER: "stacks-api-events-listener-asb-function"
-  DOCKER_IMAGE_ARGS_ASB_LISTENER: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Listener src/functions/func-asb-listener"
+  DOCKER_IMAGE_ARGS_ASB_LISTENER: "--build-arg function=xxENSONOxx.xxSTACKSxx.Listener src/functions/func-asb-listener"
   DOCKER_IMAGE_NAME_AEH_LISTENER: "stacks-api-events-listener-aeh-function"
-  DOCKER_IMAGE_ARGS_AEH_LISTENER: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Listener src/functions/func-aeh-listener"
+  DOCKER_IMAGE_ARGS_AEH_LISTENER: "--build-arg function=xxENSONOxx.xxSTACKSxx.Listener src/functions/func-aeh-listener"
   # Worker K&S Resource Naming (only implemented for ServiceBus and EventHub Messaging)
   RESOURCE_DEF_WORKER_NAME: "dotnet-api-worker"
   APP_WORKER_NAME: "worker"
   DOCKER_IMAGE_NAME_WORKER: "stacks-api-events-worker-function"
-  DOCKER_IMAGE_ARGS_WORKER: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Worker src/functions/func-cosmosdb-worker"
+  DOCKER_IMAGE_ARGS_WORKER: "--build-arg function=xxENSONOxx.xxSTACKSxx.Worker src/functions/func-cosmosdb-worker"
 
 jobs:
   Lint:
@@ -91,7 +91,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           # Testing
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: amido
+          SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
           SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
           PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
@@ -219,17 +219,17 @@ jobs:
           TF_VAR_enable_queue: true
           TF_VAR_queue_name: "menu"
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "replaceme" # i.e. "amido-stacks-dev-h0ax6owA" TODO: To be read from core state
+          K8S_CLUSTER_TARGET: "replaceme" # i.e. "ensono-stacks-dev-h0ax6owA" TODO: To be read from core state
           K8S_CLUSTER_IDENTIFIER: ${{ env.REGION }}
           K8S_INGRESS_CERT_ARN: "replaceme" # TODO: To be read from core state
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: "replaceme" #i.e. “amido-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
+          CLOUDWATCH_LOG_GROUP: "replaceme" #i.e. “ensono-stacks-dev-h0ax6owA-logs”  TODO: To be read from core state
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.amidostacks.com" # TODO: To be read from core state
+          DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprodaws.ensonostacks.com" # TODO: To be read from core state
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api-cqrs.nonprodaws.amidostacks.com/api/menu/"  # TODO: To be read and constructed at runtime from core state
+          BaseUrl: "replaceme" # i.e. "https://nonprod-dev-netcore-api-cqrs.nonprodaws.ensonostacks.com/api/menu/"  # TODO: To be read and constructed at runtime from core state
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
@@ -350,7 +350,7 @@ jobs:
           DNS_BASE_DOMAIN: "replaceme"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "replaceme" # TODO: i.e. "https://prod-dev-netcore-api-cqrs.prodaws.amidostacks.com/api/menu/"
+          BaseUrl: "replaceme" # TODO: i.e. "https://prod-dev-netcore-api-cqrs.prodaws.ensonostacks.com/api/menu/"
 
 
       - name: Publish Manifest File

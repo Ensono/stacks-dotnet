@@ -46,7 +46,7 @@ env:
   ROLE: "backend"
   APP_NAME: "yumido-netcore-api-cqrs"
   DOMAIN: "dev-netcore-api-cqrs"
-  COMPANY: "amido"
+  COMPANY: "ensono"
   PROJECT: "stacks"
   FUNCTIONAL_TESTS_SRC_DIR: src/tests/Functional
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
@@ -58,14 +58,14 @@ env:
   DOCKER_IMAGE_NAME_BG_WORKER: "stacks-api-events-bg-worker"
   DOCKER_IMAGE_ARGS_BG_WORKER: "src/worker"
   DOCKER_IMAGE_NAME_ASB_LISTENER: "stacks-api-events-listener-asb-function"
-  DOCKER_IMAGE_ARGS_ASB_LISTENER: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Listener src/functions/func-asb-listener"
+  DOCKER_IMAGE_ARGS_ASB_LISTENER: "--build-arg function=xxENSONOxx.xxSTACKSxx.Listener src/functions/func-asb-listener"
   DOCKER_IMAGE_NAME_AEH_LISTENER: "stacks-api-events-listener-aeh-function"
-  DOCKER_IMAGE_ARGS_AEH_LISTENER: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Listener src/functions/func-aeh-listener"
+  DOCKER_IMAGE_ARGS_AEH_LISTENER: "--build-arg function=xxENSONOxx.xxSTACKSxx.Listener src/functions/func-aeh-listener"
   # Worker K&S Resource Naming (only implemented for ServiceBus and EventHub Messaging)
   RESOURCE_DEF_WORKER_NAME: "dotnet-api-worker"
   APP_WORKER_NAME: "worker"
   DOCKER_IMAGE_NAME_WORKER: "stacks-api-events-worker-function"
-  DOCKER_IMAGE_ARGS_WORKER: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Worker src/functions/func-cosmosdb-worker"
+  DOCKER_IMAGE_ARGS_WORKER: "--build-arg function=xxENSONOxx.xxSTACKSxx.Worker src/functions/func-cosmosdb-worker"
 
 jobs:
   Lint:
@@ -91,7 +91,7 @@ jobs:
           TF_FILE_LOCATION: deploy/aws/app/kube
           # Testing
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: amido
+          SONAR_ORG: ensono
           SONAR_URL: "https://sonarcloud.io"
           SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
           PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
@@ -219,17 +219,17 @@ jobs:
           TF_VAR_enable_queue: true
           TF_VAR_queue_name: "menu"
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-dev-h0ax6owA"
+          K8S_CLUSTER_TARGET: "ensono-stacks-dev-h0ax6owA"
           K8S_CLUSTER_IDENTIFIER: ${{ env.REGION }}
           K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/17e50dfb-9fdc-4dce-92c1-8351a3961279"
           NAMESPACE: "nonprod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: “amido-stacks-dev-h0ax6owA-logs”
+          CLOUDWATCH_LOG_GROUP: “ensono-stacks-dev-h0ax6owA-logs”
           CLOUDWATCH_STREAM_PREFIX: "nonprod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "nonprodaws.amidostacks.com"
+          DNS_BASE_DOMAIN: "nonprodaws.ensonostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://nonprod-dev-netcore-api-cqrs.nonprodaws.amidostacks.com/api/menu/"
+          BaseUrl: "https://nonprod-dev-netcore-api-cqrs.nonprodaws.ensonostacks.com/api/menu/"
 
       - name: Publish Manifest File
         uses: actions/upload-artifact@v3
@@ -340,17 +340,17 @@ jobs:
           TF_VAR_enable_queue: true
           TF_VAR_queue_name: "menu"
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"
+          K8S_CLUSTER_TARGET: "ensono-stacks-prod-0cvO68Bj"
           K8S_CLUSTER_IDENTIFIER: " ${{ env.REGION }}"
           K8S_INGRESS_CERT_ARN: "arn:aws:acm:eu-west-2:316154162729:certificate/2e4208b5-a86e-4096-b6b7-83c032d7d5e2"  # TODO: To be read from core state
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          CLOUDWATCH_LOG_GROUP: “amido-stacks-prod-0cvO68Bj-logs”
+          CLOUDWATCH_LOG_GROUP: “ensono-stacks-prod-0cvO68Bj-logs”
           CLOUDWATCH_STREAM_PREFIX: "prod-${{ env.DOMAIN }}"
-          DNS_BASE_DOMAIN: "prodaws.amidostacks.com"
+          DNS_BASE_DOMAIN: "prodaws.ensonostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://prod-dev-netcore-api-cqrs.prodaws.amidostacks.com/api/menu/"
+          BaseUrl: "https://prod-dev-netcore-api-cqrs.prodaws.ensonostacks.com/api/menu/"
 
 
       - name: Publish Manifest File

@@ -23,7 +23,7 @@ variables:
 stages:
   - stage: Build
     variables:
-      - group: amido-stacks-infra-credentials-nonprod
+      - group: ensono-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
 
     jobs:
@@ -130,12 +130,12 @@ stages:
     dependsOn: Build
     condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
-      - group: amido-stacks-infra-credentials-nonprod
+      - group: ensono-stacks-infra-credentials-nonprod
       - group: stacks-credentials-nonprod-kv
       - name: Environment.ShortName
         value: dev
       - name: dns_base_domain  # Available in Terraform Output, but not yet enabled to export as pipeline vars
-        value: nonprod.amidostacks.com
+        value: nonprod.ensonostacks.com
       - name: core_environment
         value: nonprod
 
@@ -289,7 +289,7 @@ stages:
                     function_image_name: $(docker_image_name_asb_listener)
                     function_image_tag: $(docker_image_tag)
                     function_name: func-asb-listener-ymfpei # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: amido-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_resource_group: ensono-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
                 - template: ../templates/legacy-deploy-functions.yml
                   parameters:
@@ -299,7 +299,7 @@ stages:
                     function_image_name: $(docker_image_name_aeh_listener)
                     function_image_tag: $(docker_image_tag)
                     function_name: func-aeh-listener-efleeq # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: amido-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_resource_group: ensono-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
                 - template: ../templates/legacy-deploy-functions.yml
                   parameters:
@@ -308,7 +308,7 @@ stages:
                     function_image_name: $(docker_image_name_worker)
                     function_image_tag: $(docker_image_tag)
                     function_name: function-publisher-ymfpei # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: amido-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_resource_group: ensono-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
 
 
@@ -317,12 +317,12 @@ stages:
     dependsOn: Build
     condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
-      - group: amido-stacks-infra-credentials-prod
+      - group: ensono-stacks-infra-credentials-prod
       - group: stacks-credentials-prod-kv
       - name: Environment.ShortName
         value: prod
       - name: dns_base_domain  # Available in Terraform Output, but not yet enabled to export as pipeline vars
-        value: prod.amidostacks.com
+        value: prod.ensonostacks.com
       - name: core_environment
         value: prod
     jobs:
@@ -475,7 +475,7 @@ stages:
                     function_image_name: $(docker_image_name_asb_listener)
                     function_image_tag: $(docker_image_tag)
                     function_name: func-asb-listener-podtbj # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: amido-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_resource_group: ensono-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
                 - template: ../templates/legacy-deploy-functions.yml
                   parameters:
@@ -485,7 +485,7 @@ stages:
                     function_image_name: $(docker_image_name_aeh_listener)
                     function_image_tag: $(docker_image_tag)
                     function_name: func-aeh-listener-sajzra # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: amido-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_resource_group: ensono-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
                 - template: ../templates/legacy-deploy-functions.yml
                   parameters:
@@ -494,5 +494,5 @@ stages:
                     function_image_name: $(docker_image_name_worker)
                     function_image_tag: $(docker_image_tag)
                     function_name: function-publisher-podtbj # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: amido-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_resource_group: ensono-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 

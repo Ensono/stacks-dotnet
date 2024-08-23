@@ -12,7 +12,7 @@ module "app_label" {
 
 module "app" {
 
-  source = "git::https://github.com/amido/stacks-terraform//aws/modules/infrastructure_modules/stacks_app?ref=master"
+  source = "git::https://github.com/ensono/stacks-terraform//aws/modules/infrastructure_modules/stacks_app?ref=master"
 
   enable_dynamodb = var.enable_dynamodb
   table_name      = "${module.app_label.id}-${var.table_name}"

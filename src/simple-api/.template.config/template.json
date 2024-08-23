@@ -1,20 +1,20 @@
 {
 	"$schema": "http://json.schemastore.org/template",
-	"author": "stacks@amido.com",
+	"author": "stacks@ensono.com",
 	"classifications": [
 		"Stacks",
 		"Infrastructure",
 		"WebAPI"
 	],
-	"name": "Amido Stacks Web API",
-	"identity": "Amido.Stacks.WebApi.CSharp",
-	"groupIdentity": "Amido.Stacks.WebApi",
+	"name": "Ensono Stacks Web API",
+	"identity": "Ensono.Stacks.WebApi.CSharp",
+	"groupIdentity": "Ensono.Stacks.WebApi",
 	"shortName": "stacks-webapi",
 	"tags": {
 		"language": "C#",
 		"type": "project"
 	},
-	"sourceName": "xxAMIDOxx.xxSTACKSxx",
+	"sourceName": "xxENSONOxx.xxSTACKSxx",
 	"preferNameDirectory": true,
 	"symbols": {
 		"domain": {
@@ -110,13 +110,13 @@
 			"source": "../",
 			"include": [
 				"simple-api/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API.Swagger/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.API.Tests/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.API/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.API.Swagger/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.API.Tests/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",

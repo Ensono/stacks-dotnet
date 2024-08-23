@@ -1,5 +1,5 @@
 variables:
-  - group: amido-stacks-webapp
+  - group: ensono-stacks-webapp
 
   # Terraform Configuration
 
@@ -15,7 +15,7 @@ variables:
   - name: tf_state_rg
     value: Stacks-Ancillary-Resources
   - name: tf_state_storage
-    value: amidostackstfstate
+    value: ensonostackstfstate
   - name: tf_state_container
     value: tfstate
   - name: tf_state_key
@@ -62,7 +62,7 @@ variables:
   - name: region
     value: westeurope
   - name: company
-    value: amido
+    value: ensono
   - name: project
     value: stacks
   - name: domain
@@ -85,15 +85,15 @@ variables:
   - name: docker_image_name_worker
     value: "stacks-api-events-worker-function"
   - name: docker_image_args_worker
-    value: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Worker src/functions/func-cosmosdb-worker"
+    value: "--build-arg function=xxENSONOxx.xxSTACKSxx.Worker src/functions/func-cosmosdb-worker"
   - name: docker_image_name_asb_listener
     value: "stacks-api-events-listener-asb-function"
   - name: docker_image_args_asb_listener
-    value: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Listener src/functions/func-asb-listener"
+    value: "--build-arg function=xxENSONOxx.xxSTACKSxx.Listener src/functions/func-asb-listener"
   - name: docker_image_name_aeh_listener
     value: "stacks-api-events-listener-aeh-function"
   - name: docker_image_args_aeh_listener
-    value: "--build-arg function=xxAMIDOxx.xxSTACKSxx.Listener src/functions/func-aeh-listener"
+    value: "--build-arg function=xxENSONOxx.xxSTACKSxx.Listener src/functions/func-aeh-listener"
 
   # SonarQube Configuration
   # SONAR_TOKEN and SONAR_ORGANIZATION must be inherited from library groups/etc.
@@ -116,13 +116,13 @@ variables:
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
   - name: docker_container_registry_rg_name_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: ensono-stacks-nonprod-euw-core
   - name: docker_container_registry_name_nonprod
-    value: amidostacksnonprodeuwcore
+    value: ensonostacksnonprodeuwcore
   - name: docker_container_registry_rg_name_prod
-    value: amido-stacks-prod-euw-core
+    value: ensono-stacks-prod-euw-core
   - name: docker_container_registry_name_prod
-    value: amidostacksprodeuwcore
+    value: ensonostacksprodeuwcore
 
   # Kubernetes & Docker Image Settings
   - name: docker_image_tag
@@ -133,13 +133,13 @@ variables:
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
   - name: k8s_cluster_target_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: ensono-stacks-nonprod-euw-core
   - name: k8s_cluster_identifier_nonprod
-    value: amido-stacks-nonprod-euw-core
+    value: ensono-stacks-nonprod-euw-core
   - name: k8s_cluster_target_prod
-    value: amido-stacks-prod-euw-core
+    value: ensono-stacks-prod-euw-core
   - name: k8s_cluster_identifier_prod
-    value: amido-stacks-prod-euw-core
+    value: ensono-stacks-prod-euw-core
 
   # Kubernetes target file location
   - name: k8s_resource_file
@@ -168,7 +168,7 @@ variables:
     value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
   - name: DASHBOARD_MEASUREMENT
     value: deployment # Static definition within Influx Config
-  - group: amido-stacks-influx-credentials-prod
+  - group: ensono-stacks-influx-credentials-prod
     # Group should contain:
       # DASHBOARD_INFLUX_ORG
       # DASHBOARD_INFLUX_BUCKET
@@ -188,15 +188,15 @@ variables:
   - name: COMMIT_ID
     value: "$(Build.SourceVersion)"
   - name: OWNER
-    value: "amido"
+    value: "ensono"
   - name: REPOSITORY
     value: "stacks-dotnet-cqrs"
   - name: ARTIFACTS_DIR
     value: "artifacts/"
   - name: ARTIFACTS_LIST
     value: "*.nupkg"
-  - group: amido-stacks-github-credentials
+  - group: ensono-stacks-github-credentials
 
   # Azure service connection
   - name: azure_service_connection
-    value: "amido.stacks (719637e5-aedd-4fb1-b231-5101b45f8bb5)"
+    value: "ensono.stacks (719637e5-aedd-4fb1-b231-5101b45f8bb5)"

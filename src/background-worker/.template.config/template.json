@@ -1,20 +1,20 @@
 {
     "$schema": "http://json.schemastore.org/template",
-    "author": "stacks@amido.com",
+    "author": "stacks@ensono.com",
     "classifications": [
         "Stacks",
         "Service Bus",
         "Worker"
     ],
-    "name": "Amido Stacks Service Bus Worker",
-    "identity": "Amido.Stacks.ServiceBus.Worker.CSharp",
-    "groupIdentity": "Amido.Stacks.ServiceBus.Worker",
+    "name": "Ensono Stacks Service Bus Worker",
+    "identity": "Ensono.Stacks.ServiceBus.Worker.CSharp",
+    "groupIdentity": "Ensono.Stacks.ServiceBus.Worker",
     "shortName": "stacks-asb-worker",
     "tags": {
         "language": "C#",
         "type": "project"
     },
-    "sourceName": "xxAMIDOxx.xxSTACKSxx",
+    "sourceName": "xxENSONOxx.xxSTACKSxx",
     "preferNameDirectory": true,
     "symbols": {
         "domain": {
@@ -36,19 +36,19 @@
             "source": "../",
             "include": [
                 "background-worker/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Configuration/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Configuration.Tests/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Core.Tests/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.DependencyInjection/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Commands/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Events/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Messaging.Handlers/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing/**",
-				"shared/xxAMIDOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Configuration/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",

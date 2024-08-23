@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet publish -c Release -o out xxAMIDOxx.xxSTACKSxx.API
+RUN dotnet publish -c Release -o out xxENSONOxx.xxSTACKSxx.API
 #list files copied to output
 RUN find
 RUN du -ch out/
@@ -18,4 +18,4 @@ RUN du -ch out/
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "xxAMIDOxx.xxSTACKSxx.API.dll"]
+ENTRYPOINT ["dotnet", "xxENSONOxx.xxSTACKSxx.API.dll"]

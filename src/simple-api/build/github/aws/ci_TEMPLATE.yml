@@ -348,11 +348,11 @@ jobs:
           TF_VAR_name_project: ${{ env.PROJECT }}
           TF_VAR_name_domain: ${{ env.DOMAIN }}
           # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "amido-stacks-prod-0cvO68Bj"
+          K8S_CLUSTER_TARGET: "ensono-stacks-prod-0cvO68Bj"
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.amidostacks.com"
+          DNS_BASE_DOMAIN: "replaceme" # i.e. "prodaws.ensonostacks.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
           BaseUrl: "replaceme" # i.e. "https://prod-netcore-api.prod.aws.stacks.ensono.com/api/menu/"
