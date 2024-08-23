@@ -94,29 +94,35 @@
 		},
 		"CiCdAzure": {
 			"type": "computed",
-			"value": "(cloudProvider == \"Azure\")"
+			"value": "(cicdProvider == \"Azure\")"
 		},
 		"CiCdGitHub": {
 			"type": "computed",
-			"value": "(cloudProvider == \"GitHub\")"
+			"value": "(cicdProvider == \"GitHub\")"
 		},
 		"CiCdNone": {
 			"type": "computed",
-			"value": "(cloudProvider == \"None\")"
+			"value": "(cicdProvider == \"None\")"
 		}
 	},
 	"sources": [
 		{
-			"source": "../",
+			"source": "../../",
 			"include": [
-				"simple-api/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.API/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.API.Swagger/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.API.Tests/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+				"build/**",
+				"deploy/**",
+				"taskctl.yaml",
+				"stackscli.yml",
+				".gitignore",
+				".gitattributes",
+				"src/simple-api/**",
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.API/**",
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.API.Swagger/**",
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.API.Tests/**",
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",
@@ -136,7 +142,9 @@
 			],
 			"rename": {
 				"_gitignore": ".gitignore",
-				"_gitattributes": ".gitattributes"
+				"_gitattributes": ".gitattributes",
+				"build/github/aws/ci_TEMPLATE.yml": ".github/workflows/ci.yml",
+				"build/github/aws/env/simple-api.env": ".github/workflows/ci.env"
 			},
 			"modifiers": [
 				{
@@ -167,6 +175,7 @@
 						"**/build/azDevOps/gcp/**",
 						"**/build/github/azure/**",
 						"**/build/github/gcp/**",
+						"**/build/github/aws/env/cqrs.env",
 						"**/deploy/azure/**",
 						"**/deploy/gcp/**"
 					]
