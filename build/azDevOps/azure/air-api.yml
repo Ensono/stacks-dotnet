@@ -99,20 +99,11 @@ stages:
     dependsOn: Build
     condition: and(succeeded(), and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
-<<<<<<< HEAD:src/cqrs/build/azDevOps/azure/air-api.yml
-      - group: ensono-stacks-infra-credentials-nonprod
-      - group: stacks-credentials-nonprod-kv
-      - name: Environment.ShortName
-        value: dev
-      - name: dns_base_domain  # Available in Terraform Output, but not yet enabled to export as pipeline vars
-        value: nonprod.ensonostacks.com
-=======
       - group: azure-sp-creds
       - name: Environment.ShortName
         value: dev
       - name: dns_base_domain
         value: nonprod.stacks.ensono.com
->>>>>>> master:build/azDevOps/azure/air-api.yml
       - name: core_environment
         value: nonprod
     jobs:
@@ -263,66 +254,15 @@ stages:
                     HELM_VALUE_FILE: ${helm_value_file}
                     HELM_CHART_FILE: ${helm_chart_file}
 
-<<<<<<< HEAD:src/cqrs/build/azDevOps/azure/air-api.yml
-                - task: PublishPipelineArtifact@1
-                  displayName: "Publish: Kubernetes Manifest"
-                  inputs:
-                    path: $(Agent.BuildDirectory)/s/$(helm_value_file)
-                    artifact: helm_dev
-
-                # TODO: This functionality in general should be run via AIR, but there are limitations in CLI tooling.
-                - template: ../templates/legacy-deploy-functions.yml
-                  parameters:
-                    condition: contains('${{ variables.app_bus_type }}', 'servicebus')
-                    azureSubscription: ${{ variables.azure_service_connection}}
-                    container_registry_name: $(docker_container_registry_name_nonprod)
-                    function_image_name: $(docker_image_name_asb_listener)
-                    function_image_tag: $(docker_image_tag)
-                    function_name: func-asb-listener-ymfpei # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: ensono-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-
-                - template: ../templates/legacy-deploy-functions.yml
-                  parameters:
-                    condition: contains('${{ variables.app_bus_type }}', 'eventhub')
-                    azureSubscription: ${{ variables.azure_service_connection}}
-                    container_registry_name: $(docker_container_registry_name_nonprod)
-                    function_image_name: $(docker_image_name_aeh_listener)
-                    function_image_tag: $(docker_image_tag)
-                    function_name: func-aeh-listener-efleeq # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: ensono-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-
-                - template: ../templates/legacy-deploy-functions.yml
-                  parameters:
-                    azureSubscription: ${{ variables.azure_service_connection}}
-                    container_registry_name: $(docker_container_registry_name_nonprod)
-                    function_image_name: $(docker_image_name_worker)
-                    function_image_tag: $(docker_image_tag)
-                    function_name: function-publisher-ymfpei # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: ensono-stacks-dev-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-
-
-
-
-=======
->>>>>>> master:build/azDevOps/azure/air-api.yml
   - stage: Prod
     dependsOn: Build
     condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
-<<<<<<< HEAD:src/cqrs/build/azDevOps/azure/air-api.yml
-      - group: ensono-stacks-infra-credentials-prod
-      - group: stacks-credentials-prod-kv
-      - name: Environment.ShortName
-        value: prod
-      - name: dns_base_domain  # Available in Terraform Output, but not yet enabled to export as pipeline vars
-        value: prod.ensonostacks.com
-=======
       - group: azure-sp-creds
       - name: Environment.ShortName
         value: prod
       - name: dns_base_domain
         value: prod.stacks.ensono.com
->>>>>>> master:build/azDevOps/azure/air-api.yml
       - name: core_environment
         value: prod
     jobs:
@@ -475,47 +415,5 @@ stages:
                     K8S_CLUSTER_TARGET: $(k8s_cluster_target_prod)
                     K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_prod)
                     # Helm Config
-<<<<<<< HEAD:src/cqrs/build/azDevOps/azure/air-api.yml
-                    HELM_VALUE_FILE: ${helm_value_file}
-                    HELM_CHART_FILE: ${helm_chart_file}
-
-                - task: PublishPipelineArtifact@1
-                  displayName: "Publish: Kubernetes Manifest"
-                  inputs:
-                    path: $(Agent.BuildDirectory)/s/$(helm_value_file)
-                    artifact: helm_prod
-
-                # TODO: This functionality in general should be run via AIR, but there are limitations in CLI tooling.
-                - template: ../templates/legacy-deploy-functions.yml
-                  parameters:
-                    condition: contains('${{ variables.app_bus_type }}', 'servicebus')
-                    azureSubscription: ${{ variables.azure_service_connection}}
-                    container_registry_name: $(docker_container_registry_name_nonprod)
-                    function_image_name: $(docker_image_name_asb_listener)
-                    function_image_tag: $(docker_image_tag)
-                    function_name: func-asb-listener-podtbj # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: ensono-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-
-                - template: ../templates/legacy-deploy-functions.yml
-                  parameters:
-                    condition: contains('${{ variables.app_bus_type }}', 'eventhub')
-                    azureSubscription: ${{ variables.azure_service_connection}}
-                    container_registry_name: $(docker_container_registry_name_nonprod)
-                    function_image_name: $(docker_image_name_aeh_listener)
-                    function_image_tag: $(docker_image_tag)
-                    function_name: func-aeh-listener-sajzra # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: ensono-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-
-                - template: ../templates/legacy-deploy-functions.yml
-                  parameters:
-                    azureSubscription: ${{ variables.azure_service_connection}}
-                    container_registry_name: $(docker_container_registry_name_nonprod)
-                    function_image_name: $(docker_image_name_worker)
-                    function_image_tag: $(docker_image_tag)
-                    function_name: function-publisher-podtbj # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-                    function_resource_group: ensono-stacks-prod-euw-netcore-api-cqrs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
-
-=======
                     HELM_VALUE_FILEPATH: ${helm_value_file}
                     HELM_CHART_FILEPATH: ${helm_chart_file}
->>>>>>> master:build/azDevOps/azure/air-api.yml
