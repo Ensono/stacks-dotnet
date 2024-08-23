@@ -17,7 +17,7 @@ dotnet restore
 dotnet test
 
 # Change directory to the cqrs project and run the tests
-cd ../../cqrs/src/api
+cd ../../../cqrs/src/api
 
 dotnet restore
 dotnet test
