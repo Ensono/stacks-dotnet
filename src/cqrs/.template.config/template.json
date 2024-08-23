@@ -232,7 +232,7 @@
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
-						"**src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/CosmosDbMenuRepositoryTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.CQRS.UnitTests/HandlerTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.API.ComponentTests/Fixtures/CreateCategoryFixture.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.API.ComponentTests/Features/CreateCategoryFeature.cs"
