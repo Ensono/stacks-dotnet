@@ -25,8 +25,8 @@ dotnet test
 # Change directory to the root to generate the templates
 cd ../../../..
 
-dotnet new --uninstall .
-dotnet new --install .
+dotnet new uninstall .
+dotnet new install .
 
 # Change directory create the test-templates directory
 cd ..
@@ -46,20 +46,17 @@ dotnet new stacks-webapi -n CQRS.Added.Project -do Menu
 cd CQRS.Added.Project/simple-api/src/api
 dotnet new stacks-add-cqrs -n CQRS.Project -do Menu
 
-# Test each generated projects unit tests
-cd ../../../..
-
 # Test the Simple.WebAPI project
-cd Simple.WebAPI/simple-api/src/api
+cd Simple.WebAPI/src/simple-api/src/api
 dotnet restore
 dotnet test
-cd ../../../..
+cd ../../../../..
 
 # Test the CQRS.Project project
-cd CQRS.Project/cqrs/src/api
+cd CQRS.Project/src/cqrs/src/api
 dotnet restore
 dotnet test
-cd ../../../..
+cd ../../../../..
 
 # Test the Cosmos.Worker.Project project
 cd Cosmos.Worker.Project/func-cosmosdb-worker/src/functions
@@ -86,10 +83,10 @@ dotnet test
 cd ../../../..
 
 # Test the CQRS.Added.Project project
-cd CQRS.Added.Project/simple-api/src/api
+cd CQRS.Added.Project/src/simple-api/src/api
 dotnet restore
 dotnet test
-cd ../../..
+cd ../../../..
 
 # Print success message
 echo " _________ _______  _______ _________ _______    _______  _______  _______  _______  _______  ______  "
