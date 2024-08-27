@@ -1,14 +1,14 @@
 # stacks-dotnet
 
-The full documentation on Ensono Stacks can be found [here](https://ensono.github.io/stacks/).
+The full documentation on Ensono Stacks can be found [here](https://amido.github.io/stacks/).
 
 Ensono Stacks targets different cloud providers.
 
-[Azure](https://ensono.github.io/stacks/docs/workloads/azure/backend/netcore/introduction_netcore)
+[Azure](https://amido.github.io/stacks/docs/workloads/azure/backend/netcore/introduction_netcore)
 
 ### Templates
 
-This repository contains a template that you can get as a [NuGet package](https://www.nuget.org/packages/Ensono.Stacks.Templates/). The template inside the package is called `stacks-webapi` and contains a complete Web API.
+This repository contains a template that you can get as a [NuGet package](https://www.nuget.org/packages/Amido.Stacks.Templates/). The template inside the package is called `stacks-webapi` and contains a complete Web API.
 
 ### Template usage
 
