@@ -10,8 +10,6 @@
 *.sln.docstates
 .vscode
 *.userprefs
-.env
-**/appsettings.[Dd]evelopment.json
 .DS_Store
 
 # Build results
@@ -347,7 +345,7 @@ MigrationBackup/
 .idea/
 
 # PROJECT SPECIFIC FILES
-/src/api/xxAMIDOxx.xxSTACKSxx.API/out
+/src/api/xxENSONOxx.xxSTACKSxx.API/out
 pacts/
 
 # scala files
