@@ -113,7 +113,6 @@
 				"deploy/**",
 				"taskctl.yaml",
 				"stackscli.yml",
-				".terraform-version",
 				".gitignore",
 				".gitattributes",
 				"src/simple-api/**",
