@@ -1,7 +1,6 @@
 name: air.stacks-dotnet-simple-api
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - master
