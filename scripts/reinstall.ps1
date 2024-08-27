@@ -1,3 +1,3 @@
 # From the root directory
 
-dotnet new --uninstall .\ ; dotnet new --install .\
+dotnet new uninstall .\ ; dotnet new install .\

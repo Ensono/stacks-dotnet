@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Description>DynamoDB package for common features used throughout the projects.</Description>
+    <Company>Ensono</Company>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ensono/stacks-dotnet-packages-dynamodb</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ensono/stacks-dotnet-packages-dynamodb</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.400.5" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

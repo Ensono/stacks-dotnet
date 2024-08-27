@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj" />
+        <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Common\xxENSONOxx.xxSTACKSxx.Common.csproj" />
+        <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Domain\xxENSONOxx.xxSTACKSxx.Domain.csproj" />
+    </ItemGroup>
+</Project>

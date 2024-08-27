@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.Integration\xxENSONOxx.xxSTACKSxx.Application.Integration.csproj" />
+        <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.CQRS\xxENSONOxx.xxSTACKSxx.CQRS.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.csproj" />
+    </ItemGroup>
+
+</Project>

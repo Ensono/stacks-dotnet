@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.EventHubs" Version="5.11.5" />
+    <PackageReference Include="Azure.Messaging.EventHubs.Processor" Version="5.11.5" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.EventHubs" Version="6.3.5" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj" />
+    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Configuration\xxENSONOxx.xxSTACKSxx.Shared.Configuration.csproj" />
+    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
+  </ItemGroup>
+
+</Project>

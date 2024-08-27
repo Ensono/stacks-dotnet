@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json.schemastore.org/template",
-	"author": "stacks@amido.com",
+	"author": "stacks@ensono.com",
 	"classifications": [
 		"Stacks",
 		"Application",
@@ -9,15 +9,15 @@
 		"Events",
 		"WebAPI"
 	],
-	"name": "Amido Stacks CQRS Web API",
-	"identity": "Amido.Stacks.CQRS.WebApi.CSharp",
-	"groupIdentity": "Amido.Stacks.CQRS.WebApi",
+	"name": "Ensono Stacks CQRS Web API",
+	"identity": "Ensono.Stacks.CQRS.WebApi.CSharp",
+	"groupIdentity": "Ensono.Stacks.CQRS.WebApi",
 	"shortName": "stacks-cqrs-app",
 	"tags": {
 		"language": "C#",
 		"type": "project"
 	},
-	"sourceName": "xxAMIDOxx.xxSTACKSxx",
+	"sourceName": "xxENSONOxx.xxSTACKSxx",
 	"preferNameDirectory": true,
 	"symbols": {
 		"domain": {
@@ -218,42 +218,42 @@
 				{
 					"condition": "(CosmosDb)",
 					"exclude": [
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
 					]
 				},
 				{
 					"condition": "(DynamoDb)",
 					"exclude": [
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
-						"**src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/CosmosDbMenuRepositoryTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests/HandlerTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.API.ComponentTests/Fixtures/CreateCategoryFixture.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.API.ComponentTests/Features/CreateCategoryFeature.cs"
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.CQRS.UnitTests/HandlerTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.API.ComponentTests/Fixtures/CreateCategoryFixture.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.API.ComponentTests/Features/CreateCategoryFeature.cs"
 					]
 				},
 				{
 					"condition": "(!CosmosDb && !DynamoDb)",
 					"exclude": [
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/CosmosDbMenuRepositoryTests.cs",
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/DynamoDbMenuRepositoryTests.cs"
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/CosmosDbMenuRepositoryTests.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/DynamoDbMenuRepositoryTests.cs"
 					]
 				},
 				{
 					"condition": "(EventPublisherAwsSns)",
 					"exclude": [
-						"**/src/api/xxAMIDOxx.xxSTACKSxx.Infrastructure/Fakes/DummyEventPublisher.cs"
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Fakes/DummyEventPublisher.cs"
 					]
 				},
 				{

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Common\xxENSONOxx.xxSTACKSxx.Common.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Domain\xxENSONOxx.xxSTACKSxx.Shared.Domain.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.csproj" />
+    </ItemGroup>
+</Project>

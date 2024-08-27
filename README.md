@@ -1,8 +1,8 @@
 # stacks-dotnet
 
-The full documentation on Amido Stacks can be found [here](https://amido.github.io/stacks/).
+The full documentation on Ensono Stacks can be found [here](https://amido.github.io/stacks/).
 
-Amido Stacks targets different cloud providers.
+Ensono Stacks targets different cloud providers.
 
 [Azure](https://amido.github.io/stacks/docs/workloads/azure/backend/netcore/introduction_netcore)
 
@@ -14,19 +14,19 @@ This repository contains a template that you can get as a [NuGet package](https:
 
 #### Template installation
 
-For the latest template version, please consult the Nuget page [Amido.Stacks.Templates](https://www.nuget.org/packages/Amido.Stacks.Templates/). To install the latest version of the templates to your machine via the command line:
+For the latest template version, please consult the Nuget page [Ensono.Stacks.Templates](https://www.nuget.org/packages/Amido.Stacks.Templates/). To install the latest version of the templates to your machine via the command line:
 
 ```shell
-dotnet new --install Amido.Stacks.Templates
+dotnet new --install Ensono.Stacks.Templates
 ```
 
-The output you'll see will list all installed templates (not listed for brevity). In that list you'll see the just installed Amido Stacks template `stacks-webapi`
+The output you'll see will list all installed templates (not listed for brevity). In that list you'll see the just installed Ensono Stacks template `stacks-webapi`
 
 ```shell
 Template Name                                    Short Name                       Language    Tags
 -----------------------------------------------  -------------------------------  ----------  ------------------------------------------
 ...
-Amido Stacks Web API                             stacks-webapi                    [C#]        Stacks/Infrastructure/WebAPI
+Ensono Stacks Web API                             stacks-webapi                    [C#]        Stacks/Infrastructure/WebAPI
 ...
 
 Examples:
@@ -41,7 +41,7 @@ Examples:
 To uninstall the template pack you have to execute the following command
 
 ```shell
-dotnet new --uninstall Amido.Stacks.Templates
+dotnet new --uninstall Ensono.Stacks.Templates
 ```
 
 #### Important parameters
@@ -69,7 +69,7 @@ It's entirely up to you where you want to generate the WebAPI. For example your 
 % cd your-repo-folder
 
 % dotnet new stacks-webapi -n Foo.Bar -do Menu
-The template "Amido Stacks Web Api" was created successfully.
+The template "Ensono Stacks Web Api" was created successfully.
 ```
 
 Inspecting the folder will yield the following
@@ -77,21 +77,21 @@ Inspecting the folder will yield the following
 ```shell
 % ls -la
 total 0
-drwxr-xr-x  3 amido  staff   96 23 Aug 15:51 .
-drwxr-xr-x  9 amido  staff  288 16 Aug 14:06 ..
-drwxr-xr-x  6 amido  staff  192 23 Aug 15:51 Foo.Bar
+drwxr-xr-x  3 ensono  staff   96 23 Aug 15:51 .
+drwxr-xr-x  9 ensono  staff  288 16 Aug 14:06 ..
+drwxr-xr-x  6 ensono  staff  192 23 Aug 15:51 Foo.Bar
 
 % ls -la Foo.Bar
 total 16
-drwxr-xr-x  6 amido  staff   192 27 Aug 15:51 .
-drwxr-xr-x  3 amido  staff    96 27 Aug 15:51 ..
--rw-r--r--  1 amido  staff  1062 27 Aug 14:59 LICENSE
--rw-r--r--  1 amido  staff   258 27 Aug 14:59 README.md
-drwxr-xr-x  3 amido  staff    96 27 Aug 14:59 build
-drwxr-xr-x  4 amido  staff   128 27 Aug 14:59 contracts
-drwxr-xr-x  5 amido  staff   160 27 Aug 14:59 deploy
-drwxr-xr-x  4 amido  staff   128 27 Aug 14:59 src
--rw-r--r--  1 amido  staff   292 27 Aug 14:59 yamllint.confn
+drwxr-xr-x  6 ensono  staff   192 27 Aug 15:51 .
+drwxr-xr-x  3 ensono  staff    96 27 Aug 15:51 ..
+-rw-r--r--  1 ensono  staff  1062 27 Aug 14:59 LICENSE
+-rw-r--r--  1 ensono  staff   258 27 Aug 14:59 README.md
+drwxr-xr-x  3 ensono  staff    96 27 Aug 14:59 build
+drwxr-xr-x  4 ensono  staff   128 27 Aug 14:59 contracts
+drwxr-xr-x  5 ensono  staff   160 27 Aug 14:59 deploy
+drwxr-xr-x  4 ensono  staff   128 27 Aug 14:59 src
+-rw-r--r--  1 ensono  staff   292 27 Aug 14:59 yamllint.confn
 ```
 
 The `Foo.Bar` namespace prefix will be added to the class names and is reflected not only in folder/file names, but inside the codebase as well.
@@ -100,13 +100,13 @@ To generate the template with your own namespace, but in a different folder you'
 
 ```shell
 % dotnet new stacks-webapi -n Foo.Bar -d Car -o web-api-dir
-The template "Amido Stacks Web Api" was created successfully.
+The template "Ensono Stacks Web Api" was created successfully.
 
 % ls -la
 total 0
-drwxr-xr-x  3 amido  staff   96 23 Aug 15:58 .
-drwxr-xr-x  9 amido  staff  288 16 Aug 14:06 ..
-drwxr-xr-x  6 amido  staff  192 23 Aug 15:58 web-api-dir
+drwxr-xr-x  3 ensono  staff   96 23 Aug 15:58 .
+drwxr-xr-x  9 ensono  staff  288 16 Aug 14:06 ..
+drwxr-xr-x  6 ensono  staff  192 23 Aug 15:58 web-api-dir
 ```
 
 Now you can build the solution located in the `web-api/src` folder and run/deploy it.
