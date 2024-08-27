@@ -15,5 +15,5 @@ start devenv .\MyCode\func-asb-listener\src\functions\MyCode.Listener.sln
 rm * -force -recurse; dotnet new stacks-asb-worker --name MyCode --domain Dom; code .
 start devenv .\MyCode\background-worker\src\worker\MyCode.BackgroundWorker.sln
 
-rm * -force -recurse; dotnet new stacks-cqrs-app --name MyCode --domain Dom; code .
+rm * -force -recurse; dotnet new stacks-cqrs --name MyCode --domain Dom; code .
 start devenv .\MyCode\cqrs\src\api\MyCode.API.sln
