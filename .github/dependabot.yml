@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: nuget
-    directory: "/src/api"
+    directory: "/src/simple-api/src/api"
     schedule:
       interval: weekly
       day: monday
@@ -10,7 +10,25 @@ updates:
     rebase-strategy: disabled
 
   - package-ecosystem: nuget
-    directory: "/src/tests/Functional"
+    directory: "/src/simple-api/src/tests/Functional"
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/London
+    open-pull-requests-limit: 10
+    rebase-strategy: disabled
+
+  - package-ecosystem: nuget
+    directory: "/src/cqrs/src/api"
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/London
+    open-pull-requests-limit: 10
+    rebase-strategy: disabled
+
+  - package-ecosystem: nuget
+    directory: "/src/cqrs/src/tests/Functional"
     schedule:
       interval: weekly
       day: monday
@@ -20,6 +38,15 @@ updates:
 
   - package-ecosystem: terraform
     directory: "/deploy/azure/app/kube"
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/London
+    open-pull-requests-limit: 10
+    rebase-strategy: disabled
+
+  - package-ecosystem: terraform
+    directory: "/deploy/aws/app/kube"
     schedule:
       interval: weekly
       day: monday
