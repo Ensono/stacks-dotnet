@@ -32,7 +32,6 @@ env:
   CLOUD_PROVIDER: "aws"
   TaskctlVersion: '1.5.2'
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
-  DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com"
   OWNER: "stacks_team"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   # Helm Chart Configuration
@@ -55,11 +54,6 @@ jobs:
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
       
-      - name: Set environment variables
-        run: |
-          echo $DOCKER_REGISTRY
-          echo $DOCKER_REGISTRY_NAME
-
       - uses: ./build/github/templates/install-taskctl
 
       - run: taskctl image-pull
@@ -97,7 +91,7 @@ jobs:
       - run: taskctl build:container
         env:
           # Docker
-          DOCKER_CONTAINER_REGISTRY_NAME: ${{ env.DOCKER_REGISTRY_NAME }}
+          DOCKER_CONTAINER_REGISTRY_NAME: ${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}
           ECR_REGION: ${{ env.REGION }}
           # AWS ECR Authorisation
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -229,6 +223,7 @@ jobs:
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "dev-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
+          DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
           DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
@@ -340,6 +335,7 @@ jobs:
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
+          DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
           DNS_BASE_DOMAIN: "prod.aws.stacks.ensono.com"
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
