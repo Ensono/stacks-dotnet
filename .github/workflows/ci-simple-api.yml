@@ -53,7 +53,7 @@ jobs:
       - name: Set environment variables
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
-      
+
       - uses: ./build/github/templates/install-taskctl
 
       - run: taskctl image-pull
