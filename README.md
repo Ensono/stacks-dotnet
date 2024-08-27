@@ -14,7 +14,7 @@ This repository contains a template that you can get as a [NuGet package](https:
 
 #### Template installation
 
-For the latest template version, please consult the Nuget page [Ensono.Stacks.Templates](https://www.nuget.org/packages/Ensono.Stacks.Templates/). To install the latest version of the templates to your machine via the command line:
+For the latest template version, please consult the Nuget page [Ensono.Stacks.Templates](https://www.nuget.org/packages/Amido.Stacks.Templates/). To install the latest version of the templates to your machine via the command line:
 
 ```shell
 dotnet new --install Ensono.Stacks.Templates
