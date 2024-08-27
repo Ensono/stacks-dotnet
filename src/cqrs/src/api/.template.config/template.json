@@ -1,19 +1,19 @@
 ﻿{
     "$schema": "http://json.schemastore.org/template",
-    "author": "stacks@amido.com",
+    "author": "stacks@ensono.com",
     "classifications": [
         "Stacks",
         "CQRS"
     ],
-    "name": "Amido Stacks CQRS Projects",
-    "identity": "Amido.Stacks.Add.CQRS.CSharp",
-    "groupIdentity": "Amido.Stacks.Add.CQRS",
+    "name": "Ensono Stacks CQRS Projects",
+    "identity": "Ensono.Stacks.Add.CQRS.CSharp",
+    "groupIdentity": "Ensono.Stacks.Add.CQRS",
     "shortName": "stacks-add-cqrs",
     "tags": {
         "language": "C#",
         "type": "project"
     },
-    "sourceName": "xxAMIDOxx.xxSTACKSxx",
+    "sourceName": "xxENSONOxx.xxSTACKSxx",
     "symbols": {
         "domain": {
             "type": "parameter",
@@ -105,21 +105,21 @@
         {
             "source": "./",
             "include": [
-                "**/xxAMIDOxx.xxSTACKSxx.API/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Application.Integration/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Common/**",
-                "**/xxAMIDOxx.xxSTACKSxx.CQRS/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Domain/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Infrastructure/**",
-                "**/xxAMIDOxx.xxSTACKSxx.API.ComponentTests/**",
-                "**/xxAMIDOxx.xxSTACKSxx.API.UnitTests/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Common.UnitTests/**",
-                "**/xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/**",
-                "**/xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/**"
+                "**/xxENSONOxx.xxSTACKSxx.API/**",
+                "**/xxENSONOxx.xxSTACKSxx.Application.CommandHandlers/**",
+                "**/xxENSONOxx.xxSTACKSxx.Application.Integration/**",
+                "**/xxENSONOxx.xxSTACKSxx.Application.QueryHandlers/**",
+                "**/xxENSONOxx.xxSTACKSxx.Common/**",
+                "**/xxENSONOxx.xxSTACKSxx.CQRS/**",
+                "**/xxENSONOxx.xxSTACKSxx.Domain/**",
+                "**/xxENSONOxx.xxSTACKSxx.Infrastructure/**",
+                "**/xxENSONOxx.xxSTACKSxx.API.ComponentTests/**",
+                "**/xxENSONOxx.xxSTACKSxx.API.UnitTests/**",
+                "**/xxENSONOxx.xxSTACKSxx.Common.UnitTests/**",
+                "**/xxENSONOxx.xxSTACKSxx.CQRS.UnitTests/**",
+                "**/xxENSONOxx.xxSTACKSxx.Domain.UnitTests/**",
+                "**/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/**",
+                "**/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",
@@ -141,32 +141,32 @@
                 {
 					"condition": "(CosmosDb)",
 					"exclude": [
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
-						"xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
+						"xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+						"xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
+						"xxENSONOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
 					]
 				},
 				{
 					"condition": "(DynamoDb)",
 					"exclude": [
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs"
+						"xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs"
 					]
 				},
 				{
 					"condition": "(!CosmosDb && !DynamoDb)",
 					"exclude": [
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
-						"xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
+						"xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
+						"xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+						"xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
+						"xxENSONOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs"
 					]
 				},
                 {
 					"condition": "(EventPublisherServiceBus || EventPublisherEventHub || EventPublisherAwsSns)",
 					"exclude": [
-						"xxAMIDOxx.xxSTACKSxx.Infrastructure/Fakes/DummyEventPublisher.cs"
+						"xxENSONOxx.xxSTACKSxx.Infrastructure/Fakes/DummyEventPublisher.cs"
 					]
 				}
             ]
@@ -183,8 +183,8 @@
             "args": {
                 "solutionFolder": "API",
                 "projectFiles": [
-                    "xxAMIDOxx.xxSTACKSxx.Infrastructure.csproj",
-                    "xxAMIDOxx.xxSTACKSxx.API.csproj"
+                    "xxENSONOxx.xxSTACKSxx.Infrastructure.csproj",
+                    "xxENSONOxx.xxSTACKSxx.API.csproj"
                 ]
             },
             "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
@@ -200,9 +200,9 @@
             "args": {
                 "solutionFolder": "Application",
                 "projectFiles": [
-                    "xxAMIDOxx.xxSTACKSxx.Application.CommandHandlers.csproj",
-                    "xxAMIDOxx.xxSTACKSxx.Application.Integration.csproj",
-                    "xxAMIDOxx.xxSTACKSxx.Application.QueryHandlers.csproj"
+                    "xxENSONOxx.xxSTACKSxx.Application.CommandHandlers.csproj",
+                    "xxENSONOxx.xxSTACKSxx.Application.Integration.csproj",
+                    "xxENSONOxx.xxSTACKSxx.Application.QueryHandlers.csproj"
                 ]
             },
             "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
@@ -218,7 +218,7 @@
             "args": {
                 "solutionFolder": "Domain",
                 "projectFiles": [
-                    "xxAMIDOxx.xxSTACKSxx.Domain.csproj"
+                    "xxENSONOxx.xxSTACKSxx.Domain.csproj"
                 ]
             },
             "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
@@ -234,8 +234,8 @@
             "args": {
                 "solutionFolder": "Shared",
                 "projectFiles": [
-                    "xxAMIDOxx.xxSTACKSxx.Common.csproj",
-                    "xxAMIDOxx.xxSTACKSxx.CQRS.csproj"
+                    "xxENSONOxx.xxSTACKSxx.Common.csproj",
+                    "xxENSONOxx.xxSTACKSxx.CQRS.csproj"
                 ]
             },
             "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
@@ -251,11 +251,11 @@
             "args": {
                 "solutionFolder": "Tests",
                 "projectFiles": [
-                    "xxAMIDOxx.xxSTACKSxx.Common.UnitTests/**",
-                    "xxAMIDOxx.xxSTACKSxx.CQRS.UnitTests/**",
-                    "xxAMIDOxx.xxSTACKSxx.Domain.UnitTests/**",
-                    "xxAMIDOxx.xxSTACKSxx.Infrastructure.IntegrationTests/**",
-                    "xxAMIDOxx.xxSTACKSxx.Infrastructure.UnitTests/**"
+                    "xxENSONOxx.xxSTACKSxx.Common.UnitTests/**",
+                    "xxENSONOxx.xxSTACKSxx.CQRS.UnitTests/**",
+                    "xxENSONOxx.xxSTACKSxx.Domain.UnitTests/**",
+                    "xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/**",
+                    "xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/**"
                 ]
             },
             "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",

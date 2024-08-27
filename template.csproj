@@ -3,11 +3,11 @@
   <PropertyGroup>
     <PackageType>Template</PackageType>
     <PackageVersion>1.0</PackageVersion>
-    <PackageId>Amido.Stacks.Templates</PackageId>
-    <Title>Amido Stacks Web API Templates</Title>
-    <Authors>Amido</Authors>
+    <PackageId>Ensono.Stacks.Templates</PackageId>
+    <Title>Ensono Stacks Web API Templates</Title>
+    <Authors>Ensono</Authors>
     <Description>Templates containing the full suite of applications and infrastructure to run a simple web api.</Description>
-    <PackageTags>dotnet-new;templates;amido;web-api</PackageTags>
+    <PackageTags>dotnet-new;templates;ensono;web-api</PackageTags>
 
     <TargetFramework>netstandard2.0</TargetFramework>
 
