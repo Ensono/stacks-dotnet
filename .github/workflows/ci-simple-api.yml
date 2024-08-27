@@ -33,13 +33,11 @@ env:
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
   DOCKER_REGISTRY_NAME: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com"
   OWNER: "stacks_team"
-  REGION: "eu-west-2"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   # Helm Chart Configuration
   HELM_CHART_FILE: "deploy/helm/stacks-dotnet"
   HELM_VALUE_FILE: "deploy/helm/stacks-dotnet/values.yaml"
   # K8S Additional Deploy-Templater var substitutions
-  DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com" # (duplicates DOCKER_REGISTRY_NAME)
   K8S_APP_ROUTE: "/api/menu"
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
@@ -55,6 +53,11 @@ jobs:
       - name: Set environment variables
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
+      
+      - name: Set environment variables
+        run: |
+          echo $DOCKER_REGISTRY
+          echo $DOCKER_REGISTRY_NAME
 
       - uses: ./build/github/templates/install-taskctl
 
