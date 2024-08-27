@@ -44,7 +44,7 @@ updates:
       timezone: Europe/London
     open-pull-requests-limit: 10
     rebase-strategy: disabled
-  
+
   - package-ecosystem: terraform
     directory: "/deploy/aws/app/kube"
     schedule:
