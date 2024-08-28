@@ -5,5 +5,5 @@ jobs:
 - job: Hello
   steps:
     - script: |
-        echo "Hello, World! {{ parameters.text }}"
+        echo "Hello, World! ${{ parameters.text }}"
       displayName: 'Print Hello World'
