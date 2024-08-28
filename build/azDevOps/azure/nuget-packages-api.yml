@@ -68,7 +68,7 @@ stages:
           - template: azDevOps/azure/templates/v2/steps/build-pack-test-dotnet.yml@templates
             parameters:
               package_path: $(Agent.BuildDirectory)/s
-              dotnet_core_version: 6.0.200
+              dotnet_core_version: '8.0.100'
               version_variable_name: version_number
 
           # Upload the packages as artefacts
