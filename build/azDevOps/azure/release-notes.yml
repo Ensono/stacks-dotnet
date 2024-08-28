@@ -1,3 +1,10 @@
+resources:
+  repositories:
+    - repository: wiki # work around for security issue for pipelines to access the WIKI repo
+      type: git
+      name: Stacks/Stacks.Wiki
+      ref: wikiMaster
+
 parameters:
   text: ''
 
