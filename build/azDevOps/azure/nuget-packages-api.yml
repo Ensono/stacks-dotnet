@@ -77,6 +77,11 @@ stages:
             inputs:
               path: $(Agent.BuildDirectory)/a
               artifact: packages
+  - stage: GenerateReleaseNotes
+    dependsOn:
+    - Build
+    - template: release-notes.yml
+
 
 # TODO: Uncomment this stage when we are ready to release
 # - stage: Release
