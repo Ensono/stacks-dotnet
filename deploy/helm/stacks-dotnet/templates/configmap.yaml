@@ -47,11 +47,38 @@ data:
               "TokenUrl": "${jwtbearerauthentication_openapitokenurl}"
           }
       },
+      {{- if eq .Values.cloudProvider "azure" }}
+      {{- if and (ne .Values.app.sbTopic "") (ne .Values.app.sbConnectionstring) }}
+      "ServiceBusConfiguration": {
+        "Sender": {
+          "Topics": [
+            {
+              "Name": "{{ .Values.app.sbTopic }}",
+              "ConnectionStringSecret": {
+                "Identifier": "SERVICEBUS_CONNECTIONSTRING",
+                "Source": "Environment"
+              }
+            }
+          ]
+        }
+      },
+      {{- end }}
+      {{- if and (ne .Values.app.cosmosdbName "") (ne .Values.app.cosmosdbEndpoint) }}
+      "CosmosDb": {
+        "DatabaseAccountUri": "{{ .Values.app.cosmosdbEndpoint }}",
+        "DatabaseName": "{{ .Values.app.cosmosdbName }}",
+        "SecurityKeySecret": {
+          "Identifier": "COSMOSDB_KEY",
+          "Source": "Environment"
+        }
+      },
+      {{- end }}
+      {{- end }}
       {{- if eq .Values.cloudProvider "aws" }}
       "AWS": {
         "Region": "{{ .Values.region }}"
       },
-      {{- if ne .Values.pod.snsTopicArn "" }}
+      {{- if ne .Values.app.snsTopicArn "" }}
       "AwsSnsConfiguration": {
         "TopicArn": {
           "Identifier": "TOPIC_ARN",
@@ -59,9 +86,9 @@ data:
         }
       },
       {{- end }}
-      {{- if ne .Values.pod.dynamodbTableName "" }}
+      {{- if ne .Values.app.dynamodbTableName "" }}
       "DynamoDb": {
-        "TableName": "{{ .Values.pod.dynamodbTableName }}",
+        "TableName": "{{ .Values.app.dynamodbTableName }}",
         "TablePrefix": "{{ .Values.env }}"
       },
       {{- end }}

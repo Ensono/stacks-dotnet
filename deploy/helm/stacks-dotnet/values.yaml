@@ -35,8 +35,6 @@ pod:
   secretSuffix: secret
   appInsightsKey: ${app_insights_key}
   loglevel:  ${loglevel}
-  dynamodbTableName: ${dynamodb_table_name}
-  snsTopicArn: ${sns_topic_arn}
 
 namespace: ${namespace}
 
@@ -90,3 +88,13 @@ app:
   component: ${component}
   name: ${resource_def_name}
   version: 0.0.1
+  # Azure
+  sbTopic: ${servicebus_topic_name}
+  sbSubscription:  ${servicebus_subscription_name}
+  sbConnectionstring:  ${servicebus_connectionstring}
+  cosmosdbKey: ${cosmosdb_key}
+  cosmosdbName: ${cosmosdb_name}
+  cosmosdbEndpoint: ${cosmosdb_endpoint}
+  # AWS
+  dynamodbTableName: ${dynamodb_table_name}
+  snsTopicArn: ${sns_topic_arn}
