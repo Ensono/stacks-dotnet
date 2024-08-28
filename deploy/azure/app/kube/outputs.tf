@@ -80,21 +80,21 @@ output "servicebus_subscription_filtered_id" {
 }
 
 # Events - Function
-output "function_publisher_id" {
-  value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_publisher_id[0] : null
-}
+# output "function_publisher_id" {
+#   value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_publisher_id[0] : null
+# }
 
-output "function_listener_id" {
-  value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_listener_id[0] : null
-}
+# output "function_listener_id" {
+#   value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_listener_id[0] : null
+# }
 
-output "function_publisher_name" {
-  value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_publisher_name[0] : null
-}
+# output "function_publisher_name" {
+#   value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_publisher_name[0] : null
+# }
 
-output "function_listener_name" {
-  value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_listener_name[0] : null
-}
+# output "function_listener_name" {
+#   value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_listener_name[0] : null
+# }
 
 output "eventhub_connectionstring" {
   value     = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_connectionstring[0] : null
