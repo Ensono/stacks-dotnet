@@ -10,7 +10,7 @@ variables:
   - name: self_repo
     value: stacks-dotnet
   - name: self_generic_name
-    value: stacks-cqrs
+    value: stacks-api-cqrs
 
   # TODO: Why is this needed..?
   - group: stacks-dotnet-api
