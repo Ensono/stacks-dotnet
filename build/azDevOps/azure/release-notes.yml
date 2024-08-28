@@ -2,7 +2,7 @@ parameters:
   text: ''
 
 jobs: 
-- job: Hello!
+- job: Hello
   steps:
     - script: |
         echo "Hello, World! {{ parameters.text }}"
