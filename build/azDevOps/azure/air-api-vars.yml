@@ -83,7 +83,7 @@ variables:
 
   # Test Configuration
   - name: FUNCTIONAL_TESTS_SRC_DIR
-    value: src/tests/Functional
+    value: src/simple-api/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR
     value: /app/tests
   - name: FUNCTIONAL_TEST_BASEURL
