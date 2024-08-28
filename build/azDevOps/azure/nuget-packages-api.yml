@@ -33,6 +33,7 @@ variables:
 
 stages:
   - stage: Build
+    condition: false
     jobs:
       - job: AppBuild
         pool:
@@ -78,7 +79,7 @@ stages:
               path: $(Agent.BuildDirectory)/a
               artifact: packages
   - stage: GenerateReleaseNotes
-    dependsOn: Build
+    # dependsOn: Build
     jobs: 
     - template: release-notes.yml
       parameters: {
