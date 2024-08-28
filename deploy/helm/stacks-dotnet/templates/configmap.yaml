@@ -16,7 +16,7 @@ data:
               "Serilog.Sinks.ApplicationInsights"
           ],
           "MinimumLevel": {
-              "Default": " {{ .Values.pod.loglevel }}",
+              "Default": "{{ .Values.pod.loglevel }}",
               "Override": {}
           },
           "WriteTo": [
@@ -47,6 +47,25 @@ data:
               "TokenUrl": "${jwtbearerauthentication_openapitokenurl}"
           }
       },
+      {{- if eq .Values.cloudProvider "aws" }}
+      "AWS": {
+        "Region": "{{ .Values.region }}"
+      },
+      {{- if ne .Values.pod.snsTopicArn "" }}
+      "AwsSnsConfiguration": {
+        "TopicArn": {
+          "Identifier": "TOPIC_ARN",
+          "Source": "Environment"
+        }
+      },
+      {{- end }}
+      {{- if ne .Values.pod.dynamodbTableName "" }}
+      "DynamoDb": {
+        "TableName": "{{ .Values.pod.dynamodbTableName }}",
+        "TablePrefix": "{{ .Values.pod.env }}"
+      },
+      {{- end }}
+      {{- end }}
       "TestConfig": "Test value from file",
       "Values": {
         "Items": [
