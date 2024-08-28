@@ -13,7 +13,7 @@ variables:
     value: stacks-api-cqrs
 
   # TODO: Why is this needed..?
-  - group: stacks-dotnet-cqrs
+  - group: stacks-dotnet-api
 
   - name: cloud_provider
     value: "azure"
