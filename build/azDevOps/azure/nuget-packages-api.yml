@@ -78,9 +78,12 @@ stages:
               path: $(Agent.BuildDirectory)/a
               artifact: packages
   - stage: GenerateReleaseNotes
-    dependsOn:
-    - Build
+    dependsOn: Build
+    jobs: 
     - template: release-notes.yml
+      parameters: {
+        text: 'This is a test'
+      }
 
 
 # TODO: Uncomment this stage when we are ready to release

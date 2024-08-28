@@ -1,4 +1,9 @@
-steps:
-  - script: |
-      echo "Hello, World!"
-    displayName: 'Print Hello World'
+parameters:
+  text: ''
+
+jobs: 
+- job: Hello!
+  steps:
+    - script: |
+        echo "Hello, World! {{ parameters.text }}"
+      displayName: 'Print Hello World'
