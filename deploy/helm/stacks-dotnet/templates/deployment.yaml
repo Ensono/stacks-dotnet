@@ -78,7 +78,7 @@ spec:
                   name: {{ include "stacks-dotnet.secretName" . }}
                   key: app_insights
             {{- end }}
-            {{- if and eq .Values.cloudProvider "aws" ne .Values.pod.snsTopicArn "" }}
+            {{- if and (eq .Values.cloudProvider "aws") (ne .Values.pod.snsTopicArn "") }}
             - name: TOPIC_ARN
               value: {{ .Values.pod.snsTopicArn}}
             {{- end }}

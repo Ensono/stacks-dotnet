@@ -62,7 +62,7 @@ data:
       {{- if ne .Values.pod.dynamodbTableName "" }}
       "DynamoDb": {
         "TableName": "{{ .Values.pod.dynamodbTableName }}",
-        "TablePrefix": "{{ .Values.pod.env }}"
+        "TablePrefix": "{{ .Values.env }}"
       },
       {{- end }}
       {{- end }}
