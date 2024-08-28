@@ -50,7 +50,7 @@ stages:
             inputs:
               targetType: inline
               script: taskctl lint
-          
+
           - task: Bash@3
             displayName: "TaskCTL: Test"
             inputs:
@@ -66,7 +66,7 @@ stages:
               SONAR_PROPERTIES: $(sonar_properties)
               PROJECT_NAME: $(sonar_project_name)
               BUILD_BUILDNUMBER: $(version_number)
-          
+
           - task: Bash@3
             displayName: "TaskCTL: Build Functional Tests"
             inputs:
