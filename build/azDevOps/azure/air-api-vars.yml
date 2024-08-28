@@ -142,8 +142,8 @@ variables:
     value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
   - name: DASHBOARD_MEASUREMENT
     value: deployment # Static definition within Influx Config
-    # - group: ensono-stacks-influx-credentials-prod
     # yamllint disable rule:comments-indentation
+  # - group: ensono-stacks-influx-credentials-prod
     # Group should contain:
       # DASHBOARD_INFLUX_ORG
       # DASHBOARD_INFLUX_BUCKET
