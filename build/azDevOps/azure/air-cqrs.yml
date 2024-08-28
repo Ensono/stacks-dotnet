@@ -46,10 +46,38 @@ stages:
               DOCKER_IMAGE_TAG: $(version_number)
 
           - task: Bash@3
-            displayName: "TaskCTL: Build"
+            displayName: "TaskCTL: Lint"
             inputs:
               targetType: inline
-              script: taskctl build
+              script: taskctl lint
+          
+          - task: Bash@3
+            displayName: "TaskCTL: Test"
+            inputs:
+              targetType: inline
+              script: taskctl test
+            env:
+              # Dotnet Build
+              SELF_REPO_SRC: $(self_repo_src)
+              # SonarQube
+              SONAR_ORG: $(sonar_organization)
+              SONAR_URL: $(sonar_url)
+              SONAR_TOKEN: $(SONAR_TOKEN)
+              SONAR_PROPERTIES: $(sonar_properties)
+              PROJECT_NAME: $(sonar_project_name)
+              BUILD_BUILDNUMBER: $(version_number)
+          
+          - task: Bash@3
+            displayName: "TaskCTL: Build Functional Tests"
+            inputs:
+              targetType: inline
+              script: taskctl build:functional_tests
+
+          - task: Bash@3
+            displayName: "TaskCTL: Build Container"
+            inputs:
+              targetType: inline
+              script: taskctl build:container
             env:
               # Dotnet Build
               SELF_REPO_SRC: $(self_repo_src)
@@ -59,17 +87,11 @@ stages:
               ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
               ARM_CLIENT_ID: "$(azure-client-id)"
               ARM_CLIENT_SECRET: "$(azure-client-secret)"
-              # SonarQube
-              SONAR_ORG: $(sonar_organization)
-              SONAR_URL: $(sonar_url)
-              SONAR_TOKEN: $(SONAR_TOKEN)
-              SONAR_PROPERTIES: $(sonar_properties)
-              PROJECT_NAME: $(sonar_project_name)
-              BUILD_BUILDNUMBER: $(version_number)
               # Docker
               IMAGE_NAME: $(docker_image_name)
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
               REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
+              BUILD_BUILDNUMBER: $(version_number)
 
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
