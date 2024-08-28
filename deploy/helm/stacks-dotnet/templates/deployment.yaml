@@ -77,14 +77,14 @@ spec:
                 secretKeyRef:
                   name: {{ include "stacks-dotnet.secretName" . }}
                   key: app_insights
-            {{- if ne .Values.app.sbConnectionstring "" }}
+            {{- if .Values.app.sbConnectionstring }}
             - name: SERVICEBUS_CONNECTIONSTRING
               valueFrom:
                 secretKeyRef:
                   name: {{ include "stacks-dotnet.secretName" . }}
                   key: servicebus_connectionstring
             {{- end }}
-            {{- if ne .Values.app.cosmosDbKey "" }}
+            {{- if .Values.app.cosmosDbKey }}
             - name: COSMOSDB_KEY
               valueFrom:
                 secretKeyRef:
@@ -92,7 +92,7 @@ spec:
                   key: cosmos_key
             {{- end }}
             {{- end }}
-            {{- if and (eq .Values.cloudProvider "aws") (ne .Values.app.snsTopicArn "") }}
+            {{- if and (eq .Values.cloudProvider "aws") .Values.app.snsTopicArn }}
             - name: TOPIC_ARN
               value: {{ .Values.app.snsTopicArn}}
             {{- end }}

@@ -48,7 +48,7 @@ data:
           }
       },
       {{- if eq .Values.cloudProvider "azure" }}
-      {{- if and (ne .Values.app.sbTopic "") (ne .Values.app.sbConnectionstring) }}
+      {{- if and .Values.app.sbTopic .Values.app.sbConnectionstring }}
       "ServiceBusConfiguration": {
         "Sender": {
           "Topics": [
@@ -63,7 +63,7 @@ data:
         }
       },
       {{- end }}
-      {{- if and (ne .Values.app.cosmosdbName "") (ne .Values.app.cosmosdbEndpoint) }}
+      {{- if and .Values.app.cosmosdbName .Values.app.cosmosdbEndpoint }}
       "CosmosDb": {
         "DatabaseAccountUri": "{{ .Values.app.cosmosdbEndpoint }}",
         "DatabaseName": "{{ .Values.app.cosmosdbName }}",
@@ -78,7 +78,7 @@ data:
       "AWS": {
         "Region": "{{ .Values.region }}"
       },
-      {{- if ne .Values.app.snsTopicArn "" }}
+      {{- if .Values.app.snsTopicArn }}
       "AwsSnsConfiguration": {
         "TopicArn": {
           "Identifier": "TOPIC_ARN",
@@ -86,7 +86,7 @@ data:
         }
       },
       {{- end }}
-      {{- if ne .Values.app.dynamodbTableName "" }}
+      {{- if .Values.app.dynamodbTableName }}
       "DynamoDb": {
         "TableName": "{{ .Values.app.dynamodbTableName }}",
         "TablePrefix": "{{ .Values.env }}"
