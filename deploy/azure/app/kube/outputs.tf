@@ -46,81 +46,81 @@ output "dns_name" {
 # Events - Servicebus
 output "servicebus_namespace" {
   description = "Service bus namespace"
-  value       = module.servicebus.*.servicebus_namespace[0]
+  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_namespace[0] : null
 }
 
 output "servicebus_topic_name" {
   description = "Name of the topic"
-  value       = module.servicebus.*.servicebus_topic_name[0]
+  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_topic_name[0] : null
 }
 
 output "servicebus_subscription_name" {
   description = "Servicebus Subscription name"
-  value       = module.servicebus.*.servicebus_subscription_name[0]
+  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_subscription_name[0] : null
 }
 
 output "servicebus_connectionstring" {
-  value     = module.servicebus.*.servicebus_connectionstring[0]
+  value     = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_connectionstring[0] : null
   sensitive = true
 }
 
 output "servicebus_subscription_filtered_name" {
   description = "Servicebus Subscription filtered name"
-  value       = module.servicebus.*.servicebus_subscription_filtered_name[0]
+  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_subscription_filtered_name[0] : null
 }
 
 output "servicebus_subscription_id" {
   description = "Servicebus Subscription ID"
-  value       = module.servicebus.*.servicebus_subscription_id[0]
+  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_subscription_id[0] : null
 }
 
 output "servicebus_subscription_filtered_id" {
   description = "Servicebus Subscription filtered ID"
-  value       = module.servicebus.*.servicebus_subscription_filtered_id[0]
+  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_subscription_filtered_id[0] : null
 }
 
 # Events - Function
 output "function_publisher_id" {
-  value = module.servicebus.*.function_publisher_id[0]
+  value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_publisher_id[0] : null
 }
 
 output "function_listener_id" {
-  value = module.servicebus.*.function_listener_id[0]
+  value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_listener_id[0] : null
 }
 
 output "function_publisher_name" {
-  value = module.servicebus.*.function_publisher_name[0]
+  value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_publisher_name[0] : null
 }
 
 output "function_listener_name" {
-  value = module.servicebus.*.function_listener_name[0]
+  value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_listener_name[0] : null
 }
 
 output "eventhub_connectionstring" {
-  value     = module.eventhub.*.eventhub_connectionstring[0]
+  value     = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_connectionstring[0] : null
   sensitive = true
 }
 
 # Events - Eventhub
 output "eventhub_name" {
-  value = module.eventhub.*.eventhub_name[0]
+  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_name[0] : null
 }
 
 output "eventhub_sa_connectionstring" {
-  value     = module.eventhub.*.eventhub_sa_connectionstring[0]
+  value     = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_sa_connectionstring[0] : null
   sensitive = true
 }
 
 output "eventhub_sa_container" {
-  value = module.eventhub.*.eventhub_sa_container[0]
+  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_sa_container[0] : null
 }
 
 output "eventhub_function_listener_name" {
-  value = module.eventhub.*.function_listener_name[0]
+  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.function_listener_name[0] : null
 }
 
 output "eventhub_function_listener_id" {
-  value = module.eventhub.*.function_listener_id[0]
+  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.function_listener_id[0] : null
 }
 
 # Core State Query Outputs (to reduce variable duplication)
