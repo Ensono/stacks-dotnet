@@ -145,8 +145,8 @@
 				"_gitattributes": ".gitattributes",
 				"build/github/aws/ci_TEMPLATE.yml": ".github/workflows/ci.yml",
 				"build/github/aws/env/simple-api.env": ".github/workflows/ci.env",
-				"build/azDevOps/azure/ci_TEMPLATE.yml": "build/azDevOps/azure/ci.yml",
-				"build/azDevOps/azure/ci-simple-api-vars_TEMPLATE.yml": "build/azDevOps/azure/ci-vars.yml"
+				"build/azDevOps/azure/ci.yml": "build/azDevOps/azure/ci.yml",
+				"build/azDevOps/azure/ci-simple-api-vars.yml": "build/azDevOps/azure/ci-vars.yml"
 			},
 			"modifiers": [
 				{
@@ -155,7 +155,7 @@
 						"**/build/azDevOps/aws/**",
 						"**/build/azDevOps/gcp/**",
 						"**/build/azDevOps/azure/ensono/**",
-						"**/build/azDevOps/azure/ci-cqrs-vars_TEMPLATE.yml",
+						"**/build/azDevOps/azure/ci-cqrs-vars.yml",
 						"**/build/azDevOps/azure/models-packages-api.yml",
 						"**/build/azDevOps/azure/nuget-packages-api-vars.yml",
 						"**/build/azDevOps/azure/nuget-packages-api.yml",

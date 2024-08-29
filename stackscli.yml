@@ -11,16 +11,11 @@ pipeline:
   # Pipeline files for ADO
   - type: azdo
     files:
-      - name: build
-        path: build/azDevOps/azure/air-api.yml
       - name: variable
-        path: build/azDevOps/azure/air-api-vars.yml
+        path: build/azDevOps/azure/ci-vars.yml
     templates:
       - name: variable
-        path: build/azDevOps/azure/air-api-vars_TEMPLATE.yml
-    replacements:
-      - pattern: ^.*ensono-sp-creds$
-        value: ""
+        path: build/azDevOps/azure/ci-vars.yml
   # Pipeline files for GHA
   - type: gha
     files:
