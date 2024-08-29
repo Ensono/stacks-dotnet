@@ -12,7 +12,7 @@
 	"name": "Ensono Stacks CQRS Web API",
 	"identity": "Ensono.Stacks.CQRS.WebApi.CSharp",
 	"groupIdentity": "Ensono.Stacks.CQRS.WebApi",
-	"shortName": "stacks-cqrs-app",
+	"shortName": "stacks-cqrs",
 	"tags": {
 		"language": "C#",
 		"type": "project"
@@ -108,11 +108,11 @@
 			"defaultValue": "None",
 			"choices": [
 				{
-					"choice": "Azure",
+					"choice": "AZDO",
 					"description": "Targets Azure DevOps for CI/CD templates"
 				},
 				{
-					"choice": "GitHub",
+					"choice": "GHA",
 					"description": "Targets GitHub Actions for CI/CD templates"
 				},
 				{
@@ -169,11 +169,11 @@
 		},
 		"CiCdAzure": {
 			"type": "computed",
-			"value": "(cicdProvider == \"Azure\")"
+			"value": "(cicdProvider == \"AZDO\")"
 		},
 		"CiCdGitHub": {
 			"type": "computed",
-			"value": "(cicdProvider == \"GitHub\")"
+			"value": "(cicdProvider == \"GHA\")"
 		},
 		"CiCdNone": {
 			"type": "computed",
@@ -211,7 +211,7 @@
 			"rename": {
 				"_gitignore": ".gitignore",
 				"_gitattributes": ".gitattributes",
-				"build/github/aws/ci_TEMPLATE.yml": ".github/workflows/ci.yml",
+				"build/github/aws/ci.yml": ".github/workflows/ci.yml",
 				"build/github/aws/env/cqrs.env": ".github/workflows/ci.env"
 			},
 			"modifiers": [

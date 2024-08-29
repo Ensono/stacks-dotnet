@@ -35,7 +35,7 @@ cd test-templates
 
 # Generate the base templates
 dotnet new stacks-webapi -n Simple.WebAPI -do Menu
-dotnet new stacks-cqrs-app -n CQRS.Project -do Menu
+dotnet new stacks-cqrs -n CQRS.Project -do Menu
 dotnet new stacks-az-func-cosmosdb-worker -n Cosmos.Worker.Project
 dotnet new stacks-az-func-aeh-listener -n EventHub.Listener.Project -do Menu
 dotnet new stacks-az-func-asb-listener -n ServiceBus.Listener.Project -do Menu
