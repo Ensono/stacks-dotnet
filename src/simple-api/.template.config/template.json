@@ -61,11 +61,11 @@
 			"defaultValue": "None",
 			"choices": [
 				{
-					"choice": "Azure",
+					"choice": "AZDO",
 					"description": "Targets Azure DevOps for CI/CD templates"
 				},
 				{
-					"choice": "GitHub",
+					"choice": "GHA",
 					"description": "Targets GitHub Actions for CI/CD templates"
 				},
 				{
@@ -94,11 +94,11 @@
 		},
 		"CiCdAzure": {
 			"type": "computed",
-			"value": "(cicdProvider == \"Azure\")"
+			"value": "(cicdProvider == \"AZDO\")"
 		},
 		"CiCdGitHub": {
 			"type": "computed",
-			"value": "(cicdProvider == \"GitHub\")"
+			"value": "(cicdProvider == \"GHA\")"
 		},
 		"CiCdNone": {
 			"type": "computed",
@@ -143,7 +143,7 @@
 			"rename": {
 				"_gitignore": ".gitignore",
 				"_gitattributes": ".gitattributes",
-				"build/github/aws/ci_TEMPLATE.yml": ".github/workflows/ci.yml",
+				"build/github/aws/ci.yml": ".github/workflows/ci.yml",
 				"build/github/aws/env/simple-api.env": ".github/workflows/ci.env",
 				"build/azDevOps/azure/ci.yml": "build/azDevOps/azure/ci.yml",
 				"build/azDevOps/azure/ci-simple-api-vars.yml": "build/azDevOps/azure/ci-vars.yml"

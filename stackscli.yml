@@ -19,11 +19,11 @@ pipeline:
   # Pipeline files for GHA
   - type: gha
     files:
-      - name: build
-        path: .github/workflows/ci.yml
+      - name: variable
+        path: .github/workflows/ci.env
     templates:
-      - name: build
-        path: build/github/aws/ci_TEMPLATE.yml
+      - name: variable
+        path: .github/workflows/ci.env
 
 # The init stage are things that are required to run before the template is run
 init:
@@ -31,11 +31,11 @@ init:
     - action: cmd
       cmd: dotnet
       args: new -i .
-      desc: Install "stacks-webapi" template from the repo directory
+      desc: Install stacks templates from the repo directory
     - action: cmd
       cmd: dotnet
-      args: new stacks-webapi -n {{ .Input.Business.Company }}.{{ .Input.Business.Domain }} -o {{ .Project.Directory.WorkingDir }}
-      desc: Create a project using the "stacks-webapi" template
+      args: new stacks-{{ .Project.Framework.Option }} -n {{ .Input.Business.Company }}.{{ .Input.Business.Domain }} --domain {{ .Input.Business.Domain }} --cloudProvider {{ .Input.Cloud.Platform }} --cicdProvider {{ .Input.Pipeline }} -o {{ .Project.Directory.WorkingDir }}
+      desc: Create a project using the stacks template
     - action: cmd
       cmd: dotnet
       args: new --uninstall {{ .Project.Directory.TempDir }}
