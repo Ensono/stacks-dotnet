@@ -275,13 +275,13 @@ stages:
                     K8S_CLUSTER_TARGET: $(k8s_cluster_target_nonprod)
                     K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_nonprod)
                     # Helm Config
-                    HELM_VALUE_FILE: ${helm_value_file}
-                    HELM_CHART_FILE: ${helm_chart_file}
+                    HELM_VALUE_FILE: $(helm_value_file)
+                    HELM_CHART_FILE: $(helm_chart_file)
 
                 - task: PublishPipelineArtifact@1
                   displayName: "Upload: Helm Values"
                   inputs:
-                    path: ${helm_value_file}
+                    path: $(helm_value_file)
                     artifact: helm_values_dev
 
   - stage: Prod
@@ -447,11 +447,11 @@ stages:
                     K8S_CLUSTER_TARGET: $(k8s_cluster_target_prod)
                     K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_prod)
                     # Helm Config
-                    HELM_VALUE_FILEPATH: ${helm_value_file}
-                    HELM_CHART_FILEPATH: ${helm_chart_file}
+                    HELM_VALUE_FILEPATH: $(helm_value_file)
+                    HELM_CHART_FILEPATH: $(helm_chart_file)
 
                 - task: PublishPipelineArtifact@1
                   displayName: "Upload: Helm Values"
                   inputs:
-                    path: ${helm_value_file}
+                    path: $(helm_value_file)
                     artifact: helm_values_prod
