@@ -46,10 +46,38 @@ stages:
               DOCKER_IMAGE_TAG: $(version_number)
 
           - task: Bash@3
-            displayName: "TaskCTL: Build"
+            displayName: "TaskCTL: Lint"
             inputs:
               targetType: inline
-              script: taskctl build
+              script: taskctl lint
+
+          - task: Bash@3
+            displayName: "TaskCTL: Test"
+            inputs:
+              targetType: inline
+              script: taskctl test
+            env:
+              # Dotnet Build
+              SELF_REPO_SRC: $(self_repo_src)
+              # SonarQube
+              SONAR_ORG: $(sonar_organization)
+              SONAR_URL: $(sonar_url)
+              SONAR_TOKEN: $(SONAR_TOKEN)
+              SONAR_PROPERTIES: $(sonar_properties)
+              PROJECT_NAME: $(sonar_project_name)
+              BUILD_BUILDNUMBER: $(version_number)
+
+          - task: Bash@3
+            displayName: "TaskCTL: Build Functional Tests"
+            inputs:
+              targetType: inline
+              script: taskctl build:functional_tests
+
+          - task: Bash@3
+            displayName: "TaskCTL: Build Container"
+            inputs:
+              targetType: inline
+              script: taskctl build:container
             env:
               # Dotnet Build
               SELF_REPO_SRC: $(self_repo_src)
@@ -59,17 +87,11 @@ stages:
               ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
               ARM_CLIENT_ID: "$(azure-client-id)"
               ARM_CLIENT_SECRET: "$(azure-client-secret)"
-              # SonarQube
-              SONAR_ORG: $(sonar_organization)
-              SONAR_URL: $(sonar_url)
-              SONAR_TOKEN: $(SONAR_TOKEN)
-              SONAR_PROPERTIES: $(sonar_properties)
-              PROJECT_NAME: $(sonar_project_name)
-              BUILD_BUILDNUMBER: $(version_number)
               # Docker
               IMAGE_NAME: $(docker_image_name)
               DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
               REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
+              BUILD_BUILDNUMBER: $(version_number)
 
           # Upload test coverage results as artifacts
           - task: PublishCodeCoverageResults@1
@@ -253,8 +275,22 @@ stages:
                     K8S_CLUSTER_TARGET: $(k8s_cluster_target_nonprod)
                     K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_nonprod)
                     # Helm Config
-                    HELM_VALUE_FILE: ${helm_value_file}
-                    HELM_CHART_FILE: ${helm_chart_file}
+                    HELM_VALUE_FILE: $(helm_value_file)
+                    HELM_CHART_FILE: $(helm_chart_file)
+
+                - task: PublishPipelineArtifact@1
+                  displayName: "Upload: Helm Values"
+                  inputs:
+                    path: $(helm_value_file)
+                    artifact: helm_values_dev
+
+                - task: PublishTestResults@2
+                  inputs:
+                    testResultsFormat: VSTest
+                    testResultsFiles: '**/*.trx'
+                    searchFolder: $(Pipeline.Workspace)/s/testresults
+                    failTaskOnFailedTests: true # Optional
+                    testRunTitle: Dev Functional Test Report
 
   - stage: Prod
     dependsOn: Build
@@ -419,5 +455,19 @@ stages:
                     K8S_CLUSTER_TARGET: $(k8s_cluster_target_prod)
                     K8S_CLUSTER_IDENTIFIER: $(k8s_cluster_identifier_prod)
                     # Helm Config
-                    HELM_VALUE_FILEPATH: ${helm_value_file}
-                    HELM_CHART_FILEPATH: ${helm_chart_file}
+                    HELM_VALUE_FILEPATH: $(helm_value_file)
+                    HELM_CHART_FILEPATH: $(helm_chart_file)
+
+                - task: PublishPipelineArtifact@1
+                  displayName: "Upload: Helm Values"
+                  inputs:
+                    path: $(helm_value_file)
+                    artifact: helm_values_prod
+
+                - task: PublishTestResults@2
+                  inputs:
+                    testResultsFormat: VSTest
+                    testResultsFiles: '**/*.trx'
+                    searchFolder: $(Pipeline.Workspace)/s/testresults
+                    failTaskOnFailedTests: true # Optional
+                    testRunTitle: Prod Functional Test Report
