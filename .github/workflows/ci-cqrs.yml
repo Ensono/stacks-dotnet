@@ -1,7 +1,6 @@
 name: air.stacks-dotnet-cqrs
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - master
