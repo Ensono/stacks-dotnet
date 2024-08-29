@@ -36,7 +36,7 @@ variables:
   - template: nuget-packages-api-vars.yml
 
 stages:
-  - stage: Build
+#  - stage: Build
 #    jobs:
 #      - job: AppBuild
 #        pool:
