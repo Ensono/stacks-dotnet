@@ -278,6 +278,12 @@ stages:
                     HELM_VALUE_FILE: ${helm_value_file}
                     HELM_CHART_FILE: ${helm_chart_file}
 
+                - task: PublishPipelineArtifact@1
+                  displayName: "Upload: Helm Values"
+                  inputs:
+                    path: ${helm_value_file}
+                    artifact: helm_values_dev
+
   - stage: Prod
     dependsOn: Build
     condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
@@ -443,3 +449,9 @@ stages:
                     # Helm Config
                     HELM_VALUE_FILEPATH: ${helm_value_file}
                     HELM_CHART_FILEPATH: ${helm_chart_file}
+
+                - task: PublishPipelineArtifact@1
+                  displayName: "Upload: Helm Values"
+                  inputs:
+                    path: ${helm_value_file}
+                    artifact: helm_values_prod
