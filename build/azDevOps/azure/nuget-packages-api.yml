@@ -37,51 +37,50 @@ variables:
 
 stages:
   - stage: Build
-    condition: false
-    jobs:
-      - job: AppBuild
-        pool:
-          vmImage: $(pool_vm_image)
-        steps:
-          - checkout: self
-
-          - checkout: templates
-
-          # Updates the build number in Azure DevOps (requires refresh in the UI to see)
-          - bash: |
-              echo '##vso[build.updatebuildnumber]${{ variables.version_number }}'
-            displayName: 'Update: Build Number'
-
-          # Copy the files into the correct place for packaging
-          - task: Bash@3
-            displayName: Prepare for Packaging
-            inputs:
-              targetType: "inline"
-              workingDirectory: $(Agent.BuildDirectory)/s
-              script: |
-                cp $REPO_NAME/template.csproj .
-                mkdir ./templates
-                pushd templates
-                cp -r ${ROOT_SRC_DIR}/$REPO_NAME .
-                popd
-
-            env:
-              ROOT_SRC_DIR: $(Agent.BuildDirectory)/s
-              REPO_NAME: $(self_repo)
-
-          # Call template to build the package from the templates dir
-          - template: azDevOps/azure/templates/v2/steps/build-pack-test-dotnet.yml@templates
-            parameters:
-              package_path: $(Agent.BuildDirectory)/s
-              dotnet_core_version: '8.0.100'
-              version_variable_name: version_number
-
-          # Upload the packages as artefacts
-          - task: PublishPipelineArtifact@1
-            displayName: Publish Templates
-            inputs:
-              path: $(Agent.BuildDirectory)/a
-              artifact: packages
+#    jobs:
+#      - job: AppBuild
+#        pool:
+#          vmImage: $(pool_vm_image)
+#        steps:
+#          - checkout: self
+#
+#          - checkout: templates
+#
+#          # Updates the build number in Azure DevOps (requires refresh in the UI to see)
+#          - bash: |
+#              echo '##vso[build.updatebuildnumber]${{ variables.version_number }}'
+#            displayName: 'Update: Build Number'
+#
+#          # Copy the files into the correct place for packaging
+#          - task: Bash@3
+#            displayName: Prepare for Packaging
+#            inputs:
+#              targetType: "inline"
+#              workingDirectory: $(Agent.BuildDirectory)/s
+#              script: |
+#                cp $REPO_NAME/template.csproj .
+#                mkdir ./templates
+#                pushd templates
+#                cp -r ${ROOT_SRC_DIR}/$REPO_NAME .
+#                popd
+#
+#            env:
+#              ROOT_SRC_DIR: $(Agent.BuildDirectory)/s
+#              REPO_NAME: $(self_repo)
+#
+#          # Call template to build the package from the templates dir
+#          - template: azDevOps/azure/templates/v2/steps/build-pack-test-dotnet.yml@templates
+#            parameters:
+#              package_path: $(Agent.BuildDirectory)/s
+#              dotnet_core_version: '8.0.100'
+#              version_variable_name: version_number
+#
+#          # Upload the packages as artefacts
+#          - task: PublishPipelineArtifact@1
+#            displayName: Publish Templates
+#            inputs:
+#              path: $(Agent.BuildDirectory)/a
+#              artifact: packages
   - stage: GenerateReleaseNotes
     # dependsOn: Build
     jobs: 
