@@ -1,12 +1,6 @@
-resources:
-  repositories:
-    - repository: wiki # work around for security issue for pipelines to access the WIKI repo
-      type: git
-      name: Stacks/Stacks.Wiki
-      ref: wikiMaster
-
 parameters:
   text: ''
+  version: '1.0.0'
 
 jobs: 
 - job: Hello
@@ -14,3 +8,92 @@ jobs:
     - script: |
         echo "Hello, World! ${{ parameters.text }}"
       displayName: 'Print Hello World'
+- job: GenerateAndPublish
+  uses:
+    repositories: [wiki] # work around for security issue for pipelines to access the WIKI repo
+  steps:
+    - task: XplatGenerateReleaseNotes@4
+      displayName: Generate Release Notes
+      inputs:
+        outputfile: "$(Build.ArtifactStagingDirectory)/releasenotes.md"
+        templateLocation: "InLine"
+        inlinetemplate: |
+          ___
+          # {{buildDetails.buildNumber}}
+          - [Pipeline]({{buildDetails._links.web.href}})
+          **Work Items**
+          {{#if (gt workItems.length 0)}}
+            |Id|Type|Title|State|
+            |-|-|-|-|
+            {{#forEach this.workItems}}
+            |{{this.id}}|{{lookup this.fields 'System.WorkItemType'}}|[{{lookup this.fields 'System.Title'}}]({{replace this.url "_apis/wit/workItems" "_workitems/edit"}})|{{this.fields.System.State}}|
+            {{/forEach}}
+          {{else}}
+            - _None_
+          {{/if}}
+          **Pull Requests**
+          {{#if (gt pullRequests.length 0)}}
+            |Title|Description|Author|
+            |-|-|-|
+            {{#forEach this.pullRequests}}
+            |[{{this.title}}]({{replace (replace this.url "_apis/git/repositories" "_git") "pullRequests" "pullRequest"}})|{{this.description}}|{{this.createdBy.displayName}}|
+            {{/forEach}}
+          {{else}}
+            - _None_
+          {{/if}}
+          **Test Cases**
+          {{#if (gt tests.length 0)}}
+            |Title|Name|Outcome|Browser|Duration(ms)|Filename|
+            |-|-|-|-|-|-|
+            {{#forEach this.tests}}
+            |{{this.testCase.name}}|{{this.testCaseTitle}}|{{this.outcome}}|{{this.computerName}}|{{this.durationInMs}}|{{this.automatedTestStorage}}|
+            {{/forEach}}
+          {{else}}
+            - _None_
+          {{/if}}
+          **Commits**
+          {{#if (gt commits.length 0)}}
+            |Id|Message|Author|
+            |-|-|-|
+            {{#forEach this.commits}}
+            |{{this.id}}|{{get_only_message_firstline this.message}}|{{this.author.displayName}}|
+            {{/forEach}}
+          {{else}}
+            - _None_
+          {{/if}}
+          [Last Successful Release]({{compareBuildDetails._links.web.href}})
+          ___
+        checkStage: false # Looks for the last successful release.  Else release notes will be compared against the previous release.
+        replaceFile: false
+        getParentsAndChildren: false
+        getAllParents: false
+        getIndirectPullRequests: false
+        stopOnError: true
+        considerPartiallySuccessfulReleases: true
+        checkForManuallyLinkedWI: true # Picks up items manually linked rather than via commit message
+        wiqlFromTarget: "WorkItems"
+        dumpPayloadToFile: true
+        dumpPayloadFileName: $(Build.ArtifactStagingDirectory)/release-notes-payload.json
+    - task: PublishBuildArtifacts@1
+      displayName: "Publish Release Notes Payload"
+      inputs:
+        pathtoPublish: "$(Build.ArtifactStagingDirectory)/release-notes-payload.json"
+        artifactName: "release-notes-payload.json"
+
+    - task: WikiUpdaterTask@3
+      displayName: Publish Release Notes to WIKI
+      inputs:
+        repo: "https://ensonodigitaluk@dev.azure.com/ensonodigitaluk/Stacks/_git/Stacks.wiki"
+        branch: "wikiMaster"
+        filename: "Releases/ReleaseNotes/Release-$(Build.BuildNumber).md"
+        replaceFile: false # appends to the end of the existing WIKI
+        dataIsFile: true
+        sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
+        message: "Automatic commit from pipeline"
+        gitname: "pipeline"
+        gitemail: "pipeline@example.com"
+        useAgentToken: true
+        localpath: '$(System.DefaultWorkingDirectory)\repo'
+        updateOrderFile: true
+        prependEntryToOrderFile: true
+        injecttoc: true
