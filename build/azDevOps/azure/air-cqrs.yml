@@ -284,6 +284,14 @@ stages:
                     path: $(helm_value_file)
                     artifact: helm_values_dev
 
+                - task: PublishTestResults@2
+                  inputs:
+                    testResultsFormat: VSTest
+                    testResultsFiles: '**/*.trx'
+                    searchFolder: $(Pipeline.Workspace)/s/testresults
+                    failTaskOnFailedTests: true # Optional
+                    testRunTitle: Dev Functional Test Report
+
   - stage: Prod
     dependsOn: Build
     condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
@@ -455,3 +463,11 @@ stages:
                   inputs:
                     path: $(helm_value_file)
                     artifact: helm_values_prod
+
+                - task: PublishTestResults@2
+                  inputs:
+                    testResultsFormat: VSTest
+                    testResultsFiles: '**/*.trx'
+                    searchFolder: $(Pipeline.Workspace)/s/testresults
+                    failTaskOnFailedTests: true # Optional
+                    testRunTitle: Prod Functional Test Report
