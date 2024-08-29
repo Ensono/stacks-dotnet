@@ -12,7 +12,7 @@ variables:
   - name: self_generic_name
     value: stacks-api
 
-  # TODO: Why is this needed..?
+  # Azure DevOps Group containing the SONAR_TOKEN secret
   - group: stacks-dotnet-api
 
   - name: cloud_provider
@@ -134,21 +134,6 @@ variables:
     value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
-
-  # Dashboard
-  - name: DASHBOARD_VERSION
-    value: $(Build.BuildNumber)
-  - name: DASHBOARD_TAGS
-    value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
-  - name: DASHBOARD_MEASUREMENT
-    value: deployment # Static definition within Influx Config
-    # yamllint disable rule:comments-indentation
-  # - group: ensono-stacks-influx-credentials-prod
-    # Group should contain:
-      # DASHBOARD_INFLUX_ORG
-      # DASHBOARD_INFLUX_BUCKET
-      # DASHBOARD_INFLUX_TOKEN
-      # DASHBOARD_INFLUX_SERVER
 
   # Application
   - name: create_cosmosdb
