@@ -12,7 +12,7 @@ trigger:
       - "*"
 
 variables:
-  - template: air-api-vars.yml
+  - template: ci-vars.yml
 
 stages:
   - stage: Build
@@ -25,7 +25,7 @@ stages:
           vmImage: $(pool_vm_image)
 
         steps:
-          - template: ../templates/air-api-setup.yml
+          - template: ../templates/taskctl-setup.yml
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -139,7 +139,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../templates/air-api-setup.yml
+                - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -201,7 +201,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../templates/air-api-setup.yml
+                - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -315,7 +315,7 @@ stages:
             deploy:
               steps:
 
-                - template: ../templates/air-api-setup.yml
+                - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -377,7 +377,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../templates/air-api-setup.yml
+                - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
