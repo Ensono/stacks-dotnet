@@ -1,9 +1,10 @@
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Events;
+using System;
 using Microsoft.Extensions.Logging;
+using xxENSONOxx.xxSTACKSxx.CQRS.Enums;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
-{
-    /// <summary>
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
+
+/// <summary>
     /// Contains log definitions for SNS component
     /// LoggerMessage.Define() creates a unique template for each log type
     /// The log template reduces the number of allocations and write logs faster to destination
@@ -64,4 +65,3 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
             LogException(logger, ex);
         }
     }
-}

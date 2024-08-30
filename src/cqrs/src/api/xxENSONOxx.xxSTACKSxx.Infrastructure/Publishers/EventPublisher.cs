@@ -1,19 +1,19 @@
+using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
-{
-    /// <summary>
-    /// Class implementing the ability to publish an event to AWS SNS
-    /// </summary>
-    public class EventPublisher(
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
+
+public class EventPublisher(
         IOptions<AwsSnsConfiguration> configuration,
         ISecretResolver<string> secretResolver,
         IAmazonSimpleNotificationService snsClient,
@@ -49,14 +49,13 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
 
                 logger.PublishEventCompleted(applicationEvent.CorrelationId.ToString());
             }
-            catch (AmazonSimpleNotificationServiceException? exception)
+            catch (AmazonSimpleNotificationServiceException exception)
             {
                 logger.PublishEventFailed(applicationEvent.CorrelationId.ToString(), exception.Message, exception);
             }
-            catch (AmazonClientException? exception)
+            catch (AmazonClientException exception)
             {
                 logger.PublishEventFailed(applicationEvent.CorrelationId.ToString(), exception.Message, exception);
             }
         }
     }
-}

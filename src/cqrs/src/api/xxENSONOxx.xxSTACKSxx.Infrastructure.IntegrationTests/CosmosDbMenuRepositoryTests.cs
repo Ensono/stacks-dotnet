@@ -1,15 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB;
-using xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings;
-using AutoFixture;
-using AutoFixture.Xunit2;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Domain;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
@@ -18,7 +10,7 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests;
 
 /// <summary>
 /// The purpose of this integration test is to validate the implementation
-/// of MenuRepository againt the data store at development\integration
+/// of MenuRepository against the data store at development\integration
 /// It is not intended to test if the configuration is valid for a release
 /// Configuration issues will be surfaced on e2e or acceptance tests
 /// </summary>
@@ -27,7 +19,7 @@ public class CosmosDbMenuRepositoryTests
 {
     public CosmosDbMenuRepositoryTests()
     {
-        var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
+        var settings = Shared.Testing.Settings.Configuration.For<CosmosDbConfiguration>("CosmosDB");
         //Notes:
         // if using an azure instance to run the tests, make sure you set the environment variable before you start visual studio
         // Ex: CMD C:\> setx COSMOSDB_KEY=ABCDEFGASD==
@@ -87,24 +79,5 @@ public class CosmosDbMenuRepositoryTests
         await repository.DeleteAsync(menu.Id);
         dbItem = await repository.GetByIdAsync(menu.Id);
         Assert.Null(dbItem);
-    }
-}
-
-public class MenuRepositoryAutoData() : AutoDataAttribute(Customizations)
-{
-    public static IFixture Customizations()
-    {
-        var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
-
-        IFixture fixture = new Fixture();
-
-        var loggerFactory = Substitute.For<ILoggerFactory>();
-        loggerFactory.CreateLogger(Arg.Any<string>()).Returns(new Logger<CosmosDbDocumentStorage<Menu>>(loggerFactory));
-        fixture.Register<ILogger<CosmosDbDocumentStorage<Menu>>>(() => new Logger<CosmosDbDocumentStorage<Menu>>(loggerFactory));
-        fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
-        fixture.Register<IOptions<CosmosDbConfiguration>>(() => settings.AsOption());
-        fixture.Register<IDocumentStorage<Menu>>(() => fixture.Create<CosmosDbDocumentStorage<Menu>>());
-
-        return fixture;
     }
 }
