@@ -14,10 +14,6 @@ using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers;
 using xxENSONOxx.xxSTACKSxx.Domain;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.HealthChecks;
-#if (EventPublisherAwsSns)
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Extensions;
-#endif
 #if (CosmosDb || DynamoDb)
 using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB;
 using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Extensions;
@@ -61,7 +57,7 @@ public static class DependencyRegistration
 #elif (EventPublisherAwsSns)
         services.Configure<AwsSnsConfiguration>(configuration.GetSection("AwsSnsConfiguration"));
         services.AddAwsSns(configuration);
-        services.AddTransient<IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher.EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, EventPublisher>();
 #elif (EventPublisherNone)
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #else
