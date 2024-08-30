@@ -84,7 +84,7 @@ stages:
   - stage: GenerateReleaseNotes
     # dependsOn: Build
     jobs: 
-    - template: release-notes.yml
+    - template: ../release-notes.yml
       parameters: {
         text: 'This is a test'
       }

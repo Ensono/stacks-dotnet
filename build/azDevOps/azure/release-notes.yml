@@ -91,7 +91,7 @@ jobs:
         sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
         message: "Automatic commit from pipeline"
         gitname: "pipeline"
-        gitemail: "pipeline@example.com"
+        gitemail: "pipeline@example.com" # this should be a variable
         useAgentToken: true
         localpath: '$(System.DefaultWorkingDirectory)\repo'
         updateOrderFile: true
