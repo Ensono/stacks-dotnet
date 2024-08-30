@@ -16,7 +16,7 @@ data:
               "Serilog.Sinks.ApplicationInsights"
           ],
           "MinimumLevel": {
-              "Default": " {{ .Values.pod.loglevel }}",
+              "Default": "{{ .Values.pod.loglevel }}",
               "Override": {}
           },
           "WriteTo": [
@@ -47,6 +47,52 @@ data:
               "TokenUrl": "${jwtbearerauthentication_openapitokenurl}"
           }
       },
+      {{- if eq .Values.cloudProvider "azure" }}
+      {{- if and .Values.app.sbTopic .Values.app.sbConnectionstring }}
+      "ServiceBusConfiguration": {
+        "Sender": {
+          "Topics": [
+            {
+              "Name": "{{ .Values.app.sbTopic }}",
+              "ConnectionStringSecret": {
+                "Identifier": "SERVICEBUS_CONNECTIONSTRING",
+                "Source": "Environment"
+              }
+            }
+          ]
+        }
+      },
+      {{- end }}
+      {{- if and .Values.app.cosmosdbName .Values.app.cosmosdbEndpoint }}
+      "CosmosDb": {
+        "DatabaseAccountUri": "{{ .Values.app.cosmosdbEndpoint }}",
+        "DatabaseName": "{{ .Values.app.cosmosdbName }}",
+        "SecurityKeySecret": {
+          "Identifier": "COSMOSDB_KEY",
+          "Source": "Environment"
+        }
+      },
+      {{- end }}
+      {{- end }}
+      {{- if eq .Values.cloudProvider "aws" }}
+      "AWS": {
+        "Region": "{{ .Values.region }}"
+      },
+      {{- if .Values.app.snsTopicArn }}
+      "AwsSnsConfiguration": {
+        "TopicArn": {
+          "Identifier": "TOPIC_ARN",
+          "Source": "Environment"
+        }
+      },
+      {{- end }}
+      {{- if .Values.app.dynamodbTableName }}
+      "DynamoDb": {
+        "TableName": "{{ .Values.app.dynamodbTableName }}",
+        "TablePrefix": "{{ .Values.env }}"
+      },
+      {{- end }}
+      {{- end }}
       "TestConfig": "Test value from file",
       "Values": {
         "Items": [

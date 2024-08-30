@@ -1,16 +1,19 @@
 variables:
   - name: region
-    value: {{ .Project.Cloud.Region }}
+    value: westeurope
   - name: company
-    value: {{ .Input.Business.Company }}
+    value: ensono
   - name: project
-    value: {{ .Project.Name }}
+    value: stacks
   - name: domain
-    value: {{ .Input.Business.Domain }}
+    value: netcore-api-cqrs
   - name: self_repo
-    value: {{ .Project.Name }}
+    value: stacks-dotnet
   - name: self_generic_name
-    value: $(company)-$(domain)
+    value: stacks-api-cqrs
+
+  # Azure DevOps Group containing the SONAR_TOKEN secret
+  - group: stacks-dotnet-api
 
   - name: cloud_provider
     value: "azure"
@@ -22,21 +25,24 @@ variables:
   # Stacks operates Terraform states based on workspaces **IT IS VERY IMPORTANT** that you ensure a unique name for each application definition
   # Furthermore **IT IS VERY IMPORTANT** that you change the name of a workspace for each deployment stage
   # there are some best practices around this if you are going for feature based environments
+  # - we suggest you create a runtime variable that is dynamically set based on a branch currently running
+  # **`terraform_state_workspace: `**
   # avoid running anything past dev that is not on master
+  # sample value: company-webapp
   - name: tf_state_rg
-    value: {{ .Input.Terraform.Backend.Group }}
+    value: stacks-terraform-state
   - name: tf_state_storage
-    value: {{ .Input.Terraform.Backend.Storage }}
+    value: stacksstatehjfis
   - name: tf_state_container
-    value: {{ .Input.Terraform.Backend.Container }}
+    value: tfstate
   - name: tf_state_key
-    value: $(self_generic_name)
+    value: $(domain)
   - name: TF_FILE_LOCATION
     value: deploy/azure/app/kube
 
   # App Specific Taxonomy
   - name: resource_def_name
-    value: $(self_generic_name)
+    value: dotnet-api
   - name: component
     value: api
   - name: role
@@ -44,11 +50,11 @@ variables:
   - name: k8s_app_route
     value: /api/menu
   - name: app_name
-    value: $(self_generic_name)
+    value: yumido-netcore-api-cqrs
 
   # Agent configuration
   - name: TaskctlVersion
-    value: 1.4.2
+    value: 1.5.2
   - name: pool_vm_image
     value: ubuntu-20.04
 
@@ -56,7 +62,7 @@ variables:
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
   - name: self_repo_src
-    value: src/api
+    value: src/cqrs/src/api
   - name: self_repo_dir
     value: "$(Agent.BuildDirectory)/s/$(self_repo)"
   - name: self_repo_tf_src
@@ -65,33 +71,36 @@ variables:
     value: "$(self_repo_dir)/$(self_repo_tf_src)"
 
   # SonarQube Configuration
-  # SONAR_TOKEN and SONAR_ORGANIZATION must be inherited from library groups/etc.
+  # SONAR_TOKEN must be inherited from library groups/etc.
+  - name: sonar_organization
+    value: ensono
   - name: sonar_url
     value: "https://sonarcloud.io"
   - name: sonar_properties
     value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
   - name: sonar_project_name
-    value: {{ .Project.Name }}
+    value: stacks-dotnet-cqrs
 
   # Test Configuration
   - name: FUNCTIONAL_TESTS_SRC_DIR
-    value: src/tests/Functional
+    value: src/cqrs/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR
     value: /app/tests
   - name: FUNCTIONAL_TEST_BASEURL
-    value: https://$(Environment.ShortName)-$(domain).$(dns_base_domain)$(k8s_app_route)/
+    value: https://$(Environment.ShortName)-${{ variables.domain }}.$(dns_base_domain)$(k8s_app_route)/
 
   # Docker Container registry configuration (used for image tagging and pushing)
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
+  # TODO: Promotion is now doing nothing as same registry for both envs, consider removing or creating another registry for Prod
   - name: docker_container_registry_rg_name_nonprod
-    value:
+    value: Stacks-Ancillary-Resources
   - name: docker_container_registry_name_nonprod
-    value:
+    value: ensonoeuw
   - name: docker_container_registry_rg_name_prod
-    value:
+    value: Stacks-Ancillary-Resources
   - name: docker_container_registry_name_prod
-    value:
+    value: ensonoeuw
 
   # Kubernetes & Docker Image Settings
   - name: docker_image_tag
@@ -102,13 +111,13 @@ variables:
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
   - name: k8s_cluster_target_nonprod
-    value:
+    value: ed-stacks-nonprod-euw-core
   - name: k8s_cluster_identifier_nonprod
-    value:
+    value: ed-stacks-nonprod-euw-core
   - name: k8s_cluster_target_prod
-    value:
+    value: ed-stacks-prod-euw-core
   - name: k8s_cluster_identifier_prod
-    value:
+    value: ed-stacks-prod-euw-core
 
   # Helm file locations
   - name: helm_chart_file
@@ -118,7 +127,7 @@ variables:
 
   # Versioning
   - name: version_major
-    value: 0
+    value: 7
   - name: version_minor
     value: 0
   - name: version_revision
@@ -126,16 +135,8 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
-  # Dashboard
-  - name: DASHBOARD_VERSION
-    value: $(Build.BuildNumber)
-  - name: DASHBOARD_TAGS
-    value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
-  - name: DASHBOARD_MEASUREMENT
-    value: deployment # Static definition within Influx Config
-   # - group: InfluxCloud_Credentials_Group_Name
-    # Group should contain:
-      # DASHBOARD_INFLUX_ORG
-      # DASHBOARD_INFLUX_BUCKET
-      # DASHBOARD_INFLUX_TOKEN
-      # DASHBOARD_INFLUX_SERVER
+  # Application
+  - name: create_cosmosdb
+    value: true
+  - name: app_bus_type
+    value: servicebus

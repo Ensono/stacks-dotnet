@@ -212,7 +212,9 @@
 				"_gitignore": ".gitignore",
 				"_gitattributes": ".gitattributes",
 				"build/github/aws/ci.yml": ".github/workflows/ci.yml",
-				"build/github/aws/env/cqrs.env": ".github/workflows/ci.env"
+				"build/github/aws/env/cqrs.env": ".github/workflows/ci.env",
+				"build/azDevOps/azure/ci.yml": "build/azDevOps/azure/ci.yml",
+				"build/azDevOps/azure/ci-cqrs-vars.yml": "build/azDevOps/azure/ci-vars.yml"
 			},
 			"modifiers": [
 				{
@@ -261,6 +263,12 @@
 					"exclude": [
 						"**/build/azDevOps/aws/**",
 						"**/build/azDevOps/gcp/**",
+						"**/build/azDevOps/azure/ensono/**",
+						"**/build/azDevOps/azure/ci-simple-api-vars.yml",
+						"**/build/azDevOps/azure/models-packages-api.yml",
+						"**/build/azDevOps/azure/nuget-packages-api-vars.yml",
+						"**/build/azDevOps/azure/nuget-packages-api.yml",
+						"**/build/azDevOps/azure/packages-api-models.yml",
 						"**/build/github/aws/**",
 						"**/build/github/gcp/**",
 						"**/deploy/aws/**",

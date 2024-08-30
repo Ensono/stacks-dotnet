@@ -1,19 +1,19 @@
 variables:
   - name: region
-    value: westeurope
+    value: {{ .Project.Cloud.Region }}
   - name: company
-    value: ensono
+    value: {{ .Input.Business.Company }}
   - name: project
-    value: stacks
+    value: {{ .Project.Name }}
   - name: domain
-    value: netcore-api
+    value: {{ .Input.Business.Domain }}-cqrs
   - name: self_repo
-    value: stacks-dotnet
+    value: {{ .Project.Name }}
   - name: self_generic_name
-    value: stacks-api
+    value: $(company)-$(domain)-cqrs
 
-  # TODO: Why is this needed..?
-  - group: stacks-dotnet-api
+  # Azure DevOps Group containing the SONAR_TOKEN secret
+  - group: replaceme
 
   - name: cloud_provider
     value: "azure"
@@ -30,19 +30,19 @@ variables:
   # avoid running anything past dev that is not on master
   # sample value: company-webapp
   - name: tf_state_rg
-    value: stacks-terraform-state
+    value: {{ .Input.Terraform.Backend.Group }}
   - name: tf_state_storage
-    value: stacksstatehjfis
+    value: {{ .Input.Terraform.Backend.Storage }}
   - name: tf_state_container
-    value: tfstate
+    value: {{ .Input.Terraform.Backend.Container }}
   - name: tf_state_key
-    value: $(domain)
+    value: $(self_generic_name)
   - name: TF_FILE_LOCATION
     value: deploy/azure/app/kube
 
   # App Specific Taxonomy
   - name: resource_def_name
-    value: dotnet-api
+    value: $(self_generic_name)
   - name: component
     value: api
   - name: role
@@ -50,7 +50,7 @@ variables:
   - name: k8s_app_route
     value: /api/menu
   - name: app_name
-    value: yumido-netcore-api
+    value: $(self_generic_name)
 
   # Agent configuration
   - name: TaskctlVersion
@@ -62,7 +62,7 @@ variables:
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
   - name: self_repo_src
-    value: src/simple-api/src/api
+    value: src/cqrs/src/api
   - name: self_repo_dir
     value: "$(Agent.BuildDirectory)/s/$(self_repo)"
   - name: self_repo_tf_src
@@ -73,17 +73,17 @@ variables:
   # SonarQube Configuration
   # SONAR_TOKEN must be inherited from library groups/etc.
   - name: sonar_organization
-    value: ensono
+    value: {{ .Input.Business.Company }}
   - name: sonar_url
     value: "https://sonarcloud.io"
   - name: sonar_properties
     value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
   - name: sonar_project_name
-    value: Ensono_stacks-dotnet-azure
+    value: {{ .Project.Name }}
 
   # Test Configuration
   - name: FUNCTIONAL_TESTS_SRC_DIR
-    value: src/tests/Functional
+    value: src/cqrs/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR
     value: /app/tests
   - name: FUNCTIONAL_TEST_BASEURL
@@ -94,13 +94,13 @@ variables:
   # TODO: which do not inherit the state variables yet
   # TODO: Promotion is now doing nothing as same registry for both envs, consider removing or creating another registry for Prod
   - name: docker_container_registry_rg_name_nonprod
-    value: Stacks-Ancillary-Resources
+    value:
   - name: docker_container_registry_name_nonprod
-    value: ensonoeuw
+    value:
   - name: docker_container_registry_rg_name_prod
-    value: Stacks-Ancillary-Resources
+    value:
   - name: docker_container_registry_name_prod
-    value: ensonoeuw
+    value:
 
   # Kubernetes & Docker Image Settings
   - name: docker_image_tag
@@ -111,13 +111,13 @@ variables:
   # TODO: Despite being available in the TF State, these are required in other steps
   # TODO: which do not inherit the state variables yet
   - name: k8s_cluster_target_nonprod
-    value: ed-stacks-nonprod-euw-core
+    value:
   - name: k8s_cluster_identifier_nonprod
-    value: ed-stacks-nonprod-euw-core
+    value:
   - name: k8s_cluster_target_prod
-    value: ed-stacks-prod-euw-core
+    value:
   - name: k8s_cluster_identifier_prod
-    value: ed-stacks-prod-euw-core
+    value:
 
   # Helm file locations
   - name: helm_chart_file
@@ -127,7 +127,7 @@ variables:
 
   # Versioning
   - name: version_major
-    value: 7
+    value: 0
   - name: version_minor
     value: 0
   - name: version_revision
@@ -135,17 +135,8 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
-  # Dashboard
-  - name: DASHBOARD_VERSION
-    value: $(Build.BuildNumber)
-  - name: DASHBOARD_TAGS
-    value: environment=$(System.StageName),source=$(Build.SourceBranchName),app=$(Build.DefinitionName)
-  - name: DASHBOARD_MEASUREMENT
-    value: deployment # Static definition within Influx Config
-    # - group: ensono-stacks-influx-credentials-prod
-    # yamllint disable rule:comments-indentation
-    # Group should contain:
-      # DASHBOARD_INFLUX_ORG
-      # DASHBOARD_INFLUX_BUCKET
-      # DASHBOARD_INFLUX_TOKEN
-      # DASHBOARD_INFLUX_SERVER
+  # Application
+  - name: create_cosmosdb
+    value: true
+  - name: app_bus_type
+    value: "servicebus"

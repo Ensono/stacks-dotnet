@@ -77,6 +77,24 @@ spec:
                 secretKeyRef:
                   name: {{ include "stacks-dotnet.secretName" . }}
                   key: app_insights
+            {{- if .Values.app.sbConnectionstring }}
+            - name: SERVICEBUS_CONNECTIONSTRING
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "stacks-dotnet.secretName" . }}
+                  key: servicebus_connectionstring
+            {{- end }}
+            {{- if .Values.app.cosmosdbKey }}
+            - name: COSMOSDB_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "stacks-dotnet.secretName" . }}
+                  key: cosmos_key
+            {{- end }}
+            {{- end }}
+            {{- if and (eq .Values.cloudProvider "aws") .Values.app.snsTopicArn }}
+            - name: TOPIC_ARN
+              value: {{ .Values.app.snsTopicArn}}
             {{- end }}
           volumeMounts:
             - name: appsettings

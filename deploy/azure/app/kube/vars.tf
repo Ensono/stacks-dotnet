@@ -87,8 +87,17 @@ variable "create_cdn_endpoint" {
 }
 
 variable "app_bus_type" {
-  type    = string
-  default = "servicebus"
+  description = "Which app bus to use."
+  type        = string
+  default     = ""
+  validation {
+    condition = anytrue([
+      contains(split(",", var.app_bus_type), "servicebus"),
+      contains(split(",", var.app_bus_type), "eventhub"),
+      var.app_bus_type == ""
+    ])
+    error_message = "The app_bus_type variable must contain servicebus or eventhub."
+  }
 }
 
 ###########################
