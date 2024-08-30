@@ -35,10 +35,7 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
             logger.PublishEventRequested(applicationEvent.CorrelationId.ToString());
 
             var topicArn = await secretResolver.ResolveSecretAsync(configuration.Value.TopicArn);
-            var jsonOptions = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
+            var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             var message = JsonSerializer.Serialize<object>(applicationEvent, jsonOptions);
             var messageRequest = new PublishRequest
             {
@@ -52,11 +49,11 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
 
                 logger.PublishEventCompleted(applicationEvent.CorrelationId.ToString());
             }
-            catch (AmazonSimpleNotificationServiceException exception)
+            catch (AmazonSimpleNotificationServiceException? exception)
             {
                 logger.PublishEventFailed(applicationEvent.CorrelationId.ToString(), exception.Message, exception);
             }
-            catch (AmazonClientException exception)
+            catch (AmazonClientException? exception)
             {
                 logger.PublishEventFailed(applicationEvent.CorrelationId.ToString(), exception.Message, exception);
             }

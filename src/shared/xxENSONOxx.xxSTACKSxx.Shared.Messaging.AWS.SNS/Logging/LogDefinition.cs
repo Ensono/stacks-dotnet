@@ -10,7 +10,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
     /// </summary>
     public static class LogDefinition
     {
-        /// Failures with exceptions should be logged to respective failures(i.e: getByIdFailed) and then to logException in order to show them as separate entries in the logs(trace + exception
         private static readonly Action<ILogger, string, Exception> logException =
             LoggerMessage.Define<string>(
                 LogLevel.Error,
@@ -18,7 +17,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
                 "AWS SNS Exception: {Message}"
             );
 
-        // Publishing
         private static readonly Action<ILogger, string, Exception> publishEventRequested =
             LoggerMessage.Define<string>(
                 LogLevel.Information,
@@ -40,19 +38,16 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
                 "AWS SNS: PublishAsync failed for CorrelationId:{CorrelationId}. Reason:{Reason}"
             );
 
-        //Exception
-
         /// <summary>
         /// When an exception is present in the failure, it will be logged as exception message instead of trace.
         /// Logging messages with an exception will make them an exception and the trace will lose an entry, making harder to debug issues
         /// </summary>
-        private static void LogException(ILogger logger, Exception exception)
+        private static void LogException(ILogger logger, Exception? exception)
         {
             if (exception is not null)
                 logException(logger, exception.Message, exception);
         }
 
-        // Publishing
         public static void PublishEventRequested(this ILogger logger, string correlationId)
         {
             publishEventRequested(logger, correlationId, null!);
@@ -63,7 +58,7 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
             publishEventCompleted(logger, correlationId, null!);
         }
 
-        public static void PublishEventFailed(this ILogger logger, string correlationId, string reason, Exception ex)
+        public static void PublishEventFailed(this ILogger logger, string correlationId, string reason, Exception? ex)
         {
             publishEventFailed(logger, correlationId, reason, null!);
             LogException(logger, ex);
