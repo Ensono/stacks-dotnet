@@ -93,15 +93,15 @@ public static class DependencyRegistration
     {
         log.Information("Loading implementations of {interface}", typeof(ICommandHandler<,>).Name);
         
-        services.AddTransient< ICommandHandler<CreateCategory, Guid>, CreateCategoryCommandHandler>();
-        services.AddTransient< ICommandHandler<DeleteCategory, bool>, DeleteCategoryCommandHandler>();
-        services.AddTransient< ICommandHandler<UpdateCategory, bool>, UpdateCategoryCommandHandler>();
-        services.AddTransient< ICommandHandler<CreateMenu, Guid>, CreateMenuCommandHandler>();
-        services.AddTransient< ICommandHandler<DeleteMenu, bool>, DeleteMenuCommandHandler>();
-        services.AddTransient< ICommandHandler<UpdateMenu, bool>, UpdateMenuCommandHandler>();
-        services.AddTransient< ICommandHandler<CreateMenuItem, Guid>, CreateMenuItemCommandHandler>();
-        services.AddTransient< ICommandHandler<DeleteMenuItem, bool>, DeleteMenuItemCommandHandler>();
-        services.AddTransient< ICommandHandler<UpdateMenuItem, bool>, UpdateMenuItemCommandHandler>();
+        services.AddTransient<ICommandHandler<CreateCategory, Guid>, CreateCategoryCommandHandler>();
+        services.AddTransient<ICommandHandler<DeleteCategory, bool>, DeleteCategoryCommandHandler>();
+        services.AddTransient<ICommandHandler<UpdateCategory, bool>, UpdateCategoryCommandHandler>();
+        services.AddTransient<ICommandHandler<CreateMenu, Guid>, CreateMenuCommandHandler>();
+        services.AddTransient<ICommandHandler<DeleteMenu, bool>, DeleteMenuCommandHandler>();
+        services.AddTransient<ICommandHandler<UpdateMenu, bool>, UpdateMenuCommandHandler>();
+        services.AddTransient<ICommandHandler<CreateMenuItem, Guid>, CreateMenuItemCommandHandler>();
+        services.AddTransient<ICommandHandler<DeleteMenuItem, bool>, DeleteMenuItemCommandHandler>();
+        services.AddTransient<ICommandHandler<UpdateMenuItem, bool>, UpdateMenuItemCommandHandler>();
     }
 
     private static void AddQueryHandlers(IServiceCollection services)
