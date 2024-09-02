@@ -1,18 +1,20 @@
+#if (EventPublisherAwsSns)
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests;
 
 public class EventPublisherTests
 {
@@ -148,3 +150,4 @@ public class EventPublisherTests
 			.MustHaveHappenedOnceExactly();
 	}
 }
+#endif

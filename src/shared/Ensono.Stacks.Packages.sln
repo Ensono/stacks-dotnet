@@ -40,10 +40,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests", "xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.csproj", "{688708D6-CF24-452C-BBFD-59161F982AA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS", "xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.csproj", "{7BEFAEE8-4F24-434B-ABEA-4E904804266C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests", "xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests.csproj", "{C63011EA-2C53-495B-96F8-71124DB6236C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub", "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj", "{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests", "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests.csproj", "{70705814-2618-48A3-AD93-EF77089BE7B3}"

@@ -258,6 +258,16 @@
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Fakes/DummyEventPublisher.cs"
 					]
 				},
+                {
+                    "condition": "(!EventPublisherAwsSns)",
+                    "exclude": [
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Publishers/EventPublisher.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Logging/LoggingDefinition.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Extensions/ServiceCollectionExtensions.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/AwsSnsConfiguration.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/EventPublisherTests.cs"
+                    ]
+                },
 				{
 					"condition": "(CloudProviderAzure)",
 					"exclude": [
