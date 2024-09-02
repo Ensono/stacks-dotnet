@@ -1,53 +1,74 @@
 ﻿using System.IO;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration.Extensions;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
+using Microsoft.Extensions.Logging;
+using OpenTelemetry;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.Handlers;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Configuration.Extensions;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 
-namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker;
-
-public class Program
-{
-    public static void Main(string[] args)
+var host = new HostBuilder()
+    .ConfigureAppConfiguration(config =>
     {
-        CreateWebHostBuilder(args).Build().Run();
-    }
+        config.SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
+    })
+    .ConfigureLogging((context, logging) =>
+    {
+        logging.ClearProviders();
+        logging.AddConsole();
+        logging.AddOpenTelemetry(options =>
+        {
+            options.IncludeFormattedMessage = true;
+            options.IncludeScopes = true;
+            options.AddConsoleExporter();
+        });
+    })
+    .ConfigureServices((context, services) =>
+    {
+        services.AddOpenTelemetry().WithTracing(builder =>
+        {
+            builder.AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddConsoleExporter();
+        });
 
-    public static IHostBuilder CreateWebHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration(config =>
-            {
-                config.SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json", optional: true);
-            })
-            .ConfigureLogging((context, builder) =>
-            {
-                Log.Logger = new LoggerConfiguration()
-                    .ReadFrom.Configuration(context.Configuration)
-                    .CreateLogger();
-            })
-            .UseSerilog()
-            .ConfigureServices((hostContext, services) =>
-            {
-                services.AddTransient<IApplicationEventHandler<CategoryCreatedEvent>, CategoryCreatedEventHandler>();
-                services.AddTransient<IApplicationEventHandler<CategoryUpdatedEvent>, CategoryUpdatedEventHandler>();
-                services.AddTransient<IApplicationEventHandler<CategoryDeletedEvent>, CategoryDeletedEventHandler>();
-                services.AddTransient<IApplicationEventHandler<MenuCreatedEvent>, MenuCreatedEventHandler>();
-                services.AddTransient<IApplicationEventHandler<MenuUpdatedEvent>, MenuUpdatedEventHandler>();
-                services.AddTransient<IApplicationEventHandler<MenuDeletedEvent>, MenuDeletedEventHandler>();
-                services.AddTransient<IApplicationEventHandler<MenuItemCreatedEvent>, MenuItemCreatedEventHandler>();
-                services.AddTransient<IApplicationEventHandler<MenuItemUpdatedEvent>, MenuItemUpdatedEventHandler>();
-                services.AddTransient<IApplicationEventHandler<MenuItemDeletedEvent>, MenuItemDeletedEventHandler>();
+        services.AddOpenTelemetry().WithMetrics(builder =>
+        {
+            builder.AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddRuntimeInstrumentation()
+                .AddConsoleExporter();
+        });
+
+        services.AddOpenTelemetry().UseOtlpExporter();
+
+        services.AddOpenTelemetry().UseAzureMonitor();
+        
+        services.AddTransient<IApplicationEventHandler<CategoryCreatedEvent>, CategoryCreatedEventHandler>();
+        services.AddTransient<IApplicationEventHandler<CategoryUpdatedEvent>, CategoryUpdatedEventHandler>();
+        services.AddTransient<IApplicationEventHandler<CategoryDeletedEvent>, CategoryDeletedEventHandler>();
+        services.AddTransient<IApplicationEventHandler<MenuCreatedEvent>, MenuCreatedEventHandler>();
+        services.AddTransient<IApplicationEventHandler<MenuUpdatedEvent>, MenuUpdatedEventHandler>();
+        services.AddTransient<IApplicationEventHandler<MenuDeletedEvent>, MenuDeletedEventHandler>();
+        services.AddTransient<IApplicationEventHandler<MenuItemCreatedEvent>, MenuItemCreatedEventHandler>();
+        services.AddTransient<IApplicationEventHandler<MenuItemUpdatedEvent>, MenuItemUpdatedEventHandler>();
+        services.AddTransient<IApplicationEventHandler<MenuItemDeletedEvent>, MenuItemDeletedEventHandler>();
                 
-                services
-                    .AddLogging()
-                    .AddSecrets()
-                    .Configure<ServiceBusConfiguration>(hostContext.Configuration.GetSection("ServiceBusConfiguration"))
-                    .AddServiceBus();
-            });
-}
+        services
+            .AddLogging()
+            .AddSecrets()
+            .Configure<ServiceBusConfiguration>(context.Configuration.GetSection("ServiceBusConfiguration"))
+            .AddServiceBus();
+    })
+    .Build();
+
+await host.RunAsync();
