@@ -9,7 +9,7 @@ jobs:
         echo "Hello, World! ${{ parameters.text }}"
       displayName: 'Print Hello World'
 - job: GenerateAndPublish
-  uses:
+  # uses:
     # repositories: [wiki] # work around for security issue for pipelines to access the WIKI repo
   steps:
     - task: XplatGenerateReleaseNotes@4
