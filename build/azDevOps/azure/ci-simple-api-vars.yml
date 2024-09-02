@@ -87,7 +87,7 @@ variables:
   - name: FUNCTIONAL_TESTS_RUN_DIR
     value: /app/tests
   - name: FUNCTIONAL_TEST_BASEURL
-    value: https://$(Environment.ShortName)-${{ variables.domain }}.$(dns_base_domain)$(k8s_app_route)/
+    value: https://$(Environment.ShortName)-$(domain).$(dns_base_domain)$(k8s_app_route)/
 
   # Docker Container registry configuration (used for image tagging and pushing)
   # TODO: Despite being available in the TF State, these are required in other steps
