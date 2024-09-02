@@ -6,7 +6,10 @@
 
     <ItemGroup>
         <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Common\xxENSONOxx.xxSTACKSxx.Common.csproj" />
-        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Domain\xxENSONOxx.xxSTACKSxx.Shared.Domain.csproj" />
         <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 </Project>
