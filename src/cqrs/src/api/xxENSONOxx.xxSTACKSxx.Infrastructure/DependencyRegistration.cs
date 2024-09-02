@@ -14,6 +14,11 @@ using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers;
 using xxENSONOxx.xxSTACKSxx.Domain;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.HealthChecks;
+#if (EventPublisherAwsSns)
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
+#endif
 #if (CosmosDb || DynamoDb)
 using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB;
 using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Extensions;
