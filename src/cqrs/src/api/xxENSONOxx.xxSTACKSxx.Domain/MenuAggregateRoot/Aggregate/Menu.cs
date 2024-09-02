@@ -5,13 +5,11 @@ using Newtonsoft.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using xxENSONOxx.xxSTACKSxx.Shared.Domain;
-using xxENSONOxx.xxSTACKSxx.Domain.Entities;
-using xxENSONOxx.xxSTACKSxx.Domain.Events;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
-using xxENSONOxx.xxSTACKSxx.Shared.Domain.Events;
 using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Converters;
-using xxENSONOxx.xxSTACKSxx.Domain.Converters;
+using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Aggregate;
+using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities;
+using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Events;
 
 namespace xxENSONOxx.xxSTACKSxx.Domain;
 
