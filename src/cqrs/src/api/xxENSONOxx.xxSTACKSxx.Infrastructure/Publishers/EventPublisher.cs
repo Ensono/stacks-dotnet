@@ -1,3 +1,5 @@
+#if (EventPublisherAwsSns)
+
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -59,3 +61,4 @@ public class EventPublisher(
             }
         }
     }
+#endif

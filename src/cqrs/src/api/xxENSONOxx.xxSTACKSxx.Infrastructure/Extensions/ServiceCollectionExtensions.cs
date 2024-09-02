@@ -1,3 +1,5 @@
+#if (EventPublisherAwsSns)
+
 using Amazon.SimpleNotificationService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,3 +22,5 @@ public static class ServiceCollectionExtensions
         return services;
     }
 }
+
+#endif
