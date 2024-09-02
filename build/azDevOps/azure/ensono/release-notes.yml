@@ -1,6 +1,10 @@
 parameters:
-  text: ''
-  version: '1.0.0'
+  - name: text
+    value: ""
+  - name: version_major
+    value: "1"
+  - name: version_minor
+    value: "0"
 
 jobs: 
 - job: Hello
@@ -85,7 +89,7 @@ jobs:
       inputs:
         repo: "https://ensonodigitaluk@dev.azure.com/ensonodigitaluk/Stacks/_git/Stacks.wiki"
         branch: "wikiMaster"
-        filename: "Releases/Release Notes/Release-$(Build.BuildNumber).md"
+        filename: "Releases/Release Notes/Release-$(version_major).$(version_minor).md"
         replaceFile: false # appends to the end of the existing WIKI
         dataIsFile: true
         sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
