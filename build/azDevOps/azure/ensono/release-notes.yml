@@ -1,10 +1,13 @@
 parameters:
 - name: text
-  value: ''
+  type: string
+  default: ''
 - name: version_major
-  value: '1'
+  type: string
+  default: '1'
 - name: version_minor
-  value: '0'
+  type: string
+  default: '0'
 
 jobs: 
 - job: Hello
