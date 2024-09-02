@@ -10,7 +10,7 @@ jobs:
       displayName: 'Print Hello World'
 - job: GenerateAndPublish
   uses:
-    repositories: [wiki] # work around for security issue for pipelines to access the WIKI repo
+    # repositories: [wiki] # work around for security issue for pipelines to access the WIKI repo
   steps:
     - task: XplatGenerateReleaseNotes@4
       displayName: Generate Release Notes
