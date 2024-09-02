@@ -1,7 +1,6 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Domain;
 
-namespace xxENSONOxx.xxSTACKSxx.Domain.ValueObjects;
+namespace xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.ValueObjects;
 
 public class Group(Guid id, string name) : IValueObject
 {

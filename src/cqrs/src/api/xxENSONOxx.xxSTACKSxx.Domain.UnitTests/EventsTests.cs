@@ -1,7 +1,6 @@
-﻿using xxENSONOxx.xxSTACKSxx.Shared.Domain.Events;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Domain.Events;
+using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Events;
 
 namespace xxENSONOxx.xxSTACKSxx.Domain.UnitTests;
 

@@ -2,6 +2,7 @@
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.ValueObjects;
 using xxENSONOxx.xxSTACKSxx.Domain.ValueObjects;
 
 namespace xxENSONOxx.xxSTACKSxx.Domain.UnitTests;
