@@ -43,7 +43,7 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
         /// When an exception is present in the failure, it will be logged as exception message instead of trace.
         /// Logging messages with an exception will make them an exception and the trace will lose an entry, making harder to debug issues
         /// </summary>
-        private static void LogException(ILogger logger, Exception? exception)
+        private static void LogException(ILogger logger, Exception exception)
         {
             if (exception is not null)
                 logException(logger, exception.Message, exception);
@@ -59,7 +59,7 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
             publishEventCompleted(logger, correlationId, null!);
         }
 
-        public static void PublishEventFailed(this ILogger logger, string correlationId, string reason, Exception? ex)
+        public static void PublishEventFailed(this ILogger logger, string correlationId, string reason, Exception ex)
         {
             publishEventFailed(logger, correlationId, reason, null!);
             LogException(logger, ex);
