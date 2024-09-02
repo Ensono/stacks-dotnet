@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Entity = xxENSONOxx.xxSTACKSxx.Domain.Entities;
+using Entities_MenuItem = xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities.MenuItem;
 
 namespace xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 
@@ -20,7 +20,7 @@ public class MenuItem
     [Required]
     public bool Available { get; private set; }
 
-    public static MenuItem FromEntity(Entity.MenuItem i)
+    public static MenuItem FromEntity(Entities_MenuItem i)
     {
         return new MenuItem()
         {

@@ -1,7 +1,6 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Domain;
 
-namespace xxENSONOxx.xxSTACKSxx.Domain.Entities;
+namespace xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities;
 
 public class MenuItem(Guid id, string name, string description, double price, bool available)
     : IEntity<Guid>

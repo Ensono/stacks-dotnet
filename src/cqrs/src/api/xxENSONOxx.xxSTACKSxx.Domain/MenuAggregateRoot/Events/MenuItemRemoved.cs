@@ -1,7 +1,3 @@
-using xxENSONOxx.xxSTACKSxx.Shared.Domain.Events;
+namespace xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Events;
 
-namespace xxENSONOxx.xxSTACKSxx.Domain.Events;
-
-public class MenuItemRemoved : IDomainEvent
-{
-}
+public class MenuItemRemoved : IDomainEvent;

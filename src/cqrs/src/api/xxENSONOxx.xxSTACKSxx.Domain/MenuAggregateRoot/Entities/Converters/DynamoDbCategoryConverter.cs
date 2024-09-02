@@ -4,9 +4,8 @@ using System.Linq;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Domain.Entities;
 
-namespace xxENSONOxx.xxSTACKSxx.Domain.Converters;
+namespace xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities.Converters;
 
 // IMPORTANT!!!
 // Since Categories is IReadOnlyCollection<T> we need the converter to work with that interface both during serialization

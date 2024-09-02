@@ -4,8 +4,8 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using AutoFixture.Xunit2;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Domain.Converters;
-using xxENSONOxx.xxSTACKSxx.Domain.Entities;
+using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities;
+using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities.Converters;
 
 namespace xxENSONOxx.xxSTACKSxx.Domain.UnitTests;
 

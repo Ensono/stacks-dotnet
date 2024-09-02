@@ -2,7 +2,7 @@
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Domain.Entities;
+using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities;
 
 namespace xxENSONOxx.xxSTACKSxx.Domain.UnitTests;
 
