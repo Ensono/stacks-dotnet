@@ -27,7 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
         <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.CommandHandlers\xxENSONOxx.xxSTACKSxx.Application.CommandHandlers.csproj" />
         <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.QueryHandlers\xxENSONOxx.xxSTACKSxx.Application.QueryHandlers.csproj" />
         <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.CQRS\xxENSONOxx.xxSTACKSxx.CQRS.csproj" />
