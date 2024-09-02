@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Testing\xxENSONOxx.xxSTACKSxx.Shared.Testing.csproj" />
   </ItemGroup>
