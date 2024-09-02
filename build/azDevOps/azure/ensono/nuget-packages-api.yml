@@ -27,10 +27,10 @@ resources:
       name: Ensono/stacks-pipeline-templates
       ref: refs/tags/v2.0.6
       endpoint: ensonostacks
-    - repository: wiki # work around for security issue for pipelines to access the WIKI repo
-      type: git
-      name: Stacks.wiki
-      ref: wikiMaster
+#    - repository: wiki # work around for security issue for pipelines to access the WIKI repo
+#      type: git
+#      name: Stacks.wiki
+#      ref: wikiMaster
 
 variables:
   - template: nuget-packages-api-vars.yml

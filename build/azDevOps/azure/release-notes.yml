@@ -85,7 +85,7 @@ jobs:
       inputs:
         repo: "https://ensonodigitaluk@dev.azure.com/ensonodigitaluk/Stacks/_git/Stacks.wiki"
         branch: "wikiMaster"
-        filename: "Releases/ReleaseNotes/Release-$(Build.BuildNumber).md"
+        filename: "Releases/Release Notes/Release-$(Build.BuildNumber).md"
         replaceFile: false # appends to the end of the existing WIKI
         dataIsFile: true
         sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
