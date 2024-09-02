@@ -38,5 +38,5 @@ init:
       desc: Create a project using the stacks template
     - action: cmd
       cmd: dotnet
-      args: new --uninstall {{ .Project.Directory.TempDir }}
+      args: new --uninstall .
       desc: Remove the temporary template from dotnet
