@@ -10,7 +10,7 @@ ___
 {{#if this.workItems.length}}
 **🔧 {{inflect this.workItems.length "Associated Work Item" "Associated Work Items" true}}**
 {{#forEach this.workItems}}
-- <img style="vertical-align: bottom; height: 22px; padding-bottom: 1px;" src="{{replace (get 'imageUrl' (get 'System.AssignedTo' this.fields)) "ezcorp.visualstudio.com" "dev.azure.com/ezcorp"}}" title="{{get 'displayName' (get 'System.AssignedTo' this.fields)}}"/> {{lookup this.fields 'System.WorkItemType'}} {{this.id}}: [{{lookup this.fields 'System.Title'}}]({{replace this.url "_apis/wit/workItems" "_workitems/edit"}})
+- <img style="vertical-align: bottom; height: 22px; padding-bottom: 1px;" src="{{replace (get 'imageUrl' (get 'System.AssignedTo' this.fields)) "ensonodigitaluk.visualstudio.com" "dev.azure.com/ensonodigitaluk"}}" title="{{get 'displayName' (get 'System.AssignedTo' this.fields)}}"/> {{lookup this.fields 'System.WorkItemType'}} {{this.id}}: [{{lookup this.fields 'System.Title'}}]({{replace this.url "_apis/wit/workItems" "_workitems/edit"}})
 {{/forEach}}
 {{/if}}
 

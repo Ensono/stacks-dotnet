@@ -1,7 +1,4 @@
 parameters:
-- name: text
-  type: string
-  default: ''
 - name: version_major
   type: string
   default: '1'
@@ -10,11 +7,6 @@ parameters:
   default: '0'
 
 jobs: 
-- job: Hello
-  steps:
-    - script: |
-        echo "Hello, World! ${{ parameters.text }}"
-      displayName: 'Print Hello World'
 - job: GenerateAndPublish
   uses:
     repositories: [wiki] # work around for security issue for pipelines to access the WIKI repo
