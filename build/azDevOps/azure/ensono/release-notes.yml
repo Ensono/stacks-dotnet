@@ -23,53 +23,10 @@ jobs:
       displayName: Generate Release Notes
       inputs:
         outputfile: "$(Build.ArtifactStagingDirectory)/releasenotes.md"
-        templateLocation: "InLine"
-        inlinetemplate: |
-          ___
-          # {{buildDetails.buildNumber}}
-          - [Pipeline]({{buildDetails._links.web.href}})
-          **Work Items**
-          {{#if (gt workItems.length 0)}}
-            |Id|Type|Title|State|
-            |-|-|-|-|
-            {{#forEach this.workItems}}
-            |{{this.id}}|{{lookup this.fields 'System.WorkItemType'}}|[{{lookup this.fields 'System.Title'}}]({{replace this.url "_apis/wit/workItems" "_workitems/edit"}})|{{this.fields.System.State}}|
-            {{/forEach}}
-          {{else}}
-            - _None_
-          {{/if}}
-          **Pull Requests**
-          {{#if (gt pullRequests.length 0)}}
-            |Title|Description|Author|
-            |-|-|-|
-            {{#forEach this.pullRequests}}
-            |[{{this.title}}]({{replace (replace this.url "_apis/git/repositories" "_git") "pullRequests" "pullRequest"}})|{{this.description}}|{{this.createdBy.displayName}}|
-            {{/forEach}}
-          {{else}}
-            - _None_
-          {{/if}}
-          **Test Cases**
-          {{#if (gt tests.length 0)}}
-            |Title|Name|Outcome|Browser|Duration(ms)|Filename|
-            |-|-|-|-|-|-|
-            {{#forEach this.tests}}
-            |{{this.testCase.name}}|{{this.testCaseTitle}}|{{this.outcome}}|{{this.computerName}}|{{this.durationInMs}}|{{this.automatedTestStorage}}|
-            {{/forEach}}
-          {{else}}
-            - _None_
-          {{/if}}
-          **Commits**
-          {{#if (gt commits.length 0)}}
-            |Id|Message|Author|
-            |-|-|-|
-            {{#forEach this.commits}}
-            |{{this.id}}|{{get_only_message_firstline this.message}}|{{this.author.displayName}}|
-            {{/forEach}}
-          {{else}}
-            - _None_
-          {{/if}}
-          [Last Successful Release]({{compareBuildDetails._links.web.href}})
-          ___
+        templateLocation: "File"
+        templatefile: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/handlebar/releaseNoteTemplate.md"
+        customHandlebarsExtensionFile: "custom-extensions.js"
+        customHandlebarsExtensionFolder: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/handlebar/extensions"
         checkStage: false # Looks for the last successful release.  Else release notes will be compared against the previous release.
         replaceFile: false
         getParentsAndChildren: false
