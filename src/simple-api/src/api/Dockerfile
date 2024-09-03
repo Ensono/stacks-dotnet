@@ -10,6 +10,7 @@ WORKDIR /app
 
 # Copy everything else and build
 COPY ./ ./
+RUN dotnet workload install aspire
 RUN dotnet publish -c Release -o out $self_repo_src/xxENSONOxx.xxSTACKSxx.API
 #list files copied to output
 RUN find

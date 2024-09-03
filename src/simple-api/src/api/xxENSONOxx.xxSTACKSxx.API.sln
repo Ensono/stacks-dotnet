@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Packages", "Shared Packages", "{BAA1B75A-6B07-42C1-972F-7CDBAE264F01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xxENSONOxx.xxSTACKSxx.AppHost", "xxENSONOxx.xxSTACKSxx.AppHost\xxENSONOxx.xxSTACKSxx.AppHost.csproj", "{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +161,18 @@ Global
 		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Release|x64.Build.0 = Release|Any CPU
 		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Release|x86.ActiveCfg = Release|Any CPU
 		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Release|x86.Build.0 = Release|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Debug|x64.Build.0 = Debug|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Debug|x86.Build.0 = Debug|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Release|x64.ActiveCfg = Release|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Release|x64.Build.0 = Release|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
