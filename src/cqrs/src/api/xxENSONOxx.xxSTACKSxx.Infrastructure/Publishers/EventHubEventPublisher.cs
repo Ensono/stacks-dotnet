@@ -1,16 +1,18 @@
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+#if (EventPublisherEventHub)
+
+using System;
+using System.Text;
+using System.Threading.Tasks;
 using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Producer;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.Text;
-using System.Threading.Tasks;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Publisher
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers
 {
-    public class EventPublisher(
-        ILogger<EventPublisher> log,
+    public class EventHubEventPublisher(
+        ILogger<EventHubEventPublisher> log,
         EventHubProducerClient eventHubProducerClient)
         : IApplicationEventPublisher
     {
@@ -35,3 +37,4 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Publisher
         }
     }
 }
+#endif

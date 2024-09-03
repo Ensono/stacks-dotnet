@@ -1,5 +1,4 @@
-﻿using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,6 +8,7 @@ using Serilog;
 using Serilog.Core;
 using xxENSONOxx.xxSTACKSxx.Listener;
 using xxENSONOxx.xxSTACKSxx.Listener.Logging;
+using xxENSONOxx.xxSTACKSxx.Listener.Serialization;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace xxENSONOxx.xxSTACKSxx.Listener;

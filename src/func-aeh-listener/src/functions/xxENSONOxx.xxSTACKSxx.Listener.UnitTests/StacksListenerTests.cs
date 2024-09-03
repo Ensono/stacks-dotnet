@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers;
 using Azure.Messaging.EventHubs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+using xxENSONOxx.xxSTACKSxx.Listener.Serialization;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener.UnitTests;
 
