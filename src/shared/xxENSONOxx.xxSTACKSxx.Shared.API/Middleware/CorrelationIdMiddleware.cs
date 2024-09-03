@@ -1,24 +1,27 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Shared.API.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using Serilog.Context;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.API.Middleware
 {
     public class CorrelationIdMiddleware(RequestDelegate next, IOptions<CorrelationIdConfiguration> options)
     {
-        private readonly CorrelationIdConfiguration _options = options.Value;
+        private readonly RequestDelegate _next;
+        private readonly CorrelationIdConfiguration _options;
+        private static readonly ActivitySource ActivitySource = new("xxENSONOxx.xxSTACKSxx");
 
         public async Task InvokeAsync(HttpContext context)
         {
             var correlationId = GetOrSetCorrelationId(context);
 
-            using (LogContext.PushProperty(_options.HeaderName, correlationId.ToString()))
+            using (var activity = ActivitySource.StartActivity("CorrelationIdMiddleware"))
             {
-                await next(context);
+                activity?.SetTag(_options.HeaderName, correlationId.ToString());
+                await _next(context);
             }
         }
 
