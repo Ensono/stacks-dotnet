@@ -16,7 +16,6 @@
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.csproj" />
   </ItemGroup>
   <ItemGroup>
