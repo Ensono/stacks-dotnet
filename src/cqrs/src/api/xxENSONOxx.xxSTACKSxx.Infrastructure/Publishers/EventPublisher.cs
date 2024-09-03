@@ -1,19 +1,21 @@
+#if (EventPublisherAwsSns)
+
+using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
-{
-    /// <summary>
-    /// Class implementing the ability to publish an event to AWS SNS
-    /// </summary>
-    public class EventPublisher(
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
+
+public class EventPublisher(
         IOptions<AwsSnsConfiguration> configuration,
         ISecretResolver<string> secretResolver,
         IAmazonSimpleNotificationService snsClient,
@@ -35,10 +37,7 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
             logger.PublishEventRequested(applicationEvent.CorrelationId.ToString());
 
             var topicArn = await secretResolver.ResolveSecretAsync(configuration.Value.TopicArn);
-            var jsonOptions = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
+            var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             var message = JsonSerializer.Serialize<object>(applicationEvent, jsonOptions);
             var messageRequest = new PublishRequest
             {
@@ -62,4 +61,4 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher
             }
         }
     }
-}
+#endif

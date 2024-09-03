@@ -18,5 +18,11 @@ public enum EventCode
     MenuItemDeleted = 303,
 
     // CosmosDB change feed operations
-    EntityUpdated = 999
+    EntityUpdated = 999,
+    
+    GeneralException = 123456899,
+
+    PublishEventRequested = 123456801,
+    PublishEventCompleted = 123456802,
+    PublishEventFailed = 123456803
 }

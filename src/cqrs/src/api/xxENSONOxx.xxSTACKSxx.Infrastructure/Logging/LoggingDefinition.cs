@@ -1,16 +1,16 @@
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Events;
+using System;
 using Microsoft.Extensions.Logging;
+using xxENSONOxx.xxSTACKSxx.CQRS.Enums;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
-{
-    /// <summary>
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
+
+/// <summary>
     /// Contains log definitions for SNS component
     /// LoggerMessage.Define() creates a unique template for each log type
     /// The log template reduces the number of allocations and write logs faster to destination
     /// </summary>
     public static class LogDefinition
     {
-        /// Failures with exceptions should be logged to respective failures(i.e: getByIdFailed) and then to logException in order to show them as separate entries in the logs(trace + exception
         private static readonly Action<ILogger, string, Exception> logException =
             LoggerMessage.Define<string>(
                 LogLevel.Error,
@@ -18,7 +18,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
                 "AWS SNS Exception: {Message}"
             );
 
-        // Publishing
         private static readonly Action<ILogger, string, Exception> publishEventRequested =
             LoggerMessage.Define<string>(
                 LogLevel.Information,
@@ -40,8 +39,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
                 "AWS SNS: PublishAsync failed for CorrelationId:{CorrelationId}. Reason:{Reason}"
             );
 
-        //Exception
-
         /// <summary>
         /// When an exception is present in the failure, it will be logged as exception message instead of trace.
         /// Logging messages with an exception will make them an exception and the trace will lose an entry, making harder to debug issues
@@ -52,7 +49,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
                 logException(logger, exception.Message, exception);
         }
 
-        // Publishing
         public static void PublishEventRequested(this ILogger logger, string correlationId)
         {
             publishEventRequested(logger, correlationId, null!);
@@ -69,4 +65,3 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Logging
             LogException(logger, ex);
         }
     }
-}
