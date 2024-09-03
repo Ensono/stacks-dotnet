@@ -82,7 +82,6 @@ stages:
               path: $(Agent.BuildDirectory)/a
               artifact: packages
 
-# TODO: Uncomment this stage when we are ready to release
   - stage: Release
     dependsOn:
       - Build
@@ -137,9 +136,10 @@ stages:
               publishFeedCredentials: '${{variables.nuget_connection}}'
 
   - stage: GenerateReleaseNotes
-    # dependsOn: Build
+    dependsOn: Release
+    condition: succeeded()
     jobs: 
-    - template: release-notes.yml
+    - template: release-notes/publish-release-notes.yml
       parameters: {
         version_major: $(version_major),
         version_minor: $(version_minor)
