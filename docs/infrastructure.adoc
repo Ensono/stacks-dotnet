@@ -69,7 +69,7 @@ Sample commands with example environment vars:
 cd ${YOUR_DIRECTORY_PATH}/deploy/azure/app
 
 # Run Ensono Terraform Docker container
-docker run -v $(pwd):/usr/data --rm -it ensonostacks/ci-tf:0.0.4 /bin/bash
+docker run -v $(pwd):/usr/data --rm -it amidostacks/ci-tf:0.0.4 /bin/bash
 
 ###########################################################################
 # All commands from this point should be executed in the Docker container #
