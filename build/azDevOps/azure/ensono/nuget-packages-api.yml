@@ -96,7 +96,7 @@ stages:
           # Check out the repo so that it can be tagged
           - checkout: self
             persistCredentials: true
-            
+
           # Download the artefacts from the build to create the release from
           - task: DownloadPipelineArtifact@2
             inputs:
