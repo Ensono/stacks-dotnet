@@ -1,22 +1,23 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration.Extensions;
-using xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using xxENSONOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers;
-using xxENSONOxx.xxSTACKSxx.Domain;
+using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
+using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
+using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
-using xxENSONOxx.xxSTACKSxx.Infrastructure.HealthChecks;
 #if (EventPublisherAwsSns)
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Extensions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 #endif
 #if (CosmosDb || DynamoDb)
 using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB;
@@ -61,7 +62,7 @@ public static class DependencyRegistration
 #elif (EventPublisherAwsSns)
         services.Configure<AwsSnsConfiguration>(configuration.GetSection("AwsSnsConfiguration"));
         services.AddAwsSns(configuration);
-        services.AddTransient<IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Publisher.EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, EventPublisher>();
 #elif (EventPublisherNone)
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #else
@@ -86,33 +87,29 @@ public static class DependencyRegistration
         healthChecks.AddCheck<CustomHealthCheck>("Sample"); //This is a sample health check, remove if not needed, more info: https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health
         healthChecks.AddCheck<xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.CosmosDbDocumentStorage<Menu>>("CosmosDB");
 #endif
-
         Debug.WriteLine("ConfigureProductionDependencies");
     }
-
     
-
     private static void AddCommandHandlers(IServiceCollection services)
     {
         log.Information("Loading implementations of {interface}", typeof(ICommandHandler<,>).Name);
-        var definitions = typeof(CreateMenuCommandHandler).Assembly.GetImplementationsOf(typeof(ICommandHandler<,>));
-        foreach (var definition in definitions)
-        {
-            log.Information("Registering '{implementation}' as implementation of '{interface}'",
-                definition.implementation.FullName, definition.interfaceVariation.FullName);
-            services.AddTransient(definition.interfaceVariation, definition.implementation);
-        }
+        
+        services.AddTransient<ICommandHandler<CreateCategory, Guid>, CreateCategoryCommandHandler>();
+        services.AddTransient<ICommandHandler<DeleteCategory, bool>, DeleteCategoryCommandHandler>();
+        services.AddTransient<ICommandHandler<UpdateCategory, bool>, UpdateCategoryCommandHandler>();
+        services.AddTransient<ICommandHandler<CreateMenu, Guid>, CreateMenuCommandHandler>();
+        services.AddTransient<ICommandHandler<DeleteMenu, bool>, DeleteMenuCommandHandler>();
+        services.AddTransient<ICommandHandler<UpdateMenu, bool>, UpdateMenuCommandHandler>();
+        services.AddTransient<ICommandHandler<CreateMenuItem, Guid>, CreateMenuItemCommandHandler>();
+        services.AddTransient<ICommandHandler<DeleteMenuItem, bool>, DeleteMenuItemCommandHandler>();
+        services.AddTransient<ICommandHandler<UpdateMenuItem, bool>, UpdateMenuItemCommandHandler>();
     }
 
     private static void AddQueryHandlers(IServiceCollection services)
     {
         log.Information("Loading implementations of {interface}", typeof(IQueryHandler<,>).Name);
-        var definitions = typeof(GetMenuByIdQueryHandler).Assembly.GetImplementationsOf(typeof(IQueryHandler<,>));
-        foreach (var definition in definitions)
-        {
-            log.Information("Registering '{implementation}' as implementation of '{interface}'",
-                definition.implementation.FullName, definition.interfaceVariation.FullName);
-            services.AddTransient(definition.interfaceVariation, definition.implementation);
-        }
+
+        services.AddTransient<IQueryHandler<GetMenuById, Menu>, GetMenuByIdQueryHandler>();
+        services.AddTransient<IQueryHandler<SearchMenu, SearchMenuResult>, SearchMenuQueryHandler>();
     }
 }

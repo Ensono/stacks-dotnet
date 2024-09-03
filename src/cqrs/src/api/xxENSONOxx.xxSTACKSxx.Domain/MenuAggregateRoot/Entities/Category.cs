@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using xxENSONOxx.xxSTACKSxx.Shared.Domain;
 using Newtonsoft.Json;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 
-namespace xxENSONOxx.xxSTACKSxx.Domain.Entities;
+namespace xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities;
 
 public class Category(Guid id, string name, string description, List<MenuItem> items = null)
     : IEntity<Guid>

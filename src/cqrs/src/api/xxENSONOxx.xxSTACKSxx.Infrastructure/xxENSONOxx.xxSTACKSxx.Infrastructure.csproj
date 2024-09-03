@@ -21,10 +21,8 @@
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.CQRS\xxENSONOxx.xxSTACKSxx.CQRS.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Domain\xxENSONOxx.xxSTACKSxx.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.csproj" />
-    <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.csproj" />
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj" />
-    <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.csproj" />
 
 

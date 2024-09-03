@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration.Extensions;
-using xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.Handlers;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker;
@@ -35,13 +34,16 @@ public class Program
             .UseSerilog()
             .ConfigureServices((hostContext, services) =>
             {
-                // Register all handlers dynamically
-                var definitions = typeof(MenuCreatedEventHandler).Assembly.GetImplementationsOf(typeof(IApplicationEventHandler<>));
-                foreach (var definition in definitions)
-                {
-                    services.AddTransient(definition.interfaceVariation, definition.implementation);
-                }
-
+                services.AddTransient<IApplicationEventHandler<CategoryCreatedEvent>, CategoryCreatedEventHandler>();
+                services.AddTransient<IApplicationEventHandler<CategoryUpdatedEvent>, CategoryUpdatedEventHandler>();
+                services.AddTransient<IApplicationEventHandler<CategoryDeletedEvent>, CategoryDeletedEventHandler>();
+                services.AddTransient<IApplicationEventHandler<MenuCreatedEvent>, MenuCreatedEventHandler>();
+                services.AddTransient<IApplicationEventHandler<MenuUpdatedEvent>, MenuUpdatedEventHandler>();
+                services.AddTransient<IApplicationEventHandler<MenuDeletedEvent>, MenuDeletedEventHandler>();
+                services.AddTransient<IApplicationEventHandler<MenuItemCreatedEvent>, MenuItemCreatedEventHandler>();
+                services.AddTransient<IApplicationEventHandler<MenuItemUpdatedEvent>, MenuItemUpdatedEventHandler>();
+                services.AddTransient<IApplicationEventHandler<MenuItemDeletedEvent>, MenuItemDeletedEventHandler>();
+                
                 services
                     .AddLogging()
                     .AddSecrets()

@@ -73,17 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Core.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests.csproj", "{06DE9A76-034B-4975-8365-A7F88EF7954E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection.csproj", "{2E79D304-47AE-4D7F-8E32-C08A106C5F72}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Domain", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Domain\xxENSONOxx.xxSTACKSxx.Shared.Domain.csproj", "{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.csproj", "{4856749F-880C-4F3E-B9C9-4E79ADAD09A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.csproj", "{688708D6-CF24-452C-BBFD-59161F982AA0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.csproj", "{7BEFAEE8-4F24-434B-ABEA-4E904804266C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests.csproj", "{C63011EA-2C53-495B-96F8-71124DB6236C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj", "{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}"
 EndProject
@@ -467,30 +459,6 @@ Global
 		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Release|x64.Build.0 = Release|Any CPU
 		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Release|x86.ActiveCfg = Release|Any CPU
 		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Release|x86.Build.0 = Release|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Debug|x64.Build.0 = Debug|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Debug|x86.Build.0 = Debug|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|x64.ActiveCfg = Release|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|x64.Build.0 = Release|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|x86.ActiveCfg = Release|Any CPU
-		{2E79D304-47AE-4D7F-8E32-C08A106C5F72}.Release|x86.Build.0 = Release|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|x64.Build.0 = Debug|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Debug|x86.Build.0 = Debug|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|x64.ActiveCfg = Release|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|x64.Build.0 = Release|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|x86.ActiveCfg = Release|Any CPU
-		{7DD7AD0F-07EE-438F-8032-B0BB40F26E85}.Release|x86.Build.0 = Release|Any CPU
 		{4856749F-880C-4F3E-B9C9-4E79ADAD09A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4856749F-880C-4F3E-B9C9-4E79ADAD09A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4856749F-880C-4F3E-B9C9-4E79ADAD09A6}.Debug|x64.ActiveCfg = Debug|Any CPU

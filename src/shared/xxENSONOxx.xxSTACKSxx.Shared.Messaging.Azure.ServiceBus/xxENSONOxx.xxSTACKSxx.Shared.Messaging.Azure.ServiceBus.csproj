@@ -24,6 +24,5 @@
   <ItemGroup>
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Configuration\xxENSONOxx.xxSTACKSxx.Shared.Configuration.csproj" />
-    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection\xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection.csproj" />
   </ItemGroup>
 </Project>
