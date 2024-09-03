@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 using xxENSONOxx.xxSTACKSxx.API.Authorization;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.Shared.API.Middleware;
 using xxENSONOxx.xxSTACKSxx.Shared.API.Swagger.Filters;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry;
 using OpenTelemetry.Exporter;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -24,8 +26,6 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure logging
-builder.Host.UseSerilog((context, services, configuration) => 
-    configuration.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container
 var services = builder.Services;
@@ -34,34 +34,42 @@ var environment = builder.Environment;
 
 var pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
 var useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
-var useOpenTelemetry = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName));
 
 if (useAppInsights)
 {
     services.AddApplicationInsightsTelemetry();
 }
 
-if (useOpenTelemetry)
-{
-    AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-    services.AddOpenTelemetry()
-            .WithTracing(builder =>
+AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+services.AddOpenTelemetry()
+        .WithTracing(builder =>
+        {
+            builder.ConfigureResource(resource =>
             {
-                builder.ConfigureResource(resource =>
-                {
-                    resource.AddService(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName));
-                });
-                builder.AddAspNetCoreInstrumentation();
-                builder.AddConsoleExporter(options =>
-                {
-                    options.Targets = ConsoleExporterOutputTargets.Debug;
-                });
-                builder.AddOtlpExporter(options =>
-                {
-                    options.Endpoint = new Uri(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OltpEndpoint));
-                });
+                resource.AddService(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName));
             });
-}
+            builder.AddAspNetCoreInstrumentation();
+            builder.AddConsoleExporter(options =>
+            {
+                options.Targets = ConsoleExporterOutputTargets.Debug;
+            });
+            builder.AddOtlpExporter(options =>
+            {
+                options.Endpoint = new Uri(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OltpEndpoint));
+            });
+        });
+
+services.AddOpenTelemetry().WithMetrics(builder =>
+{
+    builder.AddAspNetCoreInstrumentation()
+        .AddAspNetCoreInstrumentation()
+        .AddConsoleExporter();
+});
+
+services.AddOpenTelemetry().UseOtlpExporter();
+
+services.AddOpenTelemetry().UseAzureMonitor();
+
 
 services.AddHealthChecks();
 
