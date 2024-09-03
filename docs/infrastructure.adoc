@@ -85,28 +85,28 @@ ARM_SUBSCRIPTION_ID=1111-2222-3333-444 \
 ARM_TENANT_ID=1111-2222-3333-444
 
 # Export Terraform variables. Replace the example values.
-export TF_VAR_name_company=amido \
+export TF_VAR_name_company=ensono \
 TF_VAR_name_project=example \
 TF_VAR_name_domain=menu-api \
 TF_VAR_name_environment=dev \
-TF_VAR_core_resource_group=amido-example-nonprod-uks-core \
+TF_VAR_core_resource_group=ensono-example-nonprod-uks-core \
 TF_VAR_resource_group_location=uksouth \
-TF_VAR_app_gateway_frontend_ip_name=amido-example-nonprod-uks-core \
+TF_VAR_app_gateway_frontend_ip_name=ensono-example-nonprod-uks-core \
 TF_VAR_create_dns_record=true \
-TF_VAR_dns_zone_name=nonprod.amidostacks.com \
+TF_VAR_dns_zone_name=nonprod.ensonostacks.com \
 TF_VAR_dns_record=dev-menu-api \
-TF_VAR_internal_dns_zone_name=nonprod.amidostacks.internal \
+TF_VAR_internal_dns_zone_name=nonprod.ensonostacks.internal \
 TF_VAR_create_cosmosdb=true \
 TF_VAR_cosmosdb_sql_container=Menu \
 TF_VAR_cosmosdb_sql_container_partition_key=/id \
 TF_VAR_cosmosdb_kind=GlobalDocumentDB \
 TF_VAR_cosmosdb_offer_type=Standard \
-TF_VAR_app_insights_name=amido-example-nonprod-uks-core
+TF_VAR_app_insights_name=ensono-example-nonprod-uks-core
 
 # Initial Terraform. Replace the example values.
 terraform init \
--backend-config="resource_group_name=amido-stacks-terraform" \
--backend-config="storage_account_name=amidostacksterraform" \
+-backend-config="resource_group_name=ensono-stacks-terraform" \
+-backend-config="storage_account_name=ensonostacksterraform" \
 -backend-config="container_name=tfstate" \
 -backend-config="key=example-menu-api"
 
