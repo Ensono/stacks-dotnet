@@ -1,3 +1,4 @@
+#if (EventPublisherEventHub)
 using System.Text;
 using Azure.Messaging.EventHubs;
 using Newtonsoft.Json;
@@ -12,3 +13,4 @@ public class JsonMessageSerializer : IMessageReader
         return JsonConvert.DeserializeObject<T>(jsonBody);
     }
 }
+#endif
