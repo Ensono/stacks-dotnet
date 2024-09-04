@@ -58,7 +58,6 @@ public static class DependencyRegistration
 #elif (EventPublisherEventHub)
         services.Configure<EventHubConfiguration>(configuration.GetSection("EventHubConfiguration"));
         services.AddEventHub();
-        services.AddTransient<IApplicationEventPublisher, EventHubEventPublisher>();
 #elif (EventPublisherAwsSns)
         services.Configure<AwsSnsConfiguration>(configuration.GetSection("AwsSnsConfiguration"));
         services.AddAwsSns(configuration);

@@ -89,7 +89,7 @@ public static class ServiceCollectionExtensions
             connectionString: secretResolver.ResolveSecretAsync(configuration.NamespaceConnectionString).Result,
             eventHubName: configuration.EventHubName));
 
-        services.AddTransient<IApplicationEventPublisher, EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, EventHubEventPublisher>();
 
         return true;
     }
