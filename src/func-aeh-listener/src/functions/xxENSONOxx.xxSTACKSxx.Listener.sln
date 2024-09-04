@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Core", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core\xxENSONOxx.xxSTACKSxx.Shared.Core.csproj", "{3F133394-CF28-4110-BA3D-EBF404208A81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj", "{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj", "{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Core.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests.csproj", "{B26B7E36-8E4F-45EE-BEBA-02262F9DCDC6}"
