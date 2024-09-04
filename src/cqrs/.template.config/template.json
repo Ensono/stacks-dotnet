@@ -272,7 +272,7 @@
                     "exclude": [
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Publishers/EventHubEventPublisher.cs",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Serialization/IMessageReader.cs",
-                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Serialization/JsonMessageReader.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Serialization/JsonMessageSerializer.cs",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/DummyEventAes.cs",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/JsonMessageSerializerTests.cs"
                     ]
