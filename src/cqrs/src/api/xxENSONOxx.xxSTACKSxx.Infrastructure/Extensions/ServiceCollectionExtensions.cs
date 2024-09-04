@@ -15,6 +15,8 @@ using Microsoft.Extensions.Options;
 
 #if (EventPublisherEventHub)
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using Azure.Storage.Blobs;
+using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Consumer;
 using Azure.Messaging.EventHubs.Producer;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Consumers;

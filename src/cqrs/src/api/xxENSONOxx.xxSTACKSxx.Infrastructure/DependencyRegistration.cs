@@ -14,7 +14,7 @@ using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
-#if (EventPublisherAwsSns)
+#if (EventPublisherAwsSns || EventPublisherEventHub)
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
@@ -56,9 +56,9 @@ public static class DependencyRegistration
         services.AddServiceBus();
         services.AddTransient<IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
 #elif (EventPublisherEventHub)
-        services.Configure<xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Configuration.EventHubConfiguration>(configuration.GetSection("EventHubConfiguration"));
+        services.Configure<EventHubConfiguration>(configuration.GetSection("EventHubConfiguration"));
         services.AddEventHub();
-        services.AddTransient<IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Publisher.EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, EventHubEventPublisher>();
 #elif (EventPublisherAwsSns)
         services.Configure<AwsSnsConfiguration>(configuration.GetSection("AwsSnsConfiguration"));
         services.AddAwsSns(configuration);
