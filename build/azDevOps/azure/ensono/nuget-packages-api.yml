@@ -138,9 +138,9 @@ stages:
   - stage: GenerateReleaseNotes
     dependsOn: Release
     condition: succeeded()
-    jobs: 
-    - template: release-notes/publish-release-notes.yml
-      parameters: {
-        version_major: $(version_major),
-        version_minor: $(version_minor)
-      }
+    jobs:
+      - template: release-notes/publish-release-notes.yml
+        parameters: {
+          version_major: $(version_major),
+          version_minor: $(version_minor)
+        }
