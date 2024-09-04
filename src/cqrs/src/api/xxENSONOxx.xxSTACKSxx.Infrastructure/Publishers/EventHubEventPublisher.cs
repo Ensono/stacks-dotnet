@@ -1,3 +1,4 @@
+#if (EventPublisherEventHub)
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,3 +35,4 @@ public class EventHubEventPublisher(
         }
     }
 }
+#endif
