@@ -20,7 +20,7 @@ using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Consumer;
 using Azure.Messaging.EventHubs.Producer;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Consumers;
-using Shaz.EventHub.TestSix.Infrastructure.Publishers;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
