@@ -274,7 +274,13 @@
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Serialization/IMessageReader.cs",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Serialization/JsonMessageSerializer.cs",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/DummyEventAes.cs",
-                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/JsonMessageSerializerTests.cs"
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/JsonMessageSerializerTests.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/EventHubConfiguration.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/EventHubConsumerConfiguration.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/EventHubEntityConfiguration.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/EventHubPublisherConfiguration.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Consumers/EventConsumer.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Consumers/IEventConsumer.cs"
                     ]
                 },
                 {

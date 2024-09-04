@@ -3,30 +3,32 @@ using Amazon.SimpleNotificationService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using Microsoft.Extensions.Configuration;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 #endif
 
 #if (EventPublisherAwsSns || EventPublisherEventHub)
 using System;
-using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 #endif
 
 #if (EventPublisherEventHub)
-using Azure.Storage.Blobs;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using Azure.Messaging.EventHubs;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using Azure.Messaging.EventHubs.Consumer;
 using Azure.Messaging.EventHubs.Producer;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Consumer;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Consumers;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers;
+
 #endif
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    #if (EventPublisherAwsSns)
+     #if (EventPublisherAwsSns)
     /// <summary>
     /// Add the AWS SNS client for IEventConsumer and IApplicationEventPublisher
     /// </summary>
@@ -85,7 +87,7 @@ public static class ServiceCollectionExtensions
             connectionString: secretResolver.ResolveSecretAsync(configuration.NamespaceConnectionString).Result,
             eventHubName: configuration.EventHubName));
 
-        //services.TryAddTransient<IEventHubProducerClientFactory, EventHubProducerClientFactory>();
+        services.AddTransient<IApplicationEventPublisher, EventPublisher>();
 
         return true;
     }
@@ -113,4 +115,3 @@ public static class ServiceCollectionExtensions
     }
     #endif
 }
-
