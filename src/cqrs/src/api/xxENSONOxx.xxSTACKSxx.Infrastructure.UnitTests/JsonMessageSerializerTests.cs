@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if (EventPublisherEventHub)
+using System;
 using System.Text;
 using Azure.Messaging.EventHubs;
 using Newtonsoft.Json;
@@ -30,3 +31,4 @@ public class JsonMessageSerializerTests
         result.CorrelationId.ShouldBe(correlationId);
     }
 }
+#endif
