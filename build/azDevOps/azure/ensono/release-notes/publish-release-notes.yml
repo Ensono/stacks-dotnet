@@ -16,9 +16,9 @@ jobs:
         inputs:
           outputfile: "$(Build.ArtifactStagingDirectory)/releasenotes.md"
           templateLocation: "File"
-          templatefile: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/handlebar/releaseNoteTemplate.md"
+          templatefile: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/release-notes/handlebar/releaseNoteTemplate.md"
           customHandlebarsExtensionFile: "custom-extensions.js"
-          customHandlebarsExtensionFolder: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/handlebar/extensions"
+          customHandlebarsExtensionFolder: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/release-notes/handlebar/extensions"
           checkStage: false # Looks for the last successful release.  Else release notes will be compared against the previous release.
           replaceFile: false
           getParentsAndChildren: false
