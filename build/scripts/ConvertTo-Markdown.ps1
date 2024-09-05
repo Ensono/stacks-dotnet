@@ -43,7 +43,7 @@ if (!$exists) {
 }
 
 # Get a list of the files in the docs dir
-$list = Get-ChildItem -Path $docs_dir/* -Attributes !Directory -Include *.adoc
+$list = Get-ChildItem -Path $docs_dir/* -Recurse -Attributes !Directory -Include *.adoc
 
 # Iterate around the list of files
 foreach ($file in $list) {
