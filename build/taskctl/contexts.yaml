@@ -67,18 +67,15 @@ contexts:
         - --rm
         - -v
         - ${PWD}:/app
-        - -e
-        - PSModulePath=/modules
         - -w
         - /app
         - --env-file
         - envfile
-        - amidostacks/runner-pwsh-asciidoctor:0.4.60-stable
+        - ensono/eir-asciidoctor:1.1.224
         - pwsh
-        - -NoProfile
         - -Command
     envfile:
-      generate: true
       exclude:
         - home
         - path
+      generate: true
