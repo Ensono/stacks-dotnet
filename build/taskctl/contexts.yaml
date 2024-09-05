@@ -58,3 +58,27 @@ contexts:
         - path
         - home
         - kubeconfig
+
+  docsenv:
+    executable:
+      bin: docker
+      args:
+        - run
+        - --rm
+        - -v
+        - ${PWD}:/app
+        - -e
+        - PSModulePath=/modules
+        - -w
+        - /app
+        - --env-file
+        - envfile        
+        - amidostacks/runner-pwsh-asciidoctor:0.4.60-stable
+        - pwsh
+        - -NoProfile
+        - -Command
+    envfile:
+      generate: true
+      exclude:
+        - home
+        - path

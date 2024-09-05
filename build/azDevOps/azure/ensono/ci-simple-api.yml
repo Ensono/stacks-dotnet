@@ -50,6 +50,12 @@ stages:
             inputs:
               targetType: inline
               script: taskctl lint
+          
+          - task: Bash@3
+            displayName: "TaskCTL: Docs"
+            inputs:
+              targetType: inline
+              script: taskctl docs
 
           - task: Bash@3
             displayName: "TaskCTL: Test"
@@ -116,6 +122,13 @@ stages:
             inputs:
               path: $(FUNCTIONAL_TESTS_SRC_DIR)
               artifact: tests
+          
+          # Upload the documentation
+          - task: PublishPipelineArtifact@1
+            displayName: "Upload: documentation"
+            inputs:
+              path: $(Build.SourcesDirectory)/outputs/docs
+              artifact: docs
 
   - stage: Dev
     dependsOn: Build
