@@ -49,9 +49,10 @@ $list = Get-ChildItem -Path $docs_dir -Recurse -Attributes !Directory -Include *
 foreach ($file in $list) {
     # Set the output paths retaining the original folder structure
     $md_file_path = (Split-Path $file) -replace (Resolve-Path -Path $docs_dir), $output_dir
+    $xml_file_path = (Split-Path $file) -replace (Resolve-Path -Path $docs_dir), $docs_dir
 
     # generate the path for the xml file
-    $xml_file = [IO.Path]::Combine($docs_dir, ("{0}.xml" -f [System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
+    $xml_file = [IO.Path]::Combine($xml_file_path, ("{0}.xml" -f [System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
 
     # generate the md path
     $md_file = [IO.Path]::Combine($md_file_path, ("{0}.md" -f[System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
