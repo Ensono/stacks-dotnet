@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Messaging.EventHubs" Version="5.11.5" Condition="'$(EventPublisherEventHub)' == 'true'"/>
+    <PackageReference Include="Azure.Messaging.EventHubs.Processor" Version="5.11.5" Condition="'$(EventPublisherEventHub)' == 'true'"/>
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
@@ -22,9 +24,7 @@
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Domain\xxENSONOxx.xxSTACKSxx.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.csproj" />
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
-    <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj" />
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB\xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.csproj" />
-
 
   </ItemGroup>
 
