@@ -47,14 +47,14 @@ $list = Get-ChildItem -Path $docs_dir -Recurse -Attributes !Directory -Include *
 
 # Iterate around the list of files
 foreach ($file in $list) {
-    # Get the output path for the file retaining the folder structure
-    $file_output_path = (Split-Path $file) -replace (Resolve-Path -Path $docs_dir), $output_dir
+    # Set the output paths retaining the original folder structure
+    $md_file_path = (Split-Path $file) -replace (Resolve-Path -Path $docs_dir), $output_dir
 
     # generate the path for the xml file
-    $xml_file = [IO.Path]::Combine("$env:TEMP/$file_output_path", ("{0}.xml" -f [System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
+    $xml_file = [IO.Path]::Combine($docs_dir, ("{0}.xml" -f [System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
 
     # generate the md path
-    $md_file = [IO.Path]::Combine($file_output_path, ("{0}.md" -f[System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
+    $md_file = [IO.Path]::Combine($md_file_path, ("{0}.md" -f[System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
 
     # Create the XML file using asciidoctor
     Write-Output ("Generating xml file: {0}" -f $xml_file)
