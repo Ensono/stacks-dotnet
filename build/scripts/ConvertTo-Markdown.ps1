@@ -51,6 +51,13 @@ foreach ($file in $list) {
     $md_file_path = (Split-Path $file) -replace (Resolve-Path -Path $docs_dir), $output_dir
     $xml_file_path = (Split-Path $file) -replace (Resolve-Path -Path $docs_dir), $docs_dir
 
+    Write-Output ("MD Path: {0}" -f $md_file_path)
+    $exists = Test-Path -Path $md_file_path
+    if (!$exists) {
+        Write-Output ("Creating directory: {0}" -f $md_file_path)
+        New-Item -ItemType Directory -Path $md_file_path | Out-Null
+    }
+
     # generate the path for the xml file
     $xml_file = [IO.Path]::Combine($xml_file_path, ("{0}.xml" -f [System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
 
