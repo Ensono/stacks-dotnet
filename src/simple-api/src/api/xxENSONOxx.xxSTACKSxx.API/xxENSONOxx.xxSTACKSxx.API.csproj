@@ -13,6 +13,7 @@
     </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0"/>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -37,11 +38,5 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Azure.Monitor.OpenTelemetry.AspNetCore">
-      <HintPath>..\..\..\..\..\..\..\..\..\.nuget\packages\azure.monitor.opentelemetry.aspnetcore\1.2.0\lib\net6.0\Azure.Monitor.OpenTelemetry.AspNetCore.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
+  
 </Project>

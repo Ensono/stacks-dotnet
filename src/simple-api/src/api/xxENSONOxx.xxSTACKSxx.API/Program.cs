@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
 using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -28,7 +29,7 @@ var configuration = builder.Configuration;
 
 var pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
 var useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName)!);
-
+var otlpServiceName = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName) ?? "defaultServiceName";
 
 builder.Services.AddHealthChecks();
 builder.Services.AddHttpContextAccessor();
@@ -39,35 +40,47 @@ if (useAppInsights)
     builder.Services.AddApplicationInsightsTelemetry();
 }
 
-
 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracingBuilder =>
     {
         tracingBuilder.ConfigureResource(resource =>
         {
-            resource.AddService(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName)!);
+            resource.AddService(otlpServiceName);
         });
         tracingBuilder.AddAspNetCoreInstrumentation();
         tracingBuilder.AddConsoleExporter(options =>
         {
             options.Targets = ConsoleExporterOutputTargets.Debug;
         });
-        tracingBuilder.AddOtlpExporter(options =>
-        {
-            options.Endpoint = new Uri(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OltpEndpoint)!);
-        });
     });
-builder.Services.AddOpenTelemetry().WithMetrics(builder =>
-{
-    builder.AddAspNetCoreInstrumentation()
-        .AddAspNetCoreInstrumentation()
-        .AddConsoleExporter();
-});
+builder.Services.AddOpenTelemetry()
+    .WithMetrics(metricProviderBuilder =>
+    {
+        metricProviderBuilder.ConfigureResource(resource =>
+        {
+            resource.AddService(otlpServiceName);
+        });
+        metricProviderBuilder.AddAspNetCoreInstrumentation()
+            .AddAspNetCoreInstrumentation()
+            .AddConsoleExporter();
+    });
 
-builder.Services.AddOpenTelemetry().UseOtlpExporter();
+builder.Services.AddOpenTelemetry()
+    .WithLogging(loggerProviderBuilder =>
+    {
+        loggerProviderBuilder.ConfigureResource(resource =>
+        {
+            resource.AddService(otlpServiceName);
+        });
+        loggerProviderBuilder.AddConsoleExporter();
+    });
 
-builder.Services.AddOpenTelemetry().UseAzureMonitor();
+builder.Services.AddOpenTelemetry()
+    .UseOtlpExporter();
+
+builder.Services.AddOpenTelemetry()
+    .UseAzureMonitor();
 
 var jwtBearerAuthenticationConfigurationSection = configuration.GetJwtBearerAuthenticationConfigurationSection();
 builder.Services.Configure<JwtBearerAuthenticationConfiguration>(jwtBearerAuthenticationConfigurationSection);

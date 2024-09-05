@@ -16,6 +16,7 @@ using xxENSONOxx.xxSTACKSxx.Shared.API.Swagger.Filters;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
 using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -34,6 +35,7 @@ var environment = builder.Environment;
 
 var pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
 var useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName));
+var otlpServiceName = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName) ?? "defaultServiceName";
 
 if (useAppInsights)
 {
@@ -41,35 +43,46 @@ if (useAppInsights)
 }
 
 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-services.AddOpenTelemetry()
-        .WithTracing(builder =>
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingBuilder =>
+    {
+        tracingBuilder.ConfigureResource(resource =>
         {
-            builder.ConfigureResource(resource =>
-            {
-                resource.AddService(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName));
-            });
-            builder.AddAspNetCoreInstrumentation();
-            builder.AddConsoleExporter(options =>
-            {
-                options.Targets = ConsoleExporterOutputTargets.Debug;
-            });
-            builder.AddOtlpExporter(options =>
-            {
-                options.Endpoint = new Uri(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OltpEndpoint));
-            });
+            resource.AddService(otlpServiceName);
         });
+        tracingBuilder.AddAspNetCoreInstrumentation();
+        tracingBuilder.AddConsoleExporter(options =>
+        {
+            options.Targets = ConsoleExporterOutputTargets.Debug;
+        });
+    });
+builder.Services.AddOpenTelemetry()
+    .WithMetrics(metricProviderBuilder =>
+    {
+        metricProviderBuilder.ConfigureResource(resource =>
+        {
+            resource.AddService(otlpServiceName);
+        });
+        metricProviderBuilder.AddAspNetCoreInstrumentation()
+            .AddAspNetCoreInstrumentation()
+            .AddConsoleExporter();
+    });
 
-services.AddOpenTelemetry().WithMetrics(builder =>
-{
-    builder.AddAspNetCoreInstrumentation()
-        .AddAspNetCoreInstrumentation()
-        .AddConsoleExporter();
-});
+builder.Services.AddOpenTelemetry()
+    .WithLogging(loggerProviderBuilder =>
+    {
+        loggerProviderBuilder.ConfigureResource(resource =>
+        {
+            resource.AddService(otlpServiceName);
+        });
+        loggerProviderBuilder.AddConsoleExporter();
+    });
 
-services.AddOpenTelemetry().UseOtlpExporter();
+builder.Services.AddOpenTelemetry()
+    .UseOtlpExporter();
 
-services.AddOpenTelemetry().UseAzureMonitor();
-
+builder.Services.AddOpenTelemetry()
+    .UseAzureMonitor();
 
 services.AddHealthChecks();
 
