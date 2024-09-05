@@ -15,17 +15,17 @@ using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 
-public class EventPublisher(
+public class SnsEventPublisher(
         IOptions<AwsSnsConfiguration> configuration,
         ISecretResolver<string> secretResolver,
         IAmazonSimpleNotificationService snsClient,
-        ILogger<EventPublisher> logger)
+        ILogger<SnsEventPublisher> logger)
         : IApplicationEventPublisher
     {
         private readonly IOptions<AwsSnsConfiguration> configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         private readonly ISecretResolver<string> secretResolver = secretResolver ?? throw new ArgumentNullException(nameof(secretResolver));
         private readonly IAmazonSimpleNotificationService snsClient = snsClient ?? throw new ArgumentNullException(nameof(snsClient));
-        private readonly ILogger<EventPublisher> logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly ILogger<SnsEventPublisher> logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         /// <summary>
         /// Publishes an event message to the configured SNS
