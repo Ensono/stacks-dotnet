@@ -60,6 +60,6 @@ foreach ($file in $list) {
 
     # Create the markdown file
     Write-Output ("Generating markdown file: {0}" -f $md_file)
-    pandoc -f docbook -t markdown_strict $xml_file -o $md_file
+    pandoc -f docbook -t markdown_strict $xml_file -o $md_file --wrap=preserve
 
 }
