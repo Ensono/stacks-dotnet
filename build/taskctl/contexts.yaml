@@ -72,7 +72,7 @@ contexts:
         - -w
         - /app
         - --env-file
-        - envfile        
+        - envfile
         - amidostacks/runner-pwsh-asciidoctor:0.4.60-stable
         - pwsh
         - -NoProfile
