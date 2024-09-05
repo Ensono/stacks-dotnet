@@ -26,8 +26,6 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure logging
-
 // Add services to the container
 var services = builder.Services;
 var configuration = builder.Configuration;
@@ -43,6 +41,8 @@ if (useAppInsights)
 }
 
 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+// Register OpenTelemetry
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracingBuilder =>
     {
@@ -55,8 +55,7 @@ builder.Services.AddOpenTelemetry()
         {
             options.Targets = ConsoleExporterOutputTargets.Debug;
         });
-    });
-builder.Services.AddOpenTelemetry()
+    })
     .WithMetrics(metricProviderBuilder =>
     {
         metricProviderBuilder.ConfigureResource(resource =>
@@ -66,9 +65,7 @@ builder.Services.AddOpenTelemetry()
         metricProviderBuilder.AddAspNetCoreInstrumentation()
             .AddAspNetCoreInstrumentation()
             .AddConsoleExporter();
-    });
-
-builder.Services.AddOpenTelemetry()
+    })
     .WithLogging(loggerProviderBuilder =>
     {
         loggerProviderBuilder.ConfigureResource(resource =>
@@ -76,11 +73,10 @@ builder.Services.AddOpenTelemetry()
             resource.AddService(otlpServiceName);
         });
         loggerProviderBuilder.AddConsoleExporter();
-    });
-
-builder.Services.AddOpenTelemetry()
+    })
     .UseOtlpExporter();
 
+// Register OpenTelemetry with Azure Monitor
 builder.Services.AddOpenTelemetry()
     .UseAzureMonitor();
 

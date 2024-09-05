@@ -39,17 +39,16 @@ var host = new HostBuilder()
             builder.AddAspNetCoreInstrumentation()                      
                 .AddAspNetCoreInstrumentation()
                 .AddConsoleExporter();
-        });
-
-        services.AddOpenTelemetry().WithMetrics(builder =>
+        })
+            .WithMetrics(builder =>
         {
             builder.AddAspNetCoreInstrumentation()
                 .AddAspNetCoreInstrumentation()
                 .AddConsoleExporter();
-        });
+        })
+            .UseOtlpExporter();
 
-        services.AddOpenTelemetry().UseOtlpExporter();
-
+        // Register OpenTelemetry with Azure Monitor
         services.AddOpenTelemetry().UseAzureMonitor();
     })
     .Build();
