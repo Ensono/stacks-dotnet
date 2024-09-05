@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Shared.API.Middleware;
-using xxENSONOxx.xxSTACKSxx.Shared.API.Swagger.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +17,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using xxENSONOxx.xxSTACKSxx.API;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 using xxENSONOxx.xxSTACKSxx.API.Authorization;
+using xxENSONOxx.xxSTACKSxx.API.Filters;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 
 var builder = WebApplication.CreateBuilder(args);
