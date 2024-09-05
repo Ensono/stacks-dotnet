@@ -10,19 +10,16 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.API.Middleware
 {
     public class CorrelationIdMiddleware(RequestDelegate next, IOptions<CorrelationIdConfiguration> options)
     {
-        private readonly RequestDelegate _next;
-        private readonly CorrelationIdConfiguration _options;
-        private static readonly ActivitySource ActivitySource = new("xxENSONOxx.xxSTACKSxx");
+        private readonly CorrelationIdConfiguration _options = options.Value;
+        private static readonly ActivitySource activitySource = new("xxENSONOxx.xxSTACKSxx");
 
         public async Task InvokeAsync(HttpContext context)
         {
             var correlationId = GetOrSetCorrelationId(context);
 
-            using (var activity = ActivitySource.StartActivity("CorrelationIdMiddleware"))
-            {
-                activity?.SetTag(_options.HeaderName, correlationId.ToString());
-                await _next(context);
-            }
+            using var activity = activitySource.StartActivity("CorrelationIdMiddleware");
+            activity?.SetTag(_options.HeaderName, correlationId.ToString());
+            await next(context);
         }
 
         private StringValues GetOrSetCorrelationId(HttpContext context)
