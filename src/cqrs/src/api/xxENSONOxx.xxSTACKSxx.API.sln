@@ -47,8 +47,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.API.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.API.Tests\xxENSONOxx.xxSTACKSxx.Shared.API.Tests.csproj", "{F4B072C7-1AF9-4ADE-A055-7C0E4257035C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.API.Swagger", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.API.Swagger\xxENSONOxx.xxSTACKSxx.Shared.API.Swagger.csproj", "{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Testing", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Testing\xxENSONOxx.xxSTACKSxx.Shared.Testing.csproj", "{5375FD38-BB3F-45B6-A42C-E62D7F4C3834}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests\xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests.csproj", "{6D545555-2426-4478-82A9-D756A00F1E39}"
@@ -299,18 +297,6 @@ Global
 		{F4B072C7-1AF9-4ADE-A055-7C0E4257035C}.Release|x64.Build.0 = Release|Any CPU
 		{F4B072C7-1AF9-4ADE-A055-7C0E4257035C}.Release|x86.ActiveCfg = Release|Any CPU
 		{F4B072C7-1AF9-4ADE-A055-7C0E4257035C}.Release|x86.Build.0 = Release|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Debug|x64.Build.0 = Debug|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Debug|x86.Build.0 = Debug|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Release|x64.ActiveCfg = Release|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Release|x64.Build.0 = Release|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Release|x86.ActiveCfg = Release|Any CPU
-		{CCF4C321-DB1D-41D6-AE84-BEA10B1FC967}.Release|x86.Build.0 = Release|Any CPU
 		{5375FD38-BB3F-45B6-A42C-E62D7F4C3834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5375FD38-BB3F-45B6-A42C-E62D7F4C3834}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5375FD38-BB3F-45B6-A42C-E62D7F4C3834}.Debug|x64.ActiveCfg = Debug|Any CPU
