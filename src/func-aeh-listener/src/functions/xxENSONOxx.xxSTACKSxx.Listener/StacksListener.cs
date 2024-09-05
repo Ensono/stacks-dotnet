@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Serializers;
 using Azure.Messaging.EventHubs;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+using xxENSONOxx.xxSTACKSxx.Listener.Serialization;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener;
 

@@ -77,14 +77,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Tests.csproj", "{688708D6-CF24-452C-BBFD-59161F982AA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.csproj", "{7BEFAEE8-4F24-434B-ABEA-4E904804266C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests\xxENSONOxx.xxSTACKSxx.Shared.Messaging.AWS.SNS.Tests.csproj", "{C63011EA-2C53-495B-96F8-71124DB6236C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.csproj", "{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests.csproj", "{70705814-2618-48A3-AD93-EF77089BE7B3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj", "{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Configuration", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Configuration\xxENSONOxx.xxSTACKSxx.Shared.Configuration.csproj", "{BFE98A28-8B88-4CC6-BECF-324D0D4CD760}"
@@ -511,9 +503,6 @@ Global
 		{C63011EA-2C53-495B-96F8-71124DB6236C}.Release|x64.Build.0 = Release|Any CPU
 		{C63011EA-2C53-495B-96F8-71124DB6236C}.Release|x86.ActiveCfg = Release|Any CPU
 		{C63011EA-2C53-495B-96F8-71124DB6236C}.Release|x86.Build.0 = Release|Any CPU
-		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Debug|x64.Build.0 = Debug|Any CPU
 		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Debug|x86.Build.0 = Debug|Any CPU
@@ -523,18 +512,6 @@ Global
 		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Release|x64.Build.0 = Release|Any CPU
 		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Release|x86.ActiveCfg = Release|Any CPU
 		{52FCB145-BC6E-4B50-AE2A-C51C3466EB92}.Release|x86.Build.0 = Release|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Debug|x64.Build.0 = Debug|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Debug|x86.Build.0 = Debug|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|x64.ActiveCfg = Release|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|x64.Build.0 = Release|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|x86.ActiveCfg = Release|Any CPU
-		{70705814-2618-48A3-AD93-EF77089BE7B3}.Release|x86.Build.0 = Release|Any CPU
 		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}.Debug|x64.ActiveCfg = Debug|Any CPU
