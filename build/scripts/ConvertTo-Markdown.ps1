@@ -66,7 +66,7 @@ foreach ($file in $list) {
 
     # Create the XML file using asciidoctor
     Write-Output ("Generating xml file: {0}" -f $xml_file)
-    asciidoctor -b docbook -o $xml_file $file.FullName
+    asciidoc -b docbook -o $xml_file $file.FullName
 
     # Create the markdown file
     Write-Output ("Generating markdown file: {0}" -f $md_file)
