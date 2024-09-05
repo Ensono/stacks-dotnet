@@ -50,7 +50,7 @@ stages:
             inputs:
               targetType: inline
               script: taskctl lint
-          
+
           - task: Bash@3
             displayName: "TaskCTL: Docs"
             inputs:
@@ -122,7 +122,7 @@ stages:
             inputs:
               path: $(FUNCTIONAL_TESTS_SRC_DIR)
               artifact: tests
-          
+
           # Upload the documentation
           - task: PublishPipelineArtifact@1
             displayName: "Upload: documentation"
