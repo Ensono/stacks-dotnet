@@ -42,9 +42,9 @@ dotnet new stacks-az-func-asb-listener -n ServiceBus.Listener.Project -do Menu
 dotnet new stacks-asb-worker -n ServiceBus.Worker.Project -do Menu
 
 # Generate the additional template
-dotnet new stacks-webapi -n CQRS.Added.Project -do Menu
-cd CQRS.Added.Project/src/simple-api/src/api
-dotnet new stacks-add-cqrs -n CQRS.Project -do Menu
+dotnet new stacks-webapi -n Foo.Bar -do Menu
+cd Foo.Bar/src/simple-api/src/api
+dotnet new stacks-add-cqrs -n Foo.Bar.CQRS -do Menu
 
 # Test the Simple.WebAPI project
 cd Simple.WebAPI/src/simple-api/src/api
