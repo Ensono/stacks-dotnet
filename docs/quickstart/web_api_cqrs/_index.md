@@ -1,0 +1,7 @@
+------------------------------------------------------------------------
+
+id: azure-backend-apicqrs-index
+title: REST API with CQRS
+linkTitle: REST API with CQRS
+weight: 2
+---

@@ -1,0 +1,7 @@
+------------------------------------------------------------------------
+
+id: azure-backend-net-core-index
+title: .NET Core
+linkTitle: .NET Core
+weight: 2
+---
