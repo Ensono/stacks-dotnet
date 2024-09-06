@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.API.Models
+namespace xxENSONOxx.xxSTACKSxx.API.Models.Responses
 {
     public class BadResult : ProblemDetails
     {
