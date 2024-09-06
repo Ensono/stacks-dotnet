@@ -43,7 +43,7 @@ dotnet new stacks-asb-worker -n ServiceBus.Worker.Project -do Menu
 
 # Generate the additional template
 dotnet new stacks-webapi -n CQRS.Added.Project -do Menu
-cd CQRS.Added.Project/simple-api/src/api
+cd CQRS.Added.Project/src/simple-api/src/api
 dotnet new stacks-add-cqrs -n CQRS.Project -do Menu
 
 # Test the Simple.WebAPI project
