@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using xxENSONOxx.xxSTACKSxx.Shared.API.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry;
 using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxENSONOxx.xxSTACKSxx.API;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
@@ -23,16 +26,10 @@ using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
-var logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .CreateLogger();
+
 var pathBase = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.ApiBasePathEnvName) ?? string.Empty;
 var useAppInsights = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.AppInsightsEnvName)!);
-var useOpenTelemetry = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName)!);
-
-builder.Host.UseSerilog(logger);
+var otlpServiceName = Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName) ?? "defaultServiceName";
 
 builder.Services.AddHealthChecks();
 builder.Services.AddHttpContextAccessor();
@@ -43,27 +40,45 @@ if (useAppInsights)
     builder.Services.AddApplicationInsightsTelemetry();
 }
 
-if (useOpenTelemetry)
-{
-    AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-    builder.Services.AddOpenTelemetry()
-        .WithTracing(tracingBuilder =>
+AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+// Register OpenTelemetry
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingBuilder =>
+    {
+        tracingBuilder.ConfigureResource(resource =>
         {
-            tracingBuilder.ConfigureResource(resource =>
-            {
-                resource.AddService(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OtlpServiceName)!);
-            });
-            tracingBuilder.AddAspNetCoreInstrumentation();
-            tracingBuilder.AddConsoleExporter(options =>
-            {
-                options.Targets = ConsoleExporterOutputTargets.Debug;
-            });
-            tracingBuilder.AddOtlpExporter(options =>
-            {
-                options.Endpoint = new Uri(Environment.GetEnvironmentVariable(Constants.EnvironmentVariables.OltpEndpoint)!);
-            });
+            resource.AddService(otlpServiceName);
         });
-}
+        tracingBuilder.AddAspNetCoreInstrumentation();
+        tracingBuilder.AddConsoleExporter(options =>
+        {
+            options.Targets = ConsoleExporterOutputTargets.Debug;
+        });
+    })
+    .WithMetrics(metricProviderBuilder =>
+    {
+        metricProviderBuilder.ConfigureResource(resource =>
+        {
+            resource.AddService(otlpServiceName);
+        });
+        metricProviderBuilder.AddAspNetCoreInstrumentation()
+            .AddAspNetCoreInstrumentation()
+            .AddConsoleExporter();
+    })
+    .WithLogging(loggerProviderBuilder =>
+    {
+        loggerProviderBuilder.ConfigureResource(resource =>
+        {
+            resource.AddService(otlpServiceName);
+        });
+        loggerProviderBuilder.AddConsoleExporter();
+    })
+    .UseOtlpExporter();
+
+// Register OpenTelemetry with Azure Monitor
+builder.Services.AddOpenTelemetry()
+    .UseAzureMonitor();
 
 var jwtBearerAuthenticationConfigurationSection = configuration.GetJwtBearerAuthenticationConfigurationSection();
 builder.Services.Configure<JwtBearerAuthenticationConfiguration>(jwtBearerAuthenticationConfigurationSection);

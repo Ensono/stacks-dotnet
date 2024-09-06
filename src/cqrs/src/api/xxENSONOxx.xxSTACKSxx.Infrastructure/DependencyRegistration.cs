@@ -6,7 +6,7 @@ using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
+using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers;
@@ -31,7 +31,7 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure;
 
 public static class DependencyRegistration
 {
-    static readonly ILogger log = Log.Logger;
+    static readonly ILogger log = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger("DependencyRegistration");
 
     /// <summary>
     /// Register static services that does not change between environment or contexts(i.e: tests)
@@ -91,7 +91,7 @@ public static class DependencyRegistration
     
     private static void AddCommandHandlers(IServiceCollection services)
     {
-        log.Information("Loading implementations of {interface}", typeof(ICommandHandler<,>).Name);
+        log.LogInformation("Loading implementations of {interface}", typeof(ICommandHandler<,>).Name);
         
         services.AddTransient<ICommandHandler<CreateCategory, Guid>, CreateCategoryCommandHandler>();
         services.AddTransient<ICommandHandler<DeleteCategory, bool>, DeleteCategoryCommandHandler>();
@@ -106,7 +106,7 @@ public static class DependencyRegistration
 
     private static void AddQueryHandlers(IServiceCollection services)
     {
-        log.Information("Loading implementations of {interface}", typeof(IQueryHandler<,>).Name);
+        log.LogInformation("Loading implementations of {interface}", typeof(IQueryHandler<,>).Name);
 
         services.AddTransient<IQueryHandler<GetMenuById, Menu>, GetMenuByIdQueryHandler>();
         services.AddTransient<IQueryHandler<SearchMenu, SearchMenuResult>, SearchMenuQueryHandler>();
