@@ -1,27 +1,26 @@
----
-id: pipeline_netcore
-title: .NET Core - Azure DevOps Pipeline
-sidebar_label: Pipeline
-description: How to configure Azure DevOps Pipeline for .NET Core
-keywords:
-  - .net core
-  - azure devops
-  - configure
-  - pipeline
-  - setting up
-  - template
-  - build
----
+------------------------------------------------------------------------
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+id: pipeline\_netcore
+title: .NET Core - Azure DevOps Pipeline
+linkTitle: Pipeline
+weight: 7
+keywords:
+- .net core
+- azure devops
+- configure
+- pipeline
+- setting up
+- template
+- build
+---
 
 The pipeline will automate provisioning and updating the .NET Core REST API with CQRS infrastructure in Azure.
 
-Where possible, we are creating reusable steps ([stacks-pipeline-templates](https://github.com/Ensono/stacks-pipeline-templates)) that can be pulled into any base pipeline. Reusable steps can include tasks to deploy, build, test and more.
+Where possible, we are creating reusable steps [stacks-pipeline-templates](https://github.com/Ensono/stacks-pipeline-templates) that can be pulled into any base pipeline. Reusable steps can include tasks to deploy, build, test and more.
 
-## Pipeline Diagram
+![.NET Core REST API - Azure DevOps Pipeline](../../../../../images/azure_netcore_azure_devops_pipeline.png)
 
-<img alt=".NET Core REST API - Azure DevOps Pipeline" src={useBaseUrl('img/azure_netcore_azure_devops_pipeline.png')} />
+Figure 1. Pipeline Diagram
 
 ## Setting up Azure DevOps
 
@@ -31,19 +30,69 @@ A variable group will need creating for storing variables to be used for testing
 
 Add the following variables:
 
-| Variable Name            | Required for         | Note                                                                              |
-| ------------------------ | -------------------- | --------------------------------------------------------------------------------- |
-| COSMOSDB_KEY_DEV         | Integration Test     | Output from infrastructure deployment. Should be enabled after first pipeline run |
-| COSMOSDB_NAME_DEV        | Integration Test     | Output from infrastructure deployment. Should be enabled after first pipeline run |
-| COSMOSDB_ACCOUNT_URI_DEV | Integration Test     | Output from infrastructure deployment. Should be enabled after first pipeline run |
-| SONAR_ORGANIZATION       | Static Code Analysis | from [sonarcloud](https://sonarcloud.io/)                                         |
-| SONAR_PROJECT_KEY        | Static Code Analysis | from [sonarcloud](https://sonarcloud.io/)                                         |
-| SONAR_PROJECT_NAME       | Static Code Analysis | from [sonarcloud](https://sonarcloud.io/)                                         |
-| SONAR_TOKEN              | Static Code Analysis | from [sonarcloud](https://sonarcloud.io/)                                         |
-| PACT_BEARER_TOKEN        | Contract Test        | from [pact](https://docs.pact.io/)                                                |
-| PACT_BROKER              | Contract Test        | from [pact](https://docs.pact.io/)                                                |
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th class="tableblock halign-left valign-top">Variable Name</th>
+<th class="tableblock halign-left valign-top">Required for</th>
+<th class="tableblock halign-left valign-top">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="tableblock halign-left valign-top"><p>COSMOSDB_KEY_DEV</p></td>
+<td class="tableblock halign-left valign-top"><p>Integration Test</p></td>
+<td class="tableblock halign-left valign-top"><p>Output from infrastructure deployment. Should be enabled after first pipeline run</p></td>
+</tr>
+<tr class="even">
+<td class="tableblock halign-left valign-top"><p>COSMOSDB_NAME_DEV</p></td>
+<td class="tableblock halign-left valign-top"><p>Integration Test</p></td>
+<td class="tableblock halign-left valign-top"><p>Output from infrastructure deployment. Should be enabled after first pipeline run</p></td>
+</tr>
+<tr class="odd">
+<td class="tableblock halign-left valign-top"><p>COSMOSDB_ACCOUNT_URI_DEV</p></td>
+<td class="tableblock halign-left valign-top"><p>Integration Test</p></td>
+<td class="tableblock halign-left valign-top"><p>Output from infrastructure deployment. Should be enabled after first pipeline run</p></td>
+</tr>
+<tr class="even">
+<td class="tableblock halign-left valign-top"><p>SONAR_ORGANIZATION</p></td>
+<td class="tableblock halign-left valign-top"><p>Static Code Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p>from <a href="https://sonarcloud.io/">sonarcloud</a></p></td>
+</tr>
+<tr class="odd">
+<td class="tableblock halign-left valign-top"><p>SONAR_PROJECT_KEY</p></td>
+<td class="tableblock halign-left valign-top"><p>Static Code Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p>from <a href="https://sonarcloud.io/">sonarcloud</a></p></td>
+</tr>
+<tr class="even">
+<td class="tableblock halign-left valign-top"><p>SONAR_PROJECT_NAME</p></td>
+<td class="tableblock halign-left valign-top"><p>Static Code Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p>from <a href="https://sonarcloud.io/">sonarcloud</a></p></td>
+</tr>
+<tr class="odd">
+<td class="tableblock halign-left valign-top"><p>SONAR_TOKEN</p></td>
+<td class="tableblock halign-left valign-top"><p>Static Code Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p>from <a href="https://sonarcloud.io/">sonarcloud</a></p></td>
+</tr>
+<tr class="even">
+<td class="tableblock halign-left valign-top"><p>PACT_BEARER_TOKEN</p></td>
+<td class="tableblock halign-left valign-top"><p>Contract Test</p></td>
+<td class="tableblock halign-left valign-top"><p>from <a href="https://docs.pact.io/">pact</a></p></td>
+</tr>
+<tr class="odd">
+<td class="tableblock halign-left valign-top"><p>PACT_BROKER</p></td>
+<td class="tableblock halign-left valign-top"><p>Contract Test</p></td>
+<td class="tableblock halign-left valign-top"><p>from <a href="https://docs.pact.io/">pact</a></p></td>
+</tr>
+</tbody>
+</table>
 
-<img alt="Azure .NET Core Variable Group" src={useBaseUrl('img/azure_netcore_variable_group.png')} />
+![Azure .NET Core Variable Group](../../../../../images/azure_netcore_variable_group.png)
 
 ### Update pipeline template placeholders
 
@@ -53,10 +102,16 @@ Where possible, the scaffolding CLI will have populated the correct values in th
 
 Follow the steps below to create the pipeline and trigger the initial run.
 
-1. In the pipelines section of Azure DevOps, select **New Pipeline**.
-2. Select your repository.
-3. Select the **Existing Azure Pipelines YAML files** option and enter the path `build/azDevops/azure/api-pipeline.yml`
-4. Click run and wait for the pipeline to complete.
-5. Update the API variable group with the Cosmos DB details.
-6. Enable Integration Tests in `build/azDevops/azure/api-pipeline.yml`
-7. Commit changes to trigger the pipeline again.
+1.  In the pipelines section of Azure DevOps, select **New Pipeline**.
+
+2.  Select your repository.
+
+3.  Select the **Existing Azure Pipelines YAML files** option and enter the path `build/azDevops/azure/api-pipeline.yml`.
+
+4.  Click run and wait for the pipeline to complete.
+
+5.  Update the API variable group with the Cosmos DB details.
+
+6.  Enable Integration Tests in `build/azDevops/azure/api-pipeline.yml`.
+
+7.  Commit changes to trigger the pipeline again.

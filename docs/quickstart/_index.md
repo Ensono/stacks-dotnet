@@ -1,0 +1,7 @@
+------------------------------------------------------------------------
+
+id: azure-backend-quickstart-index
+title: Quickstart
+linkTitle: Quickstart
+weight: 3
+---

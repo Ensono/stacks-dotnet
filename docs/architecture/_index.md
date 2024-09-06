@@ -1,0 +1,7 @@
+------------------------------------------------------------------------
+
+id: azure-backend-arch-ndex
+title: Architecture
+linkTitle: Architecture
+weight: 4
+---

@@ -239,4 +239,4 @@ tasks:
     description: Build Docs
     context: docsenv
     command:
-      - /app/build/scripts/ConvertTo-Markdown.ps1 -docs_dir /app/docs -output_dir /app/outputs/docs/md
+      - /app/build/scripts/ConvertTo-Markdown.ps1 -docs_dir /app/asciidoc -output_dir /app/outputs/docs/md
