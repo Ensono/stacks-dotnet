@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.API\xxENSONOxx.xxSTACKSxx.Shared.API.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core\xxENSONOxx.xxSTACKSxx.Shared.Core.csproj" />
         <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.API.Models\xxENSONOxx.xxSTACKSxx.API.Models.csproj" />
     </ItemGroup>
 
