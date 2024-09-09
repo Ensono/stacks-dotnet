@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Core.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests.csproj", "{06DE9A76-034B-4975-8365-A7F88EF7954E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Packages", "Shared Packages", "{BAA1B75A-6B07-42C1-972F-7CDBAE264F01}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{BAA1B75A-6B07-42C1-972F-7CDBAE264F01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xxENSONOxx.xxSTACKSxx.AppHost", "xxENSONOxx.xxSTACKSxx.AppHost\xxENSONOxx.xxSTACKSxx.AppHost.csproj", "{F9DD0CF1-4071-421C-A2A1-CD7A1D82551A}"
 EndProject

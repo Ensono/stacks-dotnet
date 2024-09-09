@@ -1,51 +1,52 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using Serilog.Context;
 using xxENSONOxx.xxSTACKSxx.API.Configuration;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Middleware;
-
-public class CorrelationIdMiddleware(RequestDelegate next, IOptions<CorrelationIdConfiguration> options)
+namespace xxENSONOxx.xxSTACKSxx.API.Middleware
 {
-    private readonly CorrelationIdConfiguration _options = options.Value;
-
-    public async Task InvokeAsync(HttpContext context)
+    public class CorrelationIdMiddleware(RequestDelegate next, IOptions<CorrelationIdConfiguration> options)
     {
-        var correlationId = GetOrSetCorrelationId(context);
+        private readonly CorrelationIdConfiguration _options = options.Value;
+        private static readonly ActivitySource activitySource = new("xxENSONOxx.xxSTACKSxx");
 
-        using (LogContext.PushProperty(_options.HeaderName, correlationId.ToString()))
+        public async Task InvokeAsync(HttpContext context)
         {
+            var correlationId = GetOrSetCorrelationId(context);
+
+            using var activity = activitySource.StartActivity("CorrelationIdMiddleware");
+            activity?.SetTag(_options.HeaderName, correlationId.ToString());
             await next(context);
         }
-    }
 
-    private StringValues GetOrSetCorrelationId(HttpContext context)
-    {
-        var correlationIdProvided = context.Request.Headers.TryGetValue(_options.HeaderName, out var correlationId);
-
-        if (!correlationIdProvided)
+        private StringValues GetOrSetCorrelationId(HttpContext context)
         {
-            correlationId = new StringValues(Guid.NewGuid().ToString());
+            var correlationIdProvided = context.Request.Headers.TryGetValue(_options.HeaderName, out var correlationId);
 
-            context.Request.Headers.Append(_options.HeaderName, correlationId);
-        }
-
-        if (_options.IncludeInResponse)
-        {
-            context.Response.OnStarting(() =>
+            if (!correlationIdProvided)
             {
-                if (!context.Response.Headers.ContainsKey(_options.HeaderName))
+                correlationId = new StringValues(Guid.NewGuid().ToString());
+
+                context.Request.Headers.Append(_options.HeaderName, correlationId);
+            }
+
+            if (_options.IncludeInResponse)
+            {
+                context.Response.OnStarting(() =>
                 {
-                    context.Response.Headers.Append(_options.HeaderName, correlationId);
-                }
+                    if (!context.Response.Headers.ContainsKey(_options.HeaderName))
+                    {
+                        context.Response.Headers.Append(_options.HeaderName, correlationId);
+                    }
 
-                return Task.CompletedTask;
-            });
+                    return Task.CompletedTask;
+                });
+            }
+
+            return correlationId;
         }
-
-        return correlationId;
     }
 }
