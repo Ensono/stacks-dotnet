@@ -22,7 +22,11 @@ param (
     [Parameter(Mandatory=$true)]
     [string]
     # Output directory for the markdown files
-    $output_dir
+    $output_dir,
+
+    [switch]
+    # State of front matter should be skipped or not
+    $SkipFrontMatter
 )
 
 # Ensure that the $docs_dir exists
@@ -64,12 +68,27 @@ foreach ($file in $list) {
     # generate the md path
     $md_file = [IO.Path]::Combine($md_file_path, ("{0}.md" -f[System.IO.Path]::GetFileNameWithoutExtension($file.FullName)))
 
+    # determine the attributes for asciidoctor command
+    $attributes = @()
+    if ($SkipFrontMatter) {
+        $attributes += "-a skip-front-matter"
+    }
+
     # Create the XML file using asciidoctor
     Write-Output ("Generating xml file: {0}" -f $xml_file)
-    asciidoctor -b docbook -o $xml_file $file.FullName
+    asciidoctor -b docbook -o $xml_file ($attributes -split " ") $file.FullName
 
     # Create the markdown file
     Write-Output ("Generating markdown file: {0}" -f $md_file)
-    pandoc -f docbook -t markdown_strict $xml_file -o $md_file --wrap=preserve
+    pandoc -f docbook -t gfm $xml_file -o $md_file --wrap=preserve
+
+    # If NOT skipping front matter then prepend the header line to the markdown file, which is left out when put into Docbook format
+    if (!$SkipFrontMatter) {
+
+        # Get the content of the file and prepend the line
+        $content = Get-Content -Path $md_file -Raw
+        $content = "---`n" + $content
+        Set-Content -Path $md_file -Value $content
+    }
 
 }

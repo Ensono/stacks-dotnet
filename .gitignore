@@ -367,8 +367,10 @@ reportgenerator
 
 local
 support
-envfile
+envfile*
 coverage
 .terraform.lock.hcl
 tfplan
 .sonarqube
+outputs
+asciidoc/**/*.xml
