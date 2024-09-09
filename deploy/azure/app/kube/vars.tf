@@ -134,7 +134,7 @@ variable "cosmosdb_offer_type" {
 variable "function_name" {
   type        = string
   description = "Name of the function app"
-  default = ""
+  default     = ""
 }
 
 ###########################
