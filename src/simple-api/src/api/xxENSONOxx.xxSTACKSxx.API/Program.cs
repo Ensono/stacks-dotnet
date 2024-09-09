@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using xxENSONOxx.xxSTACKSxx.Shared.API.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +20,7 @@ using xxENSONOxx.xxSTACKSxx.API;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 using xxENSONOxx.xxSTACKSxx.API.Authorization;
 using xxENSONOxx.xxSTACKSxx.API.Filters;
+using xxENSONOxx.xxSTACKSxx.API.Middleware;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 
 var builder = WebApplication.CreateBuilder(args);

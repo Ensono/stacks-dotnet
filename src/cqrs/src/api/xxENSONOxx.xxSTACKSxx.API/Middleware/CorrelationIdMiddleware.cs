@@ -1,12 +1,12 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.API.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using xxENSONOxx.xxSTACKSxx.API.Configuration;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.API.Middleware
+namespace xxENSONOxx.xxSTACKSxx.API.Middleware
 {
     public class CorrelationIdMiddleware(RequestDelegate next, IOptions<CorrelationIdConfiguration> options)
     {
