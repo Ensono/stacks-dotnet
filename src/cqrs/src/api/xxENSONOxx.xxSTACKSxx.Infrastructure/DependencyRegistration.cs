@@ -7,21 +7,20 @@ using xxENSONOxx.xxSTACKSxx.Shared.Configuration.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using xxENSONOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
-using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 #if (EventPublisherAwsSns || EventPublisherEventHub)
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 #endif
 #if (CosmosDb || DynamoDb)
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB;
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Extensions;
 using Amazon.DynamoDBv2;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Extensions;
@@ -32,16 +31,6 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure;
 public static class DependencyRegistration
 {
     static readonly ILogger log = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger("DependencyRegistration");
-
-    /// <summary>
-    /// Register static services that does not change between environment or contexts(i.e: tests)
-    /// </summary>
-    /// <param name="services"></param>
-    public static void ConfigureStaticDependencies(IServiceCollection services)
-    {
-        AddCommandHandlers(services);
-        AddQueryHandlers(services);
-    }
 
     /// <summary>
     /// Register dynamic services that changes between environments or context(i.e: tests)
@@ -87,28 +76,5 @@ public static class DependencyRegistration
         healthChecks.AddCheck<xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.CosmosDbDocumentStorage<Menu>>("CosmosDB");
 #endif
         Debug.WriteLine("ConfigureProductionDependencies");
-    }
-    
-    private static void AddCommandHandlers(IServiceCollection services)
-    {
-        log.LogInformation("Loading implementations of {interface}", typeof(ICommandHandler<,>).Name);
-        
-        services.AddTransient<ICommandHandler<CreateCategory, Guid>, CreateCategoryCommandHandler>();
-        services.AddTransient<ICommandHandler<DeleteCategory, bool>, DeleteCategoryCommandHandler>();
-        services.AddTransient<ICommandHandler<UpdateCategory, bool>, UpdateCategoryCommandHandler>();
-        services.AddTransient<ICommandHandler<CreateMenu, Guid>, CreateMenuCommandHandler>();
-        services.AddTransient<ICommandHandler<DeleteMenu, bool>, DeleteMenuCommandHandler>();
-        services.AddTransient<ICommandHandler<UpdateMenu, bool>, UpdateMenuCommandHandler>();
-        services.AddTransient<ICommandHandler<CreateMenuItem, Guid>, CreateMenuItemCommandHandler>();
-        services.AddTransient<ICommandHandler<DeleteMenuItem, bool>, DeleteMenuItemCommandHandler>();
-        services.AddTransient<ICommandHandler<UpdateMenuItem, bool>, UpdateMenuItemCommandHandler>();
-    }
-
-    private static void AddQueryHandlers(IServiceCollection services)
-    {
-        log.LogInformation("Loading implementations of {interface}", typeof(IQueryHandler<,>).Name);
-
-        services.AddTransient<IQueryHandler<GetMenuById, Menu>, GetMenuByIdQueryHandler>();
-        services.AddTransient<IQueryHandler<SearchMenu, SearchMenuResult>, SearchMenuQueryHandler>();
     }
 }

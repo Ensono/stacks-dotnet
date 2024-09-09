@@ -1,13 +1,14 @@
-using Amazon.DynamoDBv2;
+using System;
+using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
+using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.DynamoDB;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 
 public class DynamoDbObjectStorage<TEntity>(
     ILogger<DynamoDbObjectStorage<TEntity>> logger,

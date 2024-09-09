@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Tests;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests;
 
 public class DynamoDbObjectSearchTests
 {

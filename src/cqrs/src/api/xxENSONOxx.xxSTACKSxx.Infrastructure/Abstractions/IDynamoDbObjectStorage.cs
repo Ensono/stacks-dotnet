@@ -1,6 +1,7 @@
+using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 
 public interface IDynamoDbObjectStorage<TEntity> where TEntity : class
 {

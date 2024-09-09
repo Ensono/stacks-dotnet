@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Domain;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 

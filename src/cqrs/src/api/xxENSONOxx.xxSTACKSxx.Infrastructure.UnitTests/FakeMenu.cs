@@ -1,6 +1,6 @@
 using System;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Tests;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests;
 
 public class FakeMenu(Guid id)
 {
