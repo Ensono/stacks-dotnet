@@ -4,12 +4,12 @@ using xxENSONOxx.xxSTACKSxx.CQRS.Enums;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
 
-/// <summary>
+    /// <summary>
     /// Contains log definitions for SNS component
     /// LoggerMessage.Define() creates a unique template for each log type
     /// The log template reduces the number of allocations and write logs faster to destination
     /// </summary>
-    public static class LogDefinition
+    public static class SnsLogDefinition
     {
         private static readonly Action<ILogger, string, Exception> logException =
             LoggerMessage.Define<string>(
