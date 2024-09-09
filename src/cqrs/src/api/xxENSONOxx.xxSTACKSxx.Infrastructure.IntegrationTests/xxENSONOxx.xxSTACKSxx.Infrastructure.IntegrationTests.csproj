@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Testing\xxENSONOxx.xxSTACKSxx.Shared.Testing.csproj" />
-        <ProjectReference Include="..\..\..\..\simple-api\src\api\xxENSONOxx.xxSTACKSxx.API\xxENSONOxx.xxSTACKSxx.API.csproj" />
+        <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.API\xxENSONOxx.xxSTACKSxx.API.csproj" />
         <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Infrastructure\xxENSONOxx.xxSTACKSxx.Infrastructure.csproj" />
     </ItemGroup>
 
