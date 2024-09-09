@@ -1,5 +1,5 @@
-using xxENSONOxx.xxSTACKSxx.Shared.API.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.API.Middleware;
+using System.Collections.Generic;
+using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,8 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using xxENSONOxx.xxSTACKSxx.API.Configuration;
+using xxENSONOxx.xxSTACKSxx.API.Middleware;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.API.Tests.IntegrationTests.Middleware;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests;
 
 public class CorrelationIdMiddlewareTestSteps
 {
@@ -24,7 +26,7 @@ public class CorrelationIdMiddlewareTestSteps
     public CorrelationIdMiddlewareTestSteps()
     {
         _configurationCollection = new Dictionary<string, string>();
-        _hostBuilder = createHostBuilder();
+        _hostBuilder = CreateHostBuilder();
         _requestHeaders = new HeaderDictionary();
         _responseMessage = new DefaultHttpContext();
     }
@@ -127,31 +129,31 @@ public class CorrelationIdMiddlewareTestSteps
     //  Setup
     //
     
-    private IHostBuilder createHostBuilder()
+    private IHostBuilder CreateHostBuilder()
     {
         return new HostBuilder().ConfigureWebHost(webBuilder =>
         {
             webBuilder.UseTestServer()
-                      .Configure(app =>
-                      {
-                          app.UseMiddleware<CorrelationIdMiddleware>();
-                          app.UseMiddleware<LoggingMiddleware>();
-                      })
-                      .ConfigureAppConfiguration((_, configBuilder) =>
-                      {
-                          configBuilder.AddInMemoryCollection(_configurationCollection!);
-                      })
-                      .ConfigureLogging((_, builder) =>
-                      {
-                          builder.ClearProviders();
-                      })
-                      .ConfigureServices((hostContext, services) =>
-                      {
-                          services.AddOptions();
-                          services.AddLogging();
-                          var correlationIdSection = hostContext.Configuration.GetSection(CONFIGURATION_COLLECTION_SECTION_NAME);
-                          services.Configure<CorrelationIdConfiguration>(correlationIdSection);
-                      });
+                .Configure(app =>
+                {
+                    app.UseMiddleware<CorrelationIdMiddleware>();
+                    app.UseMiddleware<LoggingMiddleware>();
+                })
+                .ConfigureAppConfiguration((_, configBuilder) =>
+                {
+                    configBuilder.AddInMemoryCollection(_configurationCollection!);
+                })
+                .ConfigureLogging((_, builder) =>
+                {
+                    builder.ClearProviders();
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddOptions();
+                    services.AddLogging();
+                    var correlationIdSection = hostContext.Configuration.GetSection(CONFIGURATION_COLLECTION_SECTION_NAME);
+                    services.Configure<CorrelationIdConfiguration>(correlationIdSection);
+                });
         });
     }
 }
