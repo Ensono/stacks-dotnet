@@ -86,6 +86,12 @@ variable "create_cdn_endpoint" {
   type = bool
 }
 
+variable "create_function_app" {
+  type        = bool
+  default     = false
+  description = "Whether to create an Azure Function"
+}
+
 variable "app_bus_type" {
   description = "Which app bus to use."
   type        = string
@@ -120,6 +126,14 @@ variable "cosmosdb_kind" {
 variable "cosmosdb_offer_type" {
   type        = string
   description = "Specify the offer type"
+}
+
+###########################
+# Azure Function App
+##########################
+variable "function_name" {
+  type        = string
+  description = "Name of the function app"
 }
 
 ###########################

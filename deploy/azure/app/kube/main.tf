@@ -15,7 +15,7 @@ module "default_label" {
 }
 
 module "app" {
-  source                               = "git::https://github.com/amido/stacks-terraform//azurerm/modules/azurerm-server-side-app?ref=v1.5.1"
+  source                               = "git::https://github.com/ensono/stacks-terraform//azurerm/modules/azurerm-server-side-app?ref=v1.5.1"
   create_cosmosdb                      = var.create_cosmosdb
   resource_namer                       = module.default_label.id
   resource_tags                        = module.default_label.tags
@@ -38,17 +38,10 @@ module "app" {
 }
 
 module "servicebus" {
-  count                      = contains(split(",", var.app_bus_type), "servicebus") ? 1 : 0
-  source                     = "../servicebus"
-  resource_group_name        = module.default_label.id
-  resource_group_location    = var.resource_group_location
-  name_company               = var.name_company
-  name_project               = var.name_project
-  name_domain                = var.name_domain
-  stage                      = var.stage
-  cosmosdb_database_name     = module.app.cosmosdb_database_name
-  cosmosdb_collection_name   = var.cosmosdb_sql_container
-  cosmosdb_connection_string = "AccountEndpoint=${module.app.cosmosdb_endpoint};AccountKey=${module.app.cosmosdb_primary_master_key};"
+  count                   = contains(split(",", var.app_bus_type), "servicebus") ? 1 : 0
+  source                  = "../servicebus"
+  resource_group_name     = module.default_label.id
+  resource_group_location = var.resource_group_location
 }
 
 module "eventhub" {
@@ -56,4 +49,18 @@ module "eventhub" {
   source                  = "../eventhub"
   resource_group_name     = module.default_label.id
   resource_group_location = var.resource_group_location
+}
+
+module "function" {
+  count                        = var.create_function_app ? 1 : 0
+  source                       = "../function"
+  function_name                = var.function_name
+  resource_group_name          = module.default_label.id
+  resource_group_location      = var.resource_group_location
+  cosmosdb_database_name       = module.app.cosmosdb_database_name
+  cosmosdb_collection_name     = var.cosmosdb_sql_container
+  cosmosdb_connection_string   = "AccountEndpoint=${module.app.cosmosdb_endpoint};AccountKey=${module.app.cosmosdb_primary_master_key};"
+  sb_topic_name                = module.servicebus[0].servicebus_topic_name
+  sb_subscription_name         = module.servicebus[0].servicebus_subscription_name
+  servicebus_connection_string = module.servicebus[0].servicebus_connectionstring
 }

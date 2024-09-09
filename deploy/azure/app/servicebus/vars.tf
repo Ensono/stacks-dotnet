@@ -12,67 +12,8 @@ variable "resource_group_location" {
   description = "Region in Azure that the resources should be deployed to"
 }
 
-variable "name_company" {
-  type        = string
-  description = "Name of the company"
-}
-
-variable "name_project" {
-  type        = string
-  description = "Name of the project"
-}
-
-variable "name_domain" {
-  type = string
-}
-
-variable "stage" {
-  type = string
-}
-
-variable "attributes" {
-  default = []
-}
-
-variable "tags" {
-  type    = map(string)
-  default = {}
-}
-
-variable "cosmosdb_database_name" {
-  type = string
-}
-
-variable "cosmosdb_collection_name" {
-  type = string
-}
-
-variable "cosmosdb_connection_string" {
-  type = string
-}
-
-variable "cosmosdb_lease_collection_name" {
-  type    = string
-  default = "Leases"
-}
-
 # Optional variables
 # These have default values that can be overriden as required
-variable "app-service-plan-name" {
-  type    = string
-  default = "app-sp-events"
-}
-
-variable "function-publisher-name" {
-  type    = string
-  default = "function-publisher"
-}
-
-variable "func-asb-listener-name" {
-  type    = string
-  default = "func-asb-listener"
-}
-
 variable "sb_name" {
   type        = string
   default     = "sb-menu"
@@ -110,32 +51,4 @@ variable "seed_length" {
 variable "servicebus_sku" {
   type    = string
   default = "Standard"
-}
-
-variable "az_function_extension_version" {
-  type        = string
-  default     = "~4"
-  description = "Version of the Azure Function runtime to use"
-}
-
-variable "az_function_dotnet_version" {
-  type        = string
-  default     = "v8.0"
-  description = "Version of the .NET framework to use in the function"
-}
-
-variable "location_name_map" {
-  type = map(string)
-
-  default = {
-    northeurope   = "eun"
-    westeurope    = "euw"
-    uksouth       = "uks"
-    ukwest        = "ukw"
-    eastus        = "use"
-    eastus2       = "use2"
-    westus        = "usw"
-    eastasia      = "ase"
-    southeastasia = "asse"
-  }
 }
