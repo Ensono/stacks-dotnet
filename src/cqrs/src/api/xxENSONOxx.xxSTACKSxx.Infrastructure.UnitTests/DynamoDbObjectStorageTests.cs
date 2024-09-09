@@ -8,8 +8,10 @@ using Microsoft.Extensions.Options;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Tests;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests;
 
 public class DynamoDbObjectStorageTests
 {

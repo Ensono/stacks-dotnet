@@ -1,14 +1,15 @@
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Events;
+using System;
 using Microsoft.Extensions.Logging;
+using xxENSONOxx.xxSTACKSxx.Common.Events;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Logging;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
 
 /// <summary>
 /// Contains log definitions for DynamoDB component
 /// LoggerMessage.Define() creates a unique template for each log type
 /// The log template reduces the number of allocations and write logs faster to destination - https://docs.microsoft.com/en-us/dotnet/core/extensions/high-performance-logging
 /// </summary>
-public static class LogDefinition
+public static class DynamoDbLogDefinition
 {
 	/// Failures with exceptions should be logged to respective failures(i.e: getByIdFailed) and then to logException in order to show them as separate entries in the logs(trace + exception
 	private static readonly Action<ILogger, string, Exception> logException =
@@ -41,7 +42,6 @@ public static class LogDefinition
 		);
 
 	//SAVE
-
 	private static readonly Action<ILogger, string, Exception> saveRequested =
 		LoggerMessage.Define<string>(
 			LogLevel.Information,
@@ -64,7 +64,6 @@ public static class LogDefinition
 		);
 
 	//DELETE
-
 	private static readonly Action<ILogger, string, Exception> deleteRequested =
 		LoggerMessage.Define<string>(
 			LogLevel.Information,
@@ -88,7 +87,6 @@ public static class LogDefinition
 
 
 	// ScanAsync / QueryAsync
-
 	private static readonly Action<ILogger, Exception> scanAsyncRequested =
 		LoggerMessage.Define(
 			LogLevel.Information,
@@ -144,7 +142,6 @@ public static class LogDefinition
 	}
 
 	// GETById
-
 	public static void GetByIdRequested(this ILogger logger, string partitionKey)
 	{
 		getByIdRequested(logger, partitionKey, null!);
@@ -162,7 +159,6 @@ public static class LogDefinition
 	}
 
 	// Save
-
 	public static void SaveRequested(this ILogger logger, string partitionKey)
 	{
 		saveRequested(logger, partitionKey, null!);
@@ -180,7 +176,6 @@ public static class LogDefinition
 	}
 
 	// Delete
-
 	public static void DeleteRequested(this ILogger logger, string partitionKey)
 	{
 		deleteRequested(logger, partitionKey, null!);
@@ -198,7 +193,6 @@ public static class LogDefinition
 	}
 
 	// ScanAsync / QueryAsync
-
 	public static void ScanAsyncRequested(this ILogger logger)
 	{
 		scanAsyncRequested(logger, null!);

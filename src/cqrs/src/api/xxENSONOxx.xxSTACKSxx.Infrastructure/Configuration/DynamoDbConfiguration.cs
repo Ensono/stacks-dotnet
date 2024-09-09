@@ -1,4 +1,4 @@
-namespace xxENSONOxx.xxSTACKSxx.Shared.DynamoDB;
+namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 
 public class DynamoDbConfiguration
 {

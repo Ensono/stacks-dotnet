@@ -23,7 +23,13 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Consumers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
+#endif
 
+#if (DynamoDb)
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
@@ -116,4 +122,15 @@ public static class ServiceCollectionExtensions
         return true;
     }
     #endif
+    
+#if (DynamoDb)
+    public static IServiceCollection AddDynamoDB(this IServiceCollection services)
+	{
+		services.AddAWSService<IAmazonDynamoDB>();
+		services.AddTransient<IDynamoDBContext, DynamoDBContext>();
+		services.AddTransient(typeof(IDynamoDbObjectStorage<>), typeof(DynamoDbObjectStorage<>));
+		services.AddTransient(typeof(IDynamoDbObjectSearch<>), typeof(DynamoDbObjectSearch<>));
+		return services;
+	}
+#endif
 }
