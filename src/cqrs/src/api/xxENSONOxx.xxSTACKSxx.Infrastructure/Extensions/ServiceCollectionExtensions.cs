@@ -29,8 +29,7 @@ using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
@@ -123,7 +122,7 @@ public static class ServiceCollectionExtensions
         return true;
     }
     #endif
-
+    
 #if (DynamoDb)
     public static IServiceCollection AddDynamoDB(this IServiceCollection services)
 	{

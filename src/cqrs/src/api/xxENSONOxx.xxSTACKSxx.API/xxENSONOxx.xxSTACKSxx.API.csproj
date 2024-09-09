@@ -10,6 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.CommandHandlers\xxENSONOxx.xxSTACKSxx.Application.CommandHandlers.csproj" />
+        <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.QueryHandlers\xxENSONOxx.xxSTACKSxx.Application.QueryHandlers.csproj" />
         <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.CQRS\xxENSONOxx.xxSTACKSxx.CQRS.csproj" />
         <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Infrastructure\xxENSONOxx.xxSTACKSxx.Infrastructure.csproj" />
         <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.API\xxENSONOxx.xxSTACKSxx.Shared.API.csproj" />

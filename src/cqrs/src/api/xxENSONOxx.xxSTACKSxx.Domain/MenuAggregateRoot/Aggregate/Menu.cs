@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+#if (DynamoDb)
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+#endif
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Converters;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Aggregate;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Events;

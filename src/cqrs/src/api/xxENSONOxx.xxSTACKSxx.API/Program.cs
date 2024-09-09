@@ -22,6 +22,8 @@ using OpenTelemetry.Trace;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxENSONOxx.xxSTACKSxx.API;
 using xxENSONOxx.xxSTACKSxx.API.Filters;
+using xxENSONOxx.xxSTACKSxx.Application.CommandHandlers.Extensions;
+using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers.Extensions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -100,7 +102,9 @@ services.AddSingleton<IAuthorizationPolicyProvider, ConfigurableAuthorizationPol
 
 AddSwagger(services, jwtBearerAuthenticationConfiguration);
 
-DependencyRegistration.ConfigureStaticDependencies(services);
+services.AddQueryHandlers();
+services.AddCommandHandlers();
+
 DependencyRegistration.ConfigureProductionDependencies(configuration, services);
 
 var app = builder.Build();
