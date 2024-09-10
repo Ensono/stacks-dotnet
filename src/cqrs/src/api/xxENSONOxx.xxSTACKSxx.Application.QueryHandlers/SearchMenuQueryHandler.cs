@@ -1,11 +1,12 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.DynamoDBv2.DocumentModel;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 #if (DynamoDb)
 using Amazon.DynamoDBv2.DocumentModel;
-using xxENSONOxx.xxSTACKSxx.Shared.DynamoDB.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Domain;

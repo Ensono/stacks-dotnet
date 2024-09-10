@@ -68,7 +68,6 @@ public class Startup
 
                 // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                 // Enforce parameters provided in the path to be required
-                // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                 c.OperationFilter<GeneratePathParamsValidationFilter>();
             });
     }

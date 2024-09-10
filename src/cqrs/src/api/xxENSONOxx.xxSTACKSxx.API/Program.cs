@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 using xxENSONOxx.xxSTACKSxx.API.Authorization;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
-using xxENSONOxx.xxSTACKSxx.Shared.API.Middleware;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
 using OpenTelemetry.Exporter;
@@ -22,6 +21,9 @@ using OpenTelemetry.Trace;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxENSONOxx.xxSTACKSxx.API;
 using xxENSONOxx.xxSTACKSxx.API.Filters;
+using xxENSONOxx.xxSTACKSxx.Application.CommandHandlers.Extensions;
+using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers.Extensions;
+using xxENSONOxx.xxSTACKSxx.API.Middleware;
 using xxENSONOxx.xxSTACKSxx.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -100,7 +102,9 @@ services.AddSingleton<IAuthorizationPolicyProvider, ConfigurableAuthorizationPol
 
 AddSwagger(services, jwtBearerAuthenticationConfiguration);
 
-DependencyRegistration.ConfigureStaticDependencies(services);
+services.AddQueryHandlers();
+services.AddCommandHandlers();
+
 DependencyRegistration.ConfigureProductionDependencies(configuration, services);
 
 var app = builder.Build();
