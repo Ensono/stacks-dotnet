@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
 
-namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers.Menu;
 
 [Trait("TestType", "UnitTests")]
 public class DeleteMenuControllerTests
