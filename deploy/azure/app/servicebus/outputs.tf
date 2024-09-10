@@ -29,6 +29,6 @@ output "servicebus_subscription_id" {
 }
 
 output "servicebus_subscription_filtered_id" {
-  description = "Servicebus Subscription filtered ID"
+  description = "ServiceBus Subscription filtered ID"
   value       = azurerm_servicebus_subscription.sb_sub_2.id
 }
