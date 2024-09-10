@@ -47,30 +47,3 @@ resource "azurerm_function_app" "function" {
     dotnet_framework_version = var.az_function_dotnet_version
   }
 }
-
-# resource "azurerm_function_app" "function_listener" {
-#   name                = "${var.func-asb-listener-name}-${random_string.seed.result}"
-#   resource_group_name = var.resource_group_name
-#   location            = var.resource_group_location
-#   depends_on = [
-#     azurerm_servicebus_namespace.sb
-#   ]
-
-#   app_service_plan_id        = azurerm_app_service_plan.app_sp.id
-#   storage_account_name       = azurerm_storage_account.sa_listener.name
-#   storage_account_access_key = azurerm_storage_account.sa_listener.primary_access_key
-
-#   app_settings = {
-#     SERVICEBUS_CONNECTIONSTRING = azurerm_servicebus_namespace.sb.default_primary_connection_string
-#     SUBSCRIPTION_NAME           = azurerm_servicebus_subscription.sb_sub_2.name
-#     TOPIC_NAME                  = azurerm_servicebus_topic.sb_topic.name
-#   }
-
-#   version = var.az_function_extension_version
-
-#   site_config {
-#     always_on                = true
-#     dotnet_framework_version = var.az_function_dotnet_version
-#   }
-# }
-
