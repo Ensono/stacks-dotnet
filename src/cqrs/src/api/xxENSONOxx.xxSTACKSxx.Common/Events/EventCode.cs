@@ -21,8 +21,8 @@ public enum EventCode
     MenuItemDeleted = 303,
 
     CosmosDbChangeFeedEvent = 999,
-
-    // DynamoDB Operations
+#if (DynamoDb)
+     // DynamoDB Operations
     DynamoDbGeneralException = 123456899,
 
     DynamoDbGetByIdRequested = 123456801,
@@ -44,7 +44,8 @@ public enum EventCode
     DynamoDbQueryAsyncRequested = 123456841,
     DynamoDbQueryAsyncCompleted = 123456842,
     DynamoDbQueryAsyncFailed = 123456843,
-
+#endif
+#if (CosmosDb)
     // CosmosDB Operations
     CosmosDbInitializing = 123456800,
     CosmosDbGeneralException = 123456899,
@@ -68,5 +69,5 @@ public enum EventCode
     CosmosDbSQLQueryRequested = 123456841,
     CosmosDbSQLQueryCompleted = 123456842,
     CosmosDbSQLQueryFailed = 123456843,
-    
+#endif
 }

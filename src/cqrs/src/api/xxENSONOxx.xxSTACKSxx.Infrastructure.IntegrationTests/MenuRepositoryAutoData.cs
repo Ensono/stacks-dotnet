@@ -20,11 +20,13 @@ public class MenuRepositoryAutoData() : AutoDataAttribute(Customizations)
         IFixture fixture = new Fixture();
 
         var loggerFactory = Substitute.For<ILoggerFactory>();
+#if (CosmosDb)
         loggerFactory.CreateLogger(Arg.Any<string>()).Returns(new Logger<CosmosDbDocumentStorage<Menu>>(loggerFactory));
         fixture.Register<ILogger<CosmosDbDocumentStorage<Menu>>>(() => new Logger<CosmosDbDocumentStorage<Menu>>(loggerFactory));
+        fixture.Register<IDocumentStorage<Menu>>(() => fixture.Create<CosmosDbDocumentStorage<Menu>>());
+#endif
         fixture.Register<ISecretResolver<string>>(() => new SecretResolver());
         fixture.Register(() => settings.AsOption());
-        fixture.Register<IDocumentStorage<Menu>>(() => fixture.Create<CosmosDbDocumentStorage<Menu>>());
 
         return fixture;
     }

@@ -1,3 +1,4 @@
+#if (CosmosDb)
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -81,3 +82,4 @@ public class CosmosDbMenuRepositoryTests
         Assert.Null(dbItem);
     }
 }
+#endif

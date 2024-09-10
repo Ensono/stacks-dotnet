@@ -220,6 +220,7 @@
 				{
 					"condition": "(CosmosDb)",
 					"exclude": [
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Common/Converters/***",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Abstractions/DynamoDb*",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Abstractions/IDynamoDb*",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/DynamoDb*",
@@ -235,6 +236,7 @@
 				{
 					"condition": "(DynamoDb)",
 					"exclude": [
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Common/Exceptions/CosmosDb/***",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Abstractions/CosmosDb*",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/CosmosDb*",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Logging/CosmosDb*",
@@ -253,6 +255,8 @@
 				{
 					"condition": "(!CosmosDb && !DynamoDb)",
 					"exclude": [
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Common/Converters/**",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Common/Exceptions/CosmosDb/***",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Abstractions/**",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/CosmosDb*",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/DynamoDb*",

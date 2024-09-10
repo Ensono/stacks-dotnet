@@ -1,3 +1,4 @@
+#if (CosmosDb)
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -304,3 +305,4 @@ public class CosmosDbDocumentStorageQueriesIntegrationTests
         return entity.OwnerId.ToString();
     }
 }
+#endif

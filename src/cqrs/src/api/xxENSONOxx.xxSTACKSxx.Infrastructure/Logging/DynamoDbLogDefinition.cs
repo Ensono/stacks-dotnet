@@ -1,3 +1,4 @@
+#if (DynamoDb)
 using System;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Common.Events;
@@ -225,3 +226,4 @@ public static class DynamoDbLogDefinition
 		LogException(logger, ex);
 	}
 }
+#endif

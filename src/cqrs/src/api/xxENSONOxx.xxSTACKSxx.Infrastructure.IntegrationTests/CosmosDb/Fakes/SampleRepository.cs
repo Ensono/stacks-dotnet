@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
@@ -35,3 +36,4 @@ public class SampleRepository(CosmosDbDocumentStorage<SampleEntityExtension> rep
         return (await repository.DeleteAsync(id.ToString(), partition)).IsSuccessful;
     }
 }
+#endif

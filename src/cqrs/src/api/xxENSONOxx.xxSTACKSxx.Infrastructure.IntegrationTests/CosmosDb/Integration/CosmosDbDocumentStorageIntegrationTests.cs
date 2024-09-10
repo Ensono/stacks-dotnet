@@ -1,3 +1,4 @@
+#if (CosmosDb)
 using System;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -261,3 +262,4 @@ public class CosmosDbDocumentStorageIntegrationTests
         Assert.Equal(newName, dbItemUpdated.Name);
     }
 }
+#endif

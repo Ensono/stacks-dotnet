@@ -1,3 +1,4 @@
+#if (CosmosDb)
 using System;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Common.Events;
@@ -240,3 +241,4 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Logging
         }
     }
 }
+#endif

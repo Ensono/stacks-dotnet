@@ -1,3 +1,4 @@
+#if (CosmosDb)
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -588,3 +589,4 @@ public class CosmosDbDocumentStorage<TEntity> : IDocumentStorage<TEntity>, IDocu
             return await Task.FromResult(HealthCheckResult.Unhealthy($"{nameof(CosmosDbDocumentStorage<TEntity>)}: Failed"));
     }
 }
+#endif
