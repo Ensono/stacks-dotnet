@@ -8,7 +8,7 @@ namespace xxENSONOxx.xxSTACKSxx.API.Authorization;
 
 public class ConfigurableAuthorizationPolicyProvider(
     IOptions<AuthorizationOptions> options,
-    IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
+    IOptions<JwtBearerAuthenticationConfigurationExtension> jwtBearerAuthenticationOptions)
     : IAuthorizationPolicyProvider
 {
     private readonly DefaultAuthorizationPolicyProvider fallbackPolicyProvider = new(options);

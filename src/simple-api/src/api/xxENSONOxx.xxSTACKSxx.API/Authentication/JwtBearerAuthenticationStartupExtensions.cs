@@ -8,9 +8,9 @@ public static class JwtBearerAuthenticationStartupExtensions
 {
     public static void AddJwtBearerTokenAuthentication(
         this IServiceCollection services,
-        JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration)
+        JwtBearerAuthenticationConfigurationExtension jwtBearerAuthenticationConfigurationExtension)
     {
-        if (jwtBearerAuthenticationConfiguration.IsDisabled())
+        if (jwtBearerAuthenticationConfigurationExtension.IsDisabled())
         {
             return;
         }
@@ -23,10 +23,10 @@ public static class JwtBearerAuthenticationStartupExtensions
             })
             .AddJwtBearer(options =>
             {
-                options.Authority = jwtBearerAuthenticationConfiguration.Authority;
-                options.Audience = jwtBearerAuthenticationConfiguration.Audience;
+                options.Authority = jwtBearerAuthenticationConfigurationExtension.Authority;
+                options.Audience = jwtBearerAuthenticationConfigurationExtension.Audience;
 
-                if (jwtBearerAuthenticationConfiguration.UseStubbedBackchannelHandler)
+                if (jwtBearerAuthenticationConfigurationExtension.UseStubbedBackchannelHandler)
                 {
                     options.BackchannelHttpHandler = new StubJwtBearerAuthenticationHttpMessageHandler();
                 }
@@ -35,7 +35,7 @@ public static class JwtBearerAuthenticationStartupExtensions
                 {
                     ValidateAudience = true,
                     ValidateIssuer = true,
-                    ValidateLifetime = !jwtBearerAuthenticationConfiguration.AllowExpiredTokens
+                    ValidateLifetime = !jwtBearerAuthenticationConfigurationExtension.AllowExpiredTokens
                 };
             });
     }

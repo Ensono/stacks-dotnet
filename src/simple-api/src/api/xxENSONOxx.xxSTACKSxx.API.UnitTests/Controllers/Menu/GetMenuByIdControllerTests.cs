@@ -4,9 +4,8 @@ using AutoFixture.Xunit2;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
-using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
 
-namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers.Menu;
 
 [Trait("TestType", "UnitTests")]
 public class GetMenuByIdControllerTests
@@ -18,6 +17,6 @@ public class GetMenuByIdControllerTests
         var response = await controller.GetMenu(id);
 
         var content = ((ObjectResult)response).Value;
-        Assert.IsType<Menu>(content);
+        Assert.IsType<Models.Responses.Menu>(content);
     }
 }
