@@ -47,10 +47,8 @@ variable "az_function_dotnet_version" {
 ############################################
 # CosmosDB
 ############################################
-
 variable "cosmosdb_collection_name" {
   type        = string
-  default     = "menu"
   description = "Name of the CosmosDB collection to use"
 }
 
@@ -61,7 +59,6 @@ variable "cosmosdb_connection_string" {
 
 variable "cosmosdb_database_name" {
   type        = string
-  default     = "menu"
   description = "Name of the CosmosDB database to use"
 }
 
