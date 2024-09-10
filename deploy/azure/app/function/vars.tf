@@ -21,7 +21,7 @@ variable "app_service_plan_name" {
 ############################################
 variable "resource_group_name" {
   type        = string
-  description = "Name of hte resource grup holding the resources"
+  description = "Name of the resource group holding the resources"
 }
 
 variable "resource_group_location" {
