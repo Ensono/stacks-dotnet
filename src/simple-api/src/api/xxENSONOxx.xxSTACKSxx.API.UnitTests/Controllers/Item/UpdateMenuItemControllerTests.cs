@@ -7,7 +7,7 @@ using Xunit;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 
-namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers.Item;
 
 [Trait("TestType", "UnitTests")]
 public class UpdateMenuItemControllerTests

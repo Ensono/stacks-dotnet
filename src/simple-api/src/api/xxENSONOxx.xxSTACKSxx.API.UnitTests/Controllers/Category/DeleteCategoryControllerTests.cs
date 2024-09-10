@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
 
-namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers.Category;
 
 [Trait("TestType", "UnitTests")]
 public class DeleteCategoryControllerTests

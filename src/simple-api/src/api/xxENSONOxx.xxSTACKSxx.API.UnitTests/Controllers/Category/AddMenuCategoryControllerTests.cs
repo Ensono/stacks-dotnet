@@ -8,7 +8,7 @@ using xxENSONOxx.xxSTACKSxx.API.Controllers;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
 
-namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers.Category;
 
 [Trait("TestType", "UnitTests")]
 public class AddMenuCategoryControllerTests
