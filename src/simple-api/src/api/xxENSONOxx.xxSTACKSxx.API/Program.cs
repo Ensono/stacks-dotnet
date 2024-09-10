@@ -82,8 +82,8 @@ builder.Services.AddOpenTelemetry()
     .UseAzureMonitor();
 
 var jwtBearerAuthenticationConfigurationSection = configuration.GetJwtBearerAuthenticationConfigurationSection();
-builder.Services.Configure<JwtBearerAuthenticationConfigurationExtension>(jwtBearerAuthenticationConfigurationSection);
-var jwtBearerAuthenticationConfiguration = jwtBearerAuthenticationConfigurationSection.Get<JwtBearerAuthenticationConfigurationExtension>();
+builder.Services.Configure<JwtBearerAuthenticationConfiguration>(jwtBearerAuthenticationConfigurationSection);
+var jwtBearerAuthenticationConfiguration = jwtBearerAuthenticationConfigurationSection.Get<JwtBearerAuthenticationConfiguration>();
 builder.Services.AddJwtBearerTokenAuthentication(jwtBearerAuthenticationConfiguration);
 
 builder.Services.AddMvcCore()
@@ -135,7 +135,7 @@ app.UseSwaggerUI(c =>
 
 await app.RunAsync();
 
-static void AddSwagger(IServiceCollection services, JwtBearerAuthenticationConfigurationExtension jwtBearerAuthenticationConfiguration = null)
+static void AddSwagger(IServiceCollection services, JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration = null)
 {
     services.AddSwaggerGen(c =>
     {

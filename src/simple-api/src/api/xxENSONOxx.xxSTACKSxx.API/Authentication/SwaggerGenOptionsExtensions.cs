@@ -9,9 +9,9 @@ public static class SwaggerGenOptionsExtensions
 {
     public static void ConfigureForJwtBearerAuthentication(
         this SwaggerGenOptions options,
-        JwtBearerAuthenticationConfigurationExtension jwtBearerAuthenticationConfigurationExtension)
+        JwtBearerAuthenticationConfiguration jwtBearerAuthenticationConfiguration)
     {
-        if (!jwtBearerAuthenticationConfigurationExtension.HasOpenApiClient())
+        if (!jwtBearerAuthenticationConfiguration.HasOpenApiClient())
         {
             return;
         }
@@ -24,13 +24,13 @@ public static class SwaggerGenOptionsExtensions
                 // Recommended flow (Authorization Code with PKCE - https://tools.ietf.org/html/draft-ietf-oauth-browser-based-apps-00)
                 AuthorizationCode = new OpenApiOAuthFlow
                 {
-                    AuthorizationUrl = new Uri(jwtBearerAuthenticationConfigurationExtension.OpenApi.AuthorizationUrl),
-                    TokenUrl = new Uri(jwtBearerAuthenticationConfigurationExtension.OpenApi.TokenUrl)
+                    AuthorizationUrl = new Uri(jwtBearerAuthenticationConfiguration.OpenApi.AuthorizationUrl),
+                    TokenUrl = new Uri(jwtBearerAuthenticationConfiguration.OpenApi.TokenUrl)
                 },
                 // Not recommended flow
                 Implicit = new OpenApiOAuthFlow
                 {
-                    AuthorizationUrl = new Uri(jwtBearerAuthenticationConfigurationExtension.OpenApi.AuthorizationUrl)
+                    AuthorizationUrl = new Uri(jwtBearerAuthenticationConfiguration.OpenApi.AuthorizationUrl)
                 }
             }
         });

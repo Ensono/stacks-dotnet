@@ -1,6 +1,6 @@
 ﻿namespace xxENSONOxx.xxSTACKSxx.API.Authentication;
 
-public class JwtBearerAuthenticationConfigurationExtension
+public class JwtBearerAuthenticationConfiguration
 {
     public bool AllowExpiredTokens { get; set; }
 

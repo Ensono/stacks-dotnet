@@ -13,7 +13,7 @@ public class JwtBearerAuthenticationStartupExtensionsTests
     public void AddJwtBearerTokenAuthentication_DoesNotAddAuthentication_WhenConfigurationIsDisabled()
     {
         var services = new ServiceCollection();
-        var configuration = new JwtBearerAuthenticationConfigurationExtension { Enabled = false };
+        var configuration = new JwtBearerAuthenticationConfiguration { Enabled = false };
 
         services.AddJwtBearerTokenAuthentication(configuration);
 
@@ -27,7 +27,7 @@ public class JwtBearerAuthenticationStartupExtensionsTests
     public void AddJwtBearerTokenAuthentication_AddsAuthentication_WhenConfigurationIsEnabled()
     {
         var services = new ServiceCollection();
-        var configuration = new JwtBearerAuthenticationConfigurationExtension { Enabled = true };
+        var configuration = new JwtBearerAuthenticationConfiguration { Enabled = true };
 
         services.AddJwtBearerTokenAuthentication(configuration);
 
@@ -41,7 +41,7 @@ public class JwtBearerAuthenticationStartupExtensionsTests
     public void AddJwtBearerTokenAuthentication_ValidatesLifetime_WhenAllowExpiredTokensIsFalse()
     {
         var services = new ServiceCollection();
-        var configuration = new JwtBearerAuthenticationConfigurationExtension
+        var configuration = new JwtBearerAuthenticationConfiguration
         {
             Enabled = true, AllowExpiredTokens = false
         };

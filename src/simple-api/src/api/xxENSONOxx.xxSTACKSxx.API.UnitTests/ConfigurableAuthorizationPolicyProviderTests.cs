@@ -13,7 +13,7 @@ public class ConfigurableAuthorizationPolicyProviderTests
     public async Task GetDefaultPolicyAsync_ReturnsDefaultPolicy_WhenJwtBearerAuthenticationIsEnabled()
     {
         var options = Options.Create(new AuthorizationOptions());
-        var jwtOptions = Options.Create(new JwtBearerAuthenticationConfigurationExtension { Enabled = false });
+        var jwtOptions = Options.Create(new JwtBearerAuthenticationConfiguration { Enabled = false });
         var provider = new ConfigurableAuthorizationPolicyProvider(options, jwtOptions);
 
         var result = await provider.GetDefaultPolicyAsync();
