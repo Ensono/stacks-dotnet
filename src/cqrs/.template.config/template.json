@@ -220,7 +220,12 @@
 				{
 					"condition": "(CosmosDb)",
 					"exclude": [
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Abstractions/DynamoDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Abstractions/IDynamoDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/DynamoDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Logging/DynamoDb*",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/DynamoDb*",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
@@ -230,7 +235,12 @@
 				{
 					"condition": "(DynamoDb)",
 					"exclude": [
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Abstractions/CosmosDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/CosmosDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Logging/CosmosDb*",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Utilities/AsyncLazy.cs",
+						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDb/**",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/InMemoryMenuRepositoryAutoDataAttribute.cs",
@@ -243,8 +253,16 @@
 				{
 					"condition": "(!CosmosDb && !DynamoDb)",
 					"exclude": [
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Abstractions/**",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/CosmosDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/DynamoDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Logging/CosmosDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Logging/DynamoDb*",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Utilities/AsyncLazy.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/CosmosDbMenuRepository.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDbMenuRepositoryTests.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/CosmosDb/**",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Repositories/DynamoDbMenuRepository.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests/DynamoDbMenuRepositoryTests.cs",
 						"**/src/api/xxENSONOxx.xxSTACKSxx.Domain.UnitTests/DynamoDbCategoryConverterTests.cs",
