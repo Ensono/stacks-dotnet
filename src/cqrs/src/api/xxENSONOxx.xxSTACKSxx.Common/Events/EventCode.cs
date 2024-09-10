@@ -23,25 +23,50 @@ public enum EventCode
     CosmosDbChangeFeedEvent = 999,
 
     // DynamoDB Operations
-    GeneralException = 123456899,
+    DynamoDbGeneralException = 123456899,
 
-	GetByIdRequested = 123456801,
-	GetByIdCompleted = 123456802,
-	GetByIdFailed = 123456803,
+    DynamoDbGetByIdRequested = 123456801,
+    DynamoDbGetByIdCompleted = 123456802,
+    DynamoDbGetByIdFailed = 123456803,
 
-	SaveRequested = 123456811,
-	SaveCompleted = 123456812,
-	SaveFailed = 123456813,
+    DynamoDbSaveRequested = 123456811,
+    DynamoDbSaveCompleted = 123456812,
+    DynamoDbSaveFailed = 123456813,
 
-	DeleteRequested = 123456821,
-	DeleteCompleted = 123456822,
-	DeleteFailed = 123456823,
+    DynamoDbDeleteRequested = 123456821,
+    DynamoDbDeleteCompleted = 123456822,
+    DynamoDbDeleteFailed = 123456823,
 
-	ScanAsyncRequested = 123456831,
-	ScanAsyncCompleted = 123456832,
-	ScanAsyncFailed = 123456833,
+    DynamoDbScanAsyncRequested = 123456831,
+    DynamoDbScanAsyncCompleted = 123456832,
+    DynamoDbScanAsyncFailed = 123456833,
 
-	QueryAsyncRequested = 123456841,
-	QueryAsyncCompleted = 123456842,
-	QueryAsyncFailed = 123456843,
+    DynamoDbQueryAsyncRequested = 123456841,
+    DynamoDbQueryAsyncCompleted = 123456842,
+    DynamoDbQueryAsyncFailed = 123456843,
+
+    // CosmosDB Operations
+    CosmosDbInitializing = 123456800,
+    CosmosDbGeneralException = 123456899,
+
+    CosmosDbGetByIdRequested = 123456801,
+    CosmosDbGetByIdCompleted = 123456802,
+    CosmosDbGetByIdFailed = 123456803,
+
+    CosmosDbSaveRequested = 123456811,
+    CosmosDbSaveCompleted = 123456812,
+    CosmosDbSaveFailed = 123456813,
+
+    CosmosDbDeleteRequested = 123456821,
+    CosmosDbDeleteCompleted = 123456822,
+    CosmosDbDeleteFailed = 123456823,
+
+    CosmosDbSearchRequested = 123456831,
+    CosmosDbSearchCompleted = 123456832,
+    CosmosDbSearchFailed = 123456833,
+
+    CosmosDbSQLQueryRequested = 123456841,
+    CosmosDbSQLQueryCompleted = 123456842,
+    CosmosDbSQLQueryFailed = 123456843,
+    
 }

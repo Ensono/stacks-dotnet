@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Utilities;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Exceptions;
@@ -15,6 +14,7 @@ using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Utilities;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB
 {

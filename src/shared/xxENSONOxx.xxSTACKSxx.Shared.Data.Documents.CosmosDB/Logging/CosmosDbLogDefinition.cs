@@ -8,7 +8,7 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
     /// LoggerMessage.Define() creates a unique template for each log type
     /// The log template reduces the number of allocations and write logs faster to destination
     /// </summary>
-    public static class LogDefinition
+    public static class CosmosDbLogDefinition
     {
         /// Failures with exceptions should be logged to respective failures(i.e: getByIdFailed) and then to logException in order to show them as separate entries in the logs(trace + exception
         private static readonly Action<ILogger, string, Exception> logException =
@@ -24,7 +24,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
                 new EventId((int)EventCode.Initializing, nameof(EventCode.Initializing)),
                 "CosmosDB: Initializing database connection to collection '{CollectionName}' on database '{DatabaseName}' from cosmos database account '{DatabaseAccountUri}'."
             );
-
 
         //GETById
         private static readonly Action<ILogger, string, string, string, Exception> getByIdRequested =
@@ -49,7 +48,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
             );
 
         //SAVE
-
         private static readonly Action<ILogger, string, string, string, Exception> saveRequested =
             LoggerMessage.Define<string, string, string>(
                 LogLevel.Information,
@@ -72,7 +70,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
             );
 
         //DELETE
-
         private static readonly Action<ILogger, string, string, string, Exception> deleteRequested =
             LoggerMessage.Define<string, string, string>(
                 LogLevel.Information,
@@ -95,7 +92,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
             );
 
         // SEARCH
-
         private static readonly Action<ILogger, string, string, Exception> searchRequested =
             LoggerMessage.Define<string, string>(
                 LogLevel.Information,
@@ -118,7 +114,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
             );
 
         //SQLQuery
-
         private static readonly Action<ILogger, string, string, Exception> sqlQueryRequested =
             LoggerMessage.Define<string, string>(
                 LogLevel.Information,
@@ -159,7 +154,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
         }
 
         // GETById
-
         public static void GetByIdRequested(this ILogger logger, string containerName, string partitionKey, string itemId)
         {
             getByIdRequested(logger, containerName, partitionKey, itemId, null);
@@ -177,7 +171,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
         }
 
         // Save
-
         public static void SaveRequested(this ILogger logger, string containerName, string partitionKey, string itemId)
         {
             saveRequested(logger, containerName, partitionKey, itemId, null);
@@ -195,7 +188,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
         }
 
         // Delete
-
         public static void DeleteRequested(this ILogger logger, string containerName, string partitionKey, string itemId)
         {
             deleteRequested(logger, containerName, partitionKey, itemId, null);
@@ -213,7 +205,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
         }
 
         // Search
-
         public static void SearchRequested(this ILogger logger, string containerName, string partitionKey)
         {
             searchRequested(logger, containerName, partitionKey, null);
@@ -231,7 +222,6 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events
         }
 
         // SQL Query
-
         public static void SQLQueryRequested(this ILogger logger, string containerName, string partitionKey)
         {
             sqlQueryRequested(logger, containerName, partitionKey, null);
