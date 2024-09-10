@@ -280,7 +280,7 @@
                     "condition": "(!EventPublisherAwsSns)",
                     "exclude": [
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Publishers/SnsEventPublisher.cs",
-                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Logging/LoggingDefinition.cs",
+                        "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Logging/SnsLogDefinition.cs",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure/Configuration/AwsSnsConfiguration.cs",
                         "**/src/api/xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests/SnsEventPublisherTests.cs"
                     ]
