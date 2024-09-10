@@ -8,10 +8,11 @@ using Microsoft.Extensions.Options;
 using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.DataModel;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB;
 using xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings;
 using Config = xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 

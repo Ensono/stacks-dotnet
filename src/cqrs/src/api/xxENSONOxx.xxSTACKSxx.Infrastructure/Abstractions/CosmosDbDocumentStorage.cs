@@ -10,13 +10,14 @@ using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using xxENSONOxx.xxSTACKSxx.Common.Exceptions.CosmosDb;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Utilities;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Events;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Exceptions;
+using Container = Microsoft.Azure.Cosmos.Container;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 
@@ -30,8 +31,7 @@ public class CosmosDbDocumentStorage<TEntity> : IDocumentStorage<TEntity>, IDocu
 
     private string containerName;
     AsyncLazy<Container> container;
-
-
+    
     public CosmosDbDocumentStorage(IOptions<CosmosDbConfiguration> configuration, ISecretResolver<string> secretResolver, ILogger<CosmosDbDocumentStorage<TEntity>> logger)
     {
         this.configuration = configuration;

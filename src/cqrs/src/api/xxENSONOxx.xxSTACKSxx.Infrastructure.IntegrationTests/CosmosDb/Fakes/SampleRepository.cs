@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.DataModel;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Fakes;
 

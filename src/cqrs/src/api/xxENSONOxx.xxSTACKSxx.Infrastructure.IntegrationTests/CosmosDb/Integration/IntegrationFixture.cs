@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.DataModel;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB;
 using Config = xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Integration;
