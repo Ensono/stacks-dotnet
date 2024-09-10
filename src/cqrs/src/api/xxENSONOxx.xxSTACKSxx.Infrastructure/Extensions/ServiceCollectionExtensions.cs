@@ -33,6 +33,7 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
 #if (CosmosDb)
+using CqrsWithCosmos.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 #endif

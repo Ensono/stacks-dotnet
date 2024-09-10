@@ -14,7 +14,6 @@ using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
-using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 #if (EventPublisherAwsSns || EventPublisherEventHub)
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
@@ -23,6 +22,8 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 #if (CosmosDb || DynamoDb)
 using Amazon.DynamoDBv2;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
+using CqrsWithCosmos.Infrastructure.Abstractions;
+using CqrsWithCosmos.Infrastructure.HealthChecks;
 #endif
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure;
