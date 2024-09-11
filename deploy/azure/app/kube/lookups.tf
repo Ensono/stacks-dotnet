@@ -21,3 +21,9 @@ data "azurerm_servicebus_namespace" "sb" {
   name                = var.sb_name
   resource_group_name = var.sb_resource_group_name
 }
+
+data "azurerm_cosmosdb_account" "cosmosdb" {
+  count               = !var.create_cosmosdb && var.create_function_app ? 1 : 0
+  name                = var.cosmosdb_account_name
+  resource_group_name = var.cosmosdb_resource_group_name
+}

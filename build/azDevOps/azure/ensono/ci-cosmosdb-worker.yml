@@ -165,6 +165,8 @@ stages:
                     TF_VAR_create_cache: false
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
+                    TF_VAR_cosmosdb_account_name: $(cosmosdb_account_name_dev)
+                    TF_VAR_cosmosdb_resource_group_name: $(cosmosdb_resource_group_dev)
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"

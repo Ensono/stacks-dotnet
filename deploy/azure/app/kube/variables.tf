@@ -109,6 +109,26 @@ variable "app_bus_type" {
 ###########################
 # CosmosDB Settings
 ##########################
+variable "cosmosdb_account_name" {
+  type        = string
+  description = "Name of an existing CosmosDB account if not creating a new one"
+  default     = ""
+  validation {
+    condition     = !var.create_cosmosdb && var.create_function_app ? length(var.cosmosdb_account_name) > 0 : true
+    error_message = "You must specify a value for cosmosdb_account_name if create_cosmosdb is false and create_function_app is true."
+  }
+}
+
+variable "cosmosdb_resource_group_name" {
+  type        = string
+  description = "Name of an existing CosmosDB resource group if not creating a new one"
+  default     = ""
+  validation {
+    condition     = !var.create_cosmosdb && var.create_function_app ? length(var.cosmosdb_resource_group_name) > 0 : true
+    error_message = "You must specify a value for cosmosdb_resource_group_name if create_cosmosdb is false and create_function_app is true."
+  }
+}
+
 variable "cosmosdb_sql_container" {
   type        = string
   description = "Specify the SQLContainer name in CosmosDB"

@@ -136,6 +136,10 @@ variables:
     value: $(self_generic_name)
   - name: create_cosmosdb
     value: false
+  - name: cosmosdb_account_name_dev
+    value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: cosmosdb_resource_group_dev
+    value: ensono-stacks-dev-euw-netcore-api-cqrs
   - name: servicebus_namespace_dev
     value: sb-menu-wxbirw
   - name: servicebus_resource_group_dev
