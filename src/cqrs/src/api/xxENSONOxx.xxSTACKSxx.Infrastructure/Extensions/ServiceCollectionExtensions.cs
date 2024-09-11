@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 #if (EventPublisherAwsSns)
 using Amazon.SimpleNotificationService;
 using Microsoft.Extensions.Configuration;
@@ -28,14 +29,13 @@ using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 #if (DynamoDb)
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
 #if (CosmosDb)
 using CqrsWithCosmos.Infrastructure.Abstractions;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
