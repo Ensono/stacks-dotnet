@@ -130,5 +130,9 @@ variables:
     value: $(version_major).$(version_minor).$(version_revision)
 
   # Application
+  - name: create_function
+    value: true
+  - name: function_name
+    value: $(self_generic_name)
   - name: create_cosmosdb
     value: false
