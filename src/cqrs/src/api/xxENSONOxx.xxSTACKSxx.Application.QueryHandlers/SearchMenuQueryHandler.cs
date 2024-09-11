@@ -1,3 +1,4 @@
+#if (DynamoDb || CosmosDb)
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -105,4 +106,5 @@ public class SearchMenuQueryHandler(IDocumentSearch<Menu> storage) : IQueryHandl
         return result;
     }
 }
+#endif
 #endif
