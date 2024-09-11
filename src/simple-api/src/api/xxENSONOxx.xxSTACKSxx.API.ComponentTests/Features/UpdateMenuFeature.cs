@@ -6,21 +6,21 @@ using xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
 namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Features;
 
 [Trait("TestType", "ComponentTests")]
-public class CreateMenuFeature
+public class UpdateMenuFeature
 {
     [Theory, CustomAutoData]
-    public void CreateMenuValidMenuShouldSucceed(CreateMenuFixture fixture)
+    public void UpdateMenuValidMenuShouldSucceed(UpdateMenuFixture fixture)
     {
-        this.Given(_ => fixture.WhenTheMenuCreationIsSubmitted(), "When the menu is submitted")
+        this.Given(_ => fixture.WhenTheUpdateMenuIsSubmitted(Guid.NewGuid()), "When the menu is updated")
             .Then(_ => fixture.ThenASuccessfulResponseIsReturned(), "Then a successful response is returned")
-            .And(_ => fixture.ThenACreatedResponseIsReturned(), "And the response code is CREATED")
+            .And(_ => fixture.ThenANoContentResponseIsReturned(), "And the response code is NO CONTENT")
             .BDDfy();
     }
     
     [Theory, CustomAutoData]
-    public void CreateMenuInvalidMenuShouldNotSucceed(CreateMenuFixture fixture)
+    public void UpdateMenuInvalidMenuShouldNotSucceed(UpdateMenuFixture fixture)
     {
-        this.Given(_ => fixture.WhenTheInvalidMenuCreationIsSubmitted(), "When the invalid menu is submitted")
+        this.Given(_ => fixture.WhenTheInvalidUpdateMenuIsSubmitted(Guid.NewGuid()), "When the invalid menu is updated")
             .Then(_ => fixture.ThenAnUnsuccessfulResponseIsReturned(), "Then an unsuccessful response is returned")
             .And(_ => fixture.ThenABadRequestResponseIsReturned(), "And the response code is BAD REQUEST")
             .BDDfy();

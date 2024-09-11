@@ -16,4 +16,9 @@ public class CreateMenuFixture(IOptions<JwtBearerAuthenticationConfiguration> jw
             TenantId = Guid.NewGuid()
         });
     }
+
+    public async Task WhenTheInvalidMenuCreationIsSubmitted()
+    {
+        LastResponse = await CreateMenu(new CreateMenuRequest());
+    }
 }

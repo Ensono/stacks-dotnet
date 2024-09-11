@@ -1,4 +1,5 @@
 using System.Net;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,18 +44,61 @@ public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfigura
     /// Send a POST Http request to the API CreateMenu endpoint passing the menu being created
     /// </summary>
     /// <param name="menu">Menu being created</param>
-    public async Task<HttpResponseMessage> CreateMenu(CreateMenuRequest menu)
+    protected async Task<HttpResponseMessage> CreateMenu(CreateMenuRequest menu)
     {
         return await SendAsync(HttpMethod.Post, "/v1/menu", menu);
     }
+    
+    /// <summary>
+    /// Send a POST Http request to the API CreateMenu endpoint passing the menu being created
+    /// </summary>
+    /// <param name="menu">Menu being created</param>
+    protected async Task<HttpResponseMessage> UpdateMenu(Guid menuId, UpdateMenuRequest menu)
+    {
+        return await SendAsync(HttpMethod.Put, $"/v1/menu/{menuId}", menu);
+    }
+    
+    /// <summary>
+    /// Send a POST Http request to the API DeleteMenu endpoint passing the Id of the menu being deleted
+    /// </summary>
+    /// <param name="menuId">id of the menu being deleted</param>
+    protected async Task<HttpResponseMessage> DeleteMenu(Guid menuId)
+    {
+        return await SendAsync(HttpMethod.Delete, $"/v1/menu/{menuId}");
+    }
+    
+    /// <summary>
+    /// Send a GET Http request to the API Menu endpoint passing the Id of the menu being retrieved
+    /// </summary>
+    /// <param name="menuId">id of the menu being retrieved</param>
+    protected async Task<HttpResponseMessage> GetMenu(Guid menuId)
+    {
+        return await SendAsync(HttpMethod.Get, $"/v1/menu/{menuId}");
+    }
+
 
     internal void ThenASuccessfulResponseIsReturned()
     {
         LastResponse.IsSuccessStatusCode.ShouldBeTrue();
     }
+    
+    internal void ThenAnUnsuccessfulResponseIsReturned()
+    {
+        LastResponse.IsSuccessStatusCode.ShouldBeFalse();
+    }
 
     internal void ThenACreatedResponseIsReturned()
     {
         LastResponse.StatusCode.ShouldBe(HttpStatusCode.Created);
+    }
+    
+    internal void ThenABadRequestResponseIsReturned()
+    {
+        LastResponse.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+    }
+    
+    internal void ThenANoContentResponseIsReturned()
+    {
+        LastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent);
     }
 }

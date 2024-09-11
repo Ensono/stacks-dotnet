@@ -51,6 +51,22 @@ public abstract class ApiFixture<TEntrypoint> where TEntrypoint : class
     }
     
     /// <summary>
+    /// Send the request and set the LastResponse
+    /// </summary>
+    /// <typeparam name="TBody">Type of bdy being sent</typeparam>
+    /// <param name="method">Http method used in the request</param>
+    /// <param name="url">relative url for API resource</param>
+    /// <returns></returns>
+    protected async Task<HttpResponseMessage> SendAsync(HttpMethod method, string url)
+    {
+        HttpRequestMessage msg = new HttpRequestMessage(method, url);
+
+        LastResponse = await HttpClient.SendAsync(msg);
+
+        return LastResponse;
+    }
+    
+    /// <summary>
     /// Configure WebHost(if needed) before the API Startup is added to the pipeline
     /// </summary>
     protected virtual void ConfigureWebHost(IWebHostBuilder builder) { }
