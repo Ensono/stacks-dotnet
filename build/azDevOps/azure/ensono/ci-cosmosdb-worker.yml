@@ -193,12 +193,6 @@ stages:
           runOnce:
             deploy:
               steps:
-                - task: DownloadPipelineArtifact@2
-                  displayName: "Download: Test Artefacts"
-                  inputs:
-                    artifact: tests
-                    path: $(Agent.BuildDirectory)/s/tests
-
                 # TODO: This functionality in general should be run via AIR, but there are limitations in CLI tooling.
                 - template: ../../templates/legacy-deploy-functions.yml
                   parameters:
