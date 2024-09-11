@@ -3,7 +3,7 @@ resource "azurerm_service_plan" "app_sp" {
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
   os_type             = "Linux"
-  sku_name            = "S1"
+  sku_name            = "S2"
 }
 
 resource "random_string" "storage_account_name" {
