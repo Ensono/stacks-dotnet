@@ -15,7 +15,7 @@ module "default_label" {
 }
 
 module "app" {
-  source                               = "git::https://github.com/ensono/stacks-terraform//azurerm/modules/azurerm-server-side-app?ref=v1.5.1"
+  source                               = "git::https://github.com/ensono/stacks-terraform//azurerm/modules/azurerm-server-side-app?ref=v6.0.15"
   create_cosmosdb                      = var.create_cosmosdb
   resource_namer                       = module.default_label.id
   resource_tags                        = module.default_label.tags
@@ -28,7 +28,6 @@ module "app" {
   create_dns_record                    = var.create_dns_record
   dns_record                           = var.dns_record
   dns_zone_name                        = data.terraform_remote_state.core.outputs.dns_base_domain
-  core_resource_group                  = data.terraform_remote_state.core.outputs.resource_group_name
   dns_zone_resource_group              = data.terraform_remote_state.core.outputs.dns_resource_group_name != "" ? data.terraform_remote_state.core.outputs.dns_resource_group_name : data.terraform_remote_state.core.outputs.resource_group_name
   dns_a_records                        = [data.terraform_remote_state.core.outputs.app_gateway_ip]
   subscription_id                      = data.azurerm_client_config.current.subscription_id

@@ -1,15 +1,9 @@
-# The app plans for the functions
-resource "azurerm_app_service_plan" "app_sp" {
+resource "azurerm_service_plan" "app_sp" {
   name                = var.app_service_plan_name
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
-  kind                = "linux"
-  reserved            = true
-
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
+  os_type             = "Linux"
+  sku_name            = "S1"
 }
 
 # Create a new storage accounts to store future deployments
@@ -26,7 +20,7 @@ resource "azurerm_linux_function_app" "function" {
   name                        = "${var.function_name}-${random_string.seed.result}"
   resource_group_name         = var.resource_group_name
   location                    = var.resource_group_location
-  service_plan_id             = azurerm_app_service_plan.app_sp.id
+  service_plan_id             = azurerm_service_plan.app_sp.id
   storage_account_name        = azurerm_storage_account.function.name
   storage_account_access_key  = azurerm_storage_account.function.primary_access_key
   functions_extension_version = var.az_function_extension_version
