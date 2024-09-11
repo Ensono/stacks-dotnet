@@ -200,7 +200,7 @@ stages:
                     path: $(Agent.BuildDirectory)/s/tests
 
                 # TODO: This functionality in general should be run via AIR, but there are limitations in CLI tooling.
-                - template: ../templates/legacy-deploy-functions.yml
+                - template: ../../templates/legacy-deploy-functions.yml
                   parameters:
                     azureSubscription: ${{ variables.azure_service_connection }}
                     container_registry_name: $(docker_container_registry_name_nonprod)
