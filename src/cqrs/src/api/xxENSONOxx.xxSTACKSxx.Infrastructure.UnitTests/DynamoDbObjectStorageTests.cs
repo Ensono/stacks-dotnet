@@ -1,3 +1,4 @@
+#if DynamoDb
 using System;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
@@ -212,3 +213,4 @@ public class DynamoDbObjectStorageTests
 		Assert.False(result.IsSuccessful);
 	}
 }
+#endif

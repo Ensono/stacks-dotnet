@@ -14,7 +14,6 @@ using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
-using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 #if (EventPublisherAwsSns || EventPublisherEventHub)
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
@@ -23,7 +22,8 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 #if (CosmosDb || DynamoDb)
 using Amazon.DynamoDBv2;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.Extensions;
+using CqrsWithCosmos.Infrastructure.Abstractions;
+using CqrsWithCosmos.Infrastructure.HealthChecks;
 #endif
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure;
@@ -58,7 +58,7 @@ public static class DependencyRegistration
 #endif
 
 #if (CosmosDb)
-        services.Configure<xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.CosmosDbConfiguration>(configuration.GetSection("CosmosDb"));
+        services.Configure<CosmosDbConfiguration>(configuration.GetSection("CosmosDb"));
         services.AddCosmosDB();
         services.AddTransient<IMenuRepository, CosmosDbMenuRepository>();
 #elif (DynamoDb)
@@ -73,7 +73,7 @@ public static class DependencyRegistration
         var healthChecks = services.AddHealthChecks();
 #if (CosmosDb)
         healthChecks.AddCheck<CustomHealthCheck>("Sample"); //This is a sample health check, remove if not needed, more info: https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health
-        healthChecks.AddCheck<xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB.CosmosDbDocumentStorage<Menu>>("CosmosDB");
+        healthChecks.AddCheck<CosmosDbDocumentStorage<Menu>>("CosmosDB");
 #endif
         Debug.WriteLine("ConfigureProductionDependencies");
     }

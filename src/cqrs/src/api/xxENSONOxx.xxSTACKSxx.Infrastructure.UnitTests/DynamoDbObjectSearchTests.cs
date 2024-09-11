@@ -1,3 +1,4 @@
+#if (DynamoDb)
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -84,3 +85,4 @@ public class DynamoDbObjectSearchTests
         Assert.False(result.IsSuccessful);
     }
 }
+#endif

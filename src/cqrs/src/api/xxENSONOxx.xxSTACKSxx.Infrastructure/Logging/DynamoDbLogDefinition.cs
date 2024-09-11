@@ -1,3 +1,4 @@
+#if (DynamoDb)
 using System;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Common.Events;
@@ -15,7 +16,7 @@ public static class DynamoDbLogDefinition
 	private static readonly Action<ILogger, string, Exception> logException =
 		LoggerMessage.Define<string>(
 			LogLevel.Error,
-			new EventId((int)EventCode.GeneralException, nameof(EventCode.GeneralException)),
+			new EventId((int)EventCode.DynamoDbGeneralException, nameof(EventCode.DynamoDbGeneralException)),
 			"DynamoDB Exception: {Message}"
 		);
 
@@ -23,21 +24,21 @@ public static class DynamoDbLogDefinition
 	private static readonly Action<ILogger, string, Exception> getByIdRequested =
 		LoggerMessage.Define<string>(
 			LogLevel.Information,
-			new EventId((int)EventCode.GetByIdRequested, nameof(EventCode.GetByIdRequested)),
+			new EventId((int)EventCode.DynamoDbGetByIdRequested, nameof(EventCode.DynamoDbGetByIdRequested)),
 			"DynamoDB: GetById requested for document (Partition:{Partition})"
 		);
 
 	private static readonly Action<ILogger, string, Exception> getByIdCompleted =
 		LoggerMessage.Define<string>(
 			LogLevel.Information,
-			new EventId((int)EventCode.GetByIdCompleted, nameof(EventCode.GetByIdCompleted)),
+			new EventId((int)EventCode.DynamoDbGetByIdCompleted, nameof(EventCode.DynamoDbGetByIdCompleted)),
 			"DynamoDB: GetById completed for document (Partition:{Partition})"
 		);
 
 	private static readonly Action<ILogger, string, string, Exception> getByIdFailed =
 		LoggerMessage.Define<string, string>(
 			LogLevel.Warning,
-			new EventId((int)EventCode.GetByIdFailed, nameof(EventCode.GetByIdFailed)),
+			new EventId((int)EventCode.DynamoDbGetByIdFailed, nameof(EventCode.DynamoDbGetByIdFailed)),
 			"DynamoDB: GetById failed for document (Partition:{Partition}). Reason: {Reason}"
 		);
 
@@ -45,21 +46,21 @@ public static class DynamoDbLogDefinition
 	private static readonly Action<ILogger, string, Exception> saveRequested =
 		LoggerMessage.Define<string>(
 			LogLevel.Information,
-			new EventId((int)EventCode.SaveRequested, nameof(EventCode.SaveRequested)),
+			new EventId((int)EventCode.DynamoDbSaveRequested, nameof(EventCode.DynamoDbSaveRequested)),
 			"DynamoDB: Save requested for document (Partition:{Partition})"
 		);
 
 	private static readonly Action<ILogger, string, Exception> saveCompleted =
 		LoggerMessage.Define<string>(
 			LogLevel.Information,
-			new EventId((int)EventCode.SaveCompleted, nameof(EventCode.SaveCompleted)),
+			new EventId((int)EventCode.DynamoDbSaveCompleted, nameof(EventCode.DynamoDbSaveCompleted)),
 			"DynamoDB: Save completed for document (Partition:{Partition})"
 		);
 
 	private static readonly Action<ILogger, string, string, Exception> saveFailed =
 		LoggerMessage.Define<string, string>(
 			LogLevel.Warning,
-			new EventId((int)EventCode.SaveFailed, nameof(EventCode.SaveFailed)),
+			new EventId((int)EventCode.DynamoDbSaveFailed, nameof(EventCode.DynamoDbSaveFailed)),
 			"DynamoDB: Save failed for document (Partition:{Partition}). Reason: {Reason}"
 		);
 
@@ -67,21 +68,21 @@ public static class DynamoDbLogDefinition
 	private static readonly Action<ILogger, string, Exception> deleteRequested =
 		LoggerMessage.Define<string>(
 			LogLevel.Information,
-			new EventId((int)EventCode.DeleteRequested, nameof(EventCode.DeleteRequested)),
+			new EventId((int)EventCode.DynamoDbDeleteRequested, nameof(EventCode.DynamoDbDeleteRequested)),
 			"DynamoDB: Delete requested for document (Partition:{Partition})"
 		);
 
 	private static readonly Action<ILogger, string, Exception> deleteCompleted =
 		LoggerMessage.Define<string>(
 			LogLevel.Information,
-			new EventId((int)EventCode.DeleteCompleted, nameof(EventCode.DeleteCompleted)),
+			new EventId((int)EventCode.DynamoDbDeleteCompleted, nameof(EventCode.DynamoDbDeleteCompleted)),
 			"DynamoDB: Delete completed for document (Partition:{Partition}"
 		);
 
 	private static readonly Action<ILogger, string, string, Exception> deleteFailed =
 		LoggerMessage.Define<string, string>(
 			LogLevel.Warning,
-			new EventId((int)EventCode.DeleteFailed, nameof(EventCode.DeleteFailed)),
+			new EventId((int)EventCode.DynamoDbDeleteFailed, nameof(EventCode.DynamoDbDeleteFailed)),
 			"DynamoDB: Delete failed for document (Partition:{Partition}). Reason: {Reason}"
 		);
 
@@ -90,42 +91,42 @@ public static class DynamoDbLogDefinition
 	private static readonly Action<ILogger, Exception> scanAsyncRequested =
 		LoggerMessage.Define(
 			LogLevel.Information,
-			new EventId((int)EventCode.ScanAsyncRequested, nameof(EventCode.ScanAsyncRequested)),
+			new EventId((int)EventCode.DynamoDbScanAsyncRequested, nameof(EventCode.DynamoDbScanAsyncRequested)),
 			"DynamoDB: ScanAsync requested for document"
 		);
 
 	private static readonly Action<ILogger, Exception> scanAsyncCompleted =
 		LoggerMessage.Define(
 			LogLevel.Information,
-			new EventId((int)EventCode.ScanAsyncCompleted, nameof(EventCode.ScanAsyncCompleted)),
+			new EventId((int)EventCode.DynamoDbScanAsyncCompleted, nameof(EventCode.DynamoDbScanAsyncCompleted)),
 			"DynamoDB: ScanAsync completed for document"
 		);
 
 	private static readonly Action<ILogger, string, Exception> scanAsyncFailed =
 		LoggerMessage.Define<string>(
 			LogLevel.Warning,
-			new EventId((int)EventCode.ScanAsyncFailed, nameof(EventCode.ScanAsyncFailed)),
+			new EventId((int)EventCode.DynamoDbScanAsyncFailed, nameof(EventCode.DynamoDbScanAsyncFailed)),
 			"DynamoDB: ScanAsync failed for document. Reason: {Reason}"
 		);
 
 	private static readonly Action<ILogger, Exception> queryAsyncRequested =
 		LoggerMessage.Define(
 			LogLevel.Information,
-			new EventId((int)EventCode.QueryAsyncRequested, nameof(EventCode.QueryAsyncRequested)),
+			new EventId((int)EventCode.DynamoDbQueryAsyncRequested, nameof(EventCode.DynamoDbQueryAsyncRequested)),
 			"DynamoDB: QueryAsync requested for document"
 		);
 
 	private static readonly Action<ILogger, Exception> queryAsyncCompleted =
 		LoggerMessage.Define(
 			LogLevel.Information,
-			new EventId((int)EventCode.QueryAsyncCompleted, nameof(EventCode.QueryAsyncCompleted)),
+			new EventId((int)EventCode.DynamoDbQueryAsyncCompleted, nameof(EventCode.DynamoDbQueryAsyncCompleted)),
 			"DynamoDB: QueryAsync completed for document"
 		);
 
 	private static readonly Action<ILogger, string, Exception> queryAsyncFailed =
 		LoggerMessage.Define<string>(
 			LogLevel.Warning,
-			new EventId((int)EventCode.QueryAsyncFailed, nameof(EventCode.QueryAsyncFailed)),
+			new EventId((int)EventCode.DynamoDbQueryAsyncFailed, nameof(EventCode.DynamoDbQueryAsyncFailed)),
 			"DynamoDB: QueryAsync failed for document. Reason: {Reason}"
 		);
 
@@ -225,3 +226,4 @@ public static class DynamoDbLogDefinition
 		LogException(logger, ex);
 	}
 }
+#endif

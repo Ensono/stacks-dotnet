@@ -64,7 +64,7 @@ Azure CosmosDB provides a reliable SDK to communicate with the CosmosDB server, 
 
 This package provides a single data access layer implementation that is simple and reusable by multiple services, reducing the amount of boilerplate code and keeping a consistent and well tested library.
 
-The solution is split into two packages, **Ensono.Stacks.Data.Documents** and **Ensono.Stacks.Data.Documents.CosmosDB**.
+The solution is completely self contained within the Infrastructure project of CQRS.
 
 <br />
 
@@ -116,7 +116,7 @@ Applications using the Document Storage does not need to be aware of the impleme
 
 ### CosmosDB Package
 
-The CosmosDB implementation of the document storage is called CosmosDbDocumentStorage and is available in the package Ensono.Stacks.Data.Documents.CosmosDB.
+The CosmosDB implementation of the document storage is called *CosmosDbDocumentStorage* and is available in the Infrastructure project of the CQRS template.
 
 The package makes use of the CosmosDB SDK v3, that contains a few improvements compared to previous version, the most notorious one is the simplicity in the interfaces available, for more details, please check the announcements [here](https://azure.microsoft.com/en-gb/blog/azure-cosmos-dotnet-sdk-version-3-0-now-in-public-preview/).
 
@@ -179,7 +179,7 @@ Because document stores require a partition key to persist the data, it is requi
 
 ### Dependency Injection
 
-In order to use the right implementation, we need to inject the dependencies in the IoC container before the application starts, the CosmosDB implementation provides an extension method called **AddCosmosDB()** from the namespace **Ensono.Stacks.Data.Documents.CosmosDB.Extensions**, to use it, you just have to make a call to the extension in the dependency registration method of your application, like below:
+In order to use the right implementation, we need to inject the dependencies in the IoC container before the application starts, the CosmosDB implementation provides an extension method called **AddCosmosDB()** from the namespace **Ensono.Stacks.Infrastructure.Extensions**, to use it, you just have to make a call to the extension in the dependency registration method of your application, like below:
 
 ```csharp
 public virtual void ConfigureServices(IServiceCollection services)

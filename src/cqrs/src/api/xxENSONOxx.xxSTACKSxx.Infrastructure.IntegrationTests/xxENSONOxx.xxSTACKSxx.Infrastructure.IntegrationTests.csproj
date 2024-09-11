@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-	  <IsTestProject>true</IsTestProject>
+	      <IsTestProject>true</IsTestProject>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
@@ -48,6 +48,19 @@
 
     <ItemGroup>
       <Reference Include="Microsoft.AspNetCore.Http" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="CosmosDb\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="xunit.runner.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
