@@ -53,7 +53,7 @@ public abstract class ApiFixture<TEntrypoint> where TEntrypoint : class
     /// <summary>
     /// Send the request and set the LastResponse
     /// </summary>
-    /// <typeparam name="TBody">Type of bdy being sent</typeparam>
+    /// <typeparam name="TBody">Type of body being sent</typeparam>
     /// <param name="method">Http method used in the request</param>
     /// <param name="url">relative url for API resource</param>
     /// <returns></returns>
