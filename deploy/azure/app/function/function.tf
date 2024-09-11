@@ -6,9 +6,14 @@ resource "azurerm_service_plan" "app_sp" {
   sku_name            = "S1"
 }
 
-# Create a new storage accounts to store future deployments
+resource "random_string" "storage_account_name" {
+  length  = 16
+  upper   = false
+  special = false
+}
+
 resource "azurerm_storage_account" "function" {
-  name                = "${var.function_name}-${random_string.seed.result}"
+  name                = random_string.storage_account_name.result
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
 
