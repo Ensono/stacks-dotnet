@@ -144,3 +144,7 @@ variables:
     value: sb-menu-wxbirw
   - name: servicebus_resource_group_dev
     value: ensono-stacks-dev-euw-netcore-api-cqrs
+
+  # Azure service connection
+  - name: azure_service_connection
+    value: "Azure Sub - ensono.stacks"
