@@ -67,7 +67,7 @@ public abstract class ApiFixture<TEntrypoint> where TEntrypoint : class
     }
     
     /// <summary>
-    /// Configure WebHost(if needed) before the API Startup is added to the pipeline
+    /// Configure WebHost (if needed) before the API Startup is added to the pipeline
     /// </summary>
     protected virtual void ConfigureWebHost(IWebHostBuilder builder) { }
 
