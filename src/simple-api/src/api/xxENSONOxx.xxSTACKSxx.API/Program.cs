@@ -215,4 +215,4 @@ static void AddSwagger(IServiceCollection services, JwtBearerAuthenticationConfi
 }
 
 [ExcludeFromCodeCoverage]
-partial class Program;
+public partial class Program;
