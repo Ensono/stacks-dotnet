@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Exceptions;
 
@@ -34,3 +35,4 @@ public abstract class CosmosDBException : InfrastructureExceptionBase
     public string PartitionKey { get; }
     public string ItemId { get; }
 }
+#endif

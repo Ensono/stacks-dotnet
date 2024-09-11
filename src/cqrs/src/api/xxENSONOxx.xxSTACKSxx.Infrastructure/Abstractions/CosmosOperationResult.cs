@@ -1,3 +1,4 @@
+#if CosmosDb
 using System.Collections.Generic;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions
@@ -12,3 +13,4 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions
         public double RequestCharge { get; } = requestCharge;
     }
 }
+#endif
