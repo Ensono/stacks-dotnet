@@ -75,8 +75,7 @@ public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfigura
     {
         return await SendAsync(HttpMethod.Get, $"/v1/menu/{menuId}");
     }
-
-
+    
     internal void ThenASuccessfulResponseIsReturned()
     {
         LastResponse.IsSuccessStatusCode.ShouldBeTrue();
