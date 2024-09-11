@@ -138,3 +138,5 @@ variables:
     value: false
   - name: servicebus_namespace_dev
     value: sb-menu-wxbirw
+  - name: servicebus_resource_group_dev
+    value: ensono-stacks-dev-euw-netcore-api-cqrs

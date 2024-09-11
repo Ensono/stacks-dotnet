@@ -149,6 +149,12 @@ variable "sb_subscription_name" {
   description = "Name of the Service Bus subscription to create"
 }
 
+variable "sb_resource_group_name" {
+  type        = string
+  default     = ""
+  description = "Name of the resource group that holds the the above resources"
+}
+
 ###########################
 # Azure Function App
 ##########################
