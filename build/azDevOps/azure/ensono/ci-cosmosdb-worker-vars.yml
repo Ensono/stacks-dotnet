@@ -130,7 +130,7 @@ variables:
     value: $(version_major).$(version_minor).$(version_revision)
 
   # Application
-  - name: create_function
+  - name: create_function_app
     value: true
   - name: function_name
     value: $(self_generic_name)

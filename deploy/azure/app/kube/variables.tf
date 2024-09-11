@@ -107,7 +107,7 @@ variable "app_bus_type" {
 }
 
 ###########################
-# CosmosDB SETTINGS
+# CosmosDB Settings
 ##########################
 variable "cosmosdb_sql_container" {
   type        = string
@@ -126,6 +126,27 @@ variable "cosmosdb_kind" {
 variable "cosmosdb_offer_type" {
   type        = string
   description = "Specify the offer type"
+}
+
+###########################
+# Service Bus Settings
+##########################
+variable "sb_name" {
+  type        = string
+  default     = "sb-menu"
+  description = "Name of the service bus to create"
+}
+
+variable "sb_topic_name" {
+  type        = string
+  default     = "sbt-menu-events"
+  description = "Name of the topic to create"
+}
+
+variable "sb_subscription_name" {
+  type        = string
+  default     = "sbs-menu-events"
+  description = "Name of the Service Bus subscription to create"
 }
 
 ###########################

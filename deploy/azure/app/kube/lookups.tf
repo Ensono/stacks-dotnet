@@ -15,3 +15,9 @@ data "azurerm_application_insights" "example" {
   name                = data.terraform_remote_state.core.outputs.app_insights_name
   resource_group_name = data.terraform_remote_state.core.outputs.resource_group_name
 }
+
+data "azurerm_servicebus_namespace" "sb" {
+  count               = var.create_function_app ? 1 : 0
+  name                = var.sb_name
+  resource_group_name = var.resource_group_location
+}
