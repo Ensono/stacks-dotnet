@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.Integration\xxENSONOxx.xxSTACKSxx.Application.Integration.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.CQRS\xxENSONOxx.xxSTACKSxx.CQRS.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Domain\xxENSONOxx.xxSTACKSxx.Domain.csproj" />

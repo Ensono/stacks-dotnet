@@ -6,7 +6,6 @@ using xxENSONOxx.xxSTACKSxx.Domain;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests;

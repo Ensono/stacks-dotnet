@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using NSubstitute;
@@ -17,7 +15,7 @@ using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
-using Query = xxENSONOxx.xxSTACKSxx.CQRS.Queries;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 
 namespace xxENSONOxx.xxSTACKSxx.CQRS.UnitTests;
 
