@@ -54,7 +54,7 @@ public class SearchMenuQueryHandler : IQueryHandler<SearchMenu, SearchMenuResult
         return result;
     }
 }
-#else
+#elif CosmosDb
 public class SearchMenuQueryHandler(IDocumentSearch<Menu> storage) : IQueryHandler<SearchMenu, SearchMenuResult>
 {
     public Task<SearchMenuResult> ExecuteAsync(SearchMenu criteria)
