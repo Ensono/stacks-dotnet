@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Domain;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests;

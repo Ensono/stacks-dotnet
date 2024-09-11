@@ -16,8 +16,6 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Utilities;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using Container = Microsoft.Azure.Cosmos.Container;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
