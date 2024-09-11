@@ -67,12 +67,6 @@ stages:
               PROJECT_NAME: $(sonar_project_name)
               BUILD_BUILDNUMBER: $(version_number)
 
-          # - task: Bash@3
-          #   displayName: "TaskCTL: Build Functional Tests"
-          #   inputs:
-          #     targetType: inline
-          #     script: taskctl build:functional_tests
-
           - task: Bash@3
             displayName: "TaskCTL: Build Container"
             inputs:
@@ -109,13 +103,6 @@ stages:
               searchFolder: $(Pipeline.Workspace)/s/testresults
               failTaskOnFailedTests: true # Optional
               testRunTitle: Unit
-
-          # Upload functional tests as artifacts
-          # - task: PublishPipelineArtifact@1
-          #   displayName: "Upload: functional tests"
-          #   inputs:
-          #     path: $(FUNCTIONAL_TESTS_SRC_DIR)
-          #     artifact: tests
 
 # - stage: Dev
 #   dependsOn: Build
