@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 #if (EventPublisherAwsSns)
 using Amazon.SimpleNotificationService;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +29,12 @@ using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 #if (DynamoDb)
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
+#endif
+
+#if (CosmosDb)
+using CqrsWithCosmos.Infrastructure.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
@@ -124,6 +130,11 @@ public static class ServiceCollectionExtensions
     #endif
     
 #if (DynamoDb)
+    /// <summary>
+    /// Adds DynamoDB services to the specified IServiceCollection.
+    /// </summary>
+    /// <param name="services">The IServiceCollection to add the services to.</param>
+    /// <returns>The IServiceCollection with the DynamoDB services added.</returns>
     public static IServiceCollection AddDynamoDB(this IServiceCollection services)
 	{
 		services.AddAWSService<IAmazonDynamoDB>();
@@ -132,5 +143,21 @@ public static class ServiceCollectionExtensions
 		services.AddTransient(typeof(IDynamoDbObjectSearch<>), typeof(DynamoDbObjectSearch<>));
 		return services;
 	}
+#endif
+    
+#if (CosmosDb)
+    /// <summary>
+    /// Add the CosmosDB singleton components for IDocumentStorage<,> and IDocumentSearch<>
+    /// This will create one singleton instance per Container(Where the container map to TEntity name)
+    /// </summary>
+    public static IServiceCollection AddCosmosDB(this IServiceCollection services)
+    {
+        // CosmosDB components are thread safe and should be singleton to avoid opening new
+        // connections on every request, similar to HttpCliient
+        services.AddSingleton(typeof(IDocumentStorage<>), typeof(CosmosDbDocumentStorage<>));
+        services.AddSingleton(typeof(IDocumentSearch<>), typeof(CosmosDbDocumentStorage<>));
+        services.AddSingleton(typeof(CosmosDbDocumentStorage<>));
+        return services;
+    }
 #endif
 }

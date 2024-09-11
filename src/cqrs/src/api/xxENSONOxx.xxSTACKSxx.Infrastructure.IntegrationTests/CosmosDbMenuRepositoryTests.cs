@@ -1,9 +1,10 @@
+#if (CosmosDb)
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.CosmosDB;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Domain;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests;
@@ -81,3 +82,4 @@ public class CosmosDbMenuRepositoryTests
         Assert.Null(dbItem);
     }
 }
+#endif

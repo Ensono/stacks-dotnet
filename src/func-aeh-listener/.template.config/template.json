@@ -42,8 +42,6 @@
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests/**",
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.DependencyInjection/**",
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub/**",
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.EventHub.Tests/**",                
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
