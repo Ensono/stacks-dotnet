@@ -19,5 +19,5 @@ data "azurerm_application_insights" "example" {
 data "azurerm_servicebus_namespace" "sb" {
   count               = var.create_function_app ? 1 : 0
   name                = var.sb_name
-  resource_group_name = var.resource_group_location
+  resource_group_name = module.default_label.id
 }
