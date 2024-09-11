@@ -136,3 +136,5 @@ variables:
     value: $(self_generic_name)
   - name: create_cosmosdb
     value: false
+  - name: servicebus_namespace_dev
+    value: sb-menu-wxbirw

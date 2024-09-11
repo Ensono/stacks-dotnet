@@ -171,6 +171,7 @@ stages:
                     TF_VAR_cosmosdb_offer_type: "Standard"
                     TF_VAR_create_function_app: $(create_function_app)
                     TF_VAR_function_name: $(function_name)
+                    TF_VAR_sb_name: $(servicebus_namespace_dev)
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
