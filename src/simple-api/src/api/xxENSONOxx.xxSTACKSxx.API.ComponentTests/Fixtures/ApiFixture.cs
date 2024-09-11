@@ -83,7 +83,7 @@ public abstract class ApiFixture<TEntrypoint> where TEntrypoint : class
             Console.WriteLine($"API Fixture serialized request of type {typeof(TContent).Name} as empty");
             return new ByteArrayContent([]);
         }
-
+        
         var json = JsonConvert.SerializeObject(content);
         Console.WriteLine($"API Fixture serialized request of type {typeof(TContent).Name} into {json}");
         var result = new ByteArrayContent(Encoding.UTF8.GetBytes(json));
