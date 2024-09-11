@@ -68,6 +68,12 @@ variable "dns_record" {
 ###########################
 # CONDITIONAL SETTINGS
 ##########################
+variable "create_resource_group" {
+  description = "Whether to create a cosmosdb or not for this application"
+  type        = bool
+  default     = true
+}
+
 variable "create_cosmosdb" {
   description = "Whether to create a cosmosdb or not for this application"
   type        = bool
