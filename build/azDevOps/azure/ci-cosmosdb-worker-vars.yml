@@ -152,11 +152,19 @@ variables:
     value: false
   - name: cosmosdb_account_name_dev
     value:
+  - name: cosmosdb_account_name_prod
+    value:
   - name: cosmosdb_resource_group_dev
+    value:
+  - name: cosmosdb_resource_group_prod
     value:
   - name: servicebus_namespace_dev
     value:
+  - name: servicebus_namespace_prod
+    value:
   - name: servicebus_resource_group_dev
+    value:
+  - name: servicebus_resource_group_prod
     value:
 
   # Azure service connection

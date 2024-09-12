@@ -152,12 +152,20 @@ variables:
     value: false
   - name: cosmosdb_account_name_dev
     value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: cosmosdb_account_name_prod
+    value: ensono-stacks-prod-euw-netcore-api-cqrs
   - name: cosmosdb_resource_group_dev
     value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: cosmosdb_resource_group_prod
+    value: ensono-stacks-prod-euw-netcore-api-cqrs
   - name: servicebus_namespace_dev
     value: sb-menu-wxbirw
+  - name: servicebus_namespace_prod
+    value: sb-menu-pvonnp
   - name: servicebus_resource_group_dev
     value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: servicebus_resource_group_prod
+    value: ensono-stacks-prod-euw-netcore-api-cqrs
 
   # Azure service connection
   - name: azure_service_connection
