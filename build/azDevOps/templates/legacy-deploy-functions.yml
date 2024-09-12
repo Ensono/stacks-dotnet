@@ -44,4 +44,4 @@ steps:
       azureSubscription: ${{ parameters.azureSubscription }}
       resourceGroupName: ${{ parameters.function_resource_group }}
       appName: ${{ parameters.function_name }}
-      imageName: ${{ parameters.container_registry_name }}/${{ parameters.function_image_name }}:${{ parameters.function_image_tag }}
+      imageName: ${{ parameters.container_registry_name }}.azurecr.io/${{ parameters.function_image_name }}:${{ parameters.function_image_tag }}

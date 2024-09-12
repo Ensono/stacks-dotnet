@@ -1,20 +1,19 @@
-# The app plans for the functions
-resource "azurerm_app_service_plan" "app_sp" {
+resource "azurerm_service_plan" "app_sp" {
   name                = var.app_service_plan_name
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
-  kind                = "linux"
-  reserved            = true
-
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
+  os_type             = "Linux"
+  sku_name            = "S2"
 }
 
-# Create a new storage accounts to store future deployments
+resource "random_string" "storage_account_name" {
+  length  = 16
+  upper   = false
+  special = false
+}
+
 resource "azurerm_storage_account" "function" {
-  name                = "${var.function_name}-${random_string.seed.result}"
+  name                = random_string.storage_account_name.result
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
 
@@ -22,15 +21,14 @@ resource "azurerm_storage_account" "function" {
   account_replication_type = "LRS"
 }
 
-# The function apps
-resource "azurerm_function_app" "function" {
-  name                       = "${var.function_name}-${random_string.seed.result}"
-  resource_group_name        = var.resource_group_name
-  location                   = var.resource_group_location
-  app_service_plan_id        = azurerm_app_service_plan.app_sp.id
-  storage_account_name       = azurerm_storage_account.function.name
-  storage_account_access_key = azurerm_storage_account.function.primary_access_key
-  version                    = var.az_function_extension_version
+resource "azurerm_linux_function_app" "function" {
+  name                        = "${var.function_name}-${random_string.seed.result}"
+  resource_group_name         = var.resource_group_name
+  location                    = var.resource_group_location
+  service_plan_id             = azurerm_service_plan.app_sp.id
+  storage_account_name        = azurerm_storage_account.function.name
+  storage_account_access_key  = azurerm_storage_account.function.primary_access_key
+  functions_extension_version = var.az_function_extension_version
 
   app_settings = {
     COSMOSDB_COLLECTION_NAME       = var.cosmosdb_collection_name
@@ -43,7 +41,9 @@ resource "azurerm_function_app" "function" {
   }
 
   site_config {
-    always_on                = true
-    dotnet_framework_version = var.az_function_dotnet_version
+    always_on = true
+    application_stack {
+      dotnet_version = var.az_function_dotnet_version
+    }
   }
 }

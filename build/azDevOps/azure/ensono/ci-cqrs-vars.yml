@@ -119,6 +119,16 @@ variables:
   - name: k8s_cluster_identifier_prod
     value: ed-stacks-prod-euw-core
 
+  # DNS Configuration
+  - name: core_resource_group_nonprod
+    value: ed-stacks-nonprod-euw-core
+  - name: public_ip_name_nonprod
+    value: ed-stacks-nonprod-euw-core
+  - name: core_resource_group_prod
+    value: ed-stacks-prod-euw-core
+  - name: public_ip_name_prod
+    value: ed-stacks-prod-euw-core
+
   # Helm file locations
   - name: helm_chart_file
     value: "deploy/helm/stacks-dotnet"

@@ -6,11 +6,11 @@ variables:
   - name: project
     value: stacks
   - name: domain
-    value: netcore-api
+    value: netcore-cosmosdb-worker
   - name: self_repo
     value: stacks-dotnet
   - name: self_generic_name
-    value: stacks-api
+    value: stacks-cosmosdb-worker
 
   # Azure DevOps Group containing the SONAR_TOKEN secret
   - group: stacks-dotnet-api
@@ -44,13 +44,13 @@ variables:
   - name: resource_def_name
     value: dotnet-api
   - name: component
-    value: api
+    value: cosmosdb-worker
   - name: role
     value: backend
   - name: k8s_app_route
     value: /api/menu
   - name: app_name
-    value: yumido-netcore-api
+    value: yumido-netcore-cosmosdb-worker
 
   # Agent configuration
   - name: TaskctlVersion
@@ -62,7 +62,7 @@ variables:
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
   - name: self_repo_src
-    value: src/simple-api/src/api
+    value: src/func-cosmosdb-worker/src/functions
   - name: self_repo_dir
     value: "$(Agent.BuildDirectory)/s/$(self_repo)"
   - name: self_repo_tf_src
@@ -79,15 +79,15 @@ variables:
   - name: sonar_properties
     value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
   - name: sonar_project_name
-    value: Ensono_stacks-dotnet-azure
+    value: stacks-dotnet-cqrs
 
   # Test Configuration
-  - name: FUNCTIONAL_TESTS_SRC_DIR
-    value: src/simple-api/src/tests/Functional
-  - name: FUNCTIONAL_TESTS_RUN_DIR
-    value: /app/tests
-  - name: FUNCTIONAL_TEST_BASEURL
-    value: https://$(Environment.ShortName)-$(domain).$(dns_base_domain)$(k8s_app_route)/
+  # - name: FUNCTIONAL_TESTS_SRC_DIR
+  #   value: src/func-cosmosdb-worker/src/tests/Functional
+  # - name: FUNCTIONAL_TESTS_RUN_DIR
+  #   value: /app/tests
+  # - name: FUNCTIONAL_TEST_BASEURL
+  #   value: https://$(Environment.ShortName)-$(domain).$(dns_base_domain)$(k8s_app_route)/
 
   # Docker Container registry configuration (used for image tagging and pushing)
   # TODO: Despite being available in the TF State, these are required in other steps
@@ -129,12 +129,6 @@ variables:
   - name: public_ip_name_prod
     value: ed-stacks-prod-euw-core
 
-  # Helm file locations
-  - name: helm_chart_file
-    value: "deploy/helm/stacks-dotnet"
-  - name: helm_value_file
-    value: "deploy/helm/stacks-dotnet/values.yaml"
-
   # Versioning
   - name: version_major
     value: 7
@@ -146,7 +140,33 @@ variables:
     value: $(version_major).$(version_minor).$(version_revision)
 
   # Application
+  - name: create_function_app
+    value: true
+  - name: function_name
+    value: $(self_generic_name)
+  - name: function_resource_group_dev
+    value: ensono-stacks-dev-euw-netcore-cosmosdb-worker
+  - name: function_resource_group_prod
+    value: ensono-stacks-prod-euw-netcore-cosmosdb-worker
   - name: create_cosmosdb
     value: false
-  - name: app_bus_type
-    value: ""
+  - name: cosmosdb_account_name_dev
+    value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: cosmosdb_account_name_prod
+    value: ensono-stacks-prod-euw-netcore-api-cqrs
+  - name: cosmosdb_resource_group_dev
+    value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: cosmosdb_resource_group_prod
+    value: ensono-stacks-prod-euw-netcore-api-cqrs
+  - name: servicebus_namespace_dev
+    value: sb-menu-wxbirw
+  - name: servicebus_namespace_prod
+    value: sb-menu-pvonnp
+  - name: servicebus_resource_group_dev
+    value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: servicebus_resource_group_prod
+    value: ensono-stacks-prod-euw-netcore-api-cqrs
+
+  # Azure service connection
+  - name: azure_service_connection
+    value: "Azure Sub - ensono.stacks"

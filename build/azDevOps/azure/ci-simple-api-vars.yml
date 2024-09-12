@@ -119,6 +119,16 @@ variables:
   - name: k8s_cluster_identifier_prod
     value:
 
+  # DNS Configuration
+  - name: core_resource_group_nonprod
+    value:
+  - name: public_ip_name_nonprod
+    value:
+  - name: core_resource_group_prod
+    value:
+  - name: public_ip_name_prod
+    value:
+
   # Helm file locations
   - name: helm_chart_file
     value: "deploy/helm/stacks-dotnet"
