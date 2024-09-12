@@ -144,6 +144,10 @@ variables:
     value: true
   - name: function_name
     value: $(self_generic_name)
+  - name: function_resource_group_dev
+    value: ensono-stacks-dev-euw-netcore-cosmosdb-worker
+  - name: function_resource_group_prod
+    value: ensono-stacks-prod-euw-netcore-cosmosdb-worker
   - name: create_cosmosdb
     value: false
   - name: cosmosdb_account_name_dev
