@@ -139,7 +139,7 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
-  # Application
+  # Function App Configuration
   - name: create_function_app
     value: true
   - name: function_name
@@ -148,6 +148,8 @@ variables:
     value:
   - name: function_resource_group_prod
     value:
+
+  # CosmosDB Configuration
   - name: create_cosmosdb
     value: false
   - name: cosmosdb_account_name_dev
@@ -158,6 +160,8 @@ variables:
     value:
   - name: cosmosdb_resource_group_prod
     value:
+
+  # ServiceBus Configuration
   - name: servicebus_namespace_dev
     value:
   - name: servicebus_namespace_prod
