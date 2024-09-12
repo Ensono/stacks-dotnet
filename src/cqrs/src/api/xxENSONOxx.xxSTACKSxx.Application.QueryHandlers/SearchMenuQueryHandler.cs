@@ -1,15 +1,16 @@
+#if (DynamoDb || CosmosDb)
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DocumentModel;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 #if (DynamoDb)
 using Amazon.DynamoDBv2.DocumentModel;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Domain;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.QueryHandlers;
 
@@ -54,7 +55,7 @@ public class SearchMenuQueryHandler : IQueryHandler<SearchMenu, SearchMenuResult
         return result;
     }
 }
-#else
+#elif CosmosDb
 public class SearchMenuQueryHandler(IDocumentSearch<Menu> storage) : IQueryHandler<SearchMenu, SearchMenuResult>
 {
     public Task<SearchMenuResult> ExecuteAsync(SearchMenu criteria)
@@ -105,4 +106,5 @@ public class SearchMenuQueryHandler(IDocumentSearch<Menu> storage) : IQueryHandl
         return result;
     }
 }
+#endif
 #endif

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -212,3 +213,6 @@ static void AddSwagger(IServiceCollection services, JwtBearerAuthenticationConfi
         c.DocumentFilter<VersionPathFilter>("/v2");
     });
 }
+
+[ExcludeFromCodeCoverage]
+public partial class Program;

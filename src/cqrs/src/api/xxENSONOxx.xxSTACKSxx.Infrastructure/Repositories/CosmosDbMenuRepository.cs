@@ -1,12 +1,12 @@
+#if CosmosDb
 using System;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Domain;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 
-public class CosmosDbMenuRepository(IDocumentStorage<Menu> documentStorage) : IMenuRepository
+public class CosmosDbMenuRepository(Abstractions.IDocumentStorage<Menu> documentStorage) : IMenuRepository
 {
     public async Task<Menu> GetByIdAsync(Guid id)
     {
@@ -36,3 +36,4 @@ public class CosmosDbMenuRepository(IDocumentStorage<Menu> documentStorage) : IM
         return result.IsSuccessful;
     }
 }
+#endif

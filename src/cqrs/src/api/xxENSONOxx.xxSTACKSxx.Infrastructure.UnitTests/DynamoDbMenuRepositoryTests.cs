@@ -1,7 +1,7 @@
-﻿using System;
+﻿#if DynamoDb
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
@@ -94,3 +94,4 @@ public class DynamoDbMenuRepositoryTests
         return menuRepository;
     }
 }
+#endif
