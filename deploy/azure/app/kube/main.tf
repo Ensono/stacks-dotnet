@@ -41,7 +41,7 @@ module "app" {
 module "servicebus" {
   count                   = contains(split(",", var.app_bus_type), "servicebus") ? 1 : 0
   source                  = "../servicebus"
-  resource_group_name     = var.sb_resource_group_name != "" ? var.sb_resource_group_name : module.default_label.id
+  resource_group_name     = var.sb_resource_group_name != "" ? var.sb_resource_group_name : module.app.resource_group
   resource_group_location = var.resource_group_location
   sb_name                 = var.sb_name
   sb_topic_name           = var.sb_topic_name
@@ -51,7 +51,7 @@ module "servicebus" {
 module "eventhub" {
   count                   = contains(split(",", var.app_bus_type), "eventhub") ? 1 : 0
   source                  = "../eventhub"
-  resource_group_name     = module.default_label.id
+  resource_group_name     = module.app.resource_group
   resource_group_location = var.resource_group_location
 }
 
@@ -59,7 +59,7 @@ module "function" {
   count                        = var.create_function_app ? 1 : 0
   source                       = "../function"
   function_name                = var.function_name
-  resource_group_name          = module.default_label.id
+  resource_group_name          = module.app.resource_group
   resource_group_location      = var.resource_group_location
   cosmosdb_database_name       = var.create_cosmosdb ? module.app.cosmosdb_database_name : var.cosmosdb_account_name
   cosmosdb_collection_name     = var.cosmosdb_sql_container
