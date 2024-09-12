@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -100,3 +101,4 @@ public class PartialEntity(
     public string[] EmailAddresses { get; } = emailAddresses;
     public bool Active { get; } = active;
 }
+#endif

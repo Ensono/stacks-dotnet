@@ -1,3 +1,4 @@
+#if CosmosDb
 namespace xxENSONOxx.xxSTACKSxx.Common.Exceptions.CosmosDb;
 
 public enum ExceptionIds
@@ -13,3 +14,4 @@ public enum ExceptionIds
 
     CosmosDBRequestCapacityExceeded = 99900429
 }
+#endif
