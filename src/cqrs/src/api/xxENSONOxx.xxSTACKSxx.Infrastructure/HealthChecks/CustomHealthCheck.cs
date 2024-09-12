@@ -1,3 +1,4 @@
+#if CosmosDb
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -27,3 +28,4 @@ public class CustomHealthCheck(Abstractions.IDocumentStorage<Menu> documentStora
         return await Task.FromResult(HealthCheckResult.Healthy($"{nameof(CustomHealthCheck)}: OK"));
     }
 }
+#endif

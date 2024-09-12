@@ -1,3 +1,4 @@
+#if DynamoDb
 using System;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
@@ -31,3 +32,4 @@ public class DynamoDbGuidConverter : IPropertyConverter
         throw new ArgumentNullException();
     }
 }
+#endif

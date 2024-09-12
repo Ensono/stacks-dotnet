@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿#if DynamoDb
+using Xunit;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests;
 
@@ -16,3 +17,4 @@ public class DynamoDbMenuRepositoryTests
 
     }
 }
+#endif

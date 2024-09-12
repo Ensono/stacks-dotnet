@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if CosmosDb
+using System;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Extensions;
 
@@ -9,3 +10,4 @@ internal static class StringExtensions
         return source?.IndexOf(toCheck, comp) >= 0;
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if DynamoDb
 using System;
 using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
@@ -29,3 +30,4 @@ public class DynamoDbMenuRepository(IDynamoDbObjectStorage<Menu> storage) : IMen
         return result.IsSuccessful;
     }
 }
+#endif
