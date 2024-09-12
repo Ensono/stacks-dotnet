@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 
 namespace xxENSONOxx.xxSTACKSxx.Common.Exceptions.CosmosDb;
@@ -25,3 +26,4 @@ public class DocumentRetrievalException : CosmosDBException
         );
     }
 }
+#endif

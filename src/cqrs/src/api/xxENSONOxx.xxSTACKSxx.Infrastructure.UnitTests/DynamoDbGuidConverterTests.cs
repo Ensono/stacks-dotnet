@@ -1,3 +1,4 @@
+#if DynamoDb
 using System;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
@@ -41,3 +42,4 @@ public class DynamoDbGuidConverterTests
 		Assert.Equal(id, result);
 	}
 }
+#endif

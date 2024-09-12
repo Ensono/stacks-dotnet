@@ -1,3 +1,4 @@
+#if DynamoDb
 using System.Collections.Generic;
 using System.Linq;
 using Amazon.DynamoDBv2.DataModel;
@@ -76,3 +77,4 @@ public class DynamoDbCategoryConverterTests
         Assert.Equal(categories[0].Name, first.Name);
     }
 }
+#endif

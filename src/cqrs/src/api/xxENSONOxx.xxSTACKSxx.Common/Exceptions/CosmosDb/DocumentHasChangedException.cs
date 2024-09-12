@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 
 namespace xxENSONOxx.xxSTACKSxx.Common.Exceptions.CosmosDb;
@@ -28,3 +29,4 @@ public class DocumentHasChangedException : CosmosDBException
         );
     }
 }
+#endif

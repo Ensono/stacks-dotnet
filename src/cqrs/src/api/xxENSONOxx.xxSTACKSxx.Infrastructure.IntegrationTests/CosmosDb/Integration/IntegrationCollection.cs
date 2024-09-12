@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿#if CosmosDb
+using Xunit;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Integration;
 
@@ -8,3 +9,4 @@ public class IntegrationCollection : ICollectionFixture<IntegrationFixture>
     // Must be unique compared with other collections within the project
     public const string Name = "IntegrationFixture";
 }
+#endif

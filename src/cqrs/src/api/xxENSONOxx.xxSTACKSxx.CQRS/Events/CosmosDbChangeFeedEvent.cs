@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
@@ -23,3 +24,4 @@ public class CosmosDbChangeFeedEvent(int operationCode, Guid correlationId, Guid
 
     public string ETag { get; } = eTag;
 }
+#endif

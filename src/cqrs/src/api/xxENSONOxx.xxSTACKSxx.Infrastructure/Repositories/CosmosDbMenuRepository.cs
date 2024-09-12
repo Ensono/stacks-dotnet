@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
@@ -35,3 +36,4 @@ public class CosmosDbMenuRepository(Abstractions.IDocumentStorage<Menu> document
         return result.IsSuccessful;
     }
 }
+#endif

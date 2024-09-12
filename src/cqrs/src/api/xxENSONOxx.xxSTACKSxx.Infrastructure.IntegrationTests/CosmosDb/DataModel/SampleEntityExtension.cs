@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -49,3 +50,4 @@ public class SampleEntityExtension(
         );
     }
 }
+#endif

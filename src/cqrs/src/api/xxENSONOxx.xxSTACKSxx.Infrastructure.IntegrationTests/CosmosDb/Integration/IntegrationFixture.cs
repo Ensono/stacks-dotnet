@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if CosmosDb
+using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
 using Xunit;
@@ -55,3 +56,4 @@ public class IntegrationFixture : IAsyncLifetime
         return Task.CompletedTask;
     }
 }
+#endif
