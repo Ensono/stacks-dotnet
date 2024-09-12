@@ -170,8 +170,9 @@ variables:
     value: ensono-stacks-dev-euw-netcore-api-cqrs
   - name: servicebus_resource_group_prod
     value: ensono-stacks-prod-euw-netcore-api-cqrs
+  # TODO: update this back to filtered
   - name: servicebus_subscription_name
-    value: sbs-menu-events-filtered
+    value: sbs-menu-events-created
   - name: servicebus_subscription_filter
     value: "enclosedmessagetype like '%MenuCreatedEvent%'"
 
