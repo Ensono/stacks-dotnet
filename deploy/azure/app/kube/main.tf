@@ -45,7 +45,6 @@ module "servicebus" {
   resource_group_location = var.resource_group_location
   sb_name                 = var.sb_name
   sb_topic_name           = var.sb_topic_name
-  sb_subscription_name    = var.sb_subscription_name
 }
 
 module "eventhub" {
@@ -64,7 +63,9 @@ module "function" {
   cosmosdb_database_name       = var.create_cosmosdb ? module.app.cosmosdb_database_name : var.cosmosdb_account_name
   cosmosdb_collection_name     = var.cosmosdb_sql_container
   cosmosdb_connection_string   = var.create_cosmosdb ? "AccountEndpoint=${module.app.cosmosdb_endpoint};AccountKey=${module.app.cosmosdb_primary_master_key};" : "AccountEndpoint=${data.azurerm_cosmosdb_account.cosmosdb[0].endpoint};AccountKey=${data.azurerm_cosmosdb_account.cosmosdb[0].primary_key};"
+  sb_topic_id                  = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_id : data.azurerm_servicebus_topic.sb_topic[0].id
   sb_topic_name                = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_name : var.sb_topic_name
-  sb_subscription_name         = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_subscription_name : var.sb_subscription_name
   servicebus_connection_string = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_connectionstring : data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string
+  sb_subscription_name         = var.sb_subscription_name
+  sb_subscription_filter       = var.sb_subscription_filter
 }

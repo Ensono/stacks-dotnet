@@ -177,6 +177,12 @@ variable "sb_subscription_name" {
   description = "Name of the Service Bus subscription to create"
 }
 
+variable "sb_subscription_filter" {
+  type        = string
+  description = "SQL Filter for the Service Bus subscription"
+  default     = ""
+}
+
 variable "sb_resource_group_name" {
   type        = string
   default     = ""

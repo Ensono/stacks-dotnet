@@ -76,6 +76,11 @@ variable "servicebus_connection_string" {
   description = "Connection string for Service Bus"
 }
 
+variable "sb_topic_id" {
+  type        = string
+  description = "ID of the Service Bus topic"
+}
+
 variable "sb_topic_name" {
   type        = string
   description = "Name of the Service Bus topic"
@@ -84,4 +89,14 @@ variable "sb_topic_name" {
 variable "sb_subscription_name" {
   type        = string
   description = "Name of the Service Bus subscription"
+}
+
+variable "sb_max_delivery_count" {
+  type    = number
+  default = 1
+}
+
+variable "sb_subscription_filter" {
+  type        = string
+  description = "SQL Filter for the Service Bus subscription"
 }
