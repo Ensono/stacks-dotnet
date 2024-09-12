@@ -167,6 +167,7 @@ stages:
                     TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration
                     TF_VAR_core_environment: $(core_environment)
+                    TF_VAR_core_resource_group: $(core_resource_group_nonprod)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
@@ -178,6 +179,7 @@ stages:
                     TF_VAR_create_cache: false
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
+                    TF_VAR_public_ip_name: $(public_ip_name_nonprod)
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
@@ -236,6 +238,7 @@ stages:
                     TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration  (used for Terraform Outputs)
                     TF_VAR_core_environment: $(core_environment)
+                    TF_VAR_core_resource_group: $(core_resource_group_nonprod)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
@@ -247,6 +250,7 @@ stages:
                     TF_VAR_create_cache: false
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
+                    TF_VAR_public_ip_name: $(public_ip_name_nonprod)
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"

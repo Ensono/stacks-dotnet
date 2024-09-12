@@ -29,7 +29,8 @@ module "app" {
   dns_record                           = var.dns_record
   dns_zone_name                        = data.terraform_remote_state.core.outputs.dns_base_domain
   dns_zone_resource_group              = data.terraform_remote_state.core.outputs.dns_resource_group_name != "" ? data.terraform_remote_state.core.outputs.dns_resource_group_name : data.terraform_remote_state.core.outputs.resource_group_name
-  dns_a_records                        = [data.terraform_remote_state.core.outputs.app_gateway_ip]
+  dns_ip_address_name                  = var.public_ip_name
+  dns_ip_address_resource_group        = var.core_resource_group
   subscription_id                      = data.azurerm_client_config.current.subscription_id
   create_cdn_endpoint                  = var.create_cdn_endpoint
   force_create_resource_group          = var.create_resource_group
@@ -63,7 +64,7 @@ module "function" {
   cosmosdb_database_name       = var.create_cosmosdb ? module.app.cosmosdb_database_name : var.cosmosdb_account_name
   cosmosdb_collection_name     = var.cosmosdb_sql_container
   cosmosdb_connection_string   = var.create_cosmosdb ? "AccountEndpoint=${module.app.cosmosdb_endpoint};AccountKey=${module.app.cosmosdb_primary_master_key};" : "AccountEndpoint=${data.azurerm_cosmosdb_account.cosmosdb[0].endpoint};AccountKey=${data.azurerm_cosmosdb_account.cosmosdb[0].primary_key};"
-  sb_topic_name                = var.sb_topic_name
-  sb_subscription_name         = var.sb_subscription_name
-  servicebus_connection_string = data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string
+  sb_topic_name                = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_name : var.sb_topic_name
+  sb_subscription_name         = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_subscription_name : var.sb_subscription_name
+  servicebus_connection_string = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_connectionstring : data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string
 }

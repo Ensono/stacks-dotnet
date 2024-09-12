@@ -55,14 +55,16 @@ variable "location_name_map" {
 ############################################
 # AZURE INFORMATION
 ############################################
-
 variable "resource_group_location" {
   type = string
 }
 
 variable "dns_record" {
-  description = ""
-  type        = string
+  type = string
+}
+
+variable "public_ip_name" {
+  type = string
 }
 
 ###########################
@@ -199,6 +201,11 @@ variable "core_environment" {
   default     = "nonprod"
 }
 
+variable "core_resource_group" {
+  type = string
+  description = "Name of the resource group for the core infrastructure"
+}
+
 variable "tfstate_key" {
   type        = string
   description = "Name of the key in remote storage for the core environmnent"
@@ -206,17 +213,12 @@ variable "tfstate_key" {
 
 variable "tfstate_storage_account" {
   type        = string
-  description = "Name of the storage account that holds the Terraform state"
+  description = "Name of the storage account that holds the core Terraform state"
 }
 
 variable "tfstate_container_name" {
   type        = string
-  description = "Name of the container in the specified storage account holding the state"
-}
-
-variable "tfstate_resource_group_name" {
-  type        = string
-  description = "Name of the resource group that holds the the above resources"
+  description = "Name of the container in the specified storage account holding the core state"
 }
 
 ##########################
