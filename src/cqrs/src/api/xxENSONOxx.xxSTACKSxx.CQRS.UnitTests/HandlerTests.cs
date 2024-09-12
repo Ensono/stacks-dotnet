@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if CosmosDb
+using System;
 using System.Collections.Generic;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
@@ -315,3 +316,4 @@ public class HandlerTests
 
     #endregion
 }
+#endif

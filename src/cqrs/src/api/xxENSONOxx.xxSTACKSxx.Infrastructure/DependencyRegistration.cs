@@ -11,7 +11,6 @@ using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
-using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
 #if (EventPublisherAwsSns || EventPublisherEventHub)
@@ -24,6 +23,7 @@ using Amazon.DynamoDBv2;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 using CqrsWithCosmos.Infrastructure.Abstractions;
 using CqrsWithCosmos.Infrastructure.HealthChecks;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 #endif
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure;

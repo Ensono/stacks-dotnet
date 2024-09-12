@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
@@ -34,3 +35,4 @@ public class CosmosDbConfiguration
     /// </summary>
     public TimeSpan RequestTimeout { get; set; } = TimeSpan.FromSeconds(30);
 }
+#endif

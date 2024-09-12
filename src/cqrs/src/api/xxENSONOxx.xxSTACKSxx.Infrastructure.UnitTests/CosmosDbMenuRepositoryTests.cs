@@ -1,3 +1,4 @@
+#if CosmosDb
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -90,3 +91,4 @@ public class CosmosDbMenuRepositoryTests
         return menuRepository;
     }
 }
+#endif
