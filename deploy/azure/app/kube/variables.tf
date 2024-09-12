@@ -221,6 +221,11 @@ variable "tfstate_container_name" {
   description = "Name of the container in the specified storage account holding the core state"
 }
 
+variable "tfstate_resource_group_name" {
+  type        = string
+  description = "Name of the resource group that holds the the above resources"
+}
+
 ##########################
 # App Insights Lookup
 ##########################
