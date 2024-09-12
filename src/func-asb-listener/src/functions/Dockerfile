@@ -7,14 +7,14 @@
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 
-ARG function
 ARG outdir=out
+ARG self_repo_src="src/functions"
 
 WORKDIR /app
 
 # Copy the worker project and build
 COPY ./ ./
-RUN dotnet publish -c Release -o ${outdir} ${function}
+RUN dotnet publish -c Release -o ${outdir} $self_repo_src/xxENSONOxx.xxSTACKSxx.Worker
 
 # Build the runtime image
 FROM mcr.microsoft.com/azure-functions/dotnet:4 as runtime
