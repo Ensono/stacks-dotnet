@@ -202,7 +202,7 @@ variable "core_environment" {
 }
 
 variable "core_resource_group" {
-  type = string
+  type        = string
   description = "Name of the resource group for the core infrastructure"
 }
 
