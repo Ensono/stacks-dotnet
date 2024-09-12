@@ -62,12 +62,12 @@ output "servicebus_connectionstring" {
 # Events - Function
 output "function_id" {
   description = "Function App ID"
-  value = var.create_function_app ? module.function.*.function_id[0] : null
+  value       = var.create_function_app ? module.function.*.function_id[0] : null
 }
 
 output "function_name" {
   description = "Function App Name"
-  value = var.create_function_app ? module.function.*.function_name[0] : null
+  value       = var.create_function_app ? module.function.*.function_name[0] : null
 }
 
 output "servicebus_subscription_id" {
