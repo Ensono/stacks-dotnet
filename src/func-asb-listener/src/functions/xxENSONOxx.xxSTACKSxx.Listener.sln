@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.csproj", "{B4B0D375-2655-4E4A-ACBC-FBEAE76E9B87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Testing", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Testing\xxENSONOxx.xxSTACKSxx.Shared.Testing.csproj", "{C4481E6C-6825-43F9-A8AC-5162FF203485}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests\xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests.csproj", "{776AD9FB-EBEB-4221-9515-B955BEE8D973}"
 EndProject
 Global
