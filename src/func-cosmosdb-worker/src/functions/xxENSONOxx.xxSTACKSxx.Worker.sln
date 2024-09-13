@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests\xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests.csproj", "{80757BB7-48FF-4EE0-9CBF-AF49B20D07E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests\xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests.csproj", "{AEFD5954-CB5A-4768-BBF6-E1468C75D9FD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
