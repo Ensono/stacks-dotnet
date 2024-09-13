@@ -33,54 +33,95 @@ cd ..
 mkdir test-templates
 cd test-templates
 
-# Generate the base templates
-dotnet new stacks-webapi -n Simple.WebAPI -do Menu
+# Generate the generic base templates
+dotnet new stacks-webapi -n Simple.Api -do Menu
 dotnet new stacks-cqrs -n Cqrs -do Menu
 dotnet new stacks-az-func-cosmosdb-worker -n Cosmos.Worker
 dotnet new stacks-az-func-aeh-listener -n EventHub.Listener -do Menu
 dotnet new stacks-az-func-asb-listener -n ServiceBus.Listener -do Menu
 dotnet new stacks-asb-worker -n ServiceBus.Worker -do Menu
 
+# Generate fleshed out CQRS templates
+dotnet new stacks-cqrs -n Cqrs.AllTheThings -do Menu --cloudProvider Azure --cicdProvider AZDO -db CosmosDb -e ServiceBus
+dotnet new stacks-cqrs -n Cqrs.ServiceBus -do Menu --cloudProvider Azure --cicdProvider AZDO -e ServiceBus
+dotnet new stacks-cqrs -n Cqrs.Dynamo -do Menu --cloudProvider AWS -db DynamoDb  
+dotnet new stacks-cqrs -n Cqrs.Sns -do Menu --cloudProvider AWS -e AwsSns
+
+
 # Generate the additional template
 dotnet new stacks-webapi -n NonCqrs -do Menu
 cd NonCqrs/src/simple-api/src/api
 dotnet new stacks-add-cqrs -n NonCqrs.Cqrs -do Menu
 
-# Test the Simple.WebAPI project
-cd Simple.WebAPI/src/simple-api/src/api
+# Test the Simple.Api project
+cd Simple.Api/src/simple-api/src/api
 dotnet restore
+dotnet build
 dotnet test
 cd ../../../../..
 
 # Test the Cqrs project
 cd Cqrs/src/cqrs/src/api
 dotnet restore
+dotnet build
 dotnet test
 cd ../../../../..
 
 # Test the Cosmos.Worker project
 cd Cosmos.Worker/src/func-cosmosdb-worker/src/functions
 dotnet restore
+dotnet build
 dotnet test
 cd ../../../../..
 
 # Test the EventHub.Listener project
 cd EventHub.Listener/func-aeh-listener/src/functions
 dotnet restore
+dotnet build
 dotnet test
 cd ../../../..
 
 # Test the ServiceBus.Listener project
 cd ServiceBus.Listener/func-asb-listener/src/functions
 dotnet restore
+dotnet build
 dotnet test
 cd ../../../..
 
 # Test the ServiceBus.Worker project
 cd ServiceBus.Worker/background-worker/src/worker
 dotnet restore
+dotnet build
 dotnet test
 cd ../../../..
+
+# Test the Cqrs.AllTheThings project
+cd Cqrs.AllTheThings/src/cqrs/src/api
+dotnet restore
+dotnet build
+dotnet test
+cd ../../../../..
+
+# Test the Cqrs.ServiceBus project
+cd Cqrs.ServiceBus/src/cqrs/src/api
+dotnet restore
+dotnet build
+dotnet test
+cd ../../../../..
+
+# Test the Cqrs.Dynamo project
+cd Cqrs.Dynamo/src/cqrs/src/api
+dotnet restore
+dotnet build
+dotnet test
+cd ../../../../..
+
+# Test the Cqrs.Sns project
+cd Cqrs.Sns/src/cqrs/src/api
+dotnet restore
+dotnet build
+dotnet test
+cd ../../../../..
 
 # Print success message
 echo " _________ _______  _______ _________ _______    _______  _______  _______  _______  _______  ______  "
