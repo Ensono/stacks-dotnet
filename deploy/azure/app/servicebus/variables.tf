@@ -26,23 +26,6 @@ variable "sb_topic_name" {
   description = "Name of the topic to create"
 }
 
-variable "sb_subscription_filtered_name" {
-  type        = string
-  default     = "sbs-menu-events-filtered"
-  description = "Name of the Service Bus subscription, filtered, to create"
-}
-
-variable "sb_subscription_name" {
-  type        = string
-  default     = "sbs-menu-events"
-  description = "Name of the Service Bus subscription to create"
-}
-
-variable "sb_max_delivery_count" {
-  type    = number
-  default = 1
-}
-
 variable "seed_length" {
   type    = number
   default = 6
