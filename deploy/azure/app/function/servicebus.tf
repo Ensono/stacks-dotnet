@@ -12,5 +12,4 @@ resource "azurerm_servicebus_subscription_rule" "sb_sub_rule" {
 
   filter_type = "SqlFilter"
   sql_filter  = var.sb_subscription_filter
-  #   sql_filter  = "enclosedmessagetype like '%MenuCreatedEvent%'"
 }
