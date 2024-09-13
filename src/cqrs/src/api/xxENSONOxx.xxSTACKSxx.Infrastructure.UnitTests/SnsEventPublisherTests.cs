@@ -24,7 +24,7 @@ public class EventPublisherTests
 		// arrange
 		// act
 		// assert
-		typeof(EventPublisher)
+		typeof(SnsEventPublisher)
 			.Should()
 			.Implement<IApplicationEventPublisher>();
 	}
@@ -35,11 +35,11 @@ public class EventPublisherTests
 		// arrange
 		// act
 		Action constructor = () =>
-			new EventPublisher(
+			new SnsEventPublisher(
 				null!,
 				A.Fake<ISecretResolver<string>>(),
 				A.Fake<IAmazonSimpleNotificationService>(),
-				A.Fake<ILogger<EventPublisher>>());
+				A.Fake<ILogger<SnsEventPublisher>>());
 
 		// assert
 		constructor
@@ -54,11 +54,11 @@ public class EventPublisherTests
 		// arrange
 		// act
 		Action constructor = () =>
-			new EventPublisher(
+			new SnsEventPublisher(
 				A.Fake<IOptions<AwsSnsConfiguration>>(),
 				null!,
 				A.Fake<IAmazonSimpleNotificationService>(),
-				A.Fake<ILogger<EventPublisher>>());
+				A.Fake<ILogger<SnsEventPublisher>>());
 
 		// assert
 		constructor
@@ -73,11 +73,11 @@ public class EventPublisherTests
 		// arrange
 		// act
 		Action constructor = () =>
-			new EventPublisher(
+			new SnsEventPublisher(
 				A.Fake<IOptions<AwsSnsConfiguration>>(),
 				A.Fake<ISecretResolver<string>>(),
 				null!,
-				A.Fake<ILogger<EventPublisher>>());
+				A.Fake<ILogger<SnsEventPublisher>>());
 
 		// assert
 		constructor
@@ -92,7 +92,7 @@ public class EventPublisherTests
 		// arrange
 		// act
 		Action constructor = () =>
-			new EventPublisher(
+			new SnsEventPublisher(
 				A.Fake<IOptions<AwsSnsConfiguration>>(),
 				A.Fake<ISecretResolver<string>>(),
 				A.Fake<IAmazonSimpleNotificationService>(),
@@ -111,11 +111,11 @@ public class EventPublisherTests
 		// arrange
 		// act
 		Action constructor = () =>
-			new EventPublisher(
+			new SnsEventPublisher(
 				A.Fake<IOptions<AwsSnsConfiguration>>(),
 				A.Fake<ISecretResolver<string>>(),
 				A.Fake<IAmazonSimpleNotificationService>(),
-				A.Fake<ILogger<EventPublisher>>());
+				A.Fake<ILogger<SnsEventPublisher>>());
 
 		// assert
 		constructor
@@ -136,11 +136,11 @@ public class EventPublisherTests
 		A.CallTo(() => fakeSecretResolver.ResolveSecretAsync(A<Secret>._)).Returns("TopicArn");
 
 		var fakeAmazonSns = A.Fake<IAmazonSimpleNotificationService>();
-		var fakeLogger = A.Fake<ILogger<EventPublisher>>();
+		var fakeLogger = A.Fake<ILogger<SnsEventPublisher>>();
 		var fakeOptions = A.Fake<IOptions<AwsSnsConfiguration>>();
 		A.CallTo(() => fakeOptions.Value).Returns(awsSnsConfiguration);
 
-		var sut = new EventPublisher(fakeOptions, fakeSecretResolver, fakeAmazonSns, fakeLogger);
+		var sut = new SnsEventPublisher(fakeOptions, fakeSecretResolver, fakeAmazonSns, fakeLogger);
 
 		// act
 		await sut.PublishAsync(fakeApplicationEvent);

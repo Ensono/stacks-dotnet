@@ -1,4 +1,4 @@
-#if CosmosDb
+#if (CosmosDb || DynamoDb)
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;

@@ -3,8 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Amazon.SimpleNotificationService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 #endif
 
@@ -33,7 +33,7 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
 #if (CosmosDb)
-using CqrsWithCosmos.Infrastructure.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
@@ -50,7 +50,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddDefaultAWSOptions(configuration.GetAWSOptions());
         services.AddAWSService<IAmazonSimpleNotificationService>();
-        services.AddTransient<IApplicationEventPublisher, EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, SnsEventPublisher>();
 
         return services;
     }
