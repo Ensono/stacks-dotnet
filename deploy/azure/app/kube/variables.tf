@@ -120,9 +120,9 @@ variable "app_bus_type" {
 variable "cosmosdb_account_name" {
   type        = string
   description = "Name of an existing CosmosDB account if not creating a new one"
-  default     = null
+  default     = ""
   validation {
-    condition     = !var.create_cosmosdb && var.create_function_app ? var.cosmosdb_account_name != null : true
+    condition     = !var.create_cosmosdb && var.create_function_app ? length(var.cosmosdb_account_name) > 0 : true
     error_message = "You must specify a value for cosmosdb_account_name if create_cosmosdb is false and create_function_app is true."
   }
 }
@@ -130,9 +130,9 @@ variable "cosmosdb_account_name" {
 variable "cosmosdb_resource_group_name" {
   type        = string
   description = "Name of an existing CosmosDB resource group if not creating a new one"
-  default     = null
+  default     = ""
   validation {
-    condition     = !var.create_cosmosdb && var.create_function_app ? var.cosmosdb_resource_group_name != null : true
+    condition     = !var.create_cosmosdb && var.create_function_app ? length(var.cosmosdb_resource_group_name) > 0 : true
     error_message = "You must specify a value for cosmosdb_resource_group_name if create_cosmosdb is false and create_function_app is true."
   }
 }
@@ -140,9 +140,9 @@ variable "cosmosdb_resource_group_name" {
 variable "cosmosdb_sql_container" {
   type        = string
   description = "Specify the SQLContainer name in CosmosDB"
-  default     = null
+  default     = ""
   validation {
-    condition     = var.create_cosmosdb ? var.cosmosdb_sql_container != null : true
+    condition     = var.create_cosmosdb ? length(var.cosmosdb_sql_container) > 0 : true
     error_message = "You must specify a value for cosmosdb_sql_container if create_cosmosdb is true."
   }
 }
@@ -150,9 +150,9 @@ variable "cosmosdb_sql_container" {
 variable "cosmosdb_sql_container_partition_key" {
   type        = string
   description = "Specify partition key"
-  default     = null
+  default     = ""
   validation {
-    condition     = var.create_cosmosdb ? var.cosmosdb_sql_container_partition_key != null : true
+    condition     = var.create_cosmosdb ? length(var.cosmosdb_sql_container_partition_key) > 0 : true
     error_message = "You must specify a value for cosmosdb_sql_container_partition_key if create_cosmosdb is true."
   }
 }
@@ -160,18 +160,18 @@ variable "cosmosdb_sql_container_partition_key" {
 variable "cosmosdb_kind" {
   type        = string
   description = "Specify the CosmosDB kind"
-  default     = null
+  default     = ""
   validation {
-    condition     = var.create_cosmosdb ? var.cosmosdb_kind != null : true
+    condition     = var.create_cosmosdb ? length(var.cosmosdb_kind) > 0 : true
     error_message = "You must specify a value for cosmosdb_kind if create_cosmosdb is true."
   }
 }
 variable "cosmosdb_offer_type" {
   type        = string
   description = "Specify the offer type"
-  default     = null
+  default     = ""
   validation {
-    condition     = var.create_cosmosdb ? var.cosmosdb_offer_type != null : true
+    condition     = var.create_cosmosdb ? length(var.cosmosdb_offer_type) > 0 : true
     error_message = "You must specify a value for cosmosdb_offer_type if create_cosmosdb is true."
   }
 }

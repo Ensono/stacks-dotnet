@@ -60,8 +60,8 @@ module "function" {
   function_name                = var.function_name
   resource_group_name          = module.app.resource_group
   resource_group_location      = var.resource_group_location
-  cosmosdb_database_name       = var.create_cosmosdb ? module.app.cosmosdb_database_name : var.cosmosdb_account_name
-  cosmosdb_collection_name     = var.cosmosdb_sql_container
+  cosmosdb_database_name       = var.create_cosmosdb ? module.app.cosmosdb_database_name : (var.cosmosdb_account_name != "" ? var.cosmosdb_account_name : null)
+  cosmosdb_collection_name     = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
   cosmosdb_connection_string   = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
   sb_topic_id                  = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_id : data.azurerm_servicebus_topic.sb_topic[0].id
   sb_topic_name                = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_name : var.sb_topic_name
