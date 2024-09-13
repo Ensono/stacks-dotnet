@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings
+namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests
 {
     public static class Configuration
     {

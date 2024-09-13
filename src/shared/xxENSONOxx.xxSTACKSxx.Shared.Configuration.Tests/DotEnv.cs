@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings
+namespace xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests
 {
     public class DotEnv
     {
