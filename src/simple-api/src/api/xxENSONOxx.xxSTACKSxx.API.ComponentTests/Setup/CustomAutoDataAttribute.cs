@@ -2,7 +2,6 @@ using AutoFixture;
 using AutoFixture.Xunit2;
 using Microsoft.Extensions.Options;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
-using xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings;
 
 namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
 
