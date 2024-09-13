@@ -55,17 +55,18 @@ module "eventhub" {
 }
 
 module "function" {
-  count                        = var.create_function_app ? 1 : 0
-  source                       = "../function"
-  function_name                = var.function_name
-  resource_group_name          = module.app.resource_group
-  resource_group_location      = var.resource_group_location
-  cosmosdb_database_name       = var.create_cosmosdb ? module.app.cosmosdb_database_name : (var.cosmosdb_account_name != "" ? var.cosmosdb_account_name : null)
-  cosmosdb_collection_name     = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
-  cosmosdb_connection_string   = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
-  sb_topic_id                  = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_id : data.azurerm_servicebus_topic.sb_topic[0].id
-  sb_topic_name                = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_name : var.sb_topic_name
-  servicebus_connection_string = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_connectionstring : data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string
-  sb_subscription_name         = var.sb_subscription_name
-  sb_subscription_filter       = var.sb_subscription_filter
+  count                          = var.create_function_app ? 1 : 0
+  source                         = "../function"
+  function_name                  = var.function_name
+  resource_group_name            = module.app.resource_group
+  resource_group_location        = var.resource_group_location
+  cosmosdb_database_name         = local.cosmosdb_account_name != "" ? local.cosmosdb_account_name : null
+  cosmosdb_collection_name       = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
+  cosmosdb_lease_collection_name = null
+  cosmosdb_connection_string     = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
+  sb_topic_id                    = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_id : data.azurerm_servicebus_topic.sb_topic[0].id
+  sb_topic_name                  = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_name : var.sb_topic_name
+  servicebus_connection_string   = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_connectionstring : data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string
+  sb_subscription_name           = var.sb_subscription_name
+  sb_subscription_filter         = var.sb_subscription_filter
 }
