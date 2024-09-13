@@ -320,6 +320,7 @@
 						"**/build/azDevOps/azure/ci-simple-api-vars.yml",
 						"**/build/azDevOps/azure/ci-functions.yml",
 						"**/build/azDevOps/azure/ci-cosmosdb-worker-vars.yml",
+						"**/build/azDevOps/azure/ci-asb-listener-vars.yml",
 						"**/build/github/aws/**",
 						"**/build/github/gcp/**",
 						"**/deploy/aws/**",

@@ -14,7 +14,7 @@ WORKDIR /app
 
 # Copy the worker project and build
 COPY ./ ./
-RUN dotnet publish -c Release -o out $self_repo_src/xxENSONOxx.xxSTACKSxx.Worker
+RUN dotnet publish -c Release -o ${outdir} $self_repo_src/xxENSONOxx.xxSTACKSxx.Worker
 
 # Build the runtime image
 FROM mcr.microsoft.com/azure-functions/dotnet:4 as runtime

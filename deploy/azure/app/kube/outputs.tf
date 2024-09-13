@@ -54,54 +54,38 @@ output "servicebus_topic_name" {
   value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_topic_name[0] : null
 }
 
-output "servicebus_subscription_name" {
-  description = "Servicebus Subscription name"
-  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_subscription_name[0] : null
-}
-
 output "servicebus_connectionstring" {
   value     = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_connectionstring[0] : null
   sensitive = true
 }
 
-output "servicebus_subscription_filtered_name" {
-  description = "Servicebus Subscription filtered name"
-  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_subscription_filtered_name[0] : null
+# Events - Function
+output "function_id" {
+  description = "Function App ID"
+  value       = var.create_function_app ? module.function.*.function_id[0] : null
+}
+
+output "function_name" {
+  description = "Function App Name"
+  value       = var.create_function_app ? module.function.*.function_name[0] : null
 }
 
 output "servicebus_subscription_id" {
   description = "Servicebus Subscription ID"
-  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_subscription_id[0] : null
+  value       = var.create_function_app ? module.function.*.servicebus_subscription_id[0] : null
 }
 
-output "servicebus_subscription_filtered_id" {
-  description = "Servicebus Subscription filtered ID"
-  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_subscription_filtered_id[0] : null
+output "servicebus_subscription_name" {
+  description = "Servicebus Subscription name"
+  value       = var.create_function_app ? module.function.*.servicebus_subscription_name[0] : null
 }
 
-# Events - Function
-# output "function_publisher_id" {
-#   value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_publisher_id[0] : null
-# }
 
-# output "function_listener_id" {
-#   value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_listener_id[0] : null
-# }
-
-# output "function_publisher_name" {
-#   value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_publisher_name[0] : null
-# }
-
-# output "function_listener_name" {
-#   value = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.function_listener_name[0] : null
-# }
-
+# Events - Eventhub
 output "eventhub_connectionstring" {
   value     = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_connectionstring[0] : null
   sensitive = true
 }
-
-# Events - Eventhub
 output "eventhub_name" {
   value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_name[0] : null
 }

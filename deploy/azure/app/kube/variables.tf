@@ -121,39 +121,57 @@ variable "cosmosdb_account_name" {
   type        = string
   description = "Name of an existing CosmosDB account if not creating a new one"
   default     = ""
-  validation {
-    condition     = !var.create_cosmosdb && var.create_function_app ? length(var.cosmosdb_account_name) > 0 : true
-    error_message = "You must specify a value for cosmosdb_account_name if create_cosmosdb is false and create_function_app is true."
-  }
 }
 
 variable "cosmosdb_resource_group_name" {
   type        = string
   description = "Name of an existing CosmosDB resource group if not creating a new one"
   default     = ""
-  validation {
-    condition     = !var.create_cosmosdb && var.create_function_app ? length(var.cosmosdb_resource_group_name) > 0 : true
-    error_message = "You must specify a value for cosmosdb_resource_group_name if create_cosmosdb is false and create_function_app is true."
-  }
 }
 
 variable "cosmosdb_sql_container" {
   type        = string
   description = "Specify the SQLContainer name in CosmosDB"
+  default     = ""
+  validation {
+    condition     = var.create_cosmosdb ? length(var.cosmosdb_sql_container) > 0 : true
+    error_message = "You must specify a value for cosmosdb_sql_container if create_cosmosdb is true."
+  }
 }
 
 variable "cosmosdb_sql_container_partition_key" {
   type        = string
   description = "Specify partition key"
+  default     = ""
+  validation {
+    condition     = var.create_cosmosdb ? length(var.cosmosdb_sql_container_partition_key) > 0 : true
+    error_message = "You must specify a value for cosmosdb_sql_container_partition_key if create_cosmosdb is true."
+  }
 }
 
 variable "cosmosdb_kind" {
   type        = string
   description = "Specify the CosmosDB kind"
+  default     = ""
+  validation {
+    condition     = var.create_cosmosdb ? length(var.cosmosdb_kind) > 0 : true
+    error_message = "You must specify a value for cosmosdb_kind if create_cosmosdb is true."
+  }
 }
 variable "cosmosdb_offer_type" {
   type        = string
   description = "Specify the offer type"
+  default     = ""
+  validation {
+    condition     = var.create_cosmosdb ? length(var.cosmosdb_offer_type) > 0 : true
+    error_message = "You must specify a value for cosmosdb_offer_type if create_cosmosdb is true."
+  }
+}
+
+variable "cosmosdb_lease_collection_name" {
+  type        = string
+  default     = "Leases"
+  description = "Name of the CosmosDB lease collection to use"
 }
 
 ###########################
@@ -175,6 +193,12 @@ variable "sb_subscription_name" {
   type        = string
   default     = "sbs-menu-events"
   description = "Name of the Service Bus subscription to create"
+}
+
+variable "sb_subscription_filter" {
+  type        = string
+  description = "SQL Filter for the Service Bus subscription"
+  default     = ""
 }
 
 variable "sb_resource_group_name" {

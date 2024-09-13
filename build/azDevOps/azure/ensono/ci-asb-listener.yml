@@ -12,7 +12,7 @@ trigger:
       - "*"
 
 variables:
-  - template: ci-cosmosdb-worker-vars.yml
+  - template: ci-asb-listener-vars.yml
 
 stages:
   - stage: Build
@@ -174,6 +174,8 @@ stages:
                     TF_VAR_function_name: $(function_name)
                     TF_VAR_sb_name: $(servicebus_namespace_dev)
                     TF_VAR_sb_resource_group_name: $(servicebus_resource_group_dev)
+                    TF_VAR_sb_subscription_name: $(servicebus_subscription_name)
+                    TF_VAR_sb_subscription_filter: $(servicebus_subscription_filter)
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -199,7 +201,7 @@ stages:
                     container_registry_name: $(docker_container_registry_name_nonprod)
                     function_image_name: $(docker_image_name)
                     function_image_tag: $(docker_image_tag)
-                    function_name: $(function_name)-lfszut # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_name: $(function_name)-vslwzt # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
                     function_resource_group: $(function_resource_group_dev) # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
   - stage: Prod
@@ -273,6 +275,8 @@ stages:
                     TF_VAR_function_name: $(function_name)
                     TF_VAR_sb_name: $(servicebus_namespace_prod)
                     TF_VAR_sb_resource_group_name: $(servicebus_resource_group_prod)
+                    TF_VAR_sb_subscription_name: $(servicebus_subscription_name)
+                    TF_VAR_sb_subscription_filter: $(servicebus_subscription_filter)
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -298,5 +302,5 @@ stages:
                     container_registry_name: $(docker_container_registry_name_prod)
                     function_image_name: $(docker_image_name)
                     function_image_tag: $(docker_image_tag)
-                    function_name: $(function_name)-svzsxs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_name: $(function_name)-dxjrdf # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
                     function_resource_group: $(function_resource_group_prod) # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline

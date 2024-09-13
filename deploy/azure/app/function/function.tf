@@ -37,7 +37,7 @@ resource "azurerm_linux_function_app" "function" {
     COSMOSDB_LEASE_COLLECTION_NAME = var.cosmosdb_lease_collection_name
     SERVICEBUS_CONNECTIONSTRING    = var.servicebus_connection_string
     TOPIC_NAME                     = var.sb_topic_name
-    SUBSCRIPTION_NAME              = var.sb_subscription_name
+    SUBSCRIPTION_NAME              = azurerm_servicebus_subscription.sb_sub.name
   }
 
   site_config {
