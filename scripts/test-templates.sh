@@ -62,22 +62,22 @@ cd ../../../../..
 cd Cosmos.Worker/src/func-cosmosdb-worker/src/functions
 dotnet restore
 dotnet test
-cd ../../../..
+cd ../../../../..
 
 # Test the EventHub.Listener project
-cd EventHub.Listener/src/func-aeh-listener/src/functions
+cd EventHub.Listener/func-aeh-listener/src/functions
 dotnet restore
 dotnet test
 cd ../../../..
 
 # Test the ServiceBus.Listener project
-cd ServiceBus.Listener/src/func-asb-listener/src/functions
+cd ServiceBus.Listener/func-asb-listener/src/functions
 dotnet restore
 dotnet test
 cd ../../../..
 
 # Test the ServiceBus.Worker project
-cd ServiceBus.Worker/src/background-worker/src/worker
+cd ServiceBus.Worker/background-worker/src/worker
 dotnet restore
 dotnet test
 cd ../../../..
