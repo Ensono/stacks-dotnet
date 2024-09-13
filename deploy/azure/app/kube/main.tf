@@ -62,7 +62,7 @@ module "function" {
   resource_group_location        = var.resource_group_location
   cosmosdb_database_name         = local.cosmosdb_account_name != "" ? local.cosmosdb_account_name : null
   cosmosdb_collection_name       = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
-  cosmosdb_lease_collection_name = null
+  cosmosdb_lease_collection_name = var.create_cosmosdb || local.lookup_cosmosdb_account ? var.cosmosdb_lease_collection_name : null
   cosmosdb_connection_string     = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
   sb_topic_id                    = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_id : data.azurerm_servicebus_topic.sb_topic[0].id
   sb_topic_name                  = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_name : var.sb_topic_name

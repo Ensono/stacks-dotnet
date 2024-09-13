@@ -64,7 +64,6 @@ variable "cosmosdb_database_name" {
 
 variable "cosmosdb_lease_collection_name" {
   type        = string
-  default     = "Leases"
   description = "Name of the CosmosDB lease collection to use"
 }
 
