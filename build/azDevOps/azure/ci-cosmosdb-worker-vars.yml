@@ -160,6 +160,8 @@ variables:
     value:
   - name: cosmosdb_resource_group_prod
     value:
+  - name: cosmosdb_sql_container
+    value: Menu
 
   # ServiceBus Configuration
   - name: servicebus_namespace_dev

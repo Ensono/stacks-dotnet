@@ -29,7 +29,7 @@ data "azurerm_servicebus_topic" "sb_topic" {
 }
 
 data "azurerm_cosmosdb_account" "cosmosdb" {
-  count               = !var.create_cosmosdb && var.create_function_app ? 1 : 0
+  count               = local.lookup_cosmosdb_account ? 1 : 0
   name                = var.cosmosdb_account_name
   resource_group_name = var.cosmosdb_resource_group_name
 }

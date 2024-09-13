@@ -160,6 +160,8 @@ variables:
     value: ensono-stacks-dev-euw-netcore-api-cqrs
   - name: cosmosdb_resource_group_prod
     value: ensono-stacks-prod-euw-netcore-api-cqrs
+  - name: cosmosdb_sql_container
+    value: Menu
 
   # Service Bus Configuration
   - name: servicebus_namespace_dev
