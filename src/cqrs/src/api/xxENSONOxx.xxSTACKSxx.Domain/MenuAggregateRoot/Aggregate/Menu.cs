@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+using xxENSONOxx.xxSTACKSxx.Common.Converters;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Entities.Converters;
 
 #endif
