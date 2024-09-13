@@ -167,9 +167,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_nonprod)
-                    TF_VAR_cosmosdb_account_name: $(cosmosdb_account_name_dev)
-                    TF_VAR_cosmosdb_resource_group_name: $(cosmosdb_resource_group_dev)
-                    TF_VAR_cosmosdb_sql_container: $(cosmosdb_sql_container)
+                    TF_VAR_cosmosdb_account_name: ${{ variables.cosmosdb_account_name_dev }}
+                    TF_VAR_cosmosdb_resource_group_name: ${{ variables.cosmosdb_resource_group_dev }}
+                    TF_VAR_cosmosdb_sql_container: ${{ variables.cosmosdb_sql_container }}
                     TF_VAR_create_function_app: $(create_function_app)
                     TF_VAR_function_name: $(function_name)
                     TF_VAR_sb_name: $(servicebus_namespace_dev)
