@@ -206,7 +206,7 @@ stages:
 
   - stage: Prod
     dependsOn: Build
-    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
+    # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
       - group: azure-sp-creds
       - name: Environment.ShortName
@@ -268,12 +268,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_prod)
-                    TF_VAR_cosmosdb_account_name: $(cosmosdb_account_name_prod)
-                    TF_VAR_cosmosdb_resource_group_name: $(cosmosdb_resource_group_prod)
-                    TF_VAR_cosmosdb_sql_container: "Menu"
-                    TF_VAR_cosmosdb_sql_container_partition_key: "/id"
-                    TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
-                    TF_VAR_cosmosdb_offer_type: "Standard"
+                    TF_VAR_cosmosdb_account_name: ${{ variables.cosmosdb_account_name_prod }}
+                    TF_VAR_cosmosdb_resource_group_name: ${{ variables.cosmosdb_resource_group_prod }}
+                    TF_VAR_cosmosdb_sql_container: ${{ variables.cosmosdb_sql_container }}
                     TF_VAR_create_function_app: $(create_function_app)
                     TF_VAR_function_name: $(function_name)
                     TF_VAR_sb_name: $(servicebus_namespace_prod)
