@@ -21,8 +21,8 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 #if (CosmosDb || DynamoDb)
 using Amazon.DynamoDBv2;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
-using CqrsWithCosmos.Infrastructure.Abstractions;
-using CqrsWithCosmos.Infrastructure.HealthChecks;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.HealthChecks;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 #endif
 
@@ -50,7 +50,7 @@ public static class DependencyRegistration
 #elif (EventPublisherAwsSns)
         services.Configure<AwsSnsConfiguration>(configuration.GetSection("AwsSnsConfiguration"));
         services.AddAwsSns(configuration);
-        services.AddTransient<IApplicationEventPublisher, EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, SnsEventPublisher>();
 #elif (EventPublisherNone)
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #else
