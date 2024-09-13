@@ -9,7 +9,6 @@ using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Data.Documents;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests;
 
