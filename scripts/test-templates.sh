@@ -68,11 +68,11 @@ dotnet test
 cd ../../../../..
 
 # Test the Cosmos.Worker project
-cd Cosmos.Worker/func-cosmosdb-worker/src/functions
+cd Cosmos.Worker/src/func-cosmosdb-worker/src/functions
 dotnet restore
 dotnet build
 dotnet test
-cd ../../../..
+cd ../../../../..
 
 # Test the EventHub.Listener project
 cd EventHub.Listener/func-aeh-listener/src/functions

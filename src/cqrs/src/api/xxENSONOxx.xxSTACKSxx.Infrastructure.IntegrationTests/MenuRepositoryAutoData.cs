@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using xxENSONOxx.xxSTACKSxx.Domain;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings;
 #if (CosmosDb)
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;

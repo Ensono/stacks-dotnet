@@ -5,7 +5,6 @@ using xxENSONOxx.xxSTACKSxx.Shared.Configuration.Exceptions;
 using AutoFixture.Xunit2;
 using Xunit;
 using Xunit.Abstractions;
-using Config = xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests
 {
@@ -18,7 +17,7 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests
         public SecretTests(ITestOutputHelper output)
         {
             this.output = output;
-            config = Config.For<SampleConfigurationWithSecret>("SecretConfigurationTest");
+            config = Configuration.For<SampleConfigurationWithSecret>("SecretConfigurationTest");
 
             Environment.SetEnvironmentVariable("itsasecret", "PleaseDontTellAnyone");
         }

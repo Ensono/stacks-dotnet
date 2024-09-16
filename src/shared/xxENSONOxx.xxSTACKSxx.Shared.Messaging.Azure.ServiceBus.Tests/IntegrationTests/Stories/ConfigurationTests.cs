@@ -1,7 +1,6 @@
-﻿using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
-using FluentAssertions;
+﻿using FluentAssertions;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using Xunit;
-using Config = xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.IntegrationTests.Stories
 {
@@ -15,7 +14,7 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Integrat
         [Fact]
         public void Ensure_Configuration_Are_Parsed_Correctly()
         {
-            var config = Config.For<ServiceBusConfiguration>("ServiceBus");
+            var config = Configuration.For<ServiceBusConfiguration>("ServiceBus");
             var dispatchers = config.Sender.Routing.Topics;
 
             config.Should()
