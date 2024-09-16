@@ -37,7 +37,7 @@ resource "azurerm_linux_function_app" "function" {
     COSMOSDB_LEASE_COLLECTION_NAME = var.cosmosdb_lease_collection_name
     SERVICEBUS_CONNECTIONSTRING    = var.sb_connection_string
     TOPIC_NAME                     = var.sb_topic_name
-    SUBSCRIPTION_NAME              = azurerm_servicebus_subscription.sb_sub.name
+    SUBSCRIPTION_NAME              = var.sb_subscription_name != null && var.sb_topic_id != null ? azurerm_servicebus_subscription.sb_sub[0].name : null
     NAMESPACE_CONNECTIONSTRING     = var.eventhub_connection_string
     EVENT_HUB_NAME                 = var.eventhub_name
     BLOB_STORAGE_CONNECTIONSTRING  = var.eventhub_storage_access_key
