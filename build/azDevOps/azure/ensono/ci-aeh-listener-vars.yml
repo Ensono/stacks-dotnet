@@ -170,6 +170,16 @@ variables:
     value: 1i7qmmsd3vfbsron
   - name: eventhub_sa_blob_container
     value: stacks-blob-container
+  - name: TF_VAR_eventhub_resource_group_name
+    value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: TF_VAR_eventhub_namespace
+    value: stacks-event-hub-yaiwnb
+  - name: TF_VAR_eventhub_name
+    value: stacks-event-hub
+  - name: TF_VAR_eventhub_sa_name
+    value: 1i7qmmsd3vfbsron
+  - name: TF_VAR_eventhub_sa_blob_container
+    value: stacks-blob-container
 
   # Azure service connection
   - name: azure_service_connection
