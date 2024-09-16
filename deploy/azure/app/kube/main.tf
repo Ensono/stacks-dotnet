@@ -69,8 +69,8 @@ module "function" {
   sb_connection_string           = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_connectionstring : data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string
   sb_subscription_name           = var.sb_subscription_name
   sb_subscription_filter         = var.sb_subscription_filter
-  eventhub_connection_string     = contains(split(",", var.app_bus_type), "eventhub") ? local.eventhub_connection_string : null
-  eventhub_name                  = contains(split(",", var.app_bus_type), "eventhub") ? local.eventhub_name : null
-  eventhub_storage_access_key    = contains(split(",", var.app_bus_type), "eventhub") ? local.eventhub_storage_access_key : null
-  eventhub_blob_container        = contains(split(",", var.app_bus_type), "eventhub") ? local.eventhub_blob_container : null
+  eventhub_connection_string     = local.eventhub_connection_string
+  eventhub_name                  = local.eventhub_name
+  eventhub_storage_access_key    = local.eventhub_storage_access_key
+  eventhub_blob_container        = local.eventhub_blob_container
 }
