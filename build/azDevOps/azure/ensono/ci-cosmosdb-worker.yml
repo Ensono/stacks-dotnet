@@ -170,10 +170,17 @@ stages:
                     TF_VAR_cosmosdb_account_name: ${{ variables.cosmosdb_account_name_dev }}
                     TF_VAR_cosmosdb_resource_group_name: ${{ variables.cosmosdb_resource_group_dev }}
                     TF_VAR_cosmosdb_sql_container: ${{ variables.cosmosdb_sql_container }}
-                    TF_VAR_create_function_app: $(create_function_app)
-                    TF_VAR_function_name: $(function_name)
-                    TF_VAR_sb_name: $(servicebus_namespace_dev)
-                    TF_VAR_sb_resource_group_name: $(servicebus_resource_group_dev)
+                    TF_VAR_create_function_app: ${{ variables.create_function_app }}
+                    TF_VAR_function_name: ${{ variables.function_name }}
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_dev }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_dev }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
+                    TF_VAR_sb_subscription_filter: ${{ variables.servicebus_subscription_filter }}
+                    TF_VAR_eventhub_resource_group_name: ${{ variables.eventhub_resource_group_name_dev }}
+                    TF_VAR_eventhub_namespace: ${{ variables.eventhub_namespace_dev }}
+                    TF_VAR_eventhub_name: ${{ variables.eventhub_name }}
+                    TF_VAR_eventhub_sa_name: ${{ variables.eventhub_sa_name_dev }}
+                    TF_VAR_eventhub_sa_blob_container: ${{ variables.eventhub_sa_blob_container }}
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
