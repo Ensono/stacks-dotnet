@@ -298,7 +298,7 @@ stages:
 
   - stage: Prod
     dependsOn: Build
-    # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
+    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
     variables:
       - group: azure-sp-creds
       - name: Environment.ShortName
