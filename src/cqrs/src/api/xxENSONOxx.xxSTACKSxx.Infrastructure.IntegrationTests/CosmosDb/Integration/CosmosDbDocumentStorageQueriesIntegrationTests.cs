@@ -13,8 +13,6 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.DataModel;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings;
-using Config = xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Integration;
 
@@ -36,7 +34,7 @@ public class CosmosDbDocumentStorageQueriesIntegrationTests
     public CosmosDbDocumentStorageQueriesIntegrationTests(ITestOutputHelper output, IntegrationFixture integrationFixture)
     {
         this.output = output;
-        var settings = Config.For<CosmosDbConfiguration>("CosmosDB");
+        var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
         var loggerFactory = Substitute.For<ILoggerFactory>();
         Fixture fixture = new Fixture();
         fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntity>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));
