@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings
+﻿namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup
 {
     public class DotEnv
     {
