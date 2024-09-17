@@ -248,8 +248,7 @@ public class CosmosDbDocumentStorageIntegrationTests
 
         //ARRANGE
         var newName = "DIEGO";
-        dbItemCreated.With(i => i.Name, newName);
-
+        dbItemCreated.Name = newName;
         //ACT
         await repository.SaveAsync(dbItemCreated);
         var dbItemUpdated = await repository.GetByIdAsync(dbItemCreated.Id.ToString(), dbItemCreated.OwnerId.ToString());
