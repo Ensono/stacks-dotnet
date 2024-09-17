@@ -42,29 +42,7 @@ variable "eventhub_sku" {
   default = "Standard"
 }
 
-# variable "app-service-plan-name" {
-#   type    = string
-#   default = "app-sp-events"
-# }
-
-# variable "func-aeh-listener-name" {
-#   type    = string
-#   default = "func-aeh-listener"
-# }
-
 variable "seed_length" {
   type    = number
   default = 6
 }
-
-# variable "az_function_extension_version" {
-#   type        = string
-#   default     = "~4"
-#   description = "Version of the Azure Function runtime to use"
-# }
-
-# variable "az_function_dotnet_version" {
-#   type        = string
-#   default     = "v8.0"
-#   description = "Version of the .NET framework to use in the function"
-# }
