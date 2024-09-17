@@ -55,6 +55,7 @@ variable "cosmosdb_collection_name" {
 variable "cosmosdb_connection_string" {
   type        = string
   description = "Connection string for the CosmosDB"
+  sensitive   = true
 }
 
 variable "cosmosdb_database_name" {
@@ -70,9 +71,10 @@ variable "cosmosdb_lease_collection_name" {
 ############################################
 # Service Bus
 ############################################
-variable "servicebus_connection_string" {
+variable "sb_connection_string" {
   type        = string
   description = "Connection string for Service Bus"
+  sensitive   = true
 }
 
 variable "sb_topic_id" {
@@ -98,4 +100,29 @@ variable "sb_max_delivery_count" {
 variable "sb_subscription_filter" {
   type        = string
   description = "SQL Filter for the Service Bus subscription"
+}
+
+############################################
+# Event Hub
+############################################
+variable "eventhub_connection_string" {
+  type        = string
+  description = "Connection string for the Event Hub"
+  sensitive   = true
+}
+
+variable "eventhub_name" {
+  type        = string
+  description = "Name of the Event Hub"
+}
+
+variable "eventhub_storage_access_key" {
+  type        = string
+  description = "Access key for the storage account"
+  sensitive   = true
+}
+
+variable "eventhub_blob_container" {
+  type        = string
+  description = "Name of the blob container"
 }

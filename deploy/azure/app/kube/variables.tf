@@ -208,6 +208,38 @@ variable "sb_resource_group_name" {
 }
 
 ###########################
+# Event Hub Settings
+##########################
+variable "eventhub_resource_group_name" {
+  type        = string
+  description = "Name of the resource group for the Event Hub"
+  default     = ""
+}
+variable "eventhub_namespace" {
+  type        = string
+  description = "Name of the Event Hub namespace"
+  default     = ""
+}
+
+variable "eventhub_name" {
+  type        = string
+  description = "Name of the Event Hub"
+  default     = "stacks-event-hub"
+}
+
+variable "eventhub_sa_name" {
+  type        = string
+  description = "Name of the storage account for the Event Hub"
+  default     = ""
+}
+
+variable "eventhub_sa_blob_container" {
+  type        = string
+  description = "Name of the blob container for the Event Hub"
+  default     = ""
+}
+
+###########################
 # Azure Function App
 ##########################
 variable "function_name" {

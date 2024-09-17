@@ -149,4 +149,4 @@ variables:
   - name: create_cosmosdb
     value: true
   - name: app_bus_type
-    value: servicebus
+    value: servicebus,eventhub

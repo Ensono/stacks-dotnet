@@ -172,6 +172,8 @@ variables:
     value:
   - name: servicebus_resource_group_prod
     value:
+  - name: servicebus_subscription_name
+    value: sbs-menu-events
 
   # Azure service connection
   - name: azure_service_connection

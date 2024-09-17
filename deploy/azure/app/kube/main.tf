@@ -64,9 +64,13 @@ module "function" {
   cosmosdb_collection_name       = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
   cosmosdb_lease_collection_name = var.create_cosmosdb || local.lookup_cosmosdb_account ? var.cosmosdb_lease_collection_name : null
   cosmosdb_connection_string     = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
-  sb_topic_id                    = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_id : data.azurerm_servicebus_topic.sb_topic[0].id
-  sb_topic_name                  = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_name : var.sb_topic_name
-  servicebus_connection_string   = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_connectionstring : data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string
+  sb_topic_id                    = local.sb_topic_id
+  sb_topic_name                  = local.sb_topic_name
+  sb_connection_string           = local.sb_connection_string
   sb_subscription_name           = var.sb_subscription_name
   sb_subscription_filter         = var.sb_subscription_filter
+  eventhub_connection_string     = local.eventhub_connection_string
+  eventhub_name                  = local.eventhub_name
+  eventhub_storage_access_key    = local.eventhub_storage_access_key
+  eventhub_blob_container        = local.eventhub_blob_container
 }
