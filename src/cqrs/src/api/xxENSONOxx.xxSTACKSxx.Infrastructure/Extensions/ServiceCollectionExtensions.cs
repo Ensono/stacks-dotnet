@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
 #if (EventPublisherAwsSns)
 using Amazon.SimpleNotificationService;
 using Microsoft.Extensions.Configuration;
@@ -160,4 +161,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 #endif
+    
+    /// <summary>
+    /// Add the Secret resolver singleton with default secret sources (file and environment)
+    /// </summary>
+    public static IServiceCollection AddSecrets(this IServiceCollection services)
+    {
+        services.AddSingleton<ISecretResolver<string>, SecretResolver>();
+        return services;
+    }
 }
