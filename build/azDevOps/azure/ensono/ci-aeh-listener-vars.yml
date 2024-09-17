@@ -161,13 +161,13 @@ variables:
   - name: eventhub_namespace_dev
     value: stacks-event-hub-yaiwnb
   - name: eventhub_namespace_prod
-    value: stacks-event-hub-yaiwnb
+    value: stacks-event-hub-tnhmdm
   - name: eventhub_name
     value: stacks-event-hub
   - name: eventhub_sa_name_dev
     value: 1i7qmmsd3vfbsron
   - name: eventhub_sa_name_prod
-    value: 1i7qmmsd3vfbsron
+    value: 5v904903ky6r7vz0
   - name: eventhub_sa_blob_container
     value: stacks-blob-container
 
