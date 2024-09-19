@@ -1,5 +1,6 @@
 #if CosmosDb
 using System;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 
