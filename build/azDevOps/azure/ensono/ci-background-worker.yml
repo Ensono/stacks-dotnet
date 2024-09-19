@@ -173,7 +173,7 @@ stages:
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
-                    TF_VAR_create_dns_record: true
+                    TF_VAR_create_dns_record: $(create_dns_record)
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
@@ -246,7 +246,7 @@ stages:
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
-                    TF_VAR_create_dns_record: true
+                    TF_VAR_create_dns_record: $(create_dns_record)
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
@@ -359,7 +359,7 @@ stages:
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
-                    TF_VAR_create_dns_record: true
+                    TF_VAR_create_dns_record: $(create_dns_record)
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
@@ -435,7 +435,7 @@ stages:
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
-                    TF_VAR_create_dns_record: true
+                    TF_VAR_create_dns_record: $(create_dns_record)
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)

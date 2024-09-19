@@ -120,6 +120,8 @@ variables:
     value: ed-stacks-prod-euw-core
 
   # DNS Configuration
+  - name: create_dns_record
+    value: true
   - name: core_resource_group_nonprod
     value: ed-stacks-nonprod-euw-core
   - name: public_ip_name_nonprod
