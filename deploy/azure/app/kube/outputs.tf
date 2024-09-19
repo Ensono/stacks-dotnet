@@ -99,14 +99,6 @@ output "eventhub_sa_container" {
   value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_sa_container[0] : null
 }
 
-output "eventhub_function_listener_name" {
-  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.function_listener_name[0] : null
-}
-
-output "eventhub_function_listener_id" {
-  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.function_listener_id[0] : null
-}
-
 # Core State Query Outputs (to reduce variable duplication)
 output "dns_base_domain" {
   description = "Name of the base domain for core DNS"

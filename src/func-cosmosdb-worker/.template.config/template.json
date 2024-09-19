@@ -38,9 +38,7 @@
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**",
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands/**",
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",
@@ -62,6 +60,7 @@
                 "**/build/azDevOps/azure/ci-cqrs-vars.yml",
                 "**/build/azDevOps/azure/ci-simple-api-vars.yml",
                 "**/build/azDevOps/azure/ci-asb-listener-vars.yml",
+                "**/build/azDevOps/azure/ci-aeh-listener-vars.yml",
                 "**/build/azDevOps/azure/ci.yml",
                 "**/build/github/**",
                 "**/deploy/aws/**",

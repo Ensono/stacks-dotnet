@@ -14,9 +14,6 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.DataModel;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Fakes;
 using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using xxENSONOxx.xxSTACKSxx.Shared.Testing.Extensions;
-using xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings;
-using Config = xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Integration;
 
@@ -39,7 +36,7 @@ public class CosmosDbDocumentStorageIntegrationTests
     public CosmosDbDocumentStorageIntegrationTests(ITestOutputHelper output)
     {
         this.output = output;
-        var settings = Config.For<CosmosDbConfiguration>("CosmosDB");
+        var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
         var loggerFactory = Substitute.For<ILoggerFactory>();
 
         fixture.Register<ILogger<CosmosDbDocumentStorage<SampleEntity>>>(() => new Logger<CosmosDbDocumentStorage<SampleEntity>>(loggerFactory));
@@ -251,8 +248,7 @@ public class CosmosDbDocumentStorageIntegrationTests
 
         //ARRANGE
         var newName = "DIEGO";
-        dbItemCreated.With(i => i.Name, newName);
-
+        dbItemCreated.Name = newName;
         //ACT
         await repository.SaveAsync(dbItemCreated);
         var dbItemUpdated = await repository.GetByIdAsync(dbItemCreated.Id.ToString(), dbItemCreated.OwnerId.ToString());

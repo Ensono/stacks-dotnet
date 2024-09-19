@@ -16,7 +16,7 @@ public class MenuRepositoryAutoData() : AutoDataAttribute(Customizations)
     private static IFixture Customizations()
     {
 #if (CosmosDb)
-        var settings = Shared.Testing.Settings.Configuration.For<CosmosDbConfiguration>("CosmosDB");
+        var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
 #endif
         IFixture fixture = new Fixture();
 

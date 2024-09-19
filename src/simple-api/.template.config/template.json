@@ -117,9 +117,7 @@
 				".gitattributes",
 				"src/simple-api/**",
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",
@@ -156,6 +154,7 @@
 						"**/build/azDevOps/azure/ci-functions.yml",
 						"**/build/azDevOps/azure/ci-cosmosdb-worker-vars.yml",
 						"**/build/azDevOps/azure/ci-asb-listener-vars.yml",
+						"**/build/azDevOps/azure/ci-aeh-listener-vars.yml",
 						"**/build/github/aws/**",
 						"**/build/github/gcp/**",
 						"**/deploy/aws/**",

@@ -12,7 +12,7 @@ trigger:
       - "*"
 
 variables:
-  - template: ci-vars.yml
+  - template: ci-aeh-listener-vars.yml
 
 stages:
   - stage: Build
@@ -25,7 +25,7 @@ stages:
           vmImage: $(pool_vm_image)
 
         steps:
-          - template: ../templates/taskctl-setup.yml
+          - template: ../../templates/taskctl-setup.yml
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -126,7 +126,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../templates/taskctl-setup.yml
+                - template: ../../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -200,13 +200,13 @@ stages:
             deploy:
               steps:
                 # TODO: This functionality in general should be run via AIR, but there are limitations in CLI tooling.
-                - template: ../templates/legacy-deploy-functions.yml
+                - template: ../../templates/legacy-deploy-functions.yml
                   parameters:
                     azureSubscription: ${{ variables.azure_service_connection }}
                     container_registry_name: $(docker_container_registry_name_nonprod)
                     function_image_name: $(docker_image_name)
                     function_image_tag: $(docker_image_tag)
-                    function_name: $(function_name)-lfszut # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_name: $(function_name)-bwhzwx # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
                     function_resource_group: $(function_resource_group_dev) # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
   - stage: Prod
@@ -232,7 +232,7 @@ stages:
             deploy:
               steps:
 
-                - template: ../templates/taskctl-setup.yml
+                - template: ../../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -306,11 +306,11 @@ stages:
             deploy:
               steps:
                 # TODO: This functionality in general should be run via AIR, but there are limitations in CLI tooling.
-                - template: ../templates/legacy-deploy-functions.yml
+                - template: ../../templates/legacy-deploy-functions.yml
                   parameters:
                     azureSubscription: ${{ variables.azure_service_connection }}
                     container_registry_name: $(docker_container_registry_name_prod)
                     function_image_name: $(docker_image_name)
                     function_image_tag: $(docker_image_tag)
-                    function_name: $(function_name)-svzsxs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
+                    function_name: $(function_name)-damjgz # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
                     function_resource_group: $(function_resource_group_prod) # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
