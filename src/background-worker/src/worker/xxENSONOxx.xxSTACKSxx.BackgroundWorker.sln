@@ -25,10 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj", "{AF0ACDAF-CE5D-4D1E-BD7F-D05397931B90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Configuration", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Configuration\xxENSONOxx.xxSTACKSxx.Shared.Configuration.csproj", "{BFE98A28-8B88-4CC6-BECF-324D0D4CD760}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests\xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests.csproj", "{80757BB7-48FF-4EE0-9CBF-AF49B20D07E4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
