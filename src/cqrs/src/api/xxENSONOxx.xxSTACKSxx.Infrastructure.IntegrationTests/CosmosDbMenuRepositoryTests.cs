@@ -20,7 +20,7 @@ public class CosmosDbMenuRepositoryTests
 {
     public CosmosDbMenuRepositoryTests()
     {
-        var settings = Shared.Testing.Settings.Configuration.For<CosmosDbConfiguration>("CosmosDB");
+        var settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
         //Notes:
         // if using an azure instance to run the tests, make sure you set the environment variable before you start visual studio
         // Ex: CMD C:\> setx COSMOSDB_KEY=ABCDEFGASD==
