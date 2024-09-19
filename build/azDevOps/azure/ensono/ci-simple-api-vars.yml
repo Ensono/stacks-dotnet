@@ -150,3 +150,5 @@ variables:
     value: false
   - name: app_bus_type
     value: ""
+  - name: ingress_enabled
+    value: true

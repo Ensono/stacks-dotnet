@@ -146,7 +146,11 @@ variables:
     value: $(version_major).$(version_minor).$(version_revision)
 
   # Application
+  - name: ingress_enabled
+    value: true
   - name: create_cosmosdb
     value: true
   - name: app_bus_type
     value: servicebus,eventhub
+  - name: servicebus_type
+    value: sender

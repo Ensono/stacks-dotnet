@@ -281,6 +281,8 @@ stages:
                     # Helm Config
                     HELM_VALUE_FILE: $(helm_value_file)
                     HELM_CHART_FILE: $(helm_chart_file)
+                    INGRESS_ENABLED: $(ingress_enabled)
+                    SERVICEBUS_TYPE: ${{ variables.servicebus_type }}
 
                 - task: PublishPipelineArtifact@1
                   displayName: "Upload: Helm Values"
