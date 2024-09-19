@@ -45,9 +45,7 @@
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**",
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands/**",
 				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",

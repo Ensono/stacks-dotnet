@@ -26,7 +26,7 @@ public class SampleEntity(
     public Guid Id { get; } = id;
 
     public Guid OwnerId { get; } = ownerId;
-    public string Name { get; private set; } = name;
+    public string Name { get; set; } = name;
     public int Age { get; private set; } = age;
     public DateTime DateOfBirth { get; } = dateOfBirth;
     public DateTimeOffset ExpiryDate { get; private set; } = expiryDate;
