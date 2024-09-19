@@ -100,7 +100,7 @@ dotnet build
 dotnet test
 
 # Test the Cqrs.ServiceBus project
-cd cd $TEST_TEMPLATES_DIRECTORY/Cqrs.ServiceBus/src/cqrs/src/api
+cd $TEST_TEMPLATES_DIRECTORY/Cqrs.ServiceBus/src/cqrs/src/api
 dotnet restore
 dotnet build
 dotnet test
