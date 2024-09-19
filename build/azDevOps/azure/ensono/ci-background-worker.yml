@@ -95,21 +95,21 @@ stages:
               BUILD_BUILDNUMBER: $(version_number)
 
           # Upload test coverage results as artifacts
-          - task: PublishCodeCoverageResults@1
-            displayName: "Upload: coverage results"
-            inputs:
-              summaryFileLocation: $(Pipeline.Workspace)/s/coverage/Cobertura.xml
-              codecoverageTool: cobertura
-              pathToSources: $(Pipeline.Workspace)/s/$(self_repo_src)
+          # - task: PublishCodeCoverageResults@1
+          #   displayName: "Upload: coverage results"
+          #   inputs:
+          #     summaryFileLocation: $(Pipeline.Workspace)/s/coverage/Cobertura.xml
+          #     codecoverageTool: cobertura
+          #     pathToSources: $(Pipeline.Workspace)/s/$(self_repo_src)
 
           # Upload Unit test results
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: VSTest
-              testResultsFiles: '**/*.trx'
-              searchFolder: $(Pipeline.Workspace)/s/testresults
-              failTaskOnFailedTests: true # Optional
-              testRunTitle: Unit
+          # - task: PublishTestResults@2
+          #   inputs:
+          #     testResultsFormat: VSTest
+          #     testResultsFiles: '**/*.trx'
+          #     searchFolder: $(Pipeline.Workspace)/s/testresults
+          #     failTaskOnFailedTests: true # Optional
+          #     testRunTitle: Unit
 
           # Upload functional tests as artifacts
           - task: PublishPipelineArtifact@1
