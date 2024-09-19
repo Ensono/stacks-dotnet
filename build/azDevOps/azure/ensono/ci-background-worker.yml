@@ -12,7 +12,7 @@ trigger:
       - "*"
 
 variables:
-  - template: ci-cqrs-vars.yml
+  - template: ci-background-worker-vars.yml
 
 stages:
   - stage: Build
@@ -69,6 +69,7 @@ stages:
 
           - task: Bash@3
             displayName: "TaskCTL: Build Functional Tests"
+            condition: and(succeeded(), eq(variables.run_functional_tests, true))
             inputs:
               targetType: inline
               script: taskctl build:functional_tests
@@ -113,6 +114,7 @@ stages:
           # Upload functional tests as artifacts
           - task: PublishPipelineArtifact@1
             displayName: "Upload: functional tests"
+            condition: and(succeeded(), eq(variables.run_functional_tests, true))
             inputs:
               path: $(FUNCTIONAL_TESTS_SRC_DIR)
               artifact: tests
@@ -175,6 +177,7 @@ stages:
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
+                    TF_VAR_create_resource_group: ${{ variables.create_resource_group }}
                     TF_VAR_create_cosmosdb: $(create_cosmosdb)
                     TF_VAR_create_cache: false
                     TF_VAR_stage: $(Environment.ShortName)
@@ -217,6 +220,7 @@ stages:
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     artifact: tests
                     path: $(Agent.BuildDirectory)/s/tests
@@ -292,6 +296,7 @@ stages:
                     artifact: helm_values_dev
 
                 - task: PublishTestResults@2
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     testResultsFormat: VSTest
                     testResultsFiles: '**/*.trx'
@@ -400,6 +405,7 @@ stages:
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     artifact: tests
                     path: $(Build.Workspace)/tests
@@ -476,6 +482,7 @@ stages:
                     artifact: helm_values_prod
 
                 - task: PublishTestResults@2
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     testResultsFormat: VSTest
                     testResultsFiles: '**/*.trx'

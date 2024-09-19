@@ -6,11 +6,11 @@ variables:
   - name: project
     value: stacks
   - name: domain
-    value: netcore-api
+    value: netcore-background-worker
   - name: self_repo
     value: stacks-dotnet
   - name: self_generic_name
-    value: stacks-api
+    value: stacks-background-worker
 
   # Azure DevOps Group containing the SONAR_TOKEN secret
   - group: stacks-dotnet-api
@@ -50,7 +50,7 @@ variables:
   - name: k8s_app_route
     value: /api/menu
   - name: app_name
-    value: yumido-netcore-api
+    value: yumido-netcore-background-worker
 
   # Agent configuration
   - name: TaskctlVersion
@@ -62,7 +62,7 @@ variables:
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
   - name: self_repo_src
-    value: src/simple-api/src/api
+    value: src/background-worker/src/worker
   - name: self_repo_dir
     value: "$(Agent.BuildDirectory)/s/$(self_repo)"
   - name: self_repo_tf_src
@@ -79,11 +79,13 @@ variables:
   - name: sonar_properties
     value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
   - name: sonar_project_name
-    value: Ensono_stacks-dotnet-azure
+    value: stacks-dotnet-cqrs
 
   # Test Configuration
+  - name: run_functional_tests
+    value: false
   - name: FUNCTIONAL_TESTS_SRC_DIR
-    value: src/simple-api/src/tests/Functional
+    value: src/background-worker/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR
     value: /app/tests
   - name: FUNCTIONAL_TEST_BASEURL
@@ -147,8 +149,12 @@ variables:
 
   # Application
   - name: ingress_enabled
-    value: true
+    value: false
   - name: create_cosmosdb
     value: false
-  - name: app_bus_type
-    value: ""
+  - name: create_resource_group
+    value: false
+  - name: servicebus_type
+    value: listener
+  - name: servicebus_subscription
+    value: sbs-menu-events
