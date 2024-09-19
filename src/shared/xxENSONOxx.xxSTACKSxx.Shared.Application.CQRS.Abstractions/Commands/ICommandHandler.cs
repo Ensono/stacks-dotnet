@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands
+namespace xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands
 {
     public interface ICommandHandler<in TCommand> where TCommand : ICommand
     {

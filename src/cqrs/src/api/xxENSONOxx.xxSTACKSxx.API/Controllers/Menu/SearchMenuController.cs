@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Authorization;
