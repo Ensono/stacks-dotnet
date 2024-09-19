@@ -1,6 +1,5 @@
 #if CosmosDb
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 

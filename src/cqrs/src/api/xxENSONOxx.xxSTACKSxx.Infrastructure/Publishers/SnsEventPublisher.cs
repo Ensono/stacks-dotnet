@@ -10,7 +10,6 @@ using Microsoft.Extensions.Options;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 

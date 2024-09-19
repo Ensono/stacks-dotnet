@@ -5,7 +5,6 @@ using Microsoft.Azure.Cosmos;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.DataModel;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Integration;
 

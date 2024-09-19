@@ -12,7 +12,6 @@ using Xunit;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests;
 
