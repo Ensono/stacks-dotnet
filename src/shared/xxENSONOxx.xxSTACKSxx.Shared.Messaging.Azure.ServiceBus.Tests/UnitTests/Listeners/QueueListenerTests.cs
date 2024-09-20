@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Listeners
 {

@@ -6,6 +6,7 @@ using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.Domain;
+using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CommandHandlers;
 
