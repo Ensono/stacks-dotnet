@@ -28,7 +28,6 @@ These scripts have been created to simplify the testing of each template within 
     - Create new templates for each existing within `stacks-dotnet`:
         - Simple.WebAPI - `stacks-webapi`
         - CQRS.Project - `stacks-cqrs`
-        - CQRS.Added.Project - `stacks-add-cqrs`
         - Cosmos.Worker.Project - `stacks-az-func-cosmosdb-worker`
         - EventHub.Listener.Project - `stacks-az-func-aeh-listener`
         - ServiceBus.Listener.Project - `stacks-az-func-asb-listener`
