@@ -245,8 +245,7 @@
                 "solutionFolder": "Shared",
                 "projectFiles": [
                     "xxENSONOxx.xxSTACKSxx.Common.csproj",
-                    "xxENSONOxx.xxSTACKSxx.CQRS.csproj",
-                    "xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.csproj"
+                    "xxENSONOxx.xxSTACKSxx.CQRS.csproj"
                 ]
             },
             "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
