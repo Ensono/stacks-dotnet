@@ -85,7 +85,7 @@
             "rename": {
                 "_gitignore": ".gitignore",
                 "_gitattributes": ".gitattributes",
-				"build/azDevOps/azure/ci-background-worker-vars.yml": "build/azDevOps/azure/ci-vars.yml"
+                "build/azDevOps/azure/ci-background-worker-vars.yml": "build/azDevOps/azure/ci-vars.yml"
             },
             "modifiers": []
         }
