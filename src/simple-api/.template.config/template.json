@@ -117,9 +117,7 @@
 				".gitattributes",
 				"src/simple-api/**",
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",
