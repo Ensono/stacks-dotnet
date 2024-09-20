@@ -152,6 +152,8 @@ variables:
   # Application
   - name: ingress_enabled
     value: true
+  - name: create_resource_group
+    value: true
   - name: create_cosmosdb
     value: false
   - name: app_bus_type
