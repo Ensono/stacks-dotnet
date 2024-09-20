@@ -3,7 +3,7 @@ using AutoFixture.Xunit2;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using xxENSONOxx.xxSTACKSxx.Domain;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
 #if (CosmosDb)
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
