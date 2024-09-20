@@ -3,7 +3,6 @@
 // using System.Threading.Tasks;
 // using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 // using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
-// using xxENSONOxx.xxSTACKSxx.Shared.Testing.Extensions;
 // using Microsoft.Extensions.DependencyInjection;
 // using Microsoft.Extensions.Options;
 // using NSubstitute;
