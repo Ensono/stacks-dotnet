@@ -149,6 +149,20 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
+  # Service Bus Configuration
+  - name: servicebus_type
+    value: listener
+  - name: servicebus_namespace_dev
+    value: sb-menu-wxbirw
+  - name: servicebus_namespace_prod
+    value: sb-menu-pvonnp
+  - name: servicebus_resource_group_dev
+    value: ensono-stacks-dev-euw-netcore-api-cqrs
+  - name: servicebus_resource_group_prod
+    value: ensono-stacks-prod-euw-netcore-api-cqrs
+  - name: servicebus_subscription_name
+    value: sbs-menu-events
+
   # Application
   - name: ingress_enabled
     value: false
@@ -156,7 +170,3 @@ variables:
     value: false
   - name: create_resource_group
     value: false
-  - name: servicebus_type
-    value: listener
-  - name: servicebus_subscription
-    value: sbs-menu-events

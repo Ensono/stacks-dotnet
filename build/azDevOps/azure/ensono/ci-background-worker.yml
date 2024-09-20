@@ -183,6 +183,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_nonprod)
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_dev }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_dev }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
@@ -255,6 +258,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_nonprod)
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_dev }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_dev }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
@@ -287,7 +293,6 @@ stages:
                     HELM_CHART_FILE: $(helm_chart_file)
                     INGRESS_ENABLED: $(ingress_enabled)
                     SERVICEBUS_TYPE: ${{ variables.servicebus_type }}
-                    SERVICEBUS_SUBSCRIPTION_NAME: ${{ variables.servicebus_subscription }}
 
                 - task: PublishPipelineArtifact@1
                   displayName: "Upload: Helm Values"
@@ -368,6 +373,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_prod)
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_prod }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_prod }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
@@ -444,6 +452,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_prod)
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_prod }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_prod }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
@@ -474,6 +485,8 @@ stages:
                     # Helm Config
                     HELM_VALUE_FILEPATH: $(helm_value_file)
                     HELM_CHART_FILEPATH: $(helm_chart_file)
+                    INGRESS_ENABLED: $(ingress_enabled)
+                    SERVICEBUS_TYPE: ${{ variables.servicebus_type }}
 
                 - task: PublishPipelineArtifact@1
                   displayName: "Upload: Helm Values"
