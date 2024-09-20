@@ -82,6 +82,8 @@ variables:
     value: stacks-dotnet-cqrs
 
   # Test Configuration
+  - name: run_functional_tests
+    value: true
   - name: FUNCTIONAL_TESTS_SRC_DIR
     value: src/cqrs/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR
@@ -147,6 +149,10 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
+  # Service Bus Configuration
+  - name: servicebus_type
+    value: sender
+
   # Application
   - name: ingress_enabled
     value: true
@@ -154,5 +160,3 @@ variables:
     value: true
   - name: app_bus_type
     value: servicebus,eventhub
-  - name: servicebus_type
-    value: sender

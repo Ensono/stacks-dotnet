@@ -82,6 +82,8 @@ variables:
     value: Ensono_stacks-dotnet-azure
 
   # Test Configuration
+  - name: run_functional_tests
+    value: true
   - name: FUNCTIONAL_TESTS_SRC_DIR
     value: src/simple-api/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR

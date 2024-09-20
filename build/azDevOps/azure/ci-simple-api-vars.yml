@@ -82,6 +82,8 @@ variables:
     value: {{ .Project.Name }}
 
   # Test Configuration
+  - name: run_functional_tests
+    value: true
   - name: FUNCTIONAL_TESTS_SRC_DIR
     value: src/simple-api/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR
@@ -120,6 +122,8 @@ variables:
     value:
 
   # DNS Configuration
+  - name: create_dns_record
+    value: true
   - name: core_resource_group_nonprod
     value:
   - name: public_ip_name_nonprod
@@ -146,6 +150,8 @@ variables:
     value: $(version_major).$(version_minor).$(version_revision)
 
   # Application
+  - name: ingress_enabled
+    value: true
   - name: create_cosmosdb
     value: false
   - name: app_bus_type
