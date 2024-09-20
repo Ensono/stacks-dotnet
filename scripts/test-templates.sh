@@ -52,11 +52,6 @@ dotnet new stacks-cqrs -n Cqrs.ServiceBus -do Menu --cloudProvider Azure --cicdP
 dotnet new stacks-cqrs -n Cqrs.Dynamo -do Menu --cloudProvider AWS -db DynamoDb  
 dotnet new stacks-cqrs -n Cqrs.Sns -do Menu --cloudProvider AWS -e AwsSns
 
-# Generate the additional template
-dotnet new stacks-webapi -n NonCqrs -do Menu
-cd $TEST_TEMPLATES_DIRECTORY/NonCqrs/src/simple-api/src/api
-dotnet new stacks-add-cqrs -n NonCqrs.Cqrs -do Menu
-
 # Test the Simple.Api project
 cd $TEST_TEMPLATES_DIRECTORY/Simple.Api/src/simple-api/src/api
 dotnet restore
@@ -116,13 +111,6 @@ cd $TEST_TEMPLATES_DIRECTORY/Cqrs.Sns/src/cqrs/src/api
 dotnet restore
 dotnet build
 dotnet test
-
-# Test the NonCqrs project
-cd $$TEST_TEMPLATES_DIRECTORY/NonCqrs/src/simple-api/src/api
-dotnet restore
-dotnet build
-dotnet test
-
 
 # Print success message
 echo " _________ _______  _______ _________ _______    _______  _______  _______  _______  _______  ______  "
