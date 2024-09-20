@@ -13,6 +13,7 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions
         MessageBodyIsNull = 9990109,
         MessageRouteNotDefined = 9990110,
         MessageSenderNotDefined = 9990111,
-        MissingQueueConfiguration = 9990112
+        MissingQueueConfiguration = 9990112,
+        InvalidSecretDefinition = 99800100
     }
 }

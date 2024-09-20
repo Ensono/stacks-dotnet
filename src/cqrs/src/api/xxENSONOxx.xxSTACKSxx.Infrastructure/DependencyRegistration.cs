@@ -3,7 +3,6 @@ using System.Diagnostics;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

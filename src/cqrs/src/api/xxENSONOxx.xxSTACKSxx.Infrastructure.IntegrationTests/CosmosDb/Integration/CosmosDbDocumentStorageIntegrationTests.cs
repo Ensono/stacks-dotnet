@@ -13,7 +13,7 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.DataModel;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Fakes;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Integration;
 

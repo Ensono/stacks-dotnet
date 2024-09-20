@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
 #if (EventPublisherAwsSns)
 using Amazon.SimpleNotificationService;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,6 @@ using Azure.Messaging.EventHubs.Producer;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Consumers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 #endif
 
 #if (DynamoDb)
@@ -160,4 +160,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 #endif
+    
+    /// <summary>
+    /// Add the Secret resolver singleton with default secret sources (file and environment)
+    /// </summary>
+    public static IServiceCollection AddSecrets(this IServiceCollection services)
+    {
+        services.AddSingleton<ISecretResolver<string>, SecretResolver>();
+        return services;
+    }
 }
