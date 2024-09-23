@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Using Include="Xunit"/>
       <None Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
