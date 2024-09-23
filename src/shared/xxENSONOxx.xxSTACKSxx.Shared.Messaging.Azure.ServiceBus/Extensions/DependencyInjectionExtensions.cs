@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
@@ -16,7 +14,8 @@ using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.Commands;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection

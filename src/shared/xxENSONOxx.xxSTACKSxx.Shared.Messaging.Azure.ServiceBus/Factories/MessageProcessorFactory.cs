@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories
 {
