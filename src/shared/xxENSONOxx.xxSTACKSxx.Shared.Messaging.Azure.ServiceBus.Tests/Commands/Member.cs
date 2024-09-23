@@ -1,7 +1,6 @@
-﻿namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands
+﻿namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands;
+
+public class Member : IMember
 {
-    public class Member : Azure.ServiceBus.Tests.Commands.IMember
-    {
-        public string Data { get; set; }
-    }
+    public string Data { get; set; }
 }
