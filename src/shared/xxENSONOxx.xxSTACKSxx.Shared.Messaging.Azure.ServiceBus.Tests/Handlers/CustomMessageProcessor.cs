@@ -1,17 +1,16 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers.TestDependency;
 using Microsoft.Azure.ServiceBus;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers
+namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Handlers
 {
     /// <summary>
     /// Represents a custom message processor used
     /// </summary>
-    public class CustomMessageProcessor(ITestable<NotifyEvent> testable) : IMessageProcessor
+    public class CustomMessageProcessor(Azure.ServiceBus.Tests.Handlers.TestDependency.ITestable<NotifyEvent> testable) : IMessageProcessor
     {
         public Task ProcessAsync(Message message, CancellationToken cancellationToken)
         {

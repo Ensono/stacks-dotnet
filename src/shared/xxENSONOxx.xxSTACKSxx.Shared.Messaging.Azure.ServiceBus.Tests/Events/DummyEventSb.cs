@@ -1,9 +1,7 @@
 ﻿using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
-using Newtonsoft.Json;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events
+namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events
 {
     public class DummyEventSb : IApplicationEvent
     {

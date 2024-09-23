@@ -1,8 +1,8 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events
+namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events
 {
     public class NotifyEvent(Guid correlationId, int operationCode, string sessionId = null, string subject = null)
         : IApplicationEvent, ICloudEvent, ISessionContext
