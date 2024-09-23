@@ -155,6 +155,7 @@
 						"**/build/azDevOps/azure/ci-cosmosdb-worker-vars.yml",
 						"**/build/azDevOps/azure/ci-asb-listener-vars.yml",
 						"**/build/azDevOps/azure/ci-aeh-listener-vars.yml",
+						"**/build/azDevOps/azure/ci-background-worker-vars.yml",
 						"**/build/github/aws/**",
 						"**/build/github/gcp/**",
 						"**/deploy/aws/**",
