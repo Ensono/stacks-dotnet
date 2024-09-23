@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
 

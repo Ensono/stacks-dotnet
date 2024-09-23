@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using Microsoft.Azure.Documents;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker;
 
