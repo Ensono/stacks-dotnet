@@ -12,7 +12,7 @@ trigger:
       - "*"
 
 variables:
-  - template: ci-simple-api-vars.yml
+  - template: ci-background-worker-vars.yml
 
 stages:
   - stage: Build

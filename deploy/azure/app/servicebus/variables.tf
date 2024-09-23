@@ -18,12 +18,14 @@ variable "sb_name" {
   type        = string
   default     = "sb-menu"
   description = "Name of the service bus to create"
+  nullable    = false
 }
 
 variable "sb_topic_name" {
   type        = string
   default     = "sbt-menu-events"
   description = "Name of the topic to create"
+  nullable    = false
 }
 
 variable "seed_length" {
