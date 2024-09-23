@@ -59,6 +59,7 @@
                 "**/build/azDevOps/azure/ci-simple-api-vars.yml",
                 "**/build/azDevOps/azure/ci-asb-listener-vars.yml",
                 "**/build/azDevOps/azure/ci-aeh-listener-vars.yml",
+                "**/build/azDevOps/azure/ci-background-worker-vars.yml",
                 "**/build/azDevOps/azure/ci.yml",
                 "**/build/github/**",
                 "**/deploy/aws/**",

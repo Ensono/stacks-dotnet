@@ -50,6 +50,7 @@ data:
       {{- if eq .Values.cloudProvider "azure" }}
       {{- if and .Values.app.sbTopic .Values.app.sbConnectionstring }}
       "ServiceBusConfiguration": {
+        {{- if eq .Values.app.sbType "sender" }}
         "Sender": {
           "Topics": [
             {
@@ -61,6 +62,24 @@ data:
             }
           ]
         }
+        {{- end }}
+        {{- if eq .Values.app.sbType "listener" }}
+        "Listener": {
+          "Topics": [
+            {
+              "Name": "{{ .Values.app.sbTopic }}",
+              "SubscriptionName": "{{ .Values.app.sbSubscription }}",
+              "ConcurrencyLevel": 5,
+              "DisableProcessing": false,
+              "ConnectionStringSecret": {
+                "Identifier": "SERVICEBUS_CONNECTIONSTRING",
+                "Source": "Environment"
+              },
+              "DisableMessageValidation": true
+            }
+          ]
+        }
+        {{- end }}
       },
       {{- end }}
       {{- if and .Values.app.cosmosdbName .Values.app.cosmosdbEndpoint }}
