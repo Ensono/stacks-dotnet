@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener.UnitTests;
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener.UnitTests;
 
