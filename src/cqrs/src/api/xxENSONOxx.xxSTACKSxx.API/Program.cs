@@ -227,3 +227,4 @@ void AddSwagger(IServiceCollection services, JwtBearerAuthenticationConfiguratio
             c.DocumentFilter<VersionPathFilter>("/v2");
         });
 }
+public partial class Program { }
