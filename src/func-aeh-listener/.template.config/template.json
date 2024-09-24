@@ -44,7 +44,6 @@
                 ".gitattributes",
                 "src/func-aeh-listener/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
-                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",

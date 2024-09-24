@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Core", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core\xxENSONOxx.xxSTACKSxx.Shared.Core.csproj", "{3F133394-CF28-4110-BA3D-EBF404208A81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Core.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests.csproj", "{06DE9A76-034B-4975-8365-A7F88EF7954E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,10 +41,6 @@ Global
 		{3F133394-CF28-4110-BA3D-EBF404208A81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F133394-CF28-4110-BA3D-EBF404208A81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F133394-CF28-4110-BA3D-EBF404208A81}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06DE9A76-034B-4975-8365-A7F88EF7954E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,7 +49,6 @@ Global
 		{DAA32E63-80B5-49B6-890E-7A11FDA6A85B} = {39777B0A-6C00-4274-B67A-7E3A27E67013}
 		{4D619C55-D348-464D-A0D2-F18427DCAA49} = {39777B0A-6C00-4274-B67A-7E3A27E67013}
 		{3F133394-CF28-4110-BA3D-EBF404208A81} = {39777B0A-6C00-4274-B67A-7E3A27E67013}
-		{06DE9A76-034B-4975-8365-A7F88EF7954E} = {39777B0A-6C00-4274-B67A-7E3A27E67013}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {379B1814-5FF4-4E8F-9E9C-D0BAA6A23092}

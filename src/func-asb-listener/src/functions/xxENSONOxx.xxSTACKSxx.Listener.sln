@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Appli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Core", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core\xxENSONOxx.xxSTACKSxx.Shared.Core.csproj", "{0B0898CB-2A02-4FF2-AF5E-099180A6DBE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Core.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests\xxENSONOxx.xxSTACKSxx.Shared.Core.Tests.csproj", "{4C6B0846-6035-4FCC-A380-7981BE7A4E02}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj", "{DEB1054B-B244-419D-866B-19B7BD32A868}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.csproj", "{B4B0D375-2655-4E4A-ACBC-FBEAE76E9B87}"
@@ -41,10 +39,6 @@ Global
 		{0B0898CB-2A02-4FF2-AF5E-099180A6DBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B0898CB-2A02-4FF2-AF5E-099180A6DBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B0898CB-2A02-4FF2-AF5E-099180A6DBE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C6B0846-6035-4FCC-A380-7981BE7A4E02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C6B0846-6035-4FCC-A380-7981BE7A4E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C6B0846-6035-4FCC-A380-7981BE7A4E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C6B0846-6035-4FCC-A380-7981BE7A4E02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DEB1054B-B244-419D-866B-19B7BD32A868}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DEB1054B-B244-419D-866B-19B7BD32A868}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEB1054B-B244-419D-866B-19B7BD32A868}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,7 +53,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0B0898CB-2A02-4FF2-AF5E-099180A6DBE3} = {52AF9EDD-C4D9-4153-9B9C-88531667E386}
-		{4C6B0846-6035-4FCC-A380-7981BE7A4E02} = {52AF9EDD-C4D9-4153-9B9C-88531667E386}
 		{DEB1054B-B244-419D-866B-19B7BD32A868} = {52AF9EDD-C4D9-4153-9B9C-88531667E386}
 		{B4B0D375-2655-4E4A-ACBC-FBEAE76E9B87} = {52AF9EDD-C4D9-4153-9B9C-88531667E386}
 	EndGlobalSection
