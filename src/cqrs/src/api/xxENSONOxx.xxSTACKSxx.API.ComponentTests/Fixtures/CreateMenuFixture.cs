@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -16,8 +14,8 @@ public class CreateMenuFixture(
     IOptions<JwtBearerAuthenticationConfiguration> jwtBearerAuthenticationOptions)
     : ApiClientFixture(jwtBearerAuthenticationOptions)
 {
-    IMenuRepository repository;
-    IApplicationEventPublisher applicationEventPublisher;
+    IMenuRepository repository = null!;
+    IApplicationEventPublisher applicationEventPublisher = null!;
 
     protected override void RegisterDependencies(IServiceCollection collection)
     {
@@ -28,11 +26,10 @@ public class CreateMenuFixture(
         repository = Substitute.For<IMenuRepository>();
         applicationEventPublisher = Substitute.For<IApplicationEventPublisher>();
 
-        collection.AddTransient(IoC => repository);
-        collection.AddTransient(IoC => applicationEventPublisher);
+        collection.AddTransient(_ => repository);
+        collection.AddTransient(_ => applicationEventPublisher);
     }
-
-
+    
     /****** GIVEN ******************************************************/
 
     internal void GivenAInvalidMenu()
@@ -45,7 +42,7 @@ public class CreateMenuFixture(
     internal void GivenAMenuDoesNotExist()
     {
         repository.GetByIdAsync(id: Arg.Any<Guid>())
-            .Returns((Domain.Menu)null);
+            .Returns((Domain.Menu)null!);
     }
 
 

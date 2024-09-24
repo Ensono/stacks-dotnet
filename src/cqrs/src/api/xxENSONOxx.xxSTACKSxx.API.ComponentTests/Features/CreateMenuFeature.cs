@@ -9,25 +9,10 @@ namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Features;
 [Trait("TestType", "ComponentTests")]
 public class CreateMenuFeature
 {
-    /* SCENARIOS: Create a menu
-
-         Examples:
-         -----------------------------------------------------------------
-        | AsRole              | Menu Condition     | Outcome              |
-        |---------------------|--------------------|----------------------|
-        | Admin               | Valid Menu         | 201 Resource Create  |
-        | Admin               | Invalid Menu       | 400 Bad  Request     |
-        | Employee, Customer,                                             |
-        | UnauthenticatedUser | Valid Menu         | 403 Forbidden        |
-
-    */
-
     [Theory, CustomAutoData]
     public void CreateMenuAsAdminForValidMenuShouldSucceed(CreateMenuFixture fixture)
     {
-        this.Given(_ => fixture.GivenTheUserIsAnAuthenticatedAdministrator(),
-                "Given the user is authenticated and has the Admin role")
-            .And(_ => fixture.GivenAMenuDoesNotExist(), "And the menu does not does not exist")
+        this.Given(_ => fixture.GivenAMenuDoesNotExist(), "And the menu does not does not exist")
             .When(_ => fixture.WhenTheMenuCreationIsSubmitted(), "When the menu is submitted")
             .Then(_ => fixture.ThenASuccessfulResponseIsReturned(), "Then a successful response is returned")
             .And(_ => fixture.ThenACreatedResponseIsReturned(), "And the response code is CREATED")
@@ -43,9 +28,7 @@ public class CreateMenuFeature
     [Theory, CustomAutoData]
     public void CreateMenuAsAdminForInvalidMenuShouldFail(CreateMenuFixture fixture)
     {
-        this.Given(_ => fixture.GivenTheUserIsAnAuthenticatedAdministrator(),
-                "Given the user is authenticated and has the Admin role")
-            .And(_ => fixture.GivenAInvalidMenu(), "And a valid menu being submitted")
+        this.Given(_ => fixture.GivenAInvalidMenu(), "And a valid menu being submitted")
             .And(_ => fixture.GivenAMenuDoesNotExist(), "And the menu does not does not exist")
             .When(_ => fixture.WhenTheMenuCreationIsSubmitted(), "When the menu is submitted")
             .Then(_ => fixture.ThenAFailureResponseIsReturned(), "Then a failure response is returned")

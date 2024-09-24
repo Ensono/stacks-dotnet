@@ -22,8 +22,8 @@ public class CreateCategoryFixture(
 {
     readonly Guid userRestaurantId = Guid.Parse("2AA18D86-1A4C-4305-95A7-912C7C0FC5E1");
 
-    IMenuRepository repository;
-    IApplicationEventPublisher applicationEventPublisher;
+    IMenuRepository repository = null!;
+    IApplicationEventPublisher applicationEventPublisher = null!;
 
     protected override void RegisterDependencies(IServiceCollection collection)
     {
@@ -52,22 +52,17 @@ public class CreateCategoryFixture(
     internal void GivenAMenuDoesNotExist()
     {
         repository.GetByIdAsync(id: Arg.Any<Guid>())
-            .Returns((Domain.Menu)null);
+            .Returns((Domain.Menu)null!);
     }
 
     internal void GivenTheMenuBelongsToUserRestaurant()
     {
         existingMenu.TenantId = userRestaurantId;
     }
-
-    internal void GivenTheMenuDoesNotBelongToUserRestaurant()
-    {
-        existingMenu.TenantId = Guid.NewGuid();
-    }
-
+    
     internal void GivenTheCategoryDoesNotExist()
     {
-        if (existingMenu == null || existingMenu.Categories == null)
+        if (existingMenu.Categories == null)
             return;
 
         //Ensure in the future menu is not created with categories

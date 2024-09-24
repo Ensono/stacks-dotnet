@@ -33,11 +33,11 @@ public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfigura
                 {"JwtBearerAuthentication:Audience", jwtBearerAuthenticationOptions.Value.Audience},
                 {"JwtBearerAuthentication:Authority", jwtBearerAuthenticationOptions.Value.Authority},
                 {"JwtBearerAuthentication:Enabled", jwtBearerAuthenticationOptions.Value.Enabled.ToString().ToLowerInvariant()},
-                {"JwtBearerAuthentication:OpenApi:AuthorizationUrl", jwtBearerAuthenticationOptions.Value.OpenApi?.AuthorizationUrl},
-                {"JwtBearerAuthentication:OpenApi:ClientId", jwtBearerAuthenticationOptions.Value.OpenApi?.ClientId},
-                {"JwtBearerAuthentication:OpenApi:TokenUrl", jwtBearerAuthenticationOptions.Value.OpenApi?.TokenUrl},
+                {"JwtBearerAuthentication:OpenApi:AuthorizationUrl", jwtBearerAuthenticationOptions.Value.OpenApi?.AuthorizationUrl!},
+                {"JwtBearerAuthentication:OpenApi:ClientId", jwtBearerAuthenticationOptions.Value.OpenApi?.ClientId!},
+                {"JwtBearerAuthentication:OpenApi:TokenUrl", jwtBearerAuthenticationOptions.Value.OpenApi?.TokenUrl!},
                 {"JwtBearerAuthentication:UseStubbedBackchannelHandler", jwtBearerAuthenticationOptions.Value.UseStubbedBackchannelHandler.ToString().ToLowerInvariant()},
-            });
+            }!);
         });
     }
 
@@ -45,64 +45,7 @@ public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfigura
     {
         collection.AddSingleton(_ => jwtBearerAuthenticationOptions);
     }
-
-    /// <summary>
-    /// Adds bearer token to the request based on role name.
-    /// When a feature has same behaviour for multiple roles
-    /// We could use the same theory and test multiple roles
-    /// </summary>
-    /// <param name="role">Name of role being authenticated</param>
-    public void GivenTheUserIsAuthenticatedAndHasRole(string role)
-    {
-        switch (role.ToLower())
-        {
-            case "admin":
-                GivenTheUserIsAnAuthenticatedAdministrator();
-                return;
-            case "employee":
-                GivenTheUserIsAnAuthenticatedEmployee();
-                return;
-            case "customer":
-                GivenTheUserIsAnAuthenticatedCustomer();
-                return;
-            default:
-                GivenTheUserIsUnauthenticated();
-                return;
-        }
-    }
-
-    /// <summary>
-    /// Adds an Admin bearer token to the request
-    /// </summary>
-    public void GivenTheUserIsAnAuthenticatedAdministrator()
-    {
-        HttpClient.AsAdmin();
-    }
-
-    /// <summary>
-    /// Adds an Employee bearer token to the request
-    /// </summary>
-    private void GivenTheUserIsAnAuthenticatedEmployee()
-    {
-        HttpClient.AsEmployee();
-    }
-
-    /// <summary>
-    /// Adds a Customer bearer token to the request
-    /// </summary>
-    private void GivenTheUserIsAnAuthenticatedCustomer()
-    {
-        HttpClient.AsCustomer();
-    }
-
-    /// <summary>
-    /// Removes any bearer token from the request to simulate unauthenticated user
-    /// </summary>
-    private void GivenTheUserIsUnauthenticated()
-    {
-        HttpClient.AsUnauthenticatedUser();
-    }
-
+    
     /// <summary>
     /// Send a POST Http request to the API CreateMenu endpoint passing the menu being created
     /// </summary>
@@ -130,11 +73,6 @@ public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfigura
     internal void ThenAFailureResponseIsReturned()
     {
         LastResponse.IsSuccessStatusCode.ShouldBeFalse();
-    }
-
-    internal void ThenAForbiddenResponseIsReturned()
-    {
-        LastResponse.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
 
     internal void ThenACreatedResponseIsReturned()

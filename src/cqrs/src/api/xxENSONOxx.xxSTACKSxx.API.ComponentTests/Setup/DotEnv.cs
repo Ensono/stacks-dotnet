@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
 
-public class DotEnv
+public static class DotEnv
 {
     public static void Load()
     {
         Load(".env");
     }
 
-    public static void Load(string filePath)
+    private static void Load(string filePath)
     {
         if (string.IsNullOrWhiteSpace(filePath))
             throw new ArgumentNullException(nameof(filePath));
@@ -22,12 +18,10 @@ public class DotEnv
             return;
         }
         var vars = Read(filePath);
-
-        //TODOs: 
-        //Handle Referenced EnvVars: MAIL_FROM_ADDRESS =${MAIL_USERNAME} or MAIL_FROM_ADDRESS=$(MAIL_USERNAME)
-        foreach (var EnvVar in vars)
+        
+        foreach (var envVar in vars)
         {
-            Environment.SetEnvironmentVariable(EnvVar.Key, EnvVar.Value);
+            Environment.SetEnvironmentVariable(envVar.Key, envVar.Value);
         }
     }
 

@@ -8,26 +8,10 @@ namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Features;
 [Trait("TestType", "ComponentTests")]
 public class CreateCategoryFeature
 {
-    /* SCENARIOS: Create a category in the menu
-
-         Examples:
-         ---------------------------------------------------------------------------------
-        | AsRole              | Existing Menu | Existing Category  | Outcome              |
-        |---------------------|---------------|--------------------|----------------------|
-        | Admin               | Yes           | No                 | 200 OK               |
-        | Employee            | Yes           | No                 | 200 OK               |
-        | Admin               | No            | No                 | 404 Not Found        |
-        | Admin               | Yes           | Yes                | 409 Conflict         |
-        | Customer            | Yes           | No                 | 403 Forbidden        |
-        | UnauthenticatedUser | Yes           | No                 | 403 Forbidden        |
-
-    */
-
     [Theory, CustomAutoData]
-    public void CreateCategoryShouldSucceed(string role, CreateCategoryFixture fixture)
+    public void CreateCategoryShouldSucceed(CreateCategoryFixture fixture)
     {
-        this.Given(_ => fixture.GivenTheUserIsAuthenticatedAndHasRole(role), $"Given the user is authenticated and has the {role} role")
-                .And(_ => fixture.GivenAnExistingMenu(), "And an existing menu")
+        this.Given(_ => fixture.GivenAnExistingMenu(), "And an existing menu")
                 .And(_ => fixture.GivenTheMenuBelongsToUserRestaurant(), "And the menu belongs to the user restaurant")
                 .And(_ => fixture.GivenTheCategoryDoesNotExist(), "And the category being created does not exist in the menu")
             .When(_ => fixture.WhenTheCategoryIsSubmitted(), "When a new category is submitted")

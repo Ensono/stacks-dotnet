@@ -1,13 +1,12 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
-using Microsoft.Extensions.Options;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 
 namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
 
 public class CustomAutoDataAttribute() : AutoDataAttribute(Customizations)
 {
-    public static IFixture Customizations()
+    private static IFixture Customizations()
     {
         var fixture = new Fixture();
 
@@ -26,7 +25,7 @@ public class CustomAutoDataAttribute() : AutoDataAttribute(Customizations)
             UseStubbedBackchannelHandler = true
         };
 
-        fixture.Register<IOptions<JwtBearerAuthenticationConfiguration>>(() => jwtBearerAuthenticationConfiguration.AsOption());
+        fixture.Register(() => jwtBearerAuthenticationConfiguration.AsOption());
 
         return fixture;
     }

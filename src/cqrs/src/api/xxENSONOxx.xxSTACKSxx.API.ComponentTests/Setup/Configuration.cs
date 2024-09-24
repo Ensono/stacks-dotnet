@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -24,11 +23,11 @@ public static class Configuration
             .Build();
     }
 
-    public static T For<T>(string section = null)
+    public static T For<T>(string section = null!)
     {
         if (string.IsNullOrEmpty(section))
-            return configuration.Value.Get<T>();
-        return configuration.Value.GetSection(section).Get<T>();
+            return configuration.Value.Get<T>()!;
+        return configuration.Value.GetSection(section).Get<T>()!;
     }
 
     public static IOptions<T> AsOption<T>(this T content) where T : class, new()

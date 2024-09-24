@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +14,7 @@ namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
 /// <typeparam name="TStartup">The Startup file from the API project</typeparam>
 public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
 {
-    protected HttpClient HttpClient { get; }
+    private HttpClient HttpClient { get; }
 
     protected HttpResponseMessage LastResponse { get; set; } = null!;
 
@@ -42,7 +38,7 @@ public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
     /// <returns></returns>
     protected async Task<HttpResponseMessage> SendAsync(HttpMethod method, string url)
     {
-        return await SendAsync(method, url, (string)null);
+        return await SendAsync(method, url, (string)null!);
     }
 
     /// <summary>
@@ -55,7 +51,7 @@ public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
     /// <returns></returns>
     protected async Task<HttpResponseMessage> SendAsync<TBody>(HttpMethod method, string url, TBody body)
     {
-        lastResponseObject = null;
+        lastResponseObject = null!;
 
         HttpRequestMessage msg = new HttpRequestMessage(method, url);
 
@@ -93,12 +89,12 @@ public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
         return result;
     }
 
-    object lastResponseObject;
+    object? lastResponseObject;
 
     internal async Task<TBody> GetResponseObject<TBody>()
     {
         lastResponseObject ??= await LastResponse.Content.ReadAsAsync<TBody>();
 
-        return (TBody)lastResponseObject;
+        return ((TBody)lastResponseObject!);
     }
 }
