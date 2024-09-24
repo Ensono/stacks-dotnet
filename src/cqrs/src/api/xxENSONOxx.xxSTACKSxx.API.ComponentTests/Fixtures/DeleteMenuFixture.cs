@@ -31,7 +31,7 @@ public class DeleteMenuFixture(IOptions<JwtBearerAuthenticationConfiguration> jw
         repository.GetByIdAsync(id: Arg.Any<Guid>())
             .Returns(new Fixture().Create<Menu>());    
         
-        repository.DeleteAsync(Arg.Any<Guid>()).Returns(new Task<bool>(() => true));
+        repository.DeleteAsync(Arg.Any<Guid>()).Returns(true);
     }
 
     public void GivenAMenuDoesNotExist()
