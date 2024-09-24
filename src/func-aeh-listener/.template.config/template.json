@@ -42,8 +42,7 @@
                 "stackscli.yml",
                 ".gitignore",
                 ".gitattributes",
-                "src/func-aeh-listener/**",
-                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
+                "src/func-aeh-listener/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",

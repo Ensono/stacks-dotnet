@@ -115,8 +115,7 @@
 				"stackscli.yml",
 				".gitignore",
 				".gitattributes",
-				"src/simple-api/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
+				"src/simple-api/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",
