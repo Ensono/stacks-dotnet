@@ -1,8 +1,7 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CommandHandlers.Extensions;
 
