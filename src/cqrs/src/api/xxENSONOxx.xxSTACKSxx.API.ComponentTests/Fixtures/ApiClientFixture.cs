@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Shouldly;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 using xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
@@ -53,6 +48,15 @@ public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfigura
     protected async Task CreateMenu(CreateMenuRequest menu)
     {
         await SendAsync(HttpMethod.Post, "/v1/menu", menu);
+    }
+    
+    /// <summary>
+    /// Send a POST Http request to the API DeleteMenu endpoint passing the menuId being deleted
+    /// </summary>
+    /// <param name="menuId">Menu being deleted</param>
+    protected async Task DeleteMenu(string menuId)
+    {
+        await SendAsync(HttpMethod.Delete, $"/v1/menu/{menuId}");
     }
 
     /// <summary>

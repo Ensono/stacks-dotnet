@@ -21,8 +21,6 @@ public class CreateMenuFixture(
     {
         base.RegisterDependencies(collection);
 
-        // Mocked external dependencies, the setup should
-        // come later according to the scenarios
         repository = Substitute.For<IMenuRepository>();
         applicationEventPublisher = Substitute.For<IApplicationEventPublisher>();
 
@@ -30,35 +28,23 @@ public class CreateMenuFixture(
         collection.AddTransient(_ => applicationEventPublisher);
     }
     
-    /****** GIVEN ******************************************************/
-
     internal void GivenAInvalidMenu()
     {
         newMenu.Name = null;
         newMenu.Description = null;
     }
 
-
     internal void GivenAMenuDoesNotExist()
     {
         repository.GetByIdAsync(id: Arg.Any<Guid>())
             .Returns((Domain.Menu)null!);
     }
-
-
-    /****** WHEN ******************************************************/
-
+    
     internal async Task WhenTheMenuCreationIsSubmitted()
     {
         await CreateMenu(newMenu);
     }
-
-    /****** THEN ******************************************************/
-
-    internal void ThenGetMenuByIdIsCalled()
-    {
-        repository.Received(1).GetByIdAsync(Arg.Any<Guid>());
-    }
+    
     internal void ThenTheMenuIsSubmittedToDatabase()
     {
         repository.Received(1).SaveAsync(Arg.Is<Domain.Menu>(menu => menu.Name == newMenu.Name));

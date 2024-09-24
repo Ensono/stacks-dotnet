@@ -2,9 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 
 /// <summary>
 /// Menu related operations
@@ -25,7 +24,7 @@ public class GetMenuByIdV2Controller : ApiControllerBase
     /// <response code="404">Resource not found</response>
     [HttpGet("/v2/menu/{id}")]
     [Authorize]
-    [ProducesResponseType(typeof(Menu), 200)]
+    [ProducesResponseType(typeof(Models.Responses.Menu), 200)]
     public virtual IActionResult GetMenuV2([FromRoute][Required] Guid id)
     {
         // NOTE: Please ensure the API returns the response codes annotated above

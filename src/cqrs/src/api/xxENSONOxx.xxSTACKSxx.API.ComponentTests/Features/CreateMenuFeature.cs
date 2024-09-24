@@ -10,7 +10,7 @@ namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Features;
 public class CreateMenuFeature
 {
     [Theory, CustomAutoData]
-    public void CreateMenuAsAdminForValidMenuShouldSucceed(CreateMenuFixture fixture)
+    public void CreateMenuForValidMenuShouldSucceed(CreateMenuFixture fixture)
     {
         this.Given(_ => fixture.GivenAMenuDoesNotExist(), "And the menu does not does not exist")
             .When(_ => fixture.WhenTheMenuCreationIsSubmitted(), "When the menu is submitted")
@@ -26,7 +26,7 @@ public class CreateMenuFeature
 
 
     [Theory, CustomAutoData]
-    public void CreateMenuAsAdminForInvalidMenuShouldFail(CreateMenuFixture fixture)
+    public void CreateMenuForInvalidMenuShouldFail(CreateMenuFixture fixture)
     {
         this.Given(_ => fixture.GivenAInvalidMenu(), "And a valid menu being submitted")
             .And(_ => fixture.GivenAMenuDoesNotExist(), "And the menu does not does not exist")

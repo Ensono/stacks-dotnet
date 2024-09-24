@@ -8,9 +8,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using xxENSONOxx.xxSTACKSxx.API.Authentication;
-using xxENSONOxx.xxSTACKSxx.API.Authorization;
-using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
 using OpenTelemetry.Exporter;
@@ -20,10 +17,13 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using xxENSONOxx.xxSTACKSxx.API;
+using xxENSONOxx.xxSTACKSxx.API.Authentication;
+using xxENSONOxx.xxSTACKSxx.API.Authorization;
 using xxENSONOxx.xxSTACKSxx.API.Filters;
+using xxENSONOxx.xxSTACKSxx.API.Middleware;
+using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.Application.CommandHandlers.Extensions;
 using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers.Extensions;
-using xxENSONOxx.xxSTACKSxx.API.Middleware;
 using xxENSONOxx.xxSTACKSxx.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -175,7 +175,7 @@ void AddSwagger(IServiceCollection services, JwtBearerAuthenticationConfiguratio
                 }
             });
 
-            c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(Program).Assembly.GetName().Name}.xml");
+            c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(xxENSONOxx.xxSTACKSxx.API.Program).Assembly.GetName().Name}.xml");
             c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(CreateMenuRequest).Assembly.GetName().Name}.xml");
 
             c.DocumentFilter<SwaggerDocumentTagger>(new OpenApiTag[]
@@ -205,7 +205,7 @@ void AddSwagger(IServiceCollection services, JwtBearerAuthenticationConfiguratio
                 }
             });
 
-            c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(Program).Assembly.GetName().Name}.xml");
+            c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(xxENSONOxx.xxSTACKSxx.API.Program).Assembly.GetName().Name}.xml");
             c.DocumentFilter<VersionPathFilter>("/v1");
         })
         .AddSwaggerGen(c =>
@@ -223,8 +223,11 @@ void AddSwagger(IServiceCollection services, JwtBearerAuthenticationConfiguratio
                 }
             });
 
-            c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(Program).Assembly.GetName().Name}.xml");
+            c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{typeof(xxENSONOxx.xxSTACKSxx.API.Program).Assembly.GetName().Name}.xml");
             c.DocumentFilter<VersionPathFilter>("/v2");
         });
 }
-public partial class Program { }
+namespace xxENSONOxx.xxSTACKSxx.API
+{
+    public partial class Program { }
+}

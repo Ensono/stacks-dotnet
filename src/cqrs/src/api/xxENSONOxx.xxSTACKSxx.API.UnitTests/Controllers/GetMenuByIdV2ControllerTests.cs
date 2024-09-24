@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
+using xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 
 namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers;
 

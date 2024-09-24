@@ -11,7 +11,7 @@ namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
 /// ApiFixture will handle the HttpClient creation for the test scenarios.
 /// Each fixture talking to the API should inherit from this class
 /// </summary>
-/// <typeparam name="TStartup">The Startup file from the API project</typeparam>
+/// <typeparam name="TEntrypoint">The entrypoint of the API project</typeparam>
 public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
 {
     private HttpClient HttpClient { get; }
@@ -29,16 +29,16 @@ public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
         
         HttpClient = webAppFactory.CreateClient();
     }
-    
+
     /// <summary>
     /// Send the request and set the LastResponse
     /// </summary>
     /// <param name="method">Http method used in the request</param>
     /// <param name="url">relative url for API resource</param>
     /// <returns></returns>
-    protected async Task<HttpResponseMessage> SendAsync(HttpMethod method, string url)
+    protected async Task SendAsync(HttpMethod method, string url)
     {
-        return await SendAsync(method, url, (string)null!);
+        await SendAsync(method, url, (string)null!);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
     /// <param name="url">relative url for API resource</param>
     /// <param name="body">body to be submitted to the API</param>
     /// <returns></returns>
-    protected async Task<HttpResponseMessage> SendAsync<TBody>(HttpMethod method, string url, TBody body)
+    protected async Task SendAsync<TBody>(HttpMethod method, string url, TBody body)
     {
         lastResponseObject = null!;
 
@@ -59,8 +59,6 @@ public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
             msg.Content = CreateHttpContent(body);
 
         LastResponse = await HttpClient.SendAsync(msg);
-
-        return LastResponse;
     }
 
 

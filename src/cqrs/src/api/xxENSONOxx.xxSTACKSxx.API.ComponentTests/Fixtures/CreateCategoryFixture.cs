@@ -29,16 +29,12 @@ public class CreateCategoryFixture(
     {
         base.RegisterDependencies(collection);
 
-        // Mocked external dependencies, the setup should
-        // come later according to each scenario
         repository = Substitute.For<IMenuRepository>();
         applicationEventPublisher = Substitute.For<IApplicationEventPublisher>();
 
         collection.AddTransient(_ => repository);
         collection.AddTransient(_ => applicationEventPublisher);
     }
-
-    /****** GIVEN ******************************************************/
 
     internal void GivenAnExistingMenu()
     {
@@ -65,7 +61,6 @@ public class CreateCategoryFixture(
         if (existingMenu.Categories == null)
             return;
 
-        //Ensure in the future menu is not created with categories
         for (int i = 0; i < existingMenu.Categories.Count(); i++)
         {
             existingMenu.RemoveCategory(existingMenu.Categories[0].Id);
@@ -77,14 +72,10 @@ public class CreateCategoryFixture(
         existingMenu.AddCategory(Guid.NewGuid(), newCategory.Name, "Some description");
     }
 
-    /****** WHEN ******************************************************/
-
     internal async Task WhenTheCategoryIsSubmitted()
     {
         await CreateCategory(existingMenu.Id, newCategory);
     }
-
-    /****** THEN ******************************************************/
 
     internal async Task ThenTheCategoryIsAddedToMenu()
     {
