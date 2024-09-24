@@ -1,9 +1,9 @@
 ﻿using System;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands;
 using Shouldly;
 using Xunit;
+using NotifyCommandWithAnnotation = xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands.NotifyCommandWithAnnotation;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Validators
 {

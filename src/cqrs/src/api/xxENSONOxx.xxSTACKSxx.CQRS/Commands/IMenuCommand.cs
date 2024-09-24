@@ -1,5 +1,5 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
@@ -33,10 +33,11 @@ public class CreateMenuItemCommandHandler(
 
     public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, CreateMenuItem command)
     {
-        return new IApplicationEvent[] {
+        return
+        [
             new MenuUpdatedEvent(command, command.MenuId),
             new CategoryUpdatedEvent(command, command.MenuId, command.CategoryId),
             new MenuItemCreatedEvent(command, command.MenuId, command.CategoryId, id)
-        };
+        ];
     }
 }

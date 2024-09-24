@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.Logging;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
 

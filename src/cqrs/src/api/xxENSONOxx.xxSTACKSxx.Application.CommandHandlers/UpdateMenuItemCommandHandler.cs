@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
@@ -29,10 +29,11 @@ public class UpdateMenuItemCommandHandler(
 
     public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, UpdateMenuItem command)
     {
-        return new IApplicationEvent[] {
+        return
+        [
             new MenuUpdatedEvent(command, command.MenuId),
             //new CategoryUpdated(command, command.MenuId, command.CategoryId),
             new MenuItemUpdatedEvent(command, command.MenuId, command.CategoryId, command.MenuItemId)
-        };
+        ];
     }
 }

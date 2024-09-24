@@ -1,6 +1,6 @@
 using System;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener.UnitTests;

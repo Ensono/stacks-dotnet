@@ -43,14 +43,10 @@
                 ".gitignore",
                 ".gitattributes",
                 "src/func-asb-listener/**",
-                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
-                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**",
-                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands/**",
-                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events/**",
-                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers/**"
+                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",

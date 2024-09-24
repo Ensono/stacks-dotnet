@@ -1,7 +1,7 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 using Newtonsoft.Json;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 
