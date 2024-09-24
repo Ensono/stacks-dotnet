@@ -1,5 +1,5 @@
 ﻿using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener.UnitTests;
 
