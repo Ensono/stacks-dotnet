@@ -23,6 +23,8 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 #endif
 #if DynamoDb
 using Amazon.DynamoDBv2;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 #endif
 #if CosmosDb || DynamoDb
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
