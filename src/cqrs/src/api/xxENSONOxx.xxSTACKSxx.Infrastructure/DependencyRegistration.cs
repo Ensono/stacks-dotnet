@@ -13,7 +13,7 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
 using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 #endif
 #if EventPublisherServiceBus
-using Cqrs.AllTheThings.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 #endif
 #if EventPublisherAwsSns || EventPublisherEventHub
 using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
