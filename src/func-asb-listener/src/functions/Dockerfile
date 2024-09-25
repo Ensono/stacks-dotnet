@@ -18,7 +18,7 @@ COPY ./ ./
 RUN dotnet publish -c Release -o ${outdir} $self_repo_src/xxENSONOxx.xxSTACKSxx.Listener
 
 # Build the runtime image
-FROM mcr.microsoft.com/azure-functions/dotnet:4 as runtime
+FROM mcr.microsoft.com/azure-functions/dotnet:4-dotnet8.0 as runtime
 
 ARG outdir
 
