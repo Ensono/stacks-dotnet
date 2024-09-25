@@ -21,3 +21,4 @@ FROM mcr.microsoft.com/azure-functions/dotnet:4 as runtime
 EXPOSE 80
 WORKDIR /home/site/wwwroot
 COPY --from=build /app/${outdir} .
+ENTRYPOINT ["dotnet", "xxENSONOxx.xxSTACKSxx.Listener.dll"]
