@@ -14,8 +14,8 @@ public class ChangeFeedListener(
     [FunctionName(Constants.FunctionNames.CosmosDbChangeFeedListener)]
     public void Run([CosmosDBTrigger(
         databaseName: "%COSMOSDB_DATABASE_NAME%",
-        containerName: "%COSMOSDB_COLLECTION_NAME%",
-        Connection  = "COSMOSDB_CONNECTIONSTRING",
+        containerName: "%COSMOSDB_CONTAINER_NAME%",
+        Connection  = "COSMOSDB_CONNECTION_STRING",
         LeaseContainerName  = "%COSMOSDB_LEASE_COLLECTION_NAME%",
         CreateLeaseContainerIfNotExists  = true)]IReadOnlyList<CosmosDbChangeFeedEvent> input)
     {
@@ -27,8 +27,8 @@ public class ChangeFeedListener(
                 logger.LogInformation("Document read. Id: " + changedItem.EntityId);
 
                 var cosmosDbEvent = new CosmosDbChangeFeedEvent(
-                    operationCode: 999,
-                    correlationId: Guid.NewGuid(),
+                    operationCode: changedItem.OperationCode,
+                    correlationId: changedItem.CorrelationId,
                     entityId: changedItem.EntityId,
                     eTag: changedItem.ETag);
 
