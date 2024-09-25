@@ -18,8 +18,6 @@ RUN dotnet publish -c Release -o ${outdir} $self_repo_src/xxENSONOxx.xxSTACKSxx.
 
 # Build the runtime image
 FROM mcr.microsoft.com/azure-functions/dotnet:4 as runtime
-ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
-    AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 EXPOSE 80
 WORKDIR /home/site/wwwroot
 COPY --from=build /app/${outdir} .
