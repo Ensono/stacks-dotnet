@@ -1,5 +1,3 @@
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Enums;
-
 namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
 
 [Trait("TestType", "UnitTests")]

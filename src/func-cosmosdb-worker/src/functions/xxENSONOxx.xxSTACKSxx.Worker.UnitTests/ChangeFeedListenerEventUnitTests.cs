@@ -1,10 +1,8 @@
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Enums;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
 
-public class CosmosDbChangeFeedEventUnitTests
+public class ChangeFeedListenerEventUnitTests
 {
     private readonly IFixture _autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
 

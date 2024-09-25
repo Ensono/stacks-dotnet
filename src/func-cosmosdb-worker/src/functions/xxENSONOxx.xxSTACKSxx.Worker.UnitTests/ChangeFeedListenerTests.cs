@@ -1,5 +1,4 @@
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Doubles;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
@@ -13,8 +12,8 @@ public class ChangeFeedListenerUnitTests
     private readonly Random _random;
     private readonly IFixture _autoFixture;
     private readonly IApplicationEventPublisher _appEventPublisher;
-    private readonly MockLogger<ChangeFeedListener> _logger;
-    private readonly ChangeFeedListener _systemUnderTest;
+    private readonly MockLogger<CosmosDbChangeFeedListener> _logger;
+    private readonly CosmosDbChangeFeedListener _systemUnderTest;
 
 
     public ChangeFeedListenerUnitTests()
@@ -22,8 +21,8 @@ public class ChangeFeedListenerUnitTests
         _random = new Random();
         _autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
         _appEventPublisher = Substitute.For<IApplicationEventPublisher>();
-        _logger = new MockLogger<ChangeFeedListener>();
-        _systemUnderTest = new ChangeFeedListener(_appEventPublisher, _logger);
+        _logger = new MockLogger<CosmosDbChangeFeedListener>();
+        _systemUnderTest = new CosmosDbChangeFeedListener(_appEventPublisher, _logger);
     }
 
 

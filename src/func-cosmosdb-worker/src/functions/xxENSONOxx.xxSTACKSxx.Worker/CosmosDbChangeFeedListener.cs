@@ -1,13 +1,12 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker;
 
-public class ChangeFeedListener(
+public class CosmosDbChangeFeedListener(
     IApplicationEventPublisher appEventPublisher,
-    ILogger<ChangeFeedListener> logger)
+    ILogger<CosmosDbChangeFeedListener> logger)
 {
     [Function(Constants.FunctionNames.CosmosDbChangeFeedListener)]
     public void Run([CosmosDBTrigger(
@@ -15,9 +14,9 @@ public class ChangeFeedListener(
         containerName: "%COSMOSDB_CONTAINER_NAME%",
         Connection = "COSMOSDB_CONNECTION_STRING",
         LeaseContainerName = "%COSMOSDB_LEASE_COLLECTION_NAME%",
-        CreateLeaseContainerIfNotExists  = true)]IReadOnlyList<CosmosDbChangeFeedEvent> input)
+        CreateLeaseContainerIfNotExists  = true)]IReadOnlyList<CosmosDbChangeFeedEvent>? input)
     {
-        if (input != null && input.Count > 0)
+        if (input is { Count: > 0 })
         {
             logger.LogInformation("Documents modified " + input.Count);
             foreach (var changedItem in input)
