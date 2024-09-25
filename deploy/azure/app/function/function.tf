@@ -38,8 +38,8 @@ resource "azurerm_linux_function_app" "function" {
     SERVICEBUS_CONNECTIONSTRING    = var.sb_connection_string
     TOPIC_NAME                     = var.sb_topic_name
     SUBSCRIPTION_NAME              = var.sb_subscription_name != null && var.sb_topic_id != null ? azurerm_servicebus_subscription.sb_sub[0].name : null
-    EVENTHUB_CONNECTIONSTRING     = var.eventhub_connection_string
-    EVENTHUB_NAME                 = var.eventhub_name
+    EVENTHUB_CONNECTIONSTRING      = var.eventhub_connection_string
+    EVENTHUB_NAME                  = var.eventhub_name
     BLOB_STORAGE_CONNECTIONSTRING  = var.eventhub_storage_access_key
     BLOB_CONTAINER_NAME            = var.eventhub_blob_container
   }
