@@ -3,20 +3,27 @@ using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
-#if (EventPublisherAwsSns || EventPublisherEventHub)
+#if !EventPublisherServiceBus
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+#endif
+#if EventPublisherServiceBus
+using Cqrs.AllTheThings.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+#endif
+#if EventPublisherAwsSns || EventPublisherEventHub
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 #endif
-#if (CosmosDb || DynamoDb)
+#if DynamoDb
 using Amazon.DynamoDBv2;
+#endif
+#if CosmosDb || DynamoDb
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Repositories;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.HealthChecks;
@@ -37,38 +44,38 @@ public static class DependencyRegistration
     {
         services.AddSecrets();
 
-#if (EventPublisherServiceBus)
+#if EventPublisherServiceBus
         services.Configure<xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration.ServiceBusConfiguration>(configuration.GetSection("ServiceBusConfiguration"));
         services.AddServiceBus();
         services.AddTransient<IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
-#elif (EventPublisherEventHub)
+#elif EventPublisherEventHub
         services.Configure<EventHubConfiguration>(configuration.GetSection("EventHubConfiguration"));
         services.AddEventHub();
-#elif (EventPublisherAwsSns)
+#elif EventPublisherAwsSns
         services.Configure<AwsSnsConfiguration>(configuration.GetSection("AwsSnsConfiguration"));
         services.AddAwsSns(configuration);
         services.AddTransient<IApplicationEventPublisher, SnsEventPublisher>();
-#elif (EventPublisherNone)
+#elif EventPublisherNone
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #else
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #endif
 
-#if (CosmosDb)
+#if CosmosDb
         services.Configure<CosmosDbConfiguration>(configuration.GetSection("CosmosDb"));
         services.AddCosmosDB();
         services.AddTransient<IMenuRepository, CosmosDbMenuRepository>();
-#elif (DynamoDb)
+#elif DynamoDb
         services.Configure<DynamoDbConfiguration>(configuration.GetSection("DynamoDb"));
         services.AddDynamoDB();
         services.AddTransient<IMenuRepository, DynamoDbMenuRepository>();
-#elif (InMemoryDb)
+#elif InMemoryDb
         services.AddTransient<IMenuRepository, InMemoryMenuRepository>();
 #else
         services.AddTransient<IMenuRepository, InMemoryMenuRepository>();
 #endif
+#if CosmosDb
         var healthChecks = services.AddHealthChecks();
-#if (CosmosDb)
         healthChecks.AddCheck<CustomHealthCheck>("Sample"); //This is a sample health check, remove if not needed, more info: https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health
         healthChecks.AddCheck<CosmosDbDocumentStorage<Menu>>("CosmosDB");
 #endif
