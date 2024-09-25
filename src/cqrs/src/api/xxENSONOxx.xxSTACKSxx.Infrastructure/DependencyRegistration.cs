@@ -9,6 +9,9 @@ using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
+#if EventPublisherNone
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+#endif
 #if EventPublisherServiceBus
 using Cqrs.AllTheThings.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 #endif
@@ -55,7 +58,7 @@ public static class DependencyRegistration
         services.AddTransient<IApplicationEventPublisher, SnsEventPublisher>();
 #elif EventPublisherNone
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
-#else
+#elif EventPublisherNone
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #endif
 
