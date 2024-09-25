@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
@@ -11,12 +9,12 @@ public class ChangeFeedListener(
     IApplicationEventPublisher appEventPublisher,
     ILogger<ChangeFeedListener> logger)
 {
-    [FunctionName(Constants.FunctionNames.CosmosDbChangeFeedListener)]
+    [Function(Constants.FunctionNames.CosmosDbChangeFeedListener)]
     public void Run([CosmosDBTrigger(
         databaseName: "%COSMOSDB_DATABASE_NAME%",
         containerName: "%COSMOSDB_CONTAINER_NAME%",
-        Connection  = "COSMOSDB_CONNECTION_STRING",
-        LeaseContainerName  = "%COSMOSDB_LEASE_COLLECTION_NAME%",
+        Connection = "COSMOSDB_CONNECTION_STRING",
+        LeaseContainerName = "%COSMOSDB_LEASE_COLLECTION_NAME%",
         CreateLeaseContainerIfNotExists  = true)]IReadOnlyList<CosmosDbChangeFeedEvent> input)
     {
         if (input != null && input.Count > 0)
