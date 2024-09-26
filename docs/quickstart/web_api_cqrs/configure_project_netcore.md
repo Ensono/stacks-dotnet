@@ -23,7 +23,7 @@ keywords:
 
 ## Configuring the project
 
-All security sensitive information is passed as a secret in our configuration. We have a library called [Ensono.Stacks.Configuration](https://github.com/Ensono/stacks-dotnet-packages-configuration) that reads secrets from the environment before the application starts and makes the needed substitutions in the configuration files.
+All security sensitive information is passed as a secret in our configuration.
 
 ### Configuring Cosmos DB
 
