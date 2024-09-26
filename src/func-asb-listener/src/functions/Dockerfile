@@ -4,11 +4,10 @@
 # For example:
 #
 # docker build -t stacks-dotnet-cqrs --build-arg function=xxENSONOxx.xxSTACKSxx.Listener .\src\functions
-ARG outdir=out
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 
-ARG outdir
+ARG outdir=out
 ARG self_repo_src="src/functions"
 
 WORKDIR /app
@@ -18,10 +17,7 @@ COPY ./ ./
 RUN dotnet publish -c Release -o ${outdir} $self_repo_src/xxENSONOxx.xxSTACKSxx.Listener
 
 # Build the runtime image
-FROM mcr.microsoft.com/azure-functions/dotnet:4-dotnet8.0 as runtime
-
-ARG outdir
-
+FROM mcr.microsoft.com/azure-functions/dotnet:4 as runtime
 EXPOSE 80
 WORKDIR /home/site/wwwroot
 COPY --from=build /app/${outdir} .
