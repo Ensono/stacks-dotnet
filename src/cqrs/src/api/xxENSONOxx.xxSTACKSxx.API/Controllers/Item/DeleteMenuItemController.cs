@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Item;
 
 /// <summary>
 /// Item related operations

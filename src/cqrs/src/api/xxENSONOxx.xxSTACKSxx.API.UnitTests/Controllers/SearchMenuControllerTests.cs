@@ -9,6 +9,7 @@ using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Abstractions.Queries;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
+using xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 
