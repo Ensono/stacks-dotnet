@@ -1,4 +1,4 @@
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
 
