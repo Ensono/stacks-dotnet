@@ -7,7 +7,7 @@ using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Category;
 
 /// <summary>
 /// Category related operations

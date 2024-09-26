@@ -8,7 +8,7 @@ using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 
 /// <summary>
 /// Menu related operations
