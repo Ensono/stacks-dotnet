@@ -1,18 +1,18 @@
 using Microsoft.Extensions.DependencyInjection;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
 #if EventPublisherAwsSns
-using Amazon.SimpleNotificationService;
+using System;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Amazon.SimpleNotificationService;
 using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 #endif
-#if EventPublisherAwsSns || EventPublisherEventHub
+#if EventPublisherEventHub
 using System;
 using Microsoft.Extensions.Options;
-#endif
-#if EventPublisherEventHub
 using Azure.Storage.Blobs;
 using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Consumer;
@@ -28,7 +28,6 @@ using Amazon.DynamoDBv2.DataModel;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 #if CosmosDb
-using Microsoft.Extensions.DependencyInjection;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
