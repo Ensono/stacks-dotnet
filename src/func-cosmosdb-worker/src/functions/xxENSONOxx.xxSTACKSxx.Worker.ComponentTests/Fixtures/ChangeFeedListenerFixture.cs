@@ -11,7 +11,7 @@ public class ChangeFeedListenerFixture
     private readonly Random random;
     private readonly IFixture autoFixture;
     private readonly IApplicationEventPublisher applicationEventPublisher;
-    private readonly TestLogger<CosmosDbChangeFeedListener> logger;
+    private readonly MockLogger<CosmosDbChangeFeedListener> logger;
     private readonly CosmosDbChangeFeedListener systemUnderTest;
 
     private int changeFeedEventCount;
@@ -22,7 +22,7 @@ public class ChangeFeedListenerFixture
         random = new Random();
         autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
         applicationEventPublisher = Substitute.For<IApplicationEventPublisher>();
-        logger = new TestLogger<CosmosDbChangeFeedListener>();
+        logger = new MockLogger<CosmosDbChangeFeedListener>();
         systemUnderTest = new CosmosDbChangeFeedListener(applicationEventPublisher, logger);
         changeFeedEventCount = 0;
         changeFeedEvents = [];

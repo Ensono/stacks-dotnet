@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.ComponentTests.Doubles;
 
-public class TestLogger<T> : ILogger<T>
+public class MockLogger<T> : ILogger<T>
 {
     public List<string> LogMessages { get; } = [];
 
