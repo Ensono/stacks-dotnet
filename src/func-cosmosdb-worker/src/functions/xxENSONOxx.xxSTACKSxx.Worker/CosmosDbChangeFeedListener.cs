@@ -10,10 +10,10 @@ public class CosmosDbChangeFeedListener(
 {
     [Function(Constants.FunctionNames.CosmosDbChangeFeedListener)]
     public void Run([CosmosDBTrigger(
-        databaseName: "%COSMOSDB_DATABASE_NAME%",
-        containerName: "%COSMOSDB_CONTAINER_NAME%",
-        Connection = "COSMOSDB_CONNECTION_STRING",
-        LeaseContainerName = "%COSMOSDB_LEASE_COLLECTION_NAME%",
+        databaseName: "%COSMOSDB_DATABASENAME%",
+        containerName: "%COSMOSDB_CONTAINERNAME%",
+        Connection = "COSMOSDB_CONNECTIONSTRING",
+        LeaseContainerName = "%COSMOSDB_LEASECOLLECTIONNAME%",
         CreateLeaseContainerIfNotExists  = true)]IReadOnlyList<CosmosDbChangeFeedEvent>? input)
     {
         if (input is { Count: > 0 })

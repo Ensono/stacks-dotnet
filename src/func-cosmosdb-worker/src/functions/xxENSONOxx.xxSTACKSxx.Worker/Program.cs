@@ -5,11 +5,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using OpenTelemetry;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Secrets;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker;
 
@@ -45,6 +50,13 @@ public class Program
             })
             .ConfigureServices((context, services) =>
             {
+                //  Add an Azure Service Bus from configurations settings, using Stacks' messaging package.
+                var configuration = context.Configuration;
+                services.AddSingleton<ISecretResolver<string>, SecretResolver>();
+                services.Configure<ServiceBusConfiguration>(configuration.GetSection("ServiceBusConfiguration"));
+                services.AddServiceBus();
+
+                // Add logging and telemetry.
                 services.AddApplicationInsightsTelemetryWorkerService();
                 services.ConfigureFunctionsApplicationInsights();
 
