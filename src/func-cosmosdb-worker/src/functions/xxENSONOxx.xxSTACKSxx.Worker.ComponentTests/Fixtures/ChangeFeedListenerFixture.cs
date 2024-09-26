@@ -8,24 +8,24 @@ public class ChangeFeedListenerFixture
     private const string DocumentsChangesMessage = "Documents modified";
     private const string DocumentReadMessage = "Document read. Id:";
     
-    private readonly Random _random;
-    private readonly IFixture _autoFixture;
-    private readonly IApplicationEventPublisher _applicationEventPublisher;
-    private readonly TestLogger<CosmosDbChangeFeedListener> _logger;
-    private readonly CosmosDbChangeFeedListener _systemUnderTest;
+    private readonly Random random;
+    private readonly IFixture autoFixture;
+    private readonly IApplicationEventPublisher applicationEventPublisher;
+    private readonly TestLogger<CosmosDbChangeFeedListener> logger;
+    private readonly CosmosDbChangeFeedListener systemUnderTest;
 
-    private int _changeFeedEventCount;
-    private List<CosmosDbChangeFeedEvent>? _changeFeedEvents;
+    private int changeFeedEventCount;
+    private List<CosmosDbChangeFeedEvent>? changeFeedEvents;
 
     public ChangeFeedListenerFixture()
     {
-        _random = new Random();
-        _autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
-        _applicationEventPublisher = Substitute.For<IApplicationEventPublisher>();
-        _logger = new TestLogger<CosmosDbChangeFeedListener>();
-        _systemUnderTest = new CosmosDbChangeFeedListener(_applicationEventPublisher, _logger);
-        _changeFeedEventCount = 0;
-        _changeFeedEvents = [];
+        random = new Random();
+        autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
+        applicationEventPublisher = Substitute.For<IApplicationEventPublisher>();
+        logger = new TestLogger<CosmosDbChangeFeedListener>();
+        systemUnderTest = new CosmosDbChangeFeedListener(applicationEventPublisher, logger);
+        changeFeedEventCount = 0;
+        changeFeedEvents = [];
     }
 
     //
@@ -34,14 +34,14 @@ public class ChangeFeedListenerFixture
 
     public void GivenCosmosDbTriggerReceivesEvents()
     {
-        _changeFeedEventCount = _random.Next(1, 11); 
-        _changeFeedEvents = _autoFixture.CreateMany<CosmosDbChangeFeedEvent>(_changeFeedEventCount).ToList();
+        changeFeedEventCount = random.Next(1, 11); 
+        changeFeedEvents = autoFixture.CreateMany<CosmosDbChangeFeedEvent>(changeFeedEventCount).ToList();
     }
 
     public void GivenCosmosDbTriggerReceivesNoEvents()
     {
-        _changeFeedEvents = [];
-        _changeFeedEventCount = _changeFeedEvents.Count;
+        changeFeedEvents = [];
+        changeFeedEventCount = changeFeedEvents.Count;
     }
 
     //
@@ -50,7 +50,7 @@ public class ChangeFeedListenerFixture
 
     public void WhenFunctionIsTriggered()
     {
-        Action act = () => _systemUnderTest.Run(_changeFeedEvents);
+        Action act = () => systemUnderTest.Run(changeFeedEvents);
         act.Should().NotThrow();
     }
 
@@ -60,39 +60,39 @@ public class ChangeFeedListenerFixture
 
     public void ThenApplicationEventsArePublished()
     {
-        _applicationEventPublisher.Received(_changeFeedEventCount).PublishAsync(Arg.Any<IApplicationEvent>());
+        applicationEventPublisher.Received(changeFeedEventCount).PublishAsync(Arg.Any<IApplicationEvent>());
     }
 
 
     public void ThenNoApplicationEventsArePublished()
     {
-        _applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<CosmosDbChangeFeedEvent>());
+        applicationEventPublisher.DidNotReceive().PublishAsync(Arg.Any<CosmosDbChangeFeedEvent>());
     }
 
 
     public void ThenLogWrittenToShowEventsReceived()
     {
-        _logger.LogMessages.Should().Contain($"{DocumentsChangesMessage} {_changeFeedEventCount}");
+        logger.LogMessages.Should().Contain($"{DocumentsChangesMessage} {changeFeedEventCount}");
     }
 
 
     public void ThenNoLogWrittenToShowEventsReceived()
     {
-        _logger.LogMessages.Should().NotContain(DocumentsChangesMessage);
+        logger.LogMessages.Should().NotContain(DocumentsChangesMessage);
     }
 
 
     public void ThenLogWrittenWithEachEventEntityId()
     {
-        foreach (var document in _changeFeedEvents)
+        foreach (var document in changeFeedEvents)
         {
-            _logger.LogMessages.Should().Contain($"{DocumentReadMessage} {document.EntityId}");
+            logger.LogMessages.Should().Contain($"{DocumentReadMessage} {document.EntityId}");
         }
     }
 
 
     public void ThenNoLogsWrittenWithEventEntityIds()
     {
-        _logger.LogMessages.Should().NotContain(DocumentReadMessage);
+        logger.LogMessages.Should().NotContain(DocumentReadMessage);
     }
 }
