@@ -177,7 +177,7 @@ public class Menu : AggregateRoot<Guid>
 
     public string Name { get; private set; }
 
-    public Guid TenantId { get; private set; }
+    public Guid TenantId { get; set; }
 
     public string Description { get; private set; }
 

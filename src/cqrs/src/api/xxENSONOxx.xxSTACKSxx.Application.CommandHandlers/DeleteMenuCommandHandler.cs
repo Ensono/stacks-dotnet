@@ -18,12 +18,6 @@ public class DeleteMenuCommandHandler(IMenuRepository repository, IApplicationEv
         if (menu == null)
             MenuDoesNotExistException.Raise(command, command.MenuId);
 
-        // TODO: Check if the user owns the resource before any operation
-        // if(command.User.TenantId != menu.TenantId)
-        // {
-        //     throw NotAuthorizedException()
-        // }
-
         var successful = await repository.DeleteAsync(command.MenuId);
 
         if (!successful)

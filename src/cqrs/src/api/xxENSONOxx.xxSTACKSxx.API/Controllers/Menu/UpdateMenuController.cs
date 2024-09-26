@@ -7,7 +7,7 @@ using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 
 /// <summary>
 /// Menu related operations
@@ -19,8 +19,7 @@ namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
 public class UpdateMenuController(ICommandHandler<UpdateMenu, bool> commandHandler) : ApiControllerBase
 {
     readonly ICommandHandler<UpdateMenu, bool> commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-
-
+    
     /// <summary>
     /// Update a menu
     /// </summary>
@@ -34,10 +33,8 @@ public class UpdateMenuController(ICommandHandler<UpdateMenu, bool> commandHandl
     [Authorize]
     public async Task<IActionResult> UpdateMenu([FromRoute][Required] Guid id, [FromBody] UpdateMenuRequest body)
     {
-        // NOTE: Please ensure the API returns the response codes annotated above
-
         await commandHandler.HandleAsync(
-            new UpdateMenu()
+            new UpdateMenu
             {
                 MenuId = id,
                 Name = body.Name,

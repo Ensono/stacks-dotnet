@@ -9,6 +9,7 @@ using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Abstractions.Queries;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
+using xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 
 namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers;
