@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -50,7 +51,7 @@ public static class DependencyRegistration
 #if EventPublisherServiceBus
         services.Configure<xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration.ServiceBusConfiguration>(configuration.GetSection("ServiceBusConfiguration"));
         services.AddServiceBus();
-        services.AddTransient<IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
+        services.AddTransient<xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents.IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
 #elif EventPublisherEventHub
         services.Configure<EventHubConfiguration>(configuration.GetSection("EventHubConfiguration"));
         services.AddEventHub();
@@ -60,8 +61,8 @@ public static class DependencyRegistration
         services.AddTransient<IApplicationEventPublisher, SnsEventPublisher>();
 #elif EventPublisherNone
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
-#elif EventPublisherNone
-        services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
+#else
+        services.AddTransient<xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents.IApplicationEventPublisher, DummyEventPublisher>();
 #endif
 
 #if CosmosDb
