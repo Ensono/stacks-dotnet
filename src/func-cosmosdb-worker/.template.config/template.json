@@ -29,8 +29,6 @@
 				".gitignore",
 				".gitattributes",
                 "src/func-cosmosdb-worker/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**"
             ],

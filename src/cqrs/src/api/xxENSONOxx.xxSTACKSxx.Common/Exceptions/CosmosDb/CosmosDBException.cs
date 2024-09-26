@@ -1,6 +1,5 @@
 #if CosmosDb
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Exceptions;
 
 namespace xxENSONOxx.xxSTACKSxx.Common.Exceptions.CosmosDb;
 

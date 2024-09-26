@@ -34,7 +34,4 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <FunctionsPreservedDependencies Include="Microsoft.Extensions.DependencyModel.dll" />
-  </ItemGroup>
 </Project>

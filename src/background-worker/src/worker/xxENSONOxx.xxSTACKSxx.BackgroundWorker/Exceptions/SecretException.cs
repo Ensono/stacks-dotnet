@@ -1,5 +1,5 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Exceptions;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.Exceptions
 {

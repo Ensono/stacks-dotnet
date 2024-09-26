@@ -51,6 +51,7 @@ dotnet new stacks-cqrs -n Cqrs.AllTheThings -do Menu --cloudProvider Azure --cic
 dotnet new stacks-cqrs -n Cqrs.ServiceBus -do Menu --cloudProvider Azure --cicdProvider AZDO -e ServiceBus
 dotnet new stacks-cqrs -n Cqrs.Dynamo -do Menu --cloudProvider AWS -db DynamoDb  
 dotnet new stacks-cqrs -n Cqrs.Sns -do Menu --cloudProvider AWS -e AwsSns
+dotnet new stacks-cqrs -n Cqrs.EventHub -do Menu --cloudProvider GCP --cicdProvider GHA -db DynamoDb -e EventHub
 
 # Test the Simple.Api project
 cd $TEST_TEMPLATES_DIRECTORY/Simple.Api/src/simple-api/src/api

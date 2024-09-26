@@ -1,5 +1,5 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Exceptions;
+using xxENSONOxx.xxSTACKSxx.Common.Exceptions;
 
 namespace xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 
