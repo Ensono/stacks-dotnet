@@ -114,7 +114,7 @@ $projects | ForEach-Object {
     if ($GenerateExpectedTrees) {
         Write-Output "Generating expected directory tree for $($project.Name)"
         Push-Location -Path ($project.Name)
-        tree -a > $PSScriptRoot/expected-trees/$($project.Name).tree
+        tree -a --noreport > $PSScriptRoot/expected-trees/$($project.Name).tree
         Pop-Location
     }
 }

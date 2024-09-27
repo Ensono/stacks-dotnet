@@ -105,5 +105,3 @@
 │               └── EventHub.Listener.Listener.sln
 ├── stackscli.yml
 └── taskctl.yaml
-
-32 directories, 75 files

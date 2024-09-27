@@ -620,5 +620,3 @@
 │       └── NuGet.config
 ├── stackscli.yml
 └── taskctl.yaml
-
-142 directories, 480 files

@@ -52,8 +52,6 @@ stages:
             displayName: 'Update: Build Number'
           
           - pwsh: |
-              ls $(self_repo)
-              tree $(self_repo)
               dotnet workload install aspire
               $(self_repo)/scripts/test-templates.ps1
             displayName: 'Test Templates'
