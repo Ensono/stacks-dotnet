@@ -384,7 +384,7 @@ Now that you have your cloud services all set, you can point the API project to 
 }
 ```
 
-The `SecurityKeySecret` and `ConnectionStringSecret` sections are needed because of our use of the `Ensono.Stacks.Configuration` package. `COSMOSDB_KEY`, `SERVICEBUS_CONNECTIONSTRING`, `EVENTHUB_CONNECTIONSTRING` or `TOPIC_ARN` have to be set before you can run the project. If you want to debug the solution with VSCode you usually have a `launch.json` file. In that file there's an `env` section where you can put environment variables for the current session.
+The `SecurityKeySecret` and `ConnectionStringSecret` sections are needed because of our use of references to secrets in configuration. `COSMOSDB_KEY`, `SERVICEBUS_CONNECTIONSTRING`, `EVENTHUB_CONNECTIONSTRING` or `TOPIC_ARN` have to be set before you can run the project. If you want to debug the solution with VSCode you usually have a `launch.json` file. In that file there's an `env` section where you can put environment variables for the current session.
 
 ```json
 "env": {

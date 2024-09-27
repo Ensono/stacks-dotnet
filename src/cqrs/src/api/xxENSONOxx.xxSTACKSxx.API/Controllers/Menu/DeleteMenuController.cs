@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 
 /// <summary>
 /// Menu related operations
@@ -31,8 +31,6 @@ public class DeleteMenuController(ICommandHandler<DeleteMenu, bool> commandHandl
     [Authorize]
     public async Task<IActionResult> DeleteMenu([FromRoute][Required] Guid id)
     {
-        // NOTE: Please ensure the API returns the response codes annotated above
-
         await commandHandler.HandleAsync(new DeleteMenu(id));
         return StatusCode(204);
     }

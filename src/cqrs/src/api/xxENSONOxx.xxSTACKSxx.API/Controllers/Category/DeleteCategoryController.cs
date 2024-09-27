@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Category;
 
 /// <summary>
 /// Category related operations

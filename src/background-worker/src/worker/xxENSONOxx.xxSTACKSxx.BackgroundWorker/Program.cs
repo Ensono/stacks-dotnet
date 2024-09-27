@@ -9,9 +9,9 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.Extensions;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.Handlers;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 
 var host = new HostBuilder()

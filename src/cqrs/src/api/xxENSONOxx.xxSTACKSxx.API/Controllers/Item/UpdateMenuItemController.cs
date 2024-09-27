@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Item;
 
 /// <summary>
 /// Item related operations

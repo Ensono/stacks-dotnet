@@ -7,10 +7,10 @@ using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Logging;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 

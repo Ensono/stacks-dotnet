@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.Commands;
+using NotifyCommand = xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands.NotifyCommand;
+using NotifyEvent = xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events.NotifyEvent;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Routers;
 
@@ -22,16 +22,16 @@ public class FallbackMessageRouterTests
     ServiceBusConfiguration config;
     IServiceCollection services;
 
-    List<ISenderClient> senderClients = new List<ISenderClient>();
+    List<ISenderClient> senderClients = new();
 
     public FallbackMessageRouterTests()
     {
-        config = new ServiceBusConfiguration()
+        config = new ServiceBusConfiguration
         {
             Sender = new ServiceBusSenderConfiguration
             {
-                Topics = new[]
-                {
+                Topics =
+                [
                     new ServiceBusTopicConfiguration
                     {
                         Alias = "a",
@@ -42,9 +42,9 @@ public class FallbackMessageRouterTests
                         Alias = "b",
                         Name = "BETA"
                     }
-                },
-                Queues = new[]
-                {
+                ],
+                Queues =
+                [
                     new ServiceBusQueueConfiguration
                     {
                         Alias = "c",
@@ -55,24 +55,24 @@ public class FallbackMessageRouterTests
                         Alias = "d",
                         Name = "DELTA"
                     }
-                },
+                ],
                 Routing = new MessageRoutingConfiguration
                 {
-                    Topics = new[]
-                    {
+                    Topics =
+                    [
                         new MessageRoutingTopicRouterConfiguration
                         {
                             Strategy = "fallback",
-                            SendTo = new [] {  "b", "a", "b" }
-                        },
-                    },
-                    Queues = new[]
-                    {
+                            SendTo = ["b", "a", "b"]
+                        }
+                    ],
+                    Queues =
+                    [
                         new MessageRoutingQueueRouterConfiguration
                         {
-                            SendTo = new [] { "c", "d", "c" }
-                        },
-                    },
+                            SendTo = ["c", "d", "c"]
+                        }
+                    ],
                 }
             }
         };
@@ -89,8 +89,8 @@ public class FallbackMessageRouterTests
 
         services = new ServiceCollection()
                 .AddLogging()
-                .AddTransient<IOptions<ServiceBusConfiguration>>((b) => Options.Create<ServiceBusConfiguration>(config))
-                .AddSingleton<IMessageSenderClientFactory>(senderFactory)
+                .AddTransient((b) => Options.Create<ServiceBusConfiguration>(config))
+                .AddSingleton(senderFactory)
             ;
     }
 

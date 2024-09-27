@@ -1,11 +1,10 @@
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Common.Exceptions;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CommandHandlers;
 
@@ -18,12 +17,6 @@ public class DeleteMenuCommandHandler(IMenuRepository repository, IApplicationEv
 
         if (menu == null)
             MenuDoesNotExistException.Raise(command, command.MenuId);
-
-        // TODO: Check if the user owns the resource before any operation
-        // if(command.User.TenantId != menu.TenantId)
-        // {
-        //     throw NotAuthorizedException()
-        // }
 
         var successful = await repository.DeleteAsync(command.MenuId);
 

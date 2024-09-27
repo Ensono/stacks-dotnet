@@ -35,9 +35,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
-    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands.csproj" />
-    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events.csproj" />
-    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

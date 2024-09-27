@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.Handlers;
 
