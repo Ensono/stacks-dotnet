@@ -1,63 +1,148 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using Xunit;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Doubles;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
 
 [Trait("TestType", "UnitTests")]
-public class ChangeFeedListenerTests
+public class ChangeFeedListenerUnitTests
 {
+    private const string DocumentsChangesMessage = "Documents modified";
+    private const string DocumentReadMessage = "Document read. Id:";
+
+    private readonly Random random;
+    private readonly IFixture autoFixture;
     private readonly IApplicationEventPublisher appEventPublisher;
-    private readonly ILogger<ChangeFeedListener> logger;
+    private readonly MockLogger<CosmosDbChangeFeedListener> logger;
+    private readonly CosmosDbChangeFeedListener systemUnderTest;
 
-    public ChangeFeedListenerTests()
+
+    public ChangeFeedListenerUnitTests()
     {
+        random = new Random();
+        autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
         appEventPublisher = Substitute.For<IApplicationEventPublisher>();
-        logger = Substitute.For<ILogger<ChangeFeedListener>>();
+        logger = new MockLogger<CosmosDbChangeFeedListener>();
+        systemUnderTest = new CosmosDbChangeFeedListener(appEventPublisher, logger);
     }
+
 
     [Fact]
-    public void TestExecution()
+    public void Run_ShouldPublishApplicationEvents_WhenTriggerHasChangeFeedEvents()
     {
-        var changeFeedListener = new ChangeFeedListener(appEventPublisher, logger);
+        // Arrange
+        var changeFeedEventsCount = random.Next(1, 11);
+        var changeFeedEvents = autoFixture.CreateMany<CosmosDbChangeFeedEvent>(changeFeedEventsCount).ToList();
 
-        var trigger = GetDocuments(3);
+        // Act
+        systemUnderTest.Run(changeFeedEvents);
 
-        changeFeedListener.Run(trigger);
-
-        appEventPublisher.Received(3).PublishAsync(Arg.Any<IApplicationEvent>());
+        // Assert
+        appEventPublisher
+            .Received(changeFeedEventsCount)
+            .PublishAsync(Arg.Any<IApplicationEvent>());
     }
+
 
     [Fact]
-    public void TestExecution_EmptyList()
+    public void Run_ShouldLogApplicationEvents_WhenTriggerHasChangeFeedEvents()
     {
-        var changeFeedListener = new ChangeFeedListener(appEventPublisher, logger);
+        // Arrange
+        var changeFeedEventsCount = random.Next(1, 11);
+        var changeFeedEvents = autoFixture.CreateMany<CosmosDbChangeFeedEvent>(changeFeedEventsCount).ToList();
 
-        var trigger = GetDocuments(0);
+        // Act
+        systemUnderTest.Run(changeFeedEvents);
 
-        changeFeedListener.Run(trigger);
+        // Assert
+        logger.LogMessages.Should().Contain($"{DocumentsChangesMessage} {changeFeedEventsCount}");
 
-        appEventPublisher.Received(0).PublishAsync(Arg.Any<IApplicationEvent>());
+        logger.LogMessages
+            .Count(msg => msg.StartsWith(DocumentReadMessage))
+            .Should().Be(changeFeedEventsCount);
     }
 
-    private IReadOnlyList<CosmosDbChangeFeedEvent> GetDocuments(int quantity)
-    {
-        var result = new List<CosmosDbChangeFeedEvent>();
 
-        for (int i = 0; i < quantity; i++)
+    [Fact]
+    public void Run_ShouldPublishApplicationEventsWithExpectedValues_WhenTriggerHasChangeFeedEvents()
+    {
+        // Arrange
+        var changeFeedEvent = autoFixture.Create<CosmosDbChangeFeedEvent>();
+        var triggerDocuments = new List<CosmosDbChangeFeedEvent> { changeFeedEvent };
+
+        // Act
+        systemUnderTest.Run(triggerDocuments);
+
+        // Assert
+        appEventPublisher.Received(1).PublishAsync(Arg.Is<CosmosDbChangeFeedEvent>(
+            e => e.EventCode == changeFeedEvent.EventCode
+                 && e.OperationCode == changeFeedEvent.OperationCode
+                 && e.CorrelationId == changeFeedEvent.CorrelationId
+                 && e.EntityId == changeFeedEvent.EntityId
+                 && e.ETag == changeFeedEvent.ETag
+        ));
+    }
+
+
+    [Fact]
+    public void Run_ShouldLogApplicationEventsWithExpectedValues_WhenTriggerHasChangeFeedEvents()
+    {
+        // Arrange
+        var changeFeedEventsCount = autoFixture.Create<int>();
+        var changeFeedEvents = autoFixture.CreateMany<CosmosDbChangeFeedEvent>(changeFeedEventsCount).ToList();
+
+        // Act
+        systemUnderTest.Run(changeFeedEvents);
+
+        // Assert
+        foreach (var document in changeFeedEvents)
         {
-            var id = Guid.NewGuid();
-            result.Add(new CosmosDbChangeFeedEvent(
-                operationCode: 101,
-                correlationId: id,
-                entityId: id,
-                eTag: Guid.NewGuid().ToString()));
+            logger.LogMessages.Should().Contain($"{DocumentReadMessage} {document.EntityId}");
         }
+    }
 
-        return result;
+
+    [Fact]
+    public void Run_ShouldNotPublishApplicationEvents_WhenTriggerHasNoChangeFeedEvents()
+    {
+        // Act
+        systemUnderTest.Run(new List<CosmosDbChangeFeedEvent>());
+
+        // Assert
+        appEventPublisher.DidNotReceive().PublishAsync(Arg.Any<CosmosDbChangeFeedEvent>());
+    }
+
+
+    [Fact]
+    public void Run_ShouldNotLogApplicationEvents_WhenTriggerHasNoChangeFeedEvents()
+    {
+        // Act
+        systemUnderTest.Run(new List<CosmosDbChangeFeedEvent>());
+
+        // Assert
+        logger.LogMessages.Should().NotContain(msg => msg.StartsWith(DocumentsChangesMessage));
+        logger.LogMessages.Should().NotContain(msg => msg.StartsWith(DocumentsChangesMessage));
+    }
+
+
+    [Fact]
+    public void Run_ShouldNotPublishApplicationEvents_WhenTriggerChangeFeedEventsIsNull()
+    {
+        // Act
+        systemUnderTest.Run(null);
+
+        // Assert
+        appEventPublisher.DidNotReceive().PublishAsync(Arg.Any<CosmosDbChangeFeedEvent>());
+    }
+
+
+    [Fact]
+    public void Run_ShouldNotLogApplicationEvents_WhenTriggerChangeFeedEventsIsNull()
+    {
+        // Act
+        systemUnderTest.Run(null);
+
+        // Assert
+        logger.LogMessages.Should().NotContain(msg => msg.StartsWith(DocumentsChangesMessage));
+        logger.LogMessages.Should().NotContain(msg => msg.StartsWith(DocumentsChangesMessage));
     }
 }
