@@ -1,6 +1,7 @@
 ﻿#if CosmosDb
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 using AutoFixture;
@@ -47,7 +48,7 @@ public class HandlerTests
     #region CREATE
 
     [Theory, AutoData]
-    public async void CreateMenuCommandHandler_HandleAsync(CreateMenu command)
+    public async Task CreateMenuCommandHandler_HandleAsync(CreateMenu command)
     {
         // Arrange
         var handler = new CreateMenuCommandHandler(menuRepo, eventPublisher);
@@ -63,7 +64,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void CreateCategoryCommandHandler_HandleAsync(Domain.Menu menu, CreateCategory command)
+    public async Task CreateCategoryCommandHandler_HandleAsync(Domain.Menu menu, CreateCategory command)
     {
         // Arrange
         var handler = new CreateCategoryCommandHandler(menuRepo, eventPublisher);
@@ -76,7 +77,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void CreateMenuItemCommandHandler_HandleAsync(Domain.Menu menu, CreateMenuItem command)
+    public async Task CreateMenuItemCommandHandler_HandleAsync(Domain.Menu menu, CreateMenuItem command)
     {
         // Arrange
         var handler = new CreateMenuItemCommandHandler(menuRepo, eventPublisher);
@@ -94,7 +95,7 @@ public class HandlerTests
     #region DELETE
 
     [Theory, AutoData]
-    public async void DeleteMenuCommandHandler_HandleAsync(Domain.Menu menu, DeleteMenu command)
+    public async Task DeleteMenuCommandHandler_HandleAsync(Domain.Menu menu, DeleteMenu command)
     {
         // Arrange
         menuRepo.GetByIdAsync(Arg.Any<Guid>()).Returns(menu);
@@ -114,7 +115,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void DeleteMenuCommandHandler_HandleAsync_MenuMissing_ShouldThrow(DeleteMenu command)
+    public async Task DeleteMenuCommandHandler_HandleAsync_MenuMissing_ShouldThrow(DeleteMenu command)
     {
         // Arrange
         var handler = fixture.Create<DeleteMenuCommandHandler>();
@@ -127,7 +128,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void DeleteMenuCommandHandler_HandleAsync_NotSuccessful_ShouldThrow(Domain.Menu menu, DeleteMenu command)
+    public async Task DeleteMenuCommandHandler_HandleAsync_NotSuccessful_ShouldThrow(Domain.Menu menu, DeleteMenu command)
     {
         // Arrange
         menuRepo.GetByIdAsync(Arg.Any<Guid>()).Returns(menu);
@@ -146,7 +147,7 @@ public class HandlerTests
     #region UPDATE
 
     [Theory, AutoData]
-    public async void UpdateMenuCommandHandler_HandleAsync(Domain.Menu menu, UpdateMenu command)
+    public async Task UpdateMenuCommandHandler_HandleAsync(Domain.Menu menu, UpdateMenu command)
     {
         // Arrange
         var handler = new UpdateMenuCommandHandler(menuRepo, eventPublisher);
@@ -160,7 +161,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void UpdateCategoryCommandHandler_HandleAsync(Domain.Menu menu, UpdateCategory command)
+    public async Task UpdateCategoryCommandHandler_HandleAsync(Domain.Menu menu, UpdateCategory command)
     {
         // Arrange
         var handler = new UpdateCategoryCommandHandler(menuRepo, eventPublisher);
@@ -175,7 +176,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void UpdateMenuItemCommandHandler_HandleAsync(Domain.Menu menu, UpdateMenuItem command)
+    public async Task UpdateMenuItemCommandHandler_HandleAsync(Domain.Menu menu, UpdateMenuItem command)
     {
         // Arrange
         var handler = new UpdateMenuItemCommandHandler(menuRepo, eventPublisher);
@@ -192,7 +193,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void UpdateCategoryCommandHandler_HandleAsync_NoCategory_ShouldThrow(Domain.Menu menu, UpdateCategory command)
+    public async Task UpdateCategoryCommandHandler_HandleAsync_NoCategory_ShouldThrow(Domain.Menu menu, UpdateCategory command)
     {
         // Arrange
         var handler = new UpdateCategoryCommandHandler(menuRepo, eventPublisher);
@@ -203,7 +204,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void UpdateMenuItemCommandHandler_HandleAsync_NoMenuItem_ShouldThrow(Domain.Menu menu, UpdateMenuItem command)
+    public async Task UpdateMenuItemCommandHandler_HandleAsync_NoMenuItem_ShouldThrow(Domain.Menu menu, UpdateMenuItem command)
     {
         // Arrange
         var handler = new UpdateMenuItemCommandHandler(menuRepo, eventPublisher);
@@ -219,7 +220,7 @@ public class HandlerTests
     #region QUERIES
 
     [Theory, AutoData]
-    public async void GetMenuByIdQueryHandler_ExecuteAsync(Domain.Menu menu, GetMenuById criteria)
+    public async Task GetMenuByIdQueryHandler_ExecuteAsync(Domain.Menu menu, GetMenuById criteria)
     {
         // Arrange
         menuRepo.GetByIdAsync(Arg.Any<Guid>()).Returns(menu);
@@ -235,7 +236,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void GetMenuByIdQueryHandler_ExecuteAsync_NoMenu_ReturnNull(GetMenuById criteria)
+    public async Task GetMenuByIdQueryHandler_ExecuteAsync_NoMenu_ReturnNull(GetMenuById criteria)
     {
         // Arrange
         var handler = new GetMenuByIdQueryHandler(menuRepo);
@@ -249,7 +250,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void SearchMenuQueryHandler_ExecuteAsync(SearchMenu criteria, OperationResult<IEnumerable<Domain.Menu>> operationResult)
+    public async Task SearchMenuQueryHandler_ExecuteAsync(SearchMenu criteria, OperationResult<IEnumerable<Domain.Menu>> operationResult)
     {
         // Arrange
         storage.Search(
@@ -275,7 +276,7 @@ public class HandlerTests
     }
 
     [Fact]
-    public async void SearchMenuQueryHandler_ExecuteAsync_NoCriteria_ShouldThrow()
+    public async Task SearchMenuQueryHandler_ExecuteAsync_NoCriteria_ShouldThrow()
     {
         // Arrange
         var handler = new SearchMenuQueryHandler(storage);
@@ -286,7 +287,7 @@ public class HandlerTests
     }
 
     [Theory, AutoData]
-    public async void SearchMenuQueryHandler_ExecuteAsync_NotSuccessful(SearchMenu criteria)
+    public async Task SearchMenuQueryHandler_ExecuteAsync_NotSuccessful(SearchMenu criteria)
     {
         // Arrange
         var operationResult = new OperationResult<IEnumerable<Domain.Menu>>(false, null, null);
