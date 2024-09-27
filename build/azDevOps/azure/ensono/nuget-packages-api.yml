@@ -50,6 +50,11 @@ stages:
           - bash: |
               echo '##vso[build.updatebuildnumber]${{ variables.version_number }}'
             displayName: 'Update: Build Number'
+          
+          - pwsh: |
+              ls
+              ./scripts/test-templates.ps1
+            displayName: 'Test Templates'
 
           # Copy the files into the correct place for packaging
           - task: Bash@3
