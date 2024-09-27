@@ -6,7 +6,7 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests;
 
 public static class Configuration
 {
-    private readonly static Lazy<IConfiguration> configuration = new Lazy<IConfiguration>(LoadConfiguration);
+    private static readonly Lazy<IConfiguration> configuration = new(LoadConfiguration);
 
     public static IConfiguration Root => configuration.Value;
 
