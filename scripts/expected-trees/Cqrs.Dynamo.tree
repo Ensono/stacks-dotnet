@@ -88,7 +88,6 @@
 │   │       │   │   │       ├── CreateMenuController.cs
 │   │       │   │   │       ├── DeleteMenuController.cs
 │   │       │   │   │       ├── GetMenuByIdController.cs
-│   │       │   │   │       ├── GetMenuByIdV2Controller.cs
 │   │       │   │   │       ├── SearchMenuController.cs
 │   │       │   │   │       └── UpdateMenuController.cs
 │   │       │   │   ├── Cqrs.Dynamo.API.csproj
@@ -122,17 +121,16 @@
 │   │       │   │   ├── Cqrs.Dynamo.API.ComponentTests.csproj
 │   │       │   │   ├── Features
 │   │       │   │   │   ├── CreateMenuFeature.cs
-│   │       │   │   │   ├── DeleteMenuFeature.cs
-│   │       │   │   │   └── UpdateMenuFeature.cs
+│   │       │   │   │   └── DeleteMenuFeature.cs
 │   │       │   │   ├── Fixtures
 │   │       │   │   │   ├── ApiClientFixture.cs
-│   │       │   │   │   ├── AuthTokenFixture.cs
-│   │       │   │   │   └── CreateMenuFixture.cs
+│   │       │   │   │   ├── CreateMenuFixture.cs
+│   │       │   │   │   └── DeleteMenuFixture.cs
 │   │       │   │   └── Setup
 │   │       │   │       ├── ApiFixture.cs
+│   │       │   │       ├── Configuration.cs
 │   │       │   │       ├── CustomAutoDataAttribute.cs
-│   │       │   │       ├── CustomInlineAutoDataAttribute.cs
-│   │       │   │       └── WebAppFactory.cs
+│   │       │   │       └── DotEnv.cs
 │   │       │   ├── Cqrs.Dynamo.API.UnitTests
 │   │       │   │   ├── Controllers
 │   │       │   │   │   ├── AddMenuCategoryControllerTests.cs
@@ -143,7 +141,6 @@
 │   │       │   │   │   ├── DeleteMenuControllerTests.cs
 │   │       │   │   │   ├── DeleteMenuItemControllerTests.cs
 │   │       │   │   │   ├── GetMenuByIdControllerTests.cs
-│   │       │   │   │   ├── GetMenuByIdV2ControllerTests.cs
 │   │       │   │   │   ├── SearchMenuControllerTests.cs
 │   │       │   │   │   ├── UpdateMenuCategoryControllerTests.cs
 │   │       │   │   │   ├── UpdateMenuControllerTests.cs
@@ -249,13 +246,18 @@
 │   │       │   │   ├── Events
 │   │       │   │   │   └── EventCode.cs
 │   │       │   │   ├── Exceptions
+│   │       │   │   │   ├── ApplicationExceptionBase.cs
+│   │       │   │   │   ├── DomainExceptionBase.cs
 │   │       │   │   │   ├── DomainRuleViolationException.cs
 │   │       │   │   │   ├── ExceptionCodeToHttpStatusCodeConverter.cs
+│   │       │   │   │   ├── IException.cs
+│   │       │   │   │   ├── InfrastructureExceptionBase.cs
 │   │       │   │   │   ├── MenuAlreadyExistsException.cs
 │   │       │   │   │   ├── MenuDoesNotExistException.cs
 │   │       │   │   │   ├── OperationFailedException.cs
 │   │       │   │   │   └── _ExceptionCode.cs
 │   │       │   │   └── Operations
+│   │       │   │       ├── IOperationContext.cs
 │   │       │   │       └── OperationCode.cs
 │   │       │   ├── Cqrs.Dynamo.Common.UnitTests
 │   │       │   │   ├── Cqrs.Dynamo.Common.UnitTests.csproj
@@ -417,23 +419,6 @@
 │   │               └── Cqrs.Dynamo.API.FunctionalTests.sln
 │   └── shared
 │       ├── .editorconfig
-│       ├── Cqrs.Dynamo.Shared.Core
-│       │   ├── Cqrs.Dynamo.Shared.Core.csproj
-│       │   ├── Exceptions
-│       │   │   ├── ApplicationExceptionBase.cs
-│       │   │   ├── DomainExceptionBase.cs
-│       │   │   ├── IException.cs
-│       │   │   └── InfrastructureExceptionBase.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
-│       │   ├── Security
-│       │   │   └── User.cs
-│       │   └── Time
-│       │       └── SystemClock.cs
-│       ├── Cqrs.Dynamo.Shared.Core.Tests
-│       │   ├── Cqrs.Dynamo.Shared.Core.Tests.csproj
-│       │   └── Time
-│       │       └── SystemClockTests.cs
 │       ├── Cqrs.Dynamo.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
 │       │   │   ├── ApplicationEvents
@@ -450,6 +435,8 @@
 │       │   ├── Cqrs.Dynamo.Shared.Messaging.Azure.ServiceBus.csproj
 │       │   ├── Exceptions
 │       │   │   ├── ExceptionIds.cs
+│       │   │   ├── IException.cs
+│       │   │   ├── InfrastructureExceptionBase.cs
 │       │   │   ├── InvalidMessageBodyException.cs
 │       │   │   ├── InvalidSecretDefinitionException.cs
 │       │   │   ├── InvalidSecretSourceException.cs
@@ -499,6 +486,8 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs
@@ -579,4 +568,4 @@
 ├── stackscli.yml
 └── taskctl.yaml
 
-139 directories, 441 files
+133 directories, 436 files

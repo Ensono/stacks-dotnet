@@ -68,24 +68,6 @@
 │       ├── 2-promote-image.sh
 │       └── 3-helm-upgrade.sh
 ├── src
-│   ├── shared
-│   │   ├── Simple.Api.Azure.Shared.Core
-│   │   │   ├── Exceptions
-│   │   │   │   ├── ApplicationExceptionBase.cs
-│   │   │   │   ├── DomainExceptionBase.cs
-│   │   │   │   ├── IException.cs
-│   │   │   │   └── InfrastructureExceptionBase.cs
-│   │   │   ├── Operations
-│   │   │   │   └── IOperationContext.cs
-│   │   │   ├── Security
-│   │   │   │   └── User.cs
-│   │   │   ├── Simple.Api.Azure.Shared.Core.csproj
-│   │   │   └── Time
-│   │   │       └── SystemClock.cs
-│   │   └── Simple.Api.Azure.Shared.Core.Tests
-│   │       ├── Simple.Api.Azure.Shared.Core.Tests.csproj
-│   │       └── Time
-│   │           └── SystemClockTests.cs
 │   └── simple-api
 │       ├── contracts
 │       │   ├── openapi-v1-generated.json
@@ -130,6 +112,10 @@
 │           │   │   │       ├── GetMenuByIdV2Controller.cs
 │           │   │   │       ├── SearchMenuController.cs
 │           │   │   │       └── UpdateMenuController.cs
+│           │   │   ├── Exceptions
+│           │   │   │   ├── ApplicationExceptionBase.cs
+│           │   │   │   ├── IException.cs
+│           │   │   │   └── InfrastructureExceptionBase.cs
 │           │   │   ├── Filters
 │           │   │   │   ├── SwaggerDocumentTagger.cs
 │           │   │   │   └── VersionPathFilter.cs
@@ -140,6 +126,8 @@
 │           │   │   ├── Models
 │           │   │   │   └── Responses
 │           │   │   │       └── BadResult.cs
+│           │   │   ├── Operations
+│           │   │   │   └── IOperationContext.cs
 │           │   │   ├── Program.cs
 │           │   │   ├── Simple.Api.Azure.API.csproj
 │           │   │   └── appsettings.json
@@ -266,4 +254,4 @@
 ├── stackscli.yml
 └── taskctl.yaml
 
-71 directories, 196 files
+65 directories, 190 files

@@ -106,7 +106,6 @@
 │   │       │   │   │       ├── CreateMenuController.cs
 │   │       │   │   │       ├── DeleteMenuController.cs
 │   │       │   │   │       ├── GetMenuByIdController.cs
-│   │       │   │   │       ├── GetMenuByIdV2Controller.cs
 │   │       │   │   │       ├── SearchMenuController.cs
 │   │       │   │   │       └── UpdateMenuController.cs
 │   │       │   │   ├── Cqrs.AllTheThings.API.csproj
@@ -141,18 +140,17 @@
 │   │       │   │   ├── Features
 │   │       │   │   │   ├── CreateCategoryFeature.cs
 │   │       │   │   │   ├── CreateMenuFeature.cs
-│   │       │   │   │   ├── DeleteMenuFeature.cs
-│   │       │   │   │   └── UpdateMenuFeature.cs
+│   │       │   │   │   └── DeleteMenuFeature.cs
 │   │       │   │   ├── Fixtures
 │   │       │   │   │   ├── ApiClientFixture.cs
-│   │       │   │   │   ├── AuthTokenFixture.cs
 │   │       │   │   │   ├── CreateCategoryFixture.cs
-│   │       │   │   │   └── CreateMenuFixture.cs
+│   │       │   │   │   ├── CreateMenuFixture.cs
+│   │       │   │   │   └── DeleteMenuFixture.cs
 │   │       │   │   └── Setup
 │   │       │   │       ├── ApiFixture.cs
+│   │       │   │       ├── Configuration.cs
 │   │       │   │       ├── CustomAutoDataAttribute.cs
-│   │       │   │       ├── CustomInlineAutoDataAttribute.cs
-│   │       │   │       └── WebAppFactory.cs
+│   │       │   │       └── DotEnv.cs
 │   │       │   ├── Cqrs.AllTheThings.API.UnitTests
 │   │       │   │   ├── Controllers
 │   │       │   │   │   ├── AddMenuCategoryControllerTests.cs
@@ -163,7 +161,6 @@
 │   │       │   │   │   ├── DeleteMenuControllerTests.cs
 │   │       │   │   │   ├── DeleteMenuItemControllerTests.cs
 │   │       │   │   │   ├── GetMenuByIdControllerTests.cs
-│   │       │   │   │   ├── GetMenuByIdV2ControllerTests.cs
 │   │       │   │   │   ├── SearchMenuControllerTests.cs
 │   │       │   │   │   ├── UpdateMenuCategoryControllerTests.cs
 │   │       │   │   │   ├── UpdateMenuControllerTests.cs
@@ -268,6 +265,7 @@
 │   │       │   │   ├── Events
 │   │       │   │   │   └── EventCode.cs
 │   │       │   │   ├── Exceptions
+│   │       │   │   │   ├── ApplicationExceptionBase.cs
 │   │       │   │   │   ├── CosmosDb
 │   │       │   │   │   │   ├── CosmosDBException.cs
 │   │       │   │   │   │   ├── CosmosDBRequestCapacityExceededException.cs
@@ -280,13 +278,17 @@
 │   │       │   │   │   │   ├── PartitionKeyRequiredException.cs
 │   │       │   │   │   │   ├── ResourceNotFoundException.cs
 │   │       │   │   │   │   └── _ExceptionIds.cs
+│   │       │   │   │   ├── DomainExceptionBase.cs
 │   │       │   │   │   ├── DomainRuleViolationException.cs
 │   │       │   │   │   ├── ExceptionCodeToHttpStatusCodeConverter.cs
+│   │       │   │   │   ├── IException.cs
+│   │       │   │   │   ├── InfrastructureExceptionBase.cs
 │   │       │   │   │   ├── MenuAlreadyExistsException.cs
 │   │       │   │   │   ├── MenuDoesNotExistException.cs
 │   │       │   │   │   ├── OperationFailedException.cs
 │   │       │   │   │   └── _ExceptionCode.cs
 │   │       │   │   └── Operations
+│   │       │   │       ├── IOperationContext.cs
 │   │       │   │       └── OperationCode.cs
 │   │       │   ├── Cqrs.AllTheThings.Common.UnitTests
 │   │       │   │   ├── Cqrs.AllTheThings.Common.UnitTests.csproj
@@ -458,23 +460,6 @@
 │   │               └── Cqrs.AllTheThings.API.FunctionalTests.sln
 │   └── shared
 │       ├── .editorconfig
-│       ├── Cqrs.AllTheThings.Shared.Core
-│       │   ├── Cqrs.AllTheThings.Shared.Core.csproj
-│       │   ├── Exceptions
-│       │   │   ├── ApplicationExceptionBase.cs
-│       │   │   ├── DomainExceptionBase.cs
-│       │   │   ├── IException.cs
-│       │   │   └── InfrastructureExceptionBase.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
-│       │   ├── Security
-│       │   │   └── User.cs
-│       │   └── Time
-│       │       └── SystemClock.cs
-│       ├── Cqrs.AllTheThings.Shared.Core.Tests
-│       │   ├── Cqrs.AllTheThings.Shared.Core.Tests.csproj
-│       │   └── Time
-│       │       └── SystemClockTests.cs
 │       ├── Cqrs.AllTheThings.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
 │       │   │   ├── ApplicationEvents
@@ -491,6 +476,8 @@
 │       │   ├── Cqrs.AllTheThings.Shared.Messaging.Azure.ServiceBus.csproj
 │       │   ├── Exceptions
 │       │   │   ├── ExceptionIds.cs
+│       │   │   ├── IException.cs
+│       │   │   ├── InfrastructureExceptionBase.cs
 │       │   │   ├── InvalidMessageBodyException.cs
 │       │   │   ├── InvalidSecretDefinitionException.cs
 │       │   │   ├── InvalidSecretSourceException.cs
@@ -540,6 +527,8 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs
@@ -620,4 +609,4 @@
 ├── stackscli.yml
 └── taskctl.yaml
 
-145 directories, 476 files
+139 directories, 471 files

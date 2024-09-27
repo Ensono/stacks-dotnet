@@ -80,8 +80,10 @@
 │   │           │   │       └── IApplicationEventPublisher.cs
 │   │           │   ├── Cosmos.Worker.Application.CQRS.Events.csproj
 │   │           │   ├── CosmosDbChangeFeedEvent.cs
-│   │           │   └── Enums
-│   │           │       └── EventCode.cs
+│   │           │   ├── Enums
+│   │           │   │   └── EventCode.cs
+│   │           │   └── Operations
+│   │           │       └── IOperationContext.cs
 │   │           ├── Cosmos.Worker.Worker
 │   │           │   ├── ChangeFeedListener.cs
 │   │           │   ├── Constants.cs
@@ -97,23 +99,6 @@
 │   │           ├── Cosmos.Worker.Worker.sln
 │   │           └── Dockerfile
 │   └── shared
-│       ├── Cosmos.Worker.Shared.Core
-│       │   ├── Cosmos.Worker.Shared.Core.csproj
-│       │   ├── Exceptions
-│       │   │   ├── ApplicationExceptionBase.cs
-│       │   │   ├── DomainExceptionBase.cs
-│       │   │   ├── IException.cs
-│       │   │   └── InfrastructureExceptionBase.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
-│       │   ├── Security
-│       │   │   └── User.cs
-│       │   └── Time
-│       │       └── SystemClock.cs
-│       ├── Cosmos.Worker.Shared.Core.Tests
-│       │   ├── Cosmos.Worker.Shared.Core.Tests.csproj
-│       │   └── Time
-│       │       └── SystemClockTests.cs
 │       ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
 │       │   │   ├── ApplicationEvents
@@ -130,6 +115,8 @@
 │       │   ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus.csproj
 │       │   ├── Exceptions
 │       │   │   ├── ExceptionIds.cs
+│       │   │   ├── IException.cs
+│       │   │   ├── InfrastructureExceptionBase.cs
 │       │   │   ├── InvalidMessageBodyException.cs
 │       │   │   ├── InvalidSecretDefinitionException.cs
 │       │   │   ├── InvalidSecretSourceException.cs
@@ -179,6 +166,8 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs
@@ -257,4 +246,4 @@
 ├── stackscli.yml
 └── taskctl.yaml
 
-68 directories, 190 files
+63 directories, 184 files
