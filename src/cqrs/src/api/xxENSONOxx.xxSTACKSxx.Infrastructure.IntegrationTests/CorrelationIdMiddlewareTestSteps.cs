@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -72,7 +73,7 @@ public class CorrelationIdMiddlewareTestSteps
     //  When
     //
 
-    public async void WhenRequestIsSentToTheServer()
+    public async Task WhenRequestIsSentToTheServer()
     {
         var host = await _hostBuilder.StartAsync();
         var testServer = host.GetTestServer();
