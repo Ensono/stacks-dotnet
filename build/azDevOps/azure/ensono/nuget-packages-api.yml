@@ -52,8 +52,8 @@ stages:
             displayName: 'Update: Build Number'
           
           - pwsh: |
-              ls
-              ./scripts/test-templates.ps1
+              ls $(self_repo)
+              $(self_repo)/scripts/test-templates.ps1
             displayName: 'Test Templates'
 
           # Copy the files into the correct place for packaging
