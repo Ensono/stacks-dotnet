@@ -115,9 +115,7 @@
 				"stackscli.yml",
 				".gitignore",
 				".gitattributes",
-				"src/simple-api/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**"
+				"src/simple-api/**"
 			],
 			"exclude": [
 				"**/[Bb]in/**",
@@ -133,7 +131,10 @@
 				"_rels/**",
 				"package/**",
 				"**/*.nuspec",
-				"*Content_Types*.xml"
+				"*Content_Types*.xml",
+				"**/.terraform/**",
+				"**/terraform.tfstate",
+				"**/.terraform.lock.hcl"
 			],
 			"rename": {
 				"_gitignore": ".gitignore",

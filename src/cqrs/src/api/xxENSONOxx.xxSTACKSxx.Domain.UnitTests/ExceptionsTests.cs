@@ -1,7 +1,7 @@
 ﻿using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Exceptions;
 using FluentAssertions;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Common.Exceptions;
 using xxENSONOxx.xxSTACKSxx.Domain.MenuAggregateRoot.Exceptions;
 
 namespace xxENSONOxx.xxSTACKSxx.Domain.UnitTests;

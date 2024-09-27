@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener.UnitTests;
 

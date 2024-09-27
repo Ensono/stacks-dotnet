@@ -29,8 +29,6 @@
 				".gitignore",
 				".gitattributes",
                 "src/func-cosmosdb-worker/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
 				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**"
             ],
@@ -48,6 +46,9 @@
                 "package/**",
                 "**/*.nuspec",
                 "*Content_Types*.xml",
+                "**/.terraform/**",
+                "**/terraform.tfstate",
+                "**/.terraform.lock.hcl",
                 "**/build/azDevOps/aws/**",
                 "**/build/azDevOps/gcp/**",
                 "**/build/azDevOps/azure/ensono/**",
