@@ -206,7 +206,10 @@
 				"_rels/**",
 				"package/**",
 				"**/*.nuspec",
-				"*Content_Types*.xml"
+				"*Content_Types*.xml",
+				"**/.terraform/**",
+				"**/terraform.tfstate",
+				"**/.terraform.lock.hcl"
 			],
 			"rename": {
 				"_gitignore": ".gitignore",
