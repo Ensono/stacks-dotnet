@@ -84,7 +84,7 @@ public class ChangeFeedListenerFixture
 
     public void ThenLogWrittenWithEachEventEntityId()
     {
-        foreach (var document in changeFeedEvents)
+        foreach (var document in changeFeedEvents ?? [])
         {
             logger.LogMessages.Should().Contain($"{DocumentReadMessage} {document.EntityId}");
         }
