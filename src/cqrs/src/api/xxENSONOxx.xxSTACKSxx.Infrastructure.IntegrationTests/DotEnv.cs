@@ -23,8 +23,6 @@ public class DotEnv
         }
         var vars = Read(filePath);
 
-        //TODOs: 
-        //Handle Referenced EnvVars: MAIL_FROM_ADDRESS =${MAIL_USERNAME} or MAIL_FROM_ADDRESS=$(MAIL_USERNAME)
         foreach (var EnvVar in vars)
         {
             Environment.SetEnvironmentVariable(EnvVar.Key, EnvVar.Value);
