@@ -53,7 +53,7 @@ stages:
           
           - pwsh: |
               ls $(self_repo)
-              apt-get install tree
+              sudo apt-get install -y tree
               dotnet workload install aspire
               $(self_repo)/scripts/test-templates.ps1
             displayName: 'Test Templates'
