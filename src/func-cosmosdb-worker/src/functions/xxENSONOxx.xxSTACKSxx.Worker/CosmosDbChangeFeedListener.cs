@@ -12,8 +12,8 @@ public class CosmosDbChangeFeedListener(
     public void Run([CosmosDBTrigger(
         databaseName: "%COSMOSDB_DATABASE_NAME%",
         containerName: "%COSMOSDB_CONTAINER_NAME%",
-        Connection = "COSMOSDB_CONNECTION_STRING",
-        LeaseContainerName = "leases",
+        Connection = "COSMOSDB_CONNECTIONSTRING",
+        LeaseContainerName = "%COSMOSDB_LEASE_COLLECTION_NAME%",
         CreateLeaseContainerIfNotExists  = true)]IReadOnlyList<CosmosDbChangeFeedEvent>? input)
     {
         if (input is { Count: > 0 })
