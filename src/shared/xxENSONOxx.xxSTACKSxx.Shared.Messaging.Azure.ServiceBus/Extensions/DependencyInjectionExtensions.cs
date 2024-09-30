@@ -30,8 +30,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSecretResolver();
             
-            services.AddSingleton<ISecretResolver<string>, SecretResolver>();
-
             var configuration = GetConfiguration(services);
 
             var sendersRegistered = services.AddServiceBusSenders(configuration.Sender);
