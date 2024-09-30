@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <FunctionsEnableWorkerIndexing>false</FunctionsEnableWorkerIndexing>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +47,5 @@
 
   <ItemGroup>
     <FunctionsPreservedDependencies Include="Microsoft.Extensions.DependencyModel.dll" />
-    <FunctionsEnableWorkerIndexing>false</FunctionsEnableWorkerIndexing>
   </ItemGroup>
 </Project>
