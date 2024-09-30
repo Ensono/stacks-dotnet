@@ -46,5 +46,6 @@
 
   <ItemGroup>
     <FunctionsPreservedDependencies Include="Microsoft.Extensions.DependencyModel.dll" />
+    <FunctionsEnableWorkerIndexing>false</FunctionsEnableWorkerIndexing>
   </ItemGroup>
 </Project>
