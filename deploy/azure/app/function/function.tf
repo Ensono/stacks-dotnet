@@ -31,7 +31,7 @@ resource "azurerm_linux_function_app" "function" {
   functions_extension_version = var.az_function_extension_version
 
   app_settings = {
-    COSMOSDB_COLLECTION_NAME       = var.cosmosdb_collection_name
+    COSMOSDB_CONTAINER_NAME        = var.cosmosdb_collection_name
     COSMOSDB_CONNECTIONSTRING      = var.cosmosdb_connection_string
     COSMOSDB_DATABASE_NAME         = var.cosmosdb_database_name
     COSMOSDB_LEASE_COLLECTION_NAME = var.cosmosdb_lease_collection_name
