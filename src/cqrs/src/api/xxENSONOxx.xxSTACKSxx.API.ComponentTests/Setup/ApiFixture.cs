@@ -20,6 +20,10 @@ public abstract class ApiFixture<TEntryPoint> where TEntryPoint : class
 
     protected ApiFixture()
     {
+        #if EventPublisherServiceBus
+        Environment.SetEnvironmentVariable("SERVICEBUS_CONNECTIONSTRING", "Endpoint=sb://FakeServiceBusEnddpoint.net/;SharedAccessKeyName=FakeAccessKeyName;SharedAccessKey=FakeAccessKey");
+        #endif
+        
         WebApplicationFactory<TEntryPoint> webAppFactory = new WebApplicationFactory<TEntryPoint>()
             .WithWebHostBuilder(builder =>
             {
