@@ -1,5 +1,5 @@
 ﻿{
-  "clientId": "123456",
-  "transactionType": "Sale",
-  "transactionId": "7777777"
+    "clientId": "123456",
+    "transactionType": "Sale",
+    "transactionId": "7777777"
 }
