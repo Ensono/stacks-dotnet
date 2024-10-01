@@ -51,6 +51,11 @@ stages:
               echo '##vso[build.updatebuildnumber]${{ variables.version_number }}'
             displayName: 'Update: Build Number'
 
+          - pwsh: |
+              dotnet workload install aspire
+              $(self_repo)/scripts/test-templates.ps1
+            displayName: 'Test Templates'
+
           # Copy the files into the correct place for packaging
           - task: Bash@3
             displayName: Prepare for Packaging
