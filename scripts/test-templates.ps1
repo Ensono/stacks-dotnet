@@ -1,5 +1,6 @@
 param (
     [string]$Branch,
+    [string]$Template,
     [switch]$GenerateExpectedTrees = $false
 )
 
@@ -23,10 +24,10 @@ if (!([string]::IsNullOrEmpty($Branch))) {
 
 if (!$GenerateExpectedTrees) {
     # Change directory to the simple-api project and run the tests
-    Push-Location -Path "$StacksDotnetDirectory/src/simple-api/src/api" && dotnet restore && dotnet test && Pop-Location
+    Push-Location -Path "$StacksDotnetDirectory/src/simple-api/src/api" && dotnet restore && dotnet test --filter TestType!=IntegrationTests && Pop-Location
 
     # Change directory to the cqrs project and run the tests
-    Push-Location -Path "$StacksDotnetDirectory/src/cqrs/src/api" && dotnet restore && dotnet test && Pop-Location
+    Push-Location -Path "$StacksDotnetDirectory/src/cqrs/src/api" && dotnet restore && dotnet test  --filter TestType!=IntegrationTests && Pop-Location
 }
 
 # Install dotnet templates
@@ -110,12 +111,14 @@ Write-Output "Creating test projects"
 Push-Location -Path $TestTemplatesDirectory
 $projects | ForEach-Object {
     $project = $_
-    dotnet new ($project.Template) -n ($project.Name) ($null -eq $project.Arguments ? $null : $project.Arguments.split(' '))
-    if ($GenerateExpectedTrees) {
-        Write-Output "Generating expected directory tree for $($project.Name)"
-        Push-Location -Path ($project.Name)
-        tree -a > $PSScriptRoot/expected-trees/$($project.Name).tree
-        Pop-Location
+    if ([string]::IsNullOrEmpty($Template) -or $($project.Name -eq $Template)) {
+        dotnet new ($project.Template) -n ($project.Name) ($null -eq $project.Arguments ? $null : $project.Arguments.split(' '))
+        if ($GenerateExpectedTrees) {
+            Write-Output "Generating expected directory tree for $($project.Name)"
+            Push-Location -Path ($project.Name)
+            tree -a --noreport > $PSScriptRoot/expected-trees/$($project.Name).tree
+            Pop-Location
+        }
     }
 }
 Pop-Location
@@ -123,22 +126,24 @@ Pop-Location
 if (!$GenerateExpectedTrees) {
     # Test each project
     foreach ($project in $projects) {
-        Write-Output "Testing $($project.Name)"
-        & "$PSScriptRoot/compare-directory-files.ps1" -InputFile "$StacksDotnetDirectory/scripts/expected-trees/$($project.Name).tree" -Directory $TestTemplatesDirectory/$($project.Name)
-        if ($LASTEXITCODE -ne 0) {
-            Write-Error "Directory comparison failed for $($project.Name)"
-            exit $LASTEXITCODE
-        }
-        Push-Location -Path $project.Path
-        dotnet restore
-        dotnet build
-        dotnet test
-        if ($LASTEXITCODE -ne 0) {
+        if ([string]::IsNullOrEmpty($Template) -or $($project.Name -eq $Template)) {
+            Write-Output "Testing $($project.Name)"
+            & "$PSScriptRoot/compare-directory-files.ps1" -InputFile "$StacksDotnetDirectory/scripts/expected-trees/$($project.Name).tree" -Directory $TestTemplatesDirectory/$($project.Name)
+            if ($LASTEXITCODE -ne 0) {
+                Write-Error "Directory comparison failed for $($project.Name)"
+                exit $LASTEXITCODE
+            }
+            Push-Location -Path $project.Path
+            dotnet restore
+            dotnet build
+            dotnet test --filter TestType!=IntegrationTests
+            if ($LASTEXITCODE -ne 0) {
+                Pop-Location
+                Write-Error "Tests failed for $($project.Name)"
+                exit $LASTEXITCODE
+            }
             Pop-Location
-            Write-Error "Tests failed for $($project.Name)"
-            exit $LASTEXITCODE
         }
-        Pop-Location
     }
 
     # Print success message

@@ -72,48 +72,35 @@
 │   │   └── src
 │   │       ├── .editorconfig
 │   │       └── functions
-│   │           ├── Cosmos.Worker.Application.CQRS.Events
-│   │           │   ├── Abstractions
-│   │           │   │   └── ApplicationEvents
-│   │           │   │       ├── IApplicationEvent.cs
-│   │           │   │       ├── IApplicationEventHandler.cs
-│   │           │   │       └── IApplicationEventPublisher.cs
-│   │           │   ├── Cosmos.Worker.Application.CQRS.Events.csproj
-│   │           │   ├── CosmosDbChangeFeedEvent.cs
-│   │           │   └── Enums
-│   │           │       └── EventCode.cs
 │   │           ├── Cosmos.Worker.Worker
-│   │           │   ├── ChangeFeedListener.cs
 │   │           │   ├── Constants.cs
 │   │           │   ├── Cosmos.Worker.Worker.csproj
-│   │           │   ├── Logging
-│   │           │   │   └── LogAdapter.cs
+│   │           │   ├── CosmosDbChangeFeedEvent.cs
+│   │           │   ├── CosmosDbChangeFeedListener.cs
+│   │           │   ├── EventCode.cs
 │   │           │   ├── Program.cs
 │   │           │   ├── appsettings.json
 │   │           │   └── host.json
+│   │           ├── Cosmos.Worker.Worker.ComponentTests
+│   │           │   ├── Cosmos.Worker.Worker.ComponentTests.csproj
+│   │           │   ├── Doubles
+│   │           │   │   └── MockLogger.cs
+│   │           │   ├── Features
+│   │           │   │   └── ChangeFeedListenerFeature.cs
+│   │           │   ├── Fixtures
+│   │           │   │   └── ChangeFeedListenerFixture.cs
+│   │           │   └── GlobalUsings.cs
 │   │           ├── Cosmos.Worker.Worker.UnitTests
+│   │           │   ├── ChangeFeedListenerEventUnitTests.cs
 │   │           │   ├── ChangeFeedListenerTests.cs
-│   │           │   └── Cosmos.Worker.Worker.UnitTests.csproj
+│   │           │   ├── Cosmos.Worker.Worker.UnitTests.csproj
+│   │           │   ├── Doubles
+│   │           │   │   └── MockLogger.cs
+│   │           │   ├── EventCodeUnitTests.cs
+│   │           │   └── GlobalUsings.cs
 │   │           ├── Cosmos.Worker.Worker.sln
 │   │           └── Dockerfile
 │   └── shared
-│       ├── Cosmos.Worker.Shared.Core
-│       │   ├── Cosmos.Worker.Shared.Core.csproj
-│       │   ├── Exceptions
-│       │   │   ├── ApplicationExceptionBase.cs
-│       │   │   ├── DomainExceptionBase.cs
-│       │   │   ├── IException.cs
-│       │   │   └── InfrastructureExceptionBase.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
-│       │   ├── Security
-│       │   │   └── User.cs
-│       │   └── Time
-│       │       └── SystemClock.cs
-│       ├── Cosmos.Worker.Shared.Core.Tests
-│       │   ├── Cosmos.Worker.Shared.Core.Tests.csproj
-│       │   └── Time
-│       │       └── SystemClockTests.cs
 │       ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
 │       │   │   ├── ApplicationEvents
@@ -130,6 +117,8 @@
 │       │   ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus.csproj
 │       │   ├── Exceptions
 │       │   │   ├── ExceptionIds.cs
+│       │   │   ├── IException.cs
+│       │   │   ├── InfrastructureExceptionBase.cs
 │       │   │   ├── InvalidMessageBodyException.cs
 │       │   │   ├── InvalidSecretDefinitionException.cs
 │       │   │   ├── InvalidSecretSourceException.cs
@@ -179,6 +168,8 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs
@@ -256,5 +247,3 @@
 │           └── appsettings.json
 ├── stackscli.yml
 └── taskctl.yaml
-
-68 directories, 190 files
