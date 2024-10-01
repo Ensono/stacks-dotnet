@@ -50,7 +50,7 @@ stages:
           - bash: |
               echo '##vso[build.updatebuildnumber]${{ variables.version_number }}'
             displayName: 'Update: Build Number'
-          
+
           - pwsh: |
               dotnet workload install aspire
               $(self_repo)/scripts/test-templates.ps1
