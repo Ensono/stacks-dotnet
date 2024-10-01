@@ -68,58 +68,40 @@
 │       ├── 2-promote-image.sh
 │       └── 3-helm-upgrade.sh
 ├── src
-│   ├── func-aeh-listener
-│   │   └── src
-│   │       ├── .editorconfig
-│   │       └── functions
-│   │           ├── Dockerfile
-│   │           ├── EventHub.Listener.Application.CQRS.Events
-│   │           │   ├── Abstractions
-│   │           │   │   └── ApplicationEvents
-│   │           │   │       ├── IApplicationEvent.cs
-│   │           │   │       ├── IApplicationEventHandler.cs
-│   │           │   │       └── IApplicationEventPublisher.cs
-│   │           │   ├── Enums
-│   │           │   │   └── EventCode.cs
-│   │           │   ├── EventHub.Listener.Application.CQRS.Events.csproj
-│   │           │   └── MenuCreatedEvent.cs
-│   │           ├── EventHub.Listener.Listener
-│   │           │   ├── EventHub.Listener.Listener.csproj
-│   │           │   ├── Logging
-│   │           │   │   └── LogAdapter.cs
-│   │           │   ├── Program.cs
-│   │           │   ├── Serialization
-│   │           │   │   ├── IMessageReader.cs
-│   │           │   │   └── JsonMessageSerializer.cs
-│   │           │   ├── StacksListener.cs
-│   │           │   ├── appsettings.json
-│   │           │   └── host.json
-│   │           ├── EventHub.Listener.Listener.UnitTests
-│   │           │   ├── DummyEventAes.cs
-│   │           │   ├── EventHub.Listener.Listener.UnitTests.csproj
-│   │           │   ├── JsonMessageSerializerTests.cs
-│   │           │   ├── StacksListenerTests.cs
-│   │           │   └── TestOperationContext.cs
-│   │           └── EventHub.Listener.Listener.sln
-│   └── shared
-│       ├── EventHub.Listener.Shared.Core
-│       │   ├── EventHub.Listener.Shared.Core.csproj
-│       │   ├── Exceptions
-│       │   │   ├── ApplicationExceptionBase.cs
-│       │   │   ├── DomainExceptionBase.cs
-│       │   │   ├── IException.cs
-│       │   │   └── InfrastructureExceptionBase.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
-│       │   ├── Security
-│       │   │   └── User.cs
-│       │   └── Time
-│       │       └── SystemClock.cs
-│       └── EventHub.Listener.Shared.Core.Tests
-│           ├── EventHub.Listener.Shared.Core.Tests.csproj
-│           └── Time
-│               └── SystemClockTests.cs
+│   └── func-aeh-listener
+│       └── src
+│           ├── .editorconfig
+│           └── functions
+│               ├── Dockerfile
+│               ├── EventHub.Listener.Application.CQRS.Events
+│               │   ├── Abstractions
+│               │   │   └── ApplicationEvents
+│               │   │       ├── IApplicationEvent.cs
+│               │   │       ├── IApplicationEventHandler.cs
+│               │   │       └── IApplicationEventPublisher.cs
+│               │   ├── Enums
+│               │   │   └── EventCode.cs
+│               │   ├── EventHub.Listener.Application.CQRS.Events.csproj
+│               │   ├── MenuCreatedEvent.cs
+│               │   └── Operations
+│               │       └── IOperationContext.cs
+│               ├── EventHub.Listener.Listener
+│               │   ├── EventHub.Listener.Listener.csproj
+│               │   ├── Logging
+│               │   │   └── LogAdapter.cs
+│               │   ├── Program.cs
+│               │   ├── Serialization
+│               │   │   ├── IMessageReader.cs
+│               │   │   └── JsonMessageSerializer.cs
+│               │   ├── StacksListener.cs
+│               │   ├── appsettings.json
+│               │   └── host.json
+│               ├── EventHub.Listener.Listener.UnitTests
+│               │   ├── DummyEventAes.cs
+│               │   ├── EventHub.Listener.Listener.UnitTests.csproj
+│               │   ├── JsonMessageSerializerTests.cs
+│               │   ├── StacksListenerTests.cs
+│               │   └── TestOperationContext.cs
+│               └── EventHub.Listener.Listener.sln
 ├── stackscli.yml
 └── taskctl.yaml
-
-39 directories, 84 files
