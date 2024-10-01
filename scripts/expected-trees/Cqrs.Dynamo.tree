@@ -352,7 +352,6 @@
 │   │       │   │   ├── CorrelationIdMiddlewareTestStories.cs
 │   │       │   │   ├── Cqrs.Dynamo.Infrastructure.IntegrationTests.csproj
 │   │       │   │   ├── DotEnv.cs
-│   │       │   │   ├── DynamoDbMenuRepositoryTests.cs
 │   │       │   │   ├── LoggingMiddleware.cs
 │   │       │   │   ├── MenuRepositoryAutoData.cs
 │   │       │   │   └── appsettings.json

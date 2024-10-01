@@ -342,8 +342,6 @@
 │   │       │   │   ├── CorrelationIdMiddlewareTestStories.cs
 │   │       │   │   ├── Cqrs.Sns.Infrastructure.IntegrationTests.csproj
 │   │       │   │   ├── DotEnv.cs
-│   │       │   │   ├── InMemoryMenuRepositoryAutoDataAttribute.cs
-│   │       │   │   ├── InMemoryMenuRepositoryTests.cs
 │   │       │   │   ├── LoggingMiddleware.cs
 │   │       │   │   ├── MenuRepositoryAutoData.cs
 │   │       │   │   └── appsettings.json

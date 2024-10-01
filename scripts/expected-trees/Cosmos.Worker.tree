@@ -72,30 +72,32 @@
 │   │   └── src
 │   │       ├── .editorconfig
 │   │       └── functions
-│   │           ├── Cosmos.Worker.Application.CQRS.Events
-│   │           │   ├── Abstractions
-│   │           │   │   └── ApplicationEvents
-│   │           │   │       ├── IApplicationEvent.cs
-│   │           │   │       ├── IApplicationEventHandler.cs
-│   │           │   │       └── IApplicationEventPublisher.cs
-│   │           │   ├── Cosmos.Worker.Application.CQRS.Events.csproj
-│   │           │   ├── CosmosDbChangeFeedEvent.cs
-│   │           │   ├── Enums
-│   │           │   │   └── EventCode.cs
-│   │           │   └── Operations
-│   │           │       └── IOperationContext.cs
 │   │           ├── Cosmos.Worker.Worker
-│   │           │   ├── ChangeFeedListener.cs
 │   │           │   ├── Constants.cs
 │   │           │   ├── Cosmos.Worker.Worker.csproj
-│   │           │   ├── Logging
-│   │           │   │   └── LogAdapter.cs
+│   │           │   ├── CosmosDbChangeFeedEvent.cs
+│   │           │   ├── CosmosDbChangeFeedListener.cs
+│   │           │   ├── EventCode.cs
 │   │           │   ├── Program.cs
 │   │           │   ├── appsettings.json
 │   │           │   └── host.json
+│   │           ├── Cosmos.Worker.Worker.ComponentTests
+│   │           │   ├── Cosmos.Worker.Worker.ComponentTests.csproj
+│   │           │   ├── Doubles
+│   │           │   │   └── MockLogger.cs
+│   │           │   ├── Features
+│   │           │   │   └── ChangeFeedListenerFeature.cs
+│   │           │   ├── Fixtures
+│   │           │   │   └── ChangeFeedListenerFixture.cs
+│   │           │   └── GlobalUsings.cs
 │   │           ├── Cosmos.Worker.Worker.UnitTests
+│   │           │   ├── ChangeFeedListenerEventUnitTests.cs
 │   │           │   ├── ChangeFeedListenerTests.cs
-│   │           │   └── Cosmos.Worker.Worker.UnitTests.csproj
+│   │           │   ├── Cosmos.Worker.Worker.UnitTests.csproj
+│   │           │   ├── Doubles
+│   │           │   │   └── MockLogger.cs
+│   │           │   ├── EventCodeUnitTests.cs
+│   │           │   └── GlobalUsings.cs
 │   │           ├── Cosmos.Worker.Worker.sln
 │   │           └── Dockerfile
 │   └── shared
