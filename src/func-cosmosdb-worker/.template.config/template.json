@@ -49,6 +49,7 @@
                 "**/.terraform/**",
                 "**/terraform.tfstate",
                 "**/.terraform.lock.hcl",
+                "**/.idea/**",
                 "**/build/azDevOps/aws/**",
                 "**/build/azDevOps/gcp/**",
                 "**/build/azDevOps/azure/ensono/**",
@@ -60,7 +61,8 @@
                 "**/build/azDevOps/azure/ci.yml",
                 "**/build/github/**",
                 "**/deploy/aws/**",
-                "**/deploy/gcp/**"
+                "**/deploy/gcp/**",
+                "**/deploy/helm/**"
             ],
             "rename": {
                 "_gitignore": ".gitignore",

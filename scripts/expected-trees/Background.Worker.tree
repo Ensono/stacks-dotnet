@@ -46,45 +46,88 @@
 │   │           ├── service_bus.tf
 │   │           ├── variables.tf
 │   │           └── versions.tf
+│   ├── helm
+│   │   └── stacks-dotnet
+│   │       ├── .helmignore
+│   │       ├── Chart.yaml
+│   │       ├── templates
+│   │       │   ├── NOTES.txt
+│   │       │   ├── _helpers.tpl
+│   │       │   ├── configmap.yaml
+│   │       │   ├── deployment.yaml
+│   │       │   ├── hpa.yaml
+│   │       │   ├── ingress.yaml
+│   │       │   ├── secret.yaml
+│   │       │   ├── service.yaml
+│   │       │   ├── serviceaccount.yaml
+│   │       │   └── tests
+│   │       │       └── test-connection.yaml
+│   │       └── values.yaml
 │   └── scripts
 │       ├── 1-set-cluster-context.sh
 │       ├── 2-promote-image.sh
 │       └── 3-helm-upgrade.sh
 ├── src
-│   ├── func-cosmosdb-worker
+│   ├── background-worker
 │   │   └── src
 │   │       ├── .editorconfig
-│   │       └── functions
-│   │           ├── Cosmos.Worker.Worker
-│   │           │   ├── Constants.cs
-│   │           │   ├── Cosmos.Worker.Worker.csproj
-│   │           │   ├── CosmosDbChangeFeedEvent.cs
-│   │           │   ├── CosmosDbChangeFeedListener.cs
-│   │           │   ├── EventCode.cs
+│   │       └── worker
+│   │           ├── Background.Worker.Application.CQRS.Events
+│   │           │   ├── Background.Worker.Application.CQRS.Events.csproj
+│   │           │   ├── CategoryCreatedEvent.cs
+│   │           │   ├── CategoryDeletedEvent.cs
+│   │           │   ├── CategoryUpdatedEvent.cs
+│   │           │   ├── Enums
+│   │           │   │   └── EventCode.cs
+│   │           │   ├── MenuCreatedEvent.cs
+│   │           │   ├── MenuDeletedEvent.cs
+│   │           │   ├── MenuItemCreatedEvent.cs
+│   │           │   ├── MenuItemDeletedEvent.cs
+│   │           │   ├── MenuItemUpdatedEvent.cs
+│   │           │   └── MenuUpdatedEvent.cs
+│   │           ├── Background.Worker.BackgroundWorker
+│   │           │   ├── Background.Worker.BackgroundWorker.csproj
+│   │           │   ├── Exceptions
+│   │           │   │   ├── InvalidSecretDefinitionException.cs
+│   │           │   │   ├── InvalidSecretSourceException.cs
+│   │           │   │   ├── SecretException.cs
+│   │           │   │   ├── SecretNotDefinedException.cs
+│   │           │   │   ├── SecretNotFoundException.cs
+│   │           │   │   └── _ExceptionIds.cs
+│   │           │   ├── Extensions
+│   │           │   │   └── ServiceCollectionExtensions.cs
+│   │           │   ├── Handlers
+│   │           │   │   ├── CategoryCreatedEventHandler.cs
+│   │           │   │   ├── CategoryDeletedEventHandler.cs
+│   │           │   │   ├── CategoryUpdatedEventHandler.cs
+│   │           │   │   ├── MenuCreatedEventHandler.cs
+│   │           │   │   ├── MenuDeletedEventHandler.cs
+│   │           │   │   ├── MenuItemCreatedEventHandler.cs
+│   │           │   │   ├── MenuItemDeletedEventHandler.cs
+│   │           │   │   ├── MenuItemUpdatedEventHandler.cs
+│   │           │   │   └── MenuUpdatedEventHandler.cs
 │   │           │   ├── Program.cs
+│   │           │   ├── Secrets
+│   │           │   │   ├── EnvironmentSecretSource.cs
+│   │           │   │   ├── FileSecretSource.cs
+│   │           │   │   ├── ISecretResolver.cs
+│   │           │   │   ├── ISecretSource.cs
+│   │           │   │   ├── Secret.cs
+│   │           │   │   └── SecretResolver.cs
+│   │           │   └── appsettings.json
+│   │           ├── Background.Worker.BackgroundWorker.UnitTests
+│   │           │   ├── Background.Worker.BackgroundWorker.UnitTests.csproj
+│   │           │   ├── Configuration.cs
+│   │           │   ├── DotEnv.cs
+│   │           │   ├── PlaceHolderTests.cs
+│   │           │   ├── SampleConfigurationWithSecret.cs
+│   │           │   ├── SecretTests.cs
 │   │           │   ├── appsettings.json
-│   │           │   └── host.json
-│   │           ├── Cosmos.Worker.Worker.ComponentTests
-│   │           │   ├── Cosmos.Worker.Worker.ComponentTests.csproj
-│   │           │   ├── Doubles
-│   │           │   │   └── MockLogger.cs
-│   │           │   ├── Features
-│   │           │   │   └── ChangeFeedListenerFeature.cs
-│   │           │   ├── Fixtures
-│   │           │   │   └── ChangeFeedListenerFixture.cs
-│   │           │   └── GlobalUsings.cs
-│   │           ├── Cosmos.Worker.Worker.UnitTests
-│   │           │   ├── ChangeFeedListenerEventUnitTests.cs
-│   │           │   ├── ChangeFeedListenerTests.cs
-│   │           │   ├── Cosmos.Worker.Worker.UnitTests.csproj
-│   │           │   ├── Doubles
-│   │           │   │   └── MockLogger.cs
-│   │           │   ├── EventCodeUnitTests.cs
-│   │           │   └── GlobalUsings.cs
-│   │           ├── Cosmos.Worker.Worker.sln
+│   │           │   └── secretfile.txt
+│   │           ├── Background.Worker.BackgroundWorker.sln
 │   │           └── Dockerfile
 │   └── shared
-│       ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus
+│       ├── Background.Worker.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
 │       │   │   ├── ApplicationEvents
 │       │   │   │   ├── IApplicationEvent.cs
@@ -94,10 +137,10 @@
 │       │   │       ├── ICommand.cs
 │       │   │       ├── ICommandDispatcher.cs
 │       │   │       └── ICommandHandler.cs
+│       │   ├── Background.Worker.Shared.Messaging.Azure.ServiceBus.csproj
 │       │   ├── Configuration
 │       │   │   └── ServiceBusConfiguration.cs
 │       │   ├── Constants.cs
-│       │   ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus.csproj
 │       │   ├── Exceptions
 │       │   │   ├── ExceptionIds.cs
 │       │   │   ├── IException.cs
@@ -184,7 +227,8 @@
 │       │   └── Validators
 │       │       ├── DataAnnotationValidator.cs
 │       │       └── IValidator.cs
-│       └── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus.Tests
+│       └── Background.Worker.Shared.Messaging.Azure.ServiceBus.Tests
+│           ├── Background.Worker.Shared.Messaging.Azure.ServiceBus.Tests.csproj
 │           ├── Commands
 │           │   ├── IMember.cs
 │           │   ├── Member.cs
@@ -192,7 +236,6 @@
 │           │   ├── NotifyCommand.cs
 │           │   └── NotifyCommandWithAnnotation.cs
 │           ├── Configuration.cs
-│           ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus.Tests.csproj
 │           ├── DotEnv.cs
 │           ├── Events
 │           │   ├── DummyEventAes.cs

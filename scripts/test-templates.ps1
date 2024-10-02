@@ -104,6 +104,12 @@ $projects = @(
         Template = "stacks-az-func-asb-listener";
         Arguments = "-do Menu";
         Path = "$TestTemplatesDirectory/ServiceBus.Listener/src/func-asb-listener/src/functions"
+    },
+    @{ 
+        Name = "Background.Worker";
+        Template = "stacks-asb-worker";
+        Arguments = "-do Menu";
+        Path = "$TestTemplatesDirectory/Background.Worker/src/background-worker/src/worker"
     }
 )
 
