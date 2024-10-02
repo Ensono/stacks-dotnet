@@ -61,7 +61,8 @@
                 "**/build/azDevOps/azure/ci.yml",
                 "**/build/github/**",
                 "**/deploy/aws/**",
-                "**/deploy/gcp/**"
+                "**/deploy/gcp/**",
+                "**/deploy/helm/**"
             ],
             "rename": {
                 "_gitignore": ".gitignore",

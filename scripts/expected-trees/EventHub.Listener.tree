@@ -46,23 +46,6 @@
 │   │           ├── service_bus.tf
 │   │           ├── variables.tf
 │   │           └── versions.tf
-│   ├── helm
-│   │   └── stacks-dotnet
-│   │       ├── .helmignore
-│   │       ├── Chart.yaml
-│   │       ├── templates
-│   │       │   ├── NOTES.txt
-│   │       │   ├── _helpers.tpl
-│   │       │   ├── configmap.yaml
-│   │       │   ├── deployment.yaml
-│   │       │   ├── hpa.yaml
-│   │       │   ├── ingress.yaml
-│   │       │   ├── secret.yaml
-│   │       │   ├── service.yaml
-│   │       │   ├── serviceaccount.yaml
-│   │       │   └── tests
-│   │       │       └── test-connection.yaml
-│   │       └── values.yaml
 │   └── scripts
 │       ├── 1-set-cluster-context.sh
 │       ├── 2-promote-image.sh
