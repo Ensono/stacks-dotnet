@@ -73,11 +73,6 @@
 │   │       ├── .editorconfig
 │   │       └── worker
 │   │           ├── Background.Worker.Application.CQRS.Events
-│   │           │   ├── Abstractions
-│   │           │   │   └── ApplicationEvents
-│   │           │   │       ├── IApplicationEvent.cs
-│   │           │   │       ├── IApplicationEventHandler.cs
-│   │           │   │       └── IApplicationEventPublisher.cs
 │   │           │   ├── Background.Worker.Application.CQRS.Events.csproj
 │   │           │   ├── CategoryCreatedEvent.cs
 │   │           │   ├── CategoryDeletedEvent.cs
@@ -89,9 +84,7 @@
 │   │           │   ├── MenuItemCreatedEvent.cs
 │   │           │   ├── MenuItemDeletedEvent.cs
 │   │           │   ├── MenuItemUpdatedEvent.cs
-│   │           │   ├── MenuUpdatedEvent.cs
-│   │           │   └── Operations
-│   │           │       └── IOperationContext.cs
+│   │           │   └── MenuUpdatedEvent.cs
 │   │           ├── Background.Worker.BackgroundWorker
 │   │           │   ├── Background.Worker.BackgroundWorker.csproj
 │   │           │   ├── Exceptions
