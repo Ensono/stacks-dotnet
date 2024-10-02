@@ -63,6 +63,7 @@
                 "**/.terraform/**",
                 "**/terraform.tfstate",
                 "**/.terraform.lock.hcl",
+                "**/.idea/**",
                 "**/build/azDevOps/aws/**",
                 "**/build/azDevOps/gcp/**",
                 "**/build/azDevOps/azure/ensono/**",

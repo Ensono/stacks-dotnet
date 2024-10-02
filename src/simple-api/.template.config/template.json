@@ -134,7 +134,8 @@
 				"*Content_Types*.xml",
 				"**/.terraform/**",
 				"**/terraform.tfstate",
-				"**/.terraform.lock.hcl"
+				"**/.terraform.lock.hcl",
+				"**/.idea/**"
 			],
 			"rename": {
 				"_gitignore": ".gitignore",
