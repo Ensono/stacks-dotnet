@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 
