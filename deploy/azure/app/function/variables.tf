@@ -126,3 +126,18 @@ variable "eventhub_blob_container" {
   type        = string
   description = "Name of the blob container"
 }
+
+############################################
+# App Insights
+############################################
+variable "app_insights_connection_string" {
+  type        = string
+  description = "Connection string for App Insights"
+  sensitive   = true
+}
+
+variable "app_insights_instrumentation_key" {
+  type        = string
+  description = "Instrumentation key for App Insights"
+  sensitive   = true
+}
