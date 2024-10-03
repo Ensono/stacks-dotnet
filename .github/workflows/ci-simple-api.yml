@@ -104,8 +104,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ env.REGION }}
-          IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
-          BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
+          IMAGE_NAME_TAG: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
           # container: true
         # continue-on-error: true
 
