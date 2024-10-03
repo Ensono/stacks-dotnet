@@ -9,6 +9,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using xxENSONOxx.xxSTACKSxx.Listener;
+using xxENSONOxx.xxSTACKSxx.Listener.Serialization;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
@@ -21,6 +22,7 @@ var host = new HostBuilder()
             .Build();
 
         services
+            .AddTransient<IMessageReader, JsonMessageSerializer>()
             .Configure<StacksListener>(configuration.GetSection(nameof(StacksListener)))
             .AddLogging(loggingBuilder =>
             {
