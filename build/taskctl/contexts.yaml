@@ -29,7 +29,7 @@ contexts:
 
   container:auth:
     container:
-      name: ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.1.159
+      name: ensono/eir-infrastructure:1.1.251
       enable_dind: true
 
   container:builder:
