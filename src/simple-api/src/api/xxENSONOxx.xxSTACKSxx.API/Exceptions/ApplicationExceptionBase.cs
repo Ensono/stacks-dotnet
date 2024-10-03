@@ -6,7 +6,7 @@ namespace xxENSONOxx.xxSTACKSxx.API.Exceptions;
 
 public abstract class ApplicationExceptionBase : ApplicationException, IException, IOperationContext
 {
-    protected ApplicationExceptionBase(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    protected ApplicationExceptionBase(SerializationInfo info, StreamingContext context) { }
     
     /// <summary>
     /// Unique identifier for this exception type used for aggregation and translation of exception messages
