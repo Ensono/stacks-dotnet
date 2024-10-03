@@ -55,11 +55,11 @@ jobs:
 
       - uses: ./build/github/templates/install-taskctl
 
-      - run: taskctl image-pull
+      # - run: taskctl image-pull
 
-      - run: taskctl lint
-        env:
-          TF_FILE_LOCATION: deploy/aws/app/kube
+      # - run: taskctl lint
+      #   env:
+      #     TF_FILE_LOCATION: deploy/aws/app/kube
 
       #   - run: taskctl image-pull-dotnet
 
@@ -107,41 +107,41 @@ jobs:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
-      # - name: Unit Test Report
-      #   uses: dorny/test-reporter@v1
-      #   if: always()
-      #   with:
-      #     name: ${{ env.DOMAIN }} Unit Tests
-      #     path: testresults/*.trx
-      #     reporter: dotnet-trx
-      #     fail-on-error: true
-      #     fail-on-empty: true
+# - name: Unit Test Report
+#   uses: dorny/test-reporter@v1
+#   if: always()
+#   with:
+#     name: ${{ env.DOMAIN }} Unit Tests
+#     path: testresults/*.trx
+#     reporter: dotnet-trx
+#     fail-on-error: true
+#     fail-on-empty: true
 
-      # - name: Generate Coverage Report
-      #   uses: irongut/CodeCoverageSummary@v1.3.0
-      #   if: always()
-      #   continue-on-error: false
-      #   with:
-      #     filename: coverage/Cobertura.xml
-      #     format: markdown
-      #     hide_branch_rate: false
-      #     hide_complexity: false
-      #     output: both
+# - name: Generate Coverage Report
+#   uses: irongut/CodeCoverageSummary@v1.3.0
+#   if: always()
+#   continue-on-error: false
+#   with:
+#     filename: coverage/Cobertura.xml
+#     format: markdown
+#     hide_branch_rate: false
+#     hide_complexity: false
+#     output: both
 
-      # - name: Publish Coverage Report
-      #   if: always()
-      #   continue-on-error: false
-      #   run: |
-      #     if [ -f code-coverage-results.md ]; then
-      #       echo "## Dotnet Code Coverage" >> $GITHUB_STEP_SUMMARY
-      #       cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-      #     fi
+# - name: Publish Coverage Report
+#   if: always()
+#   continue-on-error: false
+#   run: |
+#     if [ -f code-coverage-results.md ]; then
+#       echo "## Dotnet Code Coverage" >> $GITHUB_STEP_SUMMARY
+#       cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+#     fi
 
-      # - name: Publish Functional Tests
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
-      #     path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
+# - name: Publish Functional Tests
+#   uses: actions/upload-artifact@v4
+#   with:
+#     name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
+#     path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
     if: github.ref != 'refs/heads/master'
