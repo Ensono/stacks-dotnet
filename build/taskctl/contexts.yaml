@@ -38,11 +38,13 @@ contexts:
       container_args:
         - --cap-add=sys_admin
         - --cap-add mknod
-        - --cap-add "SYS_CHROOT"
-        - --cap-add "SETFCAP"
-        - --cap-add "SYS_RESOURCE"
+        - --cap-add SYS_CHROOT
+        - --cap-add SETFCAP
+        - --cap-add SYS_RESOURCE
         - --device=/dev/fuse
+        - --seccomp-profile=unconfined
         - --security-opt seccomp=unconfined
+        - --security-opt apparmor=unconfined
         - --security-opt label=disable
     env:
       DOCKER_CONFIG: /workspace/.taskctl/.docker
