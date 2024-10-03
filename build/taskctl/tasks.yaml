@@ -154,7 +154,7 @@ tasks:
       To add additional architectures add something like the below
       # podman build --platform=linux/arm64 --build-arg NET_ARCH=linux-arm64 \
         -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-arm $SELF_REPO_SRC
-      
+
       See taskctl docs/samples for more details
     command:
       - |
@@ -163,9 +163,8 @@ tasks:
         podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
     reset_context: true
     # env:
-      # TODO: unfurl ENV variables if found as values to env input property 
-      # IMAGE_NAME_TAG: ${IMAGE_NAME}:${BUILD_BUILDNUMBER}
-
+    # TODO: unfurl ENV variables if found as values to env input property
+    # IMAGE_NAME_TAG: ${IMAGE_NAME}:${BUILD_BUILDNUMBER}
 
   build:functional_tests:
     context: powershell-dotnet
