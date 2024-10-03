@@ -142,11 +142,12 @@ tasks:
     context: container:auth
     command:
       - |
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
-        ls -lat $HOME/.docker
-        ls -lat $HOME/.config/containers
-        cat $HOME/.docker/config.json
-        cat $HOME/.config/containers/auth.json
+        aws ecr get-login-password --region ${ECR_REGION}
+        docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
+      # ls -lat $HOME/.docker
+      # ls -lat $HOME/.config/containers
+      # cat $HOME/.docker/config.json
+      # cat $HOME/.config/containers/auth.json
 
   safe:container:build:push:
     context: container:builder
