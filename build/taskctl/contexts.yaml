@@ -78,5 +78,6 @@ contexts:
       generate: true
       exclude:
         - PATH
+        - JAVA_HOME
         - HOME
         - KUBECONFIG
