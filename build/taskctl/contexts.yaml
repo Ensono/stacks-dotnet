@@ -26,6 +26,7 @@ contexts:
         - PATH
         - HOME
         - KUBECONFIG
+        - GITUHB_ACTIONS
 
   container:auth:
     container:
@@ -81,3 +82,4 @@ contexts:
         - JAVA_HOME
         - HOME
         - KUBECONFIG
+        - GITUHB_ACTIONS
