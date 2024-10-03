@@ -153,19 +153,23 @@ tasks:
       builds multi arch images and pushes them to registry
     command:
       - |
-        pwd
+        echo "building AMD"
         podman build --platform=linux/amd64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME_TAG}-linux-amd64 --build-arg self_repo_src=$SELF_REPO_SRC .
+        echo "building ARM"
         podman build --platform=linux/arm64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME_TAG}-linux-arm64 --build-arg self_repo_src=$SELF_REPO_SRC .
+        echo "merging manifests"
         podman manifest create ${IMAGE_NAME_TAG} \
           ${IMAGE_NAME_TAG}-linux-amd64 \
           ${IMAGE_NAME_TAG}-linux-arm64
+        echo "PUSHING TO REGISTRY"
         podman manifest push ${IMAGE_NAME_TAG} docker://${IMAGE_NAME_TAG}
+        echo "Deleting manifest"
         podman manifest rm ${IMAGE_NAME_TAG}
     reset_context: true
-    env:
-      SELF_REPO_SRC: src/simple-api/src/api
+    # env:
       # TODO: unfurl ENV variables if found as values to env input property 
       # IMAGE_NAME_TAG: ${IMAGE_NAME}:${BUILD_BUILDNUMBER}
+      # SELF_REPO_SRC: src/simple-api/src/api
 
 
   build:functional_tests:
