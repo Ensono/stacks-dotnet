@@ -21,6 +21,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
-    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.csproj" />
   </ItemGroup>
 </Project>

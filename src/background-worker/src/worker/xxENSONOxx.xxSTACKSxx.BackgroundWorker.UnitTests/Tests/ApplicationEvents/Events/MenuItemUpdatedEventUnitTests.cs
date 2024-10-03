@@ -1,11 +1,11 @@
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Enums;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
-namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.Events;
+namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.ApplicationEvents.Events;
 
 [Trait("TestType", "UnitTests")]
-public class MenuUpdatedEventUnitTests
+public sealed class MenuItemUpdatedEventUnitTests
 {
     private readonly IFixture autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
 
@@ -17,15 +17,19 @@ public class MenuUpdatedEventUnitTests
         var operationCode = autoFixture.Create<int>();
         var correlationId = autoFixture.Create<Guid>();
         var menuId = autoFixture.Create<Guid>();
+        var categoryId = autoFixture.Create<Guid>();
+        var menuItemId = autoFixture.Create<Guid>();
 
         // Act
-        var categoryCreatedEvent = new MenuUpdatedEvent(operationCode, correlationId, menuId);
+        var categoryCreatedEvent = new MenuItemUpdatedEvent(operationCode, correlationId, menuId, categoryId, menuItemId);
 
         // Assert
-        categoryCreatedEvent.EventCode.Should().Be((int)EventCode.MenuUpdated);
+        categoryCreatedEvent.EventCode.Should().Be((int)EventCode.MenuItemUpdated);
         categoryCreatedEvent.OperationCode.Should().Be(operationCode);
         categoryCreatedEvent.CorrelationId.Should().Be(correlationId);
         categoryCreatedEvent.MenuId.Should().Be(menuId);
+        categoryCreatedEvent.CategoryId.Should().Be(categoryId);
+        categoryCreatedEvent.MenuItemId.Should().Be(menuItemId);
     }
 
 
@@ -35,14 +39,18 @@ public class MenuUpdatedEventUnitTests
         // Arrange
         var context = autoFixture.Create<IOperationContext>();
         var menuId = autoFixture.Create<Guid>();
+        var categoryId = autoFixture.Create<Guid>();
+        var menuItemId = autoFixture.Create<Guid>();
 
         // Act
-        var categoryCreatedEvent = new MenuUpdatedEvent(context, menuId);
+        var categoryCreatedEvent = new MenuItemUpdatedEvent(context, menuId, categoryId, menuItemId);
 
         // Assert
-        categoryCreatedEvent.EventCode.Should().Be((int)EventCode.MenuUpdated);
+        categoryCreatedEvent.EventCode.Should().Be((int)EventCode.MenuItemUpdated);
         categoryCreatedEvent.OperationCode.Should().Be(context.OperationCode);
         categoryCreatedEvent.CorrelationId.Should().Be(context.CorrelationId);
         categoryCreatedEvent.MenuId.Should().Be(menuId);
+        categoryCreatedEvent.CategoryId.Should().Be(categoryId);
+        categoryCreatedEvent.MenuItemId.Should().Be(menuItemId);
     }
 }

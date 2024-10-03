@@ -1,11 +1,11 @@
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Enums;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
-namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.Events;
+namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.ApplicationEvents.Events;
 
 [Trait("TestType", "UnitTests")]
-public class MenuItemDeletedEventUnitTests
+public sealed class MenuItemDeletedEventUnitTests
 {
     private readonly IFixture autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
 

@@ -1,8 +1,8 @@
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.BackgroundWorker.Handlers;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Handlers;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Doubles;
 
-namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.Handlers;
+namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.ApplicationEvents.Handlers;
 
 [Trait("TestType", "UnitTests")]
 public sealed class CategoryUpdatedEventHandlerUnitTests

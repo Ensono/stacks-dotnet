@@ -1,11 +1,11 @@
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Enums;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
-namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.Events;
+namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.ApplicationEvents.Events;
 
 [Trait("TestType", "UnitTests")]
-public class MenuCreatedEventUnitTests
+public sealed class MenuUpdatedEventUnitTests
 {
     private readonly IFixture autoFixture = new Fixture().Customize(new AutoNSubstituteCustomization());
 
@@ -19,10 +19,10 @@ public class MenuCreatedEventUnitTests
         var menuId = autoFixture.Create<Guid>();
 
         // Act
-        var categoryCreatedEvent = new MenuCreatedEvent(operationCode, correlationId, menuId);
+        var categoryCreatedEvent = new MenuUpdatedEvent(operationCode, correlationId, menuId);
 
         // Assert
-        categoryCreatedEvent.EventCode.Should().Be((int)EventCode.MenuCreated);
+        categoryCreatedEvent.EventCode.Should().Be((int)EventCode.MenuUpdated);
         categoryCreatedEvent.OperationCode.Should().Be(operationCode);
         categoryCreatedEvent.CorrelationId.Should().Be(correlationId);
         categoryCreatedEvent.MenuId.Should().Be(menuId);
@@ -37,10 +37,10 @@ public class MenuCreatedEventUnitTests
         var menuId = autoFixture.Create<Guid>();
 
         // Act
-        var categoryCreatedEvent = new MenuCreatedEvent(context, menuId);
+        var categoryCreatedEvent = new MenuUpdatedEvent(context, menuId);
 
         // Assert
-        categoryCreatedEvent.EventCode.Should().Be((int)EventCode.MenuCreated);
+        categoryCreatedEvent.EventCode.Should().Be((int)EventCode.MenuUpdated);
         categoryCreatedEvent.OperationCode.Should().Be(context.OperationCode);
         categoryCreatedEvent.CorrelationId.Should().Be(context.CorrelationId);
         categoryCreatedEvent.MenuId.Should().Be(menuId);
