@@ -150,20 +150,17 @@ tasks:
   safe:container:build:push:
     context: container:builder
     description: |
-      builds multi arch images and pushes them to registry
+      Builds multi arch images and pushes them to registry
+      To add additional architectures add something like the below
+      # podman build --platform=linux/arm64 --build-arg NET_ARCH=linux-arm64 \
+        -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-arm $SELF_REPO_SRC
+      
+      See taskctl docs/samples for more details
     command:
       - |
-        echo "building AMD _and_ ARM"
-        podman build --platform=linux/arm64 --build-arg NET_ARCH=linux-arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-arm $SELF_REPO_SRC
-        podman build --platform=linux/amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-amd $SELF_REPO_SRC
-        echo "merge manifest"
-        podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
-         ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-arm \
-         ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-amd
-        echo "PUSHING TO REGISTRY"
-        podman manifest push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
-        echo "Deleting manifest"
-        podman manifest rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+        podman build -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} $SELF_REPO_SRC
+        podman push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+        podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
     reset_context: true
     # env:
       # TODO: unfurl ENV variables if found as values to env input property 
