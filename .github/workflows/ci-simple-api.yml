@@ -90,6 +90,7 @@ jobs:
       # Add login file
       - run: taskctl safe:container:login
         env:
+          ECR_REGION: ${{ env.REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}
