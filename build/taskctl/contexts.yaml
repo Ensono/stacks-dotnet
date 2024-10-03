@@ -43,6 +43,7 @@ contexts:
         - --security-opt label=disable
     env:
       DOCKER_CONFIG: /workspace/.taskctl/.docker
+      container: true
 
   powershell-dotnet:
     executable:
