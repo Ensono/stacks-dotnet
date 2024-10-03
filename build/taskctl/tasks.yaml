@@ -153,13 +153,15 @@ tasks:
       builds multi arch images and pushes them to registry
     command:
       - |
+        echo "installing qemu-user-static"
+        yum install -y qemu-user-static
         echo "building AMD"
         podman build --platform=linux/amd64 -f Dockerfile -t ${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
         echo "building ARM"
         podman build --platform=linux/arm64 -f Dockerfile -t ${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
         echo "merging manifests"
         podman manifest create ${IMAGE_NAME_TAG} \
-          ${IMAGE_NAME_TAG}-linux-amd64 \
+          ${IMAGE_NAME_TAG}-linux-amd64 \ 
           ${IMAGE_NAME_TAG}-linux-arm64
         echo "PUSHING TO REGISTRY"
         podman manifest push ${IMAGE_NAME_TAG} docker://${IMAGE_NAME_TAG}
