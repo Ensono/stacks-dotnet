@@ -106,6 +106,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ env.REGION }}
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
+          container: true
 
 # - name: Unit Test Report
 #   uses: dorny/test-reporter@v1
