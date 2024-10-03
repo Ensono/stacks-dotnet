@@ -1,15 +1,14 @@
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.Handlers;
 
-public class MenuDeletedEventHandler(ILogger<MenuDeletedEventHandler> log) : IApplicationEventHandler<MenuDeletedEvent>
+public class MenuDeletedEventHandler(ILogger<MenuDeletedEventHandler> logger) 
+           : IApplicationEventHandler<MenuDeletedEvent>
 {
     public Task HandleAsync(MenuDeletedEvent appEvent)
     {
-        log.LogInformation($"Executing MenuDeletedEventHandler...");
+        logger.LogInformation("Executing MenuDeletedEventHandler...");
         return Task.CompletedTask;
     }
 }

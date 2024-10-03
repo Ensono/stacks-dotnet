@@ -1,16 +1,14 @@
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.Handlers;
 
-public class MenuItemUpdatedEventHandler(ILogger<MenuItemUpdatedEventHandler> log)
-    : IApplicationEventHandler<MenuItemUpdatedEvent>
+public class MenuItemUpdatedEventHandler(ILogger<MenuItemUpdatedEventHandler> logger)
+           : IApplicationEventHandler<MenuItemUpdatedEvent>
 {
     public Task HandleAsync(MenuItemUpdatedEvent appEvent)
     {
-        log.LogInformation($"Executing MenuItemUpdatedEventHandler...");
+        logger.LogInformation("Executing MenuItemUpdatedEventHandler...");
         return Task.CompletedTask;
     }
 }
