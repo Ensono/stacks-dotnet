@@ -143,10 +143,9 @@ tasks:
     context: container:auth
     command:
       - |
-        aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
+        aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${DOCKER_CONTAINER_REGISTRY_NAME}
         mkdir .docker
         cp $HOME/.docker/config.json .docker/config.json
-        cat .docker/config.json
 
   safe:container:build:push:
     context: container:builder
@@ -154,16 +153,16 @@ tasks:
       builds multi arch images and pushes them to registry
     command:
       - |
-        podman build --platform=linux/amd64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME}-linux-amd64 .
-        podman build --platform=linux/arm64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME}-linux-arm64 .
-        podman manifest create ${IMAGE_NAME} \
-          ${IMAGE_NAME}-linux-amd64 \
-          ${IMAGE_NAME}-linux-arm64
-        podman manifest push ${IMAGE_NAME} docker://${IMAGE_NAME}
-        podman manifest rm ${IMAGE_NAME}
+        podman build --platform=linux/amd64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME_TAG}-linux-amd64 .
+        podman build --platform=linux/arm64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME_TAG}-linux-arm64 .
+        podman manifest create ${IMAGE_NAME_TAG} \
+          ${IMAGE_NAME_TAG}-linux-amd64 \
+          ${IMAGE_NAME_TAG}-linux-arm64
+        podman manifest push ${IMAGE_NAME_TAG} docker://${IMAGE_NAME_TAG}
+        podman manifest rm ${IMAGE_NAME_TAG}
     reset_context: true
-    # env:
-    #   BUILD_VERSION: 0.0.14
+    env:
+      IMAGE_NAME_TAG: ${IMAGE_NAME}:${BUILD_BUILDNUMBER}
 
   build:functional_tests:
     context: powershell-dotnet

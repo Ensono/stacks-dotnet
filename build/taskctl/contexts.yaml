@@ -38,10 +38,11 @@ contexts:
       container_args:
         - --cap-add=sys_admin
         - --cap-add mknod
-        - --cap-add SYS_CHROOT
-        - --cap-add SETFCAP
-        - --cap-add SYS_RESOURCE
+        # - --cap-add SYS_CHROOT
+        # - --cap-add SETFCAP
+        # - --cap-add SYS_RESOURCE
         - --device=/dev/fuse
+        # Disabling apparmor is still better than running --privileged
         - --security-opt seccomp=unconfined
         - --security-opt apparmor=unconfined
         - --security-opt label=disable
