@@ -29,7 +29,7 @@ env:
   #   AWS_TF_STATE_KEY
   #   AWS_TF_STATE_REGION
   CLOUD_PROVIDER: "aws"
-  TaskctlVersion: '1.5.2'
+  TaskctlVersion: "1.7.3"
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
   OWNER: "stacks_team"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
@@ -61,33 +61,41 @@ jobs:
         env:
           TF_FILE_LOCATION: deploy/aws/app/kube
 
-      - run: taskctl image-pull-dotnet
+      #   - run: taskctl image-pull-dotnet
 
-      - name: Set Sonar PR Arguments
-        id: sonar-pr
-        run: |
-          prArguments=""
+      #   - name: Set Sonar PR Arguments
+      #     id: sonar-pr
+      #     run: |
+      #       prArguments=""
 
-          if [ ! -z "${{ github.event.number }}" ]; then
-            prArguments="/d:sonar.pullrequest.key=\"${{ github.event.number }}\" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.repository }}"
-          fi
+      #       if [ ! -z "${{ github.event.number }}" ]; then
+      #         prArguments="/d:sonar.pullrequest.key=\"${{ github.event.number }}\" /d:sonar.pullrequest.branch=${{ github.head_ref || github.ref_name }} /d:sonar.pullrequest.provider=GitHub /d:sonar.pullrequest.github.repository=${{ github.repository }}"
+      #       fi
 
-          echo "arguments=${prArguments}" >> "${GITHUB_OUTPUT}"
+      #       echo "arguments=${prArguments}" >> "${GITHUB_OUTPUT}"
 
-      - run: taskctl test
-        env:
-          # Testing
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: ensono
-          SONAR_URL: "https://sonarcloud.io"
-          SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" ${{ steps.sonar-pr.outputs.arguments }}'
-          PACT_BEARER_TOKEN: ${{ secrets.PACT_BEARER_TOKEN }}
-          PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
-          BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
+      #   - run: taskctl test
+      #     env:
+      #       # Testing
+      #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #       SONAR_ORG: ensono
+      #       SONAR_URL: "https://sonarcloud.io"
+      #       SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" ${{ steps.sonar-pr.outputs.arguments }}'
+      #       PACT_BEARER_TOKEN: ${{ secrets.PACT_BEARER_TOKEN }}
+      #       PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
+      #       BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
-      - run: taskctl build:functional_tests
+      #   - run: taskctl build:functional_tests
 
-      - run: taskctl build:container
+      # Add login file
+      # aws ecr get-login-password --region us-east-1 | podman login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+      - run: taskctl safe:container:login
+        env: 
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ECR_REGION: ${{ env.REGION }}
+
+      - run: taskctl safe:container:build:push
         env:
           # Docker
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}
@@ -99,41 +107,41 @@ jobs:
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
-      - name: Unit Test Report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: ${{ env.DOMAIN }} Unit Tests
-          path: testresults/*.trx
-          reporter: dotnet-trx
-          fail-on-error: true
-          fail-on-empty: true
+    #   - name: Unit Test Report
+    #     uses: dorny/test-reporter@v1
+    #     if: always()
+    #     with:
+    #       name: ${{ env.DOMAIN }} Unit Tests
+    #       path: testresults/*.trx
+    #       reporter: dotnet-trx
+    #       fail-on-error: true
+    #       fail-on-empty: true
 
-      - name: Generate Coverage Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        if: always()
-        continue-on-error: false
-        with:
-          filename: coverage/Cobertura.xml
-          format: markdown
-          hide_branch_rate: false
-          hide_complexity: false
-          output: both
+    #   - name: Generate Coverage Report
+    #     uses: irongut/CodeCoverageSummary@v1.3.0
+    #     if: always()
+    #     continue-on-error: false
+    #     with:
+    #       filename: coverage/Cobertura.xml
+    #       format: markdown
+    #       hide_branch_rate: false
+    #       hide_complexity: false
+    #       output: both
 
-      - name: Publish Coverage Report
-        if: always()
-        continue-on-error: false
-        run: |
-          if [ -f code-coverage-results.md ]; then
-            echo "## Dotnet Code Coverage" >> $GITHUB_STEP_SUMMARY
-            cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-          fi
+    #   - name: Publish Coverage Report
+    #     if: always()
+    #     continue-on-error: false
+    #     run: |
+    #       if [ -f code-coverage-results.md ]; then
+    #         echo "## Dotnet Code Coverage" >> $GITHUB_STEP_SUMMARY
+    #         cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+    #       fi
 
-      - name: Publish Functional Tests
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
-          path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
+    #   - name: Publish Functional Tests
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #       name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
+    #       path: ${{ env.FUNCTIONAL_TESTS_SRC_DIR }}
 
   AppInfraDev:
     if: github.ref != 'refs/heads/master'
@@ -171,187 +179,186 @@ jobs:
           TF_VAR_name_company: ${{ env.COMPANY }}
           TF_VAR_name_project: ${{ env.PROJECT }}
           TF_VAR_name_domain: ${{ env.DOMAIN }}
+#   DeployDev:
+#     if: github.ref != 'refs/heads/master'
+#     needs: AppInfraDev
+#     runs-on: ubuntu-latest
+#     environment: nonprod
+#     steps:
+#       - uses: actions/checkout@v4
 
-  DeployDev:
-    if: github.ref != 'refs/heads/master'
-    needs: AppInfraDev
-    runs-on: ubuntu-latest
-    environment: nonprod
-    steps:
-      - uses: actions/checkout@v4
+#       - name: Set environment variables
+#         run: |
+#           cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
-      - name: Set environment variables
-        run: |
-          cat .github/workflows/simple-api.env >> $GITHUB_ENV
+#       - name: Install TaskCTL
+#         uses: ./build/github/templates/install-taskctl
 
-      - name: Install TaskCTL
-        uses: ./build/github/templates/install-taskctl
+#       - run: taskctl image-pull
 
-      - run: taskctl image-pull
+#       - run: taskctl image-pull-dotnet
 
-      - run: taskctl image-pull-dotnet
+#       - name: Download Functional Tests
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
+#           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
 
-      - name: Download Functional Tests
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
-          path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+#       - name: TaskCTL Deploy
+#         run: taskctl deploy
+#         env:
+#           ENV_NAME: dev
+#           # AWS Environmental Config
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           AWS_DEFAULT_REGION: ${{ env.REGION }}
+#           # Terraform Backend Configuration (for outputs)
+#           TF_FILE_LOCATION: deploy/aws/app/kube
+#           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+#           # Terraform Resource Configuration
+#           TF_VAR_env: "nonprod"
+#           TF_VAR_owner: ${{ env.OWNER }}
+#           TF_VAR_region: ${{ env.REGION }}
+#           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+#           TF_VAR_stage: "dev"
+#           TF_VAR_name_company: ${{ env.COMPANY }}
+#           TF_VAR_name_project: ${{ env.PROJECT }}
+#           TF_VAR_name_domain: ${{ env.DOMAIN }}
+#           # K8S Target Configuration
+#           K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"
+#           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
+#           NAMESPACE: "dev-${{ env.DOMAIN }}"
+#           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
+#           DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
+#           DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com"
+#           # Functional Test Configuration
+#           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
+#           BaseUrl: "https://dev-${{ env.DOMAIN }}.nonprod.aws.stacks.ensono.com/api/menu/"
 
-      - name: TaskCTL Deploy
-        run: taskctl deploy
-        env:
-          ENV_NAME: dev
-          # AWS Environmental Config
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ env.REGION }}
-          # Terraform Backend Configuration (for outputs)
-          TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          # Terraform Resource Configuration
-          TF_VAR_env: "nonprod"
-          TF_VAR_owner: ${{ env.OWNER }}
-          TF_VAR_region: ${{ env.REGION }}
-          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
-          TF_VAR_stage: "dev"
-          TF_VAR_name_company: ${{ env.COMPANY }}
-          TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: ${{ env.DOMAIN }}
-          # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "ensono-stacks-nonprod-ew2-eks"
-          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
-          NAMESPACE: "dev-${{ env.DOMAIN }}"
-          # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
-          DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com"
-          # Functional Test Configuration
-          FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://dev-${{ env.DOMAIN }}.nonprod.aws.stacks.ensono.com/api/menu/"
+#       - name: "Dev: Functional Test Report"
+#         uses: dorny/test-reporter@v1
+#         if: always()
+#         with:
+#           name: "Dev: ${{ env.DOMAIN }} Functional Test Report"
+#           path: testresults/*.trx
+#           reporter: dotnet-trx
+#           fail-on-error: true
+#           fail-on-empty: true
 
-      - name: "Dev: Functional Test Report"
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: "Dev: ${{ env.DOMAIN }} Functional Test Report"
-          path: testresults/*.trx
-          reporter: dotnet-trx
-          fail-on-error: true
-          fail-on-empty: true
+#       - name: Publish Manifest File
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: helm_values_nonprod
+#           path: ${{ env.HELM_VALUE_FILE }}
 
-      - name: Publish Manifest File
-        uses: actions/upload-artifact@v4
-        with:
-          name: helm_values_nonprod
-          path: ${{ env.HELM_VALUE_FILE }}
+#   AppInfraProd:
+#     if: github.ref == 'refs/heads/master'
+#     needs: Build
+#     runs-on: ubuntu-latest
+#     environment: prod
+#     steps:
+#       - uses: actions/checkout@v4
 
-  AppInfraProd:
-    if: github.ref == 'refs/heads/master'
-    needs: Build
-    runs-on: ubuntu-latest
-    environment: prod
-    steps:
-      - uses: actions/checkout@v4
+#       - name: Set environment variables
+#         run: |
+#           cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
-      - name: Set environment variables
-        run: |
-          cat .github/workflows/simple-api.env >> $GITHUB_ENV
+#       - uses: ./build/github/templates/install-taskctl
 
-      - uses: ./build/github/templates/install-taskctl
+#       - run: taskctl image-pull
 
-      - run: taskctl image-pull
+#       - run: taskctl infrastructure
+#         env:
+#           ENV_NAME: prod
+#           # AWS Environmental Config
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           AWS_DEFAULT_REGION: ${{ env.REGION }}
+#           # Terraform Backend Configuration
+#           TF_FILE_LOCATION: deploy/aws/app/kube
+#           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+#           # Terraform Resource Configuration
+#           TF_VAR_env: "prod"
+#           TF_VAR_owner: ${{ env.OWNER }}
+#           TF_VAR_region: ${{ env.REGION }}
+#           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+#           TF_VAR_stage: "prod"
+#           TF_VAR_name_company: ${{ env.COMPANY }}
+#           TF_VAR_name_project: ${{ env.PROJECT }}
+#           TF_VAR_name_domain: ${{ env.DOMAIN }}
 
-      - run: taskctl infrastructure
-        env:
-          ENV_NAME: prod
-          # AWS Environmental Config
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ env.REGION }}
-          # Terraform Backend Configuration
-          TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          # Terraform Resource Configuration
-          TF_VAR_env: "prod"
-          TF_VAR_owner: ${{ env.OWNER }}
-          TF_VAR_region: ${{ env.REGION }}
-          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
-          TF_VAR_stage: "prod"
-          TF_VAR_name_company: ${{ env.COMPANY }}
-          TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: ${{ env.DOMAIN }}
+#   DeployProd:
+#     if: github.ref == 'refs/heads/master'
+#     needs: AppInfraProd
+#     runs-on: ubuntu-latest
+#     environment: prod
+#     steps:
+#       - uses: actions/checkout@v4
 
-  DeployProd:
-    if: github.ref == 'refs/heads/master'
-    needs: AppInfraProd
-    runs-on: ubuntu-latest
-    environment: prod
-    steps:
-      - uses: actions/checkout@v4
+#       - name: Set environment variables
+#         run: |
+#           cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
-      - name: Set environment variables
-        run: |
-          cat .github/workflows/simple-api.env >> $GITHUB_ENV
+#       - name: Install TaskCTL
+#         uses: ./build/github/templates/install-taskctl
 
-      - name: Install TaskCTL
-        uses: ./build/github/templates/install-taskctl
+#       - run: taskctl image-pull
 
-      - run: taskctl image-pull
+#       - run: taskctl image-pull-dotnet
 
-      - run: taskctl image-pull-dotnet
+#       - name: Download Functional Tests
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
+#           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
 
-      - name: Download Functional Tests
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
-          path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
+#       - run: taskctl image-pull
 
-      - run: taskctl image-pull
+#       - run: taskctl image-pull-dotnet
 
-      - run: taskctl image-pull-dotnet
+#       - name: TaskCTL Deploy
+#         run: taskctl deploy
+#         env:
+#           ENV_NAME: prod
+#           # AWS Environmental Config
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           AWS_DEFAULT_REGION: ${{ env.REGION }}
+#           # Terraform Backend Configuration (for outputs)
+#           TF_FILE_LOCATION: deploy/aws/app/kube
+#           TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
+#           # Terraform Resource Configuration
+#           TF_VAR_env: "prod"
+#           TF_VAR_owner: ${{ env.OWNER }}
+#           TF_VAR_region: ${{ env.REGION }}
+#           TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
+#           TF_VAR_stage: "prod"
+#           TF_VAR_name_company: ${{ env.COMPANY }}
+#           TF_VAR_name_project: ${{ env.PROJECT }}
+#           TF_VAR_name_domain: ${{ env.DOMAIN }}
+#           # K8S Target Configuration
+#           K8S_CLUSTER_TARGET: "ensono-stacks-prod-ew2-eks"
+#           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
+#           NAMESPACE: "prod-${{ env.DOMAIN }}"
+#           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
+#           DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
+#           DNS_BASE_DOMAIN: "prod.aws.stacks.ensono.com"
+#           # Functional Test Configuration
+#           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
+#           BaseUrl: "https://prod-${{ env.DOMAIN }}.prod.aws.stacks.ensono.com/api/menu/"
 
-      - name: TaskCTL Deploy
-        run: taskctl deploy
-        env:
-          ENV_NAME: prod
-          # AWS Environmental Config
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ env.REGION }}
-          # Terraform Backend Configuration (for outputs)
-          TF_FILE_LOCATION: deploy/aws/app/kube
-          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
-          # Terraform Resource Configuration
-          TF_VAR_env: "prod"
-          TF_VAR_owner: ${{ env.OWNER }}
-          TF_VAR_region: ${{ env.REGION }}
-          TF_VAR_docker_image_name: ${{ env.DOCKER_IMAGE_NAME }}
-          TF_VAR_stage: "prod"
-          TF_VAR_name_company: ${{ env.COMPANY }}
-          TF_VAR_name_project: ${{ env.PROJECT }}
-          TF_VAR_name_domain: ${{ env.DOMAIN }}
-          # K8S Target Configuration
-          K8S_CLUSTER_TARGET: "ensono-stacks-prod-ew2-eks"
-          K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
-          NAMESPACE: "prod-${{ env.DOMAIN }}"
-          # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
-          DNS_BASE_DOMAIN: "prod.aws.stacks.ensono.com"
-          # Functional Test Configuration
-          FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
-          BaseUrl: "https://prod-${{ env.DOMAIN }}.prod.aws.stacks.ensono.com/api/menu/"
+#       - name: "Prod: Functional Test Report"
+#         uses: dorny/test-reporter@v1
+#         if: always()
+#         with:
+#           name: "Prod: ${{ env.DOMAIN }} Functional Test Report"
+#           path: testresults/*.trx
+#           reporter: dotnet-trx
+#           fail-on-error: true
+#           fail-on-empty: true
 
-      - name: "Prod: Functional Test Report"
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: "Prod: ${{ env.DOMAIN }} Functional Test Report"
-          path: testresults/*.trx
-          reporter: dotnet-trx
-          fail-on-error: true
-          fail-on-empty: true
-
-      - name: Publish Manifest File
-        uses: actions/upload-artifact@v4
-        with:
-          name: helm_values_prod
-          path: ${{ env.HELM_VALUE_FILE }}
+#       - name: Publish Manifest File
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: helm_values_prod
+#           path: ${{ env.HELM_VALUE_FILE }}

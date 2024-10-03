@@ -14,7 +14,8 @@ RUN dotnet workload install aspire
 RUN dotnet publish -c Release -o out $self_repo_src/xxENSONOxx.xxSTACKSxx.API
 #list files copied to output
 RUN find
-RUN du -ch out/
+# 
+RUN du -ch out/ 
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0

@@ -1,12 +1,12 @@
 name: air.stacks-dotnet-cqrs
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: {}
+#   push:
+#     branches:
+#       - master
+#   pull_request:
+#     branches:
+#       - master
 
 permissions:
   actions: read
@@ -29,7 +29,7 @@ env:
   #   AWS_TF_STATE_KEY
   #   AWS_TF_STATE_REGION
   CLOUD_PROVIDER: "aws"
-  TaskctlVersion: '1.5.2'
+  TaskctlVersion: '1.7.3'
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
   OWNER: "stacks_team"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
