@@ -155,7 +155,9 @@ tasks:
       - |
         podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
         echo "building AMD _and_ ARM"
-        podman build --platform=linux/amd64 --manifest ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} -f Dockerfile $SELF_REPO_SRC
+        podman build --platform=linux/amd64,linux/arm64 --manifest ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
+          -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
+          -f Dockerfile $SELF_REPO_SRC
         echo "PUSHING TO REGISTRY"
         podman manifest push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
         echo "Deleting manifest"
