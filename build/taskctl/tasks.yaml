@@ -139,7 +139,7 @@ tasks:
         Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:IMAGE_NAME -region $env:ECR_REGION -BuildPath . -BuildArgs "-f $env:SELF_REPO_SRC/Dockerfile --build-arg self_repo_src=$env:SELF_REPO_SRC" -push
 
   safe:container:login:
-    context: powershell
+    context: container:auth
     command:
       - |
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
