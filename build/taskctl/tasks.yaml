@@ -154,9 +154,9 @@ tasks:
     command:
       - |
         echo "building AMD"
-        podman build --platform=linux/amd64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME_TAG}-linux-amd64 --build-arg self_repo_src=$SELF_REPO_SRC .
+        podman build --platform=linux/amd64 -f Dockerfile -t ${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
         echo "building ARM"
-        podman build --platform=linux/arm64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME_TAG}-linux-arm64 --build-arg self_repo_src=$SELF_REPO_SRC .
+        podman build --platform=linux/arm64 -f Dockerfile -t ${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
         echo "merging manifests"
         podman manifest create ${IMAGE_NAME_TAG} \
           ${IMAGE_NAME_TAG}-linux-amd64 \
