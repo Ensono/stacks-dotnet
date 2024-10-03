@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet workload install aspire
+RUN dotnet workload install microsoft.net.sdk.aspire --skip-manifest-update -v diag
 RUN dotnet publish -c Release -o out xxENSONOxx.xxSTACKSxx.API
 # #list files copied to output
 # RUN find
