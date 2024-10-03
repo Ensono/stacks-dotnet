@@ -12,10 +12,6 @@ WORKDIR /app
 COPY ./ ./
 RUN dotnet workload install aspire --skip-manifest-update
 RUN dotnet publish --runtime ${NET_ARCH} -c Release -o out xxENSONOxx.xxSTACKSxx.API
-# #list files copied to output
-# RUN find
-# # 
-# RUN du -ch out/ 
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
