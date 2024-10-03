@@ -61,7 +61,7 @@ tasks:
     command:
       - $ErrorActionPreference = "Stop";
         cd $env:SELF_REPO_SRC &&
-        cat $env:SONAR_PROPERTIES &&
+        echo $env:SONAR_PROPERTIES &&
         Invoke-SonarScanner -start &&
         Invoke-DotNet -Custom -arguments "workload install aspire" &&
         Invoke-DotNet -Build -Path . &&
