@@ -23,9 +23,9 @@ contexts:
     envfile:
       generate: true
       exclude:
-        - path
-        - home
-        - kubeconfig
+        - PATH
+        - HOME
+        - KUBECONFIG
 
   container:auth:
     container:
