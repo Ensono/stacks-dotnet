@@ -88,6 +88,9 @@ jobs:
       #   - run: taskctl build:functional_tests
 
       # Add login file
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
       - run: taskctl safe:container:login
         env:
           ECR_REGION: ${{ env.REGION }}
