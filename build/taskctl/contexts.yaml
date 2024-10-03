@@ -22,15 +22,14 @@ contexts:
     quote: "'"
     envfile:
       generate: true
-      delay: 0
       exclude:
         - path
         - home
         - kubeconfig
 
-  container:auth:
-    container: 
-      name
+  # container:auth:
+  #   container: 
+  #     name 
   container:builder:
     container:
       name: quay.io/podman/stable:v5.2.3
@@ -68,7 +67,6 @@ contexts:
       DOTNET_ARGUMENTS: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
     envfile:
       generate: true
-      delay: 0
       exclude:
         - path
         - home
