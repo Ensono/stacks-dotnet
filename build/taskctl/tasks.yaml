@@ -138,6 +138,7 @@ tasks:
       - $ErrorActionPreference = "Stop";
         Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:IMAGE_NAME -region $env:ECR_REGION -BuildPath . -BuildArgs "-f $env:SELF_REPO_SRC/Dockerfile --build-arg self_repo_src=$env:SELF_REPO_SRC" -push
 
+  # SAMPLE build without docker sock
   safe:container:login:
     context: container:auth
     command:
@@ -151,20 +152,18 @@ tasks:
     context: container:builder
     description: |
       builds multi arch images and pushes them to registry
-
-      Example: taskctl run podman:build:push -c docs/samples/docker.build.yaml
     command:
       - |
-        podman build --platform=linux/amd64 -f Dockerfile -t dnitsch/app-kaniko-test:${BUILD_VERSION}-linux-amd64 .
-        podman build --platform=linux/arm64 -f Dockerfile -t dnitsch/app-kaniko-test:${BUILD_VERSION}-linux-arm64 .
-        podman manifest create dnitsch/app-kaniko-test:${BUILD_VERSION} \
-          dnitsch/app-kaniko-test:${BUILD_VERSION}-linux-amd64 \
-          dnitsch/app-kaniko-test:${BUILD_VERSION}-linux-arm64
-        podman manifest push dnitsch/app-kaniko-test:${BUILD_VERSION} docker://dnitsch/app-kaniko-test:${BUILD_VERSION}
-        podman manifest rm dnitsch/app-kaniko-test:${BUILD_VERSION}
+        podman build --platform=linux/amd64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME}-linux-amd64 .
+        podman build --platform=linux/arm64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME}-linux-arm64 .
+        podman manifest create ${IMAGE_NAME} \
+          ${IMAGE_NAME}-linux-amd64 \
+          ${IMAGE_NAME}-linux-arm64
+        podman manifest push ${IMAGE_NAME} docker://${IMAGE_NAME}
+        podman manifest rm ${IMAGE_NAME}
     reset_context: true
-    env:
-      BUILD_VERSION: 0.0.14
+    # env:
+    #   BUILD_VERSION: 0.0.14
 
   build:functional_tests:
     context: powershell-dotnet
