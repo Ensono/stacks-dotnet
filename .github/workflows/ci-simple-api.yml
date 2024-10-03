@@ -88,19 +88,11 @@ jobs:
       #   - run: taskctl build:functional_tests
 
       # Add login file
-      - run: |
-          # profile dockerd /usr/bin/dockerd { // ... deny /sys/kernel/security/apparmor/**, }
-          systemctl status apparmor.service
-          # systemctl stop apparmor.service
-          # systemctl disable apparmor.service
-        shell: bash
-        name: AppArmor tests
-
       - run: taskctl safe:container:login
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          ECR_REGION: ${{ env.REGION }}
+          DOCKER_CONTAINER_REGISTRY_NAME: ${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}
 
       - run: taskctl safe:container:build:push
         env:
@@ -113,7 +105,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ env.REGION }}
           IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
-          container: true
+          # container: true
         # continue-on-error: true
 
 # - name: Unit Test Report
