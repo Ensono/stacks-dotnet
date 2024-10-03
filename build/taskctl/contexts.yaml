@@ -42,7 +42,6 @@ contexts:
         - --cap-add SETFCAP
         - --cap-add SYS_RESOURCE
         - --device=/dev/fuse
-        - --seccomp-profile=unconfined
         - --security-opt seccomp=unconfined
         - --security-opt apparmor=unconfined
         - --security-opt label=disable
