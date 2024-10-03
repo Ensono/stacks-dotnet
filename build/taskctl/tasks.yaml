@@ -153,14 +153,13 @@ tasks:
       builds multi arch images and pushes them to registry
     command:
       - |
-        podman manifest create ${IMAGE_NAME_TAG}
+        podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
         echo "building AMD _and_ ARM"
-        podman build --platform=linux/amd64,linux/arm64 --manifest ${IMAGE_NAME_TAG} -f Dockerfile $SELF_REPO_SRC
-        cat $DOCKER_CONFIG/config.json
+        podman build --platform=linux/amd64,linux/arm64 --manifest ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} -f Dockerfile $SELF_REPO_SRC
         echo "PUSHING TO REGISTRY"
-        podman manifest push ${IMAGE_NAME_TAG}
+        podman manifest push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
         echo "Deleting manifest"
-        podman manifest rm ${IMAGE_NAME_TAG}
+        podman manifest rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
     reset_context: true
     # env:
       # TODO: unfurl ENV variables if found as values to env input property 
