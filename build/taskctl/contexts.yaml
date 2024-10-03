@@ -28,16 +28,16 @@ contexts:
         - kubeconfig
 
   # container:auth:
-  #   container: 
-  #     name 
+  #   container:
+  #     name
   container:builder:
     container:
       name: quay.io/podman/stable:v5.2.3
       container_args:
-        - --cap-add=sys_admin 
-        - --cap-add mknod 
-        - --device=/dev/fuse 
-        - --security-opt seccomp=unconfined 
+        - --cap-add=sys_admin
+        - --cap-add mknod
+        - --device=/dev/fuse
+        - --security-opt seccomp=unconfined
         - --security-opt label=disable
     env:
       DOCKER_CONFIG: /workspace/.taskctl/.docker

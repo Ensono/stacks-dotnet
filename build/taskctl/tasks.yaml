@@ -141,12 +141,12 @@ tasks:
   safe:container:login:
     context: powershell
     command:
-      - | 
+      - |
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
         ls -lat $HOME/.docker
         ls -lat $HOME/.config/containers 
         cat $HOME/.docker/config.json
-        cat $HOME/.config/containers/auth.json 
+        cat $HOME/.config/containers/auth.json
 
   safe:container:build:push:
     context: container:builder
@@ -155,7 +155,7 @@ tasks:
 
       Example: taskctl run podman:build:push -c docs/samples/docker.build.yaml
     command:
-      - podman login 
+      - podman login
       - |
         podman build --platform=linux/amd64 -f Dockerfile -t dnitsch/app-kaniko-test:${BUILD_VERSION}-linux-amd64 .
         podman build --platform=linux/arm64 -f Dockerfile -t dnitsch/app-kaniko-test:${BUILD_VERSION}-linux-arm64 .
