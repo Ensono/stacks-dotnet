@@ -153,6 +153,7 @@ tasks:
       builds multi arch images and pushes them to registry
     command:
       - |
+        IMAGE_NAME_TAG=${IMAGE_NAME}:${BUILD_BUILDNUMBER}
         podman build --platform=linux/amd64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME_TAG}-linux-amd64 .
         podman build --platform=linux/arm64 -f $SELF_REPO_SRC/Dockerfile -t ${IMAGE_NAME_TAG}-linux-arm64 .
         podman manifest create ${IMAGE_NAME_TAG} \
@@ -161,8 +162,10 @@ tasks:
         podman manifest push ${IMAGE_NAME_TAG} docker://${IMAGE_NAME_TAG}
         podman manifest rm ${IMAGE_NAME_TAG}
     reset_context: true
-    env:
-      IMAGE_NAME_TAG: ${IMAGE_NAME}:${BUILD_BUILDNUMBER}
+    # env:
+    # TODO: unfurl ENV variables if found as values to env input property 
+    #   IMAGE_NAME_TAG: ${IMAGE_NAME}:${BUILD_BUILDNUMBER}
+
 
   build:functional_tests:
     context: powershell-dotnet
