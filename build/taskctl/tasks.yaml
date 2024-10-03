@@ -156,15 +156,15 @@ tasks:
         podman manifest create ${IMAGE_NAME_TAG}
         echo "building AMD _and_ ARM"
         podman build --platform=linux/amd64,linux/arm64 --manifest ${IMAGE_NAME_TAG} -f Dockerfile $SELF_REPO_SRC
+        cat $DOCKER_CONFIG/config.json
         echo "PUSHING TO REGISTRY"
-        podman manifest push ${IMAGE_NAME_TAG} docker://${IMAGE_NAME_TAG}
+        podman manifest push ${IMAGE_NAME_TAG}
         echo "Deleting manifest"
         podman manifest rm ${IMAGE_NAME_TAG}
     reset_context: true
     # env:
       # TODO: unfurl ENV variables if found as values to env input property 
       # IMAGE_NAME_TAG: ${IMAGE_NAME}:${BUILD_BUILDNUMBER}
-      # SELF_REPO_SRC: src/simple-api/src/api
 
 
   build:functional_tests:
