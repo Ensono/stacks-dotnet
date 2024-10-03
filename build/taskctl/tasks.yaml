@@ -61,7 +61,6 @@ tasks:
     command:
       - $ErrorActionPreference = "Stop";
         cd $env:SELF_REPO_SRC &&
-        echo $env:SONAR_PROPERTIES &&
         Invoke-SonarScanner -start &&
         Invoke-DotNet -Custom -arguments "workload install aspire" &&
         Invoke-DotNet -Build -Path . &&
@@ -69,6 +68,7 @@ tasks:
         Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
         Invoke-DotNet -Coverage -target /app/coverage -path /app/coverage &&
+        Remove-Item Env:\SONAR_PROPERTIES &&
         Invoke-SonarScanner -stop
     condition: exit $TEST_NO_RUN
 
