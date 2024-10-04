@@ -166,7 +166,7 @@ tasks:
       See taskctl docs/samples for more details
     command:
       - |
-        source .docker.env
+        echo -n $DOCKER_AUTH > .docker/config.json
         podman build -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} $SELF_REPO_SRC
         podman push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
         podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
