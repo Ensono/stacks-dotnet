@@ -51,18 +51,14 @@
 │       └── 3-helm-upgrade.sh
 ├── src
 │   ├── cqrs
-│   │   ├── .DS_Store
 │   │   ├── contracts
 │   │   │   ├── openapi-v1-generated.json
 │   │   │   └── openapi-v1.yaml
 │   │   └── src
-│   │       ├── .DS_Store
 │   │       ├── .editorconfig
 │   │       ├── api
-│   │       │   ├── .DS_Store
 │   │       │   ├── .dockerignore
 │   │       │   ├── Cqrs.Sns.API
-│   │       │   │   ├── .DS_Store
 │   │       │   │   ├── Authentication
 │   │       │   │   │   ├── ConfigurationExtensions.cs
 │   │       │   │   │   ├── JwtBearerAuthenticationConfiguration.cs
@@ -411,7 +407,6 @@
 │   │               │   └── appsettings.json
 │   │               └── Cqrs.Sns.API.FunctionalTests.sln
 │   └── shared
-│       ├── .DS_Store
 │       ├── .editorconfig
 │       ├── Cqrs.Sns.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions

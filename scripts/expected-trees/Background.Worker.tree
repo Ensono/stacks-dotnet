@@ -69,9 +69,7 @@
 │       └── 3-helm-upgrade.sh
 ├── src
 │   ├── background-worker
-│   │   ├── .DS_Store
 │   │   └── src
-│   │       ├── .DS_Store
 │   │       ├── .editorconfig
 │   │       └── worker
 │   │           ├── Background.Worker.Application.CQRS.Events
