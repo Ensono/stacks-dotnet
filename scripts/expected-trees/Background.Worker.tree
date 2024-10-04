@@ -69,7 +69,9 @@
 │       └── 3-helm-upgrade.sh
 ├── src
 │   ├── background-worker
+│   │   ├── .DS_Store
 │   │   └── src
+│   │       ├── .DS_Store
 │   │       ├── .editorconfig
 │   │       └── worker
 │   │           ├── Background.Worker.Application.CQRS.Events
@@ -86,44 +88,59 @@
 │   │           │   ├── MenuItemUpdatedEvent.cs
 │   │           │   └── MenuUpdatedEvent.cs
 │   │           ├── Background.Worker.BackgroundWorker
+│   │           │   ├── ApplicationEvents
+│   │           │   │   ├── EventCode.cs
+│   │           │   │   ├── Events
+│   │           │   │   │   ├── CategoryCreatedEvent.cs
+│   │           │   │   │   ├── CategoryDeletedEvent.cs
+│   │           │   │   │   ├── CategoryUpdatedEvent.cs
+│   │           │   │   │   ├── MenuCreatedEvent.cs
+│   │           │   │   │   ├── MenuDeletedEvent.cs
+│   │           │   │   │   ├── MenuItemCreatedEvent.cs
+│   │           │   │   │   ├── MenuItemDeletedEvent.cs
+│   │           │   │   │   ├── MenuItemUpdatedEvent.cs
+│   │           │   │   │   └── MenuUpdatedEvent.cs
+│   │           │   │   └── Handlers
+│   │           │   │       ├── CategoryCreatedEventHandler.cs
+│   │           │   │       ├── CategoryDeletedEventHandler.cs
+│   │           │   │       ├── CategoryUpdatedEventHandler.cs
+│   │           │   │       ├── MenuCreatedEventHandler.cs
+│   │           │   │       ├── MenuDeletedEventHandler.cs
+│   │           │   │       ├── MenuItemCreatedEventHandler.cs
+│   │           │   │       ├── MenuItemDeletedEventHandler.cs
+│   │           │   │       ├── MenuItemUpdatedEventHandler.cs
+│   │           │   │       └── MenuUpdatedEventHandler.cs
 │   │           │   ├── Background.Worker.BackgroundWorker.csproj
-│   │           │   ├── Exceptions
-│   │           │   │   ├── InvalidSecretDefinitionException.cs
-│   │           │   │   ├── InvalidSecretSourceException.cs
-│   │           │   │   ├── SecretException.cs
-│   │           │   │   ├── SecretNotDefinedException.cs
-│   │           │   │   ├── SecretNotFoundException.cs
-│   │           │   │   └── _ExceptionIds.cs
-│   │           │   ├── Extensions
-│   │           │   │   └── ServiceCollectionExtensions.cs
-│   │           │   ├── Handlers
-│   │           │   │   ├── CategoryCreatedEventHandler.cs
-│   │           │   │   ├── CategoryDeletedEventHandler.cs
-│   │           │   │   ├── CategoryUpdatedEventHandler.cs
-│   │           │   │   ├── MenuCreatedEventHandler.cs
-│   │           │   │   ├── MenuDeletedEventHandler.cs
-│   │           │   │   ├── MenuItemCreatedEventHandler.cs
-│   │           │   │   ├── MenuItemDeletedEventHandler.cs
-│   │           │   │   ├── MenuItemUpdatedEventHandler.cs
-│   │           │   │   └── MenuUpdatedEventHandler.cs
 │   │           │   ├── Program.cs
-│   │           │   ├── Secrets
-│   │           │   │   ├── EnvironmentSecretSource.cs
-│   │           │   │   ├── FileSecretSource.cs
-│   │           │   │   ├── ISecretResolver.cs
-│   │           │   │   ├── ISecretSource.cs
-│   │           │   │   ├── Secret.cs
-│   │           │   │   └── SecretResolver.cs
 │   │           │   └── appsettings.json
 │   │           ├── Background.Worker.BackgroundWorker.UnitTests
 │   │           │   ├── Background.Worker.BackgroundWorker.UnitTests.csproj
-│   │           │   ├── Configuration.cs
-│   │           │   ├── DotEnv.cs
-│   │           │   ├── PlaceHolderTests.cs
-│   │           │   ├── SampleConfigurationWithSecret.cs
-│   │           │   ├── SecretTests.cs
-│   │           │   ├── appsettings.json
-│   │           │   └── secretfile.txt
+│   │           │   ├── Doubles
+│   │           │   │   └── MockLogger.cs
+│   │           │   ├── GlobalUsings.cs
+│   │           │   └── Tests
+│   │           │       └── ApplicationEvents
+│   │           │           ├── EventCodeUnitTests.cs
+│   │           │           ├── Events
+│   │           │           │   ├── CategoryCreatedEventUnitTests.cs
+│   │           │           │   ├── CategoryDeletedEventUnitTests.cs
+│   │           │           │   ├── CategoryUpdatedEventUnitTests.cs
+│   │           │           │   ├── MenuCreatedEventUnitTests.cs
+│   │           │           │   ├── MenuDeletedEventUnitTests.cs
+│   │           │           │   ├── MenuItemCreatedEventUnitTests.cs
+│   │           │           │   ├── MenuItemDeletedEventUnitTests.cs
+│   │           │           │   ├── MenuItemUpdatedEventUnitTests.cs
+│   │           │           │   └── MenuUpdatedEventUnitTests.cs
+│   │           │           └── Handlers
+│   │           │               ├── CategoryCreatedEventHandlerUnitTests.cs
+│   │           │               ├── CategoryDeletedEventHandlerUnitTests.cs
+│   │           │               ├── CategoryUpdatedEventHandlerUnitTests.cs
+│   │           │               ├── MenuCreatedEventHandlerUnitTests.cs
+│   │           │               ├── MenuDeletedEventHandlerUnitTests.cs
+│   │           │               ├── MenuItemCreatedEventHandlerUnitTests.cs
+│   │           │               ├── MenuItemDeletedEventHandlerUnitTests.cs
+│   │           │               ├── MenuItemUpdatedEventHandlerUnitTests.cs
+│   │           │               └── MenuUpdatedEventHandlerUnitTests.cs
 │   │           ├── Background.Worker.BackgroundWorker.sln
 │   │           └── Dockerfile
 │   └── shared
