@@ -1,4 +1,4 @@
-namespace xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Enums;
+namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents;
 
 public enum EventCode
 {

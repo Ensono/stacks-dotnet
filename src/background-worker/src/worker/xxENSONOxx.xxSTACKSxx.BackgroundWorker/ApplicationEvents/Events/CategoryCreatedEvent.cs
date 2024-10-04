@@ -2,18 +2,18 @@ using Newtonsoft.Json;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
-namespace xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
 
 [method: JsonConstructor]
-public class CategoryDeletedEvent(int operationCode, Guid correlationId, Guid menuId, Guid categoryId)
+public class CategoryCreatedEvent(int operationCode, Guid correlationId, Guid menuId, Guid categoryId)
            : IApplicationEvent
 {
-    public CategoryDeletedEvent(IOperationContext context, Guid menuId, Guid categoryId)
+    public CategoryCreatedEvent(IOperationContext context, Guid menuId, Guid categoryId)
          : this(context.OperationCode, context.CorrelationId, menuId, categoryId)
     {
     }
 
-    public int EventCode => (int)Enums.EventCode.CategoryDeleted;
+    public int EventCode => (int)ApplicationEvents.EventCode.CategoryCreated;
 
     public int OperationCode { get; } = operationCode;
 

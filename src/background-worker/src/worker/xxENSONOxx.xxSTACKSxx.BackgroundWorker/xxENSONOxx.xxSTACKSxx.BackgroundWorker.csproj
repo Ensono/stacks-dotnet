@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <UserSecretsId>dotnet-xxENSONOxx.xxSTACKSxx.BackgroundWorker-F7A22A09-7FA2-43C0-BAA8-16053DE4A111</UserSecretsId>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.csproj" />
-    <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.csproj" />
   </ItemGroup>
 </Project>
