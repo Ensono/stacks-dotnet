@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
-namespace xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
+namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
 
 [method: JsonConstructor]
 public class MenuItemDeletedEvent(int operationCode, Guid correlationId, Guid menuId, Guid categoryId, Guid menuItemId)
@@ -13,7 +13,7 @@ public class MenuItemDeletedEvent(int operationCode, Guid correlationId, Guid me
     {
     }
 
-    public int EventCode => (int)Enums.EventCode.MenuItemDeleted;
+    public int EventCode => (int)ApplicationEvents.EventCode.MenuItemDeleted;
 
     public int OperationCode { get; } = operationCode;
 
