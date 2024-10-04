@@ -22,17 +22,26 @@ pipelines:
       depends_on: lint:terraform:format
 
   # Pipeline to perform the build of the project
+  # Currently these are only used locally as each 
+  # task is a separate run task in CI
   build:
     - pipeline: lint
     - task: test
     - task: build:functional_tests
       depends_on:
         - test
-    - task: build:container
+    # - task: build:container
+    - pipeline: safe:build:container
       depends_on:
         - test
       variables:
         IMAGE_NAME: $env:DOCKER_IMAGE_NAME
+
+  safe:build:container:
+    - task: container:auth
+    - task: safe:container:build:push
+      depends_on:
+        - container:auth
 
   # Pipeline to ensure that the infrastructure is valid
   infrastructure:
