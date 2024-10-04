@@ -38,10 +38,10 @@ pipelines:
         IMAGE_NAME: $env:DOCKER_IMAGE_NAME
 
   safe:build:container:
-    - task: container:auth
+    - task: safe:container:login
     - task: safe:container:build:push
       depends_on:
-        - container:auth
+        -  safe:container:login
 
   # Pipeline to ensure that the infrastructure is valid
   infrastructure:
