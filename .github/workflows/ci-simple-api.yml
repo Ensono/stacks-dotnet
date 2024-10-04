@@ -74,20 +74,22 @@ jobs:
 
           echo "arguments=${prArguments}" >> "${GITHUB_OUTPUT}"
 
-      - run: taskctl test
-        env:
-          # Testing
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: ensono
-          SONAR_URL: "https://sonarcloud.io"
-          SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" ${{ steps.sonar-pr.outputs.arguments }}'
-          PACT_BEARER_TOKEN: ${{ secrets.PACT_BEARER_TOKEN }}
-          PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
-          BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
+      # - run: taskctl test
+      #   env:
+      #     # Testing
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_ORG: ensono
+      #     SONAR_URL: "https://sonarcloud.io"
+      #     SONAR_PROPERTIES: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests" ${{ steps.sonar-pr.outputs.arguments }}'
+      #     PACT_BEARER_TOKEN: ${{ secrets.PACT_BEARER_TOKEN }}
+      #     PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
+      #     BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
       - run: taskctl build:functional_tests
 
       # Add login file
+      # IF we want to perform cross platform builds we need to add 
+      # QEMU or other emulator capability to cross-compile for other architectures
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 

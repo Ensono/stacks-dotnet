@@ -144,12 +144,16 @@ tasks:
 
   # SAMPLE build without docker sock
   safe:container:login:
-    context: container:auth
+    # context: container:auth
+    description: Runs AWS CLI in a default shell
     command:
       - |
         aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${DOCKER_CONTAINER_REGISTRY_NAME}
         mkdir .docker
-        cp $HOME/.docker/config.json .docker/config.json
+        echo "DOCKER_AUTH=$(cat $HOME/.docker/config.json)" >  .docker.env
+    artifacts:
+      path: .docker.env
+      type: dotenv
 
   safe:container:build:push:
     context: container:builder
@@ -162,6 +166,7 @@ tasks:
       See taskctl docs/samples for more details
     command:
       - |
+        source .docker.env
         podman build -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} $SELF_REPO_SRC
         podman push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
         podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
