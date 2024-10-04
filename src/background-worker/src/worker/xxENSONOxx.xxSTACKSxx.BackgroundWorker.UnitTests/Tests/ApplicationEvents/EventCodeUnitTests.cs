@@ -19,13 +19,4 @@ public sealed class EventCodeUnitTests
         // Assert
         values.Should().HaveSameCount(distinctValues, "All EventCode values should have unique identifiers.");
     }
-
-    [Fact]
-    public void Testing()
-    {
-        var autoFixture =  new Fixture().Customize(new AutoNSubstituteCustomization());
-        var data = autoFixture.Create<MenuCreatedEvent>();
-        var messageType = new StacksCloudEvent<MenuCreatedEvent>(data, data.CorrelationId);
-        var type = messageType.GetType();
-    }
 }
