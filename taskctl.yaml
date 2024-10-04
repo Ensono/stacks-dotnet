@@ -6,7 +6,7 @@ import:
 watchers:
   lint:
     watch:
-      - '*.yml'
+      - "*.yml"
     events: [create, write]
     task: lint:yaml
 
@@ -22,7 +22,7 @@ pipelines:
       depends_on: lint:terraform:format
 
   # Pipeline to perform the build of the project
-  # Currently these are only used locally as each 
+  # Currently these are only used locally as each
   # task is a separate run task in CI
   build:
     - pipeline: lint
@@ -41,7 +41,7 @@ pipelines:
     - task: safe:container:login
     - task: safe:container:build:push
       depends_on:
-        -  safe:container:login
+        - safe:container:login
 
   # Pipeline to ensure that the infrastructure is valid
   infrastructure:
@@ -50,7 +50,6 @@ pipelines:
       depends_on: infra:init
     - task: infra:apply
       depends_on: infra:plan
-
 
   # Deploy pipeline
   deploy:
