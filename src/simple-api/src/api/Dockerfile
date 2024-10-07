@@ -2,15 +2,18 @@
 ARG nuget_url="https://replace_me"
 ARG nuget_token="replace_me"
 ARG NET_ARCH="linux-amd64"
+ARG DOTNET_ASPIRE_CONTAINER_RUNTIME=docker
 
 ENV STACKS_NUGET=${nuget_url}
 ENV STACKS_NUGET_TOKEN=${nuget_token}
+ENV DOTNET_ASPIRE_CONTAINER_RUNTIME=${DOTNET_ASPIRE_CONTAINER_RUNTIME}
 
 WORKDIR /app
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet workload install aspire
+RUN dotnet --version
+RUN dotnet workload update && dotnet workload install aspire --version=8.2.0
 RUN dotnet publish --runtime ${NET_ARCH} -c Release -o out xxENSONOxx.xxSTACKSxx.API
 
 # Build runtime image
