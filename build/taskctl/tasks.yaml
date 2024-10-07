@@ -149,10 +149,10 @@ tasks:
     command:
       - |
         aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${DOCKER_CONTAINER_REGISTRY_NAME}
-        cat $HOME/.docker/config.json | tr -d \" \t\n\r\"
-        echo "DOCKER_AUTH=$(cat $HOME/.docker/config.json | tr -d \" \t\n\r\")" > .docker.env
+        echo "SAMPLE_ARTIFACT=this is a sample from docker login artifacts" > .docker.login.env
+        cat $HOME/.docker/config.json > .docker/config.json 
     artifacts:
-      path: .docker.env
+      path: .docker.login.env
       type: dotenv
 
   safe:container:build:push:
@@ -166,7 +166,7 @@ tasks:
       See taskctl docs/samples for more details
     command:
       - |
-        echo -n $DOCKER_AUTH > .docker/config.json
+        echo $SAMPLE_ARTIFACT
         podman build -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} $SELF_REPO_SRC
         podman push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
         podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
