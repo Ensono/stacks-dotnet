@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet workload install aspire --skip-manifest-update
+RUN dotnet workload install aspire
 RUN dotnet publish --runtime ${NET_ARCH} -c Release -o out xxENSONOxx.xxSTACKSxx.API
 
 # Build runtime image

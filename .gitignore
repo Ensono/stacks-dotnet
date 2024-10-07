@@ -373,3 +373,4 @@ coverage
 tfplan
 .sonarqube
 .taskctl
+.env
