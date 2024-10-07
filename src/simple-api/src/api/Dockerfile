@@ -13,7 +13,7 @@ WORKDIR /app
 # Copy everything else and build
 COPY ./ ./
 RUN dotnet --version
-RUN dotnet workload update && dotnet workload install aspire --version=8.2.0
+RUN dotnet workload update && dotnet workload install aspire
 RUN dotnet publish --runtime ${NET_ARCH} -c Release -o out xxENSONOxx.xxSTACKSxx.API
 
 # Build runtime image
