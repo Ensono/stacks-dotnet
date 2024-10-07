@@ -150,9 +150,9 @@ tasks:
       - |
         aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${DOCKER_CONTAINER_REGISTRY_NAME}
         mkdir -p .docker && cp $HOME/.docker/config.json .docker/
-    artifacts:
-      path: .docker.login.env
-      type: dotenv
+    # artifacts:
+    #   path: .docker.login.env
+    #   type: dotenv
 
   safe:container:build:push:
     context: container:builder
