@@ -1,4 +1,4 @@
-FROM golang:1.23.2 as build
+FROM golang:1.23 as build
 WORKDIR /go-app
 COPY ./ ./
 RUN CGO_ENABLED=0 go build -o tester .
