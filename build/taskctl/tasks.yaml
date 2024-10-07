@@ -165,15 +165,15 @@ tasks:
       See taskctl docs/samples for more details
     command:
       - |
-        # podman build --format docker --platform=linux/amd64,linux/arm64 --build-arg NET_ARCH=linux-amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
-        
-        podman build --format docker --platform=linux/amd64 --build-arg dotnet_arch=amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
-        podman build --format docker --platform=linux/arm64 --build-arg dotnet_arch=arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
-        podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
-          ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 \
-          ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64
-        podman manifest push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} docker://${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
-        podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+        podman build --format docker --platform=linux/amd64,linux/arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-debug $SELF_REPO_SRC/test-go
+        podman push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-debug
+        # podman build --format docker --platform=linux/amd64 --build-arg dotnet_arch=amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
+        # podman build --format docker --platform=linux/arm64 --build-arg dotnet_arch=arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
+        # podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
+        #   ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 \
+        #   ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64
+        # podman manifest push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} docker://${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+        # podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
     reset_context: true
     # env:
     # TODO: unfurl ENV variables if found as values to env input property
