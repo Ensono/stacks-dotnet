@@ -150,9 +150,9 @@ tasks:
       - |
         aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${DOCKER_CONTAINER_REGISTRY_NAME}
         
-        cat $HOME/.docker/config.json | tr -d " \t\n\r" | tr -d "[:space:]" | | tr -d "[:blank:]"
+        cat $HOME/.docker/config.json | tr -d " \t\n\r" | tr -d "[:space:]" | tr -d "[:blank:]"
 
-        echo "DOCKER_AUTH=$(cat $HOME/.docker/config.json | tr -d " \t\n\r" | tr -d \"[:space:]\" | | tr -d \"[:blank:]\")" > .docker.env
+        echo "DOCKER_AUTH=$(cat $HOME/.docker/config.json | tr -d " \t\n\r" | tr -d \"[:space:]\" | tr -d \"[:blank:]\")" > .docker.env
     artifacts:
       path: .docker.env
       type: dotenv
