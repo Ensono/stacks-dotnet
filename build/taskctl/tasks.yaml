@@ -150,8 +150,7 @@ tasks:
       - |
         aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${DOCKER_CONTAINER_REGISTRY_NAME}
         echo "SAMPLE_ARTIFACT=this is a sample from docker login artifacts" > .docker.login.env
-        echo "HOME: $HOME"
-        cat $HOME/.docker/config.json > .docker/config.json 
+        mkdir -p .docker && cp $HOME/.docker/config.json .docker/
     artifacts:
       path: .docker.login.env
       type: dotenv
