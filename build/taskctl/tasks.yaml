@@ -150,7 +150,6 @@ tasks:
       - |
         aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${DOCKER_CONTAINER_REGISTRY_NAME}
         mkdir -p .docker && cp $HOME/.docker/config.json .docker/
-        echo "SAMPLE_ARTIFACT=this_is_a_sample_from_docker_login_artifacts" > .docker.login.env
     artifacts:
       path: .docker.login.env
       type: dotenv
@@ -166,9 +165,12 @@ tasks:
       See taskctl docs/samples for more details
     command:
       - |
-        echo "SAMPLE_ARTIFACT: $SAMPLE_ARTIFACT"
-        podman build --platform=linux/arm64,linux/amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} $SELF_REPO_SRC
-        podman push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+        podman build --platform=linux/amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
+        podman build --platform=linux/arm64 --build-arg NET_ARCH=linux-arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
+        podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
+          ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 \
+          ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64
+        podman manifest push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} docker://${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
         podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
     reset_context: true
     # env:
