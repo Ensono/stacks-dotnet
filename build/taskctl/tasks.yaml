@@ -165,7 +165,7 @@ tasks:
       See taskctl docs/samples for more details
     command:
       - |
-        podman build --format docker --platform=linux/amd64,linux/arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-debug $SELF_REPO_SRC/test-go
+        podman build --format docker --platform=linux/amd64,linux/arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-debug src/simple-api/test-go
         podman push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-debug
         # podman build --format docker --platform=linux/amd64 --build-arg dotnet_arch=amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
         # podman build --format docker --platform=linux/arm64 --build-arg dotnet_arch=arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
