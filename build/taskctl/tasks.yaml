@@ -165,8 +165,10 @@ tasks:
       See taskctl docs/samples for more details
     command:
       - |
-        podman build --platform=linux/amd64 --build-arg NET_ARCH=linux-amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
-        podman build --platform=linux/arm64 --build-arg NET_ARCH=linux-arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
+        # podman build --format docker --platform=linux/amd64,linux/arm64 --build-arg NET_ARCH=linux-amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
+        
+        podman build --format docker --platform=linux/amd64 --build-arg dotnet_arch=amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
+        podman build --format docker --platform=linux/arm64 --build-arg dotnet_arch=arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
         podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
           ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 \
           ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64
