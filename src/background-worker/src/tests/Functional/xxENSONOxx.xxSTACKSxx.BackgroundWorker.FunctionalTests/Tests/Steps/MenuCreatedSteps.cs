@@ -37,7 +37,6 @@ public class MenuCreatedSteps
         _retryIfFalsePolicy = ServiceBusDriver.GetRetryIfFalsePolicy();
         _retryIfNullPolicy = ServiceBusDriver.GetRetryIfNullPolicy();
         _eventsNamespace = "xxENSONOxx.xxSTACKSxx.BackgroundWorker";
-
     }
 
 
