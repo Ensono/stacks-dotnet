@@ -47,7 +47,8 @@ resource "azurerm_linux_function_app" "function" {
   site_config {
     always_on = true
     application_stack {
-      dotnet_version = var.az_function_dotnet_version
+      dotnet_version              = var.az_function_dotnet_version
+      use_dotnet_isolated_runtime = var.az_function_dotnet_isolated_runtime
     }
   }
 }

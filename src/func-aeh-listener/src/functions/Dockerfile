@@ -4,7 +4,7 @@
 # For example:
 #
 # docker build -t stacks-dotnet-cqrs --build-arg function=xxENSONOxx.xxSTACKSxx.Listener .\src\functions
-ARG outdir=out
+ARG outdir=buildout
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 

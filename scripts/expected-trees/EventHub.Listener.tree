@@ -77,8 +77,8 @@
 │               │   │   ├── IMessageReader.cs
 │               │   │   └── JsonMessageSerializer.cs
 │               │   ├── StacksListener.cs
-│               │   ├── appsettings.json
-│               │   └── host.json
+│               │   ├── host.json
+│               │   └── local.settings.json
 │               ├── EventHub.Listener.Listener.UnitTests
 │               │   ├── DummyEventAes.cs
 │               │   ├── EventHub.Listener.Listener.UnitTests.csproj
