@@ -1,5 +1,7 @@
 ﻿{
-    "clientId": "123456",
-    "transactionType": "Sale",
-    "transactionId": "7777777"
+    "id": "05",
+    "operationCode": 123,
+    "correlationId": "2da565b1-c280-422d-9908-3b2e330daa17",
+    "entityId": "2da565b1-c280-422d-9908-3b2e330daa17",
+    "eTag": "123"
 }

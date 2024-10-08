@@ -5,9 +5,9 @@ using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps;
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Stories;
 
 [Story(
-    AsA = "ECommerce Manager",
-    IWant = "to know when a payment has been sent",
-    SoThat = "so that goods can be sent")]
+    AsA = "A Stacks User",
+    IWant = "to know when a change has been made in Cosmos",
+    SoThat = "my downstream functions can react to the change")]
 public class ExpectedEvent : IAsyncLifetime
 {
     private readonly ServiceBusSteps serviceBusSteps = new();
@@ -22,7 +22,24 @@ public class ExpectedEvent : IAsyncLifetime
     {
         return Task.CompletedTask;
     }
-    
+
+
+// ----- jacks changes start here -----
+    [Theory]
+    [InlineData("id1", "operationCode", "correlationId", "entityId", "eTag")]
+    public void Confirm_event_is_published_when_document_added_to_cosmos(
+            string id, 
+            string operationCode, 
+            string correlationId, 
+            string entityId, 
+            string eTag)
+    {
+        this.Given(s => cosmosDbSteps.CreateCosmosDbDocument(id, operationCode, correlationId, entityId, eTag))
+            .When(s => cosmosDbSteps.DocumentIsAddedToCosmosDb())
+            .Then(s => serviceBusSteps.ConfirmEventIsPresentInPendingQueue()) //If we have an active listener for this event, we will need to check that listener has processed the event instead of checking the pending queue.
+            .BDDfy();
+    }
+// ----- jacks changes end here -----
 
     [Fact]
     public void Confirm_valid_payment_is_received_by_function_App()
