@@ -5,7 +5,7 @@ namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests.Tests.Stories;
 [Story(
     AsA = "Kitchen stock manager",
     IWant = "to know when a new menu is created",
-    SoThat = "so that I can place an order for new ingredients.")]
+    SoThat = "I can place an order for new ingredients")]
 public class MenuCreatedStory : IAsyncLifetime
 {
     private readonly MenuCreatedSteps _menuCreatedSteps = new();
