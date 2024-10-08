@@ -44,6 +44,12 @@ variable "az_function_dotnet_version" {
   description = "Version of the .NET framework to use in the function"
 }
 
+variable "az_function_dotnet_isolated_runtime" {
+  type        = bool
+  default     = true
+  description = "Use the isolated .NET runtime for the function"
+}
+
 ############################################
 # CosmosDB
 ############################################
