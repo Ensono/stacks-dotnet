@@ -2,7 +2,7 @@ using Azure.Messaging.ServiceBus;
 using Azure.Messaging.ServiceBus.Administration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests.Drivers.ServiceBus;
+namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests.Drivers;
 
 public class ServiceBusDriver
 {
@@ -29,6 +29,12 @@ public class ServiceBusDriver
     }
 
 
+    /// <summary>
+    /// Add a new message to a topic.
+    /// </summary>
+    /// <param name="topicName">The name of the topic.</param>
+    /// <param name="message">The message to add to the topic.</param>
+    /// <returns></returns>
     public async Task AddMessageToTopic(string topicName, ServiceBusMessage message)
     {
         var sender = _serviceBusClient.CreateSender(topicName);
@@ -46,8 +52,9 @@ public class ServiceBusDriver
         }
     }
 
+
     /// <summary>
-    /// Checks if given topic exits.
+    /// Check if given topic exits.
     /// </summary>
     /// <param name="topicPath">Name of the topic</param>
     /// <returns>A <see cref="Task"/> Returns boolean value.</returns>
@@ -66,6 +73,7 @@ public class ServiceBusDriver
             return Task.FromException(ex).IsFaulted;
         }
     }
+
 
     /// <summary>
     /// Reads and returns a list of messages from a given Topic.
@@ -98,6 +106,13 @@ public class ServiceBusDriver
     }
 
 
+    /// <summary>
+    /// Clears all messages from a topic and subscription.
+    /// </summary>
+    /// <param name="topicName"></param>
+    /// <param name="subscriptionName"></param>
+    /// <param name="subQueue"></param>
+    /// <returns></returns>
     public async Task ClearTopicAsync(string topicName, string subscriptionName, SubQueue subQueue)
     {
         var receiver = _serviceBusClient.CreateReceiver(
@@ -118,16 +133,16 @@ public class ServiceBusDriver
 
 
     /// <summary>
-    /// Returns a Retry Policy
+    /// Returns a Retry Policy used when checking if a message was received.
     /// </summary>
-    public static AsyncPolicy<ServiceBusReceivedMessage?> GetServiceBusRetryPolicy() =>
+    public static AsyncPolicy<ServiceBusReceivedMessage?> GetMessageRetryPolicy() =>
         Policy
             .HandleResult<ServiceBusReceivedMessage?>(b => b == null)
             .WaitAndRetryAsync(10, _ => TimeSpan.FromSeconds(5));
 
 
     /// <summary>
-    /// Returns a Retry Policy
+    /// Returns a Retry Policy used when checking if a topic exists.
     /// </summary>
     public static AsyncPolicy<bool> GetTopicExistsRetryPolicy() =>
         Policy

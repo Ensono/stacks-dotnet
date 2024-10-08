@@ -1,5 +1,4 @@
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests.Configuration;
-using xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests.Drivers.ServiceBus;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests.Drivers;
 
@@ -15,6 +14,7 @@ public class TestDrivers
             ConfigurationAccessor.GetApplicationConfiguration().ServiceBusAdminConnectionString
         );
     }
+
 
     /// <summary>
     /// Gets an instance of the <see cref="ServiceBusDriver"/>.

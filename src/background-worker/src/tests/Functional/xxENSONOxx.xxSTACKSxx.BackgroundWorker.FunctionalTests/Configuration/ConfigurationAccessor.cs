@@ -15,6 +15,7 @@ public static class ConfigurationAccessor
             .Build());
     }
 
+
     public static ConfigurationModel GetApplicationConfiguration()
     {
         var configuration = new ConfigurationModel();
