@@ -24,6 +24,36 @@ public class StacksListenerTests
     }
 
     [Fact]
+    public void Run_ShouldNotCallRead_WhenEventDataIsEmpty()
+    {
+        var eventData = new EventData[0];
+        var stacksListener = new StacksListener(msgReader, logger);
+
+        stacksListener.Run(eventData);
+
+        msgReader.DidNotReceive().Read<MenuCreatedEvent>(Arg.Any<EventData>());
+    }
+
+    [Fact]
+    public void Run_ShouldProcessMultipleEvents()
+    {
+        var eventData = new List<EventData>();
+        var msgBody1 = BuildMessageBody();
+        var msgBody2 = BuildMessageBody();
+        var message1 = BuildEventData(msgBody1);
+        var message2 = BuildEventData(msgBody2);
+        eventData.Add(message1);
+        eventData.Add(message2);
+
+        var stacksListener = new StacksListener(msgReader, logger);
+
+        stacksListener.Run(eventData.ToArray());
+
+        msgReader.Received(1).Read<MenuCreatedEvent>(message1);
+        msgReader.Received(1).Read<MenuCreatedEvent>(message2);
+    }
+    
+    [Fact]
     public void TestExecution()
     {
         var eventData = new List<EventData>();
