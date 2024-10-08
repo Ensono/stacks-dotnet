@@ -8,7 +8,7 @@ public class ServiceBusDriver
 {
     private readonly ServiceBusAdministrationClient _administrationClient;
     private readonly ServiceBusClient _serviceBusClient;
-    private readonly AsyncPolicy<bool> _retryPolicy;
+    private readonly AsyncPolicy<bool> _retryIfFalsePolicy;
 
 
     /// <summary>
@@ -25,7 +25,7 @@ public class ServiceBusDriver
         IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         _serviceBusClient = serviceProvider.GetRequiredService<ServiceBusClient>();
         _administrationClient = serviceProvider.GetRequiredService<ServiceBusAdministrationClient>();
-        _retryPolicy = GetTopicExistsRetryPolicy();
+        _retryIfFalsePolicy = GetRetryIfFalsePolicy();
     }
 
 
@@ -62,7 +62,7 @@ public class ServiceBusDriver
     {
         try
         {
-            return await _retryPolicy.ExecuteAsync(async () =>
+            return await _retryIfFalsePolicy.ExecuteAsync(async () =>
             {
                 var result = await _administrationClient.TopicExistsAsync(topicPath);
                 return result.HasValue && result.Value;
@@ -135,7 +135,7 @@ public class ServiceBusDriver
     /// <summary>
     /// Returns a Retry Policy used when checking if a message was received.
     /// </summary>
-    public static AsyncPolicy<ServiceBusReceivedMessage?> GetMessageRetryPolicy() =>
+    public static AsyncPolicy<ServiceBusReceivedMessage?> GetRetryIfNullPolicy() =>
         Policy
             .HandleResult<ServiceBusReceivedMessage?>(b => b == null)
             .WaitAndRetryAsync(10, _ => TimeSpan.FromSeconds(5));
@@ -144,7 +144,7 @@ public class ServiceBusDriver
     /// <summary>
     /// Returns a Retry Policy used when checking if a topic exists.
     /// </summary>
-    public static AsyncPolicy<bool> GetTopicExistsRetryPolicy() =>
+    public static AsyncPolicy<bool> GetRetryIfFalsePolicy() =>
         Policy
             .HandleResult<bool>(b => !b)
             .WaitAndRetryAsync(10, _ => TimeSpan.FromSeconds(5));

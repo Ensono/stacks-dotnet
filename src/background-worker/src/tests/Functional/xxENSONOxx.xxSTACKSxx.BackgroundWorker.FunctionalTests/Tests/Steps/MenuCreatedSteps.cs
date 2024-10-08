@@ -20,8 +20,8 @@ public class MenuCreatedSteps
     private StacksCloudEvent<MenuCreatedEvent> _expectedEvent;
     private readonly string _eventsNamespace;
 
-    private readonly AsyncPolicy<bool> _topicExistsRetryPolicy;
-    private readonly AsyncPolicy<ServiceBusReceivedMessage?> _serviceBusRetryPolicy;
+    private readonly AsyncPolicy<bool> _retryIfFalsePolicy;
+    private readonly AsyncPolicy<ServiceBusReceivedMessage?> _retryIfNullPolicy;
 
 
     /// <summary>
@@ -34,8 +34,8 @@ public class MenuCreatedSteps
         _topicName = config.TopicName;
         _subscriptionName = config.SubscriptionName;
         _serviceBusDriver = testDrivers.ServiceBusDriver;
-        _topicExistsRetryPolicy = ServiceBusDriver.GetTopicExistsRetryPolicy();
-        _serviceBusRetryPolicy = ServiceBusDriver.GetMessageRetryPolicy();
+        _retryIfFalsePolicy = ServiceBusDriver.GetRetryIfFalsePolicy();
+        _retryIfNullPolicy = ServiceBusDriver.GetRetryIfNullPolicy();
         _eventsNamespace = "xxENSONOxx.xxSTACKSxx.BackgroundWorker";
 
     }
@@ -113,7 +113,7 @@ public class MenuCreatedSteps
     /// <returns></returns>
     public async Task ConfirmEventHasBeenProcessedByWorker()
     {
-        await _topicExistsRetryPolicy.ExecuteAsync(async () =>
+        await _retryIfFalsePolicy.ExecuteAsync(async () =>
         {
             _activeMessageList = await _serviceBusDriver.ReadMessagesAsync(
                 _topicName,
@@ -138,7 +138,7 @@ public class MenuCreatedSteps
     /// <returns></returns>
     public async Task ConfirmEventIsNotPresentInDeadLetter()
     {
-        await _topicExistsRetryPolicy.ExecuteAsync(async () =>
+        await _retryIfFalsePolicy.ExecuteAsync(async () =>
         {
             _deadLetterMessageList = await _serviceBusDriver.ReadMessagesAsync(
                 _topicName,
@@ -166,7 +166,7 @@ public class MenuCreatedSteps
     /// <exception cref="Exception"></exception>
     public async Task ConfirmEventIsPresentInDeadLetter()
     {
-        _serviceBusReceivedMessage = await _serviceBusRetryPolicy.ExecuteAsync(async () =>
+        _serviceBusReceivedMessage = await _retryIfNullPolicy.ExecuteAsync(async () =>
         {
             _deadLetterMessageList = await _serviceBusDriver.ReadMessagesAsync(
                 _topicName,
