@@ -9,14 +9,17 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using xxENSONOxx.xxSTACKSxx.Listener;
+using xxENSONOxx.xxSTACKSxx.Listener.Serialization;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
     .ConfigureServices((context, services) =>
     {
+        services.AddSingleton<IMessageReader, JsonMessageSerializer>();
+
         var configuration = new ConfigurationBuilder()
             .SetBasePath(context.HostingEnvironment.ContentRootPath)
-            .AddJsonFile("appsettings.json", false)
+            .AddJsonFile("local.settings.json", false)
             .AddEnvironmentVariables()
             .Build();
 

@@ -50,7 +50,7 @@ resource "azurerm_linux_function_app" "function" {
     application_insights_key               = var.app_insights_instrumentation_key
     application_stack {
       dotnet_version              = var.az_function_dotnet_version
-      use_dotnet_isolated_runtime = true
+      use_dotnet_isolated_runtime = var.az_function_dotnet_isolated_runtime
     }
   }
 }

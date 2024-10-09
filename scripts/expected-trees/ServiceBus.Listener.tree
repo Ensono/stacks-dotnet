@@ -46,23 +46,6 @@
 │   │           ├── service_bus.tf
 │   │           ├── variables.tf
 │   │           └── versions.tf
-│   ├── helm
-│   │   └── stacks-dotnet
-│   │       ├── .helmignore
-│   │       ├── Chart.yaml
-│   │       ├── templates
-│   │       │   ├── NOTES.txt
-│   │       │   ├── _helpers.tpl
-│   │       │   ├── configmap.yaml
-│   │       │   ├── deployment.yaml
-│   │       │   ├── hpa.yaml
-│   │       │   ├── ingress.yaml
-│   │       │   ├── secret.yaml
-│   │       │   ├── service.yaml
-│   │       │   ├── serviceaccount.yaml
-│   │       │   └── tests
-│   │       │       └── test-connection.yaml
-│   │       └── values.yaml
 │   └── scripts
 │       ├── 1-set-cluster-context.sh
 │       ├── 2-promote-image.sh
@@ -82,6 +65,8 @@
 │   │           │   ├── Enums
 │   │           │   │   └── EventCode.cs
 │   │           │   ├── MenuCreatedEvent.cs
+│   │           │   ├── Operations
+│   │           │   │   └── IOperationContext.cs
 │   │           │   └── ServiceBus.Listener.Application.CQRS.Events.csproj
 │   │           ├── ServiceBus.Listener.Listener
 │   │           │   ├── Logging
@@ -97,23 +82,6 @@
 │   │           │   └── TestOperationContext.cs
 │   │           └── ServiceBus.Listener.Listener.sln
 │   └── shared
-│       ├── ServiceBus.Listener.Shared.Core
-│       │   ├── Exceptions
-│       │   │   ├── ApplicationExceptionBase.cs
-│       │   │   ├── DomainExceptionBase.cs
-│       │   │   ├── IException.cs
-│       │   │   └── InfrastructureExceptionBase.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
-│       │   ├── Security
-│       │   │   └── User.cs
-│       │   ├── ServiceBus.Listener.Shared.Core.csproj
-│       │   └── Time
-│       │       └── SystemClock.cs
-│       ├── ServiceBus.Listener.Shared.Core.Tests
-│       │   ├── ServiceBus.Listener.Shared.Core.Tests.csproj
-│       │   └── Time
-│       │       └── SystemClockTests.cs
 │       ├── ServiceBus.Listener.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
 │       │   │   ├── ApplicationEvents
@@ -129,6 +97,8 @@
 │       │   ├── Constants.cs
 │       │   ├── Exceptions
 │       │   │   ├── ExceptionIds.cs
+│       │   │   ├── IException.cs
+│       │   │   ├── InfrastructureExceptionBase.cs
 │       │   │   ├── InvalidMessageBodyException.cs
 │       │   │   ├── InvalidSecretDefinitionException.cs
 │       │   │   ├── InvalidSecretSourceException.cs
@@ -178,6 +148,8 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs
@@ -256,5 +228,3 @@
 │           └── appsettings.json
 ├── stackscli.yml
 └── taskctl.yaml
-
-68 directories, 190 files
