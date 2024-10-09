@@ -191,7 +191,15 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults"
+      - |
+      $ErrorActionPreference = "Stop"
+
+      ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin
+      Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -key "value"
+
+      printenv
+
+      Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults"
 
   publish:github:
     context: powershell
