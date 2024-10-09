@@ -42,6 +42,8 @@ tasks:
     description: Perform Terraform format check
     command:
       - Invoke-Terraform -Format -Path $env:TF_FILE_LOCATION
+    env:
+      TF_FILE_LOCATION: deploy/aws/app/kube
 
   lint:terraform:validate:
     context: powershell
@@ -49,6 +51,8 @@ tasks:
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
         Invoke-Terraform -Validate -Path $env:TF_FILE_LOCATION
+    env:
+      TF_FILE_LOCATION: deploy/aws/app/kube
 
   # TESTS
   test:
@@ -137,6 +141,51 @@ tasks:
     command:
       - $ErrorActionPreference = "Stop";
         Build-DockerImage -Provider $env:CLOUD_PROVIDER -Name $env:IMAGE_NAME -region $env:ECR_REGION -BuildPath . -BuildArgs "-f $env:SELF_REPO_SRC/Dockerfile --build-arg self_repo_src=$env:SELF_REPO_SRC" -push
+
+  # SAMPLE build without docker sock
+  safe:container:login:
+    # context: container:auth
+    description: Runs AWS CLI in a default shell
+    command:
+      - |
+        aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${DOCKER_CONTAINER_REGISTRY_NAME}
+        mkdir -p .docker && cp $HOME/.docker/config.json .docker/
+    # artifacts:
+    #   path: .docker.login.env
+    #   type: dotenv
+
+  safe:container:build:push:
+    context: container:builder
+    description: |
+      Builds multi arch images and pushes them to registry
+      To add additional architectures add something like the below
+      # podman build --platform=linux/arm64 --build-arg NET_ARCH=linux-arm64 \
+        -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-arm $SELF_REPO_SRC
+
+      See taskctl docs/samples for more details
+    command:
+      - |
+        # ## This is a go sample that works
+        # podman build --format docker --platform=linux/amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 src/simple-api/test-go
+        # podman build --format docker --platform=linux/arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64 src/simple-api/test-go
+        # podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
+        #   ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 \
+        #   ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64
+        # podman manifest push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} docker://${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+        # podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+
+
+        podman build --format docker --platform=linux/amd64 --build-arg dotnet_arch=amd64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 $SELF_REPO_SRC
+        podman build --format docker --platform=linux/arm64 --build-arg dotnet_arch=arm64 -t ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64 $SELF_REPO_SRC
+        podman manifest create ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} \
+          ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-amd64 \
+          ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}-linux-arm64
+        podman manifest push ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG} docker://${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+        podman image rm ${DOCKER_CONTAINER_REGISTRY_NAME}/${IMAGE_NAME_TAG}
+    reset_context: true
+    # env:
+    # TODO: unfurl ENV variables if found as values to env input property
+    # IMAGE_NAME_TAG: ${IMAGE_NAME}:${BUILD_BUILDNUMBER}
 
   build:functional_tests:
     context: powershell-dotnet

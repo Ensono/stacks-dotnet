@@ -22,11 +22,38 @@ contexts:
     quote: "'"
     envfile:
       generate: true
-      delay: 0
       exclude:
-        - path
-        - home
-        - kubeconfig
+        - PATH
+        - HOME
+        - KUBECONFIG
+        - GITUHB_ACTIONS
+
+  container:auth:
+    container:
+      name: ensono/eir-infrastructure:1.1.251
+      # this is only required because the infra container uses docker and not podman
+      enable_dind: true
+
+  container:builder:
+    container:
+      name: quay.io/podman/stable:v5.2.3
+      container_args:
+        - --cap-add=sys_admin
+        - --cap-add mknod
+        - --cap-add SYS_CHROOT
+        - --cap-add SETFCAP
+        - --cap-add SYS_RESOURCE
+        - --device=/dev/fuse
+        # Disabling apparmor is still better than running --privileged
+        - --security-opt seccomp=unconfined
+        - --security-opt apparmor=unconfined
+        - --security-opt label=disable
+    env:
+      DOCKER_CONFIG: /workspace/.taskctl/.docker
+      container: true
+    envfile:
+      exclude:
+        - XDG_RUNTIME_DIR
 
   powershell-dotnet:
     executable:
@@ -53,8 +80,9 @@ contexts:
       DOTNET_ARGUMENTS: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
     envfile:
       generate: true
-      delay: 0
       exclude:
-        - path
-        - home
-        - kubeconfig
+        - PATH
+        - JAVA_HOME
+        - HOME
+        - KUBECONFIG
+        - GITUHB_ACTIONS

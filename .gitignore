@@ -372,3 +372,5 @@ coverage
 .terraform.lock.hcl
 tfplan
 .sonarqube
+.taskctl
+.env
