@@ -1,7 +1,7 @@
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Doubles;
 
-namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
+namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Tests;
 
 [Trait("TestType", "UnitTests")]
 public class ChangeFeedListenerUnitTests

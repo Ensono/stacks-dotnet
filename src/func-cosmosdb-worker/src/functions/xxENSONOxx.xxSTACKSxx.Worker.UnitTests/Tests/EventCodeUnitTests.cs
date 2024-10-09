@@ -1,4 +1,4 @@
-namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
+namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Tests;
 
 [Trait("TestType", "UnitTests")]
 public sealed class EventCodeUnitTests
