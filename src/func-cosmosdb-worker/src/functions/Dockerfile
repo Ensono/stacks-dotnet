@@ -7,9 +7,8 @@
 
 ARG outdir=buildout
 
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 as build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 
-ARG TARGETARCH
 ARG outdir
 ARG self_repo_src="src/functions"
 
@@ -17,7 +16,7 @@ WORKDIR /app
 
 # Copy the worker project and build
 COPY ./ ./
-RUN dotnet publish -c Release -a $TARGETARCH -o ${outdir} $self_repo_src/xxENSONOxx.xxSTACKSxx.Worker
+RUN dotnet publish -c Release -o ${outdir} $self_repo_src/xxENSONOxx.xxSTACKSxx.Worker
 
 # Build the runtime image
 FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0 as runtime
