@@ -71,6 +71,32 @@
 │   ├── background-worker
 │   │   └── src
 │   │       ├── .editorconfig
+│   │       ├── tests
+│   │       │   └── Functional
+│   │       │       ├── Background.Worker.BackgroundWorker.FunctionalTests
+│   │       │       │   ├── Background.Worker.BackgroundWorker.FunctionalTests.csproj
+│   │       │       │   ├── Configuration
+│   │       │       │   │   ├── ConfigurationAccessor.cs
+│   │       │       │   │   └── ConfigurationModel.cs
+│   │       │       │   ├── Data
+│   │       │       │   │   └── MenuCreatedEvent.json
+│   │       │       │   ├── Drivers
+│   │       │       │   │   ├── ServiceBusDriver.cs
+│   │       │       │   │   └── TestDrivers.cs
+│   │       │       │   ├── GlobalUsings.cs
+│   │       │       │   ├── Models
+│   │       │       │   │   ├── CloudEvents
+│   │       │       │   │   │   ├── CloudEvent.cs
+│   │       │       │   │   │   ├── ICloudEvent.cs
+│   │       │       │   │   │   └── StacksCloudEvent.cs
+│   │       │       │   │   └── MenuCreatedEvent.cs
+│   │       │       │   ├── Tests
+│   │       │       │   │   ├── Steps
+│   │       │       │   │   │   └── MenuCreatedSteps.cs
+│   │       │       │   │   └── Stories
+│   │       │       │   │       └── MenuCreatedStory.cs
+│   │       │       │   └── appsettings.json
+│   │       │       └── Background.Worker.BackgroundWorker.FunctionalTests.sln
 │   │       └── worker
 │   │           ├── Background.Worker.Application.CQRS.Events
 │   │           │   ├── Background.Worker.Application.CQRS.Events.csproj

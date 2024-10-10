@@ -1,0 +1,17 @@
+{
+    "data": {
+        "correlationId": "98dee35c-080e-4522-854a-e2d4cedd61e7",
+        "eventCode": 123,
+        "menuId": "80a2b786-cd93-417a-8bce-295799a257e0",
+        "operationCode": 123
+    },
+    "correlationid": "98dee35c-080e-4522-854a-e2d4cedd61e7",
+    "datacontenttype": "application/json",
+    "dataschema": "https://example-domain.com/solution-name/schemas/menu-created-event-schema.json",
+    "id": "71b21c70-5975-4e2e-9bd4-d7fb9c2488d1",
+    "specversion": "1.0",
+    "source": "https://example-domain.com/solution-name/topics/topic-name",
+    "subject": "80a2b786-cd93-417a-8bce-295799a257e0",
+    "time": "2024-10-01T13:33:50.858287Z",
+    "type":    "xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events.MenuCreatedEvent"
+}
