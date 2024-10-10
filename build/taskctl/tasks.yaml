@@ -198,7 +198,7 @@ tasks:
         get-content tf-outputs.env | foreach {
           $name, $value = $_.split('=')
           set-content env:\$name $value
-        } 
+        }
         printenv
 
         Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults"
