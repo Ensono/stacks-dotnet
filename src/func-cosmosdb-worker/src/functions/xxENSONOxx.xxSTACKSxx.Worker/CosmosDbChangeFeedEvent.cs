@@ -1,36 +1,25 @@
-//using Newtonsoft.Json;
-
 using System.Text.Json.Serialization;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker;
 
-
-public class CosmosDbChangeFeedEvent : IApplicationEvent
+[method: JsonConstructor]
+public sealed class CosmosDbChangeFeedEvent(int operationCode, Guid correlationId, Guid entityId, string eTag)
+                  : IApplicationEvent
 {
-    [JsonConstructor]
-    public CosmosDbChangeFeedEvent(int operationCode, Guid correlationId, Guid entityId, string eTag)
-    {
-        OperationCode = operationCode;
-        CorrelationId = correlationId;
-        EntityId = entityId;
-        ETag = eTag;
-    }
-
     public CosmosDbChangeFeedEvent(IOperationContext context, Guid entityId, string eTag)
          : this(context.OperationCode, context.CorrelationId, entityId, eTag)
     {
     }
 
-
     public int EventCode => (int)Worker.EventCode.EntityUpdated;
 
-    public int OperationCode { get; }
+    public int OperationCode { get; } = operationCode;
 
-    public Guid CorrelationId { get; }
+    public Guid CorrelationId { get; } = correlationId;
 
-    public Guid EntityId { get; }
+    public Guid EntityId { get; } = entityId;
 
-    public string ETag { get; }
+    public string ETag { get; } = eTag;
 }
