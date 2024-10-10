@@ -19,7 +19,7 @@ var host = new HostBuilder()
 
         var configuration = new ConfigurationBuilder()
             .SetBasePath(context.HostingEnvironment.ContentRootPath)
-            .AddJsonFile("local.settings.json", false)
+            .AddJsonFile("appsettings.json", false)
             .AddEnvironmentVariables()
             .Build();
 
