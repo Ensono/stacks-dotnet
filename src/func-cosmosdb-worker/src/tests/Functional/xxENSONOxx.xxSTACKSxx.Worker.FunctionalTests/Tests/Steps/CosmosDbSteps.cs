@@ -7,7 +7,7 @@ using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Configuration;
 using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Drivers;
 using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Models;
 using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.ServiceBus;
-using Microsoft.Azure.Cosmos;
+// using Microsoft.Azure.Cosmos;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
 {
@@ -43,27 +43,128 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
             _serviceBusRetryPolicy = ServiceBusDriver.GetServiceBusRetryPolicy();
         }
 
-        public async Task CreateCosmosDbDocument()
+#region Step Definitions
+
+	#region Given
+
+    public async Task GivenCreateCosmosDbDocument()
+    {
+        var config = ConfigAccessor.GetApplicationConfiguration();
+        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
+        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
+        var container = database.GetContainer(config.CosmosDbContainerName);
+
+        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
+        var id = documentObject["id"].ToString();
+        var partitionKey = new PartitionKey(id);
+
+        await container.CreateItemAsync(documentObject, partitionKey);
+    }
+
+    public async Task GivenUpdateCosmosDbDocument(string id)
+    {
+        var config = ConfigAccessor.GetApplicationConfiguration();
+        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
+        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
+        var container = database.GetContainer(config.CosmosDbContainerName);
+
+        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
+        var partitionKey = new PartitionKey(id);
+
+        await container.ReplaceItemAsync(documentObject, id, partitionKey);
+    }
+
+        public async Task GivenDeleteCosmosDbDocument(string id)
         {
             var config = ConfigAccessor.GetApplicationConfiguration();
             var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
             var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
             var container = database.GetContainer(config.CosmosDbContainerName);
 
-            await container.CreateItemAsync(document, new PartitionKey(document.id));
+            var toDeletePartitionKey = new PartitionKey(id);
+            await container.DeleteItemAsync<object>(id, partitionKey);
         }
 
-        public async Task UpdateCosmosDbDocument()
-        {
-            //todo
-        }
+    #endregion Given
 
-        public async Task DeleteCosmosDbDocument(string id)
-        {
-            //todo
-        }
+	#region When
 
-        public string CreateCosmosDbDocument(
+    public async Task WhenDocumentIsAddedToCosmosDb(string document)
+    // should pass the item (object?)
+    {
+        var config = ConfigAccessor.GetApplicationConfiguration();
+        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
+        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
+        var container = database.GetContainer(config.CosmosDbContainerName);
+
+        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
+        var id = documentObject["id"].ToString();
+        var partitionKey = new PartitionKey(id);
+
+        await container.CreateItemAsync(documentObject, partitionKey);
+    }
+
+    public async Task WhenDocumentIsUpdatedToCosmosDb()
+    {
+        var config = ConfigAccessor.GetApplicationConfiguration();
+        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
+        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
+        var container = database.GetContainer(config.CosmosDbContainerName);
+
+        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
+        var id = documentObject["id"].ToString();
+        var partitionKey = new PartitionKey(id);
+
+        await container.ReplaceItemAsync(documentObject, id, partitionKey);
+    }
+
+    public async Task WhenDocumentIsDeletedFromCosmosDb()
+    {
+        var config = ConfigAccessor.GetApplicationConfiguration();
+        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
+        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
+        var container = database.GetContainer(config.CosmosDbContainerName);
+
+        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
+        var id = documentObject["id"].ToString();
+        var partitionKey = new PartitionKey(id);
+
+        await container.DeleteItemAsync<object>(id, partitionKey);
+    }
+
+	#endregion When
+
+	#region Then
+
+    public async Task ThenConfirmEventIsPresentInPendingQueue()
+    {
+        var config = ConfigAccessor.GetApplicationConfiguration();
+        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
+        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
+        var container = database.GetContainer(config.CosmosDbContainerName);
+
+        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
+        var id = documentObject["id"].ToString();
+        var partitionKey = new PartitionKey(id);
+
+        var response = await container.ReadItemAsync<JObject>(id, partitionKey);
+        response.StatusCode.ShouldBe(System.Net.HttpStatusCode.OK);
+
+        var retrievedDocument = response.Resource;
+        retrievedDocument.ShouldNotBeNull();
+        retrievedDocument["id"].ToString().ShouldBe(id);
+    }
+
+    #endregion Then
+
+	#endregion Step Definitions
+        
+
+        
+
+        
+
+        public string CreateCosmosDbItem(
             string id, 
             string operationCode, 
             string correlationId, 

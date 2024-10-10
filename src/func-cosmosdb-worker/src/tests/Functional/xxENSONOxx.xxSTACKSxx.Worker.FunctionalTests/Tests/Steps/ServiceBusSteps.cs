@@ -99,72 +99,110 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
                 return _activeMessageList.Count < 1;
             });
 
-            _activeMessageList.ShouldBeEmpty("Message has not been processed by Function");
+            Assert.That(_activeMessageList, Is.Empty, "Message has not been processed by Function");
         }
 
         public async Task ConfirmEventIsNotPresentInDeadLetter()
         {
-            //Re-checks Dead letter queue for message in case of false positive
+            // Re-checks Dead letter queue for message in case of false positive
             await _retryPolicy.ExecuteAsync(async () =>
             {
-                _deadLetterMessageList = await _serviceBusDriver.ReadMessagesAsync(
-                    _topicName,
-                    _subscriptionName,
-                    new ServiceBusReceiverOptions
-                    {
-                        SubQueue = SubQueue.DeadLetter,
-                        ReceiveMode = ServiceBusReceiveMode.PeekLock
-                    });
-                //Replace below line with relevant event object in new project
-                _serviceBusReceivedMessage = _deadLetterMessageList.FirstOrDefault(x => x.Body.ToString().Contains(_expectedEvent.TransactionId!))!;
+            _deadLetterMessageList = await _serviceBusDriver.ReadMessagesAsync(
+                _topicName,
+                _subscriptionName,
+                new ServiceBusReceiverOptions
+                {
+                SubQueue = SubQueue.DeadLetter,
+                ReceiveMode = ServiceBusReceiveMode.PeekLock
+                });
+            
+            _serviceBusReceivedMessage = _deadLetterMessageList.FirstOrDefault(x => x.Body.ToString().Contains(_expectedEvent.Id!))!;
 
-                return _serviceBusReceivedMessage is not null;
+            return _serviceBusReceivedMessage is not null;
             });
-            // Checks for Message in DeadLetter Queue
-            //Replace below line with relevant event object in new project
-            _serviceBusReceivedMessage = _deadLetterMessageList.FirstOrDefault(x => x.Body.ToString().Contains(_expectedEvent.TransactionId!))!;
-            _serviceBusReceivedMessage.ShouldBeNull($"Valid message is in Deadletter queue for TransactionID {_expectedEvent.TransactionId}");
+
+            // Checks for Message in DeadLetter Queue      
+            _serviceBusReceivedMessage = _deadLetterMessageList.FirstOrDefault(x => x.Body.ToString().Contains(_expectedEvent.Id!))!;
+            Assert.That(_serviceBusReceivedMessage is null, $"Valid message is in Deadletter queue for Id {_expectedEvent.Id}");
         }
 
-        public async Task ConfirmPaymentEventIsPresentInDeadLetter()
+        public async Task ConfirmEventIsPresentInDeadLetter()
         {
             //Fetch the message from DeadLetter with retry
             _serviceBusReceivedMessage = await _serviceBusRetryPolicy.ExecuteAsync(async () =>
             {
-                _deadLetterMessageList = await _serviceBusDriver.ReadMessagesAsync(
-                    _topicName,
-                    _subscriptionName,
-                    new ServiceBusReceiverOptions
-                    {
-                        SubQueue = SubQueue.DeadLetter,
-                        ReceiveMode = ServiceBusReceiveMode.PeekLock
-                    });
+            _deadLetterMessageList = await _serviceBusDriver.ReadMessagesAsync(
+                _topicName,
+                _subscriptionName,
+                new ServiceBusReceiverOptions
+                {
+                SubQueue = SubQueue.DeadLetter,
+                ReceiveMode = ServiceBusReceiveMode.PeekLock
+                });
 
-                // Checks for Message in DeadLetter Queue
-                //Replace below line with relevant event object in new project
-                var message = _deadLetterMessageList.FirstOrDefault(x => x.Body.ToString().Contains(_expectedEvent.TransactionId!));
-                return message;
+            // Checks for Message in DeadLetter Queue
+            var message = _deadLetterMessageList.FirstOrDefault(x => x.Body.ToString().Contains(_expectedEvent.Id!));
+            return message;
             });
 
             //Fail test if message is not found
             if (_serviceBusReceivedMessage is null)
             {
-                //Replace below line with relevant event object in new project
-                Assert.Fail($"Message could not be found in DeadLetter Queue after multiple retries. TransactionID:{_expectedEvent.TransactionId}");
+            Assert.Fail($"Message could not be found in DeadLetter Queue after multiple retries. Id:{_expectedEvent.Id}");
             }
 
             //Assertion against retrieved message
             var receivedMessage = _serviceBusReceivedMessage.Body.ToString();
-            //Replace below line with relevant event object in new project
             var actualReceivedEvent = JsonConvert.DeserializeObject<ExpectedEvent>(receivedMessage);
 
             //Assert on Message
             Assert.Multiple(() =>
             {
-                //Replace below line with relevant event object in new project
-                actualReceivedEvent.ClientId.ShouldBe(_expectedEvent.ClientId);
-                //Replace below line with relevant event object in new project
-                actualReceivedEvent.TransactionType.ShouldBe(_expectedEvent.TransactionType);
+            actualReceivedEvent.Id.ShouldBe(_expectedEvent.Id);
+            actualReceivedEvent.OperationCode.ShouldBe(_expectedEvent.OperationCode);
+            actualReceivedEvent.CorrelationId.ShouldBe(_expectedEvent.CorrelationId);
+            actualReceivedEvent.EntityId.ShouldBe(_expectedEvent.EntityId);
+            actualReceivedEvent.ETag.ShouldBe(_expectedEvent.ETag);
+            });
+        }
+
+        public async Task ConfirmEventIsPresentInPendingQueue()
+        {
+            //Fetch the message from Pending Queue with retry
+            _serviceBusReceivedMessage = await _serviceBusRetryPolicy.ExecuteAsync(async () =>
+            {
+            _activeMessageList = await _serviceBusDriver.ReadMessagesAsync(
+                _topicName,
+                _subscriptionName,
+                new ServiceBusReceiverOptions
+                {
+                SubQueue = SubQueue.None,
+                ReceiveMode = ServiceBusReceiveMode.PeekLock
+                });
+
+            // Checks for Message in Pending Queue
+            var message = _activeMessageList.FirstOrDefault(x => x.Body.ToString().Contains(_expectedEvent.Id!));
+            return message;
+            });
+
+            //Fail test if message is not found
+            if (_serviceBusReceivedMessage is null)
+            {
+            Assert.Fail($"Message could not be found in Pending Queue after multiple retries. Id:{_expectedEvent.Id}");
+            }
+
+            //Assertion against retrieved message
+            var receivedMessage = _serviceBusReceivedMessage.Body.ToString();
+            var actualReceivedEvent = JsonConvert.DeserializeObject<ExpectedEvent>(receivedMessage);
+
+            //Assert on Message
+            Assert.Multiple(() =>
+            {
+            actualReceivedEvent.Id.ShouldBe(_expectedEvent.Id);
+            actualReceivedEvent.OperationCode.ShouldBe(_expectedEvent.OperationCode);
+            actualReceivedEvent.CorrelationId.ShouldBe(_expectedEvent.CorrelationId);
+            actualReceivedEvent.EntityId.ShouldBe(_expectedEvent.EntityId);
+            actualReceivedEvent.ETag.ShouldBe(_expectedEvent.ETag);
             });
         }
 
