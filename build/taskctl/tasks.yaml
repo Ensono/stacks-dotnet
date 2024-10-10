@@ -173,7 +173,7 @@ tasks:
     description: Render deployment templates
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        Write-Output "TEST_VAR_HERE=hello" >> envfile_deploy_functional_tests;
+        Write-Output "TEST_VAR_HERE=hello" >> tf-outputs.env;
         Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
 
   deploy:kubernetes:
@@ -191,10 +191,11 @@ tasks:
   deploy:functional_tests:
     context: powershell-dotnet
     description: Run Functional Tests
+    env_file: tf-outputs.env
     command:
       - |
         $ErrorActionPreference = "Stop"
-
+        ls
         printenv
 
         Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults"
