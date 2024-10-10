@@ -18,10 +18,10 @@ public class CosmosDbChangeFeedListener(
     {
         if (input is { Count: > 0 })
         {
-            logger.LogInformation("Documents modified " + input.Count);
+            logger.LogInformation("Documents modified: {Count}", input.Count);
             foreach (var changedItem in input)
             {
-                logger.LogInformation("Document read. Id: " + changedItem.EntityId);
+                logger.LogInformation("Document read. Id: {EntityId}", changedItem.EntityId);
 
                 var cosmosDbEvent = new CosmosDbChangeFeedEvent(
                     operationCode: changedItem.OperationCode,

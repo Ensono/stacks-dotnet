@@ -74,13 +74,14 @@
 │   │           │   │   └── ChangeFeedListenerFixture.cs
 │   │           │   └── GlobalUsings.cs
 │   │           ├── Cosmos.Worker.Worker.UnitTests
-│   │           │   ├── ChangeFeedListenerEventUnitTests.cs
-│   │           │   ├── ChangeFeedListenerTests.cs
 │   │           │   ├── Cosmos.Worker.Worker.UnitTests.csproj
 │   │           │   ├── Doubles
 │   │           │   │   └── MockLogger.cs
-│   │           │   ├── EventCodeUnitTests.cs
-│   │           │   └── GlobalUsings.cs
+│   │           │   ├── GlobalUsings.cs
+│   │           │   └── Tests
+│   │           │       ├── ChangeFeedListenerEventUnitTests.cs
+│   │           │       ├── ChangeFeedListenerTests.cs
+│   │           │       └── EventCodeUnitTests.cs
 │   │           ├── Cosmos.Worker.Worker.sln
 │   │           └── Dockerfile
 │   └── shared

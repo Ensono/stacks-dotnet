@@ -1,6 +1,6 @@
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
-namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
+namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Tests;
 
 public class ChangeFeedListenerEventUnitTests
 {
@@ -20,14 +20,11 @@ public class ChangeFeedListenerEventUnitTests
         var changeFeedEvent = new CosmosDbChangeFeedEvent(operationCode, correlationId, entityId, eTag);
 
         // Assert
-        changeFeedEvent.Should().BeEquivalentTo(new
-        {
-            OperationCode = operationCode,
-            CorrelationId = correlationId,
-            EntityId = entityId,
-            ETag = eTag,
-            EventCode = (int)EventCode.EntityUpdated
-        });
+        changeFeedEvent.EventCode.Should().Be((int)EventCode.EntityUpdated);
+        changeFeedEvent.OperationCode.Should().Be(operationCode);
+        changeFeedEvent.CorrelationId.Should().Be(correlationId);
+        changeFeedEvent.EntityId.Should().Be(entityId);
+        changeFeedEvent.ETag.Should().Be(eTag);
     }
 
 
@@ -35,13 +32,7 @@ public class ChangeFeedListenerEventUnitTests
     public void Constructor_ShouldAssignPropertiesCorrectly_WhenInitializedWithOperationContext()
     {
         // Arrange
-        var operationCode = autoFixture.Create<int>();
-        var correlationId = autoFixture.Create<Guid>();
-        var context = autoFixture.Freeze<IOperationContext>();
-
-        context.OperationCode.Returns(operationCode);
-        context.CorrelationId.Returns(correlationId);
-
+        var context = autoFixture.Create<IOperationContext>();
         var entityId = autoFixture.Create<Guid>();
         var eTag = autoFixture.Create<string>();
 
@@ -49,13 +40,10 @@ public class ChangeFeedListenerEventUnitTests
         var changeFeedEvent = new CosmosDbChangeFeedEvent(context, entityId, eTag);
 
         // Assert
-        changeFeedEvent.Should().BeEquivalentTo(new
-        {
-            OperationCode = operationCode,
-            CorrelationId = correlationId,
-            EntityId = entityId,
-            ETag = eTag,
-            EventCode = (int)EventCode.EntityUpdated
-        });
+        changeFeedEvent.EventCode.Should().Be((int)EventCode.EntityUpdated);
+        changeFeedEvent.OperationCode.Should().Be(context.OperationCode);
+        changeFeedEvent.CorrelationId.Should().Be(context.CorrelationId);
+        changeFeedEvent.EntityId.Should().Be(entityId);
+        changeFeedEvent.ETag.Should().Be(eTag);
     }
 }
