@@ -5,9 +5,9 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.ComponentTests.Fixtures;
 
 public class ChangeFeedListenerFixture
 {
-    private const string DocumentsChangesMessage = "Documents modified";
+    private const string DocumentsChangesMessage = "Documents modified:";
     private const string DocumentReadMessage = "Document read. Id:";
-    
+
     private readonly Random random;
     private readonly IFixture autoFixture;
     private readonly IApplicationEventPublisher applicationEventPublisher;
@@ -34,7 +34,7 @@ public class ChangeFeedListenerFixture
 
     public void GivenCosmosDbTriggerReceivesEvents()
     {
-        changeFeedEventCount = random.Next(1, 11); 
+        changeFeedEventCount = random.Next(1, 11);
         changeFeedEvents = autoFixture.CreateMany<CosmosDbChangeFeedEvent>(changeFeedEventCount).ToList();
     }
 
