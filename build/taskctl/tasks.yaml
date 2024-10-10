@@ -191,7 +191,6 @@ tasks:
   deploy:functional_tests:
     context: powershell-dotnet
     description: Run Functional Tests
-    env_file: tf-outputs.env
     command:
       - |
         $ErrorActionPreference = "Stop"
