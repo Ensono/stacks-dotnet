@@ -173,6 +173,7 @@ tasks:
     description: Render deployment templates
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
+        ls;
         Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
 
   deploy:kubernetes:
@@ -193,7 +194,7 @@ tasks:
     command:
       - |
         $ErrorActionPreference = "Stop"
-        printenv
+        ls ${env:FUNCTIONAL_TESTS_RUN_DIR}
 
         Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults"
 
