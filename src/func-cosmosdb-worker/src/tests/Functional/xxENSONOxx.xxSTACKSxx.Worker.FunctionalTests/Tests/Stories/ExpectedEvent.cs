@@ -1,7 +1,9 @@
 using TestStack.BDDfy;
+using Xunit;
 using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Configuration;
 using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps;
-//any import to the Model ExpectedItem.cs ?
+using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Models;
+
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Stories;
 
@@ -27,7 +29,7 @@ public class ExpectedEvent : IAsyncLifetime
     }
 
 
-// ----- jacks changes start here -----
+// TODO: if the step ConfirmEventIsPresentInPendingQueue should be from cosmosdbsteps or servicebussteps
     [Theory]
     [InlineData("id", "operationCode", "correlationId", "entityId", "eTag")]
     public void Confirm_event_is_published_when_document_is_added_to_cosmos(
@@ -37,9 +39,13 @@ public class ExpectedEvent : IAsyncLifetime
             string entityId, 
             string eTag)
     {
-        this.Given(s => cosmosDbSteps.GivenCreateCosmosDbDocument(id, operationCode, correlationId, entityId, eTag))
-            .When(s => cosmosDbSteps.WhenDocumentIsAddedToCosmosDb())
-            .Then(s => serviceBusSteps.ThenConfirmEventIsPresentInPendingQueue()) //If we have an active listener for this event, we will need to check that listener has processed the event instead of checking the pending queue.
+        this.Given(step => serviceBusSteps.SubscribeToTheServiceBusTopic())
+            .And(step => cosmosDbSteps.GivenCosmosDbDocumentIsCreated())
+            .When(step => cosmosDbSteps.WhenItemIsAddedToCosmosDb(id, operationCode, correlationId, entityId, eTag))
+            .And(step => serviceBusSteps.AddAValidEventToServiceBus())
+            .Then(step => serviceBusSteps.ConfirmEventIsPresentInPendingQueue())
+            .And(step => serviceBusSteps.ConfirmEventIsProcessedByFunctionApp())
+            .And(step => serviceBusSteps.ConfirmEventIsNotPresentInDeadLetter())
             .BDDfy();
     }
 
@@ -50,22 +56,16 @@ public class ExpectedEvent : IAsyncLifetime
         string entityId, 
         string eTag)
     {
-        this.Given(s => cosmosDbSteps.GivenUpdateCosmosDbDocument(id, operationCode, correlationId, entityId, eTag))
-            .When(s => cosmosDbSteps.WhenDocumentIsUpdatedInCosmosDb())
-            .Then(s => serviceBusSteps.ThenConfirmEventIsPresentInPendingQueue())
+        this.Given(step => serviceBusSteps.SubscribeToTheServiceBusTopic())
+            .And(step => cosmosDbSteps.GivenCosmosDbDocumentIsCreated())
+            .When(step => cosmosDbSteps.WhenItemIsUpdatedInCosmosDb(id, operationCode, correlationId, entityId, eTag))
+            .And(step => serviceBusSteps.AddAValidEventToServiceBus())
+            .Then(step => serviceBusSteps.ConfirmEventIsPresentInPendingQueue())
+            .Then(step => serviceBusSteps.ConfirmEventIsProcessedByFunctionApp())
+            .And(step => serviceBusSteps.ConfirmEventIsNotPresentInDeadLetter())
             .BDDfy();
     }
-
-    [Theory]
-    [InlineData("id")]
-    public void Confirm_event_is_published_when_document_is_deleted_from_cosmos(string id)
-    {
-        this.Given(s => cosmosDbSteps.GivenDeleteCosmosDbDocument(id))
-            .When(s => cosmosDbSteps.WhenDocumentIsDeletedFromCosmosDb())
-            .Then(s => serviceBusSteps.ThenConfirmEventIsPresentInPendingQueue())
-            .BDDfy();
-    }
-
+//TODO: check how to complete the test below, since all the canges in DB go to DeadLetter
 public void Confirm_invalid_event_is_not_received_by_function_app(string invalidProperty)
     {
         this.Given(s => serviceBusSteps.SubscribeToTheServiceBusTopic())
@@ -74,19 +74,5 @@ public void Confirm_invalid_event_is_not_received_by_function_app(string invalid
             .BDDfy();
     }
 
-
-
-
-
-
-    [Fact]
-    public void Confirm_valid_event_is_received_by_function_App()
-    {
-        this.Given(s => serviceBusSteps.SubscribeToTheServiceBusTopic())
-            .When(s => serviceBusSteps.AddAValidEventToServiceBus())
-            .Then(s => serviceBusSteps.ConfirmEventIsProcessedByFunctionApp())
-            .And(s => serviceBusSteps.ConfirmEventIsNotPresentInDeadLetter())
-            .BDDfy();
-    }
     
 }

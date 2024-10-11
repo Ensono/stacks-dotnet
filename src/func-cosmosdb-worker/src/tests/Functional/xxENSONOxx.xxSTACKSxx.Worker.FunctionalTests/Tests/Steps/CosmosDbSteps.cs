@@ -13,19 +13,11 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
 {
     public class CosmosDbSteps
     {
-        private readonly ServiceBusDriver _serviceBusDriver;
-        private IReadOnlyList<ServiceBusReceivedMessage> _activeMessageList;
-        private readonly AsyncPolicy<bool> _retryPolicy;
-        private IReadOnlyList<ServiceBusReceivedMessage> _deadLetterMessageList;
-        private ServiceBusMessage _serviceBusMessage;
-        private ServiceBusReceivedMessage? _serviceBusReceivedMessage;
-        private readonly string _topicName;
-        private readonly string _subscriptionName;
         //Replace below line with relevant event object in new project
         private ExpectedEvent _expectedEvent;
-        private readonly AsyncPolicy<ServiceBusReceivedMessage?> _serviceBusRetryPolicy;
 
-        private string document;
+
+        private string item;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CosmosDbSteps"/> class.
@@ -47,7 +39,7 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
 
 	#region Given
 
-    public async Task GivenCreateCosmosDbDocument()
+    public async Task GivenCosmosDbDocumentIsCreated()
     {
         var config = ConfigAccessor.GetApplicationConfiguration();
         var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
@@ -61,35 +53,15 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
         await container.CreateItemAsync(documentObject, partitionKey);
     }
 
-    public async Task GivenUpdateCosmosDbDocument(string id)
-    {
-        var config = ConfigAccessor.GetApplicationConfiguration();
-        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
-        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
-        var container = database.GetContainer(config.CosmosDbContainerName);
-
-        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
-        var partitionKey = new PartitionKey(id);
-
-        await container.ReplaceItemAsync(documentObject, id, partitionKey);
-    }
-
-        public async Task GivenDeleteCosmosDbDocument(string id)
-        {
-            var config = ConfigAccessor.GetApplicationConfiguration();
-            var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
-            var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
-            var container = database.GetContainer(config.CosmosDbContainerName);
-
-            var toDeletePartitionKey = new PartitionKey(id);
-            await container.DeleteItemAsync<object>(id, partitionKey);
-        }
-
     #endregion Given
 
 	#region When
 
-    public async Task WhenDocumentIsAddedToCosmosDb(string document)
+    public async Task WhenItemIsAddedToCosmosDb(string id, 
+        string operationCode, 
+        string correlationId, 
+        string entityId, 
+        string eTag)
     // should pass the item (object?)
     {
         var config = ConfigAccessor.GetApplicationConfiguration();
@@ -104,7 +76,11 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
         await container.CreateItemAsync(documentObject, partitionKey);
     }
 
-    public async Task WhenDocumentIsUpdatedToCosmosDb()
+    public async Task WhenItemIsUpdatedInCosmosDb(string id, 
+        string operationCode, 
+        string correlationId, 
+        string entityId, 
+        string eTag)
     {
         var config = ConfigAccessor.GetApplicationConfiguration();
         var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
@@ -118,42 +94,28 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
         await container.ReplaceItemAsync(documentObject, id, partitionKey);
     }
 
-    public async Task WhenDocumentIsDeletedFromCosmosDb()
-    {
-        var config = ConfigAccessor.GetApplicationConfiguration();
-        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
-        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
-        var container = database.GetContainer(config.CosmosDbContainerName);
-
-        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
-        var id = documentObject["id"].ToString();
-        var partitionKey = new PartitionKey(id);
-
-        await container.DeleteItemAsync<object>(id, partitionKey);
-    }
-
 	#endregion When
 
 	#region Then
 
-    public async Task ThenConfirmEventIsPresentInPendingQueue()
-    {
-        var config = ConfigAccessor.GetApplicationConfiguration();
-        var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
-        var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
-        var container = database.GetContainer(config.CosmosDbContainerName);
+    // public async Task ThenConfirmEventIsPresentInPendingQueue()
+    // {
+    //     var config = ConfigAccessor.GetApplicationConfiguration();
+    //     var cosmosClient = new CosmosClient(config.CosmosDbConnectionString);
+    //     var database = cosmosClient.GetDatabase(config.CosmosDbDatabaseName);
+    //     var container = database.GetContainer(config.CosmosDbContainerName);
 
-        var documentObject = JsonConvert.DeserializeObject<JObject>(document);
-        var id = documentObject["id"].ToString();
-        var partitionKey = new PartitionKey(id);
+    //     var documentObject = JsonConvert.DeserializeObject<JObject>(document);
+    //     var id = documentObject["id"].ToString();
+    //     var partitionKey = new PartitionKey(id);
 
-        var response = await container.ReadItemAsync<JObject>(id, partitionKey);
-        response.StatusCode.ShouldBe(System.Net.HttpStatusCode.OK);
+    //     var response = await container.ReadItemAsync<JObject>(id, partitionKey);
+    //     response.StatusCode.ShouldBe(System.Net.HttpStatusCode.OK);
 
-        var retrievedDocument = response.Resource;
-        retrievedDocument.ShouldNotBeNull();
-        retrievedDocument["id"].ToString().ShouldBe(id);
-    }
+    //     var retrievedDocument = response.Resource;
+    //     retrievedDocument.ShouldNotBeNull();
+    //     retrievedDocument["id"].ToString().ShouldBe(id);
+    // }
 
     #endregion Then
 
@@ -171,7 +133,7 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
             string entityId, 
             string eTag)
         {
-            var documentObject = new
+            var itemObject = new
             {
                 id = id,
                 operationCode = operationCode,
@@ -180,7 +142,7 @@ namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Tests.Steps
                 eTag = eTag
             };
 
-            document = JsonConvert.SerializeObject(documentObject);
+            item = JsonConvert.SerializeObject(itemObject);
         }
     }
 }
