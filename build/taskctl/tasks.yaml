@@ -173,7 +173,8 @@ tasks:
     description: Render deployment templates
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        ls;
+        ls tests;
+        cat tests/xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests/appsettings.json;
         Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
 
   deploy:kubernetes:

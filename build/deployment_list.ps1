@@ -24,7 +24,7 @@
   }
   @{
     displayName = "FunctionalTests"
-    template = "src/background-worker/src/tests/Functional/xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests/appsettings.json"
+    template = "tests/xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests/appsettings.json"
     vars = @{
       servicebus_topic_name = "`${SERVICEBUS_TOPIC_NAME}"
       servicebus_subscription_name = "`${SERVICEBUS_SUBSCRIPTION_NAME}"
