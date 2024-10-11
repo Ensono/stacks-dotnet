@@ -173,8 +173,6 @@ tasks:
     description: Render deployment templates
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        ls tests;
-        cat tests/xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests/appsettings.json;
         Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
 
   deploy:kubernetes:
@@ -193,11 +191,7 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - |
-        $ErrorActionPreference = "Stop"
-        ls ${env:FUNCTIONAL_TESTS_RUN_DIR}
-
-        Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults"
+      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults"
 
   publish:github:
     context: powershell
