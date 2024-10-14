@@ -1,12 +1,12 @@
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Doubles;
 
-namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests;
+namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Tests;
 
 [Trait("TestType", "UnitTests")]
 public class ChangeFeedListenerUnitTests
 {
-    private const string DocumentsChangesMessage = "Documents modified";
+    private const string DocumentsChangesMessage = "Documents modified:";
     private const string DocumentReadMessage = "Document read. Id:";
 
     private readonly Random random;
