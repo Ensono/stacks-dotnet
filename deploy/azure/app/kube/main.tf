@@ -55,22 +55,24 @@ module "eventhub" {
 }
 
 module "function" {
-  count                          = var.create_function_app ? 1 : 0
-  source                         = "../function"
-  function_name                  = var.function_name
-  resource_group_name            = module.app.resource_group
-  resource_group_location        = var.resource_group_location
-  cosmosdb_database_name         = local.cosmosdb_account_name != "" ? local.cosmosdb_account_name : null
-  cosmosdb_collection_name       = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
-  cosmosdb_lease_collection_name = var.create_cosmosdb || local.lookup_cosmosdb_account ? var.cosmosdb_lease_collection_name : null
-  cosmosdb_connection_string     = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
-  sb_topic_id                    = local.sb_topic_id
-  sb_topic_name                  = local.sb_topic_name
-  sb_connection_string           = local.sb_connection_string
-  sb_subscription_name           = var.sb_subscription_name
-  sb_subscription_filter         = var.sb_subscription_filter
-  eventhub_connection_string     = local.eventhub_connection_string
-  eventhub_name                  = local.eventhub_name
-  eventhub_storage_access_key    = local.eventhub_storage_access_key
-  eventhub_blob_container        = local.eventhub_blob_container
+  count                            = var.create_function_app ? 1 : 0
+  source                           = "../function"
+  function_name                    = var.function_name
+  resource_group_name              = module.app.resource_group
+  resource_group_location          = var.resource_group_location
+  cosmosdb_database_name           = local.cosmosdb_account_name != "" ? local.cosmosdb_account_name : null
+  cosmosdb_collection_name         = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
+  cosmosdb_lease_collection_name   = var.create_cosmosdb || local.lookup_cosmosdb_account ? var.cosmosdb_lease_collection_name : null
+  cosmosdb_connection_string       = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
+  sb_topic_id                      = local.sb_topic_id
+  sb_topic_name                    = local.sb_topic_name
+  sb_connection_string             = local.sb_connection_string
+  sb_subscription_name             = var.sb_subscription_name
+  sb_subscription_filter           = var.sb_subscription_filter
+  eventhub_connection_string       = local.eventhub_connection_string
+  eventhub_name                    = local.eventhub_name
+  eventhub_storage_access_key      = local.eventhub_storage_access_key
+  eventhub_blob_container          = local.eventhub_blob_container
+  app_insights_connection_string   = data.azurerm_application_insights.example.connection_string
+  app_insights_instrumentation_key = data.azurerm_application_insights.example.instrumentation_key
 }

@@ -83,7 +83,7 @@ variables:
 
   # Test Configuration
   - name: run_functional_tests
-    value: false
+    value: true
   - name: FUNCTIONAL_TESTS_SRC_DIR
     value: src/background-worker/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR

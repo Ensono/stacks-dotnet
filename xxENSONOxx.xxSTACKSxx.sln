@@ -67,8 +67,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Liste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Listener.UnitTests", "src\func-aeh-listener\src\functions\xxENSONOxx.xxSTACKSxx.Listener.UnitTests\xxENSONOxx.xxSTACKSxx.Listener.UnitTests.csproj", "{5FE23DA4-70CD-4151-BC8A-2A4B020ECF90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Application.CQRS.Events", "src\func-cosmosdb-worker\src\functions\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.csproj", "{8D26B4E8-B88D-4468-A466-B4002859C85E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Worker", "src\func-cosmosdb-worker\src\functions\xxENSONOxx.xxSTACKSxx.Worker\xxENSONOxx.xxSTACKSxx.Worker.csproj", "{55D5EA28-8C71-4694-B519-35CD1296DDF8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Worker.UnitTests", "src\func-cosmosdb-worker\src\functions\xxENSONOxx.xxSTACKSxx.Worker.UnitTests\xxENSONOxx.xxSTACKSxx.Worker.UnitTests.csproj", "{322F8383-2A1C-4C99-B98E-B87E4772C5B9}"
@@ -101,11 +99,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.AppHost", "src\simple-api\src\api\xxENSONOxx.xxSTACKSxx.AppHost\xxENSONOxx.xxSTACKSxx.AppHost.csproj", "{D37B036A-C06B-43E5-87F0-7C2DAC06DCCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xxENSONOxx.xxSTACKSxx.API.ComponentTests", "src\simple-api\src\api\xxENSONOxx.xxSTACKSxx.API.ComponentTests\xxENSONOxx.xxSTACKSxx.API.ComponentTests.csproj", "{925601F8-4229-4564-B7FF-7B6079777A53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.API.ComponentTests", "src\simple-api\src\api\xxENSONOxx.xxSTACKSxx.API.ComponentTests\xxENSONOxx.xxSTACKSxx.API.ComponentTests.csproj", "{925601F8-4229-4564-B7FF-7B6079777A53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests", "src\background-worker\src\worker\xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests\xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.csproj", "{1D44A1C9-7865-4BEB-B2E1-4A03680261E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests", "src\background-worker\src\worker\xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests\xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.csproj", "{1D44A1C9-7865-4BEB-B2E1-4A03680261E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xxENSONOxx.xxSTACKSxx.Abstractions", "src\cqrs\src\api\xxENSONOxx.xxSTACKSxx.Abstractions\xxENSONOxx.xxSTACKSxx.Abstractions.csproj", "{91E2B597-0DF3-4CE7-8306-EC8D6823ACFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Abstractions", "src\cqrs\src\api\xxENSONOxx.xxSTACKSxx.Abstractions\xxENSONOxx.xxSTACKSxx.Abstractions.csproj", "{91E2B597-0DF3-4CE7-8306-EC8D6823ACFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -417,18 +415,6 @@ Global
 		{5FE23DA4-70CD-4151-BC8A-2A4B020ECF90}.Release|x64.Build.0 = Release|Any CPU
 		{5FE23DA4-70CD-4151-BC8A-2A4B020ECF90}.Release|x86.ActiveCfg = Release|Any CPU
 		{5FE23DA4-70CD-4151-BC8A-2A4B020ECF90}.Release|x86.Build.0 = Release|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Debug|x64.Build.0 = Debug|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Debug|x86.Build.0 = Debug|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Release|x64.ActiveCfg = Release|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Release|x64.Build.0 = Release|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Release|x86.ActiveCfg = Release|Any CPU
-		{8D26B4E8-B88D-4468-A466-B4002859C85E}.Release|x86.Build.0 = Release|Any CPU
 		{55D5EA28-8C71-4694-B519-35CD1296DDF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55D5EA28-8C71-4694-B519-35CD1296DDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D5EA28-8C71-4694-B519-35CD1296DDF8}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -592,7 +578,6 @@ Global
 		{86432CF1-F12B-488F-8F03-DA7978ACBDBB} = {F1B61CA6-459D-4298-848B-28DE79AEFDB3}
 		{E92BEDC6-49F4-44FD-8B7A-6ED6AC921FD2} = {F1B61CA6-459D-4298-848B-28DE79AEFDB3}
 		{5FE23DA4-70CD-4151-BC8A-2A4B020ECF90} = {F1B61CA6-459D-4298-848B-28DE79AEFDB3}
-		{8D26B4E8-B88D-4468-A466-B4002859C85E} = {925C9E9A-4449-4FC9-BD78-0379E4E17DDA}
 		{55D5EA28-8C71-4694-B519-35CD1296DDF8} = {925C9E9A-4449-4FC9-BD78-0379E4E17DDA}
 		{322F8383-2A1C-4C99-B98E-B87E4772C5B9} = {925C9E9A-4449-4FC9-BD78-0379E4E17DDA}
 		{A2D6176C-6612-449A-A5C7-F62BB01E71A6} = {3DE09585-B4C5-4785-ADF0-77C88C27FFA6}

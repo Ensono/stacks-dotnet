@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Azure.Messaging.EventHubs;
-using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 using xxENSONOxx.xxSTACKSxx.Listener.Serialization;
@@ -11,7 +11,7 @@ namespace xxENSONOxx.xxSTACKSxx.Listener;
 
 public class StacksListener(IMessageReader msgReader, ILogger<StacksListener> logger)
 {
-    [FunctionName("StacksListener")]
+    [Function("StacksListener")]
     public void Run([EventHubTrigger(
         "%EVENTHUB_NAME%",
         Connection = "EVENTHUB_CONNECTIONSTRING")] EventData[] events)
