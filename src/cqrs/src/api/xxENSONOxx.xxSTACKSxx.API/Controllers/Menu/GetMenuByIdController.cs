@@ -1,14 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Queries;
 using Query = xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 
-namespace xxENSONOxx.xxSTACKSxx.API.Controllers;
+namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 
 /// <summary>
 /// Menu related operations
@@ -31,7 +29,7 @@ public class GetMenuByIdController(IQueryHandler<Query.GetMenuById, Query.Menu> 
     /// <response code="404">Resource not found</response>
     [HttpGet("/v1/menu/{id}")]
     [Authorize]
-    [ProducesResponseType(typeof(Menu), 200)]
+    [ProducesResponseType(typeof(Models.Responses.Menu), 200)]
     public async Task<IActionResult> GetMenu([FromRoute][Required] Guid id)
     {
         // NOTE: Please ensure the API returns the response codes annotated above
@@ -41,7 +39,7 @@ public class GetMenuByIdController(IQueryHandler<Query.GetMenuById, Query.Menu> 
         if (result == null)
             return NotFound();
 
-        var menu = Menu.FromQuery(result);
+        var menu = Models.Responses.Menu.FromQuery(result);
 
         return new ObjectResult(menu);
     }

@@ -3,12 +3,12 @@ using System.Text;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using Shouldly;
 using Xunit;
+using NotifyCommand = xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands.NotifyCommand;
+using NotifyEvent = xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events.NotifyEvent;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.UnitTests.Deserializers
 {

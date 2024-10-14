@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Exceptions;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions
 {

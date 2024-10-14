@@ -29,4 +29,17 @@ public class JsonMessageSerializerTests
         result.ShouldBeOfType(typeof(DummyEventAes));
         result.CorrelationId.ShouldBe(correlationId);
     }
+    
+    [Fact]
+    public void GivenInvalidJson_ReadShouldThrowJsonReaderException()
+    {
+        // Arrange
+        var parser = new JsonMessageSerializer();
+        var invalidJson = "Invalid JSON";
+        var byteArray = Encoding.UTF8.GetBytes(invalidJson);
+        var eventData = new EventData(byteArray);
+
+        // Act & Assert
+        Should.Throw<JsonReaderException>(() => parser.Read<DummyEventAes>(eventData));
+    }
 }

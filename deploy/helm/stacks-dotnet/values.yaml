@@ -52,7 +52,7 @@ service:
   port: 8080
 
 ingress:
-  enabled: false
+  enabled: ${ingress_enabled}
   className: ""
   annotations:
     kubernetes.io/ingress.class: nginx
@@ -89,6 +89,7 @@ app:
   name: ${resource_def_name}
   version: 0.0.1
   # Azure
+  sbType: ${servicebus_type}
   sbTopic: ${servicebus_topic_name}
   sbSubscription:  ${servicebus_subscription_name}
   sbConnectionstring:  ${servicebus_connectionstring}

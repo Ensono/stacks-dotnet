@@ -1,4 +1,6 @@
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.OpenTelemetry;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,21 +10,31 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using xxENSONOxx.xxSTACKSxx.Worker;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Secrets;
 
-var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults()
-    .ConfigureServices((context, services) =>
+namespace xxENSONOxx.xxSTACKSxx.Worker;
+
+public class Program
+{
+    public static void Main(string[] args)
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(context.HostingEnvironment.ContentRootPath)
-            .AddJsonFile("appsettings.json", false)
-            .AddEnvironmentVariables()
-            .Build();
+        var host = CreateHostBuilder(args).Build();
+        host.Run();
+    }
 
-        services
-            .Configure<ChangeFeedListener>(configuration.GetSection(nameof(ChangeFeedListener)))
-            .AddLogging(loggingBuilder =>
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        new HostBuilder()
+            .ConfigureFunctionsWorkerDefaults()
+            .ConfigureAppConfiguration((context, configBuilder) =>
+            {
+                configBuilder
+                    .SetBasePath(context.HostingEnvironment.ContentRootPath)
+                    .AddJsonFile("appsettings.json", false, true)
+                    .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true, true)
+                    .AddEnvironmentVariables();
+            })
+            .ConfigureLogging(loggingBuilder =>
             {
                 loggingBuilder.ClearProviders();
                 loggingBuilder.AddOpenTelemetry(options =>
@@ -32,25 +44,28 @@ var host = new HostBuilder()
                     options.IncludeScopes = true;
                     options.AddConsoleExporter();
                 });
+            })
+            .ConfigureServices((context, services) =>
+            {
+                var configuration = context.Configuration;
+                services.AddSingleton<ISecretResolver<string>, SecretResolver>();
+                services.Configure<ServiceBusConfiguration>(configuration.GetSection("ServiceBusConfiguration"));
+                services.AddServiceBus();
+
+                services.AddApplicationInsightsTelemetryWorkerService();
+                services.ConfigureFunctionsApplicationInsights();
+
+                services.AddOpenTelemetry()
+                        .UseAzureMonitor()
+                        .UseFunctionsWorkerDefaults()
+                        .WithTracing(builder =>
+                        {
+                            builder.AddConsoleExporter();
+                        })
+                        .WithMetrics(builder =>
+                        {
+                            builder.AddConsoleExporter();
+                        })
+                        .UseOtlpExporter();
             });
-            
-        services.AddOpenTelemetry().WithTracing(builder =>
-        {
-            builder.AddAspNetCoreInstrumentation()                      
-                .AddAspNetCoreInstrumentation()
-                .AddConsoleExporter();
-        })
-            .WithMetrics(builder =>
-        {
-            builder.AddAspNetCoreInstrumentation()
-                .AddAspNetCoreInstrumentation()
-                .AddConsoleExporter();
-        })
-            .UseOtlpExporter();
-
-        // Register OpenTelemetry with Azure Monitor
-        services.AddOpenTelemetry().UseAzureMonitor();
-    })
-    .Build();
-
-await host.RunAsync();
+}

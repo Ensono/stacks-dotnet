@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Exceptions;
+using xxENSONOxx.xxSTACKSxx.API.Exceptions;
 using BadResult = xxENSONOxx.xxSTACKSxx.API.Models.Responses.BadResult;
 
 namespace xxENSONOxx.xxSTACKSxx.API.Middleware;
