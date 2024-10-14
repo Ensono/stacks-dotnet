@@ -10,18 +10,18 @@ public class CosmosDbChangeFeedListener(
 {
     [Function(Constants.FunctionNames.CosmosDbChangeFeedListener)]
     public void Run([CosmosDBTrigger(
-        databaseName: "%COSMOSDB_DATABASENAME%",
-        containerName: "%COSMOSDB_CONTAINERNAME%",
+        databaseName: "%COSMOSDB_DATABASE_NAME%",
+        containerName: "%COSMOSDB_CONTAINER_NAME%",
         Connection = "COSMOSDB_CONNECTIONSTRING",
-        LeaseContainerName = "%COSMOSDB_LEASECOLLECTIONNAME%",
+        LeaseContainerName = "%COSMOSDB_LEASE_COLLECTION_NAME%",
         CreateLeaseContainerIfNotExists  = true)]IReadOnlyList<CosmosDbChangeFeedEvent>? input)
     {
         if (input is { Count: > 0 })
         {
-            logger.LogInformation("Documents modified " + input.Count);
+            logger.LogInformation("Documents modified: {Count}", input.Count);
             foreach (var changedItem in input)
             {
-                logger.LogInformation("Document read. Id: " + changedItem.EntityId);
+                logger.LogInformation("Document read. Id: {EntityId}", changedItem.EntityId);
 
                 var cosmosDbEvent = new CosmosDbChangeFeedEvent(
                     operationCode: changedItem.OperationCode,

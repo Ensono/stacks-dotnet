@@ -1,15 +1,15 @@
-using System;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 
 [method: JsonConstructor]
 public class MenuItemUpdatedEvent(int operationCode, Guid correlationId, Guid menuId, Guid categoryId, Guid menuItemId)
-    : IApplicationEvent
+           : IApplicationEvent
 {
-    public MenuItemUpdatedEvent(IOperationContext context, Guid menuId, Guid categoryId, Guid menuItemId) : this(context.OperationCode, context.CorrelationId, menuId, categoryId, menuItemId)
+    public MenuItemUpdatedEvent(IOperationContext context, Guid menuId, Guid categoryId, Guid menuItemId)
+         : this(context.OperationCode, context.CorrelationId, menuId, categoryId, menuItemId)
     {
     }
 
@@ -19,9 +19,9 @@ public class MenuItemUpdatedEvent(int operationCode, Guid correlationId, Guid me
 
     public Guid CorrelationId { get; } = correlationId;
 
-    public Guid MenuId { get; set; } = menuId;
+    public Guid MenuId { get; } = menuId;
 
-    public Guid CategoryId { get; set; } = categoryId;
+    public Guid CategoryId { get; } = categoryId;
 
-    public Guid MenuItemId { get; set; } = menuItemId;
+    public Guid MenuItemId { get; } = menuItemId;
 }

@@ -63,6 +63,10 @@ All templates from this repository come as part of the [Stacks Dotnet NuGet pack
 - `stacks-az-func-aeh-listener`. Template containing an Azure Function project with a single function that has a Event Hub trigger. The function receives the message and deserializes it.
 - `stacks-az-func-cosmosdb-worker`. Azure Function containing a CosmosDb change feed trigger. Upon a CosmosDb event, the worker reads it and publishes a message to Service Bus.
 
+### Generating the expected directory trees
+
+The template outputs are validated during testing using the directory tree files in the `scripts/expected-trees` directory. When files are added or removed from the template the expected directory trees will need to be updated. This can be done using the `test-templates.ps1` script with the `-GenerateExpectedTrees` parameter (`pwsh test-templates.ps1 -GenerateExpectedTrees`)
+
 ### Template usage
 
 #### Template installation
