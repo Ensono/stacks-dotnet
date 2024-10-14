@@ -1,40 +1,33 @@
 using Microsoft.Extensions.DependencyInjection;
-#if (EventPublisherAwsSns)
-using Amazon.SimpleNotificationService;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-#endif
-
-#if (EventPublisherAwsSns || EventPublisherEventHub)
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
+#if EventPublisherAwsSns
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Amazon.SimpleNotificationService;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 #endif
-
-#if (EventPublisherEventHub)
-using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
+#if EventPublisherEventHub
+using System;
+using Microsoft.Extensions.Options;
 using Azure.Storage.Blobs;
 using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Consumer;
 using Azure.Messaging.EventHubs.Producer;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Consumers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
 #endif
-
-#if (DynamoDb)
+#if DynamoDb
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
-
-#if (CosmosDb)
-using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
+#if CosmosDb
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;
 #endif
 
@@ -42,7 +35,7 @@ namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-     #if (EventPublisherAwsSns)
+#if EventPublisherAwsSns
     /// <summary>
     /// Add the AWS SNS client for IEventConsumer and IApplicationEventPublisher
     /// </summary>
@@ -54,9 +47,8 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    #endif
-
-    #if (EventPublisherEventHub)
+#endif
+#if EventPublisherEventHub
     public static IServiceCollection AddEventHub(this IServiceCollection services)
     {
         var configuration = GetConfiguration(services);
@@ -127,9 +119,8 @@ public static class ServiceCollectionExtensions
 
         return true;
     }
-    #endif
-    
-#if (DynamoDb)
+#endif
+#if DynamoDb
     /// <summary>
     /// Adds DynamoDB services to the specified IServiceCollection.
     /// </summary>
@@ -144,8 +135,7 @@ public static class ServiceCollectionExtensions
 		return services;
 	}
 #endif
-    
-#if (CosmosDb)
+#if CosmosDb
     /// <summary>
     /// Add the CosmosDB singleton components for IDocumentStorage<,> and IDocumentSearch<>
     /// This will create one singleton instance per Container(Where the container map to TEntity name)
@@ -160,4 +150,12 @@ public static class ServiceCollectionExtensions
         return services;
     }
 #endif
+    /// <summary>
+    /// Add the Secret resolver singleton with default secret sources (file and environment)
+    /// </summary>
+    public static IServiceCollection AddSecrets(this IServiceCollection services)
+    {
+        services.AddSingleton<ISecretResolver<string>, SecretResolver>();
+        return services;
+    }
 }

@@ -4,7 +4,7 @@
 resource "random_string" "seed" {
   length  = var.seed_length
   upper   = false
-  number  = false
+  numeric = false
   special = false
 }
 

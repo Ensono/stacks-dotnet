@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
@@ -30,9 +30,10 @@ public class CreateCategoryCommandHandler(
 
     public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, CreateCategory command)
     {
-        return new IApplicationEvent[] {
+        return
+        [
             new MenuUpdatedEvent(command, command.MenuId),
             new CategoryCreatedEvent(command, command.MenuId, id)
-        };
+        ];
     }
 }

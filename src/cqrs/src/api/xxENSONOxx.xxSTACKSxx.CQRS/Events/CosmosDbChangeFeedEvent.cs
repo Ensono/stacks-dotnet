@@ -1,8 +1,8 @@
 #if CosmosDb
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 using Newtonsoft.Json;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 

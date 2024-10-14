@@ -5,8 +5,7 @@ using Microsoft.Azure.Cosmos;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.DataModel;
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
-using Config = xxENSONOxx.xxSTACKSxx.Shared.Testing.Settings.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests.CosmosDb.Integration;
 
@@ -18,7 +17,7 @@ public class IntegrationFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Settings = Config.For<CosmosDbConfiguration>("CosmosDB");
+        Settings = Configuration.For<CosmosDbConfiguration>("CosmosDB");
         _secretResolver = new SecretResolver();
 
         //Notes:
