@@ -1,10 +1,10 @@
 # Dockefile to create an image for either of the functions
 #
-# To build it, a function name needs to be passed in as an argument to the build.
+# To build it, the function path needs to be passed in as an argument to the build.
 # For example:
 #
-# docker build -t stacks-dotnet-cqrs --build-arg function=xxENSONOxx.xxSTACKSxx.Listener .\src\functions
-ARG outdir=out
+# docker build -t stacks-asb-listener -f src/func-asb-listener/src/functions/Dockerfile --build-arg self_repo_src=src/func-asb-listener/src/functions .
+ARG outdir=buildout
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 
@@ -18,7 +18,7 @@ COPY ./ ./
 RUN dotnet publish -c Release -o ${outdir} $self_repo_src/xxENSONOxx.xxSTACKSxx.Listener
 
 # Build the runtime image
-FROM mcr.microsoft.com/azure-functions/dotnet:4-dotnet8.0 as runtime
+FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0 as runtime
 
 ARG outdir
 

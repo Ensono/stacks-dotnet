@@ -1,0 +1,9 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "OTEL_EXPORTER_OTLP_ENDPOINT": "REPLACE_ME",
+        "APPLICATIONINSIGHTS_CONNECTION_STRING": "InstrumentationKey=REPLACE_ME"
+    }
+}

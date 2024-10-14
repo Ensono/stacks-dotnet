@@ -44,6 +44,12 @@ variable "az_function_dotnet_version" {
   description = "Version of the .NET framework to use in the function"
 }
 
+variable "az_function_dotnet_isolated_runtime" {
+  type        = bool
+  default     = true
+  description = "Use the isolated .NET runtime for the function"
+}
+
 ############################################
 # CosmosDB
 ############################################
@@ -125,4 +131,19 @@ variable "eventhub_storage_access_key" {
 variable "eventhub_blob_container" {
   type        = string
   description = "Name of the blob container"
+}
+
+############################################
+# App Insights
+############################################
+variable "app_insights_connection_string" {
+  type        = string
+  description = "Connection string for App Insights"
+  sensitive   = true
+}
+
+variable "app_insights_instrumentation_key" {
+  type        = string
+  description = "Instrumentation key for App Insights"
+  sensitive   = true
 }
