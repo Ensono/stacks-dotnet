@@ -22,6 +22,15 @@
       servicebus_type = "`${SERVICEBUS_TYPE}"
     }
   }
+  @{
+    displayName = "FunctionalTests"
+    template = "tests/xxENSONOxx.xxSTACKSxx.BackgroundWorker.FunctionalTests/appsettings.json"
+    vars = @{
+      servicebus_topic_name = "`${SERVICEBUS_TOPIC_NAME}"
+      servicebus_subscription_name = "`${SERVICEBUS_SUBSCRIPTION_NAME}"
+      servicebus_connectionstring = "`${SERVICEBUS_CONNECTIONSTRING}"
+    }
+  }
 )
 
 # # AWS is expecting env vars or TF outputs for:
