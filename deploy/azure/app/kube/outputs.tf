@@ -51,11 +51,11 @@ output "servicebus_namespace" {
 
 output "servicebus_topic_name" {
   description = "Name of the topic"
-  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_topic_name[0] : null
+  value       = local.sb_topic_name
 }
 
 output "servicebus_connectionstring" {
-  value     = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_connectionstring[0] : null
+  value     = local.sb_connection_string
   sensitive = true
 }
 
@@ -77,7 +77,7 @@ output "servicebus_subscription_id" {
 
 output "servicebus_subscription_name" {
   description = "Servicebus Subscription name"
-  value       = var.create_function_app ? module.function.*.servicebus_subscription_name[0] : null
+  value       = var.create_function_app || local.lookup_servicebus ? var.sb_subscription_name : null
 }
 
 
@@ -97,14 +97,6 @@ output "eventhub_sa_connectionstring" {
 
 output "eventhub_sa_container" {
   value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_sa_container[0] : null
-}
-
-output "eventhub_function_listener_name" {
-  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.function_listener_name[0] : null
-}
-
-output "eventhub_function_listener_id" {
-  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.function_listener_id[0] : null
 }
 
 # Core State Query Outputs (to reduce variable duplication)

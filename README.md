@@ -58,11 +58,14 @@ All templates from this repository come as part of the [Stacks Dotnet NuGet pack
 
 - `stacks-webapi`. The full Web API template including source + build infrastructure.
 - `stacks-cqrs-app`. The full CQRS template including source + build infrastructure.
-- `stacks-add-cqrs`. A special template that can add `CQRS` functionality and projects to your existing Web API solution
 - `stacks-asb-worker`. This template contains a background worker application that reads and handles messages from a ServiceBus subscription.
 - `stacks-az-func-asb-listener`. Template containing an Azure Function project with a single function that has a Service Bus subscription trigger. The function receives the message and deserializes it.
 - `stacks-az-func-aeh-listener`. Template containing an Azure Function project with a single function that has a Event Hub trigger. The function receives the message and deserializes it.
 - `stacks-az-func-cosmosdb-worker`. Azure Function containing a CosmosDb change feed trigger. Upon a CosmosDb event, the worker reads it and publishes a message to Service Bus.
+
+### Generating the expected directory trees
+
+The template outputs are validated during testing using the directory tree files in the `scripts/expected-trees` directory. When files are added or removed from the template the expected directory trees will need to be updated. This can be done using the `test-templates.ps1` script with the `-GenerateExpectedTrees` parameter (`pwsh test-templates.ps1 -GenerateExpectedTrees`)
 
 ### Template usage
 
@@ -79,7 +82,6 @@ The output you'll see will list all installed templates (not listed for brevity)
 | Template Name | Short Name                     | Language | Tags |
 |---------------|--------------------------------|----------|------|
 | Ensono Stacks Web API  | stacks-webapi                  | [C#] | Stacks/Infrastructure/WebAPI |
-| Ensono Stacks CQRS Projects | stacks-add-cqrs                | [C#] | Stacks/CQRS |
 | Ensono Stacks CQRS Web API | stacks-cqrs-app                | [C#] | Stacks/Infrastructure/CQRS/WebAPI |
 | Ensono Stacks Azure Function CosmosDb Worker | stacks-az-func-cosmosdb-worker | [C#] | Stacks/Azure Function/CosmosDb/Worker |
 | Ensono Stacks Azure Function Service Bus Trigger | stacks-az-func-asb-listener    | [C#] | Stacks/Azure Function/Service Bus/Listener |
@@ -267,88 +269,6 @@ drwxr-xr-x  3 ensono  staff    96 23 Aug 15:58 ..
 
 Now both `Foo.Bar.Worker` and `Foo.Bar.Worker.UnitTests` projects are part of your `Foo.Bar` solution.
 
-## Adding a CQRS template to your existing solution
-
-Let's say you have a WebAPI solution and you want to add CQRS functionality to it.
-
-In order for the template to generate correctly you'll need to execute it in the folder where your `.sln` file is located. Also for the purposes of this example we're assuming that in your solution the projects and namespaces have `Foo.Bar` as a prefix.
-
-```shell
-% cd src
-
-% dotnet new stacks-add-cqrs -n Foo.Bar.CQRS -do Menu
-The template "Ensono Stacks Web Api CQRS - Add to existing solution" was created successfully.
-```
-
-If all is well, in the output you'll see that projects are being added as references to your `.sln` file. The list of projects that you'll get by installing this template are as follows (please note the prefix provided with the `-n` flag from above):
-
-- Foo.Bar.CQRS.Infrastructure
-- Foo.Bar.CQRS.API
-- Foo.Bar.CQRS.API.Models
-- Foo.Bar.CQRS.Application.CommandHandlers
-- Foo.Bar.CQRS.Application.Integration
-- Foo.Bar.CQRS.Application.QueryHandlers
-- Foo.Bar.CQRS.Domain
-- Foo.Bar.CQRS.Common
-- Foo.Bar.CQRS.CQRS
-- Foo.Bar.CQRS.Common.UnitTests
-- Foo.Bar.CQRS.CQRS.UnitTests
-- Foo.Bar.CQRS.Domain.UnitTests
-- Foo.Bar.CQRS.Infrastructure.IntegrationTests
-
-As you see you get a new `Foo.Bar.CQRS.API` folder which has controllers wired up with the CQRS command handlers. If you had provided `-n Foo.Bar` as your name in the command above you would get an error stating the following:
-
-```shell
-Creating this template will make changes to existing files:
-  Overwrite   ./Foo.Bar.API.Models/Requests/CreateCategoryRequest.cs
-  Overwrite   ./Foo.Bar.API.Models/Requests/CreateItemRequest.cs
-  Overwrite   ./Foo.Bar.API.Models/Requests/CreateCarRequest.cs
-  Overwrite   ./Foo.Bar.API.Models/Requests/UpdateCategoryRequest.cs
-  Overwrite   ./Foo.Bar.API.Models/Requests/UpdateItemRequest.cs
-  Overwrite   ./Foo.Bar.API.Models/Requests/UpdateCarRequest.cs
-  Overwrite   ./Foo.Bar.API.Models/Responses/Category.cs
-  Overwrite   ./Foo.Bar.API.Models/Responses/Item.cs
-  Overwrite   ./Foo.Bar.API.Models/Responses/Car.cs
-  Overwrite   ./Foo.Bar.API.Models/Responses/ResourceCreatedResponse.cs
-  Overwrite   ./Foo.Bar.API.Models/Responses/SearchCarResponse.cs
-  Overwrite   ./Foo.Bar.API.Models/Responses/SearchCarResponseItem.cs
-  Overwrite   ./Foo.Bar.API.Models/Foo.Bar.API.Models.csproj
-  Overwrite   ./Foo.Bar.API/appsettings.json
-  Overwrite   ./Foo.Bar.API/Authentication/ConfigurationExtensions.cs
-  Overwrite   ./Foo.Bar.API/Authentication/JwtBearerAuthenticationConfiguration.cs
-  Overwrite   ./Foo.Bar.API/Authentication/JwtBearerAuthenticationConfigurationExtensions.cs
-  Overwrite   ./Foo.Bar.API/Authentication/JwtBearerAuthenticationOperationFilter.cs
-  Overwrite   ./Foo.Bar.API/Authentication/JwtBearerAuthenticationStartupExtensions.cs
-  Overwrite   ./Foo.Bar.API/Authentication/OpenApiJwtBearerAuthenticationConfiguration.cs
-  Overwrite   ./Foo.Bar.API/Authentication/OpenApiSecurityDefinitions.cs
-  Overwrite   ./Foo.Bar.API/Authentication/StubJwtBearerAuthenticationHttpMessageHandler.cs
-  Overwrite   ./Foo.Bar.API/Authentication/SwaggerGenOptionsExtensions.cs
-  Overwrite   ./Foo.Bar.API/Authorization/ConfigurableAuthorizationPolicyProvider.cs
-  Overwrite   ./Foo.Bar.API/Constants.cs
-  Overwrite   ./Foo.Bar.API/Controllers/ApiControllerBase.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Category/AddCarCategoryController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Category/DeleteCategoryController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Category/UpdateCarCategoryController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Item/AddCarItemController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Item/DeleteCarItemController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Item/UpdateCarItemController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Car/CreateCarController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Car/DeleteCarController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Car/GetCarByIdController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Car/GetCarByIdV2Controller.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Car/SearchCarController.cs
-  Overwrite   ./Foo.Bar.API/Controllers/Car/UpdateCarController.cs
-  Overwrite   ./Foo.Bar.API/Program.cs
-  Overwrite   ./Foo.Bar.API/Startup.cs
-  Overwrite   ./Foo.Bar.API/Foo.Bar.API.csproj
-
-Rerun the command and pass --force to accept and create.
-```
-
-This will happen if the newly generated template project names collide with your existing structure. It's up to you to decide if you want to use the `--force` flag and overwrite all collisions with the projects from the template. By doing so you might lose your custom logic in some places and you'll have to transfer things manually to the new projects by examining the diffs in your source control.
-
-If you don't want to do that you can generate the new projects with a different namespace (what was shown above) and then copy/remove the things you don't need.
-
 ## DynamoDB Setup
 
 You need a DynamoDB instance in order to use this library. You can follow the official instructions provided by AWS [here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SettingUp.DynamoWebService.html).
@@ -468,7 +388,7 @@ Now that you have your cloud services all set, you can point the API project to 
 }
 ```
 
-The `SecurityKeySecret` and `ConnectionStringSecret` sections are needed because of our use of the `Ensono.Stacks.Configuration` package. `COSMOSDB_KEY`, `SERVICEBUS_CONNECTIONSTRING`, `EVENTHUB_CONNECTIONSTRING` or `TOPIC_ARN` have to be set before you can run the project. If you want to debug the solution with VSCode you usually have a `launch.json` file. In that file there's an `env` section where you can put environment variables for the current session.
+The `SecurityKeySecret` and `ConnectionStringSecret` sections are needed because of our use of references to secrets in configuration. `COSMOSDB_KEY`, `SERVICEBUS_CONNECTIONSTRING`, `EVENTHUB_CONNECTIONSTRING` or `TOPIC_ARN` have to be set before you can run the project. If you want to debug the solution with VSCode you usually have a `launch.json` file. In that file there's an `env` section where you can put environment variables for the current session.
 
 ```json
 "env": {

@@ -1,4 +1,4 @@
-using xxENSONOxx.xxSTACKSxx.Shared.Configuration;
+using xxENSONOxx.xxSTACKSxx.Infrastructure.Secrets;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Linq;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories;
@@ -16,6 +13,10 @@ using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Secrets;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
@@ -27,6 +28,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSerializers();
             services.AddValidators();
 
+            services.AddSecretResolver();
+            
             var configuration = GetConfiguration(services);
 
             var sendersRegistered = services.AddServiceBusSenders(configuration.Sender);
@@ -279,6 +282,11 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             return true;
+        }
+
+        private static void AddSecretResolver(this IServiceCollection services)
+        {
+            services.AddSingleton<ISecretResolver<string>, SecretResolver>();
         }
     }
 }

@@ -1,15 +1,15 @@
-using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Operations;
 using Newtonsoft.Json;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
 
 [method: JsonConstructor]
 public class CategoryCreatedEvent(int operationCode, Guid correlationId, Guid menuId, Guid categoryId)
-    : IApplicationEvent
+           : IApplicationEvent
 {
-    public CategoryCreatedEvent(IOperationContext context, Guid menuId, Guid categoryId) : this(context.OperationCode, context.CorrelationId, menuId, categoryId)
+    public CategoryCreatedEvent(IOperationContext context, Guid menuId, Guid categoryId)
+         : this(context.OperationCode, context.CorrelationId, menuId, categoryId)
     {
     }
 
@@ -19,7 +19,7 @@ public class CategoryCreatedEvent(int operationCode, Guid correlationId, Guid me
 
     public Guid CorrelationId { get; } = correlationId;
 
-    public Guid MenuId { get; set; } = menuId;
+    public Guid MenuId { get; } = menuId;
 
-    public Guid CategoryId { get; set; } = categoryId;
+    public Guid CategoryId { get; } = categoryId;
 }

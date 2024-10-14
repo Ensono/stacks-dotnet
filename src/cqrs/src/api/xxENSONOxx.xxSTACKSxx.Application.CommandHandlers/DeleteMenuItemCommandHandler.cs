@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
@@ -22,10 +22,11 @@ public class DeleteMenuItemCommandHandler(
 
     public override IEnumerable<IApplicationEvent> RaiseApplicationEvents(Menu menu, DeleteMenuItem command)
     {
-        return new IApplicationEvent[] {
+        return
+        [
             new MenuUpdatedEvent(command, command.MenuId),
             new CategoryUpdatedEvent(command, command.MenuId, command.CategoryId),
             new MenuItemDeletedEvent(command, command.MenuId, command.CategoryId, command.MenuItemId)
-        };
+        ];
     }
 }
