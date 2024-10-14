@@ -33,21 +33,17 @@
     },
     "sources": [
         {
-            "source": "../",
+            "source": "../../",
             "include": [
-                "background-worker/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Abstractions/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Configuration/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Configuration.Tests/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Core.Tests/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Commands/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Events/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Handlers/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing/**",
-				"shared/xxENSONOxx.xxSTACKSxx.Shared.Testing.Tests/**"
+                "build/**",
+                "deploy/**",
+                "taskctl.yaml",
+                "stackscli.yml",
+                ".gitignore",
+                ".gitattributes",
+                "src/background-worker/**",
+                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
+                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",
@@ -62,11 +58,28 @@
                 "_rels/**",
                 "package/**",
                 "**/*.nuspec",
-                "*Content_Types*.xml"
+                "*Content_Types*.xml",
+                "**/.terraform/**",
+                "**/terraform.tfstate",
+                "**/.terraform.lock.hcl",
+                "**/.idea/**",
+                "**/build/azDevOps/aws/**",
+                "**/build/azDevOps/gcp/**",
+                "**/build/azDevOps/azure/ensono/**",
+                "**/build/azDevOps/azure/ci-cqrs-vars.yml",
+                "**/build/azDevOps/azure/ci-simple-api-vars.yml",
+                "**/build/azDevOps/azure/ci-cosmosdb-worker-vars.yml",
+                "**/build/azDevOps/azure/ci-asb-listener-vars.yml",
+                "**/build/azDevOps/azure/ci-aeh-listener-vars.yml",
+                "**/build/azDevOps/azure/ci-functions.yml",
+                "**/build/github/**",
+                "**/deploy/aws/**",
+                "**/deploy/gcp/**"
             ],
             "rename": {
                 "_gitignore": ".gitignore",
-                "_gitattributes": ".gitattributes"
+                "_gitattributes": ".gitattributes",
+                "build/azDevOps/azure/ci-background-worker-vars.yml": "build/azDevOps/azure/ci-vars.yml"
             },
             "modifiers": []
         }

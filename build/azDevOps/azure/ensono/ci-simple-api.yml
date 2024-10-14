@@ -69,6 +69,7 @@ stages:
 
           - task: Bash@3
             displayName: "TaskCTL: Build Functional Tests"
+            condition: and(succeeded(), eq(variables.run_functional_tests, true))
             inputs:
               targetType: inline
               script: taskctl build:functional_tests
@@ -113,6 +114,7 @@ stages:
           # Upload functional tests as artifacts
           - task: PublishPipelineArtifact@1
             displayName: "Upload: functional tests"
+            condition: and(succeeded(), eq(variables.run_functional_tests, true))
             inputs:
               path: $(FUNCTIONAL_TESTS_SRC_DIR)
               artifact: tests
@@ -171,20 +173,24 @@ stages:
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
-                    TF_VAR_create_dns_record: true
+                    TF_VAR_create_dns_record: $(create_dns_record)
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
+                    TF_VAR_create_resource_group: ${{ variables.create_resource_group }}
                     TF_VAR_create_cosmosdb: $(create_cosmosdb)
                     TF_VAR_create_cache: false
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_nonprod)
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_dev }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_dev }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_app_bus_type: $(app_bus_type)
+                    TF_VAR_app_bus_type: ${{ variables.app_bus_type }}
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -217,6 +223,7 @@ stages:
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     artifact: tests
                     path: $(Agent.BuildDirectory)/s/tests
@@ -242,7 +249,7 @@ stages:
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
-                    TF_VAR_create_dns_record: true
+                    TF_VAR_create_dns_record: $(create_dns_record)
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
@@ -251,11 +258,14 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_nonprod)
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_dev }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_dev }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_app_bus_type: $(app_bus_type)
+                    TF_VAR_app_bus_type: ${{ variables.app_bus_type }}
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -281,6 +291,8 @@ stages:
                     # Helm Config
                     HELM_VALUE_FILE: $(helm_value_file)
                     HELM_CHART_FILE: $(helm_chart_file)
+                    INGRESS_ENABLED: $(ingress_enabled)
+                    SERVICEBUS_TYPE: ${{ variables.servicebus_type }}
 
                 - task: PublishPipelineArtifact@1
                   displayName: "Upload: Helm Values"
@@ -289,6 +301,7 @@ stages:
                     artifact: helm_values_dev
 
                 - task: PublishTestResults@2
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     testResultsFormat: VSTest
                     testResultsFiles: '**/*.trx'
@@ -351,7 +364,7 @@ stages:
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
-                    TF_VAR_create_dns_record: true
+                    TF_VAR_create_dns_record: $(create_dns_record)
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
@@ -360,11 +373,14 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_prod)
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_prod }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_prod }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_app_bus_type: $(app_bus_type)
+                    TF_VAR_app_bus_type: ${{ variables.app_bus_type }}
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -397,6 +413,7 @@ stages:
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     artifact: tests
                     path: $(Build.Workspace)/tests
@@ -426,7 +443,7 @@ stages:
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
-                    TF_VAR_create_dns_record: true
+                    TF_VAR_create_dns_record: $(create_dns_record)
                     TF_VAR_name_company: $(company)
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
@@ -435,11 +452,14 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_prod)
+                    TF_VAR_sb_name: ${{ variables.servicebus_namespace_prod }}
+                    TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_prod }}
+                    TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
                     TF_VAR_cosmosdb_sql_container: "Menu"
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_app_bus_type: $(app_bus_type)
+                    TF_VAR_app_bus_type: ${{ variables.app_bus_type }}
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -465,6 +485,8 @@ stages:
                     # Helm Config
                     HELM_VALUE_FILEPATH: $(helm_value_file)
                     HELM_CHART_FILEPATH: $(helm_chart_file)
+                    INGRESS_ENABLED: $(ingress_enabled)
+                    SERVICEBUS_TYPE: ${{ variables.servicebus_type }}
 
                 - task: PublishPipelineArtifact@1
                   displayName: "Upload: Helm Values"
@@ -473,6 +495,7 @@ stages:
                     artifact: helm_values_prod
 
                 - task: PublishTestResults@2
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     testResultsFormat: VSTest
                     testResultsFiles: '**/*.trx'

@@ -1,0 +1,305 @@
+.
+├── .gitattributes
+├── .github
+│   └── workflows
+│       ├── ci.env
+│       └── ci.yml
+├── .gitignore
+├── build
+│   ├── azDevOps
+│   │   ├── azure
+│   │   │   ├── api-contract-tests.yml
+│   │   │   ├── ci-aeh-listener-vars.yml
+│   │   │   ├── ci-asb-listener-vars.yml
+│   │   │   ├── ci-background-worker-vars.yml
+│   │   │   ├── ci-cosmosdb-worker-vars.yml
+│   │   │   ├── ci-cqrs-vars.yml
+│   │   │   ├── ci-functions.yml
+│   │   │   ├── ci-vars.yml
+│   │   │   ├── ci.yml
+│   │   │   └── ensono
+│   │   │       ├── ci-aeh-listener-vars.yml
+│   │   │       ├── ci-aeh-listener.yml
+│   │   │       ├── ci-asb-listener-vars.yml
+│   │   │       ├── ci-asb-listener.yml
+│   │   │       ├── ci-background-worker-vars.yml
+│   │   │       ├── ci-background-worker.yml
+│   │   │       ├── ci-cosmosdb-worker-vars.yml
+│   │   │       ├── ci-cosmosdb-worker.yml
+│   │   │       ├── ci-cqrs-vars.yml
+│   │   │       ├── ci-cqrs.yml
+│   │   │       ├── ci-simple-api-vars.yml
+│   │   │       ├── ci-simple-api.yml
+│   │   │       ├── models-packages-api.yml
+│   │   │       ├── nuget-packages-api-vars.yml
+│   │   │       ├── nuget-packages-api.yml
+│   │   │       ├── packages-api-models.yml
+│   │   │       └── release-notes
+│   │   │           ├── handlebar
+│   │   │           │   ├── extensions
+│   │   │           │   │   └── custom-extensions.js
+│   │   │           │   └── releaseNoteTemplate.md
+│   │   │           └── publish-release-notes.yml
+│   │   └── templates
+│   │       ├── legacy-deploy-functions.yml
+│   │       └── taskctl-setup.yml
+│   ├── deployment_list.ps1
+│   ├── github
+│   │   ├── aws
+│   │   │   ├── README.md
+│   │   │   └── env
+│   │   │       └── cqrs.env
+│   │   └── templates
+│   │       └── install-taskctl
+│   │           └── action.yaml
+│   ├── scripts
+│   │   └── .gitkeep
+│   └── taskctl
+│       ├── contexts.yaml
+│       └── tasks.yaml
+├── deploy
+│   ├── aws
+│   │   └── app
+│   │       └── kube
+│   │           ├── README.md
+│   │           ├── data.tf
+│   │           ├── main.tf
+│   │           ├── outputs.tf
+│   │           ├── provider.tf
+│   │           └── variables.tf
+│   ├── azure
+│   │   └── app
+│   │       ├── eventhub
+│   │       │   ├── event_hub.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── storage.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       ├── function
+│   │       │   ├── function.tf
+│   │       │   ├── main.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── servicebus.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       ├── kube
+│   │       │   ├── locals.tf
+│   │       │   ├── lookups.tf
+│   │       │   ├── main.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── provider.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       └── servicebus
+│   │           ├── main.tf
+│   │           ├── outputs.tf
+│   │           ├── service_bus.tf
+│   │           ├── variables.tf
+│   │           └── versions.tf
+│   ├── helm
+│   │   └── stacks-dotnet
+│   │       ├── .helmignore
+│   │       ├── Chart.yaml
+│   │       ├── templates
+│   │       │   ├── NOTES.txt
+│   │       │   ├── _helpers.tpl
+│   │       │   ├── configmap.yaml
+│   │       │   ├── deployment.yaml
+│   │       │   ├── hpa.yaml
+│   │       │   ├── ingress.yaml
+│   │       │   ├── secret.yaml
+│   │       │   ├── service.yaml
+│   │       │   ├── serviceaccount.yaml
+│   │       │   └── tests
+│   │       │       └── test-connection.yaml
+│   │       └── values.yaml
+│   └── scripts
+│       ├── 1-set-cluster-context.sh
+│       ├── 2-promote-image.sh
+│       └── 3-helm-upgrade.sh
+├── src
+│   └── simple-api
+│       ├── contracts
+│       │   ├── openapi-v1-generated.json
+│       │   └── openapi-v1.yaml
+│       └── src
+│           ├── .editorconfig
+│           ├── api
+│           │   ├── .dockerignore
+│           │   ├── Dockerfile
+│           │   ├── NuGet.config
+│           │   ├── README.md
+│           │   ├── Simple.Api.API
+│           │   │   ├── Authentication
+│           │   │   │   ├── ConfigurationExtensions.cs
+│           │   │   │   ├── JwtBearerAuthenticationConfiguration.cs
+│           │   │   │   ├── JwtBearerAuthenticationConfigurationExtensions.cs
+│           │   │   │   ├── JwtBearerAuthenticationOperationFilter.cs
+│           │   │   │   ├── JwtBearerAuthenticationStartupExtensions.cs
+│           │   │   │   ├── OpenApiJwtBearerAuthenticationConfiguration.cs
+│           │   │   │   ├── OpenApiSecurityDefinitions.cs
+│           │   │   │   ├── StubJwtBearerAuthenticationHttpMessageHandler.cs
+│           │   │   │   └── SwaggerGenOptionsExtensions.cs
+│           │   │   ├── Authorization
+│           │   │   │   └── ConfigurableAuthorizationPolicyProvider.cs
+│           │   │   ├── Configuration
+│           │   │   │   └── CorrelationIdConfiguration.cs
+│           │   │   ├── Constants.cs
+│           │   │   ├── Controllers
+│           │   │   │   ├── ApiControllerBase.cs
+│           │   │   │   ├── Category
+│           │   │   │   │   ├── AddMenuCategoryController.cs
+│           │   │   │   │   ├── DeleteCategoryController.cs
+│           │   │   │   │   └── UpdateMenuCategoryController.cs
+│           │   │   │   ├── Item
+│           │   │   │   │   ├── AddMenuItemController.cs
+│           │   │   │   │   ├── DeleteMenuItemController.cs
+│           │   │   │   │   └── UpdateMenuItemController.cs
+│           │   │   │   └── Menu
+│           │   │   │       ├── CreateMenuController.cs
+│           │   │   │       ├── DeleteMenuController.cs
+│           │   │   │       ├── GetMenuByIdController.cs
+│           │   │   │       ├── GetMenuByIdV2Controller.cs
+│           │   │   │       ├── SearchMenuController.cs
+│           │   │   │       └── UpdateMenuController.cs
+│           │   │   ├── Exceptions
+│           │   │   │   ├── ApplicationExceptionBase.cs
+│           │   │   │   ├── IException.cs
+│           │   │   │   └── InfrastructureExceptionBase.cs
+│           │   │   ├── Filters
+│           │   │   │   ├── SwaggerDocumentTagger.cs
+│           │   │   │   └── VersionPathFilter.cs
+│           │   │   ├── Middleware
+│           │   │   │   ├── CorrelationIdMiddleware.cs
+│           │   │   │   ├── CorrelationIdMiddlewareExtensions.cs
+│           │   │   │   └── ExceptionHandlerMiddlewareExtensions.cs
+│           │   │   ├── Models
+│           │   │   │   └── Responses
+│           │   │   │       └── BadResult.cs
+│           │   │   ├── Operations
+│           │   │   │   └── IOperationContext.cs
+│           │   │   ├── Program.cs
+│           │   │   ├── Simple.Api.API.csproj
+│           │   │   └── appsettings.json
+│           │   ├── Simple.Api.API.ComponentTests
+│           │   │   ├── Features
+│           │   │   │   ├── CreateMenuFeature.cs
+│           │   │   │   ├── DeleteMenuFeature.cs
+│           │   │   │   ├── GetMenuByIdFeature.cs
+│           │   │   │   └── UpdateMenuFeature.cs
+│           │   │   ├── Fixtures
+│           │   │   │   ├── ApiClientFixture.cs
+│           │   │   │   ├── ApiFixture.cs
+│           │   │   │   ├── CreateMenuFixture.cs
+│           │   │   │   ├── DeleteMenuFixture.cs
+│           │   │   │   ├── GetMenuFixture.cs
+│           │   │   │   └── UpdateMenuFixture.cs
+│           │   │   ├── Setup
+│           │   │   │   ├── Configuration.cs
+│           │   │   │   ├── CustomAutoDataAttribute.cs
+│           │   │   │   └── DotEnv.cs
+│           │   │   └── Simple.Api.API.ComponentTests.csproj
+│           │   ├── Simple.Api.API.Models
+│           │   │   ├── Requests
+│           │   │   │   ├── CreateCategoryRequest.cs
+│           │   │   │   ├── CreateItemRequest.cs
+│           │   │   │   ├── CreateMenuRequest.cs
+│           │   │   │   ├── UpdateCategoryRequest.cs
+│           │   │   │   ├── UpdateItemRequest.cs
+│           │   │   │   └── UpdateMenuRequest.cs
+│           │   │   ├── Responses
+│           │   │   │   ├── Category.cs
+│           │   │   │   ├── Item.cs
+│           │   │   │   ├── Menu.cs
+│           │   │   │   ├── ResourceCreatedResponse.cs
+│           │   │   │   ├── SearchMenuResponse.cs
+│           │   │   │   └── SearchMenuResponseItem.cs
+│           │   │   └── Simple.Api.API.Models.csproj
+│           │   ├── Simple.Api.API.UnitTests
+│           │   │   ├── ConfigurableAuthorizationPolicyProviderTests.cs
+│           │   │   ├── Controllers
+│           │   │   │   ├── ApiControllerBaseTests.cs
+│           │   │   │   ├── Category
+│           │   │   │   │   ├── AddMenuCategoryControllerTests.cs
+│           │   │   │   │   ├── DeleteCategoryControllerTests.cs
+│           │   │   │   │   └── UpdateMenuCategoryControllerTests.cs
+│           │   │   │   ├── Item
+│           │   │   │   │   ├── AddMenuItemControllerTests.cs
+│           │   │   │   │   ├── DeleteMenuItemControllerTests.cs
+│           │   │   │   │   └── UpdateMenuItemControllerTests.cs
+│           │   │   │   └── Menu
+│           │   │   │       ├── CreateMenuControllerTests.cs
+│           │   │   │       ├── DeleteMenuControllerTests.cs
+│           │   │   │       ├── GetMenuByIdControllerTests.cs
+│           │   │   │       ├── SearchMenuControllerTests.cs
+│           │   │   │       └── UpdateMenuControllerTests.cs
+│           │   │   ├── Filters
+│           │   │   │   ├── SwaggerDocumentTaggerTests.cs
+│           │   │   │   └── VersionPathFilterTests.cs
+│           │   │   ├── JwtBearerAuthentication
+│           │   │   │   ├── JwtBearerAuthenticationConfigurationTests.cs
+│           │   │   │   ├── JwtBearerAuthenticationOperationFilterTests.cs
+│           │   │   │   └── JwtBearerAuthenticationStartupExtensionsTests.cs
+│           │   │   └── Simple.Api.API.UnitTests.csproj
+│           │   ├── Simple.Api.API.sln
+│           │   └── Simple.Api.AppHost
+│           │       ├── Program.cs
+│           │       ├── Properties
+│           │       │   └── launchSettings.json
+│           │       ├── Simple.Api.AppHost.csproj
+│           │       ├── appsettings.Development.json
+│           │       └── appsettings.json
+│           └── tests
+│               ├── Functional
+│               │   ├── Simple.Api.API.FunctionalTests
+│               │   │   ├── Builders
+│               │   │   │   ├── CategoryBuilder.cs
+│               │   │   │   ├── CategoryRequestBuilder.cs
+│               │   │   │   ├── Http
+│               │   │   │   │   ├── HttpRequestBuilder.cs
+│               │   │   │   │   └── HttpRequestFactory.cs
+│               │   │   │   ├── IBuilder.cs
+│               │   │   │   ├── ItemBuilder.cs
+│               │   │   │   ├── MenuBuilder.cs
+│               │   │   │   ├── MenuItemBuilder.cs
+│               │   │   │   └── MenuRequestBuilder.cs
+│               │   │   ├── Configuration
+│               │   │   │   ├── ConfigAccessor.cs
+│               │   │   │   └── ConfigModel.cs
+│               │   │   ├── Models
+│               │   │   │   ├── Category.cs
+│               │   │   │   ├── CategoryRequest.cs
+│               │   │   │   ├── CreateObjectResponse.cs
+│               │   │   │   ├── Item.cs
+│               │   │   │   ├── Menu.cs
+│               │   │   │   ├── MenuItemRequest.cs
+│               │   │   │   ├── MenuRequest.cs
+│               │   │   │   ├── SearchResult.cs
+│               │   │   │   └── SearchResultItem.cs
+│               │   │   ├── ReadMe.md
+│               │   │   ├── Simple.Api.API.FunctionalTests.csproj
+│               │   │   ├── Tests
+│               │   │   │   ├── Fixtures
+│               │   │   │   │   └── AuthFixture.cs
+│               │   │   │   ├── Steps
+│               │   │   │   │   ├── CategorySteps.cs
+│               │   │   │   │   ├── HealthCheckSteps.cs
+│               │   │   │   │   ├── ItemSteps.cs
+│               │   │   │   │   └── MenuSteps.cs
+│               │   │   │   └── Stories
+│               │   │   │       ├── CreateCategoryTests.cs
+│               │   │   │       ├── CreateItemTests.cs
+│               │   │   │       ├── CreateMenuTests.cs
+│               │   │   │       ├── DeleteCategoryTests.cs
+│               │   │   │       ├── DeleteItemTests.cs
+│               │   │   │       ├── DeleteMenuTests.cs
+│               │   │   │       ├── GetMenuByIdTests.cs
+│               │   │   │       ├── HeathCheck.cs
+│               │   │   │       ├── UpdateCategoryById.cs
+│               │   │   │       ├── UpdateItemById.cs
+│               │   │   │       └── UpdateMenuById.cs
+│               │   │   └── appsettings.json
+│               │   └── Simple.Api.API.FunctionalTests.sln
+│               └── README.md
+├── stackscli.yml
+└── taskctl.yaml

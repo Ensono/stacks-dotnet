@@ -172,6 +172,8 @@ variables:
     value: ensono-stacks-dev-euw-netcore-api-cqrs
   - name: servicebus_resource_group_prod
     value: ensono-stacks-prod-euw-netcore-api-cqrs
+  - name: servicebus_subscription_name
+    value: sbs-menu-events
 
   # Azure service connection
   - name: azure_service_connection

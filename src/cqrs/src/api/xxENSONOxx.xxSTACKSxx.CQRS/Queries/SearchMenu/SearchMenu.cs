@@ -1,5 +1,5 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Queries;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Queries;
 
 namespace xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 

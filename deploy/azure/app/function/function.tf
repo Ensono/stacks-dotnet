@@ -31,19 +31,26 @@ resource "azurerm_linux_function_app" "function" {
   functions_extension_version = var.az_function_extension_version
 
   app_settings = {
-    COSMOSDB_COLLECTION_NAME       = var.cosmosdb_collection_name
+    COSMOSDB_CONTAINER_NAME        = var.cosmosdb_collection_name
     COSMOSDB_CONNECTIONSTRING      = var.cosmosdb_connection_string
     COSMOSDB_DATABASE_NAME         = var.cosmosdb_database_name
     COSMOSDB_LEASE_COLLECTION_NAME = var.cosmosdb_lease_collection_name
-    SERVICEBUS_CONNECTIONSTRING    = var.servicebus_connection_string
+    SERVICEBUS_CONNECTIONSTRING    = var.sb_connection_string
     TOPIC_NAME                     = var.sb_topic_name
-    SUBSCRIPTION_NAME              = azurerm_servicebus_subscription.sb_sub.name
+    SUBSCRIPTION_NAME              = var.sb_subscription_name != null && var.sb_topic_id != null ? azurerm_servicebus_subscription.sb_sub[0].name : null
+    EVENTHUB_CONNECTIONSTRING      = var.eventhub_connection_string
+    EVENTHUB_NAME                  = var.eventhub_name
+    BLOB_STORAGE_CONNECTIONSTRING  = var.eventhub_storage_access_key
+    BLOB_CONTAINER_NAME            = var.eventhub_blob_container
   }
 
   site_config {
-    always_on = true
+    always_on                              = true
+    application_insights_connection_string = var.app_insights_connection_string
+    application_insights_key               = var.app_insights_instrumentation_key
     application_stack {
-      dotnet_version = var.az_function_dotnet_version
+      dotnet_version              = var.az_function_dotnet_version
+      use_dotnet_isolated_runtime = var.az_function_dotnet_isolated_runtime
     }
   }
 }

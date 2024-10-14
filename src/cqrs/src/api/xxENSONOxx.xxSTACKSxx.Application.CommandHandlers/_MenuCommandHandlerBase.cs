@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Application.CQRS.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Core.Exceptions;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Common.Exceptions;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.Domain;
+using ApplicationExceptionBase = xxENSONOxx.xxSTACKSxx.Common.Exceptions.ApplicationExceptionBase;
+using DomainExceptionBase = xxENSONOxx.xxSTACKSxx.Common.Exceptions.DomainExceptionBase;
+using InfrastructureExceptionBase = xxENSONOxx.xxSTACKSxx.Common.Exceptions.InfrastructureExceptionBase;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CommandHandlers;
 
