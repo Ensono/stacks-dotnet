@@ -1,5 +1,4 @@
 using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Configuration;
-using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.ServiceBus;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Drivers;
 
@@ -10,8 +9,17 @@ public class TestDrivers
     /// </summary>
     public TestDrivers()
     {
-        ServiceBusDriver = new ServiceBusDriver(ConfigAccessor.GetApplicationConfiguration().ServiceBusConnection);
+        CosmosDbDriver = new CosmosDbDriver(ConfigurationAccessor.GetApplicationConfiguration().CosmosDbConnectionString);
+        ServiceBusDriver = new ServiceBusDriver(
+            ConfigurationAccessor.GetApplicationConfiguration().ServiceBusClientConnectionString,
+            ConfigurationAccessor.GetApplicationConfiguration().ServiceBusAdminConnectionString
+        );
     }
+
+    /// <summary>
+    /// Gets an instance of the <see cref="CosmosDbDriver"/>.
+    /// </summary>
+    public CosmosDbDriver CosmosDbDriver { get; }
 
     /// <summary>
     /// Gets an instance of the <see cref="ServiceBusDriver"/>.

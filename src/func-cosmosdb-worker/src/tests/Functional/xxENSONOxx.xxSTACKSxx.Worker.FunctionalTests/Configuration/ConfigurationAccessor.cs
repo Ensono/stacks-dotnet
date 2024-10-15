@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Configuration;
 
-public static class ConfigAccessor
+public static class ConfigurationAccessor
 {
     private static IConfigurationRoot? _root;
 
@@ -15,12 +15,10 @@ public static class ConfigAccessor
             .Build());
     }
 
-    public static ConfigModel GetApplicationConfiguration()
+    public static ConfigurationModel GetApplicationConfiguration()
     {
-        var configuration = new ConfigModel();
-
+        var configuration = new ConfigurationModel();
         var iConfig = GetIConfigurationRoot();
-
         iConfig.Bind(configuration);
 
         return configuration;
