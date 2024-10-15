@@ -1,8 +1,8 @@
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Models;
 
-public class ExpectedEvent
+public class CosmosChangeFeedEvent
 {
-    public string id { get; set; }
+    public string Id { get; set; }
     public int OperationCode { get; set; }
     public string CorrelationId { get; set; }
     public string EntityId { get; set; }

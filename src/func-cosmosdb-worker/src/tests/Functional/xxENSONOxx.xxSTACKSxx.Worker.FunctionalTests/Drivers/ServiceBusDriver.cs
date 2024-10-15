@@ -1,6 +1,8 @@
 using Azure.Messaging.ServiceBus;
 using Azure.Messaging.ServiceBus.Administration;
 using Microsoft.Extensions.DependencyInjection;
+using Xunit.Abstractions;
+using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Models;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Drivers;
 
@@ -9,6 +11,7 @@ public class ServiceBusDriver
     private readonly ServiceBusAdministrationClient _administrationClient;
     private readonly ServiceBusClient _serviceBusClient;
     private readonly AsyncPolicy<bool> _retryIfFalsePolicy;
+    private readonly AsyncPolicy<ServiceBusReceivedMessage?> _retryIfNullMessagePolicy;
 
 
     /// <summary>
@@ -26,6 +29,7 @@ public class ServiceBusDriver
         _serviceBusClient = serviceProvider.GetRequiredService<ServiceBusClient>();
         _administrationClient = serviceProvider.GetRequiredService<ServiceBusAdministrationClient>();
         _retryIfFalsePolicy = GetRetryIfFalsePolicy();
+        _retryIfNullMessagePolicy = GetRetryIfNullMessagePolicy();
     }
 
 
@@ -82,6 +86,21 @@ public class ServiceBusDriver
     }
 
 
+    public async Task<ServiceBusReceivedMessage?> CheckEventInQueue(string topicName, string subscriptionName, SubQueue subQueue, CosmosChangeFeedEvent cosmosChangeFeedEvent)
+    {
+        return await _retryIfNullMessagePolicy.ExecuteAsync(async () =>
+        {
+            var messageList = await this.ReadMessagesAsync(
+                topicName,
+                subscriptionName,
+                new ServiceBusReceiverOptions { SubQueue = subQueue, ReceiveMode = ServiceBusReceiveMode.PeekLock });
+
+            var message = messageList?.FirstOrDefault(x => x.Body.ToString().Contains(cosmosChangeFeedEvent.CorrelationId!));
+            return message;
+        });
+    }
+
+
     /// <summary>
     /// Clears all messages from a topic and subscription.
     /// </summary>
@@ -110,10 +129,17 @@ public class ServiceBusDriver
     /// <summary>
     /// Returns a Retry Policy used when checking if a message was received.
     /// </summary>
-    public static AsyncPolicy<ServiceBusReceivedMessage?> GetRetryIfNullPolicy() =>
+    public static AsyncPolicy<ServiceBusReceivedMessage?> GetRetryIfNullMessagePolicy() =>
         Policy
             .HandleResult<ServiceBusReceivedMessage?>(b => b == null)
-            .WaitAndRetryAsync(10, _ => TimeSpan.FromSeconds(5));
+            .WaitAndRetryAsync(
+                retryCount: 10,
+                sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
+                onRetry: (result, timeSpan, retryCount, context) =>
+                {
+                    Console.WriteLine($"Retry {retryCount} due to result: {result.Result}. Waiting {timeSpan} before next retry.");
+                }
+            );
 
 
     /// <summary>
@@ -122,5 +148,12 @@ public class ServiceBusDriver
     public static AsyncPolicy<bool> GetRetryIfFalsePolicy() =>
         Policy
             .HandleResult<bool>(b => !b)
-            .WaitAndRetryAsync(10, _ => TimeSpan.FromSeconds(5));
+            .WaitAndRetryAsync(
+                retryCount: 10,
+                sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
+                onRetry: (result, timeSpan, retryCount, context) =>
+                {
+                    Console.WriteLine($"Retry {retryCount} due to result: {result.Result}. Waiting {timeSpan} before next retry.");
+                }
+            );
 }

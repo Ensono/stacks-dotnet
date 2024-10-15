@@ -25,25 +25,23 @@ public class ExampleStory : IAsyncLifetime
     [Fact]
     public void Confirm_event_is_published_to_service_bus_when_item_is_created_in_cosmosdb()
     {
-        this.Given(step => _exampleSteps.ConfirmCosmosDbContainerExists(), "the Cosmos DB container exists")
+        this.Given(step => _exampleSteps.CheckThatCosmosDbContainerExists(), "the Cosmos DB container exists")
               .And(step => _exampleSteps.CheckThatTopicExists(), "the Azure Service Bus Topic exists")
              .When(step => _exampleSteps.CreateItemInCosmosDbContainer(), "an item is created in the CosmosDB container")
-             .Then(step => _exampleSteps.ConfirmCreatedEventIsPresentInPendingQueue(), "an event is published to the Service Bus Topic")
-              .And(step => _exampleSteps.ConfirmEventIsNotPresentInDeadLetter(), "the event does not get sent to the dead letter queue")
+             .Then(step => _exampleSteps.ConfirmServiceBusMessageReceivedForItemCreated(), "an event is published to the Service Bus Topic")
+              .And(step => _exampleSteps.ConfirmServiceBusMessageForItemCreatedIsNotMovedToDeadLetter(), "the event does not get moved to the dead letter queue")
             .BDDfy();
-
     }
 
     [Fact]
     public void Confirm_event_is_published_to_service_bus_when_item_is_updated_in_cosmosdb()
     {
-        this.Given(step => _exampleSteps.ConfirmCosmosDbContainerExists(), "the Cosmos DB container exists")
-              .And(step => _exampleSteps.CreateItemInCosmosDbContainer(), "an item has been created in the container")
+        this.Given(step => _exampleSteps.CheckThatCosmosDbContainerExists(), "the Cosmos DB container exists")
               .And(step => _exampleSteps.CheckThatTopicExists(), "the Azure Service Bus Topic exists")
-             .When(step => _exampleSteps.UpdateItemInCosmosDbContainer(), "the item is updated in the CosmosDB container")
-             .Then(step => _exampleSteps.ConfirmCreatedEventIsPresentInPendingQueue(), "a created event is published to the Service Bus Topic")
-              .And(step => _exampleSteps.ConfirmUpdateEventIsPresentInPendingQueue(), "an updated event is published to the Service Bus Topic")
-            // .And(step => _exampleSteps.ConfirmEventIsNotPresentInDeadLetter(), "the event does not get sent to the dead letter queue")
+              .And(step => _exampleSteps.CreateItemInCosmosDbContainer(), "an item has already been created in the container")
+             .When(step => _exampleSteps.UpdateItemInCosmosDbContainer(), "the item that was created in the CosmosDB container is updated")
+             .Then(step => _exampleSteps.ConfirmServiceBusMessageReceivedForItemUpdated(), "an event is published to the Service Bus Topic when the item was updated")
+              .And(step => _exampleSteps.ConfirmServiceBusMessageForItemUpdatedIsNotMovedToDeadLetter(), "the event does not get moved to the dead letter queue")
             .BDDfy();
     }
 

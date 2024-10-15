@@ -8,6 +8,6 @@ public class ConfigurationModel
 
     public string ServiceBusClientConnectionString { get; set; }
     public string ServiceBusAdminConnectionString { get; set; }
-    public string TopicExample { get; set; }
-    public string SubsExample { get; set; }
+    public string TopicName { get; set; }
+    public string SubscriptionName { get; set; }
 }
