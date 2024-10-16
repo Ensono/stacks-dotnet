@@ -1,5 +1,5 @@
 module "aca" {
-  source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=update-version-constraint"
+  source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=1.0.4"
 
   resource_group_name = module.default_label.id
   location            = "uksouth"
