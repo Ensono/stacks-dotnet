@@ -1,7 +1,6 @@
 using Azure.Messaging.ServiceBus;
 using Azure.Messaging.ServiceBus.Administration;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
 using xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Models;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Drivers;
@@ -86,7 +85,15 @@ public class ServiceBusDriver
     }
 
 
-    public async Task<ServiceBusReceivedMessage?> CheckEventInQueue(string topicName, string subscriptionName, SubQueue subQueue, CosmosChangeFeedEvent cosmosChangeFeedEvent)
+    /// <summary>
+    /// Reads a given topic and subscription for a message containing the given CosmosChangeFeedEvent.
+    /// </summary>
+    /// <param name="topicName">The topic to search for the given message.</param>
+    /// <param name="subscriptionName">The subscription to search for the given message.</param>
+    /// <param name="subQueue">The sub-queue to search for the given message.</param>
+    /// <param name="cosmosDbChangeFeedEvent">The message to search for</param>
+    /// <returns></returns>
+    public async Task<ServiceBusReceivedMessage?> ConfirmMessagePresentInQueueAsync(string topicName, string subscriptionName, SubQueue subQueue, CosmosDbChangeFeedEvent cosmosDbChangeFeedEvent)
     {
         return await _retryIfNullMessagePolicy.ExecuteAsync(async () =>
         {
@@ -95,7 +102,7 @@ public class ServiceBusDriver
                 subscriptionName,
                 new ServiceBusReceiverOptions { SubQueue = subQueue, ReceiveMode = ServiceBusReceiveMode.PeekLock });
 
-            var message = messageList?.FirstOrDefault(x => x.Body.ToString().Contains(cosmosChangeFeedEvent.CorrelationId!));
+            var message = messageList?.FirstOrDefault(x => x.Body.ToString().Contains(cosmosDbChangeFeedEvent.CorrelationId!));
             return message;
         });
     }
@@ -104,9 +111,9 @@ public class ServiceBusDriver
     /// <summary>
     /// Clears all messages from a topic and subscription.
     /// </summary>
-    /// <param name="topicName"></param>
-    /// <param name="subscriptionName"></param>
-    /// <param name="subQueue"></param>
+    /// <param name="topicName">The topic to clear.</param>
+    /// <param name="subscriptionName">The subscription to clear.</param>
+    /// <param name="subQueue">The sub-queue to clear.</param>
     /// <returns></returns>
     public async Task ClearTopicAsync(string topicName, string subscriptionName, SubQueue subQueue)
     {
@@ -115,7 +122,8 @@ public class ServiceBusDriver
             subscriptionName,
             new ServiceBusReceiverOptions
             {
-                ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete
+                ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete,
+                SubQueue = subQueue
             });
         while (await receiver.PeekMessageAsync() != null)
         {

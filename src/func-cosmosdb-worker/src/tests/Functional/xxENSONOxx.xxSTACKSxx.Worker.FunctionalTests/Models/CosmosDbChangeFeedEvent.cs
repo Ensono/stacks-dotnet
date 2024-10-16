@@ -1,6 +1,6 @@
 namespace xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests.Models;
 
-public class CosmosChangeFeedEvent
+public class CosmosDbChangeFeedEvent
 {
     public string id { get; set; }
     public int OperationCode { get; set; }
