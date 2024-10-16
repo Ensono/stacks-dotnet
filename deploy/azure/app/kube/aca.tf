@@ -1,5 +1,5 @@
 module "aca" {
-  source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=feature/7427-terraform-module-for-aca"
+  source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=1.0.3"
 
   resource_group_name = module.default_label.id
   location            = "uksouth"
@@ -11,17 +11,17 @@ module "aca" {
 
   # Container App
   container_app_name = "nginx"
-  container_app_registry = {
-    server   = "${var.acr_name}.azurecr.io"
-    identity = azurerm_user_assigned_identity.default.id
-  }
+#   container_app_registry = {
+#     server   = data.azurerm_container_registry.acr.name
+#     identity = azurerm_user_assigned_identity.default.id
+#   }
   container_app_identity = {
     type         = "UserAssigned",
     identity_ids = [azurerm_user_assigned_identity.default.id]
   }
 
 
-  container_app_environment_id        = data.azurerm_container_app_environment.acae.id
+  container_app_environment_id        = data.terraform_remote_state.core.outputs.acae_id
   container_app_workload_profile_name = "Consumption"
   container_app_revision_mode         = "Single"
 
@@ -58,5 +58,5 @@ module "aca" {
   container_app_ingress_target_port                = 80
   container_app_ingress_allow_insecure_connections = true
   create_custom_domain_for_container_app           = true
-  custom_domain                                    = "aca.${var.dns_zone}"
+  custom_domain                                    = "aca.${data.terraform_remote_state.core.outputs.dns_base_domain}"
 }

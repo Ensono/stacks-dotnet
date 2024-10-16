@@ -45,3 +45,8 @@ data "azurerm_storage_account" "eventhub_storage_account" {
   name                = var.eventhub_sa_name
   resource_group_name = var.eventhub_resource_group_name
 }
+
+data "azurerm_container_registry" "acr" {
+  name                = data.terraform_remote_state.core.outputs.acr_registry_name
+  resource_group_name = data.terraform_remote_state.core.outputs.acr_resource_group_name
+}
