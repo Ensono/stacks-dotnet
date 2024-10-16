@@ -49,7 +49,7 @@ module "servicebus" {
   sb_name                 = var.sb_name != "" ? var.sb_name : null
   sb_topic_name           = var.sb_topic_name != "" ? var.sb_topic_name : null
   sb_subscription_name    = var.sb_subscription_name != "" ? var.sb_subscription_name : null
-  sb_subscription_filter           = var.sb_subscription_filter
+  sb_subscription_filter  = var.sb_subscription_filter
   sb_namespace_id         = local.lookup_servicebus_namespace ? data.azurerm_servicebus_namespace.sb[0].id : null
   sb_topic_id             = local.lookup_servicebus_topic ? data.azurerm_servicebus_topic.sb_topic[0].id : null
 }
