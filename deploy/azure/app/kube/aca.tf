@@ -1,5 +1,5 @@
 module "aca" {
-  source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=1.0.3"
+  source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=update-version-constraint"
 
   resource_group_name = module.default_label.id
   location            = "uksouth"
@@ -58,5 +58,5 @@ module "aca" {
   container_app_ingress_target_port                = 80
   container_app_ingress_allow_insecure_connections = true
   create_custom_domain_for_container_app           = true
-  custom_domain                                    = "aca.${data.terraform_remote_state.core.outputs.dns_base_domain}"
+  custom_domain                                    = "${var.dns_record}.${data.terraform_remote_state.core.outputs.dns_base_domain}"
 }
