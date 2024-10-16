@@ -33,10 +33,13 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\ExampleUpdated.json">
+    <None Update="Data\CosmosDbChangeFeedEvent-Invalid.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Example.json">
+    <None Update="Data\CosmosDbChangeFeedEvent-Updated.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\CosmosDbChangeFeedEvent.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

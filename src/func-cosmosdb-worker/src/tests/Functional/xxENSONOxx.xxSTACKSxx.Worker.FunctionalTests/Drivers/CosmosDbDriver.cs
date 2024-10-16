@@ -44,7 +44,7 @@ public class CosmosDbDriver
 
             await container.CreateItemAsync(
                 item: item,
-                partitionKey: new PartitionKey(item.Id)
+                partitionKey: new PartitionKey(item.id)
             );
 
         }
@@ -63,7 +63,7 @@ public class CosmosDbDriver
             var database = _cosmosClient.GetDatabase(databaseName);
             var container = database.GetContainer(containerName);
 
-            await container.ReplaceItemAsync(updatedItem, updatedItem.Id, new PartitionKey(updatedItem.Id));
+            await container.ReplaceItemAsync(updatedItem, updatedItem.id, new PartitionKey(updatedItem.id));
         }
         catch (Exception e)
         {
@@ -82,8 +82,8 @@ public class CosmosDbDriver
             Container container = await database.GetContainer(containerName).ReadContainerAsync();
 
             await container.DeleteItemAsync<dynamic>(
-                item.Id,
-                new PartitionKey(item.Id)
+                item.id,
+                new PartitionKey(item.id)
             );
         }
         catch (CosmosException e)

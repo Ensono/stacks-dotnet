@@ -110,6 +110,15 @@ public class ExampleSteps
         actualReceivedEvent.Data.ETag.ShouldBe(_cosmosItemUpdatedEvent.ETag);
     }
 
+    public async Task ConfirmServiceBusMessageNotReceivedForItemCreated()
+    {
+        _serviceBusItemUpdatedMessage = await _serviceBusDriver.CheckEventInQueue(
+            _topicName, _subscriptionName, SubQueue.None, _cosmosItemUpdatedEvent
+        );
+
+        _serviceBusItemUpdatedMessage.ShouldBeNull("");
+    }
+
 
     public async Task ConfirmServiceBusMessageForItemCreatedIsNotMovedToDeadLetter()
     {
@@ -129,9 +138,18 @@ public class ExampleSteps
     }
 
 
-    public async Task CreateItemInCosmosDbContainer()
+    public async Task CreateItemInCosmosDbContainerWithValidData()
     {
-        var itemAsJsonString = GetDataFromFile<CosmosChangeFeedEvent>("Data/Example.json");
+        var itemAsJsonString = GetDataFromFile<CosmosChangeFeedEvent>("Data/CosmosDbChangeFeedEvent.json");
+        _cosmosItemCreatedEvent = JsonConvert.DeserializeObject<CosmosChangeFeedEvent>(itemAsJsonString)!;
+
+        await _cosmosDbDriver.CreateItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosItemCreatedEvent);
+    }
+
+
+    public async Task CreateItemInCosmosDbContainerWithInvalidData()
+    {
+        var itemAsJsonString = GetDataFromFile<CosmosChangeFeedEvent>("Data/CosmosDbChangeFeedEvent-Invalid.json");
         _cosmosItemCreatedEvent = JsonConvert.DeserializeObject<CosmosChangeFeedEvent>(itemAsJsonString)!;
 
         await _cosmosDbDriver.CreateItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosItemCreatedEvent);
@@ -140,7 +158,7 @@ public class ExampleSteps
 
     public async Task UpdateItemInCosmosDbContainer()
     {
-        var itemAsJsonString = GetDataFromFile<CosmosChangeFeedEvent>("Data/ExampleUpdated.json");
+        var itemAsJsonString = GetDataFromFile<CosmosChangeFeedEvent>("Data/CosmosDbChangeFeedEvent-Updated.json");
         _cosmosItemUpdatedEvent = JsonConvert.DeserializeObject<CosmosChangeFeedEvent>(itemAsJsonString)!;
 
         await _cosmosDbDriver.ReplaceItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosItemUpdatedEvent);
