@@ -94,7 +94,7 @@ public class CosmosDbDriver(string connectionString)
 
 
     /// <summary>
-    /// Replace an existing item in a CosmosDB container
+    /// Delete an existing item in a CosmosDB container
     /// </summary>
     /// <param name="databaseName">The name of the CosmosDB database for the container.</param>
     /// <param name="containerName">The name of the container to delete the item from.</param>
