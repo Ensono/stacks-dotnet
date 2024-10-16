@@ -9,15 +9,12 @@ contexts:
         - ${PWD}:/app
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
-        - -e
-        - PSModulePath=/modules
         - -w
         - /app
         - --env-file
         - envfile
-        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.1.257
+        - ensono/eir-infrastructure:1.1.257
         - pwsh
-        - -NoProfile
         - -Command
     quote: "'"
     envfile:
@@ -38,15 +35,12 @@ contexts:
         - ${PWD}:/app
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
-        - -e
-        - PSModulePath=/modules
         - -w
         - /app
         - --env-file
         - envfile
-        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.257
+        - ensono/eir-dotnet:1.1.257
         - pwsh
-        - -NoProfile
         - -Command
     quote: "'"
     env:
