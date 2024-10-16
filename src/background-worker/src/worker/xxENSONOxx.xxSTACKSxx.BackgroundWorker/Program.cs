@@ -1,18 +1,13 @@
-﻿using System.IO;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.BackgroundWorker.Extensions;
-using xxENSONOxx.xxSTACKSxx.BackgroundWorker.Handlers;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
+using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Handlers;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Secrets;
 
 var host = new HostBuilder()
     .ConfigureAppConfiguration(config =>
@@ -49,9 +44,8 @@ var host = new HostBuilder()
         })
         .UseOtlpExporter();
 
-        // Register OpenTelemetry with Azure Monitor
         services.AddOpenTelemetry().UseAzureMonitor();
-        
+
         services.AddTransient<IApplicationEventHandler<CategoryCreatedEvent>, CategoryCreatedEventHandler>();
         services.AddTransient<IApplicationEventHandler<CategoryUpdatedEvent>, CategoryUpdatedEventHandler>();
         services.AddTransient<IApplicationEventHandler<CategoryDeletedEvent>, CategoryDeletedEventHandler>();
@@ -61,10 +55,10 @@ var host = new HostBuilder()
         services.AddTransient<IApplicationEventHandler<MenuItemCreatedEvent>, MenuItemCreatedEventHandler>();
         services.AddTransient<IApplicationEventHandler<MenuItemUpdatedEvent>, MenuItemUpdatedEventHandler>();
         services.AddTransient<IApplicationEventHandler<MenuItemDeletedEvent>, MenuItemDeletedEventHandler>();
-                
+
         services
             .AddLogging()
-            .AddSecrets()
+            .AddSingleton<ISecretResolver<string>, SecretResolver>()
             .Configure<ServiceBusConfiguration>(context.Configuration.GetSection("ServiceBusConfiguration"))
             .AddServiceBus();
     })
