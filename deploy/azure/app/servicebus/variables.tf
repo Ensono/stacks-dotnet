@@ -59,13 +59,13 @@ variable "sb_namespace_id" {
     ])
     error_message = "sb_namespace_id must be set if create_sb_namespace is false and create_sb_topic is true"
   }
-  
+
 }
 
 variable "sb_topic_id" {
   type        = string
   description = "ID of the Service Bus topic"
-  default = null
+  default     = null
 
   validation {
     condition = anytrue([

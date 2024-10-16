@@ -39,7 +39,7 @@ module "app" {
 }
 
 module "servicebus" {
-  count                   = contains(split(",", var.app_bus_type), "servicebus") ? 1 : 0
+  count                   = anytrue([var.create_sb_namespace, var.create_sb_topic, var.create_sb_subscription]) ? 1 : 0
   source                  = "../servicebus"
   resource_group_name     = var.sb_resource_group_name != "" ? var.sb_resource_group_name : module.app.resource_group
   resource_group_location = var.resource_group_location
@@ -49,6 +49,8 @@ module "servicebus" {
   sb_name                 = var.sb_name != "" ? var.sb_name : null
   sb_topic_name           = var.sb_topic_name != "" ? var.sb_topic_name : null
   sb_subscription_name    = var.sb_subscription_name != "" ? var.sb_subscription_name : null
+  sb_namespace_id         = local.lookup_servicebus_namespace ? data.azurerm_servicebus_namespace.sb[0].id : null
+  sb_topic_id             = local.lookup_servicebus_topic ? data.azurerm_servicebus_topic.sb_topic[0].id : null
 }
 
 module "eventhub" {
