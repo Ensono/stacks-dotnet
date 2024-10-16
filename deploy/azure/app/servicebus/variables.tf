@@ -45,10 +45,16 @@ variable "sb_namespace_id" {
   default     = null
 
   validation {
-    condition = alltrue([
-      !var.create_sb_namespace,
-      var.create_sb_topic,
-      var.sb_namespace_id != null
+    condition = anytrue([
+      alltrue([
+        !var.create_sb_namespace,
+        var.create_sb_topic,
+        var.sb_namespace_id != null
+      ]),
+      alltrue([
+        var.create_sb_namespace,
+        var.create_sb_topic
+      ])
     ])
     error_message = "sb_namespace_id must be set if create_sb_namespace is false and create_sb_topic is true"
   }
@@ -61,10 +67,16 @@ variable "sb_topic_id" {
   default = null
 
   validation {
-    condition = alltrue([
-      !var.create_sb_topic,
-      var.create_sb_subscription,
-      var.sb_topic_id != null
+    condition = anytrue([
+      alltrue([
+        !var.create_sb_topic,
+        var.create_sb_subscription,
+        var.sb_topic_id != null
+      ]),
+      alltrue([
+        var.create_sb_topic,
+        var.create_sb_subscription
+      ])
     ])
     error_message = "sb_topic_id must be set if create_sb_topic is false and create_sb_subscription is true"
   }
