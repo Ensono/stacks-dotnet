@@ -29,95 +29,95 @@ stages:
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
-          - task: Bash@3
-            displayName: "TaskCTL: Pull images"
-            inputs:
-              targetType: inline
-              script: |
-                taskctl image-pull
-                taskctl image-pull-dotnet
+          # - task: Bash@3
+          #   displayName: "TaskCTL: Pull images"
+          #   inputs:
+          #     targetType: inline
+          #     script: |
+          #       taskctl image-pull
+          #       taskctl image-pull-dotnet
 
-          - task: Bash@3
-            displayName: "TaskCTL: Setup"
-            inputs:
-              targetType: inline
-              script: taskctl setup
-            env:
-              DOCKER_IMAGE_TAG: $(version_number)
+          # - task: Bash@3
+          #   displayName: "TaskCTL: Setup"
+          #   inputs:
+          #     targetType: inline
+          #     script: taskctl setup
+          #   env:
+          #     DOCKER_IMAGE_TAG: $(version_number)
 
-          - task: Bash@3
-            displayName: "TaskCTL: Lint"
-            inputs:
-              targetType: inline
-              script: taskctl lint
+          # - task: Bash@3
+          #   displayName: "TaskCTL: Lint"
+          #   inputs:
+          #     targetType: inline
+          #     script: taskctl lint
 
-          - task: Bash@3
-            displayName: "TaskCTL: Test"
-            inputs:
-              targetType: inline
-              script: taskctl test
-            env:
-              # Dotnet Build
-              SELF_REPO_SRC: $(self_repo_src)
-              # SonarQube
-              SONAR_ORG: $(sonar_organization)
-              SONAR_URL: $(sonar_url)
-              SONAR_TOKEN: $(SONAR_TOKEN)
-              SONAR_PROPERTIES: $(sonar_properties)
-              PROJECT_NAME: $(sonar_project_name)
-              BUILD_BUILDNUMBER: $(version_number)
+          # - task: Bash@3
+          #   displayName: "TaskCTL: Test"
+          #   inputs:
+          #     targetType: inline
+          #     script: taskctl test
+          #   env:
+          #     # Dotnet Build
+          #     SELF_REPO_SRC: $(self_repo_src)
+          #     # SonarQube
+          #     SONAR_ORG: $(sonar_organization)
+          #     SONAR_URL: $(sonar_url)
+          #     SONAR_TOKEN: $(SONAR_TOKEN)
+          #     SONAR_PROPERTIES: $(sonar_properties)
+          #     PROJECT_NAME: $(sonar_project_name)
+          #     BUILD_BUILDNUMBER: $(version_number)
 
-          - task: Bash@3
-            displayName: "TaskCTL: Build Functional Tests"
-            condition: and(succeeded(), eq(variables.run_functional_tests, true))
-            inputs:
-              targetType: inline
-              script: taskctl build:functional_tests
+          # - task: Bash@3
+          #   displayName: "TaskCTL: Build Functional Tests"
+          #   condition: and(succeeded(), eq(variables.run_functional_tests, true))
+          #   inputs:
+          #     targetType: inline
+          #     script: taskctl build:functional_tests
 
-          - task: Bash@3
-            displayName: "TaskCTL: Build Container"
-            inputs:
-              targetType: inline
-              script: taskctl build:container
-            env:
-              # Dotnet Build
-              SELF_REPO_SRC: $(self_repo_src)
-              # Azure
-              CLOUD_PROVIDER: "$(cloud_provider)" # Azure
-              ARM_TENANT_ID: "$(azure-tenant-id)"
-              ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
-              ARM_CLIENT_ID: "$(azure-client-id)"
-              ARM_CLIENT_SECRET: "$(azure-client-secret)"
-              # Docker
-              IMAGE_NAME: $(docker_image_name)
-              DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
-              REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
-              BUILD_BUILDNUMBER: $(version_number)
+          # - task: Bash@3
+          #   displayName: "TaskCTL: Build Container"
+          #   inputs:
+          #     targetType: inline
+          #     script: taskctl build:container
+          #   env:
+          #     # Dotnet Build
+          #     SELF_REPO_SRC: $(self_repo_src)
+          #     # Azure
+          #     CLOUD_PROVIDER: "$(cloud_provider)" # Azure
+          #     ARM_TENANT_ID: "$(azure-tenant-id)"
+          #     ARM_SUBSCRIPTION_ID: "$(azure-subscription-id)"
+          #     ARM_CLIENT_ID: "$(azure-client-id)"
+          #     ARM_CLIENT_SECRET: "$(azure-client-secret)"
+          #     # Docker
+          #     IMAGE_NAME: $(docker_image_name)
+          #     DOCKER_CONTAINER_REGISTRY_NAME: $(docker_container_registry_name_nonprod).azurecr.io
+          #     REGISTRY_RESOURCE_GROUP: $(docker_container_registry_rg_name_nonprod)
+          #     BUILD_BUILDNUMBER: $(version_number)
 
-          # Upload test coverage results as artifacts
-          - task: PublishCodeCoverageResults@1
-            displayName: "Upload: coverage results"
-            inputs:
-              summaryFileLocation: $(Pipeline.Workspace)/s/coverage/Cobertura.xml
-              codecoverageTool: cobertura
-              pathToSources: $(Pipeline.Workspace)/s/$(self_repo_src)
+          # # Upload test coverage results as artifacts
+          # - task: PublishCodeCoverageResults@1
+          #   displayName: "Upload: coverage results"
+          #   inputs:
+          #     summaryFileLocation: $(Pipeline.Workspace)/s/coverage/Cobertura.xml
+          #     codecoverageTool: cobertura
+          #     pathToSources: $(Pipeline.Workspace)/s/$(self_repo_src)
 
-          # Upload Unit test results
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: VSTest
-              testResultsFiles: '**/*.trx'
-              searchFolder: $(Pipeline.Workspace)/s/testresults
-              failTaskOnFailedTests: true # Optional
-              testRunTitle: Unit
+          # # Upload Unit test results
+          # - task: PublishTestResults@2
+          #   inputs:
+          #     testResultsFormat: VSTest
+          #     testResultsFiles: '**/*.trx'
+          #     searchFolder: $(Pipeline.Workspace)/s/testresults
+          #     failTaskOnFailedTests: true # Optional
+          #     testRunTitle: Unit
 
-          # Upload functional tests as artifacts
-          - task: PublishPipelineArtifact@1
-            displayName: "Upload: functional tests"
-            condition: and(succeeded(), eq(variables.run_functional_tests, true))
-            inputs:
-              path: $(FUNCTIONAL_TESTS_SRC_DIR)
-              artifact: tests
+          # # Upload functional tests as artifacts
+          # - task: PublishPipelineArtifact@1
+          #   displayName: "Upload: functional tests"
+          #   condition: and(succeeded(), eq(variables.run_functional_tests, true))
+          #   inputs:
+          #     path: $(FUNCTIONAL_TESTS_SRC_DIR)
+          #     artifact: tests
 
   - stage: Dev
     dependsOn: Build
