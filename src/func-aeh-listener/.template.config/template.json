@@ -42,6 +42,8 @@
                 "stackscli.yml",
                 ".gitignore",
                 ".gitattributes",
+                ".terraform-version",
+                "yamllint.conf",
                 "src/func-aeh-listener/**"
             ],
             "exclude": [
