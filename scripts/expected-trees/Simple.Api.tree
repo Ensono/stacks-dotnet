@@ -79,7 +79,6 @@
 │   │       │   ├── function.tf
 │   │       │   ├── main.tf
 │   │       │   ├── outputs.tf
-│   │       │   ├── servicebus.tf
 │   │       │   ├── variables.tf
 │   │       │   └── versions.tf
 │   │       ├── kube
