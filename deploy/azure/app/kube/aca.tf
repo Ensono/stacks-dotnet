@@ -11,10 +11,10 @@ module "aca" {
 
   # Container App
   container_app_name = "nginx"
-#   container_app_registry = {
-#     server   = data.azurerm_container_registry.acr.name
-#     identity = azurerm_user_assigned_identity.default.id
-#   }
+  container_app_registry = {
+    server   = data.azurerm_container_registry.acr.name
+    identity = azurerm_user_assigned_identity.default.id
+  }
   container_app_identity = {
     type         = "UserAssigned",
     identity_ids = [azurerm_user_assigned_identity.default.id]
@@ -28,13 +28,13 @@ module "aca" {
   container_app_containers = [
     {
       cpu    = 0.25
-      image  = "nginx:latest"
+      image  = "ensonoeuw.azurecr.io/stacks-api:7.0.2-8198-deploy-to-aca"
       memory = "0.5Gi"
       name   = "nginx"
-      # env = [{
-      #   name  = "API_BASE_URL"
-      #   value = "https://backendapp.lemonocean-9d31a840.uksouth.azurecontainerapps.io"
-      # }]
+      env = [{
+        name  = "API_BASEPATH"
+        value = "/api/menu"
+      }]
       volume_mounts = [
         # {
         #   name = "data"
