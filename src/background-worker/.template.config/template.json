@@ -41,7 +41,6 @@
                 "stackscli.yml",
                 ".gitignore",
                 ".gitattributes",
-                ".terraform-version",
                 "yamllint.conf",
                 "src/background-worker/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",

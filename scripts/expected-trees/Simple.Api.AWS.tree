@@ -5,7 +5,6 @@
 │       ├── ci.env
 │       └── ci.yml
 ├── .gitignore
-├── .terraform-version
 ├── build
 │   ├── deployment_list.ps1
 │   ├── github

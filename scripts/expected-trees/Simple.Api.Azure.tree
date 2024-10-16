@@ -1,7 +1,6 @@
 .
 ├── .gitattributes
 ├── .gitignore
-├── .terraform-version
 ├── build
 │   ├── azDevOps
 │   │   ├── azure
