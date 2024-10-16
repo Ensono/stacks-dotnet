@@ -23,16 +23,16 @@
             "source": "../../",
             "include": [
                 "build/**",
-				"deploy/**",
-				"taskctl.yaml",
-				"stackscli.yml",
-				".gitignore",
-				".gitattributes",
+                "deploy/**",
+                "taskctl.yaml",
+                "stackscli.yml",
+                ".gitignore",
+                ".gitattributes",
                 ".terraform-version",
                 "yamllint.conf",
                 "src/func-cosmosdb-worker/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
-				"src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**"
+                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
+                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",

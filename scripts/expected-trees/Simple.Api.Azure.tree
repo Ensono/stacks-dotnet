@@ -1,6 +1,7 @@
 .
 ├── .gitattributes
 ├── .gitignore
+├── .terraform-version
 ├── build
 │   ├── azDevOps
 │   │   ├── azure
@@ -251,4 +252,5 @@
 │               │   └── Simple.Api.Azure.API.FunctionalTests.sln
 │               └── README.md
 ├── stackscli.yml
-└── taskctl.yaml
+├── taskctl.yaml
+└── yamllint.conf

@@ -5,6 +5,7 @@
 │       ├── ci.env
 │       └── ci.yml
 ├── .gitignore
+├── .terraform-version
 ├── build
 │   ├── azDevOps
 │   │   ├── azure
@@ -301,4 +302,5 @@
 │               │   └── Simple.Api.API.FunctionalTests.sln
 │               └── README.md
 ├── stackscli.yml
-└── taskctl.yaml
+├── taskctl.yaml
+└── yamllint.conf

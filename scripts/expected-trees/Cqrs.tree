@@ -5,6 +5,7 @@
 │       ├── ci.env
 │       └── ci.yml
 ├── .gitignore
+├── .terraform-version
 ├── build
 │   ├── azDevOps
 │   │   ├── azure
@@ -616,4 +617,5 @@
 │       ├── Ensono.Stacks.Packages.sln
 │       └── NuGet.config
 ├── stackscli.yml
-└── taskctl.yaml
+├── taskctl.yaml
+└── yamllint.conf
