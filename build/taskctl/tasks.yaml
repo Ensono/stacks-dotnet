@@ -47,8 +47,7 @@ tasks:
     context: powershell
     description: Perform Terraform validation
     command:
-      - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        Invoke-Terraform -Validate -Path $env:TF_FILE_LOCATION
+      - Invoke-Terraform -Validate -Path $env:TF_FILE_LOCATION
 
   # TESTS
   test:
