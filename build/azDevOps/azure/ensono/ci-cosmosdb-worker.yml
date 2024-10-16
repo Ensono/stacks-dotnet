@@ -172,6 +172,9 @@ stages:
                     TF_VAR_cosmosdb_sql_container: ${{ variables.cosmosdb_sql_container }}
                     TF_VAR_create_function_app: ${{ variables.create_function_app }}
                     TF_VAR_function_name: ${{ variables.function_name }}
+                    TF_VAR_create_sb_namespace: $(create_servicebus_namespace)
+                    TF_VAR_create_sb_topic: $(create_servicebus_topic)
+                    TF_VAR_create_sb_subscription: $(create_servicebus_subscription)
                     TF_VAR_sb_name: ${{ variables.servicebus_namespace_dev }}
                     TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_dev }}
                     TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
@@ -278,6 +281,9 @@ stages:
                     TF_VAR_cosmosdb_sql_container: ${{ variables.cosmosdb_sql_container }}
                     TF_VAR_create_function_app: ${{ variables.create_function_app }}
                     TF_VAR_function_name: ${{ variables.function_name }}
+                    TF_VAR_create_sb_namespace: $(create_servicebus_namespace)
+                    TF_VAR_create_sb_topic: $(create_servicebus_topic)
+                    TF_VAR_create_sb_subscription: $(create_servicebus_subscription)
                     TF_VAR_sb_name: ${{ variables.servicebus_namespace_prod }}
                     TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_prod }}
                     TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}

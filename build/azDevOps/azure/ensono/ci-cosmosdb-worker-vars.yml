@@ -164,6 +164,12 @@ variables:
     value: Menu
 
   # Service Bus Configuration
+  - name: create_servicebus_namespace
+    value: false
+  - name: create_servicebus_topic
+    value: false
+  - name: create_servicebus_subscription
+    value: true
   - name: servicebus_namespace_dev
     value: sb-menu-wxbirw
   - name: servicebus_namespace_prod
