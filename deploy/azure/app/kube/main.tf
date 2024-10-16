@@ -55,7 +55,7 @@ module "servicebus" {
 }
 
 module "eventhub" {
-  count                   = contains(split(",", var.app_bus_type), "eventhub") ? 1 : 0
+  count                   = var.create_eventhub ? 1 : 0
   source                  = "../eventhub"
   resource_group_name     = module.app.resource_group
   resource_group_location = var.resource_group_location

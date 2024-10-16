@@ -181,6 +181,10 @@ variables:
   - name: servicebus_subscription_name
     value: sbs-menu-events
 
+  # EventHub Configuration
+  - name: create_eventhub
+    value: false
+
   # Azure service connection
   - name: azure_service_connection
     value: "Azure Sub - ensono.stacks"

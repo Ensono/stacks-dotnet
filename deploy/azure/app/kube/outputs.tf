@@ -83,20 +83,20 @@ output "function_name" {
 
 # Events - Eventhub
 output "eventhub_connectionstring" {
-  value     = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_connectionstring[0] : null
+  value     = var.create_eventhub ? module.eventhub.*.eventhub_connectionstring[0] : null
   sensitive = true
 }
 output "eventhub_name" {
-  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_name[0] : null
+  value = var.create_eventhub ? module.eventhub.*.eventhub_name[0] : null
 }
 
 output "eventhub_sa_connectionstring" {
-  value     = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_sa_connectionstring[0] : null
+  value     = var.create_eventhub ? module.eventhub.*.eventhub_sa_connectionstring[0] : null
   sensitive = true
 }
 
 output "eventhub_sa_container" {
-  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_sa_container[0] : null
+  value = var.create_eventhub ? module.eventhub.*.eventhub_sa_container[0] : null
 }
 
 # Core State Query Outputs (to reduce variable duplication)

@@ -118,18 +118,10 @@ variable "create_sb_subscription" {
   description = "Whether to create a Service Bus subscription"
 }
 
-variable "app_bus_type" {
-  description = "Which app bus to use."
-  type        = string
-  default     = ""
-  validation {
-    condition = anytrue([
-      contains(split(",", var.app_bus_type), "servicebus"),
-      contains(split(",", var.app_bus_type), "eventhub"),
-      var.app_bus_type == ""
-    ])
-    error_message = "The app_bus_type variable must contain servicebus or eventhub."
-  }
+variable "create_eventhub" {
+  type        = bool
+  default     = false
+  description = "Whether to create an Event Hub"
 }
 
 ###########################

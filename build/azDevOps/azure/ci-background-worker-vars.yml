@@ -169,6 +169,10 @@ variables:
   - name: servicebus_subscription_name
     value: sbs-menu-events
 
+  # EventHub Configuration
+  - name: create_eventhub
+    value: false
+
   # Application
   - name: ingress_enabled
     value: false
