@@ -59,6 +59,16 @@ output "servicebus_connectionstring" {
   sensitive = true
 }
 
+output "servicebus_subscription_id" {
+  description = "Servicebus Subscription ID"
+  value       = var.create_sb_subscription ? module.servicebus.*.servicebus_subscription_id[0] : null
+}
+
+output "servicebus_subscription_name" {
+  description = "Servicebus Subscription name"
+  value       = var.create_sb_subscription ? module.servicebus.*.servicebus_subscription_name[0] : null
+}
+
 # Events - Function
 output "function_id" {
   description = "Function App ID"
@@ -68,16 +78,6 @@ output "function_id" {
 output "function_name" {
   description = "Function App Name"
   value       = var.create_function_app ? module.function.*.function_name[0] : null
-}
-
-output "servicebus_subscription_id" {
-  description = "Servicebus Subscription ID"
-  value       = var.create_function_app ? module.function.*.servicebus_subscription_id[0] : null
-}
-
-output "servicebus_subscription_name" {
-  description = "Servicebus Subscription name"
-  value       = var.create_function_app || var.create_sb_subscription ? var.sb_subscription_name : null
 }
 
 
