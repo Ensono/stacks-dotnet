@@ -149,6 +149,14 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
+  # Service Bus Configuration
+  - name: create_servicebus_namespace
+    value: false
+  - name: create_servicebus_topic
+    value: false
+  - name: create_servicebus_subscription
+    value: false
+
   # Application
   - name: ingress_enabled
     value: true

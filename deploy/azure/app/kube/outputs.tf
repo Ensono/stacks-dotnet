@@ -77,7 +77,7 @@ output "servicebus_subscription_id" {
 
 output "servicebus_subscription_name" {
   description = "Servicebus Subscription name"
-  value       = var.create_function_app || local.lookup_servicebus ? var.sb_subscription_name : null
+  value       = var.create_function_app || var.create_sb_subscription ? var.sb_subscription_name : null
 }
 
 

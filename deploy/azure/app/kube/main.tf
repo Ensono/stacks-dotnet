@@ -43,8 +43,12 @@ module "servicebus" {
   source                  = "../servicebus"
   resource_group_name     = var.sb_resource_group_name != "" ? var.sb_resource_group_name : module.app.resource_group
   resource_group_location = var.resource_group_location
+  create_sb_namespace     = var.create_sb_namespace
+  create_sb_topic         = var.create_sb_topic
+  create_sb_subscription  = var.create_sb_subscription
   sb_name                 = var.sb_name != "" ? var.sb_name : null
   sb_topic_name           = var.sb_topic_name != "" ? var.sb_topic_name : null
+  sb_subscription_name    = var.sb_subscription_name != "" ? var.sb_subscription_name : null
 }
 
 module "eventhub" {

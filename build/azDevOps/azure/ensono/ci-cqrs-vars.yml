@@ -152,6 +152,12 @@ variables:
   # Service Bus Configuration
   - name: servicebus_type
     value: sender
+  - name: create_servicebus_namespace
+    value: true
+  - name: create_servicebus_topic
+    value: true
+  - name: create_servicebus_subscription
+    value: false
 
   # Application
   - name: ingress_enabled

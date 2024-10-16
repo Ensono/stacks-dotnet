@@ -152,6 +152,12 @@ variables:
   # Service Bus Configuration
   - name: servicebus_type
     value: listener
+  - name: create_servicebus_namespace
+    value: false
+  - name: create_servicebus_topic
+    value: false
+  - name: create_servicebus_subscription
+    value: true
   - name: servicebus_namespace_dev
     value:
   - name: servicebus_namespace_prod
