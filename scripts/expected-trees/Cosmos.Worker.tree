@@ -91,7 +91,6 @@
 │   │               │   │   ├── ConfigurationAccessor.cs
 │   │               │   │   └── ConfigurationModel.cs
 │   │               │   ├── Cosmos.Worker.Worker.FunctionalTests.csproj
-│   │               │   ├── Cosmos.Worker.Worker.FunctionalTests.sln
 │   │               │   ├── Data
 │   │               │   │   ├── CosmosDbChangeFeedEvent-Invalid.json
 │   │               │   │   ├── CosmosDbChangeFeedEvent-Updated.json
