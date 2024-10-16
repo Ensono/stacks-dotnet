@@ -22,3 +22,12 @@ resource "azurerm_servicebus_subscription" "sb_sub" {
 
   max_delivery_count = var.sb_max_delivery_count
 }
+
+resource "azurerm_servicebus_subscription_rule" "sb_sub_rule" {
+  count           = var.create_sb_subscription && var.sb_subscription_filter != "" ? 1 : 0
+  name            = "${var.sb_subscription_name}-rule"
+  subscription_id = azurerm_servicebus_subscription.sb_sub[0].id
+
+  filter_type = "SqlFilter"
+  sql_filter  = var.sb_subscription_filter
+}

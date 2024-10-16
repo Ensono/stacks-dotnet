@@ -46,7 +46,7 @@ output "dns_name" {
 # Events - Servicebus
 output "servicebus_namespace" {
   description = "Service bus namespace"
-  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_namespace[0] : null
+  value       = var.create_sb_namespace ? module.servicebus.*.servicebus_namespace[0] : null
 }
 
 output "servicebus_topic_name" {

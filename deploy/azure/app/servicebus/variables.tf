@@ -98,6 +98,11 @@ variable "sb_subscription_name" {
   nullable    = false
 }
 
+variable "sb_subscription_filter" {
+  type        = string
+  description = "SQL Filter for the Service Bus subscription"
+}
+
 variable "sb_max_delivery_count" {
   type    = number
   default = 1

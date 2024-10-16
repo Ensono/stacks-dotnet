@@ -6,9 +6,9 @@ locals {
   # Service Bus
   lookup_servicebus_namespace = !var.create_sb_namespace && (var.create_sb_topic || var.create_sb_subscription)
   lookup_servicebus_topic     = !var.create_sb_topic && var.create_sb_subscription
-  sb_topic_id                 = local.lookup_servicebus_topic ? data.azurerm_servicebus_topic.sb_topic[0].id : (contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_id : null)
-  sb_topic_name               = local.lookup_servicebus_topic ? var.sb_topic_name : (contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_topic_name : null)
-  sb_connection_string        = local.lookup_servicebus_namespace ? data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string : (contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus[0].servicebus_connectionstring : null)
+  sb_topic_id                 = local.lookup_servicebus_topic ? data.azurerm_servicebus_topic.sb_topic[0].id : (var.create_sb_topic ? module.servicebus[0].servicebus_topic_id : null)
+  sb_topic_name               = local.lookup_servicebus_topic ? var.sb_topic_name : (var.create_sb_topic ? module.servicebus[0].servicebus_topic_name : null)
+  sb_connection_string        = local.lookup_servicebus_namespace ? data.azurerm_servicebus_namespace.sb[0].default_primary_connection_string : (var.create_sb_namespace ? module.servicebus[0].servicebus_connectionstring : null)
   # Event Hub
   lookup_eventhub             = var.create_function_app && var.eventhub_namespace != "" && var.eventhub_resource_group_name != "" && var.eventhub_sa_name != "" && !contains(split(",", var.app_bus_type), "eventhub")
   eventhub_connection_string  = local.lookup_eventhub ? data.azurerm_eventhub_namespace.eventhub_namespace[0].default_primary_connection_string : (contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub[0].eventhub_connectionstring : null)
