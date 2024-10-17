@@ -138,10 +138,6 @@ stages:
       - name: core_environment
         value: nonprod
     jobs:
-      - job: OutputVars
-        steps:
-          - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
-            name: SetEnv
       - deployment: AppInfraDev
         pool:
           vmImage: $(pool_vm_image)
@@ -223,6 +219,9 @@ stages:
           runOnce:
             deploy:
               steps:
+                - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
+                  name: SetEnv
+
                 - template: ../../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
@@ -338,10 +337,6 @@ stages:
       - name: core_environment
         value: prod
     jobs:
-      - job: OutputVars
-        steps:
-          - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
-            name: SetEnv
       - deployment: AppInfraProd
         pool:
           vmImage: $(pool_vm_image)
@@ -352,7 +347,6 @@ stages:
           runOnce:
             deploy:
               steps:
-
                 - template: ../../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
@@ -423,6 +417,9 @@ stages:
           runOnce:
             deploy:
               steps:
+                - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
+                  name: SetEnv
+
                 - template: ../../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
@@ -538,7 +535,7 @@ stages:
         condition: or(succeeded('Dev'), succeeded('Prod'))
         variables:
           - name: core_environment
-            value: $[ coalesce(stageDependencies.Dev.OutputVars.outputs['SetEnv.core_environment'], stageDependencies.Prod.OutputVars.outputs['SetEnv.core_environment']) ]
+            value: $[ coalesce(stageDependencies.Dev.DeployDev.outputs['SetEnv.core_environment'], stageDependencies.Prod.DeployProd.outputs['SetEnv.core_environment']) ]
         jobs:
           - template: release-notes/publish-release-notes.yml
             parameters:
