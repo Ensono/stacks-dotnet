@@ -100,18 +100,28 @@ variable "create_function_app" {
   description = "Whether to create an Azure Function"
 }
 
-variable "app_bus_type" {
-  description = "Which app bus to use."
-  type        = string
-  default     = ""
-  validation {
-    condition = anytrue([
-      contains(split(",", var.app_bus_type), "servicebus"),
-      contains(split(",", var.app_bus_type), "eventhub"),
-      var.app_bus_type == ""
-    ])
-    error_message = "The app_bus_type variable must contain servicebus or eventhub."
-  }
+variable "create_sb_namespace" {
+  type        = bool
+  default     = false
+  description = "Whether to create a Service Bus namespace"
+}
+
+variable "create_sb_topic" {
+  type        = bool
+  default     = false
+  description = "Whether to create a Service Bus topic"
+}
+
+variable "create_sb_subscription" {
+  type        = bool
+  default     = false
+  description = "Whether to create a Service Bus subscription"
+}
+
+variable "create_eventhub" {
+  type        = bool
+  default     = false
+  description = "Whether to create an Event Hub"
 }
 
 ###########################

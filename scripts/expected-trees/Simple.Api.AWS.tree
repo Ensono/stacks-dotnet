@@ -234,4 +234,5 @@
 │               │   └── Simple.Api.AWS.API.FunctionalTests.sln
 │               └── README.md
 ├── stackscli.yml
-└── taskctl.yaml
+├── taskctl.yaml
+└── yamllint.conf

@@ -39,16 +39,23 @@ module "app" {
 }
 
 module "servicebus" {
-  count                   = contains(split(",", var.app_bus_type), "servicebus") ? 1 : 0
+  count                   = anytrue([var.create_sb_namespace, var.create_sb_topic, var.create_sb_subscription]) ? 1 : 0
   source                  = "../servicebus"
   resource_group_name     = var.sb_resource_group_name != "" ? var.sb_resource_group_name : module.app.resource_group
   resource_group_location = var.resource_group_location
+  create_sb_namespace     = var.create_sb_namespace
+  create_sb_topic         = var.create_sb_topic
+  create_sb_subscription  = var.create_sb_subscription
   sb_name                 = var.sb_name != "" ? var.sb_name : null
   sb_topic_name           = var.sb_topic_name != "" ? var.sb_topic_name : null
+  sb_subscription_name    = var.sb_subscription_name != "" ? var.sb_subscription_name : null
+  sb_subscription_filter  = var.sb_subscription_filter
+  sb_namespace_id         = local.lookup_servicebus_namespace ? data.azurerm_servicebus_namespace.sb[0].id : null
+  sb_topic_id             = local.lookup_servicebus_topic ? data.azurerm_servicebus_topic.sb_topic[0].id : null
 }
 
 module "eventhub" {
-  count                   = contains(split(",", var.app_bus_type), "eventhub") ? 1 : 0
+  count                   = var.create_eventhub ? 1 : 0
   source                  = "../eventhub"
   resource_group_name     = module.app.resource_group
   resource_group_location = var.resource_group_location
@@ -64,11 +71,9 @@ module "function" {
   cosmosdb_collection_name         = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
   cosmosdb_lease_collection_name   = var.create_cosmosdb || local.lookup_cosmosdb_account ? var.cosmosdb_lease_collection_name : null
   cosmosdb_connection_string       = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
-  sb_topic_id                      = local.sb_topic_id
   sb_topic_name                    = local.sb_topic_name
   sb_connection_string             = local.sb_connection_string
-  sb_subscription_name             = var.sb_subscription_name
-  sb_subscription_filter           = var.sb_subscription_filter
+  sb_subscription_name             = var.create_sb_subscription ? module.servicebus[0].servicebus_subscription_name : null
   eventhub_connection_string       = local.eventhub_connection_string
   eventhub_name                    = local.eventhub_name
   eventhub_storage_access_key      = local.eventhub_storage_access_key

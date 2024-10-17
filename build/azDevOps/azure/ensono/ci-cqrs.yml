@@ -183,6 +183,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_nonprod)
+                    TF_VAR_create_sb_namespace: $(create_servicebus_namespace)
+                    TF_VAR_create_sb_topic: $(create_servicebus_topic)
+                    TF_VAR_create_sb_subscription: $(create_servicebus_subscription)
                     TF_VAR_sb_name: ${{ variables.servicebus_namespace_dev }}
                     TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_dev }}
                     TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
@@ -190,7 +193,7 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_app_bus_type: ${{ variables.app_bus_type }}
+                    TF_VAR_create_eventhub: $(create_eventhub)
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -258,6 +261,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_nonprod)
+                    TF_VAR_create_sb_namespace: $(create_servicebus_namespace)
+                    TF_VAR_create_sb_topic: $(create_servicebus_topic)
+                    TF_VAR_create_sb_subscription: $(create_servicebus_subscription)
                     TF_VAR_sb_name: ${{ variables.servicebus_namespace_dev }}
                     TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_dev }}
                     TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
@@ -265,7 +271,7 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_app_bus_type: ${{ variables.app_bus_type }}
+                    TF_VAR_create_eventhub: $(create_eventhub)
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -373,6 +379,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_prod)
+                    TF_VAR_create_sb_namespace: $(create_servicebus_namespace)
+                    TF_VAR_create_sb_topic: $(create_servicebus_topic)
+                    TF_VAR_create_sb_subscription: $(create_servicebus_subscription)
                     TF_VAR_sb_name: ${{ variables.servicebus_namespace_prod }}
                     TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_prod }}
                     TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
@@ -380,7 +389,7 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_app_bus_type: ${{ variables.app_bus_type }}
+                    TF_VAR_create_eventhub: $(create_eventhub)
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -452,6 +461,9 @@ stages:
                     TF_VAR_stage: $(Environment.ShortName)
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
                     TF_VAR_public_ip_name: $(public_ip_name_prod)
+                    TF_VAR_create_sb_namespace: $(create_servicebus_namespace)
+                    TF_VAR_create_sb_topic: $(create_servicebus_topic)
+                    TF_VAR_create_sb_subscription: $(create_servicebus_subscription)
                     TF_VAR_sb_name: ${{ variables.servicebus_namespace_prod }}
                     TF_VAR_sb_resource_group_name: ${{ variables.servicebus_resource_group_prod }}
                     TF_VAR_sb_subscription_name: ${{ variables.servicebus_subscription_name }}
@@ -459,7 +471,7 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TF_VAR_app_bus_type: ${{ variables.app_bus_type }}
+                    TF_VAR_create_eventhub: $(create_eventhub)
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"

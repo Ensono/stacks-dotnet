@@ -46,7 +46,7 @@ output "dns_name" {
 # Events - Servicebus
 output "servicebus_namespace" {
   description = "Service bus namespace"
-  value       = contains(split(",", var.app_bus_type), "servicebus") ? module.servicebus.*.servicebus_namespace[0] : null
+  value       = var.create_sb_namespace ? module.servicebus.*.servicebus_namespace[0] : null
 }
 
 output "servicebus_topic_name" {
@@ -57,6 +57,16 @@ output "servicebus_topic_name" {
 output "servicebus_connectionstring" {
   value     = local.sb_connection_string
   sensitive = true
+}
+
+output "servicebus_subscription_id" {
+  description = "Servicebus Subscription ID"
+  value       = var.create_sb_subscription ? module.servicebus.*.servicebus_subscription_id[0] : null
+}
+
+output "servicebus_subscription_name" {
+  description = "Servicebus Subscription name"
+  value       = var.create_sb_subscription ? module.servicebus.*.servicebus_subscription_name[0] : null
 }
 
 # Events - Function
@@ -70,33 +80,23 @@ output "function_name" {
   value       = var.create_function_app ? module.function.*.function_name[0] : null
 }
 
-output "servicebus_subscription_id" {
-  description = "Servicebus Subscription ID"
-  value       = var.create_function_app ? module.function.*.servicebus_subscription_id[0] : null
-}
-
-output "servicebus_subscription_name" {
-  description = "Servicebus Subscription name"
-  value       = var.create_function_app || local.lookup_servicebus ? var.sb_subscription_name : null
-}
-
 
 # Events - Eventhub
 output "eventhub_connectionstring" {
-  value     = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_connectionstring[0] : null
+  value     = var.create_eventhub ? module.eventhub.*.eventhub_connectionstring[0] : null
   sensitive = true
 }
 output "eventhub_name" {
-  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_name[0] : null
+  value = var.create_eventhub ? module.eventhub.*.eventhub_name[0] : null
 }
 
 output "eventhub_sa_connectionstring" {
-  value     = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_sa_connectionstring[0] : null
+  value     = var.create_eventhub ? module.eventhub.*.eventhub_sa_connectionstring[0] : null
   sensitive = true
 }
 
 output "eventhub_sa_container" {
-  value = contains(split(",", var.app_bus_type), "eventhub") ? module.eventhub.*.eventhub_sa_container[0] : null
+  value = var.create_eventhub ? module.eventhub.*.eventhub_sa_container[0] : null
 }
 
 # Core State Query Outputs (to reduce variable duplication)

@@ -17,13 +17,13 @@ data "azurerm_application_insights" "example" {
 }
 
 data "azurerm_servicebus_namespace" "sb" {
-  count               = local.lookup_servicebus ? 1 : 0
+  count               = local.lookup_servicebus_namespace ? 1 : 0
   name                = var.sb_name
   resource_group_name = var.sb_resource_group_name
 }
 
 data "azurerm_servicebus_topic" "sb_topic" {
-  count        = local.lookup_servicebus ? 1 : 0
+  count        = local.lookup_servicebus_topic ? 1 : 0
   name         = var.sb_topic_name
   namespace_id = data.azurerm_servicebus_namespace.sb[0].id
 }

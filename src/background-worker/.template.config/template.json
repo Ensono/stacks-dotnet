@@ -41,6 +41,7 @@
                 "stackscli.yml",
                 ".gitignore",
                 ".gitattributes",
+                "yamllint.conf",
                 "src/background-worker/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**"

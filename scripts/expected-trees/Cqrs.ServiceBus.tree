@@ -29,7 +29,6 @@
 │   │       │   ├── function.tf
 │   │       │   ├── main.tf
 │   │       │   ├── outputs.tf
-│   │       │   ├── servicebus.tf
 │   │       │   ├── variables.tf
 │   │       │   └── versions.tf
 │   │       ├── kube
@@ -567,4 +566,5 @@
 │       ├── Ensono.Stacks.Packages.sln
 │       └── NuGet.config
 ├── stackscli.yml
-└── taskctl.yaml
+├── taskctl.yaml
+└── yamllint.conf

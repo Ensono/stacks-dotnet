@@ -152,6 +152,12 @@ variables:
   # Service Bus Configuration
   - name: servicebus_type
     value: listener
+  - name: create_servicebus_namespace
+    value: false
+  - name: create_servicebus_topic
+    value: false
+  - name: create_servicebus_subscription
+    value: true
   - name: servicebus_namespace_dev
     value: sb-menu-wxbirw
   - name: servicebus_namespace_prod
@@ -161,7 +167,11 @@ variables:
   - name: servicebus_resource_group_prod
     value: ensono-stacks-prod-euw-netcore-api-cqrs
   - name: servicebus_subscription_name
-    value: sbs-menu-events
+    value: sbs-menu-bgw-events
+
+  # EventHub Configuration
+  - name: create_eventhub
+    value: false
 
   # Application
   - name: ingress_enabled

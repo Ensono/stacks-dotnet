@@ -42,6 +42,7 @@
                 "stackscli.yml",
                 ".gitignore",
                 ".gitattributes",
+                "yamllint.conf",
                 "src/func-asb-listener/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus/**",
                 "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests/**"
