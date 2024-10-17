@@ -43,7 +43,7 @@ jobs:
         inputs:
           repo: "https://ensonodigitaluk@dev.azure.com/ensonodigitaluk/Stacks/_git/Stacks.wiki"
           branch: "wikiMaster"
-          filename: "Releases/Release-Notes/${{ parameters.environment}}/${{ parameters.application_name }}/V${{ parameters.version_major }}/${{ parameters.version_minor }}.${{ parameters.version_revision}}.md"
+          filename: "Release-Notes/${{ parameters.environment}}/${{ parameters.application_name }}/V${{ parameters.version_major }}/${{ parameters.version_minor }}.${{ parameters.version_revision}}.md"
           replaceFile: true
           dataIsFile: true
           sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
