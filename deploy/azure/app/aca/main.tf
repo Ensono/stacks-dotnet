@@ -1,8 +1,19 @@
+# Naming convention
+module "default_label" {
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=0.24.1"
+  namespace  = "${var.name_company}-${var.name_project}"
+  stage      = var.stage
+  name       = "${lookup(var.location_name_map, var.resource_group_location, "uksouth")}-${var.name_domain}"
+  attributes = var.attributes
+  delimiter  = "-"
+  tags       = var.tags
+}
+
 module "aca" {
   source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=1.0.4"
 
   resource_group_name = module.default_label.id
-  location            = "uksouth"
+  location            = var.resource_group_location
   resource_tags       = module.default_label.tags
 
   create_container_app_environment = false
@@ -19,7 +30,6 @@ module "aca" {
     type         = "UserAssigned",
     identity_ids = [azurerm_user_assigned_identity.default.id]
   }
-
 
   container_app_environment_id        = data.terraform_remote_state.core.outputs.acae_id
   container_app_workload_profile_name = "Consumption"
@@ -69,4 +79,22 @@ module "aca" {
   container_app_ingress_allow_insecure_connections = true
   create_custom_domain_for_container_app           = true
   custom_domain                                    = "${var.dns_record}.${data.terraform_remote_state.core.outputs.dns_base_domain}"
+}
+
+resource "azurerm_user_assigned_identity" "default" {
+  resource_group_name = module.default_label.id
+  location            = var.resource_group_location
+  name                = module.default_label.id
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+}
+
+resource "azurerm_role_assignment" "acrpull_role" {
+  scope                            = data.azurerm_container_registry.acr.id
+  role_definition_name             = "AcrPull"
+  principal_id                     = azurerm_user_assigned_identity.default.principal_id
+  skip_service_principal_aad_check = true
 }

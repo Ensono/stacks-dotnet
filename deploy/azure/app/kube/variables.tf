@@ -291,10 +291,11 @@ variable "app_insights_name" {
   description = "app insights name for key retriaval in memory"
 }
 
-variable "docker_image_name" {
-  default = ""
-}
-
-variable "docker_image_tag" {
-  default = ""
+##########################
+# Azure Container Apps
+##########################
+variable "deploy_to_aca" {
+  type        = bool
+  default     = false
+  description = "Whether the app is deployed to Azure Container App"
 }

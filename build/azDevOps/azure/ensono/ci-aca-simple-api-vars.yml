@@ -39,6 +39,8 @@ variables:
     value: $(domain)
   - name: TF_FILE_LOCATION
     value: deploy/azure/app/kube
+  - name: TF_FILE_APP_LOCATION
+    value: deploy/azure/app/aca
 
   # App Specific Taxonomy
   - name: resource_def_name
