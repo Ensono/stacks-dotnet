@@ -548,7 +548,7 @@ stages:
         condition: or(succeeded('Dev'), succeeded('Prod'))
         variables:
           - name: core_environment
-            value: ${{ coalesce(stageDependencies.Dev.outputs['OutputVars.SetEnv.core_environment'], stageDependencies.Prod.outputs['OutputVars.SetEnv.core_environment']) }}
+            value: ${{ coalesce(dependencies.Dev.outputs['OutputVars.SetEnv.core_environment'], dependencies.Prod.outputs['OutputVars.SetEnv.core_environment']) }}
         jobs:
           - template: release-notes/publish-release-notes.yml
             parameters:
