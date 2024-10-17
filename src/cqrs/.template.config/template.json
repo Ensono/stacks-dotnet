@@ -190,6 +190,7 @@
 				"stackscli.yml",
 				".gitignore",
 				".gitattributes",
+				"yamllint.conf",
 				"src/cqrs/**",
 				"src/shared/**"
 			],

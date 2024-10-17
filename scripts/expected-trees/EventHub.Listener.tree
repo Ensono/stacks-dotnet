@@ -29,7 +29,6 @@
 │   │       │   ├── function.tf
 │   │       │   ├── main.tf
 │   │       │   ├── outputs.tf
-│   │       │   ├── servicebus.tf
 │   │       │   ├── variables.tf
 │   │       │   └── versions.tf
 │   │       ├── kube
@@ -87,4 +86,5 @@
 │               │   └── TestOperationContext.cs
 │               └── EventHub.Listener.Listener.sln
 ├── stackscli.yml
-└── taskctl.yaml
+├── taskctl.yaml
+└── yamllint.conf
