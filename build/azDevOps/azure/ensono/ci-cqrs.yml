@@ -11,6 +11,13 @@ trigger:
     include:
       - "*"
 
+resources:
+  repositories:
+    - repository: wiki # work around for security issue for pipelines to access the WIKI repo
+      type: git
+      name: Stacks.wiki
+      ref: wikiMaster
+
 variables:
   - template: ci-cqrs-vars.yml
 
