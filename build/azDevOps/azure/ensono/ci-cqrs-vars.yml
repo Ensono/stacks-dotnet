@@ -149,7 +149,7 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
   - name: enable_release_note_generation
-    value: false
+    value: true
 
   # Service Bus Configuration
   - name: servicebus_type
