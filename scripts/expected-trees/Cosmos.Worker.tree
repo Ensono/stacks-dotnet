@@ -53,36 +53,65 @@
 │   ├── func-cosmosdb-worker
 │   │   └── src
 │   │       ├── .editorconfig
-│   │       └── functions
-│   │           ├── Cosmos.Worker.Worker
-│   │           │   ├── Constants.cs
-│   │           │   ├── Cosmos.Worker.Worker.csproj
-│   │           │   ├── CosmosDbChangeFeedEvent.cs
-│   │           │   ├── CosmosDbChangeFeedListener.cs
-│   │           │   ├── EventCode.cs
-│   │           │   ├── Program.cs
-│   │           │   ├── appsettings.json
-│   │           │   └── host.json
-│   │           ├── Cosmos.Worker.Worker.ComponentTests
-│   │           │   ├── Cosmos.Worker.Worker.ComponentTests.csproj
-│   │           │   ├── Doubles
-│   │           │   │   └── MockLogger.cs
-│   │           │   ├── Features
-│   │           │   │   └── ChangeFeedListenerFeature.cs
-│   │           │   ├── Fixtures
-│   │           │   │   └── ChangeFeedListenerFixture.cs
-│   │           │   └── GlobalUsings.cs
-│   │           ├── Cosmos.Worker.Worker.UnitTests
-│   │           │   ├── Cosmos.Worker.Worker.UnitTests.csproj
-│   │           │   ├── Doubles
-│   │           │   │   └── MockLogger.cs
-│   │           │   ├── GlobalUsings.cs
-│   │           │   └── Tests
-│   │           │       ├── ChangeFeedListenerEventUnitTests.cs
-│   │           │       ├── ChangeFeedListenerTests.cs
-│   │           │       └── EventCodeUnitTests.cs
-│   │           ├── Cosmos.Worker.Worker.sln
-│   │           └── Dockerfile
+│   │       ├── functions
+│   │       │   ├── Cosmos.Worker.Worker
+│   │       │   │   ├── Constants.cs
+│   │       │   │   ├── Cosmos.Worker.Worker.csproj
+│   │       │   │   ├── CosmosDbChangeFeedEvent.cs
+│   │       │   │   ├── CosmosDbChangeFeedListener.cs
+│   │       │   │   ├── EventCode.cs
+│   │       │   │   ├── Program.cs
+│   │       │   │   ├── appsettings.json
+│   │       │   │   └── host.json
+│   │       │   ├── Cosmos.Worker.Worker.ComponentTests
+│   │       │   │   ├── Cosmos.Worker.Worker.ComponentTests.csproj
+│   │       │   │   ├── Doubles
+│   │       │   │   │   └── MockLogger.cs
+│   │       │   │   ├── Features
+│   │       │   │   │   └── ChangeFeedListenerFeature.cs
+│   │       │   │   ├── Fixtures
+│   │       │   │   │   └── ChangeFeedListenerFixture.cs
+│   │       │   │   └── GlobalUsings.cs
+│   │       │   ├── Cosmos.Worker.Worker.UnitTests
+│   │       │   │   ├── Cosmos.Worker.Worker.UnitTests.csproj
+│   │       │   │   ├── Doubles
+│   │       │   │   │   └── MockLogger.cs
+│   │       │   │   ├── GlobalUsings.cs
+│   │       │   │   └── Tests
+│   │       │   │       ├── ChangeFeedListenerEventUnitTests.cs
+│   │       │   │       ├── ChangeFeedListenerTests.cs
+│   │       │   │       └── EventCodeUnitTests.cs
+│   │       │   ├── Cosmos.Worker.Worker.sln
+│   │       │   └── Dockerfile
+│   │       └── tests
+│   │           └── Functional
+│   │               ├── Cosmos.Worker.Worker.FunctionalTests
+│   │               │   ├── Configuration
+│   │               │   │   ├── ConfigurationAccessor.cs
+│   │               │   │   └── ConfigurationModel.cs
+│   │               │   ├── Cosmos.Worker.Worker.FunctionalTests.csproj
+│   │               │   ├── Data
+│   │               │   │   ├── CosmosDbChangeFeedEvent-Invalid.json
+│   │               │   │   ├── CosmosDbChangeFeedEvent-Updated.json
+│   │               │   │   └── CosmosDbChangeFeedEvent.json
+│   │               │   ├── Drivers
+│   │               │   │   ├── CosmosDbDriver.cs
+│   │               │   │   ├── ServiceBusDriver.cs
+│   │               │   │   └── TestDrivers.cs
+│   │               │   ├── GlobalUsings.cs
+│   │               │   ├── Models
+│   │               │   │   ├── CloudEvents
+│   │               │   │   │   ├── CloudEvent.cs
+│   │               │   │   │   ├── ICloudEvent.cs
+│   │               │   │   │   └── StacksCloudEvent.cs
+│   │               │   │   └── CosmosDbChangeFeedEvent.cs
+│   │               │   ├── Tests
+│   │               │   │   ├── Steps
+│   │               │   │   │   └── ExampleSteps.cs
+│   │               │   │   └── Stories
+│   │               │   │       └── ExampleStory.cs
+│   │               │   └── appsettings.json
+│   │               └── Cosmos.Worker.Worker.FunctionalTests.sln
 │   └── shared
 │       ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
