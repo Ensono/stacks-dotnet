@@ -10,9 +10,9 @@ module "aca" {
   create_rg                        = false
 
   # Container App
-  container_app_name = "nginx"
+  container_app_name = var.name_domain
   container_app_registry = {
-    server   = data.azurerm_container_registry.acr.name
+    server   = "${data.azurerm_container_registry.acr.name}.azurecr.io"
     identity = azurerm_user_assigned_identity.default.id
   }
   container_app_identity = {
@@ -28,13 +28,22 @@ module "aca" {
   container_app_containers = [
     {
       cpu    = 0.25
-      image  = "ensonoeuw.azurecr.io/stacks-api:7.0.2-8198-deploy-to-aca"
+      image  = "${data.azurerm_container_registry.acr.name}.azurecr.io/${var.docker_image_name}:${var.docker_image_tag}"
       memory = "0.5Gi"
-      name   = "nginx"
+      name   = var.name_domain
       env = [{
         name  = "API_BASEPATH"
         value = "/api/menu"
-      }]
+        },
+        {
+          name  = "LOG_LEVEL"
+          value = "Debug"
+        },
+        {
+          name  = "APPINSIGHTS_INSTRUMENTATIONKEY"
+          value = "InstrumentationKey=${data.terraform_remote_state.core.outputs.instrumentation_key}"
+        }
+      ]
       volume_mounts = [
         # {
         #   name = "data"
@@ -44,6 +53,7 @@ module "aca" {
     }
 
   ]
+
   container_app_container_max_replicas = 1
   container_app_container_min_replicas = 1
   # container_app_container_volumes      = [
@@ -55,7 +65,7 @@ module "aca" {
 
   #  Ingress configuration
   container_app_ingress_external_enabled           = true
-  container_app_ingress_target_port                = 80
+  container_app_ingress_target_port                = 8080
   container_app_ingress_allow_insecure_connections = true
   create_custom_domain_for_container_app           = true
   custom_domain                                    = "${var.dns_record}.${data.terraform_remote_state.core.outputs.dns_base_domain}"
