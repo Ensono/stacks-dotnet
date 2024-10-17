@@ -134,9 +134,7 @@ stages:
       - deployment: AppInfraDev
         pool:
           vmImage: $(pool_vm_image)
-
         environment: ${{ variables.domain }}-dev
-
         strategy:
           runOnce:
             deploy:
@@ -194,8 +192,36 @@ stages:
                     TF_VAR_tfstate_key: "aca_coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
-                    TF_VAR_tfstate_resource_group_name: "$  (TF_STATE_RG)"
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
                     TF_VAR_deploy_to_aca: true
+
+      - deployment: DeployDev
+        dependsOn: AppInfraDev
+        pool:
+          vmImage: $(pool_vm_image)
+        environment: ${{ variables.domain }}-dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: ../../templates/taskctl-setup.yml
+                  parameters:
+                    TaskctlVersion: ${{ variables.TaskctlVersion }}
+
+                - task: Bash@3
+                  displayName: "TaskCTL: Pull images"
+                  inputs:
+                    targetType: inline
+                    script: |
+                      taskctl image-pull
+                      taskctl image-pull-dotnet
+
+                - task: DownloadPipelineArtifact@2
+                  displayName: "Download: Test Artefacts"
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
+                  inputs:
+                    artifact: tests
+                    path: $(Agent.BuildDirectory)/s/tests
 
                 - task: Bash@3
                   displayName: "Taskctl: Deployment"
@@ -229,3 +255,12 @@ stages:
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
                     TF_VAR_docker_image_name: $(docker_image_name)
                     TF_VAR_docker_image_tag: $(docker_image_tag)
+
+                - task: PublishTestResults@2
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
+                  inputs:
+                    testResultsFormat: VSTest
+                    testResultsFiles: '**/*.trx'
+                    searchFolder: $(Pipeline.Workspace)/s/testresults
+                    failTaskOnFailedTests: true # Optional
+                    testRunTitle: Dev Functional Test Report
