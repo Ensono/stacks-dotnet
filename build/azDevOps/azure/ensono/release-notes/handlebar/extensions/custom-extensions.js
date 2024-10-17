@@ -1,27 +1,44 @@
-module.exports = {
-  format_test_results(data, reportName) {
-    data = data.filter(test => test.testRun.name == reportName);
-    
-    let features = [...new Set(data.map(item => item.automatedTestStorage))];
-    let latestRun = Math.max(
-      ...data.map(item => parseInt(item.testRun.id, 10))
-    );
-    return features.map(value => {
-      let relevantTests = data.filter(
-        entry =>
-          entry.automatedTestStorage === value &&
-          parseInt(entry.testRun.id, 10) === latestRun
-      );
-      return {
-        feature: value,
-        tests: relevantTests.length,
-        passes: relevantTests.filter(test => test.outcome === 'Passed').length,
-        errors: relevantTests.filter(test => test.outcome !== 'Passed').length,
-      };
-    });
-  },
+function getTestRunUrl(apiUrl, runId) {
+    const urlParts = apiUrl.split('/');
+    const baseUrl = urlParts.slice(0, -2).join('/').replace('_apis/test', '_TestManagement/Runs');
+    return `${baseUrl}?runId=${runId}&_a=runCharts`;
+}
 
-  sum_tests(formattedResults) {
-    return formattedResults.reduce((total, item) => total + item.tests, 0);
-  }
+function generateTestSummary(testResults) {
+    const testRuns = {};
+    testResults.forEach(result => {
+        const testRunId = result.testRun.id;
+        if (!testRuns[testRunId]) {
+            testRuns[testRunId] = {
+                name: result.testRun.name,
+                totalTests: 0,
+                passedTests: 0,
+                url: getTestRunUrl(result.testRun.url, testRunId)
+            };
+        }
+        testRuns[testRunId].totalTests += 1;
+        if (result.outcome === "Passed") {
+            testRuns[testRunId].passedTests += 1;
+        }
+    });
+
+    // Create the summary array
+    const summary = Object.keys(testRuns).map(testRunId => {
+        const totalTests = testRuns[testRunId].totalTests;
+        const passedTests = testRuns[testRunId].passedTests;
+        const passRate = `${passedTests}/${totalTests} ${(passedTests / totalTests * 100).toFixed(2)}%`;
+        return {
+            name: testRuns[testRunId].name,
+            testRunId: testRunId,
+            totalTests: totalTests,
+            passRate: passRate,
+            url: testRuns[testRunId].url
+        };
+    });
+
+    return summary;
+}
+
+module.exports = {
+    generateTestSummary
 };
