@@ -5,6 +5,13 @@ parameters:
   - name: version_minor
     type: string
     default: '0'
+  - name: version_revision
+    type: string
+    default: '0'
+  - name: application_name
+    type: string
+  - name: environment
+    type: string
 
 jobs:
   - job: GenerateAndPublish
@@ -16,12 +23,12 @@ jobs:
         inputs:
           outputfile: "$(Build.ArtifactStagingDirectory)/releasenotes.md"
           templateLocation: "File"
-          templatefile: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/release-notes/handlebar/releaseNoteTemplate.md"
+          templatefile: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/release-notes/handlebar/releaseNoteTemplate.handlebars"
           customHandlebarsExtensionFile: "custom-extensions.js"
           customHandlebarsExtensionFolder: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/release-notes/handlebar/extensions"
-          checkStage: false # Looks for the last successful release.  Else release notes will be compared against the previous release.
+          checkStage: false
           replaceFile: false
-          getParentsAndChildren: false
+          getParentsAndChildren: true
           getAllParents: false
           getIndirectPullRequests: false
           stopOnError: true
@@ -30,26 +37,20 @@ jobs:
           wiqlFromTarget: "WorkItems"
           dumpPayloadToFile: true
           dumpPayloadFileName: $(Build.ArtifactStagingDirectory)/release-notes-payload.json
-      - task: PublishBuildArtifacts@1
-        displayName: "Publish Release Notes Payload"
-        inputs:
-          pathtoPublish: "$(Build.ArtifactStagingDirectory)/release-notes-payload.json"
-          artifactName: "release-notes-payload.json"
 
       - task: WikiUpdaterTask@3
         displayName: Publish Release Notes to WIKI
         inputs:
           repo: "https://ensonodigitaluk@dev.azure.com/ensonodigitaluk/Stacks/_git/Stacks.wiki"
           branch: "wikiMaster"
-          filename: "Releases/Release-Notes/Release-$(version_major).$(version_minor).md"
-          replaceFile: false # appends to the end of the existing WIKI
+          filename: "Release-Notes/${{ parameters.environment}}/${{ parameters.application_name }}/V${{ parameters.version_major }}/${{ parameters.version_minor }}.${{ parameters.version_revision}}.md"
+          replaceFile: true
           dataIsFile: true
           sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
           message: "Automatic commit from pipeline"
           gitname: "pipeline"
-          gitemail: "pipeline@example.com" # this should be a variable
+          gitemail: "pipeline@ensono.com"
           useAgentToken: true
           localpath: '$(System.DefaultWorkingDirectory)\repo'
           updateOrderFile: true
           prependEntryToOrderFile: true
-          injecttoc: true
