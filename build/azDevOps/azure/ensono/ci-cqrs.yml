@@ -316,7 +316,7 @@ stages:
                     testRunTitle: Dev Functional Test Report
 
       - ${{ if eq(variables['enable_release_note_generation'], 'true') }}:
-          - template: publish-release-notes.yml
+          - template: release-notes/publish-release-notes.yml
             parameters: {
               version_major: $(version_major),
               version_minor: $(version_minor),
@@ -526,7 +526,7 @@ stages:
                     testRunTitle: Prod Functional Test Report
 
       - ${{ if eq(variables['enable_release_note_generation'], 'true') }}:
-          - template: publish-release-notes.yml
+          - template: release-notes/publish-release-notes.yml
             parameters: {
               version_major: $(version_major),
               version_minor: $(version_minor),
