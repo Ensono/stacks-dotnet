@@ -37,7 +37,7 @@ variables:
     value: tfstate
   - name: tf_state_key
     value: $(domain)
-  - name: TF_FILE_LOCATION
+  - name: TF_FILE_INFRA_LOCATION
     value: deploy/azure/app/kube
   - name: TF_FILE_APP_LOCATION
     value: deploy/azure/app/aca

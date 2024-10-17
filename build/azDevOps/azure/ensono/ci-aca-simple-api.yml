@@ -160,6 +160,7 @@ stages:
                     # Azure Authentication
                     CLOUD_PROVIDER: "$(cloud_provider)"
                     # Terraform Backend Configuration
+                    TF_FILE_LOCATION: "$(TF_FILE_INFRA_LOCATION)"
                     TF_STATE_CONTAINER: $(tf_state_container)
                     TF_STATE_KEY: $(tf_state_key)
                     TF_STATE_RG: $(tf_state_rg)
@@ -234,7 +235,7 @@ stages:
                     # Azure Authentication
                     CLOUD_PROVIDER: "$(cloud_provider)"
                     # Terraform Backend Configuration
-                    TF_FILE_LOCATION: $(TF_FILE_APP_LOCATION)
+                    TF_FILE_LOCATION: "$(TF_FILE_APP_LOCATION)"
                     TF_STATE_CONTAINER: $(tf_state_container)
                     TF_STATE_KEY: "$(tf_state_key)-app"
                     TF_STATE_RG: $(tf_state_rg)
