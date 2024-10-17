@@ -3,7 +3,7 @@
 ##########################
 output "container_app_name" {
   description = "The name of the created Container App"
-  value       =  module.aca.container_app_name
+  value       = module.aca.container_app_name
 }
 
 output "container_app_id" {
