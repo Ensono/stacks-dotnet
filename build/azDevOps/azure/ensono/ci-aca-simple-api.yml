@@ -196,7 +196,7 @@ stages:
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$  (TF_STATE_RG)"
                     TF_VAR_deploy_to_aca: true
-                
+
                 - task: Bash@3
                   displayName: "Taskctl: Deployment"
                   inputs:
