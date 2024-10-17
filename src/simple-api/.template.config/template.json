@@ -115,6 +115,7 @@
 				"stackscli.yml",
 				".gitignore",
 				".gitattributes",
+				"yamllint.conf",
 				"src/simple-api/**"
 			],
 			"exclude": [

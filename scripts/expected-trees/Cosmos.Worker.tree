@@ -29,7 +29,6 @@
 │   │       │   ├── function.tf
 │   │       │   ├── main.tf
 │   │       │   ├── outputs.tf
-│   │       │   ├── servicebus.tf
 │   │       │   ├── variables.tf
 │   │       │   └── versions.tf
 │   │       ├── kube
@@ -259,4 +258,5 @@
 │           ├── appsettings.integration.topics.json
 │           └── appsettings.json
 ├── stackscli.yml
-└── taskctl.yaml
+├── taskctl.yaml
+└── yamllint.conf

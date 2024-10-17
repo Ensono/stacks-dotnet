@@ -29,7 +29,6 @@
 │   │       │   ├── function.tf
 │   │       │   ├── main.tf
 │   │       │   ├── outputs.tf
-│   │       │   ├── servicebus.tf
 │   │       │   ├── variables.tf
 │   │       │   └── versions.tf
 │   │       ├── kube
@@ -252,4 +251,5 @@
 │               │   └── Simple.Api.Azure.API.FunctionalTests.sln
 │               └── README.md
 ├── stackscli.yml
-└── taskctl.yaml
+├── taskctl.yaml
+└── yamllint.conf

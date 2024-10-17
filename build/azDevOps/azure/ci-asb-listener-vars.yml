@@ -154,6 +154,12 @@ variables:
     value: false
 
   # ServiceBus Configuration
+  - name: create_servicebus_namespace
+    value: false
+  - name: create_servicebus_topic
+    value: false
+  - name: create_servicebus_subscription
+    value: true
   - name: servicebus_namespace_dev
     value:
   - name: servicebus_namespace_prod
@@ -166,6 +172,10 @@ variables:
     value: sbs-menu-events-created
   - name: servicebus_subscription_filter
     value: "enclosedmessagetype like '%MenuCreatedEvent%'"
+
+  # EventHub Configuration
+  - name: create_eventhub
+    value: false
 
   # Azure service connection
   - name: azure_service_connection
