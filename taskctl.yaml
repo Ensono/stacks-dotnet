@@ -51,7 +51,7 @@ pipelines:
       depends_on: deploy:templater
     - task: deploy:functional_tests
       depends_on: deploy:helm
-  
+
   # Deploy pipeline
   deploy_aca:
     - task: infra:init
