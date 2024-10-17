@@ -315,6 +315,15 @@ stages:
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Dev Functional Test Report
 
+      - ${{ if eq(variables['enable_release_note_generation'], 'true') }}:
+        - template: publish-release-notes.yml
+          parameters:
+            version_major: $(version_major)
+            version_minor: $(version_minor)
+            version_revision: $(version_revision)
+            application_name: $(self_generic_name)
+            environment: $(core_environment)
+
   - stage: Prod
     dependsOn: Build
     condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
@@ -514,3 +523,13 @@ stages:
                     searchFolder: $(Pipeline.Workspace)/s/testresults
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Prod Functional Test Report
+
+      -   ${{ if eq(variables['enable_release_note_generation'], 'true') }}:
+          - template: publish-release-notes.yml
+            parameters: {
+                version_major: $(version_major),
+                version_minor: $(version_minor),
+                version_revision: $(version_revision),
+                application_name: $(self_generic_name),
+                environment: $(core_environment)
+            }
