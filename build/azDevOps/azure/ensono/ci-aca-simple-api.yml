@@ -227,12 +227,12 @@ stages:
                       taskctl image-pull
                       taskctl image-pull-dotnet
 
-                - task: DownloadPipelineArtifact@2
-                  displayName: "Download: Test Artefacts"
-                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
-                  inputs:
-                    artifact: tests
-                    path: $(Agent.BuildDirectory)/s/tests
+                # - task: DownloadPipelineArtifact@2
+                #   displayName: "Download: Test Artefacts"
+                #   condition: and(succeeded(), eq(variables.run_functional_tests, true))
+                #   inputs:
+                #     artifact: tests
+                #     path: $(Agent.BuildDirectory)/s/tests
 
                 - task: Bash@3
                   displayName: "Taskctl: Deployment"
