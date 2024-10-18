@@ -1,0 +1,175 @@
+variables:
+  - name: region
+    value: uksouth
+  - name: company
+    value: ensono
+  - name: project
+    value: stacks
+  - name: domain
+    value: aca-netcore-background-worker
+  - name: self_repo
+    value: stacks-dotnet
+  - name: self_generic_name
+    value: stacks-background-worker
+
+  # Azure DevOps Group containing the SONAR_TOKEN secret
+  - group: stacks-dotnet-api
+
+  - name: cloud_provider
+    value: "azure"
+
+  # Terraform Configuration
+
+  # State configuration
+
+  # Stacks operates Terraform states based on workspaces **IT IS VERY IMPORTANT** that you ensure a unique name for each application definition
+  # Furthermore **IT IS VERY IMPORTANT** that you change the name of a workspace for each deployment stage
+  # there are some best practices around this if you are going for feature based environments
+  # - we suggest you create a runtime variable that is dynamically set based on a branch currently running
+  # **`terraform_state_workspace: `**
+  # avoid running anything past dev that is not on master
+  # sample value: company-webapp
+  - name: tf_state_rg
+    value: stacks-terraform-state
+  - name: tf_state_storage
+    value: stacksstatehjfis
+  - name: tf_state_container
+    value: tfstate
+  - name: tf_state_key
+    value: $(domain)
+  - name: TF_FILE_INFRA_LOCATION
+    value: deploy/azure/app/kube
+  - name: TF_FILE_APP_LOCATION
+    value: deploy/azure/app/aca
+
+  # App Specific Taxonomy
+  - name: resource_def_name
+    value: dotnet-api
+  - name: component
+    value: api
+  - name: role
+    value: backend
+  - name: k8s_app_route
+    value: /api/menu
+  - name: app_name
+    value: yumido-netcore-background-worker
+
+  # Agent configuration
+  - name: TaskctlVersion
+    value: 1.5.2
+  - name: pool_vm_image
+    value: ubuntu-20.04
+
+  # SelfConfig
+  # If you haven't specified source_repo at cli runtime please ensure you replace it here
+  # It is case sensitive for TFS based repos
+  - name: self_repo_src
+    value: src/background-worker/src/worker
+  - name: self_repo_dir
+    value: "$(Agent.BuildDirectory)/s/$(self_repo)"
+  - name: self_repo_tf_src
+    value: deploy/azure/app/kube
+  - name: self_repo_tf_dir
+    value: "$(self_repo_dir)/$(self_repo_tf_src)"
+
+  # SonarQube Configuration
+  # SONAR_TOKEN must be inherited from library groups/etc.
+  - name: sonar_organization
+    value: ensono
+  - name: sonar_url
+    value: "https://sonarcloud.io"
+  - name: sonar_properties
+    value: '/d:sonar.cs.opencover.reportsPaths="/app/coverage/*.opencover.xml" /d:sonar.exclusions="**/*Tests" /d:sonar.coverage.exclusions="**/*Tests"'
+  - name: sonar_project_name
+    value: stacks-dotnet-cqrs
+
+  # Test Configuration
+  - name: run_functional_tests
+    value: true
+  - name: FUNCTIONAL_TESTS_SRC_DIR
+    value: src/background-worker/src/tests/Functional
+  - name: FUNCTIONAL_TESTS_RUN_DIR
+    value: /app/tests
+  - name: FUNCTIONAL_TEST_BASEURL
+    value: https://$(Environment.ShortName)-$(domain).$(dns_base_domain)$(k8s_app_route)/
+
+  # Docker Container registry configuration (used for image tagging and pushing)
+  # TODO: Despite being available in the TF State, these are required in other steps
+  # TODO: which do not inherit the state variables yet
+  # TODO: Promotion is now doing nothing as same registry for both envs, consider removing or creating another registry for Prod
+  - name: docker_container_registry_rg_name_nonprod
+    value: Stacks-Ancillary-Resources
+  - name: docker_container_registry_name_nonprod
+    value: ensonoeuw
+  - name: docker_container_registry_rg_name_prod
+    value: Stacks-Ancillary-Resources
+  - name: docker_container_registry_name_prod
+    value: ensonoeuw
+
+  # Kubernetes & Docker Image Settings
+  - name: docker_image_tag
+    value: $(version_number)-$(Build.SourceBranchName)
+  - name: docker_image_name
+    value: $(self_generic_name)
+
+  # TODO: Despite being available in the TF State, these are required in other steps
+  # TODO: which do not inherit the state variables yet
+  - name: k8s_cluster_target_nonprod
+    value: ed-stacks-nonprod-euw-core
+  - name: k8s_cluster_identifier_nonprod
+    value: ed-stacks-nonprod-euw-core
+  - name: k8s_cluster_target_prod
+    value: ed-stacks-prod-euw-core
+  - name: k8s_cluster_identifier_prod
+    value: ed-stacks-prod-euw-core
+
+  # DNS Configuration
+  - name: create_dns_record
+    value: false
+  - name: core_resource_group_nonprod
+    value: ed-stacks-nonprod-uks-aca
+  - name: public_ip_name_nonprod
+    value: ed-stacks-nonprod-uks-aca
+  - name: core_resource_group_prod
+    value: ed-stacks-prod-uks-aca
+  - name: public_ip_name_prod
+    value: ed-stacks-prod-uks-aca
+
+  # Helm file locations
+  - name: helm_chart_file
+    value: "deploy/helm/stacks-dotnet"
+  - name: helm_value_file
+    value: "deploy/helm/stacks-dotnet/values.yaml"
+
+  # Versioning
+  - name: version_major
+    value: 7
+  - name: version_minor
+    value: 0
+  - name: version_revision
+    value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
+  - name: version_number
+    value: $(version_major).$(version_minor).$(version_revision)
+
+  # Service Bus Configuration
+  - name: servicebus_type
+    value: listener
+  - name: servicebus_namespace_dev
+    value: sb-menu-ubgacf
+  - name: servicebus_namespace_prod
+    value: sb-menu-pvonnp
+  - name: servicebus_resource_group_dev
+    value: ensono-stacks-dev-uks-aca-netcore-api-cqrs
+  - name: servicebus_resource_group_prod
+    value: ensono-stacks-prod-uks-aca-netcore-api-cqrs
+  - name: servicebus_subscription_name
+    value: sbs-menu-events
+
+  # Application
+  - name: ingress_enabled
+    value: false
+  - name: create_cosmosdb
+    value: false
+  - name: create_resource_group
+    value: false
+

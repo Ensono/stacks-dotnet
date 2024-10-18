@@ -117,3 +117,14 @@ variable "docker_image_tag" {
   default     = ""
   description = "The tag of the image to deploy to ACA"
 }
+
+variable "ingress_enabled" {
+  type        = bool
+  default     = true
+  description = "Whether to enabled ingress or not"
+}
+
+variable "ingress_port" {
+  default     = 8080
+  description = "The target port for the ingress"
+}

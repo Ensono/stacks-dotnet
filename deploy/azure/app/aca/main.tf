@@ -74,10 +74,10 @@ module "aca" {
   # ]
 
   #  Ingress configuration
-  container_app_ingress_external_enabled           = true
-  container_app_ingress_target_port                = 8080
+  container_app_ingress_external_enabled           = var.ingress_enabled
+  container_app_ingress_target_port                = var.ingress_port
   container_app_ingress_allow_insecure_connections = true
-  create_custom_domain_for_container_app           = true
+  create_custom_domain_for_container_app           = var.ingress_enabled # If we want to expose the service then we should create a custom domain for it so the app gateway can route to it
   custom_domain                                    = "${var.dns_record}.${data.terraform_remote_state.core.outputs.dns_base_domain}"
 }
 
