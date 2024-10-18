@@ -535,7 +535,7 @@ stages:
         condition: or(succeeded('Dev'), succeeded('Prod'))
         variables:
           - name: core_environment
-            value: $[ coalesce(stageDependencies.Dev.DeployDev.outputs['SetEnv.core_environment'], stageDependencies.Prod.DeployProd.outputs['SetEnv.core_environment']) ]
+            value: $[ coalesce(stageDependencies.Dev.DeployDev.outputs['DeployDev.SetEnv.core_environment'], stageDependencies.Prod.DeployProd.outputs['DeployProd.SetEnv.core_environment']) ]
         jobs:
           - template: release-notes/publish-release-notes.yml
             parameters:
