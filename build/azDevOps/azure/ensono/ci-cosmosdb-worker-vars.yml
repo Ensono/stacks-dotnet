@@ -82,6 +82,8 @@ variables:
     value: stacks-dotnet-cqrs
 
   # Test Configuration
+  - name: run_functional_tests
+    value: true
   - name: FUNCTIONAL_TESTS_SRC_DIR
     value: src/func-cosmosdb-worker/src/tests/Functional
   - name: FUNCTIONAL_TESTS_RUN_DIR
