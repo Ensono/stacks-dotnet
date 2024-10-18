@@ -254,7 +254,7 @@ stages:
                   inputs:
                     targetType: inline
                     script: |
-                      taskctl deploy:templater 
+                      taskctl deploy:templater
                       taskctl deploy:functional_tests
                   env:
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR)
