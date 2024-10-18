@@ -1,16 +1,17 @@
-# **Build <a href="{{buildDetails._links.web.href}}" target="_blank">{{buildDetails.buildNumber}}</a>**
+<div style="width: 100%; background-color: black; color: white; text-align: center; padding: 20px; box-sizing: border-box;">Minor Version {{buildDetails.buildNumber}}</div>
+
+# **Version <a href="{{buildDetails._links.web.href}}" target="_blank">{{buildDetails.buildNumber}}</a>**
 **Requested For:** @<{{buildDetails.requestedFor.uniqueName}}>
 {{#forEach this.pullRequests}}
 **Associated PR:** !{{this.pullRequestId}} - Created By: {{this.createdBy.displayName}}
 {{/forEach}}
 
-[[_TOC_]]
-
 ___
 
-## 🔧**Build Scope**
+<h2>🔧 Build Scope</h2>
 
-### 📘 Associated User Stories
+<h3>📘 Associated User Stories</h3>
+
 {{#if this.workItems.length}}
 | **Type** | **Work Item** | **Parent** |
 |----------|---------------|------------|
@@ -23,7 +24,8 @@ ___
 - No user stories associated with this build.
 {{/if}}
 
-### 🔨 Associated Bugs
+<h3>🔨 Associated Bugs</h3>
+
 {{#if this.workItems.length}}
 | **Type** | **Work Item** | **Parent** |
 |----------|---------------|------------|
@@ -38,9 +40,9 @@ ___
 
 ___
 
-## 🏗 **Build Detail**
+<h2>🏗 Build Detail</h2>
 
-### 🧪 **Test Summary**
+<h3>🧪 Test Summary</h3>
 
 {{#with (generateTestSummary this.tests) as |testResults|}}
 {{#if testResults.length}}
@@ -54,7 +56,7 @@ ___
 {{/if}}
 {{/with}}
 
-### 📝 **Commit Log**
+<h3>📝 Commit Log</h3>
 
 {{#if this.commits.length}}
 {{#forEach this.commits}}
@@ -64,7 +66,7 @@ ___
 - No commits associated with this build.
 {{/if}}
 
-### 📁 **Artifacts ({{this.publishedArtifacts.length}})**
+<h3>📁 Artifacts ({{this.publishedArtifacts.length}})</h3>
 
 {{#if this.publishedArtifacts.length}}
 | **Name** | **Artifact Link** |
@@ -81,29 +83,12 @@ ___
 
 ___
 
-## ⏪ Rollback Steps
+<h2>⏪ Rollback Steps</h2>
 
 It is always advisable to 'fix forward' where possible. In situation where this is not an option, re-deploy the previous version of the pipeline.
 
-| **#** | **Actions** |
+| **Step #** | **Actions** |
 |---------------------------------------|----------------------------------------|
 | 1 | No rollback steps have been defined, please contact the build requester.  |
 
 ___
-
-
-## Dev Json Dumping
-
-### Commits
-
-{{json this.commits}}
-
-### Build Details
-
-{{json this.buildDetails}}
-
-### Pull requests
-
-{{json this.pullRequests}}
-
-
