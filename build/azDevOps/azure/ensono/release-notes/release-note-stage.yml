@@ -1,0 +1,22 @@
+parameters:
+    - name: enable
+      type: boolean
+
+stages:
+  - ${{ if eq(parameters.generate, true) }}:
+      - stage: ReleaseNotes
+        dependsOn:
+          - Dev
+          - Prod
+        condition: or(succeeded('Dev'), succeeded('Prod'))
+        variables:
+          - name: core_environment
+            value: $[ coalesce(stageDependencies.Dev.DeployDev.outputs['DeployDev.SetEnv.core_environment'], stageDependencies.Prod.DeployProd.outputs['DeployProd.SetEnv.core_environment']) ]
+        jobs:
+          - template: release-notes/publish-release-notes.yml
+            parameters:
+              version_major: $(version_major)
+              version_minor: $(version_minor)
+              version_revision: $(version_revision)
+              application_name: $(self_generic_name)
+              environment: $(core_environment)
