@@ -131,9 +131,9 @@ variables:
   - name: public_ip_name_nonprod
     value: ed-stacks-nonprod-uks-aca
   - name: core_resource_group_prod
-    value: ed-stacks-prod-euw-core
+    value: ed-stacks-prod-uks-aca
   - name: public_ip_name_prod
-    value: ed-stacks-prod-euw-core
+    value: ed-stacks-prod-uks-aca
 
   # Helm file locations
   - name: helm_chart_file
