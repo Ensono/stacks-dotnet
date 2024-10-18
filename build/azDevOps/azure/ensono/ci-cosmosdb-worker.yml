@@ -219,7 +219,6 @@ stages:
             deploy:
               steps:
                 - template: ../../templates/taskctl-setup.yml
-                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
