@@ -227,7 +227,9 @@ stages:
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     targetType: inline
-                    script: taskctl image-pull-dotnet
+                    script: |
+                      taskctl image-pull
+                      taskctl image-pull-dotnet
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
@@ -251,7 +253,9 @@ stages:
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     targetType: inline
-                    script: taskctl deploy:functional_tests
+                    script: |
+                      taskctl deploy:templater 
+                      taskctl deploy:functional_tests
                   env:
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR)
 
