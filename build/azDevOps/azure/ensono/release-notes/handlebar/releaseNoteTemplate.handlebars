@@ -1,10 +1,19 @@
 <div style="width: 100%; background-color: black; color: white; text-align: center; padding: 20px; box-sizing: border-box;">Minor Version {{buildDetails.buildNumber}}</div>
 
-# **Version <a href="{{buildDetails._links.web.href}}" target="_blank">{{buildDetails.buildNumber}}</a>**
+{{#if (eq buildDetails.repository.type "GitHub")}}
+**Triggered by GitHub for:** {{lookup this.buildDetails.triggerInfo 'pr.sender.name'}}
+{{#if buildDetails.parameters}}
+{{#with (parseJSON buildDetails.parameters)}}
+**Associated PR:** <a href="{{ lookup this 'system.pullRequest.sourceRepositoryUri'}}/pull/{{lookup this 'system.pullRequest.pullRequestNumber'}}" target="_blank">{{lookup this 'system.pullRequest.pullRequestNumber'}}</a>
+{{/with}}
+{{/if}}
+{{else}}
 **Requested For:** @<{{buildDetails.requestedFor.uniqueName}}>
 {{#forEach this.pullRequests}}
 **Associated PR:** !{{this.pullRequestId}} - Created By: {{this.createdBy.displayName}}
 {{/forEach}}
+
+{{/if}}
 
 ___
 
@@ -60,10 +69,10 @@ ___
 
 {{#if this.commits.length}}
 {{#forEach this.commits}}
-<small><span><a href="{{../buildDetails.repository.url}}/commit/{{id}}" target="_blank">{{truncate id 5}}</a></span> by <b>{{author.displayName}}</b> {{#if (gt changes.length 0)}}({{inflect changes.length "file" "files" true}} changed) {{/if}} - "{{get_only_message_firstline message}}"</small>
+<small><span>{{#if (eq type "GitHub")}}<a href="{{displayUri}}" target="_blank">{{truncate id 5}}</a>{{else}}<a href="{{../buildDetails.repository.url}}/commit/{{id}}" target="_blank">{{truncate id 5}}</a>{{/if}}</span> by <b>{{author.displayName}}</b> {{#if (gt changes.length 0)}}({{inflect changes.length "file" "files" true}} changed){{/if}} - "{{get_only_message_firstline message}}"</small>
 {{/forEach}}
 {{else}}
-- No commits associated with this build.
+  - No commits associated with this build.
 {{/if}}
 
 <h3>📁 Artifacts ({{this.publishedArtifacts.length}})</h3>

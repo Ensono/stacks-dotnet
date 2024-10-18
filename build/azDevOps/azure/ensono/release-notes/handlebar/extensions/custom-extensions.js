@@ -39,6 +39,11 @@ function generateTestSummary(testResults) {
     return summary;
 }
 
+function parseJson(json) {
+  return JSON.parse(jsonString);
+}
+
 module.exports = {
-    generateTestSummary
+    generateTestSummary,
+    parseJson
 };
