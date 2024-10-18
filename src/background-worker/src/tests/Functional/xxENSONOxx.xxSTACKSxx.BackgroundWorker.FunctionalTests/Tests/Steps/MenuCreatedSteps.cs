@@ -46,11 +46,8 @@ public class MenuCreatedSteps
     /// <returns></returns>
     public async Task ClearTopicAsync()
     {
-        await _serviceBusDriver.ClearTopicAsync(
-            _topicName,
-            _subscriptionName,
-            SubQueue.DeadLetter
-        );
+        await _serviceBusDriver.ClearTopicAsync(_topicName, _subscriptionName, SubQueue.None);
+        await _serviceBusDriver.ClearTopicAsync(_topicName, _subscriptionName, SubQueue.DeadLetter);
     }
 
 
@@ -112,8 +109,8 @@ public class MenuCreatedSteps
     /// <returns></returns>
     public async Task ConfirmEventHasBeenProcessedByWorker()
     {
-        await _retryIfFalsePolicy.ExecuteAsync(async () =>
-        {
+        //await _retryIfFalsePolicy.ExecuteAsync(async () =>
+        //{
             _activeMessageList = await _serviceBusDriver.ReadMessagesAsync(
                 _topicName,
                 _subscriptionName,
@@ -123,8 +120,8 @@ public class MenuCreatedSteps
                     ReceiveMode = ServiceBusReceiveMode.PeekLock
                 });
 
-            return _activeMessageList is { Count: < 1 };
-        });
+      //      return _activeMessageList is { Count: < 1 };
+        //});
 
         _activeMessageList.ShouldBeEmpty("Message has not been processed by the Worker.");
     }
