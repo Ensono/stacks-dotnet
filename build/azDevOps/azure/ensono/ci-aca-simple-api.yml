@@ -207,7 +207,7 @@ stages:
       #               TF_VAR_deploy_to_aca: true
 
       - deployment: DeployDev
-        dependsOn: AppInfraDev
+        #dependsOn: AppInfraDev
         pool:
           vmImage: $(pool_vm_image)
         environment: ${{ variables.domain }}-dev
