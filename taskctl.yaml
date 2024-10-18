@@ -54,6 +54,6 @@ pipelines:
 
   # Deploy pipeline
   deploy_aca:
-    - task: infra:init
-    - task: infra:plan
-      depends_on: infra:init
+    - pipeline: infrastructure
+    - task: deploy:functional_tests
+      depends_on: infrastructure

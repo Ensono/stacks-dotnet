@@ -238,7 +238,7 @@ stages:
                   displayName: "Taskctl: Deployment"
                   inputs:
                     targetType: inline
-                    script: taskctl infrastructure
+                    script: taskctl deploy_aca
                     informationPreference: continue
                   env:
                     ENV_NAME: $(Environment.ShortName)
