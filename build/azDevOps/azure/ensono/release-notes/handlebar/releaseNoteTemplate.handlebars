@@ -1,4 +1,14 @@
 <div style="width: 100%; background-color: black; color: white; text-align: center; padding: 20px; box-sizing: border-box;">Minor Version {{buildDetails.buildNumber}}</div>
+<div style="border: 1px solid black; padding: 10px;">
+- <a href=#{{buildDetails.id}}-build-scope>🔧 Build Scope</a>
+  - <a href=#{{buildDetails.id}}-user-stories>📘 Associated User Stories</a>
+  - <a href=#{{buildDetails.id}}-bugs>🔨 Associated Bugs</a>
+- <a href=#{{buildDetails.id}}-build-detail>🏗 Build Detail</a>
+  - <a href=#{{buildDetails.id}}-test-summary>🧪 Test Summary</a>
+  - <a href=#{{buildDetails.id}}-commit-log>📝 Commit Log</a>
+  - <a href=#{{buildDetails.id}}-artifacts>📁 Artifacts ({{this.publishedArtifacts.length}})</a>
+- <a href=#{{buildDetails.id}}-rollback-steps>⏪ Rollback Steps</a>
+</div>
 
 # **Version <a href="{{buildDetails._links.web.href}}" target="_blank">{{buildDetails.buildNumber}}</a>**
 
@@ -19,9 +29,9 @@
 
 ___
 
-<h2>🔧 Build Scope</h2>
+<h2 id="{{buildDetails.id}}-build-scope">🔧 Build Scope</h2>
 
-<h3>📘 Associated User Stories</h3>
+<h3 id="{{buildDetails.id}}-user-stories">📘 Associated User Stories</h3>
 
 {{#if this.workItems.length}}
 | **Type** | **Work Item** | **Parent** |
@@ -35,7 +45,7 @@ ___
 - No user stories associated with this build.
 {{/if}}
 
-<h3>🔨 Associated Bugs</h3>
+<h3 id="{{buildDetails.id}}-bugs">🔨 Associated Bugs</h3>
 
 {{#if this.workItems.length}}
 | **Type** | **Work Item** | **Parent** |
@@ -51,9 +61,9 @@ ___
 
 ___
 
-<h2>🏗 Build Detail</h2>
+<h2 id="{{buildDetails.id}}-build-detail">🏗 Build Detail</h2>
 
-<h3>🧪 Test Summary</h3>
+<h3 id="{{buildDetails.id}}-test-summary">🧪 Test Summary</h3>
 
 {{#with (generateTestSummary this.tests) as |testResults|}}
 {{#if testResults.length}}
@@ -67,7 +77,7 @@ ___
 {{/if}}
 {{/with}}
 
-<h3>📝 Commit Log</h3>
+<h3 id="{{buildDetails.id}}-commit-log">📝 Commit Log</h3>
 
 {{#if this.commits.length}}
 {{#forEach this.commits}}
@@ -77,7 +87,7 @@ ___
   - No commits associated with this build.
 {{/if}}
 
-<h3>📁 Artifacts ({{this.publishedArtifacts.length}})</h3>
+<h3 id="{{buildDetails.id}}-artifacts">📁 Artifacts ({{this.publishedArtifacts.length}})</h3>
 
 {{#if this.publishedArtifacts.length}}
 | **Name** | **Artifact Link** |
@@ -94,7 +104,7 @@ ___
 
 ___
 
-<h2>⏪ Rollback Steps</h2>
+<h2 id="{{buildDetails.id}}-rollback-steps">⏪ Rollback Steps</h2>
 
 It is always advisable to 'fix forward' where possible. In situation where this is not an option, re-deploy the previous version of the pipeline.
 
