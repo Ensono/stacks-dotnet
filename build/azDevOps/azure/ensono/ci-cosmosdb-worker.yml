@@ -218,6 +218,18 @@ stages:
           runOnce:
             deploy:
               steps:
+                - template: ../../templates/taskctl-setup.yml
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
+                  parameters:
+                    TaskctlVersion: ${{ variables.TaskctlVersion }}
+
+                - task: Bash@3
+                  displayName: "TaskCTL: Pull images"
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
+                  inputs:
+                    targetType: inline
+                    script: taskctl image-pull-dotnet
+
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
