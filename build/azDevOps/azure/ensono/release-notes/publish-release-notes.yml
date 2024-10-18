@@ -42,7 +42,7 @@ stages:
                 inputs:
                   repo: "https://ensonodigitaluk@dev.azure.com/ensonodigitaluk/Stacks/_git/Stacks.wiki"
                   branch: "wikiMaster"
-                  filename: "Release-Notes/$(core_environment)/$(self_generic_name)/V$(version_major)/$(version_minor).md"
+                  filename: "Release-Notes/$(core_environment)/$(self_generic_name)/V$(version_major)/V$(version_minor).md"
                   replaceFile: false
                   dataIsFile: true
                   sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
