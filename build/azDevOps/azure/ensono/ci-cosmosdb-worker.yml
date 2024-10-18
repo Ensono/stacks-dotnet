@@ -256,6 +256,7 @@ stages:
                     script: |
                       taskctl infra:init
                       taskctl deploy:templater
+                      cat tests/xxENSONOxx.xxSTACKSxx.Worker.FunctionalTests/appsettings.json
                       taskctl deploy:functional_tests
                   env:
                     ENV_NAME: $(Environment.ShortName)
