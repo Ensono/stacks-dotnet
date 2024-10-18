@@ -139,13 +139,3 @@ stages:
               packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.nupkg'
               nuGetFeedType: 'external'
               publishFeedCredentials: '${{variables.nuget_connection}}'
-
-  - stage: GenerateReleaseNotes
-    dependsOn: Release
-    condition: succeeded()
-    jobs:
-      - template: release-notes/publish-release-notes.yml
-        parameters: {
-          version_major: $(version_major),
-          version_minor: $(version_minor)
-        }
