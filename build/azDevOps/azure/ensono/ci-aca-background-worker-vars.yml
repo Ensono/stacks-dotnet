@@ -172,4 +172,3 @@ variables:
     value: false
   - name: create_resource_group
     value: false
-
