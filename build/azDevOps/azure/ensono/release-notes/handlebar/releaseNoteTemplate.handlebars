@@ -1,5 +1,7 @@
 <div style="width: 100%; background-color: black; color: white; text-align: center; padding: 20px; box-sizing: border-box;">Minor Version {{buildDetails.buildNumber}}</div>
 
+# **Version <a href="{{buildDetails._links.web.href}}" target="_blank">{{buildDetails.buildNumber}}</a>**
+
 {{#if (eq buildDetails.repository.type "GitHub")}}
 **Triggered by GitHub for:** {{lookup this.buildDetails.triggerInfo 'pr.sender.name'}}
 {{#if buildDetails.parameters}}
