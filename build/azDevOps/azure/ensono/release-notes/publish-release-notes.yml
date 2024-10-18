@@ -42,8 +42,8 @@ stages:
                 inputs:
                   repo: "https://ensonodigitaluk@dev.azure.com/ensonodigitaluk/Stacks/_git/Stacks.wiki"
                   branch: "wikiMaster"
-                  filename: "Release-Notes/$(core_environment)/$(self_generic_name)/V$(version_major)/$(version_minor).$(version_revision).md"
-                  replaceFile: true
+                  filename: "Release-Notes/$(core_environment)/$(self_generic_name)/V$(version_major)/$(version_minor).md"
+                  replaceFile: false
                   dataIsFile: true
                   sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
                   message: "Automatic commit from pipeline"
@@ -51,5 +51,5 @@ stages:
                   gitemail: "pipeline@ensono.com"
                   useAgentToken: true
                   localpath: '$(System.DefaultWorkingDirectory)\repo'
-                  updateOrderFile: true
-                  prependEntryToOrderFile: true
+                  injectToc: true
+                  appendToFile: false
