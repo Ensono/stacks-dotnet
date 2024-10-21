@@ -6,7 +6,13 @@
 │   │   ├── azure
 │   │   │   ├── api-contract-tests.yml
 │   │   │   ├── ci-vars.yml
-│   │   │   └── ci.yml
+│   │   │   ├── ci.yml
+│   │   │   └── release-notes
+│   │   │       ├── handlebar
+│   │   │       │   ├── extensions
+│   │   │       │   │   └── custom-extensions.js
+│   │   │       │   └── releaseNoteTemplate.handlebars
+│   │   │       └── publish-release-notes.yml
 │   │   └── templates
 │   │       ├── legacy-deploy-functions.yml
 │   │       └── taskctl-setup.yml

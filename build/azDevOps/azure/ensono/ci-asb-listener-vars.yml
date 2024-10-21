@@ -138,6 +138,8 @@ variables:
     value: $[counter(join(variables['version_major'], join('-', variables['version_minor'])), 0)]
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
+  - name: enable_release_note_generation
+    value: true
 
   # Function App Configuration
   - name: create_function_app
