@@ -151,3 +151,8 @@ variable "log_level" {
   description = "The application log level"
   default     = "Debug"
 }
+
+variable "servicebus_type" {
+  default = null
+  description = "The type of service bus. Either 'sender' or 'listener'"
+}

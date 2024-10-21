@@ -36,7 +36,65 @@ locals {
     },
   ]
 
-  environment_variables = concat(local.common_environment_variables, local.cosmos_db_environment_variable)
+  service_bus_sender_environment_variable = var.servicebus_type == "sender" ? [
+    {
+      name  = "Sender__Topics__0__Name"
+      value = data.terraform_remote_state.app.outputs.servicebus_topic_name
+    },
+    {
+      name  = "Sender__Topics__0__ConnectionStringSecret_Identifier"
+      value = "SERVICEBUS_CONNECTIONSTRING"
+    },
+    {
+      name  = "Sender__Topics__0__ConnectionStringSecret_Source"
+      value = "Environment"
+    },
+    {
+      name  = "SERVICEBUS_CONNECTIONSTRING"
+      value = data.terraform_remote_state.app.outputs.servicebus_connectionstring
+    }
+  ] : []
+
+  service_bus_listener_environment_variable = var.servicebus_type == "listener" ? [
+    {
+      name  = "Listener__Topics__0__Name"
+      value = data.terraform_remote_state.app.outputs.servicebus_topic_name
+    },
+    {
+      name  = "Listener__Topics__0__SubscriptionName"
+      value = data.terraform_remote_state.app.outputs.servicebus_subscription_name
+    },
+    {
+      name  = "Listener__Topics__0__ConcurrencyLevel"
+      value = 5
+    },
+    {
+      name  = "Listener__Topics__0__DisableProcessing"
+      value = false
+    },
+    {
+      name  = "Listener__Topics__0__DisableMessageValidation"
+      value = true
+    },
+    {
+      name  = "Listener__Topics__0__ConnectionStringSecret__Identifier"
+      value = "SERVICEBUS_CONNECTIONSTRING"
+    },
+    {
+      name  = "Listener__Topics__0__ConnectionStringSecret__Source"
+      value = "Environment"
+    },
+    {
+      name  = "SERVICEBUS_CONNECTIONSTRING"
+      value = data.terraform_remote_state.app.outputs.servicebus_connectionstring
+    }
+  ] : []
+
+  environment_variables = concat(
+    local.common_environment_variables,
+    local.cosmos_db_environment_variable,
+    local.service_bus_sender_environment_variable,
+  local.service_bus_listener_environment_variable)
 }
 
 # Naming convention
