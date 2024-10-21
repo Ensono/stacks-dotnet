@@ -14,7 +14,11 @@ module "aca" {
 
   resource_group_name = module.default_label.id
   location            = var.resource_group_location
-  resource_tags       = module.default_label.tags
+  resource_tags = merge(module.default_label.tags,
+    {
+      cdm_task_configuration = "enabled=true"
+    }
+  )
 
   create_container_app_environment = false
   create_container_app             = true
