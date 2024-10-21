@@ -1,5 +1,5 @@
 locals {
-  environment_variables = [{
+  common_environment_variables = [{
     name  = "API_BASEPATH"
     value = var.app_route
     },
@@ -8,10 +8,35 @@ locals {
       value = var.log_level
     },
     {
-      name  = "APPINSIGHTS_INSTRUMENTATIONKEY"
+      name  = "APPLICATIONINSIGHTS_CONNECTION_STRING"
       value = "InstrumentationKey=${data.terraform_remote_state.core.outputs.instrumentation_key}"
+    }
+  ]
+
+  cosmos_db_environment_variable = data.terraform_remote_state.app.outputs.cosmosdb_endpoint == "" ? [] : [
+    {
+      name  = "COSMOSDB_KEY"
+      value = data.terraform_remote_state.app.outputs.cosmosdb_primary_master_key
+    },
+    {
+      name  = "CosmosDb__DatabaseAccountUri"
+      value = data.terraform_remote_state.app.outputs.cosmosdb_endpoint
+    },
+    {
+      name  = "CosmosDb__DatabaseName"
+      value = data.terraform_remote_state.app.outputs.cosmosdb_database_name
+    },
+    {
+      name  = "CosmosDb__SecurityKeySecret__Identifier"
+      value = "COSMOSDB_KEY"
+    },
+    {
+      name  = "CosmosDb__SecurityKeySecret__Source"
+      value = "Environment"
     },
   ]
+
+  environment_variables = concat(local.common_environment_variables, local.cosmos_db_environment_variable)
 }
 
 # Naming convention

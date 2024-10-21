@@ -97,6 +97,20 @@ variable "tfstate_resource_group_name" {
   description = "Name of the resource group that holds the the above resources"
 }
 
+###########################
+# App infrastructure settings
+##########################
+variable "app_environment" {
+  type        = string
+  description = "Name of the environment for the app infrastructure. This is the function apps, cosmosdb, etc e.g. kube folder"
+  default     = "nonprod"
+}
+
+variable "tfstate_app_key" {
+  type        = string
+  description = "Name of the key in remote storage for the kube environmnent. This is the function apps, cosmosdb, etc e.g. kube folder"
+}
+
 ##########################
 # Azure Container Apps
 ##########################

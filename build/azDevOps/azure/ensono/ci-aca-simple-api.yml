@@ -274,6 +274,8 @@ stages:
                     BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     TF_VAR_app_route: "$(app_route)"
                     TF_VAR_log_level: "$(log_level)"
+                    TF_VAR_app_environment: $(Environment.ShortName)
+                    TF_VAR_tfstate_kube_key: "$(tf_state_key)env"
 
                 - task: PublishTestResults@2
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
@@ -429,6 +431,8 @@ stages:
                     BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     TF_VAR_app_route: "$(app_route)"
                     TF_VAR_log_level: "$(log_level)"
+                    TF_VAR_app_environment: $(Environment.ShortName)
+                    TF_VAR_tfstate_kube_key: "$(tf_state_key)env"
 
                 - task: PublishTestResults@2
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))

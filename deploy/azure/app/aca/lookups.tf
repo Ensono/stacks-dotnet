@@ -11,6 +11,17 @@ data "terraform_remote_state" "core" {
   }
 }
 
+data "terraform_remote_state" "app" {
+  backend = "azurerm"
+
+  config = {
+    key                  = "${var.tfstate_app_key}:${var.app_environment}"
+    storage_account_name = var.tfstate_storage_account
+    container_name       = var.tfstate_container_name
+    resource_group_name  = var.tfstate_resource_group_name
+  }
+}
+
 data "azurerm_application_insights" "example" {
   name                = data.terraform_remote_state.core.outputs.app_insights_name
   resource_group_name = data.terraform_remote_state.core.outputs.resource_group_name
