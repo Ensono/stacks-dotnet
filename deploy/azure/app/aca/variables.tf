@@ -128,3 +128,12 @@ variable "ingress_port" {
   default     = 8080
   description = "The target port for the ingress"
 }
+
+variable "app_route" {
+  description = "The API app route"
+}
+
+variable "log_level" {
+  description = "The application log level"
+  default     = "Debug"
+}

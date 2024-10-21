@@ -1,3 +1,19 @@
+locals {
+  environment_variables = [{
+    name  = "API_BASEPATH"
+    value = var.app_route
+    },
+    {
+      name  = "LOG_LEVEL"
+      value = var.log_level
+    },
+    {
+      name  = "APPINSIGHTS_INSTRUMENTATIONKEY"
+      value = "InstrumentationKey=${data.terraform_remote_state.core.outputs.instrumentation_key}"
+    },
+  ]
+}
+
 # Naming convention
 module "default_label" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=0.24.1"
@@ -45,19 +61,7 @@ module "aca" {
       image  = "${data.azurerm_container_registry.acr.name}.azurecr.io/${var.docker_image_name}:${var.docker_image_tag}"
       memory = "0.5Gi"
       name   = var.name_domain
-      env = [{
-        name  = "API_BASEPATH"
-        value = "/api/menu"
-        },
-        {
-          name  = "LOG_LEVEL"
-          value = "Debug"
-        },
-        {
-          name  = "APPINSIGHTS_INSTRUMENTATIONKEY"
-          value = "InstrumentationKey=${data.terraform_remote_state.core.outputs.instrumentation_key}"
-        }
-      ]
+      env    = local.environment_variables
       volume_mounts = [
         # {
         #   name = "data"

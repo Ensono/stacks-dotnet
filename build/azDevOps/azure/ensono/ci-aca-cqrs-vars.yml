@@ -49,10 +49,12 @@ variables:
     value: api
   - name: role
     value: backend
-  - name: k8s_app_route
+  - name: app_route
     value: /api/menu
   - name: app_name
     value: yumido-netcore-api-cqrs
+  - name: log_level
+    value: Debug
 
   # Agent configuration
   - name: TaskctlVersion
@@ -154,6 +156,16 @@ variables:
   # Service Bus Configuration
   - name: servicebus_type
     value: sender
+  - name: create_servicebus_namespace
+    value: true
+  - name: create_servicebus_topic
+    value: true
+  - name: create_servicebus_subscription
+    value: false
+
+  # EventHub Configuration
+  - name: create_eventhub
+    value: true
 
   # Application
   - name: ingress_enabled
@@ -162,5 +174,3 @@ variables:
     value: true
   - name: create_cosmosdb
     value: true
-  - name: app_bus_type
-    value: servicebus,eventhub

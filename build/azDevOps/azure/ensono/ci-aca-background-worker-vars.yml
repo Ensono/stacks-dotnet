@@ -49,10 +49,12 @@ variables:
     value: api
   - name: role
     value: backend
-  - name: k8s_app_route
+  - name: app_route
     value: /api/menu
   - name: app_name
     value: yumido-netcore-background-worker
+  - name: log_level
+    value: Debug
 
   # Agent configuration
   - name: TaskctlVersion
@@ -151,11 +153,17 @@ variables:
   - name: version_number
     value: $(version_major).$(version_minor).$(version_revision)
 
-  # Service Bus Configuration
+    # Service Bus Configuration
   - name: servicebus_type
     value: listener
+  - name: create_servicebus_namespace
+    value: false
+  - name: create_servicebus_topic
+    value: false
+  - name: create_servicebus_subscription
+    value: true
   - name: servicebus_namespace_dev
-    value: sb-menu-ubgacf
+    value: sb-menu-wxbirw
   - name: servicebus_namespace_prod
     value: sb-menu-pvonnp
   - name: servicebus_resource_group_dev
@@ -163,7 +171,11 @@ variables:
   - name: servicebus_resource_group_prod
     value: ensono-stacks-prod-uks-aca-netcore-api-cqrs
   - name: servicebus_subscription_name
-    value: sbs-menu-events
+    value: sbs-menu-bgw-events
+
+  # EventHub Configuration
+  - name: create_eventhub
+    value: false
 
   # Application
   - name: ingress_enabled
