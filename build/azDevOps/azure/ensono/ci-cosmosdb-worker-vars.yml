@@ -164,6 +164,12 @@ variables:
     value: Menu
 
   # Service Bus Configuration
+  - name: create_servicebus_namespace
+    value: false
+  - name: create_servicebus_topic
+    value: false
+  - name: create_servicebus_subscription
+    value: true
   - name: servicebus_namespace_dev
     value: sb-menu-wxbirw
   - name: servicebus_namespace_prod
@@ -174,6 +180,10 @@ variables:
     value: ensono-stacks-prod-euw-netcore-api-cqrs
   - name: servicebus_subscription_name
     value: sbs-menu-events
+
+  # EventHub Configuration
+  - name: create_eventhub
+    value: false
 
   # Azure service connection
   - name: azure_service_connection

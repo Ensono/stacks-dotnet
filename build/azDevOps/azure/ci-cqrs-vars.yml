@@ -152,6 +152,16 @@ variables:
   # Service Bus Configuration
   - name: servicebus_type
     value: sender
+  - name: create_servicebus_namespace
+    value: true
+  - name: create_servicebus_topic
+    value: true
+  - name: create_servicebus_subscription
+    value: false
+
+  # EventHub Configuration
+  - name: create_eventhub
+    value: true
 
   # Application
   - name: ingress_enabled
@@ -160,5 +170,3 @@ variables:
     value: true
   - name: create_cosmosdb
     value: true
-  - name: app_bus_type
-    value: servicebus,eventhub

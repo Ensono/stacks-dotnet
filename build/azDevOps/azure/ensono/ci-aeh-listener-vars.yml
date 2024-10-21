@@ -153,7 +153,17 @@ variables:
   - name: create_cosmosdb
     value: false
 
+  # ServiceBus Configuration
+  - name: create_servicebus_namespace
+    value: false
+  - name: create_servicebus_topic
+    value: false
+  - name: create_servicebus_subscription
+    value: false
+
   # EventHub Configuration
+  - name: create_eventhub
+    value: false
   - name: eventhub_resource_group_name_dev
     value: ensono-stacks-dev-euw-netcore-api-cqrs
   - name: eventhub_resource_group_name_prod
