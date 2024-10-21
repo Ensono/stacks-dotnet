@@ -528,6 +528,10 @@ stages:
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Prod Functional Test Report
 
-  - template: release-notes/publish-release-notes.yml
+  - template: ../release-notes/publish-release-notes.yml
     parameters:
       enable: ${{ variables['enable_release_note_generation'] }}
+      runCondition: or(succeeded('Dev'), succeeded('Prod'))
+      dependsOnStages:
+        - Dev
+        - Prod

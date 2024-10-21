@@ -336,6 +336,10 @@ stages:
                     function_name: $(function_name)-svzsxs # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
                     function_resource_group: $(function_resource_group_prod) # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
-  - template: release-notes/publish-release-notes.yml
+  - template: ../release-notes/publish-release-notes.yml
     parameters:
       enable: ${{ variables['enable_release_note_generation'] }}
+      runCondition: or(succeeded('Dev'), succeeded('Prod'))
+      dependsOnStages:
+        - Dev
+        - Prod

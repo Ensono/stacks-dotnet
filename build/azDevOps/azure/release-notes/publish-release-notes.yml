@@ -1,6 +1,10 @@
 parameters:
   - name: enable
     type: boolean
+  - name: runCondition
+    type: object
+  - name: dependsOnStages
+    type: object
 
 stages:
   - ${{ if eq(parameters.enable, true) }}:
@@ -16,15 +20,17 @@ stages:
           - job: GenerateAndPublish
             uses:
               repositories: [wiki] # work around for security issue for pipelines to access the WIKI repo
+            variables:
+              wiki: $[ resources.repositories.wiki.url ]
             steps:
               - task: XplatGenerateReleaseNotes@4
                 displayName: Generate Release Notes
                 inputs:
                   outputfile: "$(Build.ArtifactStagingDirectory)/releasenotes.md"
                   templateLocation: "File"
-                  templatefile: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/release-notes/handlebar/releaseNoteTemplate.handlebars"
+                  templatefile: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/release-notes/handlebar/releaseNoteTemplate.handlebars"
                   customHandlebarsExtensionFile: "custom-extensions.js"
-                  customHandlebarsExtensionFolder: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/ensono/release-notes/handlebar/extensions"
+                  customHandlebarsExtensionFolder: "$(System.DefaultWorkingDirectory)/build/azDevOps/azure/release-notes/handlebar/extensions"
                   checkStage: false
                   replaceFile: false
                   getParentsAndChildren: true
@@ -40,7 +46,7 @@ stages:
               - task: WikiUpdaterTask@3
                 displayName: Publish Release Notes to WIKI
                 inputs:
-                  repo: "https://ensonodigitaluk@dev.azure.com/ensonodigitaluk/Stacks/_git/Stacks.wiki"
+                  repo: $(wiki)
                   branch: "wikiMaster"
                   filename: "Release-Notes/$(core_environment)/$(self_generic_name)/V$(version_major)/V$(version_minor).md"
                   replaceFile: false
@@ -48,7 +54,7 @@ stages:
                   sourceFile: "$(Build.ArtifactStagingDirectory)/releasenotes.md" # file output from previous task
                   message: "Automatic commit from pipeline"
                   gitname: "pipeline"
-                  gitemail: "pipeline@ensono.com"
+                  gitemail: "pipeline@stacks.com"
                   useAgentToken: true
                   localpath: '$(System.DefaultWorkingDirectory)\repo'
                   injectToc: true
