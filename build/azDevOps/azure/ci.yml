@@ -212,6 +212,9 @@ stages:
           runOnce:
             deploy:
               steps:
+                - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
+                  name: SetEnv
+
                 - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
@@ -408,6 +411,9 @@ stages:
           runOnce:
             deploy:
               steps:
+                - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
+                  name: SetEnv
+
                 - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
@@ -514,3 +520,11 @@ stages:
                     searchFolder: $(Pipeline.Workspace)/s/testresults
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Prod Functional Test Report
+
+  - template: release-notes/publish-release-notes.yml
+    parameters:
+      enable: ${{ variables['enable_release_note_generation'] }}
+      runCondition: or(succeeded('Dev'), succeeded('Prod'))
+      dependsOnStages:
+        - Dev
+        - Prod
