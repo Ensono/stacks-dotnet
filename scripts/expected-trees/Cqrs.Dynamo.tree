@@ -1,1 +1,569 @@
-Too many parameters - --noreport
+.
+├── .gitattributes
+├── .github
+│   └── workflows
+│       ├── ci.env
+│       └── ci.yml
+├── .gitignore
+├── build
+│   ├── deployment_list.ps1
+│   ├── github
+│   │   ├── aws
+│   │   │   └── README.md
+│   │   └── templates
+│   │       └── install-taskctl
+│   │           └── action.yaml
+│   ├── scripts
+│   │   └── .gitkeep
+│   └── taskctl
+│       ├── contexts.yaml
+│       └── tasks.yaml
+├── deploy
+│   ├── aws
+│   │   └── app
+│   │       └── kube
+│   │           ├── README.md
+│   │           ├── data.tf
+│   │           ├── main.tf
+│   │           ├── outputs.tf
+│   │           ├── provider.tf
+│   │           └── variables.tf
+│   ├── helm
+│   │   └── stacks-dotnet
+│   │       ├── .helmignore
+│   │       ├── Chart.yaml
+│   │       ├── templates
+│   │       │   ├── NOTES.txt
+│   │       │   ├── _helpers.tpl
+│   │       │   ├── configmap.yaml
+│   │       │   ├── deployment.yaml
+│   │       │   ├── hpa.yaml
+│   │       │   ├── ingress.yaml
+│   │       │   ├── secret.yaml
+│   │       │   ├── service.yaml
+│   │       │   ├── serviceaccount.yaml
+│   │       │   └── tests
+│   │       │       └── test-connection.yaml
+│   │       └── values.yaml
+│   └── scripts
+│       ├── 1-set-cluster-context.sh
+│       ├── 2-promote-image.sh
+│       └── 3-helm-upgrade.sh
+├── src
+│   ├── cqrs
+│   │   ├── contracts
+│   │   │   ├── openapi-v1-generated.json
+│   │   │   └── openapi-v1.yaml
+│   │   └── src
+│   │       ├── .editorconfig
+│   │       ├── api
+│   │       │   ├── .dockerignore
+│   │       │   ├── Cqrs.Dynamo.API
+│   │       │   │   ├── Authentication
+│   │       │   │   │   ├── ConfigurationExtensions.cs
+│   │       │   │   │   ├── JwtBearerAuthenticationConfiguration.cs
+│   │       │   │   │   ├── JwtBearerAuthenticationConfigurationExtensions.cs
+│   │       │   │   │   ├── JwtBearerAuthenticationOperationFilter.cs
+│   │       │   │   │   ├── JwtBearerAuthenticationStartupExtensions.cs
+│   │       │   │   │   ├── OpenApiJwtBearerAuthenticationConfiguration.cs
+│   │       │   │   │   ├── OpenApiSecurityDefinitions.cs
+│   │       │   │   │   ├── StubJwtBearerAuthenticationHttpMessageHandler.cs
+│   │       │   │   │   └── SwaggerGenOptionsExtensions.cs
+│   │       │   │   ├── Authorization
+│   │       │   │   │   └── ConfigurableAuthorizationPolicyProvider.cs
+│   │       │   │   ├── Configuration
+│   │       │   │   │   └── CorrelationIdConfiguration.cs
+│   │       │   │   ├── Constants.cs
+│   │       │   │   ├── Controllers
+│   │       │   │   │   ├── ApiControllerBase.cs
+│   │       │   │   │   ├── Category
+│   │       │   │   │   │   ├── AddMenuCategoryController.cs
+│   │       │   │   │   │   ├── DeleteCategoryController.cs
+│   │       │   │   │   │   └── UpdateMenuCategoryController.cs
+│   │       │   │   │   ├── Item
+│   │       │   │   │   │   ├── AddMenuItemController.cs
+│   │       │   │   │   │   ├── DeleteMenuItemController.cs
+│   │       │   │   │   │   └── UpdateMenuItemController.cs
+│   │       │   │   │   └── Menu
+│   │       │   │   │       ├── CreateMenuController.cs
+│   │       │   │   │       ├── DeleteMenuController.cs
+│   │       │   │   │       ├── GetMenuByIdController.cs
+│   │       │   │   │       ├── SearchMenuController.cs
+│   │       │   │   │       └── UpdateMenuController.cs
+│   │       │   │   ├── Cqrs.Dynamo.API.csproj
+│   │       │   │   ├── Filters
+│   │       │   │   │   ├── SwaggerDocumentTagger.cs
+│   │       │   │   │   └── VersionPathFilter.cs
+│   │       │   │   ├── Middleware
+│   │       │   │   │   ├── CorrelationIdMiddleware.cs
+│   │       │   │   │   ├── CorrelationIdMiddlewareExtensions.cs
+│   │       │   │   │   └── ExceptionHandlerMiddlewareExtensions.cs
+│   │       │   │   ├── Models
+│   │       │   │   │   ├── Requests
+│   │       │   │   │   │   ├── CreateCategoryRequest.cs
+│   │       │   │   │   │   ├── CreateItemRequest.cs
+│   │       │   │   │   │   ├── CreateMenuRequest.cs
+│   │       │   │   │   │   ├── UpdateCategoryRequest.cs
+│   │       │   │   │   │   ├── UpdateItemRequest.cs
+│   │       │   │   │   │   └── UpdateMenuRequest.cs
+│   │       │   │   │   └── Responses
+│   │       │   │   │       ├── BadResult.cs
+│   │       │   │   │       ├── Category.cs
+│   │       │   │   │       ├── Item.cs
+│   │       │   │   │       ├── Menu.cs
+│   │       │   │   │       ├── ResourceCreatedResponse.cs
+│   │       │   │   │       ├── SearchMenuResponse.cs
+│   │       │   │   │       ├── SearchMenuResponseItem.cs
+│   │       │   │   │       └── SearchMenuResultItem.cs
+│   │       │   │   ├── Program.cs
+│   │       │   │   └── appsettings.json
+│   │       │   ├── Cqrs.Dynamo.API.ComponentTests
+│   │       │   │   ├── Cqrs.Dynamo.API.ComponentTests.csproj
+│   │       │   │   ├── Features
+│   │       │   │   │   ├── CreateMenuFeature.cs
+│   │       │   │   │   └── DeleteMenuFeature.cs
+│   │       │   │   ├── Fixtures
+│   │       │   │   │   ├── ApiClientFixture.cs
+│   │       │   │   │   ├── CreateMenuFixture.cs
+│   │       │   │   │   └── DeleteMenuFixture.cs
+│   │       │   │   └── Setup
+│   │       │   │       ├── ApiFixture.cs
+│   │       │   │       ├── Configuration.cs
+│   │       │   │       ├── CustomAutoDataAttribute.cs
+│   │       │   │       └── DotEnv.cs
+│   │       │   ├── Cqrs.Dynamo.API.UnitTests
+│   │       │   │   ├── Controllers
+│   │       │   │   │   ├── AddMenuCategoryControllerTests.cs
+│   │       │   │   │   ├── AddMenuItemControllerTests.cs
+│   │       │   │   │   ├── ApiControllerBaseTests.cs
+│   │       │   │   │   ├── CreateMenuControllerTests.cs
+│   │       │   │   │   ├── DeleteCategoryControllerTests.cs
+│   │       │   │   │   ├── DeleteMenuControllerTests.cs
+│   │       │   │   │   ├── DeleteMenuItemControllerTests.cs
+│   │       │   │   │   ├── GetMenuByIdControllerTests.cs
+│   │       │   │   │   ├── SearchMenuControllerTests.cs
+│   │       │   │   │   ├── UpdateMenuCategoryControllerTests.cs
+│   │       │   │   │   ├── UpdateMenuControllerTests.cs
+│   │       │   │   │   └── UpdateMenuItemControllerTests.cs
+│   │       │   │   ├── Cqrs.Dynamo.API.UnitTests.csproj
+│   │       │   │   └── Models
+│   │       │   │       ├── CategoryTests.cs
+│   │       │   │       ├── CreateCategoryRequestTests.cs
+│   │       │   │       ├── CreateItemRequestTests.cs
+│   │       │   │       ├── CreateMenuRequestTests.cs
+│   │       │   │       ├── ItemTests.cs
+│   │       │   │       ├── MenuTests.cs
+│   │       │   │       ├── ResourceCreatedResponseTests.cs
+│   │       │   │       ├── SearchMenuResponseItemTests.cs
+│   │       │   │       ├── SearchMenuResponseTests.cs
+│   │       │   │       ├── SearchMenuResultItemTests.cs
+│   │       │   │       ├── UpdateCategoryRequestTests.cs
+│   │       │   │       ├── UpdateItemRequestTests.cs
+│   │       │   │       └── UpdateMenuRequestTests.cs
+│   │       │   ├── Cqrs.Dynamo.API.sln
+│   │       │   ├── Cqrs.Dynamo.Abstractions
+│   │       │   │   ├── ApplicationEvents
+│   │       │   │   │   ├── IApplicationEvent.cs
+│   │       │   │   │   ├── IApplicationEventHandler.cs
+│   │       │   │   │   └── IApplicationEventPublisher.cs
+│   │       │   │   ├── Commands
+│   │       │   │   │   ├── ICommand.cs
+│   │       │   │   │   ├── ICommandDispatcher.cs
+│   │       │   │   │   └── ICommandHandler.cs
+│   │       │   │   ├── Cqrs.Dynamo.Abstractions.csproj
+│   │       │   │   └── Queries
+│   │       │   │       ├── IQueryCriteria.cs
+│   │       │   │       └── IQueryHandler.cs
+│   │       │   ├── Cqrs.Dynamo.Application.CommandHandlers
+│   │       │   │   ├── Cqrs.Dynamo.Application.CommandHandlers.csproj
+│   │       │   │   ├── CreateCategoryCommandHandler.cs
+│   │       │   │   ├── CreateMenuCommandHandler.cs
+│   │       │   │   ├── CreateMenuItemCommandHandler.cs
+│   │       │   │   ├── DeleteCategoryCommandHandler.cs
+│   │       │   │   ├── DeleteMenuCommandHandler.cs
+│   │       │   │   ├── DeleteMenuItemCommandHandler.cs
+│   │       │   │   ├── Extensions
+│   │       │   │   │   └── ServiceCollectionExtensions.cs
+│   │       │   │   ├── UpdateCategoryCommandHandler.cs
+│   │       │   │   ├── UpdateMenuCommandHandler.cs
+│   │       │   │   ├── UpdateMenuItemCommandHandler.cs
+│   │       │   │   └── _MenuCommandHandlerBase.cs
+│   │       │   ├── Cqrs.Dynamo.Application.Integration
+│   │       │   │   ├── Cqrs.Dynamo.Application.Integration.csproj
+│   │       │   │   └── IMenuRepository.cs
+│   │       │   ├── Cqrs.Dynamo.Application.QueryHandlers
+│   │       │   │   ├── Cqrs.Dynamo.Application.QueryHandlers.csproj
+│   │       │   │   ├── Extensions
+│   │       │   │   │   └── ServiceCollectionExtensions.cs
+│   │       │   │   ├── GetMenuByIdQueryHandler.cs
+│   │       │   │   └── SearchMenuQueryHandler.cs
+│   │       │   ├── Cqrs.Dynamo.CQRS
+│   │       │   │   ├── Commands
+│   │       │   │   │   ├── CreateCategory.cs
+│   │       │   │   │   ├── CreateMenu.cs
+│   │       │   │   │   ├── CreateMenuItem.cs
+│   │       │   │   │   ├── DeleteCategory.cs
+│   │       │   │   │   ├── DeleteMenu.cs
+│   │       │   │   │   ├── DeleteMenuItem.cs
+│   │       │   │   │   ├── ICategoryCommand.cs
+│   │       │   │   │   ├── IMenuCommand.cs
+│   │       │   │   │   ├── IMenuItemCommand.cs
+│   │       │   │   │   ├── Models
+│   │       │   │   │   │   └── Group.cs
+│   │       │   │   │   ├── UpdateCategory.cs
+│   │       │   │   │   ├── UpdateMenu.cs
+│   │       │   │   │   └── UpdateMenuItem.cs
+│   │       │   │   ├── Cqrs.Dynamo.CQRS.csproj
+│   │       │   │   ├── Enums
+│   │       │   │   │   └── EventCode.cs
+│   │       │   │   ├── Events
+│   │       │   │   │   ├── CategoryCreatedEvent.cs
+│   │       │   │   │   ├── CategoryDeletedEvent.cs
+│   │       │   │   │   ├── CategoryUpdatedEvent.cs
+│   │       │   │   │   ├── CosmosDbChangeFeedEvent.cs
+│   │       │   │   │   ├── MenuCreatedEvent.cs
+│   │       │   │   │   ├── MenuDeletedEvent.cs
+│   │       │   │   │   ├── MenuItemCreatedEvent.cs
+│   │       │   │   │   ├── MenuItemDeletedEvent.cs
+│   │       │   │   │   ├── MenuItemUpdatedEvent.cs
+│   │       │   │   │   └── MenuUpdatedEvent.cs
+│   │       │   │   └── Queries
+│   │       │   │       ├── GetMenuById
+│   │       │   │       │   ├── Category.cs
+│   │       │   │       │   ├── GetMenuById.cs
+│   │       │   │       │   ├── Menu.cs
+│   │       │   │       │   └── MenuItem.cs
+│   │       │   │       └── SearchMenu
+│   │       │   │           ├── SearchMenu.cs
+│   │       │   │           ├── SearchMenuResultItem.cs
+│   │       │   │           └── SearchResult.cs
+│   │       │   ├── Cqrs.Dynamo.CQRS.UnitTests
+│   │       │   │   └── Cqrs.Dynamo.CQRS.UnitTests.csproj
+│   │       │   ├── Cqrs.Dynamo.Common
+│   │       │   │   ├── Converters
+│   │       │   │   │   └── DynamoDbGuidConverter.cs
+│   │       │   │   ├── Cqrs.Dynamo.Common.csproj
+│   │       │   │   ├── Events
+│   │       │   │   │   └── EventCode.cs
+│   │       │   │   ├── Exceptions
+│   │       │   │   │   ├── ApplicationExceptionBase.cs
+│   │       │   │   │   ├── DomainExceptionBase.cs
+│   │       │   │   │   ├── DomainRuleViolationException.cs
+│   │       │   │   │   ├── ExceptionCodeToHttpStatusCodeConverter.cs
+│   │       │   │   │   ├── IException.cs
+│   │       │   │   │   ├── InfrastructureExceptionBase.cs
+│   │       │   │   │   ├── MenuAlreadyExistsException.cs
+│   │       │   │   │   ├── MenuDoesNotExistException.cs
+│   │       │   │   │   ├── OperationFailedException.cs
+│   │       │   │   │   └── _ExceptionCode.cs
+│   │       │   │   └── Operations
+│   │       │   │       ├── IOperationContext.cs
+│   │       │   │       └── OperationCode.cs
+│   │       │   ├── Cqrs.Dynamo.Common.UnitTests
+│   │       │   │   ├── Cqrs.Dynamo.Common.UnitTests.csproj
+│   │       │   │   ├── ExceptionCodeTests.cs
+│   │       │   │   └── OperationCodeTests.cs
+│   │       │   ├── Cqrs.Dynamo.Domain
+│   │       │   │   ├── Cqrs.Dynamo.Domain.csproj
+│   │       │   │   ├── MenuAggregateRoot
+│   │       │   │   │   ├── Aggregate
+│   │       │   │   │   │   ├── AggregateRoot.cs
+│   │       │   │   │   │   ├── IAggregateRoot.cs
+│   │       │   │   │   │   └── Menu.cs
+│   │       │   │   │   ├── Entities
+│   │       │   │   │   │   ├── Category.cs
+│   │       │   │   │   │   ├── Converters
+│   │       │   │   │   │   │   └── DynamoDbCategoryConverter.cs
+│   │       │   │   │   │   ├── IEntity.cs
+│   │       │   │   │   │   └── MenuItem.cs
+│   │       │   │   │   ├── Events
+│   │       │   │   │   │   ├── CategoryChanged.cs
+│   │       │   │   │   │   ├── CategoryCreated.cs
+│   │       │   │   │   │   ├── CategoryRemoved.cs
+│   │       │   │   │   │   ├── IDomainEvent.cs
+│   │       │   │   │   │   ├── MenuChanged.cs
+│   │       │   │   │   │   ├── MenuCreated.cs
+│   │       │   │   │   │   ├── MenuItemChanged.cs
+│   │       │   │   │   │   ├── MenuItemCreated.cs
+│   │       │   │   │   │   └── MenuItemRemoved.cs
+│   │       │   │   │   ├── Exceptions
+│   │       │   │   │   │   ├── CategoryAlreadyExistsException.cs
+│   │       │   │   │   │   ├── CategoryDoesNotExistException.cs
+│   │       │   │   │   │   ├── MenuItemAlreadyExistsException.cs
+│   │       │   │   │   │   ├── MenuItemDoesNotExistException.cs
+│   │       │   │   │   │   └── MenuItemPriceMustNotBeZeroException.cs
+│   │       │   │   │   └── ValueObjects
+│   │       │   │   │       ├── Group.cs
+│   │       │   │   │       └── IValueObject.cs
+│   │       │   │   └── Types
+│   │       │   │       ├── Cuisine.cs
+│   │       │   │       └── ItemClassType.cs
+│   │       │   ├── Cqrs.Dynamo.Domain.UnitTests
+│   │       │   │   ├── CategoryTests.cs
+│   │       │   │   ├── Cqrs.Dynamo.Domain.UnitTests.csproj
+│   │       │   │   ├── DynamoDbCategoryConverterTests.cs
+│   │       │   │   ├── EventsTests.cs
+│   │       │   │   ├── ExceptionsTests.cs
+│   │       │   │   ├── GroupTests.cs
+│   │       │   │   ├── MenuItemTests.cs
+│   │       │   │   └── MenuTests.cs
+│   │       │   ├── Cqrs.Dynamo.Infrastructure
+│   │       │   │   ├── Abstractions
+│   │       │   │   │   ├── CosmosOperationResult.cs
+│   │       │   │   │   ├── DynamoDbObjectSearch.cs
+│   │       │   │   │   ├── DynamoDbObjectStorage.cs
+│   │       │   │   │   ├── IDocumentSearch.cs
+│   │       │   │   │   ├── IDocumentStorage.cs
+│   │       │   │   │   ├── IDynamoDbObjectSearch.cs
+│   │       │   │   │   ├── IDynamoDbObjectStorage.cs
+│   │       │   │   │   └── OperationResult.cs
+│   │       │   │   ├── Configuration
+│   │       │   │   │   └── DynamoDbConfiguration.cs
+│   │       │   │   ├── Cqrs.Dynamo.Infrastructure.csproj
+│   │       │   │   ├── DependencyRegistration.cs
+│   │       │   │   ├── Exceptions
+│   │       │   │   │   ├── InvalidSecretDefinitionException.cs
+│   │       │   │   │   ├── InvalidSecretSourceException.cs
+│   │       │   │   │   ├── SecretException.cs
+│   │       │   │   │   ├── SecretNotDefinedException.cs
+│   │       │   │   │   ├── SecretNotFoundException.cs
+│   │       │   │   │   └── _ExceptionIds.cs
+│   │       │   │   ├── Extensions
+│   │       │   │   │   └── ServiceCollectionExtensions.cs
+│   │       │   │   ├── Fakes
+│   │       │   │   │   ├── DummyEventPublisher.cs
+│   │       │   │   │   └── InMemoryMenuRepository.cs
+│   │       │   │   ├── HealthChecks
+│   │       │   │   │   └── CustomHealthCheck.cs
+│   │       │   │   ├── Logging
+│   │       │   │   │   └── DynamoDbLogDefinition.cs
+│   │       │   │   ├── Repositories
+│   │       │   │   │   └── DynamoDbMenuRepository.cs
+│   │       │   │   └── Secrets
+│   │       │   │       ├── EnvironmentSecretSource.cs
+│   │       │   │       ├── FileSecretSource.cs
+│   │       │   │       ├── ISecretResolver.cs
+│   │       │   │       ├── ISecretSource.cs
+│   │       │   │       ├── Secret.cs
+│   │       │   │       └── SecretResolver.cs
+│   │       │   ├── Cqrs.Dynamo.Infrastructure.IntegrationTests
+│   │       │   │   ├── Configuration.cs
+│   │       │   │   ├── CorrelationIdMiddlewareTestSteps.cs
+│   │       │   │   ├── CorrelationIdMiddlewareTestStories.cs
+│   │       │   │   ├── Cqrs.Dynamo.Infrastructure.IntegrationTests.csproj
+│   │       │   │   ├── DotEnv.cs
+│   │       │   │   ├── LoggingMiddleware.cs
+│   │       │   │   ├── MenuRepositoryAutoData.cs
+│   │       │   │   └── appsettings.json
+│   │       │   ├── Cqrs.Dynamo.Infrastructure.UnitTests
+│   │       │   │   ├── Cqrs.Dynamo.Infrastructure.UnitTests.csproj
+│   │       │   │   ├── DynamoDbGuidConverterTests.cs
+│   │       │   │   ├── DynamoDbMenuRepositoryTests.cs
+│   │       │   │   ├── DynamoDbObjectSearchTests.cs
+│   │       │   │   ├── DynamoDbObjectStorageTests.cs
+│   │       │   │   └── FakeMenu.cs
+│   │       │   ├── Dockerfile
+│   │       │   ├── NuGet.config
+│   │       │   └── README.md
+│   │       └── tests
+│   │           └── Functional
+│   │               ├── Cqrs.Dynamo.API.FunctionalTests
+│   │               │   ├── Builders
+│   │               │   │   ├── CategoryBuilder.cs
+│   │               │   │   ├── CategoryRequestBuilder.cs
+│   │               │   │   ├── Http
+│   │               │   │   │   ├── HttpRequestBuilder.cs
+│   │               │   │   │   └── HttpRequestFactory.cs
+│   │               │   │   ├── IBuilder.cs
+│   │               │   │   ├── ItemBuilder.cs
+│   │               │   │   ├── MenuBuilder.cs
+│   │               │   │   ├── MenuItemBuilder.cs
+│   │               │   │   └── MenuRequestBuilder.cs
+│   │               │   ├── Configuration
+│   │               │   │   ├── ConfigAccessor.cs
+│   │               │   │   └── ConfigModel.cs
+│   │               │   ├── Cqrs.Dynamo.API.FunctionalTests.csproj
+│   │               │   ├── Models
+│   │               │   │   ├── Category.cs
+│   │               │   │   ├── CategoryRequest.cs
+│   │               │   │   ├── CreateObjectResponse.cs
+│   │               │   │   ├── Item.cs
+│   │               │   │   ├── Menu.cs
+│   │               │   │   ├── MenuItemRequest.cs
+│   │               │   │   ├── MenuRequest.cs
+│   │               │   │   ├── SearchResponse.cs
+│   │               │   │   └── SearchResponseItem.cs
+│   │               │   ├── ReadMe.md
+│   │               │   ├── Tests
+│   │               │   │   ├── Fixtures
+│   │               │   │   │   └── AuthFixture.cs
+│   │               │   │   ├── Steps
+│   │               │   │   │   ├── CategorySteps.cs
+│   │               │   │   │   ├── HealthCheckSteps.cs
+│   │               │   │   │   ├── ItemSteps.cs
+│   │               │   │   │   └── MenuSteps.cs
+│   │               │   │   └── Stories
+│   │               │   │       ├── CreateCategoryTests.cs
+│   │               │   │       ├── CreateItemTests.cs
+│   │               │   │       ├── CreateMenuTests.cs
+│   │               │   │       ├── DeleteCategoryTests.cs
+│   │               │   │       ├── DeleteItemTests.cs
+│   │               │   │       ├── DeleteMenuTests.cs
+│   │               │   │       ├── GetMenuByIdTests.cs
+│   │               │   │       ├── HeathCheck.cs
+│   │               │   │       ├── UpdateCategoryById.cs
+│   │               │   │       ├── UpdateItemById.cs
+│   │               │   │       └── UpdateMenuById.cs
+│   │               │   └── appsettings.json
+│   │               └── Cqrs.Dynamo.API.FunctionalTests.sln
+│   └── shared
+│       ├── .editorconfig
+│       ├── Cqrs.Dynamo.Shared.Messaging.Azure.ServiceBus
+│       │   ├── Abstractions
+│       │   │   ├── ApplicationEvents
+│       │   │   │   ├── IApplicationEvent.cs
+│       │   │   │   ├── IApplicationEventHandler.cs
+│       │   │   │   └── IApplicationEventPublisher.cs
+│       │   │   └── Commands
+│       │   │       ├── ICommand.cs
+│       │   │       ├── ICommandDispatcher.cs
+│       │   │       └── ICommandHandler.cs
+│       │   ├── Configuration
+│       │   │   └── ServiceBusConfiguration.cs
+│       │   ├── Constants.cs
+│       │   ├── Cqrs.Dynamo.Shared.Messaging.Azure.ServiceBus.csproj
+│       │   ├── Exceptions
+│       │   │   ├── ExceptionIds.cs
+│       │   │   ├── IException.cs
+│       │   │   ├── InfrastructureExceptionBase.cs
+│       │   │   ├── InvalidMessageBodyException.cs
+│       │   │   ├── InvalidSecretDefinitionException.cs
+│       │   │   ├── InvalidSecretSourceException.cs
+│       │   │   ├── MessageBodyIsNullException.cs
+│       │   │   ├── MessageInvalidCastException.cs
+│       │   │   ├── MessageParsingException.cs
+│       │   │   ├── MessageRouteNotDefinedException.cs
+│       │   │   ├── MessageSenderNotDefinedException.cs
+│       │   │   ├── MessageSerializationException.cs
+│       │   │   ├── MissingEnclosedMessageTypeException.cs
+│       │   │   ├── MissingHandlerFormAssemblyException.cs
+│       │   │   ├── MissingHandlerFromIoCException.cs
+│       │   │   ├── MissingHandlerMethodException.cs
+│       │   │   ├── MissingQueueConfigurationException.cs
+│       │   │   ├── MoreThanOneHandlerException.cs
+│       │   │   ├── SecretException.cs
+│       │   │   ├── SecretNotDefinedException.cs
+│       │   │   ├── SecretNotFoundException.cs
+│       │   │   ├── ServiceBusExceptionBase.cs
+│       │   │   └── UnrecoverableException.cs
+│       │   ├── Extensions
+│       │   │   ├── DependencyInjectionExtensions.cs
+│       │   │   ├── HandlerExtensions.cs
+│       │   │   └── MessageExtensions.cs
+│       │   ├── Factories
+│       │   │   ├── IMessageBuilderFactory.cs
+│       │   │   ├── IMessageHandlerFactory.cs
+│       │   │   ├── IMessageProcessorFactory.cs
+│       │   │   ├── IMessageReceiverClientFactory.cs
+│       │   │   ├── IMessageRouterFactory.cs
+│       │   │   ├── IMessageSenderClientFactory.cs
+│       │   │   ├── IMessagerReaderFactory.cs
+│       │   │   ├── IServiceBusListenerFactory.cs
+│       │   │   ├── IServiceBusSenderFactory.cs
+│       │   │   ├── MessageBuilderFactory.cs
+│       │   │   ├── MessageHandlerFactory.cs
+│       │   │   ├── MessageProcessorFactory.cs
+│       │   │   ├── MessageReaderFactory.cs
+│       │   │   ├── MessageRouterFactory.cs
+│       │   │   ├── ServiceBusClientFactory.cs
+│       │   │   ├── ServiceBusListenerFactory.cs
+│       │   │   └── ServiceBusSenderFactory.cs
+│       │   ├── Hosts
+│       │   │   └── ServiceBusListenerHost.cs
+│       │   ├── Listeners
+│       │   │   ├── IMessageListener.cs
+│       │   │   ├── IMessageProcessor.cs
+│       │   │   ├── ServiceBusListener.cs
+│       │   │   └── ServiceBusListenerMessageProcessor.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
+│       │   ├── Secrets
+│       │   │   ├── EnvironmentSecretSource.cs
+│       │   │   ├── FileSecretSource.cs
+│       │   │   ├── ISecretResolver.cs
+│       │   │   ├── ISecretSource.cs
+│       │   │   ├── Secret.cs
+│       │   │   └── SecretResolver.cs
+│       │   ├── Senders
+│       │   │   ├── Dispatchers
+│       │   │   │   └── CommandDispatcher.cs
+│       │   │   ├── IMessageSender.cs
+│       │   │   ├── Publishers
+│       │   │   │   └── EventPublisher.cs
+│       │   │   ├── Routers
+│       │   │   │   ├── DefaultMessageRouter.cs
+│       │   │   │   ├── FallbackMessageRouter.cs
+│       │   │   │   ├── IMessageRouter.cs
+│       │   │   │   └── ServiceBusAbstractRouter.cs
+│       │   │   └── ServiceBusMessageSender.cs
+│       │   ├── Serializers
+│       │   │   ├── CloudEvent.cs
+│       │   │   ├── CloudEventMessageSerializer.cs
+│       │   │   ├── ICloudEvent.cs
+│       │   │   ├── IMessageBuilder.cs
+│       │   │   ├── IMessageReader.cs
+│       │   │   ├── ISessionContext.cs
+│       │   │   ├── JsonMessageSerializer.cs
+│       │   │   └── StacksCloudEvent.cs
+│       │   └── Validators
+│       │       ├── DataAnnotationValidator.cs
+│       │       └── IValidator.cs
+│       ├── Cqrs.Dynamo.Shared.Messaging.Azure.ServiceBus.Tests
+│       │   ├── Commands
+│       │   │   ├── IMember.cs
+│       │   │   ├── Member.cs
+│       │   │   ├── NotifyClientCommandWithoutHandler.cs
+│       │   │   ├── NotifyCommand.cs
+│       │   │   └── NotifyCommandWithAnnotation.cs
+│       │   ├── Configuration.cs
+│       │   ├── Cqrs.Dynamo.Shared.Messaging.Azure.ServiceBus.Tests.csproj
+│       │   ├── DotEnv.cs
+│       │   ├── Events
+│       │   │   ├── DummyEventAes.cs
+│       │   │   ├── DummyEventSb.cs
+│       │   │   └── NotifyEvent.cs
+│       │   ├── Handlers
+│       │   │   ├── CustomMessageProcessor.cs
+│       │   │   ├── NotifyCommandHandler.cs
+│       │   │   ├── NotifyEventHandler.cs
+│       │   │   ├── NotifyFaultyCommandHandler.cs
+│       │   │   └── TestDependency
+│       │   │       └── ITestable.cs
+│       │   ├── IntegrationTests
+│       │   │   └── Stories
+│       │   │       └── ConfigurationTests.cs
+│       │   ├── UnitTests
+│       │   │   ├── Extensions
+│       │   │   │   └── MessageExtensionsTests.cs
+│       │   │   ├── FakeSBClient.cs
+│       │   │   ├── Listeners
+│       │   │   │   ├── CustomMessageProcessorTests.cs
+│       │   │   │   ├── MessageTestHelperExtensions.cs
+│       │   │   │   ├── QueueListenerTests.cs
+│       │   │   │   └── TopicListenerTests.cs
+│       │   │   ├── Routers
+│       │   │   │   ├── DefaultMessageRouterTests.cs
+│       │   │   │   └── FallbackMessageRouterTests.cs
+│       │   │   ├── Serializer
+│       │   │   │   ├── CloudEventMessageReaderTests.cs
+│       │   │   │   └── JsonMessageReaderTests.cs
+│       │   │   └── Validators
+│       │   │       └── DataAnnotationValidatorTests.cs
+│       │   ├── appsettings.integration.queues.json
+│       │   ├── appsettings.integration.topics.json
+│       │   └── appsettings.json
+│       ├── Ensono.Stacks.Packages.sln
+│       └── NuGet.config
+├── stackscli.yml
+├── taskctl.yaml
+└── yamllint.conf

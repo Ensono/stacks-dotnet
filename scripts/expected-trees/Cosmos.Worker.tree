@@ -1,1 +1,233 @@
-Too many parameters - --noreport
+.
+├── .gitattributes
+├── .gitignore
+├── build
+│   ├── azDevOps
+│   │   ├── azure
+│   │   │   ├── api-contract-tests.yml
+│   │   │   ├── ci-vars.yml
+│   │   │   └── ci.yml
+│   │   └── templates
+│   │       ├── legacy-deploy-functions.yml
+│   │       └── taskctl-setup.yml
+│   ├── deployment_list.ps1
+│   ├── scripts
+│   │   └── .gitkeep
+│   └── taskctl
+│       ├── contexts.yaml
+│       └── tasks.yaml
+├── deploy
+│   ├── azure
+│   │   └── app
+│   │       ├── eventhub
+│   │       │   ├── event_hub.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── storage.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       ├── function
+│   │       │   ├── function.tf
+│   │       │   ├── main.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       ├── kube
+│   │       │   ├── locals.tf
+│   │       │   ├── lookups.tf
+│   │       │   ├── main.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── provider.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       └── servicebus
+│   │           ├── main.tf
+│   │           ├── outputs.tf
+│   │           ├── service_bus.tf
+│   │           ├── variables.tf
+│   │           └── versions.tf
+│   └── scripts
+│       ├── 1-set-cluster-context.sh
+│       ├── 2-promote-image.sh
+│       └── 3-helm-upgrade.sh
+├── src
+│   ├── func-cosmosdb-worker
+│   │   └── src
+│   │       ├── .editorconfig
+│   │       └── functions
+│   │           ├── Cosmos.Worker.Worker
+│   │           │   ├── Constants.cs
+│   │           │   ├── Cosmos.Worker.Worker.csproj
+│   │           │   ├── CosmosDbChangeFeedEvent.cs
+│   │           │   ├── CosmosDbChangeFeedListener.cs
+│   │           │   ├── EventCode.cs
+│   │           │   ├── Program.cs
+│   │           │   ├── appsettings.json
+│   │           │   └── host.json
+│   │           ├── Cosmos.Worker.Worker.ComponentTests
+│   │           │   ├── Cosmos.Worker.Worker.ComponentTests.csproj
+│   │           │   ├── Doubles
+│   │           │   │   └── MockLogger.cs
+│   │           │   ├── Features
+│   │           │   │   └── ChangeFeedListenerFeature.cs
+│   │           │   ├── Fixtures
+│   │           │   │   └── ChangeFeedListenerFixture.cs
+│   │           │   └── GlobalUsings.cs
+│   │           ├── Cosmos.Worker.Worker.UnitTests
+│   │           │   ├── Cosmos.Worker.Worker.UnitTests.csproj
+│   │           │   ├── Doubles
+│   │           │   │   └── MockLogger.cs
+│   │           │   ├── GlobalUsings.cs
+│   │           │   └── Tests
+│   │           │       ├── ChangeFeedListenerEventUnitTests.cs
+│   │           │       ├── ChangeFeedListenerTests.cs
+│   │           │       └── EventCodeUnitTests.cs
+│   │           ├── Cosmos.Worker.Worker.sln
+│   │           └── Dockerfile
+│   └── shared
+│       ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus
+│       │   ├── Abstractions
+│       │   │   ├── ApplicationEvents
+│       │   │   │   ├── IApplicationEvent.cs
+│       │   │   │   ├── IApplicationEventHandler.cs
+│       │   │   │   └── IApplicationEventPublisher.cs
+│       │   │   └── Commands
+│       │   │       ├── ICommand.cs
+│       │   │       ├── ICommandDispatcher.cs
+│       │   │       └── ICommandHandler.cs
+│       │   ├── Configuration
+│       │   │   └── ServiceBusConfiguration.cs
+│       │   ├── Constants.cs
+│       │   ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus.csproj
+│       │   ├── Exceptions
+│       │   │   ├── ExceptionIds.cs
+│       │   │   ├── IException.cs
+│       │   │   ├── InfrastructureExceptionBase.cs
+│       │   │   ├── InvalidMessageBodyException.cs
+│       │   │   ├── InvalidSecretDefinitionException.cs
+│       │   │   ├── InvalidSecretSourceException.cs
+│       │   │   ├── MessageBodyIsNullException.cs
+│       │   │   ├── MessageInvalidCastException.cs
+│       │   │   ├── MessageParsingException.cs
+│       │   │   ├── MessageRouteNotDefinedException.cs
+│       │   │   ├── MessageSenderNotDefinedException.cs
+│       │   │   ├── MessageSerializationException.cs
+│       │   │   ├── MissingEnclosedMessageTypeException.cs
+│       │   │   ├── MissingHandlerFormAssemblyException.cs
+│       │   │   ├── MissingHandlerFromIoCException.cs
+│       │   │   ├── MissingHandlerMethodException.cs
+│       │   │   ├── MissingQueueConfigurationException.cs
+│       │   │   ├── MoreThanOneHandlerException.cs
+│       │   │   ├── SecretException.cs
+│       │   │   ├── SecretNotDefinedException.cs
+│       │   │   ├── SecretNotFoundException.cs
+│       │   │   ├── ServiceBusExceptionBase.cs
+│       │   │   └── UnrecoverableException.cs
+│       │   ├── Extensions
+│       │   │   ├── DependencyInjectionExtensions.cs
+│       │   │   ├── HandlerExtensions.cs
+│       │   │   └── MessageExtensions.cs
+│       │   ├── Factories
+│       │   │   ├── IMessageBuilderFactory.cs
+│       │   │   ├── IMessageHandlerFactory.cs
+│       │   │   ├── IMessageProcessorFactory.cs
+│       │   │   ├── IMessageReceiverClientFactory.cs
+│       │   │   ├── IMessageRouterFactory.cs
+│       │   │   ├── IMessageSenderClientFactory.cs
+│       │   │   ├── IMessagerReaderFactory.cs
+│       │   │   ├── IServiceBusListenerFactory.cs
+│       │   │   ├── IServiceBusSenderFactory.cs
+│       │   │   ├── MessageBuilderFactory.cs
+│       │   │   ├── MessageHandlerFactory.cs
+│       │   │   ├── MessageProcessorFactory.cs
+│       │   │   ├── MessageReaderFactory.cs
+│       │   │   ├── MessageRouterFactory.cs
+│       │   │   ├── ServiceBusClientFactory.cs
+│       │   │   ├── ServiceBusListenerFactory.cs
+│       │   │   └── ServiceBusSenderFactory.cs
+│       │   ├── Hosts
+│       │   │   └── ServiceBusListenerHost.cs
+│       │   ├── Listeners
+│       │   │   ├── IMessageListener.cs
+│       │   │   ├── IMessageProcessor.cs
+│       │   │   ├── ServiceBusListener.cs
+│       │   │   └── ServiceBusListenerMessageProcessor.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
+│       │   ├── Secrets
+│       │   │   ├── EnvironmentSecretSource.cs
+│       │   │   ├── FileSecretSource.cs
+│       │   │   ├── ISecretResolver.cs
+│       │   │   ├── ISecretSource.cs
+│       │   │   ├── Secret.cs
+│       │   │   └── SecretResolver.cs
+│       │   ├── Senders
+│       │   │   ├── Dispatchers
+│       │   │   │   └── CommandDispatcher.cs
+│       │   │   ├── IMessageSender.cs
+│       │   │   ├── Publishers
+│       │   │   │   └── EventPublisher.cs
+│       │   │   ├── Routers
+│       │   │   │   ├── DefaultMessageRouter.cs
+│       │   │   │   ├── FallbackMessageRouter.cs
+│       │   │   │   ├── IMessageRouter.cs
+│       │   │   │   └── ServiceBusAbstractRouter.cs
+│       │   │   └── ServiceBusMessageSender.cs
+│       │   ├── Serializers
+│       │   │   ├── CloudEvent.cs
+│       │   │   ├── CloudEventMessageSerializer.cs
+│       │   │   ├── ICloudEvent.cs
+│       │   │   ├── IMessageBuilder.cs
+│       │   │   ├── IMessageReader.cs
+│       │   │   ├── ISessionContext.cs
+│       │   │   ├── JsonMessageSerializer.cs
+│       │   │   └── StacksCloudEvent.cs
+│       │   └── Validators
+│       │       ├── DataAnnotationValidator.cs
+│       │       └── IValidator.cs
+│       └── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus.Tests
+│           ├── Commands
+│           │   ├── IMember.cs
+│           │   ├── Member.cs
+│           │   ├── NotifyClientCommandWithoutHandler.cs
+│           │   ├── NotifyCommand.cs
+│           │   └── NotifyCommandWithAnnotation.cs
+│           ├── Configuration.cs
+│           ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus.Tests.csproj
+│           ├── DotEnv.cs
+│           ├── Events
+│           │   ├── DummyEventAes.cs
+│           │   ├── DummyEventSb.cs
+│           │   └── NotifyEvent.cs
+│           ├── Handlers
+│           │   ├── CustomMessageProcessor.cs
+│           │   ├── NotifyCommandHandler.cs
+│           │   ├── NotifyEventHandler.cs
+│           │   ├── NotifyFaultyCommandHandler.cs
+│           │   └── TestDependency
+│           │       └── ITestable.cs
+│           ├── IntegrationTests
+│           │   └── Stories
+│           │       └── ConfigurationTests.cs
+│           ├── UnitTests
+│           │   ├── Extensions
+│           │   │   └── MessageExtensionsTests.cs
+│           │   ├── FakeSBClient.cs
+│           │   ├── Listeners
+│           │   │   ├── CustomMessageProcessorTests.cs
+│           │   │   ├── MessageTestHelperExtensions.cs
+│           │   │   ├── QueueListenerTests.cs
+│           │   │   └── TopicListenerTests.cs
+│           │   ├── Routers
+│           │   │   ├── DefaultMessageRouterTests.cs
+│           │   │   └── FallbackMessageRouterTests.cs
+│           │   ├── Serializer
+│           │   │   ├── CloudEventMessageReaderTests.cs
+│           │   │   └── JsonMessageReaderTests.cs
+│           │   └── Validators
+│           │       └── DataAnnotationValidatorTests.cs
+│           ├── appsettings.integration.queues.json
+│           ├── appsettings.integration.topics.json
+│           └── appsettings.json
+├── stackscli.yml
+├── taskctl.yaml
+└── yamllint.conf
