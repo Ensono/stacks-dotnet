@@ -152,7 +152,7 @@ variables:
   - name: create_servicebus_subscription
     value: true
   - name: servicebus_namespace_dev
-    value: sb-menu-wxbirw
+    value: sb-menu-beuccr
   - name: servicebus_namespace_prod
     value: sb-menu-pvonnp
   - name: servicebus_resource_group_dev

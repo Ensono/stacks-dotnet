@@ -153,6 +153,6 @@ variable "log_level" {
 }
 
 variable "servicebus_type" {
-  default = null
-  description = "The type of service bus. Either 'sender' or 'listener'"
+  default     = null
+  description = "The type of service bus"
 }

@@ -1,4 +1,30 @@
 locals {
+  common_secrets = [
+    {
+      name  = "app-insights-key"
+      value = "InstrumentationKey=${data.terraform_remote_state.core.outputs.instrumentation_key}"
+    }
+  ]
+
+  cosmos_db_secrets = data.terraform_remote_state.app.outputs.cosmosdb_endpoint == "" ? [] : [
+    {
+      name  = "cosmosdb-key"
+      value = data.terraform_remote_state.app.outputs.cosmosdb_primary_master_key
+    }
+  ]
+
+  service_bus_secrets = var.servicebus_type == null ? [] : [
+    {
+      name  = "servicebus-connection-string"
+      value = data.terraform_remote_state.app.outputs.servicebus_connectionstring
+    }
+  ]
+
+  container_app_secrets = concat(
+    local.common_secrets,
+    local.cosmos_db_secrets,
+  local.service_bus_secrets)
+
   common_environment_variables = [{
     name  = "API_BASEPATH"
     value = var.app_route
@@ -8,15 +34,15 @@ locals {
       value = var.log_level
     },
     {
-      name  = "APPLICATIONINSIGHTS_CONNECTION_STRING"
-      value = "InstrumentationKey=${data.terraform_remote_state.core.outputs.instrumentation_key}"
+      name        = "APPLICATIONINSIGHTS_CONNECTION_STRING"
+      secret_name = "app-insights-key"
     }
   ]
 
   cosmos_db_environment_variable = data.terraform_remote_state.app.outputs.cosmosdb_endpoint == "" ? [] : [
     {
-      name  = "COSMOSDB_KEY"
-      value = data.terraform_remote_state.app.outputs.cosmosdb_primary_master_key
+      name        = "COSMOSDB_KEY"
+      secret_name = "cosmosdb-key"
     },
     {
       name  = "CosmosDb__DatabaseAccountUri"
@@ -36,6 +62,13 @@ locals {
     },
   ]
 
+  service_bus_environment_variables = var.servicebus_type == null ? [] : [
+    {
+      name        = "SERVICEBUS_CONNECTIONSTRING"
+      secret_name = "servicebus-connection-string"
+    }
+  ]
+
   service_bus_sender_environment_variable = var.servicebus_type == "sender" ? [
     {
       name  = "Sender__Topics__0__Name"
@@ -48,10 +81,6 @@ locals {
     {
       name  = "Sender__Topics__0__ConnectionStringSecret_Source"
       value = "Environment"
-    },
-    {
-      name  = "SERVICEBUS_CONNECTIONSTRING"
-      value = data.terraform_remote_state.app.outputs.servicebus_connectionstring
     }
   ] : []
 
@@ -84,15 +113,12 @@ locals {
       name  = "Listener__Topics__0__ConnectionStringSecret__Source"
       value = "Environment"
     },
-    {
-      name  = "SERVICEBUS_CONNECTIONSTRING"
-      value = data.terraform_remote_state.app.outputs.servicebus_connectionstring
-    }
   ] : []
 
   environment_variables = concat(
     local.common_environment_variables,
     local.cosmos_db_environment_variable,
+    local.service_bus_environment_variables,
     local.service_bus_sender_environment_variable,
   local.service_bus_listener_environment_variable)
 }
@@ -137,6 +163,7 @@ module "aca" {
   container_app_environment_id        = data.terraform_remote_state.core.outputs.acae_id
   container_app_workload_profile_name = "Consumption"
   container_app_revision_mode         = "Single"
+  container_app_secrets               = local.container_app_secrets
 
   container_app_containers = [
     {
