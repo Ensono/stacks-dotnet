@@ -528,3 +528,4 @@ stages:
       dependsOnStages:
         - Dev
         - Prod
+      environment: $[ coalesce(stageDependencies.Dev.DeployDev.outputs['DeployDev.SetEnv.core_environment'], stageDependencies.Prod.DeployProd.outputs['DeployProd.SetEnv.core_environment']) ]
