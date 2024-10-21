@@ -173,9 +173,6 @@ tasks:
     description: Render deployment templates
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        ls;
-        ls tests;
-        cat $env:TEMPLATER_FILE;
         Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path $env:TEMPLATER_FILE
 
   deploy:kubernetes:
