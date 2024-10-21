@@ -5,17 +5,17 @@ parameters:
     type: object
   - name: dependsOnStages
     type: object
+  - name: environment
+    type: string
 
 stages:
   - ${{ if eq(parameters.enable, true) }}:
       - stage: ReleaseNotes
-        dependsOn:
-          - Dev
-          - Prod
-        condition: or(succeeded('Dev'), succeeded('Prod'))
+        dependsOn: ${{ parameters.dependsOnStages }}
+        condition: ${{ parameters.runCondition }}
         variables:
           - name: core_environment
-            value: $[ coalesce(stageDependencies.Dev.DeployDev.outputs['DeployDev.SetEnv.core_environment'], stageDependencies.Prod.DeployProd.outputs['DeployProd.SetEnv.core_environment']) ]
+            value: ${{ parameters.environment}}
         jobs:
           - job: GenerateAndPublish
             uses:
