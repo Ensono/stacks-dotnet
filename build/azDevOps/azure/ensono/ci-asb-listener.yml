@@ -14,6 +14,13 @@ trigger:
 variables:
   - template: ci-asb-listener-vars.yml
 
+resources:
+  repositories:
+    - repository: wiki # work around for security issue for pipelines to access the WIKI repo
+      type: git
+      name: Stacks.wiki
+      ref: wikiMaster
+
 stages:
   - stage: Build
     variables:
@@ -238,6 +245,9 @@ stages:
                     artifact: tests
                     path: $(Agent.BuildDirectory)/s/tests
 
+                - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
+                  name: SetEnv
+
                 # TODO: This functionality in general should be run via AIR, but there are limitations in CLI tooling.
                 - template: ../../templates/legacy-deploy-functions.yml
                   parameters:
@@ -393,6 +403,9 @@ stages:
                     artifact: tests
                     path: $(Agent.BuildDirectory)/s/tests
 
+                - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
+                  name: SetEnv
+
                 # TODO: This functionality in general should be run via AIR, but there are limitations in CLI tooling.
                 - template: ../../templates/legacy-deploy-functions.yml
                   parameters:
@@ -427,3 +440,12 @@ stages:
                     searchFolder: $(Pipeline.Workspace)/s/testresults
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Prod Functional Test Report
+
+  - template: ../release-notes/publish-release-notes.yml
+    parameters:
+      enable: ${{ variables['enable_release_note_generation'] }}
+      runCondition: or(succeeded('Dev'), succeeded('Prod'))
+      dependsOnStages:
+        - Dev
+        - Prod
+      environment: $[ coalesce(stageDependencies.Dev.DeployDev.outputs['DeployDev.SetEnv.core_environment'], stageDependencies.Prod.DeployProd.outputs['DeployProd.SetEnv.core_environment']) ]
