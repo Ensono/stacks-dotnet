@@ -283,6 +283,7 @@ stages:
                     # Configuration
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
+                    TEMPLATER_FILE: build/deployment_list.ps1
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
                     BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     # Invoke-KubeCTL control variables
@@ -483,6 +484,7 @@ stages:
                     # Configuration
                     ENV_NAME: $(Environment.ShortName)
                     DOMAIN: ${{ variables.domain }}
+                    TEMPLATER_FILE: build/deployment_list.ps1
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
                     BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     # Invoke-KubeCTL control variables
