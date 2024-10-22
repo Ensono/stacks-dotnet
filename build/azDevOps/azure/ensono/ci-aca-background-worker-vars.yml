@@ -172,4 +172,4 @@ variables:
   - name: create_cosmosdb
     value: false
   - name: create_resource_group
-    value: false
+    value: true
