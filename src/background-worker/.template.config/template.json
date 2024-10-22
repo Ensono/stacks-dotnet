@@ -75,7 +75,8 @@
                 "**/build/azDevOps/azure/ci-functions.yml",
                 "**/build/github/**",
                 "**/deploy/aws/**",
-                "**/deploy/gcp/**"
+                "**/deploy/gcp/**",
+				"**/deploy/azure/app/aca/**"
             ],
             "rename": {
                 "_gitignore": ".gitignore",

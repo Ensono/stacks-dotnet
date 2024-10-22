@@ -77,7 +77,8 @@
                 "**/build/github/**",
                 "**/deploy/aws/**",
                 "**/deploy/gcp/**",
-                "**/deploy/helm/**"
+                "**/deploy/helm/**",
+				"**/deploy/azure/app/aca/**"
             ],
             "rename": {
                 "_gitignore": ".gitignore",
