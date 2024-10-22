@@ -17,35 +17,29 @@
 │   │   │   ├── ci-simple-api-vars.yml
 │   │   │   ├── ci-vars.yml
 │   │   │   ├── ci.yml
-│   │   │   └── ensono
-│   │   │       ├── ci-aca-background-worker-vars.yml
-│   │   │       ├── ci-aca-background-worker.yml
-│   │   │       ├── ci-aca-cqrs-vars.yml
-│   │   │       ├── ci-aca-cqrs.yml
-│   │   │       ├── ci-aca-simple-api-vars.yml
-│   │   │       ├── ci-aca-simple-api.yml
-│   │   │       ├── ci-aeh-listener-vars.yml
-│   │   │       ├── ci-aeh-listener.yml
-│   │   │       ├── ci-asb-listener-vars.yml
-│   │   │       ├── ci-asb-listener.yml
-│   │   │       ├── ci-background-worker-vars.yml
-│   │   │       ├── ci-background-worker.yml
-│   │   │       ├── ci-cosmosdb-worker-vars.yml
-│   │   │       ├── ci-cosmosdb-worker.yml
-│   │   │       ├── ci-cqrs-vars.yml
-│   │   │       ├── ci-cqrs.yml
-│   │   │       ├── ci-simple-api-vars.yml
-│   │   │       ├── ci-simple-api.yml
-│   │   │       ├── models-packages-api.yml
-│   │   │       ├── nuget-packages-api-vars.yml
-│   │   │       ├── nuget-packages-api.yml
-│   │   │       ├── packages-api-models.yml
-│   │   │       └── release-notes
-│   │   │           ├── handlebar
-│   │   │           │   ├── extensions
-│   │   │           │   │   └── custom-extensions.js
-│   │   │           │   └── releaseNoteTemplate.md
-│   │   │           └── publish-release-notes.yml
+│   │   │   ├── ensono
+│   │   │   │   ├── ci-aeh-listener-vars.yml
+│   │   │   │   ├── ci-aeh-listener.yml
+│   │   │   │   ├── ci-asb-listener-vars.yml
+│   │   │   │   ├── ci-asb-listener.yml
+│   │   │   │   ├── ci-background-worker-vars.yml
+│   │   │   │   ├── ci-background-worker.yml
+│   │   │   │   ├── ci-cosmosdb-worker-vars.yml
+│   │   │   │   ├── ci-cosmosdb-worker.yml
+│   │   │   │   ├── ci-cqrs-vars.yml
+│   │   │   │   ├── ci-cqrs.yml
+│   │   │   │   ├── ci-simple-api-vars.yml
+│   │   │   │   ├── ci-simple-api.yml
+│   │   │   │   ├── models-packages-api.yml
+│   │   │   │   ├── nuget-packages-api-vars.yml
+│   │   │   │   ├── nuget-packages-api.yml
+│   │   │   │   └── packages-api-models.yml
+│   │   │   └── release-notes
+│   │   │       ├── handlebar
+│   │   │       │   ├── extensions
+│   │   │       │   │   └── custom-extensions.js
+│   │   │       │   └── releaseNoteTemplate.handlebars
+│   │   │       └── publish-release-notes.yml
 │   │   └── templates
 │   │       ├── legacy-deploy-functions.yml
 │   │       └── taskctl-setup.yml
