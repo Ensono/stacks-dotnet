@@ -117,7 +117,8 @@
 │   │               │   │   └── Stories
 │   │               │   │       └── ExampleStory.cs
 │   │               │   └── appsettings.json
-│   │               └── Cosmos.Worker.Worker.FunctionalTests.sln
+│   │               ├── Cosmos.Worker.Worker.FunctionalTests.sln
+│   │               └── templater.ps1
 │   └── shared
 │       ├── Cosmos.Worker.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
