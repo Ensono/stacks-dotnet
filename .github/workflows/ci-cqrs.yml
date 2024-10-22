@@ -40,6 +40,7 @@ env:
   K8S_APP_ROUTE: "/api/menu"
   FUNCTIONAL_TESTS_RUN_DIR: ${{ github.workspace }}/tests
   FUNCTIONAL_TESTS_ARTEFACT_NAME: tests
+  TEMPLATER_FILE: "build/deployment_list.ps1"
 jobs:
   Build:
     runs-on: ubuntu-latest
