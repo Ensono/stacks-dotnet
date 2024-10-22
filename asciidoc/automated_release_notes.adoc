@@ -1,0 +1,129 @@
+---
+id: release_notes
+title: Automated Release Notes
+linkTitle: Release Notes
+weight: 10
+keywords:
+  - release notes
+  - azure
+  - github
+  - XplatGenerateReleaseNotes
+  - WikiUpdaterTask
+---
+
+= Automated Release Note Generation in Azure Pipelines
+
+This document details the automated release note generation for each application upon deployment to an environment.
+
+The link:https://handlebarsjs.com[handlebar] template for release notes can be found in the link:../build/azDevOps/azure/release-notes/publish-release-notes.yml[release notes folder] and can be fully customised.
+
+By default, this will contain the following information:
+
+* Version information and associated pull requests
+* Build Scope
+** Associated user stories
+** Associated bug tickets
+* Build Detail
+** Test summary
+** Commit Log
+** Published artifacts
+* Rollback steps
+
+
+
+[IMPORTANT]
+.Linking of work items and pull requests
+====
+If your repository is hosted in GitHub we recommend following the practices outlined in the Azure DevOps documentation for link:https://learn.microsoft.com/en-us/azure/devops/boards/github/link-to-from-github[linking GitHub commits, pull requests, branches, and issues to work items in Azure Boards] so that work item links can be established during release note generation.
+====
+
+
+
+
+
+== Getting Started
+
+To use this capability, you will need the following marketplace plugins installed:
+
+* link:https://marketplace.visualstudio.com/items?itemName=richardfennellBM.BM-VSTS-XplatGenerateReleaseNotes[`XplatGenerateReleaseNotes@4`]: This task generates the release notes based on a specified template.
+* link:https://marketplace.visualstudio.com/items?itemName=richardfennellBM.BM-VSTS-WIKIUpdater-Tasks[`WikiUpdaterTask@3`]: This task publishes the generated release notes to a WIKI repository.
+
+=== Enabling Generation
+
+By default, release note generation is disabled due to the plugin requirements. Once these are installed, you can enable release note generation for the desired application pipelines by setting the `enable_release_note_generation` variable to `true`.
+
+This can be found in the `build/azDevOps/azure/ci-vars.yml` file:
+
+[source,yaml]
+----
+  # Versioning
+  - name: enable_release_note_generation
+    value: false
+----
+
+You will need to manually amend the `build/azDevOps/azure/ci.yml` file with a resource reference to the wiki repository where we will publish the release notes:
+
+[source,yaml]
+----
+resources:
+  repositories:
+    - repository: wiki
+      type: git
+      name: [Insert wiki name, e.g., Stacks.Wiki]
+      ref: wikiMaster
+----
+
+Note: This should be added to the root level of the pipeline YAML.
+
+== How It Works
+
+When a deployment to either nonprod or prod occurs, we will generate release notes for the applications where release note generation has been enabled.
+
+For example, if a PR is raised triggering a deployment of the `ci-cqrs` application to the nonprod environment, the release note stage will then update a wiki page at the path `Release-Notes/$(core_environment)/$(self_generic_name)/V$(version_major)/V$(version_minor).md`. Any subsequent iterations of a MINOR version will have the release note pre-pended to that same page.
+
+Subsequent deployments for either a new MINOR or MAJOR version will result in a wiki page published to a new page for that `major.minor` version.
+
+Example file structure:
+
+[source]
+----
+📦 Release Notes
+├─ nonprod
+│  ├─ cqrs
+│  │  ├─ V1
+│  │  │  ├─ 1.0
+│  │  │  ├─ 1.1
+│  │  │  └─ 1.2
+│  │  └─ V2
+│  │     └─ 2.1
+│  └─ cosmos
+│     └─ V1
+│        └─ 1.0
+└─ prod
+   └─ cqrs
+      └─ V1
+         ├─ 1.0
+         ├─ 1.1
+         └─ 1.2
+----
+
+Below is how the `publish-release-notes.yml` template is used in our CI pipeline:
+
+[source,yaml]
+----
+  - template: release-notes/publish-release-notes.yml
+    parameters:
+      enable: ${{ variables['enable_release_note_generation'] }}
+      runCondition: or(succeeded('Dev'), succeeded('Prod'))
+      dependsOnStages:
+        - Dev
+        - Prod
+      environment: $[ coalesce(stageDependencies.Dev.DeployDev.outputs['DeployDev.SetEnv.core_environment'], stageDependencies.Prod.DeployProd.outputs['DeployProd.SetEnv.core_environment']) ]
+----
+
+The following parameters are used in the template:
+
+* `enable` (boolean): Determines whether the release note generation is enabled (if false, this stage will not be present in our CI run).
+* `runCondition` (object): Specifies the condition under which the release notes stage should run. (This should be the name of the deployment stages.)
+* `dependsOnStages` (object): Lists the stages that the release notes stage depends on. (This should be the names of the deployment stages.)
+* `environment` (string): Specifies the environment for which the release notes are generated. (Coalesce returns the first non-empty string from the `SetEnv` step within our deployment stages).
