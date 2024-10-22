@@ -59,5 +59,7 @@ pipelines:
       depends_on: infra:init
     - task: infra:apply
       depends_on: infra:plan
+    - task: deploy:templater
+      depends_on: infra:apply
     - task: deploy:functional_tests
       depends_on: infra:apply
