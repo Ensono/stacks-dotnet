@@ -10,7 +10,7 @@ module "default_label" {
 }
 
 module "aca" {
-  source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=fix-issue-with-output"
+  source = "git::https://github.com/Ensono/terraform-azurerm-aca?ref=1.0.5"
 
   resource_group_name = module.default_label.id
   location            = var.resource_group_location
