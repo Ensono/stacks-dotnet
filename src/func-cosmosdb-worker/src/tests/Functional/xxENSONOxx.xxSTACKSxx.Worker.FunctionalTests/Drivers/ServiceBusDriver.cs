@@ -9,8 +9,8 @@ public class ServiceBusDriver
 {
     private readonly ServiceBusAdministrationClient _administrationClient;
     private readonly ServiceBusClient _serviceBusClient;
-    private readonly AsyncPolicy<bool> _retryIfFalsePolicy;
-    private readonly AsyncPolicy<ServiceBusReceivedMessage?> _retryIfNullMessagePolicy;
+    private readonly AsyncPolicy<bool> _retryTopicExistsPolicy;
+    private readonly AsyncPolicy<ServiceBusReceivedMessage?> _retryReceiveMessagePolicy;
 
 
     /// <summary>
@@ -27,8 +27,8 @@ public class ServiceBusDriver
         IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         _serviceBusClient = serviceProvider.GetRequiredService<ServiceBusClient>();
         _administrationClient = serviceProvider.GetRequiredService<ServiceBusAdministrationClient>();
-        _retryIfFalsePolicy = GetRetryIfFalsePolicy();
-        _retryIfNullMessagePolicy = GetRetryIfNullMessagePolicy();
+        _retryTopicExistsPolicy = GetRetryTopicExistsPolicy();
+        _retryReceiveMessagePolicy = GetRetryReceiveMessageIfNullPolicy();
     }
 
 
@@ -41,7 +41,7 @@ public class ServiceBusDriver
     {
         try
         {
-            return await _retryIfFalsePolicy.ExecuteAsync(async () =>
+            return await _retryTopicExistsPolicy.ExecuteAsync(async () =>
             {
                 var result = await _administrationClient.TopicExistsAsync(topicPath);
                 return result.HasValue && result.Value;
@@ -95,7 +95,7 @@ public class ServiceBusDriver
     /// <returns></returns>
     public async Task<ServiceBusReceivedMessage?> ConfirmMessagePresentInQueueAsync(string topicName, string subscriptionName, SubQueue subQueue, CosmosDbChangeFeedEvent cosmosDbChangeFeedEvent)
     {
-        return await _retryIfNullMessagePolicy.ExecuteAsync(async () =>
+        return await _retryReceiveMessagePolicy.ExecuteAsync(async () =>
         {
             var messageList = await this.ReadMessagesAsync(
                 topicName,
@@ -137,31 +137,32 @@ public class ServiceBusDriver
     /// <summary>
     /// Returns a Retry Policy used when checking if a message was received.
     /// </summary>
-    public static AsyncPolicy<ServiceBusReceivedMessage?> GetRetryIfNullMessagePolicy() =>
+    public static AsyncPolicy<ServiceBusReceivedMessage?> GetRetryReceiveMessageIfNullPolicy() =>
         Policy
             .HandleResult<ServiceBusReceivedMessage?>(b => b == null)
             .WaitAndRetryAsync(
-                retryCount: 10,
+                retryCount: 5,
                 sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
-                onRetry: (result, timeSpan, retryCount, context) =>
+                onRetry: (_, timeSpan, retryCount, _) =>
                 {
-                    Console.WriteLine($"Retry {retryCount} due to result: {result.Result}. Waiting {timeSpan} before next retry.");
+                    Console.WriteLine($"Retry receiving Service Bus message.  Retry count:  {retryCount}.  " +
+                                      $"Waiting {timeSpan} before next retry.");
                 }
             );
-
 
     /// <summary>
     /// Returns a Retry Policy used when checking if a topic exists.
     /// </summary>
-    public static AsyncPolicy<bool> GetRetryIfFalsePolicy() =>
+    public static AsyncPolicy<bool> GetRetryTopicExistsPolicy() =>
         Policy
             .HandleResult<bool>(b => !b)
             .WaitAndRetryAsync(
-                retryCount: 10,
+                retryCount: 5,
                 sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
-                onRetry: (result, timeSpan, retryCount, context) =>
+                onRetry: (_, timeSpan, retryCount, _) =>
                 {
-                    Console.WriteLine($"Retry {retryCount} due to result: {result.Result}. Waiting {timeSpan} before next retry.");
+                    Console.WriteLine($"Retry checking if Topic exists.  Retry count:  {retryCount}. " +
+                                      $"Waiting {timeSpan} before next retry.");
                 }
             );
 }
