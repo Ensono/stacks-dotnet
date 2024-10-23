@@ -12,8 +12,8 @@ public class ExampleSteps
     private readonly CosmosDbDriver _cosmosDbDriver;
     private readonly string _cosmosDatabaseName;
     private readonly string _cosmosContainerName;
-    private CosmosDbChangeFeedEvent? _cosmosItemCreatedItem;
-    private CosmosDbChangeFeedEvent? _cosmosItemUpdatedItem;
+    private CosmosDbChangeFeedEvent? _cosmosDbCreatedItem;
+    private CosmosDbChangeFeedEvent? _cosmosDbUpdatedItem;
 
     private readonly ServiceBusDriver _serviceBusDriver;
     private readonly string _topicName;
@@ -37,6 +37,13 @@ public class ExampleSteps
         _serviceBusDriver = testDrivers.ServiceBusDriver;
         _topicName = config.TopicName;
         _subscriptionName = config.SubscriptionName;
+
+        var createdItemAsJsonString = GetDataFromFile<CosmosDbChangeFeedEvent>("Data/CosmosDbChangeFeedEvent.json");
+        _cosmosDbCreatedItem = JsonConvert.DeserializeObject<CosmosDbChangeFeedEvent>(createdItemAsJsonString)!;
+
+        var updatedItemAsJsonString = GetDataFromFile<CosmosDbChangeFeedEvent>("Data/CosmosDbChangeFeedEvent-Updated.json");
+        _cosmosDbUpdatedItem = JsonConvert.DeserializeObject<CosmosDbChangeFeedEvent>(updatedItemAsJsonString)!;
+
     }
 
 
@@ -59,9 +66,9 @@ public class ExampleSteps
     {
         // Note that the _cosmosItemUpdatedEvent is not removed because it is the same recorded,
         // updated, so it shares an ID with the _cosmosItemCreatedEvent.
-        if (_cosmosItemCreatedItem != null)
+        if (_cosmosDbCreatedItem != null)
         {
-            await _cosmosDbDriver.DeleteItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosItemCreatedItem);
+            await _cosmosDbDriver.DeleteItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosDbCreatedItem);
         }
     }
 
@@ -90,10 +97,7 @@ public class ExampleSteps
     /// </summary>
     public async Task CreateValidItemInCosmosDbContainer()
     {
-        var itemAsJsonString = GetDataFromFile<CosmosDbChangeFeedEvent>("Data/CosmosDbChangeFeedEvent.json");
-        _cosmosItemCreatedItem = JsonConvert.DeserializeObject<CosmosDbChangeFeedEvent>(itemAsJsonString)!;
-
-        var isCreated = await _cosmosDbDriver.CreateItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosItemCreatedItem);
+        var isCreated = await _cosmosDbDriver.CreateItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosDbCreatedItem);
         isCreated.ShouldBeTrue("The item could not be created in the CosmosDB container.");
     }
 
@@ -104,9 +108,9 @@ public class ExampleSteps
     public async Task CreateInvalidItemInCosmosDbContainer()
     {
         var itemAsJsonString = GetDataFromFile<CosmosDbChangeFeedEvent>("Data/CosmosDbChangeFeedEvent-Invalid.json");
-        _cosmosItemCreatedItem = JsonConvert.DeserializeObject<CosmosDbChangeFeedEvent>(itemAsJsonString)!;
+        _cosmosDbCreatedItem = JsonConvert.DeserializeObject<CosmosDbChangeFeedEvent>(itemAsJsonString)!;
 
-        var isCreated = await _cosmosDbDriver.CreateItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosItemCreatedItem);
+        var isCreated = await _cosmosDbDriver.CreateItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosDbCreatedItem);
         isCreated.ShouldBeTrue("The item was created in the CosmosDB container.");
     }
 
@@ -116,10 +120,7 @@ public class ExampleSteps
     /// </summary>
     public async Task UpdateItemInCosmosDbContainer()
     {
-        var itemAsJsonString = GetDataFromFile<CosmosDbChangeFeedEvent>("Data/CosmosDbChangeFeedEvent-Updated.json");
-        _cosmosItemUpdatedItem = JsonConvert.DeserializeObject<CosmosDbChangeFeedEvent>(itemAsJsonString)!;
-
-        var isUpdated = await _cosmosDbDriver.ReplaceItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosItemUpdatedItem);
+        var isUpdated = await _cosmosDbDriver.ReplaceItemAsync(_cosmosDatabaseName, _cosmosContainerName, _cosmosDbUpdatedItem);
         isUpdated.ShouldBeTrue("The item could not be created in the CosmosDB container.");
     }
 
@@ -130,24 +131,24 @@ public class ExampleSteps
     /// </summary>
     public async Task ConfirmServiceBusMessageForItemCreatedIsReceived()
     {
-        _cosmosItemCreatedItem.ShouldNotBeNull();
+        _cosmosDbCreatedItem.ShouldNotBeNull();
 
         _serviceBusItemCreatedMessage = await _serviceBusDriver.ConfirmMessagePresentInQueueAsync(
-            _topicName, _subscriptionName, SubQueue.None, _cosmosItemCreatedItem
+            _topicName, _subscriptionName, SubQueue.None, _cosmosDbCreatedItem
         );
 
         _serviceBusItemCreatedMessage.ShouldNotBeNull(
             $"Message could not be found on {_topicName} and subscription {_subscriptionName} after multiple retries. " +
-            $"CorrelationId:{_cosmosItemCreatedItem.CorrelationId}");
+            $"CorrelationId:{_cosmosDbCreatedItem.CorrelationId}");
 
         var receivedMessageBody = _serviceBusItemCreatedMessage.Body.ToString();
         var actualReceivedEvent = JsonConvert.DeserializeObject<StacksCloudEvent<CosmosDbChangeFeedEvent>>(receivedMessageBody);
 
         actualReceivedEvent.ShouldNotBeNull();
-        actualReceivedEvent.Data.OperationCode.ShouldBe(_cosmosItemCreatedItem.OperationCode);
-        actualReceivedEvent.Data.CorrelationId.ShouldBe(_cosmosItemCreatedItem.CorrelationId);
-        actualReceivedEvent.Data.EntityId.ShouldBe(_cosmosItemCreatedItem.EntityId);
-        actualReceivedEvent.Data.ETag.ShouldBe(_cosmosItemCreatedItem.ETag);
+        actualReceivedEvent.Data.OperationCode.ShouldBe(_cosmosDbCreatedItem.OperationCode);
+        actualReceivedEvent.Data.CorrelationId.ShouldBe(_cosmosDbCreatedItem.CorrelationId);
+        actualReceivedEvent.Data.EntityId.ShouldBe(_cosmosDbCreatedItem.EntityId);
+        actualReceivedEvent.Data.ETag.ShouldBe(_cosmosDbCreatedItem.ETag);
     }
 
 
@@ -157,24 +158,24 @@ public class ExampleSteps
     /// </summary>
     public async Task ConfirmServiceBusMessageForItemUpdatedIsReceived()
     {
-        _cosmosItemUpdatedItem.ShouldNotBeNull();
+        _cosmosDbUpdatedItem.ShouldNotBeNull();
 
         _serviceBusItemUpdatedMessage = await _serviceBusDriver.ConfirmMessagePresentInQueueAsync(
-            _topicName, _subscriptionName, SubQueue.None, _cosmosItemUpdatedItem
+            _topicName, _subscriptionName, SubQueue.None, _cosmosDbUpdatedItem
         );
         _serviceBusItemUpdatedMessage.ShouldNotBeNull(
             $"Message could not be found on {_topicName} and subscription {_subscriptionName} after multiple retries. " +
-            $"CorrelationId:{_cosmosItemUpdatedItem.CorrelationId}");
+            $"CorrelationId:{_cosmosDbUpdatedItem.CorrelationId}");
 
 
         var receivedMessageBody = _serviceBusItemUpdatedMessage.Body.ToString();
         var actualReceivedEvent = JsonConvert.DeserializeObject<StacksCloudEvent<CosmosDbChangeFeedEvent>>(receivedMessageBody);
 
         actualReceivedEvent.ShouldNotBeNull();
-        actualReceivedEvent.Data.OperationCode.ShouldBe(_cosmosItemUpdatedItem.OperationCode);
-        actualReceivedEvent.Data.CorrelationId.ShouldBe(_cosmosItemUpdatedItem.CorrelationId);
-        actualReceivedEvent.Data.EntityId.ShouldBe(_cosmosItemUpdatedItem.EntityId);
-        actualReceivedEvent.Data.ETag.ShouldBe(_cosmosItemUpdatedItem.ETag);
+        actualReceivedEvent.Data.OperationCode.ShouldBe(_cosmosDbUpdatedItem.OperationCode);
+        actualReceivedEvent.Data.CorrelationId.ShouldBe(_cosmosDbUpdatedItem.CorrelationId);
+        actualReceivedEvent.Data.EntityId.ShouldBe(_cosmosDbUpdatedItem.EntityId);
+        actualReceivedEvent.Data.ETag.ShouldBe(_cosmosDbUpdatedItem.ETag);
     }
 
 
@@ -184,10 +185,10 @@ public class ExampleSteps
     /// </summary>
     public async Task ConfirmServiceBusMessageForItemCreatedIsNotReceived()
     {
-        _cosmosItemCreatedItem.ShouldNotBeNull();
+        _cosmosDbCreatedItem.ShouldNotBeNull();
 
         _serviceBusItemUpdatedMessage = await _serviceBusDriver.ConfirmMessagePresentInQueueAsync(
-            _topicName, _subscriptionName, SubQueue.None, _cosmosItemCreatedItem
+            _topicName, _subscriptionName, SubQueue.None, _cosmosDbCreatedItem
         );
 
         _serviceBusItemUpdatedMessage.ShouldBeNull();
@@ -200,10 +201,10 @@ public class ExampleSteps
     /// </summary>
     public async Task ConfirmServiceBusMessageForItemCreatedIsNotMovedToDeadLetter()
     {
-        _cosmosItemCreatedItem.ShouldNotBeNull();
+        _cosmosDbCreatedItem.ShouldNotBeNull();
 
         var deadLetterMessage = await _serviceBusDriver.ConfirmMessagePresentInQueueAsync(
-            _topicName, _subscriptionName, SubQueue.DeadLetter, _cosmosItemCreatedItem
+            _topicName, _subscriptionName, SubQueue.DeadLetter, _cosmosDbCreatedItem
         );
         deadLetterMessage.ShouldBeNull();
     }
@@ -215,10 +216,10 @@ public class ExampleSteps
     /// </summary>
     public async Task ConfirmServiceBusMessageForItemUpdatedIsNotMovedToDeadLetter()
     {
-        _cosmosItemUpdatedItem.ShouldNotBeNull();
+        _cosmosDbUpdatedItem.ShouldNotBeNull();
 
         var deadLetterMessage = await _serviceBusDriver.ConfirmMessagePresentInQueueAsync(
-            _topicName, _subscriptionName, SubQueue.DeadLetter, _cosmosItemUpdatedItem
+            _topicName, _subscriptionName, SubQueue.DeadLetter, _cosmosDbUpdatedItem
         );
         deadLetterMessage.ShouldBeNull();
     }
