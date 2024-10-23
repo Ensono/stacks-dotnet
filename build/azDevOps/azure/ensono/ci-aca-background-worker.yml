@@ -202,7 +202,7 @@ stages:
                     TF_VAR_cosmosdb_sql_container_partition_key: "/id"
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
-                    TTF_VAR_create_eventhub: $(create_eventhub)
+                    TF_VAR_create_eventhub: $(create_eventhub)
                     TF_VAR_tfstate_key: "aca_coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
@@ -427,6 +427,7 @@ stages:
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
                     TF_VAR_dns_record: "$(Environment.ShortName)-${{ variables.domain }}"
+                    TF_VAR_ingress_enabled: $(ingress_enabled)
                     TF_VAR_docker_image_name: $(docker_image_name)
                     TF_VAR_docker_image_tag: $(docker_image_tag)
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
