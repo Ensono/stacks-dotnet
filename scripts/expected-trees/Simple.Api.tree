@@ -18,12 +18,12 @@
 │   │   │   ├── ci-vars.yml
 │   │   │   ├── ci.yml
 │   │   │   ├── ensono
-│   │   │   |   ├── ci-aca-background-worker-vars.yml
-│   │   │   |   ├── ci-aca-background-worker.yml
-│   │   │   |   ├── ci-aca-cqrs-vars.yml
-│   │   │   |   ├── ci-aca-cqrs.yml
-│   │   │   |   ├── ci-aca-simple-api-vars.yml
-│   │   │   │   ├── ci-aca-simple-api.yml
+│   │   │   │   ├── ci-aca-background-worker-vars.yml
+│   │   │   │   ├── ci-aca-background-worker.yml
+│   │   │   │   ├── ci-aca-cqrs-vars.yml
+│   │   │   │   ├── ci-aca-cqrs.yml
+│   │   │   │   ├── ci-aca-simple-api-vars.yml
+│   │   │   │   ├── ci-aca-simple-api.yml
 │   │   │   │   ├── ci-aeh-listener-vars.yml
 │   │   │   │   ├── ci-aeh-listener.yml
 │   │   │   │   ├── ci-asb-listener-vars.yml
