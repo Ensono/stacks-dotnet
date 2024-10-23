@@ -363,8 +363,7 @@
 │   │       │   │   ├── DynamoDbObjectStorageTests.cs
 │   │       │   │   └── FakeMenu.cs
 │   │       │   ├── Dockerfile
-│   │       │   ├── NuGet.config
-│   │       │   └── README.md
+│   │       │   └── NuGet.config
 │   │       └── tests
 │   │           └── Functional
 │   │               ├── Cqrs.Dynamo.API.FunctionalTests
@@ -393,7 +392,6 @@
 │   │               │   │   ├── MenuRequest.cs
 │   │               │   │   ├── SearchResponse.cs
 │   │               │   │   └── SearchResponseItem.cs
-│   │               │   ├── ReadMe.md
 │   │               │   ├── Tests
 │   │               │   │   ├── Fixtures
 │   │               │   │   │   └── AuthFixture.cs
