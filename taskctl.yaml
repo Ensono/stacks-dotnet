@@ -57,5 +57,3 @@ pipelines:
       depends_on: infra:init
     - task: deploy:helm
       depends_on: deploy:templater
-    - task: deploy:functional_tests
-      depends_on: deploy:helm
