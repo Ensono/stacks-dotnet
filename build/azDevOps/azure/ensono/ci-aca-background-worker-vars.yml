@@ -152,13 +152,13 @@ variables:
   - name: create_servicebus_subscription
     value: true
   - name: servicebus_namespace_dev
-    value: sb-menu-beuccr
+    value: sb-menu-plbbip
   - name: servicebus_namespace_prod
     value: sb-menu-pvonnp
   - name: servicebus_resource_group_dev
-    value: ensono-stacks-dev-uks-aca-netcore-api-cqrs
+    value: ensono-stacks-dev-euw-aca-netcore-api-cqrs
   - name: servicebus_resource_group_prod
-    value: ensono-stacks-prod-uks-aca-netcore-api-cqrs
+    value: ensono-stacks-prod-euw-aca-netcore-api-cqrs
   - name: servicebus_subscription_name
     value: sbs-menu-bgw-events
 
