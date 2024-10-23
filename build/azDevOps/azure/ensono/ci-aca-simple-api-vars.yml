@@ -118,13 +118,13 @@ variables:
   - name: create_dns_record
     value: true
   - name: core_resource_group_nonprod
-    value: ed-stacks-nonprod-uks-aca
+    value: ed-stacks-nonprod-euw-aca
   - name: public_ip_name_nonprod
-    value: ed-stacks-nonprod-uks-aca
+    value: ed-stacks-nonprod-euw-aca
   - name: core_resource_group_prod
-    value: ed-stacks-prod-uks-aca
+    value: ed-stacks-prod-euw-aca
   - name: public_ip_name_prod
-    value: ed-stacks-prod-uks-aca
+    value: ed-stacks-prod-euw-aca
 
   # Helm file locations
   - name: helm_chart_file
