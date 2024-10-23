@@ -254,7 +254,8 @@
 │               │   │   │       ├── UpdateItemById.cs
 │               │   │   │       └── UpdateMenuById.cs
 │               │   │   └── appsettings.json
-│               │   └── Simple.Api.Azure.API.FunctionalTests.sln
+│               │   ├── Simple.Api.Azure.API.FunctionalTests.sln
+│               │   └── templater.ps1
 │               └── README.md
 ├── stackscli.yml
 ├── taskctl.yaml
