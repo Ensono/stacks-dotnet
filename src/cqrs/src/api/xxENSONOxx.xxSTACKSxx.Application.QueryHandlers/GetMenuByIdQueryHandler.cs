@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Queries;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Queries;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 

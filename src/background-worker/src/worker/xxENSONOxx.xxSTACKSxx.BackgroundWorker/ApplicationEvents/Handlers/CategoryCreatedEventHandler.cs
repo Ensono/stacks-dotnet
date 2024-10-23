@@ -1,4 +1,4 @@
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Handlers;

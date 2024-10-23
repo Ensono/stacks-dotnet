@@ -1,6 +1,6 @@
 using System;
 
-namespace xxENSONOxx.xxSTACKSxx.Common.Operations;
+namespace xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 public interface IOperationContext
 {

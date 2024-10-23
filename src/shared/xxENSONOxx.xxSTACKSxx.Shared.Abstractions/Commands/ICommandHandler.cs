@@ -1,4 +1,4 @@
-namespace xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
+namespace xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 
 public interface ICommandHandler<in TCommand> where TCommand : ICommand
 {

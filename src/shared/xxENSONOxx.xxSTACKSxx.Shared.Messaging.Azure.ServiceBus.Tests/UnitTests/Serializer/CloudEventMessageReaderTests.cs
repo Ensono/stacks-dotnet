@@ -2,8 +2,8 @@ using System;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 using Shouldly;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events;
 

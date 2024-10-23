@@ -1,4 +1,4 @@
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Doubles;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Tests;

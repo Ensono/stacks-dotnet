@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.Application.CommandHandlers.Extensions;

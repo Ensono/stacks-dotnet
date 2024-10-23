@@ -13,9 +13,9 @@ using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
-using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Secrets;
 
 // ReSharper disable once CheckNamespace

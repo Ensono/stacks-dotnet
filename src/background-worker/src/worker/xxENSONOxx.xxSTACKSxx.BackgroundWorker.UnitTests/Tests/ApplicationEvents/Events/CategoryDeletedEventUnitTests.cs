@@ -1,6 +1,6 @@
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
-using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.ApplicationEvents.Events;
 

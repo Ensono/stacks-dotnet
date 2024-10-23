@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;

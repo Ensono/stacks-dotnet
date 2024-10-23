@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\cqrs\src\api\xxENSONOxx.xxSTACKSxx.Abstractions\xxENSONOxx.xxSTACKSxx.Abstractions.csproj" />
     <ProjectReference Include="..\..\cqrs\src\api\xxENSONOxx.xxSTACKSxx.Common\xxENSONOxx.xxSTACKSxx.Common.csproj" />
   </ItemGroup>
 </Project>

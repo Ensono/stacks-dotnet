@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 

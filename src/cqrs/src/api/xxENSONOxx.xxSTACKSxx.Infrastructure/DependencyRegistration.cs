@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -63,7 +63,7 @@ public static class DependencyRegistration
 #elif EventPublisherNone
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #else
-        services.AddTransient<xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents.IApplicationEventPublisher, DummyEventPublisher>();
+        services.AddTransient<Shared.Abstractions.ApplicationEvents.IApplicationEventPublisher, DummyEventPublisher>();
 #endif
 
 #if CosmosDb

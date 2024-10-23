@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Queries;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Queries;
 using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 

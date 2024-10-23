@@ -1,7 +1,7 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
 using NSubstitute;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 

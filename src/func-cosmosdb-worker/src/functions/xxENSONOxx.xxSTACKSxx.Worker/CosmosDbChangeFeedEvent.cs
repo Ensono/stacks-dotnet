@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker;
 

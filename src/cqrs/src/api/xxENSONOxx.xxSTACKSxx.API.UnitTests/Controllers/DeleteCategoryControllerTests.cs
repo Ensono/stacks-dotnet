@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
 using xxENSONOxx.xxSTACKSxx.API.Controllers.Category;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
