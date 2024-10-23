@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands;
 

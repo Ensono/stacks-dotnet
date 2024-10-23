@@ -1,5 +1,5 @@
-﻿using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using System;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events;
 

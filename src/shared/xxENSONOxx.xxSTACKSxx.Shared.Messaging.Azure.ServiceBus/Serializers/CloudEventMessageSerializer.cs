@@ -1,10 +1,10 @@
 using System;
 using System.Text;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers
 {

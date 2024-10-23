@@ -1,10 +1,10 @@
 using System;
 using System.Text;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Exceptions;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers
 {
@@ -29,8 +29,8 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers
 
         /// <summary>
         /// Read the message body and deserialize into the type T
-        /// In case the message contains the type enclosed, the serializer will first 
-        /// deserialize to the type provided in the message then 
+        /// In case the message contains the type enclosed, the serializer will first
+        /// deserialize to the type provided in the message then
         /// cast the result to the type of T.
         /// This operation will throw an exception if the enclosed message type is not convertible to the type of T.
         /// </summary>
@@ -52,10 +52,10 @@ namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers
                 throw new MessageSerializationException("The message type in unknown", null);
             }
 
-            // This will make the serializer flexible to deserialize to the type of T when 
+            // This will make the serializer flexible to deserialize to the type of T when
             // the message does not contain an Enclosed Message Type
-            // The problem with this approach is the serializer won't throw an exception if 
-            // the types does not match. 
+            // The problem with this approach is the serializer won't throw an exception if
+            // the types does not match.
             //if (type == null)
             //{
             //    type = typeof(T);
