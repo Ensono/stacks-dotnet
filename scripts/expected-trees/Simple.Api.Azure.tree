@@ -83,7 +83,6 @@
 │           │   ├── .dockerignore
 │           │   ├── Dockerfile
 │           │   ├── NuGet.config
-│           │   ├── README.md
 │           │   ├── Simple.Api.Azure.API
 │           │   │   ├── Authentication
 │           │   │   │   ├── ConfigurationExtensions.cs
@@ -205,57 +204,55 @@
 │           │       ├── appsettings.Development.json
 │           │       └── appsettings.json
 │           └── tests
-│               ├── Functional
-│               │   ├── Simple.Api.Azure.API.FunctionalTests
-│               │   │   ├── Builders
-│               │   │   │   ├── CategoryBuilder.cs
-│               │   │   │   ├── CategoryRequestBuilder.cs
-│               │   │   │   ├── Http
-│               │   │   │   │   ├── HttpRequestBuilder.cs
-│               │   │   │   │   └── HttpRequestFactory.cs
-│               │   │   │   ├── IBuilder.cs
-│               │   │   │   ├── ItemBuilder.cs
-│               │   │   │   ├── MenuBuilder.cs
-│               │   │   │   ├── MenuItemBuilder.cs
-│               │   │   │   └── MenuRequestBuilder.cs
-│               │   │   ├── Configuration
-│               │   │   │   ├── ConfigAccessor.cs
-│               │   │   │   └── ConfigModel.cs
-│               │   │   ├── Models
-│               │   │   │   ├── Category.cs
-│               │   │   │   ├── CategoryRequest.cs
-│               │   │   │   ├── CreateObjectResponse.cs
-│               │   │   │   ├── Item.cs
-│               │   │   │   ├── Menu.cs
-│               │   │   │   ├── MenuItemRequest.cs
-│               │   │   │   ├── MenuRequest.cs
-│               │   │   │   ├── SearchResult.cs
-│               │   │   │   └── SearchResultItem.cs
-│               │   │   ├── ReadMe.md
-│               │   │   ├── Simple.Api.Azure.API.FunctionalTests.csproj
-│               │   │   ├── Tests
-│               │   │   │   ├── Fixtures
-│               │   │   │   │   └── AuthFixture.cs
-│               │   │   │   ├── Steps
-│               │   │   │   │   ├── CategorySteps.cs
-│               │   │   │   │   ├── HealthCheckSteps.cs
-│               │   │   │   │   ├── ItemSteps.cs
-│               │   │   │   │   └── MenuSteps.cs
-│               │   │   │   └── Stories
-│               │   │   │       ├── CreateCategoryTests.cs
-│               │   │   │       ├── CreateItemTests.cs
-│               │   │   │       ├── CreateMenuTests.cs
-│               │   │   │       ├── DeleteCategoryTests.cs
-│               │   │   │       ├── DeleteItemTests.cs
-│               │   │   │       ├── DeleteMenuTests.cs
-│               │   │   │       ├── GetMenuByIdTests.cs
-│               │   │   │       ├── HeathCheck.cs
-│               │   │   │       ├── UpdateCategoryById.cs
-│               │   │   │       ├── UpdateItemById.cs
-│               │   │   │       └── UpdateMenuById.cs
-│               │   │   └── appsettings.json
-│               │   └── Simple.Api.Azure.API.FunctionalTests.sln
-│               └── README.md
+│               └── Functional
+│                   ├── Simple.Api.Azure.API.FunctionalTests
+│                   │   ├── Builders
+│                   │   │   ├── CategoryBuilder.cs
+│                   │   │   ├── CategoryRequestBuilder.cs
+│                   │   │   ├── Http
+│                   │   │   │   ├── HttpRequestBuilder.cs
+│                   │   │   │   └── HttpRequestFactory.cs
+│                   │   │   ├── IBuilder.cs
+│                   │   │   ├── ItemBuilder.cs
+│                   │   │   ├── MenuBuilder.cs
+│                   │   │   ├── MenuItemBuilder.cs
+│                   │   │   └── MenuRequestBuilder.cs
+│                   │   ├── Configuration
+│                   │   │   ├── ConfigAccessor.cs
+│                   │   │   └── ConfigModel.cs
+│                   │   ├── Models
+│                   │   │   ├── Category.cs
+│                   │   │   ├── CategoryRequest.cs
+│                   │   │   ├── CreateObjectResponse.cs
+│                   │   │   ├── Item.cs
+│                   │   │   ├── Menu.cs
+│                   │   │   ├── MenuItemRequest.cs
+│                   │   │   ├── MenuRequest.cs
+│                   │   │   ├── SearchResult.cs
+│                   │   │   └── SearchResultItem.cs
+│                   │   ├── Simple.Api.Azure.API.FunctionalTests.csproj
+│                   │   ├── Tests
+│                   │   │   ├── Fixtures
+│                   │   │   │   └── AuthFixture.cs
+│                   │   │   ├── Steps
+│                   │   │   │   ├── CategorySteps.cs
+│                   │   │   │   ├── HealthCheckSteps.cs
+│                   │   │   │   ├── ItemSteps.cs
+│                   │   │   │   └── MenuSteps.cs
+│                   │   │   └── Stories
+│                   │   │       ├── CreateCategoryTests.cs
+│                   │   │       ├── CreateItemTests.cs
+│                   │   │       ├── CreateMenuTests.cs
+│                   │   │       ├── DeleteCategoryTests.cs
+│                   │   │       ├── DeleteItemTests.cs
+│                   │   │       ├── DeleteMenuTests.cs
+│                   │   │       ├── GetMenuByIdTests.cs
+│                   │   │       ├── HeathCheck.cs
+│                   │   │       ├── UpdateCategoryById.cs
+│                   │   │       ├── UpdateItemById.cs
+│                   │   │       └── UpdateMenuById.cs
+│                   │   └── appsettings.json
+│                   └── Simple.Api.Azure.API.FunctionalTests.sln
 ├── stackscli.yml
 ├── taskctl.yaml
 └── yamllint.conf
