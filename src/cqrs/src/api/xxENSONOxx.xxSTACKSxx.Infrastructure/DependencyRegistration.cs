@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +14,7 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
 using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 #endif
 #if EventPublisherServiceBus
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
 #endif
 #if EventPublisherAwsSns || EventPublisherEventHub
