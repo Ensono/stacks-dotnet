@@ -142,7 +142,7 @@ public class ServiceBusDriver
             .HandleResult<ServiceBusReceivedMessage?>(b => b == null)
             .WaitAndRetryAsync(
                 retryCount: 5,
-                sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
+                sleepDurationProvider: _ => TimeSpan.FromSeconds(10),
                 onRetry: (_, timeSpan, retryCount, _) =>
                 {
                     Console.WriteLine($"Retry receiving Service Bus message.  Retry count:  {retryCount}.  " +
@@ -158,7 +158,7 @@ public class ServiceBusDriver
             .HandleResult<bool>(b => !b)
             .WaitAndRetryAsync(
                 retryCount: 5,
-                sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
+                sleepDurationProvider: _ => TimeSpan.FromSeconds(10),
                 onRetry: (_, timeSpan, retryCount, _) =>
                 {
                     Console.WriteLine($"Retry checking if Topic exists.  Retry count:  {retryCount}. " +

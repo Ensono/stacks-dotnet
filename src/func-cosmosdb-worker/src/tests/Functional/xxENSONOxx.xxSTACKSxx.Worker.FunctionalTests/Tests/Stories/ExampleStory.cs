@@ -43,6 +43,7 @@ public class ExampleStory : IAsyncLifetime
               .And(step => _exampleSteps.ConfirmServiceBusTopicExists(), "the Azure Service Bus Topic exists")
              .When(step => _exampleSteps.CreateInvalidItemInCosmosDbContainer(), "an item with invalid data is created in the CosmosDB container")
              .Then(step => _exampleSteps.ConfirmServiceBusMessageForItemCreatedIsNotReceived(), "a message is not published to the Service Bus Topic")
+              .And(step => _exampleSteps.ConfirmServiceBusMessageForItemCreatedIsNotMovedToDeadLetter(), "the message has not been moved to Dead Letters")
             .BDDfy();
     }
 

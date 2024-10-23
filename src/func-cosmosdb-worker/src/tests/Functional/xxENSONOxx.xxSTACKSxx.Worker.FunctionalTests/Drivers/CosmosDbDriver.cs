@@ -28,7 +28,7 @@ public class CosmosDbDriver(string connectionString)
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error : " + ex.Message);
+            Console.WriteLine("Cosmos DB container was not found: " + ex.Message);
             return false;
         }
     }
@@ -58,7 +58,7 @@ public class CosmosDbDriver(string connectionString)
         }
         catch (Exception e)
         {
-            Console.WriteLine("Error : " + e.Message);
+            Console.WriteLine("Attempt to create Cosmos DB item was unsuccessful : " + e.Message);
             return false;
         }
     }
@@ -87,7 +87,7 @@ public class CosmosDbDriver(string connectionString)
         }
         catch (Exception e)
         {
-            Console.WriteLine("Error : " + e.Message);
+            Console.WriteLine("Attempt to replace Cosmos DB item was unsuccessful : " + e.Message);
             return false;
         }
     }
@@ -116,7 +116,7 @@ public class CosmosDbDriver(string connectionString)
         }
         catch (CosmosException e)
         {
-            Console.WriteLine("Error : " + e.Message);
+            Console.WriteLine("Attempt to delete Cosmo sDB item was unsuccessful: " + e.Message);
             return false;
         }
     }
