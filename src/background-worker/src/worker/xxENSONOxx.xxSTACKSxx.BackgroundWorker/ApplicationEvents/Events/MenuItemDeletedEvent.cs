@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
 

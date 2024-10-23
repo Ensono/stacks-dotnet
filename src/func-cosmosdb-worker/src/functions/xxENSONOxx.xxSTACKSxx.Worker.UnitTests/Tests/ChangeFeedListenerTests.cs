@@ -1,4 +1,4 @@
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Doubles;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Tests;

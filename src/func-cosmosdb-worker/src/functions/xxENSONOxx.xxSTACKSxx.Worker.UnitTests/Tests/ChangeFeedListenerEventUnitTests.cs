@@ -1,4 +1,4 @@
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Common.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Worker.UnitTests.Tests;
 
