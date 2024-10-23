@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +14,8 @@ using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
 using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 #endif
 #if EventPublisherServiceBus
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers;
 #endif
 #if EventPublisherAwsSns || EventPublisherEventHub
 using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
@@ -51,7 +52,7 @@ public static class DependencyRegistration
 #if EventPublisherServiceBus
         services.Configure<xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration.ServiceBusConfiguration>(configuration.GetSection("ServiceBusConfiguration"));
         services.AddServiceBus();
-        services.AddTransient<xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents.IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, EventPublisher>();
 #elif EventPublisherEventHub
         services.Configure<EventHubConfiguration>(configuration.GetSection("EventHubConfiguration"));
         services.AddEventHub();
