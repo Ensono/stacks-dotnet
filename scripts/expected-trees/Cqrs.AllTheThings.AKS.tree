@@ -1,47 +1,12 @@
 .
 ├── .gitattributes
-├── .github
-│   └── workflows
-│       ├── ci.env
-│       └── ci.yml
 ├── .gitignore
 ├── build
 │   ├── azDevOps
 │   │   ├── azure
 │   │   │   ├── api-contract-tests.yml
-│   │   │   ├── ci-aca-background-worker-vars.yml
-│   │   │   ├── ci-aca-simple-api-vars.yml
-│   │   │   ├── ci-aeh-listener-vars.yml
-│   │   │   ├── ci-asb-listener-vars.yml
-│   │   │   ├── ci-background-worker-vars.yml
-│   │   │   ├── ci-cosmosdb-worker-vars.yml
-│   │   │   ├── ci-functions.yml
-│   │   │   ├── ci-simple-api-vars.yml
 │   │   │   ├── ci-vars.yml
 │   │   │   ├── ci.yml
-│   │   │   ├── ensono
-│   │   │   │   ├── ci-aca-background-worker-vars.yml
-│   │   │   │   ├── ci-aca-background-worker.yml
-│   │   │   │   ├── ci-aca-cqrs-vars.yml
-│   │   │   │   ├── ci-aca-cqrs.yml
-│   │   │   │   ├── ci-aca-simple-api-vars.yml
-│   │   │   │   ├── ci-aca-simple-api.yml
-│   │   │   │   ├── ci-aeh-listener-vars.yml
-│   │   │   │   ├── ci-aeh-listener.yml
-│   │   │   │   ├── ci-asb-listener-vars.yml
-│   │   │   │   ├── ci-asb-listener.yml
-│   │   │   │   ├── ci-background-worker-vars.yml
-│   │   │   │   ├── ci-background-worker.yml
-│   │   │   │   ├── ci-cosmosdb-worker-vars.yml
-│   │   │   │   ├── ci-cosmosdb-worker.yml
-│   │   │   │   ├── ci-cqrs-vars.yml
-│   │   │   │   ├── ci-cqrs.yml
-│   │   │   │   ├── ci-simple-api-vars.yml
-│   │   │   │   ├── ci-simple-api.yml
-│   │   │   │   ├── models-packages-api.yml
-│   │   │   │   ├── nuget-packages-api-vars.yml
-│   │   │   │   ├── nuget-packages-api.yml
-│   │   │   │   └── packages-api-models.yml
 │   │   │   └── release-notes
 │   │   │       ├── handlebar
 │   │   │       │   ├── extensions
@@ -52,29 +17,12 @@
 │   │       ├── legacy-deploy-functions.yml
 │   │       └── taskctl-setup.yml
 │   ├── deployment_list.ps1
-│   ├── github
-│   │   ├── aws
-│   │   │   ├── README.md
-│   │   │   └── env
-│   │   │       └── simple-api.env
-│   │   └── templates
-│   │       └── install-taskctl
-│   │           └── action.yaml
 │   ├── scripts
 │   │   └── .gitkeep
 │   └── taskctl
 │       ├── contexts.yaml
 │       └── tasks.yaml
 ├── deploy
-│   ├── aws
-│   │   └── app
-│   │       └── kube
-│   │           ├── README.md
-│   │           ├── data.tf
-│   │           ├── main.tf
-│   │           ├── outputs.tf
-│   │           ├── provider.tf
-│   │           └── variables.tf
 │   ├── azure
 │   │   └── app
 │   │       ├── eventhub
@@ -133,7 +81,7 @@
 │   │       ├── .editorconfig
 │   │       ├── api
 │   │       │   ├── .dockerignore
-│   │       │   ├── Cqrs.API
+│   │       │   ├── Cqrs.AllTheThings.AKS.API
 │   │       │   │   ├── Authentication
 │   │       │   │   │   ├── ConfigurationExtensions.cs
 │   │       │   │   │   ├── JwtBearerAuthenticationConfiguration.cs
@@ -165,7 +113,7 @@
 │   │       │   │   │       ├── GetMenuByIdController.cs
 │   │       │   │   │       ├── SearchMenuController.cs
 │   │       │   │   │       └── UpdateMenuController.cs
-│   │       │   │   ├── Cqrs.API.csproj
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.API.csproj
 │   │       │   │   ├── Filters
 │   │       │   │   │   ├── SwaggerDocumentTagger.cs
 │   │       │   │   │   └── VersionPathFilter.cs
@@ -192,8 +140,8 @@
 │   │       │   │   │       └── SearchMenuResultItem.cs
 │   │       │   │   ├── Program.cs
 │   │       │   │   └── appsettings.json
-│   │       │   ├── Cqrs.API.ComponentTests
-│   │       │   │   ├── Cqrs.API.ComponentTests.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.API.ComponentTests
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.API.ComponentTests.csproj
 │   │       │   │   ├── Features
 │   │       │   │   │   ├── CreateCategoryFeature.cs
 │   │       │   │   │   ├── CreateMenuFeature.cs
@@ -208,7 +156,7 @@
 │   │       │   │       ├── Configuration.cs
 │   │       │   │       ├── CustomAutoDataAttribute.cs
 │   │       │   │       └── DotEnv.cs
-│   │       │   ├── Cqrs.API.UnitTests
+│   │       │   ├── Cqrs.AllTheThings.AKS.API.UnitTests
 │   │       │   │   ├── Controllers
 │   │       │   │   │   ├── AddMenuCategoryControllerTests.cs
 │   │       │   │   │   ├── AddMenuItemControllerTests.cs
@@ -222,7 +170,7 @@
 │   │       │   │   │   ├── UpdateMenuCategoryControllerTests.cs
 │   │       │   │   │   ├── UpdateMenuControllerTests.cs
 │   │       │   │   │   └── UpdateMenuItemControllerTests.cs
-│   │       │   │   ├── Cqrs.API.UnitTests.csproj
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.API.UnitTests.csproj
 │   │       │   │   └── Models
 │   │       │   │       ├── CategoryTests.cs
 │   │       │   │       ├── CreateCategoryRequestTests.cs
@@ -237,8 +185,8 @@
 │   │       │   │       ├── UpdateCategoryRequestTests.cs
 │   │       │   │       ├── UpdateItemRequestTests.cs
 │   │       │   │       └── UpdateMenuRequestTests.cs
-│   │       │   ├── Cqrs.API.sln
-│   │       │   ├── Cqrs.Abstractions
+│   │       │   ├── Cqrs.AllTheThings.AKS.API.sln
+│   │       │   ├── Cqrs.AllTheThings.AKS.Abstractions
 │   │       │   │   ├── ApplicationEvents
 │   │       │   │   │   ├── IApplicationEvent.cs
 │   │       │   │   │   ├── IApplicationEventHandler.cs
@@ -247,12 +195,12 @@
 │   │       │   │   │   ├── ICommand.cs
 │   │       │   │   │   ├── ICommandDispatcher.cs
 │   │       │   │   │   └── ICommandHandler.cs
-│   │       │   │   ├── Cqrs.Abstractions.csproj
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Abstractions.csproj
 │   │       │   │   └── Queries
 │   │       │   │       ├── IQueryCriteria.cs
 │   │       │   │       └── IQueryHandler.cs
-│   │       │   ├── Cqrs.Application.CommandHandlers
-│   │       │   │   ├── Cqrs.Application.CommandHandlers.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.Application.CommandHandlers
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs
 │   │       │   │   ├── CreateMenuCommandHandler.cs
 │   │       │   │   ├── CreateMenuItemCommandHandler.cs
@@ -265,16 +213,16 @@
 │   │       │   │   ├── UpdateMenuCommandHandler.cs
 │   │       │   │   ├── UpdateMenuItemCommandHandler.cs
 │   │       │   │   └── _MenuCommandHandlerBase.cs
-│   │       │   ├── Cqrs.Application.Integration
-│   │       │   │   ├── Cqrs.Application.Integration.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.Application.Integration
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Application.Integration.csproj
 │   │       │   │   └── IMenuRepository.cs
-│   │       │   ├── Cqrs.Application.QueryHandlers
-│   │       │   │   ├── Cqrs.Application.QueryHandlers.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.Application.QueryHandlers
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Application.QueryHandlers.csproj
 │   │       │   │   ├── Extensions
 │   │       │   │   │   └── ServiceCollectionExtensions.cs
 │   │       │   │   ├── GetMenuByIdQueryHandler.cs
 │   │       │   │   └── SearchMenuQueryHandler.cs
-│   │       │   ├── Cqrs.CQRS
+│   │       │   ├── Cqrs.AllTheThings.AKS.CQRS
 │   │       │   │   ├── Commands
 │   │       │   │   │   ├── CreateCategory.cs
 │   │       │   │   │   ├── CreateMenu.cs
@@ -290,7 +238,7 @@
 │   │       │   │   │   ├── UpdateCategory.cs
 │   │       │   │   │   ├── UpdateMenu.cs
 │   │       │   │   │   └── UpdateMenuItem.cs
-│   │       │   │   ├── Cqrs.CQRS.csproj
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.CQRS.csproj
 │   │       │   │   ├── Enums
 │   │       │   │   │   └── EventCode.cs
 │   │       │   │   ├── Events
@@ -314,15 +262,27 @@
 │   │       │   │           ├── SearchMenu.cs
 │   │       │   │           ├── SearchMenuResultItem.cs
 │   │       │   │           └── SearchResult.cs
-│   │       │   ├── Cqrs.CQRS.UnitTests
-│   │       │   │   ├── Cqrs.CQRS.UnitTests.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.CQRS.UnitTests
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.CQRS.UnitTests.csproj
 │   │       │   │   └── HandlerTests.cs
-│   │       │   ├── Cqrs.Common
-│   │       │   │   ├── Cqrs.Common.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.Common
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Common.csproj
 │   │       │   │   ├── Events
 │   │       │   │   │   └── EventCode.cs
 │   │       │   │   ├── Exceptions
 │   │       │   │   │   ├── ApplicationExceptionBase.cs
+│   │       │   │   │   ├── CosmosDb
+│   │       │   │   │   │   ├── CosmosDBException.cs
+│   │       │   │   │   │   ├── CosmosDBRequestCapacityExceededException.cs
+│   │       │   │   │   │   ├── DocumentDeletionException.cs
+│   │       │   │   │   │   ├── DocumentHasChangedException.cs
+│   │       │   │   │   │   ├── DocumentRetrievalException.cs
+│   │       │   │   │   │   ├── DocumentUpsertException.cs
+│   │       │   │   │   │   ├── InvalidSearchParameterException.cs
+│   │       │   │   │   │   ├── NullParameterException.cs
+│   │       │   │   │   │   ├── PartitionKeyRequiredException.cs
+│   │       │   │   │   │   ├── ResourceNotFoundException.cs
+│   │       │   │   │   │   └── _ExceptionIds.cs
 │   │       │   │   │   ├── DomainExceptionBase.cs
 │   │       │   │   │   ├── DomainRuleViolationException.cs
 │   │       │   │   │   ├── ExceptionCodeToHttpStatusCodeConverter.cs
@@ -335,12 +295,12 @@
 │   │       │   │   └── Operations
 │   │       │   │       ├── IOperationContext.cs
 │   │       │   │       └── OperationCode.cs
-│   │       │   ├── Cqrs.Common.UnitTests
-│   │       │   │   ├── Cqrs.Common.UnitTests.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.Common.UnitTests
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Common.UnitTests.csproj
 │   │       │   │   ├── ExceptionCodeTests.cs
 │   │       │   │   └── OperationCodeTests.cs
-│   │       │   ├── Cqrs.Domain
-│   │       │   │   ├── Cqrs.Domain.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.Domain
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Domain.csproj
 │   │       │   │   ├── MenuAggregateRoot
 │   │       │   │   │   ├── Aggregate
 │   │       │   │   │   │   ├── AggregateRoot.cs
@@ -374,16 +334,24 @@
 │   │       │   │   └── Types
 │   │       │   │       ├── Cuisine.cs
 │   │       │   │       └── ItemClassType.cs
-│   │       │   ├── Cqrs.Domain.UnitTests
+│   │       │   ├── Cqrs.AllTheThings.AKS.Domain.UnitTests
 │   │       │   │   ├── CategoryTests.cs
-│   │       │   │   ├── Cqrs.Domain.UnitTests.csproj
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Domain.UnitTests.csproj
 │   │       │   │   ├── EventsTests.cs
 │   │       │   │   ├── ExceptionsTests.cs
 │   │       │   │   ├── GroupTests.cs
 │   │       │   │   ├── MenuItemTests.cs
 │   │       │   │   └── MenuTests.cs
-│   │       │   ├── Cqrs.Infrastructure
-│   │       │   │   ├── Cqrs.Infrastructure.csproj
+│   │       │   ├── Cqrs.AllTheThings.AKS.Infrastructure
+│   │       │   │   ├── Abstractions
+│   │       │   │   │   ├── CosmosDbDocumentStorage.cs
+│   │       │   │   │   ├── CosmosOperationResult.cs
+│   │       │   │   │   ├── IDocumentSearch.cs
+│   │       │   │   │   ├── IDocumentStorage.cs
+│   │       │   │   │   └── OperationResult.cs
+│   │       │   │   ├── Configuration
+│   │       │   │   │   └── CosmosDbConfiguration.cs
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Infrastructure.csproj
 │   │       │   │   ├── DependencyRegistration.cs
 │   │       │   │   ├── Exceptions
 │   │       │   │   │   ├── InvalidSecretDefinitionException.cs
@@ -399,33 +367,53 @@
 │   │       │   │   │   └── InMemoryMenuRepository.cs
 │   │       │   │   ├── HealthChecks
 │   │       │   │   │   └── CustomHealthCheck.cs
-│   │       │   │   └── Secrets
-│   │       │   │       ├── EnvironmentSecretSource.cs
-│   │       │   │       ├── FileSecretSource.cs
-│   │       │   │       ├── ISecretResolver.cs
-│   │       │   │       ├── ISecretSource.cs
-│   │       │   │       ├── Secret.cs
-│   │       │   │       └── SecretResolver.cs
-│   │       │   ├── Cqrs.Infrastructure.IntegrationTests
+│   │       │   │   ├── Logging
+│   │       │   │   │   └── CosmosDbLogDefinition.cs
+│   │       │   │   ├── Repositories
+│   │       │   │   │   └── CosmosDbMenuRepository.cs
+│   │       │   │   ├── Secrets
+│   │       │   │   │   ├── EnvironmentSecretSource.cs
+│   │       │   │   │   ├── FileSecretSource.cs
+│   │       │   │   │   ├── ISecretResolver.cs
+│   │       │   │   │   ├── ISecretSource.cs
+│   │       │   │   │   ├── Secret.cs
+│   │       │   │   │   └── SecretResolver.cs
+│   │       │   │   └── Utilities
+│   │       │   │       └── AsyncLazy.cs
+│   │       │   ├── Cqrs.AllTheThings.AKS.Infrastructure.IntegrationTests
 │   │       │   │   ├── Configuration.cs
 │   │       │   │   ├── CorrelationIdMiddlewareTestSteps.cs
 │   │       │   │   ├── CorrelationIdMiddlewareTestStories.cs
-│   │       │   │   ├── Cqrs.Infrastructure.IntegrationTests.csproj
+│   │       │   │   ├── CosmosDb
+│   │       │   │   │   ├── DataModel
+│   │       │   │   │   │   ├── SampleEntity.cs
+│   │       │   │   │   │   └── SampleEntityExtension.cs
+│   │       │   │   │   ├── Extensions
+│   │       │   │   │   │   └── StringExtensions.cs
+│   │       │   │   │   ├── Fakes
+│   │       │   │   │   │   └── SampleRepository.cs
+│   │       │   │   │   ├── Integration
+│   │       │   │   │   │   ├── CosmosDbDocumentStorageIntegrationTests.cs
+│   │       │   │   │   │   ├── CosmosDbDocumentStorageQueriesIntegrationTests.cs
+│   │       │   │   │   │   ├── IntegrationCollection.cs
+│   │       │   │   │   │   └── IntegrationFixture.cs
+│   │       │   │   │   ├── README.md
+│   │       │   │   │   └── xunit.runner.json
+│   │       │   │   ├── CosmosDbMenuRepositoryTests.cs
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Infrastructure.IntegrationTests.csproj
 │   │       │   │   ├── DotEnv.cs
 │   │       │   │   ├── LoggingMiddleware.cs
 │   │       │   │   ├── MenuRepositoryAutoData.cs
 │   │       │   │   └── appsettings.json
-│   │       │   ├── Cqrs.Infrastructure.UnitTests
-│   │       │   │   ├── Cqrs.Infrastructure.UnitTests.csproj
-│   │       │   │   ├── DynamoDbGuidConverterTests.cs
-│   │       │   │   ├── DynamoDbObjectSearchTests.cs
-│   │       │   │   ├── DynamoDbObjectStorageTests.cs
+│   │       │   ├── Cqrs.AllTheThings.AKS.Infrastructure.UnitTests
+│   │       │   │   ├── CosmosDbMenuRepositoryTests.cs
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.Infrastructure.UnitTests.csproj
 │   │       │   │   └── FakeMenu.cs
 │   │       │   ├── Dockerfile
 │   │       │   └── NuGet.config
 │   │       └── tests
 │   │           └── Functional
-│   │               ├── Cqrs.API.FunctionalTests
+│   │               ├── Cqrs.AllTheThings.AKS.API.FunctionalTests
 │   │               │   ├── Builders
 │   │               │   │   ├── CategoryBuilder.cs
 │   │               │   │   ├── CategoryRequestBuilder.cs
@@ -440,7 +428,7 @@
 │   │               │   ├── Configuration
 │   │               │   │   ├── ConfigAccessor.cs
 │   │               │   │   └── ConfigModel.cs
-│   │               │   ├── Cqrs.API.FunctionalTests.csproj
+│   │               │   ├── Cqrs.AllTheThings.AKS.API.FunctionalTests.csproj
 │   │               │   ├── Models
 │   │               │   │   ├── Category.cs
 │   │               │   │   ├── CategoryRequest.cs
@@ -472,10 +460,10 @@
 │   │               │   │       ├── UpdateItemById.cs
 │   │               │   │       └── UpdateMenuById.cs
 │   │               │   └── appsettings.json
-│   │               └── Cqrs.API.FunctionalTests.sln
+│   │               └── Cqrs.AllTheThings.AKS.API.FunctionalTests.sln
 │   └── shared
 │       ├── .editorconfig
-│       ├── Cqrs.Shared.Messaging.Azure.ServiceBus
+│       ├── Cqrs.AllTheThings.AKS.Shared.Messaging.Azure.ServiceBus
 │       │   ├── Abstractions
 │       │   │   ├── ApplicationEvents
 │       │   │   │   ├── IApplicationEvent.cs
@@ -488,7 +476,7 @@
 │       │   ├── Configuration
 │       │   │   └── ServiceBusConfiguration.cs
 │       │   ├── Constants.cs
-│       │   ├── Cqrs.Shared.Messaging.Azure.ServiceBus.csproj
+│       │   ├── Cqrs.AllTheThings.AKS.Shared.Messaging.Azure.ServiceBus.csproj
 │       │   ├── Exceptions
 │       │   │   ├── ExceptionIds.cs
 │       │   │   ├── IException.cs
@@ -575,7 +563,7 @@
 │       │   └── Validators
 │       │       ├── DataAnnotationValidator.cs
 │       │       └── IValidator.cs
-│       ├── Cqrs.Shared.Messaging.Azure.ServiceBus.Tests
+│       ├── Cqrs.AllTheThings.AKS.Shared.Messaging.Azure.ServiceBus.Tests
 │       │   ├── Commands
 │       │   │   ├── IMember.cs
 │       │   │   ├── Member.cs
@@ -583,7 +571,7 @@
 │       │   │   ├── NotifyCommand.cs
 │       │   │   └── NotifyCommandWithAnnotation.cs
 │       │   ├── Configuration.cs
-│       │   ├── Cqrs.Shared.Messaging.Azure.ServiceBus.Tests.csproj
+│       │   ├── Cqrs.AllTheThings.AKS.Shared.Messaging.Azure.ServiceBus.Tests.csproj
 │       │   ├── DotEnv.cs
 │       │   ├── Events
 │       │   │   ├── DummyEventAes.cs
