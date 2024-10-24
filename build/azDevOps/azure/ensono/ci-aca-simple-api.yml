@@ -256,7 +256,7 @@ stages:
                     TF_BACKEND_ARGS: "key=$(TF_STATE_KEY)-app,storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration
                     TF_VAR_core_environment: $(core_environment)
-                    TF_VAR_core_resource_group: $(core_resource_group_nonprod)
+                    TF_VAR_core_resource_group: $(core_resource_group_prod)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_name_company: $(company)
@@ -337,7 +337,7 @@ stages:
                     TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration
                     TF_VAR_core_environment: $(core_environment)
-                    TF_VAR_core_resource_group: $(core_resource_group_nonprod)
+                    TF_VAR_core_resource_group: $(core_resource_group_prod)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_create_cdn_endpoint: false
@@ -415,7 +415,7 @@ stages:
                     TF_BACKEND_ARGS: "key=$(TF_STATE_KEY)-app,storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
                     # Deployment Specific Configuration
                     TF_VAR_core_environment: $(core_environment)
-                    TF_VAR_core_resource_group: $(core_resource_group_nonprod)
+                    TF_VAR_core_resource_group: $(core_resource_group_prod)
                     TF_VAR_name_component: $(component)
                     TF_VAR_resource_group_location: $(region)
                     TF_VAR_name_company: $(company)
