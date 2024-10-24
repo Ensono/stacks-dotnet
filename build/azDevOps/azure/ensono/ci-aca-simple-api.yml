@@ -276,7 +276,7 @@ stages:
                     TF_VAR_app_environment: $(Environment.ShortName)
                     TF_VAR_tfstate_app_key: "$(tf_state_key)env"
                     TF_VAR_servicebus_type: ${{ variables.servicebus_type }}
-              
+
                 - task: Bash@3
                   displayName: "Taskctl: Functional Tests"
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
