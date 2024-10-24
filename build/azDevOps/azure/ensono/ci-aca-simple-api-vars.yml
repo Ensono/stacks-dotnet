@@ -144,7 +144,7 @@ variables:
 
   # Service Bus Configuration
   - name: servicebus_type
-    value: null
+    value: ""
   - name: create_servicebus_namespace
     value: false
   - name: create_servicebus_topic
