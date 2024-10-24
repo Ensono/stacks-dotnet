@@ -13,5 +13,9 @@
 	"cicdProvider": {
 		"longName": "cicdProvider",
 		"shortName": "cicd"
+	},
+	"deploymentMode": {
+		"longName": "deploymentMode",
+		"shortName": "dm"
 	}
 }

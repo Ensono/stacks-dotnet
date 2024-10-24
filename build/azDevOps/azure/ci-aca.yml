@@ -12,7 +12,7 @@ trigger:
       - "*"
 
 variables:
-  - template: ci-aca-simple-api-vars.yml
+  - template: ci-vars.yml
 
 stages:
   - stage: Build
@@ -25,7 +25,7 @@ stages:
           vmImage: $(pool_vm_image)
 
         steps:
-          - template: ../../templates/taskctl-setup.yml
+          - template: ../templates/taskctl-setup.yml
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -149,7 +149,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -218,7 +218,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -277,7 +277,6 @@ stages:
                     TF_VAR_log_level: "$(log_level)"
                     TF_VAR_app_environment: $(Environment.ShortName)
                     TF_VAR_tfstate_app_key: "$(tf_state_key)env"
-                    TF_VAR_servicebus_type: ${{ variables.servicebus_type }}
 
                 - task: PublishTestResults@2
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
@@ -308,7 +307,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -377,7 +376,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -436,7 +435,6 @@ stages:
                     TF_VAR_log_level: "$(log_level)"
                     TF_VAR_app_environment: $(Environment.ShortName)
                     TF_VAR_tfstate_app_key: "$(tf_state_key)env"
-                    TF_VAR_servicebus_type: ${{ variables.servicebus_type }}
 
                 - task: PublishTestResults@2
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))

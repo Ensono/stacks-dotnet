@@ -53,6 +53,18 @@ $projects = @(
         Path = "$TestTemplatesDirectory/Simple.Api.Azure/src/simple-api/src/api"
     },
     @{ 
+        Name = "Simple.Api.Azure.AKS";
+        Template = "stacks-webapi";
+        Arguments = "-do Menu --cloudProvider Azure --cicdProvider AZDO --deploymentMode AKS";
+        Path = "$TestTemplatesDirectory/Simple.Api.Azure/src/simple-api/src/api"
+    },
+    @{ 
+        Name = "Simple.Api.Azure.ACA";
+        Template = "stacks-webapi";
+        Arguments = "-do Menu --cloudProvider Azure --cicdProvider AZDO --deploymentMode ACA";
+        Path = "$TestTemplatesDirectory/Simple.Api.Azure/src/simple-api/src/api"
+    },
+    @{ 
         Name = "Simple.Api.AWS";
         Template = "stacks-webapi";
         Arguments = "-do Menu --cloudProvider AWS --cicdProvider GHA";
@@ -71,9 +83,33 @@ $projects = @(
         Path = "$TestTemplatesDirectory/Cqrs.AllTheThings/src/cqrs/src/api"
     },
     @{ 
+        Name = "Cqrs.AllTheThings.AKS";
+        Template = "stacks-cqrs";
+        Arguments = "-do Menu --cloudProvider Azure --cicdProvider AZDO -db CosmosDb -e ServiceBus --deploymentMode AKS";
+        Path = "$TestTemplatesDirectory/Cqrs.AllTheThings/src/cqrs/src/api"
+    },
+    @{ 
+        Name = "Cqrs.AllTheThings.ACA";
+        Template = "stacks-cqrs";
+        Arguments = "-do Menu --cloudProvider Azure --cicdProvider AZDO -db CosmosDb -e ServiceBus --deploymentMode ACA";
+        Path = "$TestTemplatesDirectory/Cqrs.AllTheThings/src/cqrs/src/api"
+    },
+    @{ 
         Name = "Cqrs.ServiceBus";
         Template = "stacks-cqrs";
         Arguments = "-do Menu --cloudProvider Azure --cicdProvider AZDO -e ServiceBus";
+        Path = "$TestTemplatesDirectory/Cqrs.ServiceBus/src/cqrs/src/api"
+    },
+    @{ 
+        Name = "Cqrs.ServiceBus.AKS";
+        Template = "stacks-cqrs";
+        Arguments = "-do Menu --cloudProvider Azure --cicdProvider AZDO -e ServiceBus --deploymentMode AKS";
+        Path = "$TestTemplatesDirectory/Cqrs.ServiceBus/src/cqrs/src/api"
+    },
+    @{ 
+        Name = "Cqrs.ServiceBus.ACA";
+        Template = "stacks-cqrs";
+        Arguments = "-do Menu --cloudProvider Azure --cicdProvider AZDO -e ServiceBus --deploymentMode ACA";
         Path = "$TestTemplatesDirectory/Cqrs.ServiceBus/src/cqrs/src/api"
     },
     @{ 
@@ -109,6 +145,18 @@ $projects = @(
         Name = "Background.Worker";
         Template = "stacks-asb-worker";
         Arguments = "-do Menu";
+        Path = "$TestTemplatesDirectory/Background.Worker/src/background-worker/src/worker"
+    },
+    @{ 
+        Name = "Background.Worker.AKS";
+        Template = "stacks-asb-worker";
+        Arguments = "-do Menu --deploymentMode AKS";
+        Path = "$TestTemplatesDirectory/Background.Worker/src/background-worker/src/worker"
+    }
+    @{ 
+        Name = "Background.Worker.ACA";
+        Template = "stacks-asb-worker";
+        Arguments = "-do Menu --deploymentMode ACA";
         Path = "$TestTemplatesDirectory/Background.Worker/src/background-worker/src/worker"
     }
 )
