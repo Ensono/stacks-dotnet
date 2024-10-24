@@ -24,11 +24,11 @@ output "container_app_principal_id" {
 # Output for functional tests
 output "servicebus_topic_name" {
   description = "Name of the topic"
-  value       = var.servicebus_type != null ? data.terraform_remote_state.app.outputs.servicebus_topic_name : null
+  value       = var.servicebus_type != "" ? data.terraform_remote_state.app.outputs.servicebus_topic_name : null
 }
 
 output "servicebus_connectionstring" {
-  value     = var.servicebus_type != null ? data.terraform_remote_state.app.outputs.servicebus_connectionstring : null
+  value     = var.servicebus_type != "" ? data.terraform_remote_state.app.outputs.servicebus_connectionstring : null
   sensitive = true
 }
 

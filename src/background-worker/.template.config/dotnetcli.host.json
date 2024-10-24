@@ -4,6 +4,10 @@
         "domain": {
             "longName": "domain",
             "shortName": "do"
-        }
+        },
+		"deploymentMode": {
+			"longName": "deploymentMode",
+			"shortName": "dm"
+		}
     }
 }
