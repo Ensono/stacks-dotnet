@@ -211,7 +211,8 @@
 				"**/.terraform/**",
 				"**/terraform.tfstate",
 				"**/.terraform.lock.hcl",
-				"**/.idea/**"
+				"**/.idea/**",
+                "**/deploy/azure/app/aca/**"
 			],
 			"rename": {
 				"_gitignore": ".gitignore",
