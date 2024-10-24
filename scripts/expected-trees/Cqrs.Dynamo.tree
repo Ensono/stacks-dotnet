@@ -413,7 +413,8 @@
 │   │               │   │       ├── UpdateItemById.cs
 │   │               │   │       └── UpdateMenuById.cs
 │   │               │   └── appsettings.json
-│   │               └── Cqrs.Dynamo.API.FunctionalTests.sln
+│   │               ├── Cqrs.Dynamo.API.FunctionalTests.sln
+│   │               └── templater.ps1
 │   └── shared
 │       ├── .editorconfig
 │       ├── Cqrs.Dynamo.Shared.Messaging.Azure.ServiceBus

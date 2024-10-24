@@ -6,7 +6,7 @@ locals {
     }
   ]
 
-  cosmos_db_secrets = data.terraform_remote_state.app.outputs.cosmosdb_endpoint == "" ? [] : [
+  cosmos_db_secrets = try(data.terraform_remote_state.app.outputs.cosmosdb_primary_master_key, "") == "" ? [] : [
     {
       name  = "cosmosdb-key"
       value = data.terraform_remote_state.app.outputs.cosmosdb_primary_master_key
@@ -39,7 +39,7 @@ locals {
     }
   ]
 
-  cosmos_db_environment_variable = data.terraform_remote_state.app.outputs.cosmosdb_endpoint == "" ? [] : [
+  cosmos_db_environment_variable = try(data.terraform_remote_state.app.outputs.cosmosdb_endpoint, "") == "" ? [] : [
     {
       name        = "COSMOSDB_KEY"
       secret_name = "cosmosdb-key"

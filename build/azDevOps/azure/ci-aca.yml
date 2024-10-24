@@ -271,12 +271,30 @@ stages:
                     TF_VAR_ingress_enabled: $(ingress_enabled)
                     TF_VAR_docker_image_name: $(docker_image_name)
                     TF_VAR_docker_image_tag: $(docker_image_tag)
-                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
-                    BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     TF_VAR_app_route: "$(app_route)"
                     TF_VAR_log_level: "$(log_level)"
                     TF_VAR_app_environment: $(Environment.ShortName)
                     TF_VAR_tfstate_app_key: "$(tf_state_key)env"
+
+                - task: Bash@3
+                  displayName: "Taskctl: Functional Tests"
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
+                  inputs:
+                    targetType: inline
+                    script: taskctl functional_tests
+                  env:
+                    # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)"
+                    # Terraform Backend Configuration (used for Terraform Outputs)
+                    TF_FILE_LOCATION: "$(TF_FILE_INFRA_LOCATION)"
+                    TF_STATE_CONTAINER: $(tf_state_container)
+                    TF_STATE_KEY: "$(tf_state_key)"
+                    TF_STATE_RG: $(tf_state_rg)
+                    TF_STATE_STORAGE: $(tf_state_storage)
+                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
+                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR)
+                    BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
+                    TEMPLATER_FILE: $(FUNCTIONAL_TESTS_RUN_DIR)/templater.ps1
 
                 - task: PublishTestResults@2
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
@@ -429,12 +447,30 @@ stages:
                     TF_VAR_ingress_enabled: $(ingress_enabled)
                     TF_VAR_docker_image_name: $(docker_image_name)
                     TF_VAR_docker_image_tag: $(docker_image_tag)
-                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR) # Must match RELATIVE path from repo root that artefact is downloaded to.
-                    BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     TF_VAR_app_route: "$(app_route)"
                     TF_VAR_log_level: "$(log_level)"
                     TF_VAR_app_environment: $(Environment.ShortName)
                     TF_VAR_tfstate_app_key: "$(tf_state_key)env"
+
+                - task: Bash@3
+                  displayName: "Taskctl: Functional Tests"
+                  condition: and(succeeded(), eq(variables.run_functional_tests, true))
+                  inputs:
+                    targetType: inline
+                    script: taskctl functional_tests
+                  env:
+                    # Azure Authentication
+                    CLOUD_PROVIDER: "$(cloud_provider)"
+                    # Terraform Backend Configuration (used for Terraform Outputs)
+                    TF_FILE_LOCATION: "$(TF_FILE_INFRA_LOCATION)"
+                    TF_STATE_CONTAINER: $(tf_state_container)
+                    TF_STATE_KEY: "$(tf_state_key)"
+                    TF_STATE_RG: $(tf_state_rg)
+                    TF_STATE_STORAGE: $(tf_state_storage)
+                    TF_BACKEND_ARGS: "key=$(TF_STATE_KEY),storage_account_name=$(TF_STATE_STORAGE),resource_group_name=$(TF_STATE_RG),container_name=$(TF_STATE_CONTAINER),subscription_id=$(ARM_SUBSCRIPTION_ID),tenant_id=$(ARM_TENANT_ID),client_id=$(ARM_CLIENT_ID),client_secret=$(ARM_CLIENT_SECRET)"
+                    FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR)
+                    BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
+                    TEMPLATER_FILE: $(FUNCTIONAL_TESTS_RUN_DIR)/templater.ps1
 
                 - task: PublishTestResults@2
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))

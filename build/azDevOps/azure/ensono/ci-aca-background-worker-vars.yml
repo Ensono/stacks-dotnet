@@ -154,7 +154,7 @@ variables:
   - name: servicebus_namespace_dev
     value: sb-menu-plbbip
   - name: servicebus_namespace_prod
-    value: sb-menu-pvonnp
+    value: sb-menu-cnfskz
   - name: servicebus_resource_group_dev
     value: ensono-stacks-dev-euw-aca-netcore-api-cqrs
   - name: servicebus_resource_group_prod
