@@ -123,6 +123,22 @@
 			],
 			"description": "Adds specified CI/CD provider build pipelines."
 		},
+		"deploymentMode": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "AKS",
+			"choices": [
+				{
+					"choice": "AKS",
+					"description": "Azure Kubernetes Service"
+				},
+				{
+					"choice": "ACA",
+					"description": "Azure Container Apps"
+				}
+			],
+			"description": "Adds specified deployment mode build pipelines. Containers can be deployed to AKS or ACA"
+		},
 		"CosmosDb": {
 			"type": "computed",
 			"value": "(database == \"CosmosDb\")"
@@ -178,6 +194,14 @@
 		"CiCdNone": {
 			"type": "computed",
 			"value": "(cicdProvider == \"None\")"
+		},
+		"DeploymentModeAKS": {
+			"type": "computed",
+			"value": "(deploymentMode == \"AKS\")"
+		},
+		"DeploymentModeACA": {
+			"type": "computed",
+			"value": "(deploymentMode == \"ACA\")"
 		}
 	},
 	"sources": [
@@ -211,8 +235,7 @@
 				"**/.terraform/**",
 				"**/terraform.tfstate",
 				"**/.terraform.lock.hcl",
-				"**/.idea/**",
-                "**/deploy/azure/app/aca/**"
+				"**/.idea/**"
 			],
 			"rename": {
 				"_gitignore": ".gitignore",
@@ -220,7 +243,9 @@
 				"build/github/aws/ci.yml": ".github/workflows/ci.yml",
 				"build/github/aws/env/cqrs.env": ".github/workflows/ci.env",
 				"build/azDevOps/azure/ci.yml": "build/azDevOps/azure/ci.yml",
-				"build/azDevOps/azure/ci-cqrs-vars.yml": "build/azDevOps/azure/ci-vars.yml"
+				"build/azDevOps/azure/ci-cqrs-vars.yml": "build/azDevOps/azure/ci-vars.yml",
+				"build/azDevOps/azure/ci-aca.yml": "build/azDevOps/azure/ci.yml",
+				"build/azDevOps/azure/ci-aca-cqrs-vars.yml": "build/azDevOps/azure/ci-vars.yml"
 			},
 			"modifiers": [
 				{
@@ -329,6 +354,8 @@
 						"**/build/azDevOps/azure/ci-asb-listener-vars.yml",
 						"**/build/azDevOps/azure/ci-aeh-listener-vars.yml",
 						"**/build/azDevOps/azure/ci-background-worker-vars.yml",
+						"**/build/azDevOps/azure/ci-aca-background-worker-vars.yml",
+						"**/build/azDevOps/azure/ci-aca-simple-api-vars.yml",
 						"**/build/github/aws/**",
 						"**/build/github/gcp/**",
 						"**/deploy/aws/**",
@@ -367,6 +394,23 @@
 					"condition": "(CiCdGitHub)",
 					"exclude": [
 						"**/build/azDevOps/**"
+					]
+				},
+				{
+					"condition": "(DeploymentModeAKS)",
+					"exclude": [
+						"**/deploy/azure/app/aca/**",
+						"**/build/azDevOps/azure/ci-aca.yml",
+						"**/build/azDevOps/azure/ci-aca-cqrs-vars.yml"
+					]
+				},
+				{
+					"condition": "(DeploymentModeACA)",
+					"exclude": [
+						"**/deploy/helm/**",
+						"**/deploy/scripts/**",
+						"**/build/azDevOps/azure/ci.yml",
+						"**/build/azDevOps/azure/ci-cqrs-vars.yml"
 					]
 				}
 			]

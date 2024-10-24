@@ -29,7 +29,31 @@
                     "lowerCase"
                 ]
             }
-        }
+        },
+        "deploymentMode": {
+			"type": "parameter",
+			"datatype": "choice",
+			"defaultValue": "AKS",
+			"choices": [
+				{
+					"choice": "AKS",
+					"description": "Azure Kubernetes Service"
+				},
+				{
+					"choice": "ACA",
+					"description": "Azure Container Apps"
+				}
+			],
+			"description": "Adds specified deployment mode build pipelines. Containers can be deployed to AKS or ACA"
+		},
+        "DeploymentModeAKS": {
+			"type": "computed",
+			"value": "(deploymentMode == \"AKS\")"
+		},
+		"DeploymentModeACA": {
+			"type": "computed",
+			"value": "(deploymentMode == \"ACA\")"
+		}
     },
     "sources": [
         {
@@ -73,17 +97,39 @@
                 "**/build/azDevOps/azure/ci-asb-listener-vars.yml",
                 "**/build/azDevOps/azure/ci-aeh-listener-vars.yml",
                 "**/build/azDevOps/azure/ci-functions.yml",
+                "**/build/azDevOps/azure/ci-aca-cqrs-vars.yml",
+                "**/build/azDevOps/azure/ci-aca-simple-api-vars.yml",
                 "**/build/github/**",
                 "**/deploy/aws/**",
-                "**/deploy/gcp/**",
-                "**/deploy/azure/app/aca/**"
+                "**/deploy/gcp/**"
             ],
             "rename": {
                 "_gitignore": ".gitignore",
                 "_gitattributes": ".gitattributes",
-                "build/azDevOps/azure/ci-background-worker-vars.yml": "build/azDevOps/azure/ci-vars.yml"
+                "build/azDevOps/azure/ci.yml": "build/azDevOps/azure/ci.yml",
+                "build/azDevOps/azure/ci-background-worker-vars.yml": "build/azDevOps/azure/ci-vars.yml",
+                "build/azDevOps/azure/ci-aca.yml": "build/azDevOps/azure/ci.yml",
+                "build/azDevOps/azure/ci-aca-background-worker-vars.yml": "build/azDevOps/azure/ci-vars.yml"
             },
-            "modifiers": []
+            "modifiers": [
+				{
+					"condition": "(DeploymentModeAKS)",
+					"exclude": [
+						"**/deploy/azure/app/aca/**",
+						"**/build/azDevOps/azure/ci-aca.yml",
+						"**/build/azDevOps/azure/ci-aca-background-worker-vars.yml"
+					]
+				},
+				{
+					"condition": "(DeploymentModeACA)",
+					"exclude": [
+						"**/deploy/helm/**",
+						"**/deploy/scripts/**",
+						"**/build/azDevOps/azure/ci.yml",
+						"**/build/azDevOps/azure/ci-background-worker-vars.yml"
+					]
+				}
+			]
         }
     ],
     "SpecialCustomOperations": {

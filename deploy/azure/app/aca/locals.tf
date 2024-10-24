@@ -13,7 +13,7 @@ locals {
     }
   ]
 
-  service_bus_secrets = var.servicebus_type == null ? [] : [
+  service_bus_secrets = var.servicebus_type == "" ? [] : [
     {
       name  = "servicebus-connection-string"
       value = data.terraform_remote_state.app.outputs.servicebus_connectionstring
@@ -62,7 +62,7 @@ locals {
     },
   ]
 
-  service_bus_environment_variables = var.servicebus_type == null ? [] : [
+  service_bus_environment_variables = var.servicebus_type == "" ? [] : [
     {
       name        = "SERVICEBUS_CONNECTIONSTRING"
       secret_name = "servicebus-connection-string"

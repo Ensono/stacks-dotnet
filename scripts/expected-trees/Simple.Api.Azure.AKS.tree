@@ -1,47 +1,12 @@
 .
 ├── .gitattributes
-├── .github
-│   └── workflows
-│       ├── ci.env
-│       └── ci.yml
 ├── .gitignore
 ├── build
 │   ├── azDevOps
 │   │   ├── azure
 │   │   │   ├── api-contract-tests.yml
-│   │   │   ├── ci-aca-background-worker-vars.yml
-│   │   │   ├── ci-aca-cqrs-vars.yml
-│   │   │   ├── ci-aeh-listener-vars.yml
-│   │   │   ├── ci-asb-listener-vars.yml
-│   │   │   ├── ci-background-worker-vars.yml
-│   │   │   ├── ci-cosmosdb-worker-vars.yml
-│   │   │   ├── ci-cqrs-vars.yml
-│   │   │   ├── ci-functions.yml
 │   │   │   ├── ci-vars.yml
 │   │   │   ├── ci.yml
-│   │   │   ├── ensono
-│   │   │   │   ├── ci-aca-background-worker-vars.yml
-│   │   │   │   ├── ci-aca-background-worker.yml
-│   │   │   │   ├── ci-aca-cqrs-vars.yml
-│   │   │   │   ├── ci-aca-cqrs.yml
-│   │   │   │   ├── ci-aca-simple-api-vars.yml
-│   │   │   │   ├── ci-aca-simple-api.yml
-│   │   │   │   ├── ci-aeh-listener-vars.yml
-│   │   │   │   ├── ci-aeh-listener.yml
-│   │   │   │   ├── ci-asb-listener-vars.yml
-│   │   │   │   ├── ci-asb-listener.yml
-│   │   │   │   ├── ci-background-worker-vars.yml
-│   │   │   │   ├── ci-background-worker.yml
-│   │   │   │   ├── ci-cosmosdb-worker-vars.yml
-│   │   │   │   ├── ci-cosmosdb-worker.yml
-│   │   │   │   ├── ci-cqrs-vars.yml
-│   │   │   │   ├── ci-cqrs.yml
-│   │   │   │   ├── ci-simple-api-vars.yml
-│   │   │   │   ├── ci-simple-api.yml
-│   │   │   │   ├── models-packages-api.yml
-│   │   │   │   ├── nuget-packages-api-vars.yml
-│   │   │   │   ├── nuget-packages-api.yml
-│   │   │   │   └── packages-api-models.yml
 │   │   │   └── release-notes
 │   │   │       ├── handlebar
 │   │   │       │   ├── extensions
@@ -52,29 +17,12 @@
 │   │       ├── legacy-deploy-functions.yml
 │   │       └── taskctl-setup.yml
 │   ├── deployment_list.ps1
-│   ├── github
-│   │   ├── aws
-│   │   │   ├── README.md
-│   │   │   └── env
-│   │   │       └── cqrs.env
-│   │   └── templates
-│   │       └── install-taskctl
-│   │           └── action.yaml
 │   ├── scripts
 │   │   └── .gitkeep
 │   └── taskctl
 │       ├── contexts.yaml
 │       └── tasks.yaml
 ├── deploy
-│   ├── aws
-│   │   └── app
-│   │       └── kube
-│   │           ├── README.md
-│   │           ├── data.tf
-│   │           ├── main.tf
-│   │           ├── outputs.tf
-│   │           ├── provider.tf
-│   │           └── variables.tf
 │   ├── azure
 │   │   └── app
 │   │       ├── eventhub
@@ -135,7 +83,7 @@
 │           │   ├── .dockerignore
 │           │   ├── Dockerfile
 │           │   ├── NuGet.config
-│           │   ├── Simple.Api.API
+│           │   ├── Simple.Api.Azure.AKS.API
 │           │   │   ├── Authentication
 │           │   │   │   ├── ConfigurationExtensions.cs
 │           │   │   │   ├── JwtBearerAuthenticationConfiguration.cs
@@ -185,9 +133,9 @@
 │           │   │   ├── Operations
 │           │   │   │   └── IOperationContext.cs
 │           │   │   ├── Program.cs
-│           │   │   ├── Simple.Api.API.csproj
+│           │   │   ├── Simple.Api.Azure.AKS.API.csproj
 │           │   │   └── appsettings.json
-│           │   ├── Simple.Api.API.ComponentTests
+│           │   ├── Simple.Api.Azure.AKS.API.ComponentTests
 │           │   │   ├── Features
 │           │   │   │   ├── CreateMenuFeature.cs
 │           │   │   │   ├── DeleteMenuFeature.cs
@@ -204,8 +152,8 @@
 │           │   │   │   ├── Configuration.cs
 │           │   │   │   ├── CustomAutoDataAttribute.cs
 │           │   │   │   └── DotEnv.cs
-│           │   │   └── Simple.Api.API.ComponentTests.csproj
-│           │   ├── Simple.Api.API.Models
+│           │   │   └── Simple.Api.Azure.AKS.API.ComponentTests.csproj
+│           │   ├── Simple.Api.Azure.AKS.API.Models
 │           │   │   ├── Requests
 │           │   │   │   ├── CreateCategoryRequest.cs
 │           │   │   │   ├── CreateItemRequest.cs
@@ -220,8 +168,8 @@
 │           │   │   │   ├── ResourceCreatedResponse.cs
 │           │   │   │   ├── SearchMenuResponse.cs
 │           │   │   │   └── SearchMenuResponseItem.cs
-│           │   │   └── Simple.Api.API.Models.csproj
-│           │   ├── Simple.Api.API.UnitTests
+│           │   │   └── Simple.Api.Azure.AKS.API.Models.csproj
+│           │   ├── Simple.Api.Azure.AKS.API.UnitTests
 │           │   │   ├── ConfigurableAuthorizationPolicyProviderTests.cs
 │           │   │   ├── Controllers
 │           │   │   │   ├── ApiControllerBaseTests.cs
@@ -246,18 +194,18 @@
 │           │   │   │   ├── JwtBearerAuthenticationConfigurationTests.cs
 │           │   │   │   ├── JwtBearerAuthenticationOperationFilterTests.cs
 │           │   │   │   └── JwtBearerAuthenticationStartupExtensionsTests.cs
-│           │   │   └── Simple.Api.API.UnitTests.csproj
-│           │   ├── Simple.Api.API.sln
-│           │   └── Simple.Api.AppHost
+│           │   │   └── Simple.Api.Azure.AKS.API.UnitTests.csproj
+│           │   ├── Simple.Api.Azure.AKS.API.sln
+│           │   └── Simple.Api.Azure.AKS.AppHost
 │           │       ├── Program.cs
 │           │       ├── Properties
 │           │       │   └── launchSettings.json
-│           │       ├── Simple.Api.AppHost.csproj
+│           │       ├── Simple.Api.Azure.AKS.AppHost.csproj
 │           │       ├── appsettings.Development.json
 │           │       └── appsettings.json
 │           └── tests
 │               └── Functional
-│                   ├── Simple.Api.API.FunctionalTests
+│                   ├── Simple.Api.Azure.AKS.API.FunctionalTests
 │                   │   ├── Builders
 │                   │   │   ├── CategoryBuilder.cs
 │                   │   │   ├── CategoryRequestBuilder.cs
@@ -282,7 +230,7 @@
 │                   │   │   ├── MenuRequest.cs
 │                   │   │   ├── SearchResult.cs
 │                   │   │   └── SearchResultItem.cs
-│                   │   ├── Simple.Api.API.FunctionalTests.csproj
+│                   │   ├── Simple.Api.Azure.AKS.API.FunctionalTests.csproj
 │                   │   ├── Tests
 │                   │   │   ├── Fixtures
 │                   │   │   │   └── AuthFixture.cs
@@ -304,7 +252,7 @@
 │                   │   │       ├── UpdateItemById.cs
 │                   │   │       └── UpdateMenuById.cs
 │                   │   └── appsettings.json
-│                   └── Simple.Api.API.FunctionalTests.sln
+│                   └── Simple.Api.Azure.AKS.API.FunctionalTests.sln
 ├── stackscli.yml
 ├── taskctl.yaml
 └── yamllint.conf
