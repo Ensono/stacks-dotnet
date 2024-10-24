@@ -228,9 +228,9 @@ tasks:
       - Write-Host "***** DEBUG *****" && get-childitem -filter "*opencover.xml" -recurse
 
   debug:sleep:
-    context: powershell
+    context: powershell-dotnet
     command:
       - echo "Sleeping for {{ .sleep }}"
       - sleep {{ .sleep }}
     variables:
-      sleep: 30
+      sleep: 3000
