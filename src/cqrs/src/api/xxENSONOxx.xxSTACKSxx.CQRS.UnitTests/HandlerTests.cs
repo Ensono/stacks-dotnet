@@ -1,4 +1,4 @@
-﻿#if CosmosDb
+#if CosmosDb
 using System;
 using System.Collections.Generic;
 using AutoFixture;
@@ -6,7 +6,7 @@ using AutoFixture.Xunit2;
 using NSubstitute;
 using Shouldly;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers;
