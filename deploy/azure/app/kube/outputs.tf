@@ -116,14 +116,16 @@ output "dns_base_domain" {
   value       = data.terraform_remote_state.core.outputs.dns_base_domain
 }
 
+#TODO: This output should be removed
 output "aks_resource_group_name" {
   description = "Name of the Resource Group in which the K8s cluster is deployed"
-  value       = data.terraform_remote_state.core.outputs.aks_resource_group_name
+  value       = var.deploy_to_aca ? null : data.terraform_remote_state.core.outputs.aks_resource_group_name
 }
 
+#TODO: This output should be removed
 output "aks_cluster_name" {
   description = "Name of the AKS cluster"
-  value       = data.terraform_remote_state.core.outputs.aks_cluster_name
+  value       = var.deploy_to_aca ? null : data.terraform_remote_state.core.outputs.aks_cluster_name
 }
 
 output "resource_group_name" {
