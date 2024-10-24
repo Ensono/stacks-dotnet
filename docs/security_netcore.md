@@ -9,7 +9,7 @@ keywords:
   - authentication
   - configuration
   - enable oauth
-  - authorization url
+  - authorization url![alt text](image.png)
   - authorization
 ---
 
@@ -23,7 +23,7 @@ When you're building an API or any system that handles users, you'll often hear 
 
 ### Authentication: "Who Are You?"
 
-**Authentication** is all about **proving who you are**. It's the process of checking whether someone is a valid user. 
+**Authentication** is all about **proving who you are**. It's the process of checking whether someone is a valid user.
 
 For example, when a user logs in with their username and password (or Google account, etc.), the system checks if their credentials (login info) match an existing user. If they match, the user gets a token (like an ID badge) that proves they're logged in.
 
@@ -37,7 +37,7 @@ For example, some users might only be allowed to view data, while others can edi
 
 Think of it like being in a building: you might be allowed to enter the lobby (authentication), but whether you're allowed in restricted areas depends on your access level (authorization).
 
-### In Summary:
+### In Summary
 
 - **Authentication** = Are you a valid user? (Proving who you are)
 - **Authorization** = What can you do? (Checking your permissions)
@@ -77,7 +77,7 @@ The important parts to focus on are:
 1. `Enabled`: This is set to `false` by default, which means anyone can access your API without logging in. You should change this to `true` to require login.
 2. `Audience`: This tells the API who the token (badge) is meant for. For example, if you're using a login service like Auth0, this will be the identifier for your API.
 3. `Authority`: This is the place where the token was issued (who gave the badge). Usually, this is the URL of the service you're using to log users in (like `https://your-auth-service.com`).
- 
+
 Once you fill in the `Audience`, `Authority`, and set `Enabled` to `true`, your API is secured. Now, only users with a valid login token can access certain parts of it.
 
 ### Making Login Work in Swagger (Your API Documentation)
@@ -114,6 +114,7 @@ var jwtBearerAuthenticationConfiguration = new JwtBearerAuthenticationConfigurat
     UseStubbedBackChannelHandler = true  // Pretends to communicate with the login system to make tests faster
 };
 ```
+
 - **AllowExpiredTokens**: Normally, expired tokens are rejected, but for testing, you can allow them. This makes it easier to use pre-made tokens.
   
 - **UseStubbedBackChannelHandler**: This simulates communication with the login system, so you don't have to wait for real requests. It speeds up tests and makes sure they run even if the login system is down.

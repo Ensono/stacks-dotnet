@@ -76,7 +76,7 @@ builder.Services.AddOpenTelemetry()
     })
     .UseOtlpExporter();
 ```
- 
+
 Here's an example of what the `appsettings.json` configuration file might look like when using OpenTelemetry for logging:
 
 ```json
@@ -86,14 +86,14 @@ Here's an example of what the `appsettings.json` configuration file might look l
 }
 ```
 
-### Key Points:
+### Key Points
 
-1. **Console Sink**: 
-   - Sends logs to the console, so you can quickly check what's happening with your service in real time. 
+1. **Console Sink**:
+   - Sends logs to the console, so you can quickly check what's happening with your service in real time.
    - For example, when using `kubectl logs`, you can see these logs immediately.
 
-2. **Application Insights Sink**: 
-   - Sends logs to **Application Insights**, which stores logs from all your services for future analysis. 
+2. **Application Insights Sink**:
+   - Sends logs to **Application Insights**, which stores logs from all your services for future analysis.
    - This makes it easier to investigate issues that happened in the past.
 
 3. **Log Levels**:
