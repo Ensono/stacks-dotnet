@@ -22,7 +22,7 @@ if (!([string]::IsNullOrEmpty($Branch))) {
     git clone -b $Branch git@github.com:Ensono/stacks-dotnet.git $StacksDotnetDirectory
 }
 
-if (!$GenerateExpectedTrees) {
+if (!$GenerateExpectedTrees -And ([string]::IsNullOrEmpty($Template))) {
     # Change directory to the simple-api project and run the tests
     Push-Location -Path "$StacksDotnetDirectory/src/simple-api/src/api" && dotnet restore && dotnet test --filter TestType!=IntegrationTests && Pop-Location
 
@@ -170,7 +170,7 @@ $projects | ForEach-Object {
         if ($GenerateExpectedTrees) {
             Write-Output "Generating expected directory tree for $($project.Name)"
             Push-Location -Path ($project.Name)
-            tree -a --noreport > $PSScriptRoot/expected-trees/$($project.Name).tree
+            tree -a --charset utf-8 --noreport > $PSScriptRoot/expected-trees/$($project.Name).tree
             Pop-Location
         }
     }
