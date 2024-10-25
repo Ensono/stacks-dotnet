@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.API.Controllers;
 using xxENSONOxx.xxSTACKSxx.API.Controllers.Category;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.API.UnitTests.Controllers;
 

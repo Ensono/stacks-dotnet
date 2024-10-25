@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 using Microsoft.Azure.ServiceBus;
 using Shouldly;
 using Xunit;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 using DummyEventSb = xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events.DummyEventSb;
 using NotifyCommand = xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands.NotifyCommand;
 using NotifyEvent = xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events.NotifyEvent;

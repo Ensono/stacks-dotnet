@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Logging;
@@ -31,7 +31,7 @@ public class StacksListenerTests
         // Assert
         logger.Received(1).LogInformation($"Message read. Menu Id: {message.MessageId}");
     }
-    
+
     private static ServiceBusReceivedMessage BuildMessage(MenuCreatedEvent body)
     {
         var correlationId = GetCorrelationId(body);
@@ -47,7 +47,7 @@ public class StacksListenerTests
     private static Guid GetCorrelationId(object body)
     {
         var operationContext = body as IOperationContext;
-        
+
         return operationContext?.CorrelationId ?? Guid.NewGuid();
     }
 }

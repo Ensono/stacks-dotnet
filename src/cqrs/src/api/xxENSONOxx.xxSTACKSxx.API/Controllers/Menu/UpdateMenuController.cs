@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 
@@ -19,7 +19,7 @@ namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Menu;
 public class UpdateMenuController(ICommandHandler<UpdateMenu, bool> commandHandler) : ApiControllerBase
 {
     readonly ICommandHandler<UpdateMenu, bool> commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-    
+
     /// <summary>
     /// Update a menu
     /// </summary>

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Routers;
 using Microsoft.Extensions.Logging;
 using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Routers;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers
 {

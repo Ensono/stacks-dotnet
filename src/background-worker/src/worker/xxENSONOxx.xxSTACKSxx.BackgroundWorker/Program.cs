@@ -3,9 +3,9 @@ using OpenTelemetry;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
-using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Handlers;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Secrets;
 

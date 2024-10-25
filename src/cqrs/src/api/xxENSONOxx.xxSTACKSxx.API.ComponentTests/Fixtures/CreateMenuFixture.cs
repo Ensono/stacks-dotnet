@@ -1,11 +1,11 @@
-using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
+using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 
@@ -27,7 +27,7 @@ public class CreateMenuFixture(
         collection.AddTransient(_ => repository);
         collection.AddTransient(_ => applicationEventPublisher);
     }
-    
+
     internal void GivenAInvalidMenu()
     {
         newMenu.Name = null;
@@ -39,12 +39,12 @@ public class CreateMenuFixture(
         repository.GetByIdAsync(id: Arg.Any<Guid>())
             .Returns((Domain.Menu)null!);
     }
-    
+
     internal async Task WhenTheMenuCreationIsSubmitted()
     {
         await CreateMenu(newMenu);
     }
-    
+
     internal void ThenTheMenuIsSubmittedToDatabase()
     {
         repository.Received(1).SaveAsync(Arg.Is<Domain.Menu>(menu => menu.Name == newMenu.Name));
