@@ -43,7 +43,7 @@ module "aca" {
   container_app_containers = [
     {
       cpu    = 0.25
-      image  = "${data.azurerm_container_registry.acr.name}.azurecr.io/${var.docker_image_name}:${var.docker_image_tag}"
+      image  = lower("${data.azurerm_container_registry.acr.name}.azurecr.io/${var.docker_image_name}:${var.docker_image_tag}")
       memory = "0.5Gi"
       name   = lower(var.name_domain)
       env    = local.environment_variables
