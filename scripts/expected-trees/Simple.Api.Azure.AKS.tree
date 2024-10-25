@@ -252,7 +252,8 @@
 │                   │   │       ├── UpdateItemById.cs
 │                   │   │       └── UpdateMenuById.cs
 │                   │   └── appsettings.json
-│                   └── Simple.Api.Azure.AKS.API.FunctionalTests.sln
+│                   ├── Simple.Api.Azure.AKS.API.FunctionalTests.sln
+│                   └── templater.ps1
 ├── stackscli.yml
 ├── taskctl.yaml
 └── yamllint.conf

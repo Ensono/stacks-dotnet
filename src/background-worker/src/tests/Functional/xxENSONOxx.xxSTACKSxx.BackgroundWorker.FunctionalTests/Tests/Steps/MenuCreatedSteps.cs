@@ -46,11 +46,8 @@ public class MenuCreatedSteps
     /// <returns></returns>
     public async Task ClearTopicAsync()
     {
-        await _serviceBusDriver.ClearTopicAsync(
-            _topicName,
-            _subscriptionName,
-            SubQueue.DeadLetter
-        );
+        await _serviceBusDriver.ClearTopicAsync(_topicName, _subscriptionName, SubQueue.None);
+        await _serviceBusDriver.ClearTopicAsync(_topicName, _subscriptionName, SubQueue.DeadLetter);
     }
 
 
