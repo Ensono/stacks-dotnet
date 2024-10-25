@@ -295,6 +295,7 @@ stages:
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR)
                     BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     TEMPLATER_FILE: $(FUNCTIONAL_TESTS_RUN_DIR)/templater.ps1
+                    ENV_NAME: $(Environment.ShortName)
 
                 - task: PublishTestResults@2
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
@@ -471,6 +472,7 @@ stages:
                     FUNCTIONAL_TESTS_RUN_DIR: $(FUNCTIONAL_TESTS_RUN_DIR)
                     BaseUrl: $(FUNCTIONAL_TEST_BASEURL)
                     TEMPLATER_FILE: $(FUNCTIONAL_TESTS_RUN_DIR)/templater.ps1
+                    ENV_NAME: $(Environment.ShortName)
 
                 - task: PublishTestResults@2
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
