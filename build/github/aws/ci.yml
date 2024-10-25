@@ -224,8 +224,22 @@ jobs:
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
           DNS_BASE_DOMAIN: "replaceme" # i.e. "nonprod.aws.stacks.ensono.com"
+          TEMPLATER_FILE: "build/deployment_list.ps1"
+
+      - name: TaskCTL Functional Tests
+        run: taskctl functional_tests
+        env:
+          ENV_NAME: dev
+          # AWS Environmental Config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
+          # Terraform Backend Configuration (for outputs)
+          TF_FILE_LOCATION: deploy/aws/app/kube
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
+          TEMPLATER_FILE: "${{ env.FUNCTIONAL_TESTS_RUN_DIR }}/templater.ps1"
           BaseUrl: "replaceme" # i.e. "https://dev-netcore-api.nonprod.aws.stacks.ensono.com/api/menu/"
 
       - name: "Dev: ${{ env.DOMAIN }} Functional Test Report"
@@ -336,8 +350,22 @@ jobs:
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
           DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
           DNS_BASE_DOMAIN: "replaceme" # i.e. "prod.aws.stacks.ensono.com"
+          TEMPLATER_FILE: "build/deployment_list.ps1"
+
+      - name: TaskCTL Functional Tests
+        run: taskctl functional_tests
+        env:
+          ENV_NAME: prod
+          # AWS Environmental Config
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
+          # Terraform Backend Configuration (for outputs)
+          TF_FILE_LOCATION: deploy/aws/app/kube
+          TF_BACKEND_ARGS: region=${{ secrets.AWS_TF_STATE_REGION }},access_key=${{ secrets.AWS_ACCESS_KEY_ID }},secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }},bucket=${{ secrets.AWS_TF_STATE_BUCKET }},key=${{ env.AWS_TF_STATE_KEY }},dynamodb_table=${{ secrets.AWS_TF_STATE_DYNAMOTABLE }},encrypt=${{ secrets.AWS_TF_STATE_ENCRYPTION }}
           # Functional Test Configuration
           FUNCTIONAL_TESTS_RUN_DIR: /app/tests # Must match RELATIVE path from repo root that artefact is downloaded to.
+          TEMPLATER_FILE: "${{ env.FUNCTIONAL_TESTS_RUN_DIR }}/templater.ps1"
           BaseUrl: "replaceme" # i.e. "https://prod-netcore-api.prod.aws.stacks.ensono.com/api/menu/"
 
       - name: "Prod: ${{ env.DOMAIN }} Functional Test Report"

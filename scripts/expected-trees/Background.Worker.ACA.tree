@@ -87,7 +87,8 @@
 │   │       │       │   │   └── Stories
 │   │       │       │   │       └── MenuCreatedStory.cs
 │   │       │       │   └── appsettings.json
-│   │       │       └── Background.Worker.ACA.BackgroundWorker.FunctionalTests.sln
+│   │       │       ├── Background.Worker.ACA.BackgroundWorker.FunctionalTests.sln
+│   │       │       └── templater.ps1
 │   │       └── worker
 │   │           ├── Background.Worker.ACA.Application.CQRS.Events
 │   │           │   ├── Background.Worker.ACA.Application.CQRS.Events.csproj

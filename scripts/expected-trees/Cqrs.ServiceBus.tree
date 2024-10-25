@@ -420,7 +420,8 @@
 │   │               │   │       ├── UpdateItemById.cs
 │   │               │   │       └── UpdateMenuById.cs
 │   │               │   └── appsettings.json
-│   │               └── Cqrs.ServiceBus.API.FunctionalTests.sln
+│   │               ├── Cqrs.ServiceBus.API.FunctionalTests.sln
+│   │               └── templater.ps1
 │   └── shared
 │       ├── .editorconfig
 │       ├── Cqrs.ServiceBus.Shared.Messaging.Azure.ServiceBus

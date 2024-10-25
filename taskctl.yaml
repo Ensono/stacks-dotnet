@@ -42,6 +42,14 @@ pipelines:
     - task: infra:apply
       depends_on: infra:plan
 
+  # Functional tests
+  functional_tests:
+    - task: infra:init
+    - task: deploy:templater
+      depends_on: infra:init
+    - task: deploy:functional_tests
+      depends_on: deploy:templater
+
   # Deploy pipeline
   deploy:
     - task: infra:init
@@ -49,8 +57,6 @@ pipelines:
       depends_on: infra:init
     - task: deploy:helm
       depends_on: deploy:templater
-    - task: deploy:functional_tests
-      depends_on: deploy:helm
 
   # Deploy pipeline
   deploy_aca:
@@ -59,7 +65,3 @@ pipelines:
       depends_on: infra:init
     - task: infra:apply
       depends_on: infra:plan
-    - task: deploy:templater
-      depends_on: infra:apply
-    - task: deploy:functional_tests
-      depends_on: infra:apply

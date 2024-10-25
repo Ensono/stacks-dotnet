@@ -460,7 +460,8 @@
 │   │               │   │       ├── UpdateItemById.cs
 │   │               │   │       └── UpdateMenuById.cs
 │   │               │   └── appsettings.json
-│   │               └── Cqrs.AllTheThings.API.FunctionalTests.sln
+│   │               ├── Cqrs.AllTheThings.API.FunctionalTests.sln
+│   │               └── templater.ps1
 │   └── shared
 │       ├── .editorconfig
 │       ├── Cqrs.AllTheThings.Shared.Messaging.Azure.ServiceBus
