@@ -370,8 +370,7 @@
 │   │       │   │   ├── DynamoDbObjectStorageTests.cs
 │   │       │   │   └── FakeMenu.cs
 │   │       │   ├── Dockerfile
-│   │       │   ├── NuGet.config
-│   │       │   └── README.md
+│   │       │   └── NuGet.config
 │   │       └── tests
 │   │           └── Functional
 │   │               ├── Cqrs.ServiceBus.API.FunctionalTests
@@ -400,7 +399,6 @@
 │   │               │   │   ├── MenuRequest.cs
 │   │               │   │   ├── SearchResponse.cs
 │   │               │   │   └── SearchResponseItem.cs
-│   │               │   ├── ReadMe.md
 │   │               │   ├── Tests
 │   │               │   │   ├── Fixtures
 │   │               │   │   │   └── AuthFixture.cs
@@ -422,7 +420,8 @@
 │   │               │   │       ├── UpdateItemById.cs
 │   │               │   │       └── UpdateMenuById.cs
 │   │               │   └── appsettings.json
-│   │               └── Cqrs.ServiceBus.API.FunctionalTests.sln
+│   │               ├── Cqrs.ServiceBus.API.FunctionalTests.sln
+│   │               └── templater.ps1
 │   └── shared
 │       ├── .editorconfig
 │       ├── Cqrs.ServiceBus.Shared.Messaging.Azure.ServiceBus

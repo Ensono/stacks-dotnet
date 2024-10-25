@@ -1,23 +1,34 @@
 # CosmosDB Configuration
 output "cosmosdb_database_name" {
   description = "CosmosDB Database name"
-  value       = module.app.cosmosdb_database_name
+  value       = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_account_name : null
 }
 
 output "cosmosdb_account_name" {
   description = "CosmosDB account name"
-  value       = module.app.cosmosdb_account_name
+  value       = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_account_name : null
+}
+
+output "cosmosdb_container_name" {
+  description = "CosmosDB Container name"
+  value       = var.cosmosdb_sql_container != "" ? var.cosmosdb_sql_container : null
 }
 
 output "cosmosdb_endpoint" {
   description = "Endpoint for accessing the DB CRUD"
-  value       = module.app.cosmosdb_endpoint
+  value       = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_endpoint : null
 }
 
 output "cosmosdb_primary_master_key" {
   description = "Primary Key for accessing the DB CRUD, should only be used in applications running outside of AzureCloud"
   sensitive   = true
-  value       = module.app.cosmosdb_primary_master_key
+  value       = var.create_cosmosdb ? module.app.cosmosdb_primary_master_key : null
+}
+
+output "cosmosdb_connection_string" {
+  description = "Connection string for accessing the DB CRUD"
+  sensitive   = true
+  value       = var.create_cosmosdb || local.lookup_cosmosdb_account ? local.cosmosdb_connection_string : null
 }
 
 # Redis Configuration
@@ -105,14 +116,16 @@ output "dns_base_domain" {
   value       = data.terraform_remote_state.core.outputs.dns_base_domain
 }
 
+#TODO: This output should be removed
 output "aks_resource_group_name" {
   description = "Name of the Resource Group in which the K8s cluster is deployed"
-  value       = data.terraform_remote_state.core.outputs.aks_resource_group_name
+  value       = var.deploy_to_aca ? null : data.terraform_remote_state.core.outputs.aks_resource_group_name
 }
 
+#TODO: This output should be removed
 output "aks_cluster_name" {
   description = "Name of the AKS cluster"
-  value       = data.terraform_remote_state.core.outputs.aks_cluster_name
+  value       = var.deploy_to_aca ? null : data.terraform_remote_state.core.outputs.aks_cluster_name
 }
 
 output "resource_group_name" {

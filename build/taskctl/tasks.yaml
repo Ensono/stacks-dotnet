@@ -173,7 +173,7 @@ tasks:
     description: Render deployment templates
     command:
       - ln -sfn /usr/local/terraform/1.9.3/bin /usr/local/terraform/bin;
-        Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path build/deployment_list.ps1
+        Invoke-Terraform -Output -Sensitive -Path $env:TF_FILE_LOCATION | Invoke-Templater -Path $env:TEMPLATER_FILE
 
   deploy:kubernetes:
     context: powershell
@@ -228,9 +228,9 @@ tasks:
       - Write-Host "***** DEBUG *****" && get-childitem -filter "*opencover.xml" -recurse
 
   debug:sleep:
-    context: powershell
+    context: powershell-dotnet
     command:
       - echo "Sleeping for {{ .sleep }}"
       - sleep {{ .sleep }}
     variables:
-      sleep: 30
+      sleep: 3000

@@ -353,8 +353,7 @@
 │   │       │   │   ├── FakeMenu.cs
 │   │       │   │   └── SnsEventPublisherTests.cs
 │   │       │   ├── Dockerfile
-│   │       │   ├── NuGet.config
-│   │       │   └── README.md
+│   │       │   └── NuGet.config
 │   │       └── tests
 │   │           └── Functional
 │   │               ├── Cqrs.Sns.API.FunctionalTests
@@ -383,7 +382,6 @@
 │   │               │   │   ├── MenuRequest.cs
 │   │               │   │   ├── SearchResponse.cs
 │   │               │   │   └── SearchResponseItem.cs
-│   │               │   ├── ReadMe.md
 │   │               │   ├── Tests
 │   │               │   │   ├── Fixtures
 │   │               │   │   │   └── AuthFixture.cs
@@ -405,7 +403,8 @@
 │   │               │   │       ├── UpdateItemById.cs
 │   │               │   │       └── UpdateMenuById.cs
 │   │               │   └── appsettings.json
-│   │               └── Cqrs.Sns.API.FunctionalTests.sln
+│   │               ├── Cqrs.Sns.API.FunctionalTests.sln
+│   │               └── templater.ps1
 │   └── shared
 │       ├── .editorconfig
 │       ├── Cqrs.Sns.Shared.Messaging.Azure.ServiceBus

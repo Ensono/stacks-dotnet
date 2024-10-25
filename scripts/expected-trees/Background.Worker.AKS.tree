@@ -1,0 +1,323 @@
+.
+├── .gitattributes
+├── .gitignore
+├── build
+│   ├── azDevOps
+│   │   ├── azure
+│   │   │   ├── api-contract-tests.yml
+│   │   │   ├── ci-vars.yml
+│   │   │   ├── ci.yml
+│   │   │   └── release-notes
+│   │   │       ├── handlebar
+│   │   │       │   ├── extensions
+│   │   │       │   │   └── custom-extensions.js
+│   │   │       │   └── releaseNoteTemplate.handlebars
+│   │   │       └── publish-release-notes.yml
+│   │   └── templates
+│   │       ├── legacy-deploy-functions.yml
+│   │       └── taskctl-setup.yml
+│   ├── deployment_list.ps1
+│   ├── scripts
+│   │   └── .gitkeep
+│   └── taskctl
+│       ├── contexts.yaml
+│       └── tasks.yaml
+├── deploy
+│   ├── azure
+│   │   └── app
+│   │       ├── eventhub
+│   │       │   ├── event_hub.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── storage.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       ├── function
+│   │       │   ├── function.tf
+│   │       │   ├── main.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       ├── kube
+│   │       │   ├── locals.tf
+│   │       │   ├── lookups.tf
+│   │       │   ├── main.tf
+│   │       │   ├── outputs.tf
+│   │       │   ├── provider.tf
+│   │       │   ├── variables.tf
+│   │       │   └── versions.tf
+│   │       └── servicebus
+│   │           ├── main.tf
+│   │           ├── outputs.tf
+│   │           ├── service_bus.tf
+│   │           ├── variables.tf
+│   │           └── versions.tf
+│   ├── helm
+│   │   └── stacks-dotnet
+│   │       ├── .helmignore
+│   │       ├── Chart.yaml
+│   │       ├── templates
+│   │       │   ├── NOTES.txt
+│   │       │   ├── _helpers.tpl
+│   │       │   ├── configmap.yaml
+│   │       │   ├── deployment.yaml
+│   │       │   ├── hpa.yaml
+│   │       │   ├── ingress.yaml
+│   │       │   ├── secret.yaml
+│   │       │   ├── service.yaml
+│   │       │   ├── serviceaccount.yaml
+│   │       │   └── tests
+│   │       │       └── test-connection.yaml
+│   │       └── values.yaml
+│   └── scripts
+│       ├── 1-set-cluster-context.sh
+│       ├── 2-promote-image.sh
+│       └── 3-helm-upgrade.sh
+├── src
+│   ├── background-worker
+│   │   └── src
+│   │       ├── .editorconfig
+│   │       ├── tests
+│   │       │   └── Functional
+│   │       │       ├── Background.Worker.AKS.BackgroundWorker.FunctionalTests
+│   │       │       │   ├── Background.Worker.AKS.BackgroundWorker.FunctionalTests.csproj
+│   │       │       │   ├── Configuration
+│   │       │       │   │   ├── ConfigurationAccessor.cs
+│   │       │       │   │   └── ConfigurationModel.cs
+│   │       │       │   ├── Data
+│   │       │       │   │   └── MenuCreatedEvent.json
+│   │       │       │   ├── Drivers
+│   │       │       │   │   ├── ServiceBusDriver.cs
+│   │       │       │   │   └── TestDrivers.cs
+│   │       │       │   ├── GlobalUsings.cs
+│   │       │       │   ├── Models
+│   │       │       │   │   ├── CloudEvents
+│   │       │       │   │   │   ├── CloudEvent.cs
+│   │       │       │   │   │   ├── ICloudEvent.cs
+│   │       │       │   │   │   └── StacksCloudEvent.cs
+│   │       │       │   │   └── MenuCreatedEvent.cs
+│   │       │       │   ├── Tests
+│   │       │       │   │   ├── Steps
+│   │       │       │   │   │   └── MenuCreatedSteps.cs
+│   │       │       │   │   └── Stories
+│   │       │       │   │       └── MenuCreatedStory.cs
+│   │       │       │   └── appsettings.json
+│   │       │       ├── Background.Worker.AKS.BackgroundWorker.FunctionalTests.sln
+│   │       │       └── templater.ps1
+│   │       └── worker
+│   │           ├── Background.Worker.AKS.Application.CQRS.Events
+│   │           │   ├── Background.Worker.AKS.Application.CQRS.Events.csproj
+│   │           │   ├── CategoryCreatedEvent.cs
+│   │           │   ├── CategoryDeletedEvent.cs
+│   │           │   ├── CategoryUpdatedEvent.cs
+│   │           │   ├── Enums
+│   │           │   │   └── EventCode.cs
+│   │           │   ├── MenuCreatedEvent.cs
+│   │           │   ├── MenuDeletedEvent.cs
+│   │           │   ├── MenuItemCreatedEvent.cs
+│   │           │   ├── MenuItemDeletedEvent.cs
+│   │           │   ├── MenuItemUpdatedEvent.cs
+│   │           │   └── MenuUpdatedEvent.cs
+│   │           ├── Background.Worker.AKS.BackgroundWorker
+│   │           │   ├── ApplicationEvents
+│   │           │   │   ├── EventCode.cs
+│   │           │   │   ├── Events
+│   │           │   │   │   ├── CategoryCreatedEvent.cs
+│   │           │   │   │   ├── CategoryDeletedEvent.cs
+│   │           │   │   │   ├── CategoryUpdatedEvent.cs
+│   │           │   │   │   ├── MenuCreatedEvent.cs
+│   │           │   │   │   ├── MenuDeletedEvent.cs
+│   │           │   │   │   ├── MenuItemCreatedEvent.cs
+│   │           │   │   │   ├── MenuItemDeletedEvent.cs
+│   │           │   │   │   ├── MenuItemUpdatedEvent.cs
+│   │           │   │   │   └── MenuUpdatedEvent.cs
+│   │           │   │   └── Handlers
+│   │           │   │       ├── CategoryCreatedEventHandler.cs
+│   │           │   │       ├── CategoryDeletedEventHandler.cs
+│   │           │   │       ├── CategoryUpdatedEventHandler.cs
+│   │           │   │       ├── MenuCreatedEventHandler.cs
+│   │           │   │       ├── MenuDeletedEventHandler.cs
+│   │           │   │       ├── MenuItemCreatedEventHandler.cs
+│   │           │   │       ├── MenuItemDeletedEventHandler.cs
+│   │           │   │       ├── MenuItemUpdatedEventHandler.cs
+│   │           │   │       └── MenuUpdatedEventHandler.cs
+│   │           │   ├── Background.Worker.AKS.BackgroundWorker.csproj
+│   │           │   ├── Program.cs
+│   │           │   └── appsettings.json
+│   │           ├── Background.Worker.AKS.BackgroundWorker.UnitTests
+│   │           │   ├── Background.Worker.AKS.BackgroundWorker.UnitTests.csproj
+│   │           │   ├── Doubles
+│   │           │   │   └── MockLogger.cs
+│   │           │   ├── GlobalUsings.cs
+│   │           │   └── Tests
+│   │           │       └── ApplicationEvents
+│   │           │           ├── EventCodeUnitTests.cs
+│   │           │           ├── Events
+│   │           │           │   ├── CategoryCreatedEventUnitTests.cs
+│   │           │           │   ├── CategoryDeletedEventUnitTests.cs
+│   │           │           │   ├── CategoryUpdatedEventUnitTests.cs
+│   │           │           │   ├── MenuCreatedEventUnitTests.cs
+│   │           │           │   ├── MenuDeletedEventUnitTests.cs
+│   │           │           │   ├── MenuItemCreatedEventUnitTests.cs
+│   │           │           │   ├── MenuItemDeletedEventUnitTests.cs
+│   │           │           │   ├── MenuItemUpdatedEventUnitTests.cs
+│   │           │           │   └── MenuUpdatedEventUnitTests.cs
+│   │           │           └── Handlers
+│   │           │               ├── CategoryCreatedEventHandlerUnitTests.cs
+│   │           │               ├── CategoryDeletedEventHandlerUnitTests.cs
+│   │           │               ├── CategoryUpdatedEventHandlerUnitTests.cs
+│   │           │               ├── MenuCreatedEventHandlerUnitTests.cs
+│   │           │               ├── MenuDeletedEventHandlerUnitTests.cs
+│   │           │               ├── MenuItemCreatedEventHandlerUnitTests.cs
+│   │           │               ├── MenuItemDeletedEventHandlerUnitTests.cs
+│   │           │               ├── MenuItemUpdatedEventHandlerUnitTests.cs
+│   │           │               └── MenuUpdatedEventHandlerUnitTests.cs
+│   │           ├── Background.Worker.AKS.BackgroundWorker.sln
+│   │           └── Dockerfile
+│   └── shared
+│       ├── Background.Worker.AKS.Shared.Messaging.Azure.ServiceBus
+│       │   ├── Abstractions
+│       │   │   ├── ApplicationEvents
+│       │   │   │   ├── IApplicationEvent.cs
+│       │   │   │   ├── IApplicationEventHandler.cs
+│       │   │   │   └── IApplicationEventPublisher.cs
+│       │   │   └── Commands
+│       │   │       ├── ICommand.cs
+│       │   │       ├── ICommandDispatcher.cs
+│       │   │       └── ICommandHandler.cs
+│       │   ├── Background.Worker.AKS.Shared.Messaging.Azure.ServiceBus.csproj
+│       │   ├── Configuration
+│       │   │   └── ServiceBusConfiguration.cs
+│       │   ├── Constants.cs
+│       │   ├── Exceptions
+│       │   │   ├── ExceptionIds.cs
+│       │   │   ├── IException.cs
+│       │   │   ├── InfrastructureExceptionBase.cs
+│       │   │   ├── InvalidMessageBodyException.cs
+│       │   │   ├── InvalidSecretDefinitionException.cs
+│       │   │   ├── InvalidSecretSourceException.cs
+│       │   │   ├── MessageBodyIsNullException.cs
+│       │   │   ├── MessageInvalidCastException.cs
+│       │   │   ├── MessageParsingException.cs
+│       │   │   ├── MessageRouteNotDefinedException.cs
+│       │   │   ├── MessageSenderNotDefinedException.cs
+│       │   │   ├── MessageSerializationException.cs
+│       │   │   ├── MissingEnclosedMessageTypeException.cs
+│       │   │   ├── MissingHandlerFormAssemblyException.cs
+│       │   │   ├── MissingHandlerFromIoCException.cs
+│       │   │   ├── MissingHandlerMethodException.cs
+│       │   │   ├── MissingQueueConfigurationException.cs
+│       │   │   ├── MoreThanOneHandlerException.cs
+│       │   │   ├── SecretException.cs
+│       │   │   ├── SecretNotDefinedException.cs
+│       │   │   ├── SecretNotFoundException.cs
+│       │   │   ├── ServiceBusExceptionBase.cs
+│       │   │   └── UnrecoverableException.cs
+│       │   ├── Extensions
+│       │   │   ├── DependencyInjectionExtensions.cs
+│       │   │   ├── HandlerExtensions.cs
+│       │   │   └── MessageExtensions.cs
+│       │   ├── Factories
+│       │   │   ├── IMessageBuilderFactory.cs
+│       │   │   ├── IMessageHandlerFactory.cs
+│       │   │   ├── IMessageProcessorFactory.cs
+│       │   │   ├── IMessageReceiverClientFactory.cs
+│       │   │   ├── IMessageRouterFactory.cs
+│       │   │   ├── IMessageSenderClientFactory.cs
+│       │   │   ├── IMessagerReaderFactory.cs
+│       │   │   ├── IServiceBusListenerFactory.cs
+│       │   │   ├── IServiceBusSenderFactory.cs
+│       │   │   ├── MessageBuilderFactory.cs
+│       │   │   ├── MessageHandlerFactory.cs
+│       │   │   ├── MessageProcessorFactory.cs
+│       │   │   ├── MessageReaderFactory.cs
+│       │   │   ├── MessageRouterFactory.cs
+│       │   │   ├── ServiceBusClientFactory.cs
+│       │   │   ├── ServiceBusListenerFactory.cs
+│       │   │   └── ServiceBusSenderFactory.cs
+│       │   ├── Hosts
+│       │   │   └── ServiceBusListenerHost.cs
+│       │   ├── Listeners
+│       │   │   ├── IMessageListener.cs
+│       │   │   ├── IMessageProcessor.cs
+│       │   │   ├── ServiceBusListener.cs
+│       │   │   └── ServiceBusListenerMessageProcessor.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
+│       │   ├── Secrets
+│       │   │   ├── EnvironmentSecretSource.cs
+│       │   │   ├── FileSecretSource.cs
+│       │   │   ├── ISecretResolver.cs
+│       │   │   ├── ISecretSource.cs
+│       │   │   ├── Secret.cs
+│       │   │   └── SecretResolver.cs
+│       │   ├── Senders
+│       │   │   ├── Dispatchers
+│       │   │   │   └── CommandDispatcher.cs
+│       │   │   ├── IMessageSender.cs
+│       │   │   ├── Publishers
+│       │   │   │   └── EventPublisher.cs
+│       │   │   ├── Routers
+│       │   │   │   ├── DefaultMessageRouter.cs
+│       │   │   │   ├── FallbackMessageRouter.cs
+│       │   │   │   ├── IMessageRouter.cs
+│       │   │   │   └── ServiceBusAbstractRouter.cs
+│       │   │   └── ServiceBusMessageSender.cs
+│       │   ├── Serializers
+│       │   │   ├── CloudEvent.cs
+│       │   │   ├── CloudEventMessageSerializer.cs
+│       │   │   ├── ICloudEvent.cs
+│       │   │   ├── IMessageBuilder.cs
+│       │   │   ├── IMessageReader.cs
+│       │   │   ├── ISessionContext.cs
+│       │   │   ├── JsonMessageSerializer.cs
+│       │   │   └── StacksCloudEvent.cs
+│       │   └── Validators
+│       │       ├── DataAnnotationValidator.cs
+│       │       └── IValidator.cs
+│       └── Background.Worker.AKS.Shared.Messaging.Azure.ServiceBus.Tests
+│           ├── Background.Worker.AKS.Shared.Messaging.Azure.ServiceBus.Tests.csproj
+│           ├── Commands
+│           │   ├── IMember.cs
+│           │   ├── Member.cs
+│           │   ├── NotifyClientCommandWithoutHandler.cs
+│           │   ├── NotifyCommand.cs
+│           │   └── NotifyCommandWithAnnotation.cs
+│           ├── Configuration.cs
+│           ├── DotEnv.cs
+│           ├── Events
+│           │   ├── DummyEventAes.cs
+│           │   ├── DummyEventSb.cs
+│           │   └── NotifyEvent.cs
+│           ├── Handlers
+│           │   ├── CustomMessageProcessor.cs
+│           │   ├── NotifyCommandHandler.cs
+│           │   ├── NotifyEventHandler.cs
+│           │   ├── NotifyFaultyCommandHandler.cs
+│           │   └── TestDependency
+│           │       └── ITestable.cs
+│           ├── IntegrationTests
+│           │   └── Stories
+│           │       └── ConfigurationTests.cs
+│           ├── UnitTests
+│           │   ├── Extensions
+│           │   │   └── MessageExtensionsTests.cs
+│           │   ├── FakeSBClient.cs
+│           │   ├── Listeners
+│           │   │   ├── CustomMessageProcessorTests.cs
+│           │   │   ├── MessageTestHelperExtensions.cs
+│           │   │   ├── QueueListenerTests.cs
+│           │   │   └── TopicListenerTests.cs
+│           │   ├── Routers
+│           │   │   ├── DefaultMessageRouterTests.cs
+│           │   │   └── FallbackMessageRouterTests.cs
+│           │   ├── Serializer
+│           │   │   ├── CloudEventMessageReaderTests.cs
+│           │   │   └── JsonMessageReaderTests.cs
+│           │   └── Validators
+│           │       └── DataAnnotationValidatorTests.cs
+│           ├── appsettings.integration.queues.json
+│           ├── appsettings.integration.topics.json
+│           └── appsettings.json
+├── stackscli.yml
+├── taskctl.yaml
+└── yamllint.conf

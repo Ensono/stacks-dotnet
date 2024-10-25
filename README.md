@@ -117,6 +117,8 @@ dotnet new --uninstall Ensono.Stacks.Templates
   - Configures which cloud provider to be used
 - **-cicd|--cicdProvider**
   - Configures which cicd provider templates to be used
+- **-dm|--deploymentMode**
+  - Allow you to deploy the container workload to ACA or AKS. The default is AKS. Only supported for Azure cloud provider
 
 #### Creating a new WebAPI project with the template
 
@@ -176,8 +178,15 @@ Let's say you want to create a brand new WebAPI with CQRS for your project.
 
 It's entirely up to you where you want to generate the WebAPI. For example your company has the name structure `Foo.Bar` as a prefix to all your namespaces where `Foo` is the company name and `Bar` is the name of the project. If you want the WebAPI to have a domain `Warehouse`, use `CosmosDb` and be generated inside a folder called `new-proj-folder` you'll execute the following command:
 
+Deployed to an AKS cluster:
 ```shell
-% dotnet new stacks-cqrs-app -n Foo.Bar -do Warehouse -db CosmosDb -o new-proj-folder
+% dotnet new stacks-cqrs-app -n Foo.Bar -do Warehouse -db CosmosDb -o new-proj-folder --deploymentMode AKS
+The template "Ensono Stacks Web Api" was created successfully.
+```
+
+Deployed to an ACA environment:
+```shell
+% dotnet new stacks-cqrs-app -n Foo.Bar -do Warehouse -db CosmosDb -o new-proj-folder --deploymentMode ACA
 The template "Ensono Stacks Web Api" was created successfully.
 ```
 
@@ -187,8 +196,14 @@ Let's say you want to create a brand new WebAPI with CQRS and event sourcing for
 
 It's entirely up to you where you want to generate the WebAPI. For example your company has the name structure `Foo.Bar` as a prefix to all your namespaces where `Foo` is the company name and `Bar` is the name of the project. If you want the WebAPI to have a domain `Warehouse`, use `CosmosDb`, publish events to `ServiceBus` and be generated inside a folder called `new-proj-folder` you'll execute the following command:
 
+Deployed to an AKS cluster:
 ```shell
-% dotnet new stacks-cqrs-app -n Foo.Bar -do Warehouse -db CosmosDb -e ServiceBus -o new-proj-folder
+% dotnet new stacks-cqrs-app -n Foo.Bar -do Warehouse -db CosmosDb -e ServiceBus -o new-proj-folder --deploymentMode AKS
+The template "Ensono Stacks CQRS Web API" was created successfully.
+```
+Deployed to an ACA environment:
+```shell
+% dotnet new stacks-cqrs-app -n Foo.Bar -do Warehouse -db CosmosDb -e ServiceBus -o new-proj-folder --deploymentMode ACA
 The template "Ensono Stacks CQRS Web API" was created successfully.
 ```
 

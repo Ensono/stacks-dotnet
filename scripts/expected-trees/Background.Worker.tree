@@ -101,7 +101,8 @@
 │   │       │       │   │   └── Stories
 │   │       │       │   │       └── MenuCreatedStory.cs
 │   │       │       │   └── appsettings.json
-│   │       │       └── Background.Worker.BackgroundWorker.FunctionalTests.sln
+│   │       │       ├── Background.Worker.BackgroundWorker.FunctionalTests.sln
+│   │       │       └── templater.ps1
 │   │       └── worker
 │   │           ├── Background.Worker.Application.CQRS.Events
 │   │           │   ├── Background.Worker.Application.CQRS.Events.csproj

@@ -60,11 +60,16 @@
                 "**/build/azDevOps/azure/ci-asb-listener-vars.yml",
                 "**/build/azDevOps/azure/ci-aeh-listener-vars.yml",
                 "**/build/azDevOps/azure/ci-background-worker-vars.yml",
+                "**/build/azDevOps/azure/ci-aca-cqrs-vars.yml",
+                "**/build/azDevOps/azure/ci-aca-simple-api-vars.yml",
+                "**/build/azDevOps/azure/ci-aca-background-worker-vars.yml",
                 "**/build/azDevOps/azure/ci.yml",
+                "**/build/azDevOps/azure/ci-aca.yml",
                 "**/build/github/**",
                 "**/deploy/aws/**",
                 "**/deploy/gcp/**",
-                "**/deploy/helm/**"
+                "**/deploy/helm/**",
+                "**/deploy/azure/app/aca/**"
             ],
             "rename": {
                 "_gitignore": ".gitignore",

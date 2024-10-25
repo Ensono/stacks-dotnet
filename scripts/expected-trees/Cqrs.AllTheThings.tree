@@ -410,8 +410,7 @@
 │   │       │   │   ├── Cqrs.AllTheThings.Infrastructure.UnitTests.csproj
 │   │       │   │   └── FakeMenu.cs
 │   │       │   ├── Dockerfile
-│   │       │   ├── NuGet.config
-│   │       │   └── README.md
+│   │       │   └── NuGet.config
 │   │       └── tests
 │   │           └── Functional
 │   │               ├── Cqrs.AllTheThings.API.FunctionalTests
@@ -440,7 +439,6 @@
 │   │               │   │   ├── MenuRequest.cs
 │   │               │   │   ├── SearchResponse.cs
 │   │               │   │   └── SearchResponseItem.cs
-│   │               │   ├── ReadMe.md
 │   │               │   ├── Tests
 │   │               │   │   ├── Fixtures
 │   │               │   │   │   └── AuthFixture.cs
@@ -462,7 +460,8 @@
 │   │               │   │       ├── UpdateItemById.cs
 │   │               │   │       └── UpdateMenuById.cs
 │   │               │   └── appsettings.json
-│   │               └── Cqrs.AllTheThings.API.FunctionalTests.sln
+│   │               ├── Cqrs.AllTheThings.API.FunctionalTests.sln
+│   │               └── templater.ps1
 │   └── shared
 │       ├── .editorconfig
 │       ├── Cqrs.AllTheThings.Shared.Messaging.Azure.ServiceBus
