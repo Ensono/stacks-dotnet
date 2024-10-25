@@ -65,7 +65,11 @@ All templates from this repository come as part of the [Stacks Dotnet NuGet pack
 
 ### Generating the expected directory trees
 
-The template outputs are validated during testing using the directory tree files in the `scripts/expected-trees` directory. When files are added or removed from the template the expected directory trees will need to be updated. This can be done using the `test-templates.ps1` script with the `-GenerateExpectedTrees` parameter (`pwsh test-templates.ps1 -GenerateExpectedTrees`)
+**Pre-Requisites** 
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [Taskctl](https://github.com/Ensono/taskctl)
+
+The template outputs are validated during testing using the directory tree files in the `scripts/expected-trees` directory. When files are added or removed from the template the expected directory trees will need to be updated. This can be done using the Taskctl task (`taskctl test:generate_trees`)
 
 ### Template usage
 

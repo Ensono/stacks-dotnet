@@ -130,6 +130,23 @@ tasks:
     command:
       - Invoke-DotNet -Coverage -target /app/coverage
 
+  test:generate_trees:
+    context: powershell-dotnet
+    description: Generate expected trees for comparison
+    command:
+      - |
+        apt-get install tree -y
+        pwsh scripts/test-templates.ps1 --GenerateExpectedTrees
+
+  test:templates:
+    context: powershell-dotnet
+    description: Compare directory against expected tree
+    command:
+      - |
+        apt-get install tree -y
+        Invoke-DotNet -Custom -arguments "workload install aspire"
+        pwsh scripts/test-templates.ps1
+
   # Compilation tasks
   build:container:
     context: powershell

@@ -14,7 +14,7 @@ if (-Not (Test-Path $Directory)) {
 }
 
 $inputStructure = Get-Content -Path $InputFile
-$generatedStructure = Push-Location -Path $Directory && tree -a -I 'bin|obj' --noreport && Pop-Location
+$generatedStructure = Push-Location -Path $Directory && tree -a --charset utf-8 -I 'bin|obj' --noreport && Pop-Location
 
 # Compare the two structures
 $differences = Compare-Object -ReferenceObject $inputStructure -DifferenceObject $generatedStructure
