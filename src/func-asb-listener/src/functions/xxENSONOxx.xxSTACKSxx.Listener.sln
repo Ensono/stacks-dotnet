@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests\xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.csproj", "{B4B0D375-2655-4E4A-ACBC-FBEAE76E9B87}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Abstractions", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Abstractions.csproj", "{843FD264-66DA-4191-9C50-1A7092456CE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{B4B0D375-2655-4E4A-ACBC-FBEAE76E9B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4B0D375-2655-4E4A-ACBC-FBEAE76E9B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4B0D375-2655-4E4A-ACBC-FBEAE76E9B87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{843FD264-66DA-4191-9C50-1A7092456CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{843FD264-66DA-4191-9C50-1A7092456CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{843FD264-66DA-4191-9C50-1A7092456CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{843FD264-66DA-4191-9C50-1A7092456CE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DEB1054B-B244-419D-866B-19B7BD32A868} = {52AF9EDD-C4D9-4153-9B9C-88531667E386}
 		{B4B0D375-2655-4E4A-ACBC-FBEAE76E9B87} = {52AF9EDD-C4D9-4153-9B9C-88531667E386}
+		{843FD264-66DA-4191-9C50-1A7092456CE5} = {52AF9EDD-C4D9-4153-9B9C-88531667E386}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3546202A-0894-4AB2-BE97-62375FDA3AD9}
