@@ -25,7 +25,7 @@ module "aca" {
   create_rg                        = false
 
   # Container App
-  container_app_name = var.name_domain
+  container_app_name = lower(var.name_domain)
   container_app_registry = {
     server   = "${data.azurerm_container_registry.acr.name}.azurecr.io"
     identity = azurerm_user_assigned_identity.default.id
@@ -43,9 +43,9 @@ module "aca" {
   container_app_containers = [
     {
       cpu    = 0.25
-      image  = "${data.azurerm_container_registry.acr.name}.azurecr.io/${var.docker_image_name}:${var.docker_image_tag}"
+      image  = lower("${data.azurerm_container_registry.acr.name}.azurecr.io/${var.docker_image_name}:${var.docker_image_tag}")
       memory = "0.5Gi"
-      name   = var.name_domain
+      name   = lower(var.name_domain)
       env    = local.environment_variables
       volume_mounts = [
         # {
