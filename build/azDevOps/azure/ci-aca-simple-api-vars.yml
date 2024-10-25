@@ -112,7 +112,7 @@ variables:
   - name: docker_image_tag
     value: $(version_number)-$(Build.SourceBranchName)
   - name: docker_image_name
-    value: $(self_generic_name)s
+    value: $(self_generic_name)
 
   # DNS Configuration
   - name: create_dns_record
@@ -128,7 +128,7 @@ variables:
 
   # Versioning
   - name: version_major
-    value: 7
+    value: 0
   - name: version_minor
     value: 0
   - name: version_revision
