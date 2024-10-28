@@ -1,6 +1,6 @@
 using System.Text;
 using Azure.Messaging.ServiceBus;
-using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
@@ -10,7 +10,7 @@ namespace xxENSONOxx.xxSTACKSxx.Listener;
 
 public class StacksListener(ILogger<StacksListener> logger)
 {
-    [FunctionName("StacksListener")]
+    [Function(nameof(StacksListener))]
     public void Run([ServiceBusTrigger(
         "%TOPIC_NAME%",
         "%SUBSCRIPTION_NAME%",
@@ -20,8 +20,6 @@ public class StacksListener(ILogger<StacksListener> logger)
 
         // TODO: work with appEvent
         logger.LogInformation($"Message read. Menu Id: {appEvent?.Data?.MenuId}");
-
         logger.LogInformation($"C# ServiceBus topic trigger function processed message: {appEvent}");
     }
 }
-
