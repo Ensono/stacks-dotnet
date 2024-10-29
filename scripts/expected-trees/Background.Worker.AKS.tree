@@ -174,16 +174,22 @@
 │   │           ├── Background.Worker.AKS.BackgroundWorker.sln
 │   │           └── Dockerfile
 │   └── shared
+│       ├── Background.Worker.AKS.Shared.Abstractions
+│       │   ├── ApplicationEvents
+│       │   │   ├── IApplicationEvent.cs
+│       │   │   ├── IApplicationEventHandler.cs
+│       │   │   └── IApplicationEventPublisher.cs
+│       │   ├── Background.Worker.AKS.Shared.Abstractions.csproj
+│       │   ├── Commands
+│       │   │   ├── ICommand.cs
+│       │   │   ├── ICommandDispatcher.cs
+│       │   │   └── ICommandHandler.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
+│       │   └── Queries
+│       │       ├── IQueryCriteria.cs
+│       │       └── IQueryHandler.cs
 │       ├── Background.Worker.AKS.Shared.Messaging.Azure.ServiceBus
-│       │   ├── Abstractions
-│       │   │   ├── ApplicationEvents
-│       │   │   │   ├── IApplicationEvent.cs
-│       │   │   │   ├── IApplicationEventHandler.cs
-│       │   │   │   └── IApplicationEventPublisher.cs
-│       │   │   └── Commands
-│       │   │       ├── ICommand.cs
-│       │   │       ├── ICommandDispatcher.cs
-│       │   │       └── ICommandHandler.cs
 │       │   ├── Background.Worker.AKS.Shared.Messaging.Azure.ServiceBus.csproj
 │       │   ├── Configuration
 │       │   │   └── ServiceBusConfiguration.cs
@@ -241,8 +247,6 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs
