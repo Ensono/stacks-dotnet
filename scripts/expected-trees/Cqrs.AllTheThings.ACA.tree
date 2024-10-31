@@ -127,7 +127,6 @@
 │   │       │   │   ├── Program.cs
 │   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.AllTheThings.ACA.API.ComponentTests
-│   │       │   │   ├── .DS_Store
 │   │       │   │   ├── Cqrs.AllTheThings.ACA.API.ComponentTests.csproj
 │   │       │   │   ├── Features
 │   │       │   │   │   ├── CreateCategoryFeature.cs
