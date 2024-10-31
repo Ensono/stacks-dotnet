@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Listeners;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Hosts
 {

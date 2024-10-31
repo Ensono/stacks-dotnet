@@ -1,22 +1,22 @@
-﻿using System;
+using System;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Options;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Extensions;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Factories;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Hosts;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Secrets;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Dispatchers;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Routers;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Options;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.Commands;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Secrets;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
@@ -29,7 +29,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddValidators();
 
             services.AddSecretResolver();
-            
+
             var configuration = GetConfiguration(services);
 
             var sendersRegistered = services.AddServiceBusSenders(configuration.Sender);

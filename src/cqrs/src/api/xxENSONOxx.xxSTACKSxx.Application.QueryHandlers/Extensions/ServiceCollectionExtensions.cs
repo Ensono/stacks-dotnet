@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Queries;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Queries;
 #if CosmosDb || DynamoDb
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 #endif

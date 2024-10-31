@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{EFD814
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Application.CQRS.Events", "xxENSONOxx.xxSTACKSxx.Application.CQRS.Events\xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.csproj", "{B5D8D5CD-96BC-4781-8D88-986CD1FFFA8D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xxENSONOxx.xxSTACKSxx.Shared.Abstractions", "..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Abstractions.csproj", "{EE0E43C1-94DB-40DA-BC93-8F7B8B9B879F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,9 +31,16 @@ Global
 		{B5D8D5CD-96BC-4781-8D88-986CD1FFFA8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5D8D5CD-96BC-4781-8D88-986CD1FFFA8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5D8D5CD-96BC-4781-8D88-986CD1FFFA8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE0E43C1-94DB-40DA-BC93-8F7B8B9B879F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0E43C1-94DB-40DA-BC93-8F7B8B9B879F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0E43C1-94DB-40DA-BC93-8F7B8B9B879F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0E43C1-94DB-40DA-BC93-8F7B8B9B879F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE0E43C1-94DB-40DA-BC93-8F7B8B9B879F} = {EFD81450-4A57-43C5-BBFF-76DAF9EABB70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C834AE26-AF25-4F73-A96E-7DEBC581E864}

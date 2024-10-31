@@ -172,19 +172,6 @@
 │   │       │   │       ├── UpdateItemRequestTests.cs
 │   │       │   │       └── UpdateMenuRequestTests.cs
 │   │       │   ├── Cqrs.ServiceBus.ACA.API.sln
-│   │       │   ├── Cqrs.ServiceBus.ACA.Abstractions
-│   │       │   │   ├── ApplicationEvents
-│   │       │   │   │   ├── IApplicationEvent.cs
-│   │       │   │   │   ├── IApplicationEventHandler.cs
-│   │       │   │   │   └── IApplicationEventPublisher.cs
-│   │       │   │   ├── Commands
-│   │       │   │   │   ├── ICommand.cs
-│   │       │   │   │   ├── ICommandDispatcher.cs
-│   │       │   │   │   └── ICommandHandler.cs
-│   │       │   │   ├── Cqrs.ServiceBus.ACA.Abstractions.csproj
-│   │       │   │   └── Queries
-│   │       │   │       ├── IQueryCriteria.cs
-│   │       │   │       └── IQueryHandler.cs
 │   │       │   ├── Cqrs.ServiceBus.ACA.AppHost
 │   │       │   │   ├── Cqrs.ServiceBus.ACA.AppHost.csproj
 │   │       │   │   ├── Program.cs
@@ -274,7 +261,6 @@
 │   │       │   │   │   ├── OperationFailedException.cs
 │   │       │   │   │   └── _ExceptionCode.cs
 │   │       │   │   └── Operations
-│   │       │   │       ├── IOperationContext.cs
 │   │       │   │       └── OperationCode.cs
 │   │       │   ├── Cqrs.ServiceBus.ACA.Common.UnitTests
 │   │       │   │   ├── Cqrs.ServiceBus.ACA.Common.UnitTests.csproj
@@ -417,16 +403,22 @@
 │   │               └── templater.ps1
 │   └── shared
 │       ├── .editorconfig
+│       ├── Cqrs.ServiceBus.ACA.Shared.Abstractions
+│       │   ├── ApplicationEvents
+│       │   │   ├── IApplicationEvent.cs
+│       │   │   ├── IApplicationEventHandler.cs
+│       │   │   └── IApplicationEventPublisher.cs
+│       │   ├── Commands
+│       │   │   ├── ICommand.cs
+│       │   │   ├── ICommandDispatcher.cs
+│       │   │   └── ICommandHandler.cs
+│       │   ├── Cqrs.ServiceBus.ACA.Shared.Abstractions.csproj
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
+│       │   └── Queries
+│       │       ├── IQueryCriteria.cs
+│       │       └── IQueryHandler.cs
 │       ├── Cqrs.ServiceBus.ACA.Shared.Messaging.Azure.ServiceBus
-│       │   ├── Abstractions
-│       │   │   ├── ApplicationEvents
-│       │   │   │   ├── IApplicationEvent.cs
-│       │   │   │   ├── IApplicationEventHandler.cs
-│       │   │   │   └── IApplicationEventPublisher.cs
-│       │   │   └── Commands
-│       │   │       ├── ICommand.cs
-│       │   │       ├── ICommandDispatcher.cs
-│       │   │       └── ICommandHandler.cs
 │       │   ├── Configuration
 │       │   │   └── ServiceBusConfiguration.cs
 │       │   ├── Constants.cs
@@ -484,8 +476,6 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs

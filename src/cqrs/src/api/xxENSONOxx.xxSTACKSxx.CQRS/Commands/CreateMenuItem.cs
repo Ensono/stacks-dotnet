@@ -12,7 +12,7 @@ public class CreateMenuItem(
     bool available)
     : ICategoryCommand
 {
-    public int OperationCode => (int)Common.Operations.OperationCode.CreateMenuItem;
+    public int OperationCode => (int)Shared.Abstractions.Operations.OperationCode.CreateMenuItem;
 
     public Guid CorrelationId { get; set; } = correlationId;
 

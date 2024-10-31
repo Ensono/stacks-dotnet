@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Validators
 {

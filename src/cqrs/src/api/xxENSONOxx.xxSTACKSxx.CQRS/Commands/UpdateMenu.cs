@@ -4,7 +4,7 @@ namespace xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 
 public class UpdateMenu : IMenuCommand
 {
-    public int OperationCode => (int)Common.Operations.OperationCode.UpdateMenu;
+    public int OperationCode => (int)Shared.Abstractions.Operations.OperationCode.UpdateMenu;
 
     public Guid CorrelationId { get; }
 

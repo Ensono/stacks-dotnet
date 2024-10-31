@@ -1,5 +1,5 @@
-﻿using System;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.Commands;
+using System;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Commands;
 

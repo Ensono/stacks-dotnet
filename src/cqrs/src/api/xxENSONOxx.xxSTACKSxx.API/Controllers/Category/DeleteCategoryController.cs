@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.API.Controllers.Category;
 
