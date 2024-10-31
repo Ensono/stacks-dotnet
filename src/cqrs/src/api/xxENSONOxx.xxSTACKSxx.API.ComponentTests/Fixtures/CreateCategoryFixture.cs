@@ -1,16 +1,13 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Shouldly;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
 using xxENSONOxx.xxSTACKSxx.API.Models.Requests;
 using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
+using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 

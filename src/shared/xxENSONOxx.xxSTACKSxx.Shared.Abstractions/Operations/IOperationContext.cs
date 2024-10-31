@@ -1,6 +1,4 @@
-using System;
-
-namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+namespace xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 public interface IOperationContext
 {

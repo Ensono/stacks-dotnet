@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 #if (DynamoDb)
 using Amazon.DynamoDBv2.DocumentModel;
 #endif
-using xxENSONOxx.xxSTACKSxx.Abstractions.Queries;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Queries;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Domain;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Abstractions;

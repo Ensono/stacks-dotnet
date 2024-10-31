@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Common.UnitTests;
 

@@ -13,7 +13,7 @@ public class UpdateMenuItem(
     bool available)
     : IMenuItemCommand
 {
-    public int OperationCode => (int)Common.Operations.OperationCode.UpdateMenuItem;
+    public int OperationCode => (int)Shared.Abstractions.Operations.OperationCode.UpdateMenuItem;
 
     public Guid CorrelationId { get; } = correlationId;
 

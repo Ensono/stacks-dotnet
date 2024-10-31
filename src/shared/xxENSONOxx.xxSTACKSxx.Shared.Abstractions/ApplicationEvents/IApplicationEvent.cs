@@ -1,6 +1,6 @@
-using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
-namespace xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+namespace xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 
 public interface IApplicationEvent : IOperationContext
 {

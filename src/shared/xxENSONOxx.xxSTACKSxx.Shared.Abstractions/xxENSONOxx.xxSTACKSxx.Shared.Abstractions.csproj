@@ -6,8 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Common\xxENSONOxx.xxSTACKSxx.Common.csproj" />
-    </ItemGroup>
-
 </Project>

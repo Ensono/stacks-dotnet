@@ -56,41 +56,50 @@
 │       ├── 2-promote-image.sh
 │       └── 3-helm-upgrade.sh
 ├── src
-│   └── func-aeh-listener
-│       └── src
-│           ├── .editorconfig
-│           └── functions
-│               ├── Dockerfile
-│               ├── EventHub.Listener.Application.CQRS.Events
-│               │   ├── Abstractions
-│               │   │   └── ApplicationEvents
-│               │   │       ├── IApplicationEvent.cs
-│               │   │       ├── IApplicationEventHandler.cs
-│               │   │       └── IApplicationEventPublisher.cs
-│               │   ├── Enums
-│               │   │   └── EventCode.cs
-│               │   ├── EventHub.Listener.Application.CQRS.Events.csproj
-│               │   ├── MenuCreatedEvent.cs
-│               │   └── Operations
-│               │       └── IOperationContext.cs
-│               ├── EventHub.Listener.Listener
-│               │   ├── EventHub.Listener.Listener.csproj
-│               │   ├── Logging
-│               │   │   └── LogAdapter.cs
-│               │   ├── Program.cs
-│               │   ├── Serialization
-│               │   │   ├── IMessageReader.cs
-│               │   │   └── JsonMessageSerializer.cs
-│               │   ├── StacksListener.cs
-│               │   ├── host.json
-│               │   └── local.settings.json
-│               ├── EventHub.Listener.Listener.UnitTests
-│               │   ├── DummyEventAes.cs
-│               │   ├── EventHub.Listener.Listener.UnitTests.csproj
-│               │   ├── JsonMessageSerializerTests.cs
-│               │   ├── StacksListenerTests.cs
-│               │   └── TestOperationContext.cs
-│               └── EventHub.Listener.Listener.sln
+│   ├── func-aeh-listener
+│   │   └── src
+│   │       ├── .editorconfig
+│   │       └── functions
+│   │           ├── Dockerfile
+│   │           ├── EventHub.Listener.Application.CQRS.Events
+│   │           │   ├── Enums
+│   │           │   │   └── EventCode.cs
+│   │           │   ├── EventHub.Listener.Application.CQRS.Events.csproj
+│   │           │   └── MenuCreatedEvent.cs
+│   │           ├── EventHub.Listener.Listener
+│   │           │   ├── EventHub.Listener.Listener.csproj
+│   │           │   ├── Logging
+│   │           │   │   └── LogAdapter.cs
+│   │           │   ├── Program.cs
+│   │           │   ├── Serialization
+│   │           │   │   ├── IMessageReader.cs
+│   │           │   │   └── JsonMessageSerializer.cs
+│   │           │   ├── StacksListener.cs
+│   │           │   ├── host.json
+│   │           │   └── local.settings.json
+│   │           ├── EventHub.Listener.Listener.UnitTests
+│   │           │   ├── DummyEventAes.cs
+│   │           │   ├── EventHub.Listener.Listener.UnitTests.csproj
+│   │           │   ├── JsonMessageSerializerTests.cs
+│   │           │   ├── StacksListenerTests.cs
+│   │           │   └── TestOperationContext.cs
+│   │           └── EventHub.Listener.Listener.sln
+│   └── shared
+│       └── EventHub.Listener.Shared.Abstractions
+│           ├── ApplicationEvents
+│           │   ├── IApplicationEvent.cs
+│           │   ├── IApplicationEventHandler.cs
+│           │   └── IApplicationEventPublisher.cs
+│           ├── Commands
+│           │   ├── ICommand.cs
+│           │   ├── ICommandDispatcher.cs
+│           │   └── ICommandHandler.cs
+│           ├── EventHub.Listener.Shared.Abstractions.csproj
+│           ├── Operations
+│           │   └── IOperationContext.cs
+│           └── Queries
+│               ├── IQueryCriteria.cs
+│               └── IQueryHandler.cs
 ├── stackscli.yml
 ├── taskctl.yaml
 └── yamllint.conf

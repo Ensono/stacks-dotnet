@@ -1,5 +1,5 @@
-﻿using System;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Operations;
+using System;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener.UnitTests;
 

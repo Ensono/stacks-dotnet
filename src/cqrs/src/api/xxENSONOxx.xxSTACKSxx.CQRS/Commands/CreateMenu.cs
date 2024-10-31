@@ -1,12 +1,12 @@
 using System;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 
 public class CreateMenu(Guid correlationId, Guid tenantId, string name, string description, bool enabled)
     : ICommand
 {
-    public int OperationCode => (int)Common.Operations.OperationCode.CreateMenu;
+    public int OperationCode => (int)Shared.Abstractions.Operations.OperationCode.CreateMenu;
 
     public Guid CorrelationId { get; } = correlationId;
 

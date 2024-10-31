@@ -161,19 +161,6 @@
 │   │       │   │       ├── UpdateItemRequestTests.cs
 │   │       │   │       └── UpdateMenuRequestTests.cs
 │   │       │   ├── Cqrs.Dynamo.API.sln
-│   │       │   ├── Cqrs.Dynamo.Abstractions
-│   │       │   │   ├── ApplicationEvents
-│   │       │   │   │   ├── IApplicationEvent.cs
-│   │       │   │   │   ├── IApplicationEventHandler.cs
-│   │       │   │   │   └── IApplicationEventPublisher.cs
-│   │       │   │   ├── Commands
-│   │       │   │   │   ├── ICommand.cs
-│   │       │   │   │   ├── ICommandDispatcher.cs
-│   │       │   │   │   └── ICommandHandler.cs
-│   │       │   │   ├── Cqrs.Dynamo.Abstractions.csproj
-│   │       │   │   └── Queries
-│   │       │   │       ├── IQueryCriteria.cs
-│   │       │   │       └── IQueryHandler.cs
 │   │       │   ├── Cqrs.Dynamo.Application.CommandHandlers
 │   │       │   │   ├── Cqrs.Dynamo.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs
@@ -257,7 +244,6 @@
 │   │       │   │   │   ├── OperationFailedException.cs
 │   │       │   │   │   └── _ExceptionCode.cs
 │   │       │   │   └── Operations
-│   │       │   │       ├── IOperationContext.cs
 │   │       │   │       └── OperationCode.cs
 │   │       │   ├── Cqrs.Dynamo.Common.UnitTests
 │   │       │   │   ├── Cqrs.Dynamo.Common.UnitTests.csproj
@@ -417,16 +403,22 @@
 │   │               └── templater.ps1
 │   └── shared
 │       ├── .editorconfig
+│       ├── Cqrs.Dynamo.Shared.Abstractions
+│       │   ├── ApplicationEvents
+│       │   │   ├── IApplicationEvent.cs
+│       │   │   ├── IApplicationEventHandler.cs
+│       │   │   └── IApplicationEventPublisher.cs
+│       │   ├── Commands
+│       │   │   ├── ICommand.cs
+│       │   │   ├── ICommandDispatcher.cs
+│       │   │   └── ICommandHandler.cs
+│       │   ├── Cqrs.Dynamo.Shared.Abstractions.csproj
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
+│       │   └── Queries
+│       │       ├── IQueryCriteria.cs
+│       │       └── IQueryHandler.cs
 │       ├── Cqrs.Dynamo.Shared.Messaging.Azure.ServiceBus
-│       │   ├── Abstractions
-│       │   │   ├── ApplicationEvents
-│       │   │   │   ├── IApplicationEvent.cs
-│       │   │   │   ├── IApplicationEventHandler.cs
-│       │   │   │   └── IApplicationEventPublisher.cs
-│       │   │   └── Commands
-│       │   │       ├── ICommand.cs
-│       │   │       ├── ICommandDispatcher.cs
-│       │   │       └── ICommandHandler.cs
 │       │   ├── Configuration
 │       │   │   └── ServiceBusConfiguration.cs
 │       │   ├── Constants.cs
@@ -484,8 +476,6 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs

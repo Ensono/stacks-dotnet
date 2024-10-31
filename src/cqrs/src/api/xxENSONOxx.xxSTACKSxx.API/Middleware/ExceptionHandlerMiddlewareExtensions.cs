@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using xxENSONOxx.xxSTACKSxx.API.Models.Responses;
 using xxENSONOxx.xxSTACKSxx.Common.Exceptions;
-using BadResult = xxENSONOxx.xxSTACKSxx.API.Models.Responses.BadResult;
 
 namespace xxENSONOxx.xxSTACKSxx.API.Middleware;
 

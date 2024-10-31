@@ -6,7 +6,7 @@ using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Producer;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 

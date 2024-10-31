@@ -1,8 +1,8 @@
 using TestStack.BDDfy;
-using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.API.ComponentTests.Fixtures;
 using xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
+using xxENSONOxx.xxSTACKSxx.CQRS.ApplicationEvents;
 
 namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Features;
 

@@ -1,6 +1,4 @@
 using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.BackgroundWorker.ApplicationEvents.Events;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Serializers;
 
 namespace xxENSONOxx.xxSTACKSxx.BackgroundWorker.UnitTests.Tests.ApplicationEvents;
 

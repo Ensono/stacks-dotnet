@@ -1,6 +1,6 @@
-using Shouldly;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shouldly;
 using xxENSONOxx.xxSTACKSxx.API.FunctionalTests.Configuration;
 using xxENSONOxx.xxSTACKSxx.Tests.Api.Builders.Http;
 

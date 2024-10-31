@@ -62,16 +62,9 @@
 │   │       └── functions
 │   │           ├── Dockerfile
 │   │           ├── ServiceBus.Listener.Application.CQRS.Events
-│   │           │   ├── Abstractions
-│   │           │   │   └── ApplicationEvents
-│   │           │   │       ├── IApplicationEvent.cs
-│   │           │   │       ├── IApplicationEventHandler.cs
-│   │           │   │       └── IApplicationEventPublisher.cs
 │   │           │   ├── Enums
 │   │           │   │   └── EventCode.cs
 │   │           │   ├── MenuCreatedEvent.cs
-│   │           │   ├── Operations
-│   │           │   │   └── IOperationContext.cs
 │   │           │   └── ServiceBus.Listener.Application.CQRS.Events.csproj
 │   │           ├── ServiceBus.Listener.Listener
 │   │           │   ├── Logging
@@ -87,16 +80,22 @@
 │   │           │   └── TestOperationContext.cs
 │   │           └── ServiceBus.Listener.Listener.sln
 │   └── shared
+│       ├── ServiceBus.Listener.Shared.Abstractions
+│       │   ├── ApplicationEvents
+│       │   │   ├── IApplicationEvent.cs
+│       │   │   ├── IApplicationEventHandler.cs
+│       │   │   └── IApplicationEventPublisher.cs
+│       │   ├── Commands
+│       │   │   ├── ICommand.cs
+│       │   │   ├── ICommandDispatcher.cs
+│       │   │   └── ICommandHandler.cs
+│       │   ├── Operations
+│       │   │   └── IOperationContext.cs
+│       │   ├── Queries
+│       │   │   ├── IQueryCriteria.cs
+│       │   │   └── IQueryHandler.cs
+│       │   └── ServiceBus.Listener.Shared.Abstractions.csproj
 │       ├── ServiceBus.Listener.Shared.Messaging.Azure.ServiceBus
-│       │   ├── Abstractions
-│       │   │   ├── ApplicationEvents
-│       │   │   │   ├── IApplicationEvent.cs
-│       │   │   │   ├── IApplicationEventHandler.cs
-│       │   │   │   └── IApplicationEventPublisher.cs
-│       │   │   └── Commands
-│       │   │       ├── ICommand.cs
-│       │   │       ├── ICommandDispatcher.cs
-│       │   │       └── ICommandHandler.cs
 │       │   ├── Configuration
 │       │   │   └── ServiceBusConfiguration.cs
 │       │   ├── Constants.cs
@@ -153,8 +152,6 @@
 │       │   │   ├── IMessageProcessor.cs
 │       │   │   ├── ServiceBusListener.cs
 │       │   │   └── ServiceBusListenerMessageProcessor.cs
-│       │   ├── Operations
-│       │   │   └── IOperationContext.cs
 │       │   ├── Secrets
 │       │   │   ├── EnvironmentSecretSource.cs
 │       │   │   ├── FileSecretSource.cs

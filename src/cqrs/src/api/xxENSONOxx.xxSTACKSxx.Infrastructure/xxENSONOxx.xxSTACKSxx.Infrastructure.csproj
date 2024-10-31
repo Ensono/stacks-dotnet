@@ -7,8 +7,8 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.0" />
     <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.400.12" />
-    <PackageReference Include="Azure.Messaging.EventHubs" Version="5.11.5"/>
-    <PackageReference Include="Azure.Messaging.EventHubs.Processor" Version="5.11.5"/>
+    <PackageReference Include="Azure.Messaging.EventHubs" Version="5.11.5" />
+    <PackageReference Include="Azure.Messaging.EventHubs.Processor" Version="5.11.5" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.41.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\shared\xxENSONOxx.xxSTACKSxx.Shared.Abstractions\xxENSONOxx.xxSTACKSxx.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Application.Integration\xxENSONOxx.xxSTACKSxx.Application.Integration.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.CQRS\xxENSONOxx.xxSTACKSxx.CQRS.csproj" />
     <ProjectReference Include="..\xxENSONOxx.xxSTACKSxx.Domain\xxENSONOxx.xxSTACKSxx.Domain.csproj" />

@@ -1,9 +1,9 @@
-using Newtonsoft.Json;
-using Shouldly;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Shouldly;
 using xxENSONOxx.xxSTACKSxx.API.FunctionalTests.Builders;
 using xxENSONOxx.xxSTACKSxx.API.FunctionalTests.Configuration;
 using xxENSONOxx.xxSTACKSxx.API.FunctionalTests.Models;

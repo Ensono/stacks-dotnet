@@ -43,7 +43,8 @@
                 ".gitignore",
                 ".gitattributes",
                 "yamllint.conf",
-                "src/func-aeh-listener/**"
+                "src/func-aeh-listener/**",
+                "src/shared/xxENSONOxx.xxSTACKSxx.Shared.Abstractions/**"
             ],
             "exclude": [
                 "**/[Bb]in/**",
