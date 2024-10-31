@@ -298,18 +298,6 @@ Relevant documentation pages that you can follow to set up your profile:
 
 This library assumes you'll use the `AWS CLI` tools and will have configured your access keys via the `aws configure` command.
 
-### Ensono.Stacks.DynamoDB package
-
-This template uses the [Ensono.Stacks.DynamoDB](https://github.com/amido/stacks-dotnet-packages-dynamodb) package to connect and use DynamoDB.
-
-### Ensono.Stacks.SNS package
-
-This template uses the [Ensono.Stacks.SNS](https://github.com/amido/stacks-dotnet-packages-sns) package to connect and use AWS SNS.
-
-### Ensono.Stacks.SQS package
-
-This template uses the [Ensono.Stacks.SQS](https://github.com/amido/stacks-dotnet-packages-sqs) package to connect and use AWS SQS.
-
 ## Running the API locally on MacOS
 
 To run the API locally on MacOS there are a couple of prerequisites that you have to be aware of. You'll need a CosmosDB emulator/instance or an instance of DynamoDB on AWS. You also might need access to Azure/AWS for Azure Service Bus, Azure Event Hubs or AWS SNS.
