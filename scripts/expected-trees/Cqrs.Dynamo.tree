@@ -161,6 +161,13 @@
 │   │       │   │       ├── UpdateItemRequestTests.cs
 │   │       │   │       └── UpdateMenuRequestTests.cs
 │   │       │   ├── Cqrs.Dynamo.API.sln
+│   │       │   ├── Cqrs.Dynamo.AppHost
+│   │       │   │   ├── Cqrs.Dynamo.AppHost.csproj
+│   │       │   │   ├── Program.cs
+│   │       │   │   ├── Properties
+│   │       │   │   │   └── launchSettings.json
+│   │       │   │   ├── appsettings.Development.json
+│   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.Dynamo.Application.CommandHandlers
 │   │       │   │   ├── Cqrs.Dynamo.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs

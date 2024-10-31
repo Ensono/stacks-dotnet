@@ -186,6 +186,13 @@
 │   │       │   │       ├── UpdateItemRequestTests.cs
 │   │       │   │       └── UpdateMenuRequestTests.cs
 │   │       │   ├── Cqrs.ServiceBus.AKS.API.sln
+│   │       │   ├── Cqrs.ServiceBus.AKS.AppHost
+│   │       │   │   ├── Cqrs.ServiceBus.AKS.AppHost.csproj
+│   │       │   │   ├── Program.cs
+│   │       │   │   ├── Properties
+│   │       │   │   │   └── launchSettings.json
+│   │       │   │   ├── appsettings.Development.json
+│   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.ServiceBus.AKS.Application.CommandHandlers
 │   │       │   │   ├── Cqrs.ServiceBus.AKS.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs
