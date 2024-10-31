@@ -238,6 +238,13 @@
 │   │       │   │       ├── UpdateItemRequestTests.cs
 │   │       │   │       └── UpdateMenuRequestTests.cs
 │   │       │   ├── Cqrs.API.sln
+│   │       │   ├── Cqrs.AppHost
+│   │       │   │   ├── Cqrs.AppHost.csproj
+│   │       │   │   ├── Program.cs
+│   │       │   │   ├── Properties
+│   │       │   │   │   └── launchSettings.json
+│   │       │   │   ├── appsettings.Development.json
+│   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.Application.CommandHandlers
 │   │       │   │   ├── Cqrs.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs

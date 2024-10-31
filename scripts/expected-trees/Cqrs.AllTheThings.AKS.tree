@@ -186,6 +186,13 @@
 │   │       │   │       ├── UpdateItemRequestTests.cs
 │   │       │   │       └── UpdateMenuRequestTests.cs
 │   │       │   ├── Cqrs.AllTheThings.AKS.API.sln
+│   │       │   ├── Cqrs.AllTheThings.AKS.AppHost
+│   │       │   │   ├── Cqrs.AllTheThings.AKS.AppHost.csproj
+│   │       │   │   ├── Program.cs
+│   │       │   │   ├── Properties
+│   │       │   │   │   └── launchSettings.json
+│   │       │   │   ├── appsettings.Development.json
+│   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.AllTheThings.AKS.Application.CommandHandlers
 │   │       │   │   ├── Cqrs.AllTheThings.AKS.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs
