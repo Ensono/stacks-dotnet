@@ -45,7 +45,7 @@ Solution xxENSONOxx.xxSTACKSxx.API
 │  ├── xxENSONOxx.xxSTACKSxx.Domain.UnitTests
 │  ├── xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests
 │  └── xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests
-└── xxEnsonoxx.xxSTACKSxx.AppHost  
+└── xxENSONOxx.xxSTACKSxx.AppHost  
 ```
 
 #### xxENSONOxx.xxSTACKSxx.API
