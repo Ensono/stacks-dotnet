@@ -37,14 +37,15 @@ Solution xxENSONOxx.xxSTACKSxx.API
 ├── Shared
 │  ├── xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus
 │  └── xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests
-└── Tests
-   ├── xxENSONOxx.xxSTACKSxx.API.ComponentTests
-   ├── xxENSONOxx.xxSTACKSxx.API.UnitTests
-   ├── xxENSONOxx.xxSTACKSxx.Common.UnitTests
-   ├── xxENSONOxx.xxSTACKSxx.CQRS.UnitTests
-   ├── xxENSONOxx.xxSTACKSxx.Domain.UnitTests
-   ├── xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests
-   └── xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests
+├── Tests
+│  ├── xxENSONOxx.xxSTACKSxx.API.ComponentTests
+│  ├── xxENSONOxx.xxSTACKSxx.API.UnitTests
+│  ├── xxENSONOxx.xxSTACKSxx.Common.UnitTests
+│  ├── xxENSONOxx.xxSTACKSxx.CQRS.UnitTests
+│  ├── xxENSONOxx.xxSTACKSxx.Domain.UnitTests
+│  ├── xxENSONOxx.xxSTACKSxx.Infrastructure.IntegrationTests
+│  └── xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests
+└── xxEnsonoxx.xxSTACKSxx.AppHost  
 ```
 
 #### xxENSONOxx.xxSTACKSxx.API
@@ -122,6 +123,12 @@ Component tests are similar to functional tests but with a key difference. Funct
 #### xxENSONOxx.xxSTACKSxx.Infrastructure.UnitTests
 
 **UnitTests** cover the Infrastructure project, including classes that handle cross-cutting concerns like logging, caching, and exception handling. They test middleware, filters, and other components that apply to the entire API.
+
+#### xxENSONOxx.xxSTACKSxx.AppHost
+
+The AppHost project is responsible for hosting the API and uses Aspire. Aspire is a lightweight, high-performance framework for building and hosting .NET applications. It provides essential features like dependency injection, configuration management, and middleware support.
+
+The AppHost project contains the Program.cs class, which configures the API and starts the host. The AppHost project should be kept as simple as possible to avoid adding unnecessary dependencies or logic.
 
 :::note Further Reading
 
