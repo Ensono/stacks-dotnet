@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
@@ -11,13 +10,14 @@ using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Fakes;
 #if EventPublisherNone
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 #endif
 #if EventPublisherServiceBus
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers;
 #endif
 #if EventPublisherAwsSns || EventPublisherEventHub
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Publishers;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Configuration;
 using xxENSONOxx.xxSTACKSxx.Infrastructure.Extensions;
@@ -51,7 +51,7 @@ public static class DependencyRegistration
 #if EventPublisherServiceBus
         services.Configure<xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Configuration.ServiceBusConfiguration>(configuration.GetSection("ServiceBusConfiguration"));
         services.AddServiceBus();
-        services.AddTransient<xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents.IApplicationEventPublisher, xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Senders.Publishers.EventPublisher>();
+        services.AddTransient<IApplicationEventPublisher, EventPublisher>();
 #elif EventPublisherEventHub
         services.Configure<EventHubConfiguration>(configuration.GetSection("EventHubConfiguration"));
         services.AddEventHub();
@@ -62,7 +62,7 @@ public static class DependencyRegistration
 #elif EventPublisherNone
         services.AddTransient<IApplicationEventPublisher, DummyEventPublisher>();
 #else
-        services.AddTransient<xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents.IApplicationEventPublisher, DummyEventPublisher>();
+        services.AddTransient<Shared.Abstractions.ApplicationEvents.IApplicationEventPublisher, DummyEventPublisher>();
 #endif
 
 #if CosmosDb

@@ -1,4 +1,4 @@
-﻿#if CosmosDb
+#if CosmosDb
 using System;
 using System.Collections.Generic;
 using AutoFixture;
@@ -6,12 +6,12 @@ using AutoFixture.Xunit2;
 using NSubstitute;
 using Shouldly;
 using Xunit;
-using xxENSONOxx.xxSTACKSxx.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
 using xxENSONOxx.xxSTACKSxx.Application.CommandHandlers;
 using xxENSONOxx.xxSTACKSxx.Application.Integration;
 using xxENSONOxx.xxSTACKSxx.Application.QueryHandlers;
 using xxENSONOxx.xxSTACKSxx.Common.Exceptions;
-using xxENSONOxx.xxSTACKSxx.Common.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.GetMenuById;
 using xxENSONOxx.xxSTACKSxx.CQRS.Queries.SearchMenu;

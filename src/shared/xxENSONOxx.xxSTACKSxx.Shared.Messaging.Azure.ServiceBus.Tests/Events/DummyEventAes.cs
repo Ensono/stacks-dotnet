@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Abstractions.ApplicationEvents;
-using xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.ApplicationEvents;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Shared.Messaging.Azure.ServiceBus.Tests.Events;
 

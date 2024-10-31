@@ -1,9 +1,6 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
-using NSubstitute;
-using xxENSONOxx.xxSTACKSxx.Abstractions.Commands;
 using xxENSONOxx.xxSTACKSxx.API.Authentication;
-using xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 
 namespace xxENSONOxx.xxSTACKSxx.API.ComponentTests.Setup;
 

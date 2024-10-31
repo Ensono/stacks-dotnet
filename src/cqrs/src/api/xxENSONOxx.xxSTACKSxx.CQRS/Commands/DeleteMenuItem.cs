@@ -5,7 +5,7 @@ namespace xxENSONOxx.xxSTACKSxx.CQRS.Commands;
 public class DeleteMenuItem(Guid correlationId, Guid menuId, Guid categoryId, Guid menuItemId)
     : IMenuItemCommand
 {
-    public int OperationCode => (int)Common.Operations.OperationCode.DeleteMenuItem;
+    public int OperationCode => (int)Shared.Abstractions.Operations.OperationCode.DeleteMenuItem;
 
     public Guid CorrelationId { get; } = correlationId;
 

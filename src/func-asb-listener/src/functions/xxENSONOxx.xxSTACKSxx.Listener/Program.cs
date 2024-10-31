@@ -33,10 +33,10 @@ var host = new HostBuilder()
                     options.AddConsoleExporter();
                 });
             });
-            
+
         services.AddOpenTelemetry().WithTracing(builder =>
         {
-            builder.AddAspNetCoreInstrumentation()                      
+            builder.AddAspNetCoreInstrumentation()
                 .AddAspNetCoreInstrumentation()
                 .AddConsoleExporter();
         })

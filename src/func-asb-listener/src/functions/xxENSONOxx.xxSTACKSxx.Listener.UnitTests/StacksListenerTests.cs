@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Logging;
@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events;
-using xxENSONOxx.xxSTACKSxx.Application.CQRS.Events.Operations;
+using xxENSONOxx.xxSTACKSxx.Shared.Abstractions.Operations;
 
 namespace xxENSONOxx.xxSTACKSxx.Listener.UnitTests;
 
@@ -31,7 +31,7 @@ public class StacksListenerTests
         // Assert
         logger.Received(1).LogInformation($"Message read. Menu Id: {message.MessageId}");
     }
-    
+
     private static ServiceBusReceivedMessage BuildMessage(MenuCreatedEvent body)
     {
         var correlationId = GetCorrelationId(body);
@@ -47,7 +47,7 @@ public class StacksListenerTests
     private static Guid GetCorrelationId(object body)
     {
         var operationContext = body as IOperationContext;
-        
+
         return operationContext?.CorrelationId ?? Guid.NewGuid();
     }
 }
