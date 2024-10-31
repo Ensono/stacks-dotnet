@@ -176,6 +176,13 @@
 │   │       │   │   └── Queries
 │   │       │   │       ├── IQueryCriteria.cs
 │   │       │   │       └── IQueryHandler.cs
+│   │       │   ├── Cqrs.Sns.AppHost
+│   │       │   │   ├── Cqrs.Sns.AppHost.csproj
+│   │       │   │   ├── Program.cs
+│   │       │   │   ├── Properties
+│   │       │   │   │   └── launchSettings.json
+│   │       │   │   ├── appsettings.Development.json
+│   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.Sns.Application.CommandHandlers
 │   │       │   │   ├── Cqrs.Sns.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs

@@ -127,6 +127,7 @@
 │   │       │   │   ├── Program.cs
 │   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.AllTheThings.ACA.API.ComponentTests
+│   │       │   │   ├── .DS_Store
 │   │       │   │   ├── Cqrs.AllTheThings.ACA.API.ComponentTests.csproj
 │   │       │   │   ├── Features
 │   │       │   │   │   ├── CreateCategoryFeature.cs
@@ -185,6 +186,13 @@
 │   │       │   │   └── Queries
 │   │       │   │       ├── IQueryCriteria.cs
 │   │       │   │       └── IQueryHandler.cs
+│   │       │   ├── Cqrs.AllTheThings.ACA.AppHost
+│   │       │   │   ├── Cqrs.AllTheThings.ACA.AppHost.csproj
+│   │       │   │   ├── Program.cs
+│   │       │   │   ├── Properties
+│   │       │   │   │   └── launchSettings.json
+│   │       │   │   ├── appsettings.Development.json
+│   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.AllTheThings.ACA.Application.CommandHandlers
 │   │       │   │   ├── Cqrs.AllTheThings.ACA.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs

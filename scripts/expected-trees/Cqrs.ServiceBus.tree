@@ -199,6 +199,13 @@
 │   │       │   │   └── Queries
 │   │       │   │       ├── IQueryCriteria.cs
 │   │       │   │       └── IQueryHandler.cs
+│   │       │   ├── Cqrs.ServiceBus.AppHost
+│   │       │   │   ├── Cqrs.ServiceBus.AppHost.csproj
+│   │       │   │   ├── Program.cs
+│   │       │   │   ├── Properties
+│   │       │   │   │   └── launchSettings.json
+│   │       │   │   ├── appsettings.Development.json
+│   │       │   │   └── appsettings.json
 │   │       │   ├── Cqrs.ServiceBus.Application.CommandHandlers
 │   │       │   │   ├── Cqrs.ServiceBus.Application.CommandHandlers.csproj
 │   │       │   │   ├── CreateCategoryCommandHandler.cs
