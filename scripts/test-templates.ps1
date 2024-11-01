@@ -182,11 +182,18 @@ if (!$GenerateExpectedTrees) {
     foreach ($project in $projects) {
         if ([string]::IsNullOrEmpty($Template) -or $($project.Name -eq $Template)) {
             Write-Output "Testing $($project.Name)"
-            & "$PSScriptRoot/compare-directory-files.ps1" -InputFile "$StacksDotnetDirectory/scripts/expected-trees/$($project.Name).tree" -Directory $TestTemplatesDirectory/$($project.Name)
-            if ($LASTEXITCODE -ne 0) {
-                Write-Error "Directory comparison failed for $($project.Name)"
-                exit $LASTEXITCODE
-            }
+
+            ############################
+            # Comparing the generated directory tree with the expected tree files was introduced in Cycle 15
+            # This is commented out as it proved cumbersome to maintain and was not providing much value
+            # It is left here to be revisited in the future
+            ############################
+            # & "$PSScriptRoot/compare-directory-files.ps1" -InputFile "$StacksDotnetDirectory/scripts/expected-trees/$($project.Name).tree" -Directory $TestTemplatesDirectory/$($project.Name)
+            # if ($LASTEXITCODE -ne 0) {
+            #     Write-Error "Directory comparison failed for $($project.Name)"
+            #     exit $LASTEXITCODE
+            # }
+
             Push-Location -Path $project.Path
             dotnet restore
             dotnet build
