@@ -1,6 +1,6 @@
 # stacks-dotnet
 
-The full documentation on Ensono Stacks can be found [here](https://amido.github.io/stacks/).
+The full documentation on Ensono Stacks can be found [here](https://stacks.ensono.com/docs).
 
 Ensono Stacks targets different cloud providers.
 
