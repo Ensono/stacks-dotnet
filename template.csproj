@@ -6,7 +6,7 @@
     <PackageId>Ensono.Stacks.Templates</PackageId>
     <Title>Ensono Stacks Web API Templates</Title>
     <Authors>Ensono</Authors>
-    <Description>Templates containing the full suite of applications and infrastructure to run a simple web api.</Description>
+    <Description>Templates containing the full suite of applications and infrastructure to run simple API's; more complex CQRS API's and Azure functions.</Description>
     <PackageTags>dotnet-new;templates;ensono;web-api</PackageTags>
 
     <TargetFramework>netstandard2.0</TargetFramework>
