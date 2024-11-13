@@ -75,20 +75,11 @@ stages:
               BUILD_BUILDNUMBER: $(version_number)
 
           - task: Bash@3
-            displayName: 'Pull Pact CLI Docker image'
+            displayName: 'Contract Tests: Pull Pact CLI Docker image'
             inputs:
               targetType: inline
               script: |
                 docker pull pactfoundation/pact-cli:latest
-
-          # # Use this step when you want to download the OpenAPI spec from a 3rd party source
-          # # Ensure you use the contract name (3rdPartyConytact.yaml) in the publish step isntead of $(OAS_FILE)
-          # - task: Bash@3
-          #   displayName: 'Download 3rd Party OpenAPI spec'
-          #   inputs:
-          #     targetType: inline
-          #     script: |
-          #       curl -o 3rdPartyContract.yaml https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/examples/v3.0/petstore.yaml
 
           - task: Bash@3
             displayName: 'Contract Tests: Publish OpenAPI spec to PactFlow'
