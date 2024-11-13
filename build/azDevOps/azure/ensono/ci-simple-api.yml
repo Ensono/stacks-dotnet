@@ -268,7 +268,7 @@ stages:
                   pactfoundation/pact-cli:latest \
                   broker can-i-deploy \
                   --pacticipant $(PACTICIPANT_NAME) \
-                  --version $(MAJOR_VERSION).$(MINOR_VERSION).$(Build.BuildId) \
+                  --version $(version_number) \
                   --to-environment $(Environment.ShortName)
 
       - deployment: DeployDev
