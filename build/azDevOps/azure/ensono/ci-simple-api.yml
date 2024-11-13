@@ -94,12 +94,12 @@ stages:
             displayName: 'Contract Tests: Publish OpenAPI spec to PactFlow'
             inputs:
               targetType: inline
-              script: | 
+              script: |
                 docker run --rm \
                   -w ${PWD} \
                   -v ${PWD}:${PWD} \
                   -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
-                  -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \ 
+                  -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
                   pactfoundation/pact-cli:latest \
                   pactflow publish-provider-contract \
                   $(OAS_FILE) \
@@ -112,9 +112,9 @@ stages:
                   --content-type "application/yaml" \
                   --verification-exit-code 0 \
                   --verification-results-content-type "application/yaml" \
-                  --verification-results-format "yaml" 
+                  --verification-results-format "yaml"
             env:
-              PACTFLOW_TOKEN: $(PACT_BROKER_TOKEN) #todo: how are secrets managed? same above
+              PACTFLOW_TOKEN: $(PACT_BROKER_TOKEN) # todo: how are secrets managed? same above
 
           - task: Bash@3
             displayName: "TaskCTL: Build Functional Tests"
@@ -248,28 +248,28 @@ stages:
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
 
-      - job: canideploy_dev 
+      - job: canideploy_dev
         steps:
-        - task: Bash@3
-          displayName: 'Pull Pact CLI Docker image'
-          inputs:
-            targetType: inline
-            script: |
-              docker pull pactfoundation/pact-cli:latest
+          - task: Bash@3
+            displayName: 'Pull Pact CLI Docker image'
+            inputs:
+              targetType: inline
+              script: |
+                docker pull pactfoundation/pact-cli:latest
 
-        - task: Bash@3
-          displayName: 'Contract Tests: can-i-deploy to dev'
-          inputs:
-            targetType: inline
-            script: |
-              docker run --rm \
-                -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
-                -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
-                pactfoundation/pact-cli:latest \
-                broker can-i-deploy \
-                --pacticipant $(PACTICIPANT_NAME) \
-                --version $(MAJOR_VERSION).$(MINOR_VERSION).$(Build.BuildId) \
-                --to-environment $(Environment.ShortName)
+          - task: Bash@3
+            displayName: 'Contract Tests: can-i-deploy to dev'
+            inputs:
+              targetType: inline
+              script: |
+                docker run --rm \
+                  -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
+                  -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
+                  pactfoundation/pact-cli:latest \
+                  broker can-i-deploy \
+                  --pacticipant $(PACTICIPANT_NAME) \
+                  --version $(MAJOR_VERSION).$(MINOR_VERSION).$(Build.BuildId) \
+                  --to-environment $(Environment.ShortName)
 
       - deployment: DeployDev
         dependsOn: AppInfraDev
@@ -501,30 +501,30 @@ stages:
                     TF_VAR_tfstate_key: "coreenv"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
-                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"              
+                    TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
 
-      - job: canideploy_prod 
+      - job: canideploy_prod
         steps:
-        - task: Bash@3
-          displayName: 'Pull Pact CLI Docker image'
-          inputs:
-            targetType: inline
-            script: |
-              docker pull pactfoundation/pact-cli:latest
+          - task: Bash@3
+            displayName: 'Pull Pact CLI Docker image'
+            inputs:
+              targetType: inline
+              script: |
+                docker pull pactfoundation/pact-cli:latest
 
-        - task: Bash@3
-          displayName: 'Contract Tests: can-i-deploy to prod'
-          inputs:
-            targetType: inline
-            script: |
-              docker run --rm \
-                -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
-                -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
-                pactfoundation/pact-cli:latest \
-                broker can-i-deploy \
-                --pacticipant $(PACTICIPANT_NAME) \
-                --version $(MAJOR_VERSION).$(MINOR_VERSION).$(Build.BuildId) \
-                --to-environment $(Environment.ShortName)
+          - task: Bash@3
+            displayName: 'Contract Tests: can-i-deploy to prod'
+            inputs:
+              targetType: inline
+              script: |
+                docker run --rm \
+                  -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
+                  -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
+                  pactfoundation/pact-cli:latest \
+                  broker can-i-deploy \
+                  --pacticipant $(PACTICIPANT_NAME) \
+                  --version $(MAJOR_VERSION).$(MINOR_VERSION).$(Build.BuildId) \
+                  --to-environment $(Environment.ShortName)
 
       - deployment: DeployProd
         dependsOn:
