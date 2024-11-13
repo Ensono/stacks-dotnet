@@ -177,4 +177,4 @@ variables:
   - name: PACTICIPANT_NAME
     value: 'stacks-provider'
   - name: OAS_FILE
-    value: ./src/simple-api/contracts/openapi-v1.yaml # todo: confirm this is correct
+    value: ./src/simple-api/contracts/openapi-v1.yaml
