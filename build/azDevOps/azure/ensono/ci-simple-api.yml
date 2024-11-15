@@ -199,7 +199,6 @@ stages:
 
       - deployment: AppInfraDev
         condition: or(succeeded('canideploy_dev'), eq(variables.run_contract_test, false))
-        dependsOn: canideploy_dev
         pool:
           vmImage: $(pool_vm_image)
 
