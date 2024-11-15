@@ -182,3 +182,13 @@ variables:
     value: false
   - name: create_resource_group
     value: false
+
+    # Pact Contract Tests
+  - name: PACT_BROKER_BASE_URL
+    value: 'https://ensono-stacks.pactflow.io'
+  - name: PACTICIPANT_NAME
+    value: 'stacks-provider'
+  - name: OAS_FILE
+    value: ./src/simple-api/contracts/openapi-v1.yaml
+  - name: run_contract_tests
+    value: false
