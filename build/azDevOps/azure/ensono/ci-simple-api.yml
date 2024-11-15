@@ -76,6 +76,7 @@ stages:
 
           - task: Bash@3
             displayName: 'Contract Tests: Pull Pact CLI Docker image'
+            condition: eq(variables.run_contract_test, true)
             inputs:
               targetType: inline
               script: |
@@ -83,6 +84,7 @@ stages:
 
           - task: Bash@3
             displayName: 'Contract Tests: Publish OpenAPI spec to PactFlow'
+            condition: eq(variables.run_contract_test, true)
             inputs:
               targetType: inline
               script: |
@@ -172,6 +174,7 @@ stages:
         value: nonprod
     jobs:
       - job: canideploy_dev
+        condition: eq(variables.run_contract_test, true)
         steps:
           - task: Bash@3
             displayName: 'Pull Pact CLI Docker image'
@@ -402,7 +405,7 @@ stages:
 
                 - task: Bash@3
                   displayName: 'Contract Tests: Record-deployment to dev'
-                  condition: succeeded()
+                  condition: and(succeeded(), eq(variables.run_contract_test, true))
                   inputs:
                     targetType: inline
                     script: |
@@ -428,6 +431,7 @@ stages:
         value: prod
     jobs:
       - job: canideploy_prod
+        condition: eq(variables.run_contract_test, true)
         steps:
           - task: Bash@3
             displayName: 'Pull Pact CLI Docker image'
@@ -662,7 +666,7 @@ stages:
 
                 - task: Bash@3
                   displayName: 'Contract Tests: Record-deployment to prod'
-                  condition: succeeded()
+                  condition: and(succeeded(), eq(variables.run_contract_test, true))
                   inputs:
                     targetType: inline
                     script: |
