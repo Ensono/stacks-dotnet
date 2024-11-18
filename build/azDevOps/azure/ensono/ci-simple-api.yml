@@ -198,7 +198,7 @@ stages:
                   --to-environment $(Environment.ShortName)
 
       - deployment: AppInfraDev
-        condition: or(succeeded('canideploy_dev.Contract Tests can-i-deploy to dev'), eq(variables['run_contract_tests'], false))
+        condition: or(succeeded(), eq(variables['Agent.JobStatus'], 'Skipped'))
         pool:
           vmImage: $(pool_vm_image)
 
