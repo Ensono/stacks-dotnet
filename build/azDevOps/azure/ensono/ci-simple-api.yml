@@ -198,7 +198,8 @@ stages:
                   --to-environment $(Environment.ShortName)
 
       - deployment: AppInfraDev
-        condition: or(succeeded(), eq(variables['Agent.JobStatus'], 'Skipped'))
+        dependsOn: canideploy_dev
+        condition: or(succeeded('canideploy_dev'), eq(dependencies.canideploy_dev.result, 'skipped'))
         pool:
           vmImage: $(pool_vm_image)
 
