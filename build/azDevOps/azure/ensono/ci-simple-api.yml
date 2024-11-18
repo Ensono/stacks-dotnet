@@ -190,7 +190,7 @@ stages:
               script: |
                 docker run --rm \
                   -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
-                  -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN)nlah \
+                  -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
                   pactfoundation/pact-cli:latest \
                   broker can-i-deploy \
                   --pacticipant $(PACTICIPANT_NAME) \
