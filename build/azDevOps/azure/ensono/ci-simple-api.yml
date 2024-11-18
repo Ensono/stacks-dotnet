@@ -184,7 +184,7 @@ stages:
                 docker pull pactfoundation/pact-cli:latest
 
           - task: Bash@3
-            displayName: 'Contract Tests can-i-deploy to dev'
+            displayName: 'Contract Tests: can-i-deploy to dev'
             inputs:
               targetType: inline
               script: |
@@ -456,7 +456,8 @@ stages:
                   --to-environment $(Environment.ShortName)
 
       - deployment: AppInfraProd
-        condition: or(succeeded(), eq(variables['Agent.JobStatus'], 'Skipped'))
+        dependsOn: canideploy_prod
+        condition: or(succeeded('canideploy_prod'), eq(dependencies.canideploy_prod.result, 'skipped'))
         pool:
           vmImage: $(pool_vm_image)
 
