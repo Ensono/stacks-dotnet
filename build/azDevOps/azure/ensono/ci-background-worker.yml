@@ -196,7 +196,7 @@ stages:
                   --to-environment $(Environment.ShortName)
 
       - deployment: AppInfraDev
-        condition: or(succeeded('canideploy_dev'), eq(variables.run_contract_tests, false))
+        condition: or(succeeded('canideploy_dev'), eq(variables['run_contract_tests'], false))
         pool:
           vmImage: $(pool_vm_image)
 
@@ -453,7 +453,7 @@ stages:
                   --to-environment $(Environment.ShortName)
 
       - deployment: AppInfraProd
-        condition: or(succeeded('canideploy_prod'), eq(variables.run_contract_tests, false))
+        condition: or(succeeded('canideploy_prod'), eq(variables['run_contract_tests'], false))
         pool:
           vmImage: $(pool_vm_image)
 
