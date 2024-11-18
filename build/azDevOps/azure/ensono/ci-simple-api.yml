@@ -184,7 +184,7 @@ stages:
                 docker pull pactfoundation/pact-cli:latest
 
           - task: Bash@3
-            displayName: 'Contract Tests: can-i-deploy to dev'
+            displayName: 'Contract Tests can-i-deploy to dev'
             inputs:
               targetType: inline
               script: |
@@ -198,7 +198,7 @@ stages:
                   --to-environment $(Environment.ShortName)
 
       - deployment: AppInfraDev
-        condition: or(succeeded('canideploy_dev'), eq(variables['run_contract_tests'], false))
+        condition: or(succeeded('canideploy_dev.Contract Tests can-i-deploy to dev'), eq(variables['run_contract_tests'], false))
         pool:
           vmImage: $(pool_vm_image)
 
