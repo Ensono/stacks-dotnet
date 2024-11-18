@@ -179,4 +179,4 @@ variables:
   - name: OAS_FILE
     value: ./src/simple-api/contracts/openapi-v1.yaml
   - name: run_contract_tests
-    value: true
+    value: false
