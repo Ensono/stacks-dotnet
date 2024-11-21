@@ -8,6 +8,6 @@ public static class Constants
         public const string ApiBasePathEnvName = "API_BASEPATH";
         public const string AppInsightsEnvName = "APPINSIGHTS_INSTRUMENTATIONKEY";
         public const string OtlpServiceName = "OTLP_SERVICENAME";
-        public const string OltpEndpoint = "OTLP_ENDPOINT";
+    //    public const string OltpEndpoint = "OTLP_ENDPOINT";
     }
 }
