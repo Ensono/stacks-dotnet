@@ -13,6 +13,9 @@ resources:
 
 variables:
   - group: ensono-stacks-infra-credentials-nonprod
+  
+  # Common variables
+  - template: ci-common-vars.yml
 
   # Versioning
   - name: Version.Major
@@ -54,7 +57,7 @@ stages:
       - job: Build
         dependsOn: UpdateBuildNumber
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: $(pool_vm_image)
         continueOnError: False
         steps:
 

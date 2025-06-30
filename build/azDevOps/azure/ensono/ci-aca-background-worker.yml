@@ -14,6 +14,9 @@ trigger:
 variables:
   - template: ci-aca-background-worker-vars.yml
 
+  # Common variables
+  - template: ../ci-common-vars.yml
+
 stages:
   - stage: Build
     variables:

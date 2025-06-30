@@ -17,6 +17,9 @@ variables:
   - name: BuildPipeline.Path
     value: build/azDevOps/azure/packages-api-models.yml
 
+  # Common variables
+  - template: ../ci-common-vars.yml
+
 resources:
   - repo: self
 
@@ -33,7 +36,7 @@ pr:
 
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: $(pool_vm_image)
 
 steps:
   - script: echo '##vso[build.updatebuildnumber]$(Version.MajorMinor).$(Version.Revision)'

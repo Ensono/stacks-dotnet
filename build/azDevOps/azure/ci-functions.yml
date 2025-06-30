@@ -13,6 +13,9 @@ trigger:
 
 variables:
   - template: ci-vars.yml
+  
+  # Common variables
+  - template: ci-common-vars.yml
 
 stages:
   - stage: Build

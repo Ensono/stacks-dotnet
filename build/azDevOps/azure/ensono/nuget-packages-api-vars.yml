@@ -59,7 +59,3 @@ variables:
   # Scripts directory used by pipeline steps
   # - name: scripts_dir
   #   value: $(Agent.BuildDirectory)/s/stacks-pipeline-templates/azDevOps/azure/templates/v2/scripts
-
-  # DEFAULT IMAGE RUNNER
-  - name: pool_vm_image
-    value: ubuntu-20.04

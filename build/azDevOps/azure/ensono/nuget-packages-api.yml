@@ -35,6 +35,9 @@ resources:
 variables:
   - template: nuget-packages-api-vars.yml
 
+  # Common variables
+  - template: ../ci-common-vars.yml
+
 stages:
   - stage: Build
     jobs:
