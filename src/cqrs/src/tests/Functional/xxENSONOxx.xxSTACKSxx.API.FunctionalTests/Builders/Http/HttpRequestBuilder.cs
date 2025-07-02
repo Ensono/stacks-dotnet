@@ -98,7 +98,7 @@ public class HttpRequestBuilder
 			request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.bearerToken);
 		}
 
-		//Clear then add the Accept header if if exists in the request
+		//Clear then add the Accept header if exists in the request
 		request.Headers.Accept.Clear();
 		if (!string.IsNullOrEmpty(this.acceptHeader))
 		{
