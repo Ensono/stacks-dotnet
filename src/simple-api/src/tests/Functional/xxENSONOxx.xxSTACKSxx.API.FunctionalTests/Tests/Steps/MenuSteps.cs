@@ -105,10 +105,11 @@ public class MenuSteps
         //Not doable here because the response given in the API is not related to the request, currently
     }
 
-    public async Task ThenTheMenuIsUpdatedCorrectly()
+    public Task ThenTheMenuIsUpdatedCorrectly()
     {
         lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent,
             $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
+        return Task.CompletedTask;
 
         //NOTE: compare the initial request sent to the API against the actual response
     }

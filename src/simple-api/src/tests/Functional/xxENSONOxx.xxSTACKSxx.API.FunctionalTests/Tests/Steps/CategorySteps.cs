@@ -114,10 +114,11 @@ public class CategorySteps
         //}
     }
 
-    public async Task ThenTheCategoryIsUpdatedCorrectly()
+    public Task ThenTheCategoryIsUpdatedCorrectly()
     {
         lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent,
             $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
+        return Task.CompletedTask;
 
         //NOTE: add here validations other than the response StatusCode. For example, code trying to get the deleted record
     }

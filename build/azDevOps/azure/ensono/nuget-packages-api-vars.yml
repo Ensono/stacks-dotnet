@@ -12,7 +12,7 @@ variables:
   - name: self_generic_name
     value: stacks-api
 
-  # GitHub infomration
+  # GitHub information
   - name: create_release
     value: true
   - name: github_release_service_connection

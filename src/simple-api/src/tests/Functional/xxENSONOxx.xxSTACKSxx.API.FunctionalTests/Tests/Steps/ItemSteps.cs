@@ -105,10 +105,11 @@ public class ItemSteps
         //}
     }
 
-    public async Task ThenTheItemIsUpdatedCorrectly()
+    public Task ThenTheItemIsUpdatedCorrectly()
     {
         lastResponse.StatusCode.ShouldBe(HttpStatusCode.NoContent,
             $"Response from {lastResponse.RequestMessage.Method} {lastResponse.RequestMessage.RequestUri} was not as expected");
+        return Task.CompletedTask;
 
         //NOTE: check here if the item deleted is not available anymore, like this code below
     }
