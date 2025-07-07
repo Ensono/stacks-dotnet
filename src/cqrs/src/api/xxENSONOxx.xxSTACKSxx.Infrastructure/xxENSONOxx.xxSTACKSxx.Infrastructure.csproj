@@ -20,7 +20,7 @@
     <!-- Transient packeges:  Referenced explicity due to vulnerabilities in lower versions. -->
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.8" />
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.400.5" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.2.1" />
   </ItemGroup>
 
   <ItemGroup>
