@@ -139,7 +139,7 @@ stages:
       - name: dns_base_domain
         value: nonprod.stacks.ensono.com
       - name: core_environment
-        value: nonprod
+        value: core-nonprod
     jobs:
       - deployment: AppInfraDev
         pool:
@@ -296,7 +296,7 @@ stages:
       - name: dns_base_domain
         value: prod.stacks.ensono.com
       - name: core_environment
-        value: prod
+        value: core-prod
     jobs:
       - deployment: AppInfraProd
         pool:

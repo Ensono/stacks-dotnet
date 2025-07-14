@@ -167,7 +167,7 @@ stages:
       - name: dns_base_domain
         value: nonprod.stacks.ensono.com
       - name: core_environment
-        value: nonprod
+        value: core-nonprod
     jobs:
       - job: canideploy_dev
         condition: eq(variables.run_contract_tests, true)
@@ -425,7 +425,7 @@ stages:
       - name: dns_base_domain
         value: prod.stacks.ensono.com
       - name: core_environment
-        value: prod
+        value: core-prod
     jobs:
       - job: canideploy_prod
         condition: eq(variables.run_contract_tests, true)
