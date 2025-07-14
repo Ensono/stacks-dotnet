@@ -525,7 +525,7 @@ stages:
           - AppInfraProd
         pool:
           vmImage: $(pool_vm_image)
-        environment: prod
+        environment: $(core_environment)
         variables:
           - name: namespace
             value: "$(Environment.ShortName)-${{ variables.domain }}"
