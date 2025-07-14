@@ -320,7 +320,7 @@ stages:
       - name: dns_base_domain
         value: prod.stacks.ensono.com
       - name: core_environment
-        value: core-prod
+        value: prod
     jobs:
       - deployment: AppInfraProd
         pool:

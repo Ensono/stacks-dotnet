@@ -430,7 +430,7 @@ stages:
       - name: dns_base_domain
         value: prod.stacks.ensono.com
       - name: core_environment
-        value: core-prod
+        value: prod
     jobs:
       - job: canideploy_prod
         condition: eq(variables.run_contract_tests, true)
@@ -531,7 +531,7 @@ stages:
           - AppInfraProd
         pool:
           vmImage: $(pool_vm_image)
-        environment: prod
+        environment: ${{ variables.domain }}-prod
         variables:
           - name: namespace
             value: "$(Environment.ShortName)-${{ variables.domain }}"
