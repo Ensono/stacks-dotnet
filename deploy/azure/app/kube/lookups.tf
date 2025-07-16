@@ -4,7 +4,7 @@ data "terraform_remote_state" "core" {
   backend = "azurerm"
 
   config = {
-    key                  = "${var.tfstate_key}:${var.env}"
+    key                  = "${var.tfstate_key}:${var.stage}"
     storage_account_name = var.tfstate_storage_account
     container_name       = var.tfstate_container_name
     resource_group_name  = var.tfstate_resource_group_name

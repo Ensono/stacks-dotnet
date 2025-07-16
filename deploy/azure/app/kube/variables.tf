@@ -261,12 +261,6 @@ variable "function_name" {
 ###########################
 # Core infrastructure settings
 ##########################
-variable "env" {
-  type        = string
-  description = "name of the deployment environment (i.e. dev/prod)"
-  default     = "dev"
-}
-
 variable "core_environment" {
   type        = string
   description = "Name of the environment for the core infrastructure"
