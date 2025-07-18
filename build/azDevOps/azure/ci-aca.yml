@@ -266,7 +266,7 @@ stages:
                     TF_VAR_name_project: $(project)
                     TF_VAR_name_domain: $(domain)
                     TF_VAR_stage: $(Environment.ShortName)
-                    TF_VAR_tfstate_key: "$(domain)"
+                    TF_VAR_tfstate_key: "$(domain)env"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"

@@ -28,7 +28,7 @@ module "app" {
   create_dns_record                    = var.create_dns_record
   dns_record                           = var.dns_record
   dns_zone_name                        = data.terraform_remote_state.core.outputs.dns_base_domain
-  dns_zone_resource_group              = data.terraform_remote_state.core.outputs.dns_resource_group_name != "" ? data.terraform_remote_state.core.outputs.dns_resource_group_name : data.terraform_remote_state.core.outputs.resource_group_name
+  dns_zone_resource_group              = try(data.terraform_remote_state.core.outputs.dns_resource_group_name, data.terraform_remote_state.core.outputs.resource_group_name)
   dns_ip_address_name                  = var.public_ip_name
   dns_ip_address_resource_group        = var.core_resource_group
   subscription_id                      = data.azurerm_client_config.current.subscription_id
