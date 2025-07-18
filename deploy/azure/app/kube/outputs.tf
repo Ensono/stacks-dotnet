@@ -158,3 +158,8 @@ output "app_gateway_ip" {
   description = "IP address of the Application Gateway"
   value       = data.terraform_remote_state.core.outputs.app_gateway_ip
 }
+
+output "debug_tfstate_key_stage" {
+  description = "DEBUG: terraform state key"
+  value       = "${var.tfstate_key}:${var.stage}"
+}

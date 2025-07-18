@@ -36,3 +36,7 @@ output "servicebus_subscription_name" {
   description = "Servicebus Subscription name"
   value       = var.servicebus_type == "listener" ? data.terraform_remote_state.app.outputs.servicebus_subscription_name : null
 }
+
+output "debug_tfstate_key_stage" {
+  value = "${var.tfstate_key}env:${var.stage}"
+}
