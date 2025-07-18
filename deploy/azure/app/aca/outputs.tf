@@ -38,5 +38,5 @@ output "servicebus_subscription_name" {
 }
 
 output "debug_tfstate_key_stage" {
-  value = "${var.tfstate_key}env:${var.stage}"
+  value = "${var.domain}env:${var.stage}"
 }

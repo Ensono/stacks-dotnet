@@ -161,5 +161,5 @@ output "app_gateway_ip" {
 
 output "debug_tfstate_key_stage" {
   description = "DEBUG: terraform state key"
-  value       = "${var.tfstate_key}:${var.stage}"
+  value       = "${var.domain}env:${var.stage}"
 }
