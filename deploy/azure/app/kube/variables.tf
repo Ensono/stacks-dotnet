@@ -274,7 +274,7 @@ variable "core_resource_group" {
 
 variable "tfstate_key" {
   type        = string
-  description = "Name of the key in remote storage for the core environmnent"
+  description = "Name of the key in remote storage for the core environment"
 }
 
 variable "tfstate_storage_account" {
@@ -298,7 +298,7 @@ variable "tfstate_resource_group_name" {
 variable "app_insights_name" {
   type        = string
   default     = ""
-  description = "app insights name for key retriaval in memory"
+  description = "app insights name for key retrieval in memory"
 }
 
 ##########################

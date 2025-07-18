@@ -79,7 +79,7 @@ variable "core_resource_group" {
 
 variable "tfstate_key" {
   type        = string
-  description = "Name of the key in remote storage for the core environmnent"
+  description = "Name of the key in remote storage for the core environment"
 }
 
 variable "tfstate_storage_account" {
@@ -108,7 +108,7 @@ variable "app_environment" {
 
 variable "tfstate_app_key" {
   type        = string
-  description = "Name of the key in remote storage for the kube environmnent. This is the function apps, cosmosdb, etc e.g. kube folder"
+  description = "Name of the key in remote storage for the kube environment. This is the function apps, cosmosdb, etc e.g. kube folder"
 }
 
 ##########################

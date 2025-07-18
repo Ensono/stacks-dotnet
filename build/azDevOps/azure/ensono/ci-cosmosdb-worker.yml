@@ -210,7 +210,7 @@ stages:
                     TF_VAR_eventhub_name: ${{ variables.eventhub_name }}
                     TF_VAR_eventhub_sa_name: ${{ variables.eventhub_sa_name_dev }}
                     TF_VAR_eventhub_sa_blob_container: ${{ variables.eventhub_sa_blob_container }}
-                    TF_VAR_tfstate_key: "coreenv"
+                    TF_VAR_tfstate_key: "$(domain)env"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
@@ -368,7 +368,7 @@ stages:
                     TF_VAR_eventhub_name: ${{ variables.eventhub_name }}
                     TF_VAR_eventhub_sa_name: ${{ variables.eventhub_sa_name_prod }}
                     TF_VAR_eventhub_sa_blob_container: ${{ variables.eventhub_sa_blob_container }}
-                    TF_VAR_tfstate_key: "coreenv"
+                    TF_VAR_tfstate_key: "$(domain)env"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"

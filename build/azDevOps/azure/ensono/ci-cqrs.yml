@@ -265,7 +265,7 @@ stages:
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
                     TF_VAR_create_eventhub: $(create_eventhub)
-                    TF_VAR_tfstate_key: "coreenv"
+                    TF_VAR_tfstate_key: "$(domain)env"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
@@ -346,7 +346,7 @@ stages:
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
                     TF_VAR_create_eventhub: $(create_eventhub)
-                    TF_VAR_tfstate_key: "coreenv"
+                    TF_VAR_tfstate_key: "$(domain)env"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
@@ -522,7 +522,7 @@ stages:
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
                     TF_VAR_create_eventhub: $(create_eventhub)
-                    TF_VAR_tfstate_key: "coreenv"
+                    TF_VAR_tfstate_key: "$(domain)env"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
@@ -607,7 +607,7 @@ stages:
                     TF_VAR_cosmosdb_kind: "GlobalDocumentDB"
                     TF_VAR_cosmosdb_offer_type: "Standard"
                     TF_VAR_create_eventhub: $(create_eventhub)
-                    TF_VAR_tfstate_key: "coreenv"
+                    TF_VAR_tfstate_key: "$(domain)env"
                     TF_VAR_tfstate_storage_account: "$(TF_STATE_STORAGE)"
                     TF_VAR_tfstate_container_name: "$(TF_STATE_CONTAINER)"
                     TF_VAR_tfstate_resource_group_name: "$(TF_STATE_RG)"
