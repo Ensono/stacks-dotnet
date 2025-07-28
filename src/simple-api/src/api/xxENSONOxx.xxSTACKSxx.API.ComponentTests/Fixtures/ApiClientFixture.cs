@@ -1,5 +1,4 @@
 using System.Net;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,6 +51,7 @@ public abstract class ApiClientFixture(IOptions<JwtBearerAuthenticationConfigura
     /// <summary>
     /// Send a POST Http request to the API CreateMenu endpoint passing the menu being created
     /// </summary>
+    /// <param name="menuId">Id of menu being created</param>
     /// <param name="menu">Menu being created</param>
     protected async Task<HttpResponseMessage> UpdateMenu(Guid menuId, UpdateMenuRequest menu)
     {
