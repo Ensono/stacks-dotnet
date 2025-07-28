@@ -435,7 +435,7 @@ stages:
               script: |
                 docker pull pactfoundation/pact-cli:latest
 
-          - task: Bash@3S
+          - task: Bash@3
             displayName: "Contract Tests: can-i-deploy to prod"
             inputs:
               targetType: inline
