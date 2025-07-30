@@ -1,0 +1,6 @@
+variables:
+  # Agent configuration
+  - name: TaskctlVersion
+    value: 1.5.2
+  - name: pool_vm_image
+    value: ubuntu-24.04
