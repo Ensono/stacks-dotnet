@@ -13,6 +13,7 @@ trigger:
 
 variables:
   - template: ci-vars.yml
+  - template: ensono/ci-common-vars.yml
 
 stages:
   - stage: Build
@@ -106,7 +107,7 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: VSTest
-              testResultsFiles: '**/*.trx'
+              testResultsFiles: "**/*.trx"
               searchFolder: $(Pipeline.Workspace)/s/testresults
               failTaskOnFailedTests: true # Optional
               testRunTitle: Unit
@@ -271,7 +272,7 @@ stages:
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     testResultsFormat: VSTest
-                    testResultsFiles: '**/*.trx'
+                    testResultsFiles: "**/*.trx"
                     searchFolder: $(Pipeline.Workspace)/s/testresults
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Dev Functional Test Report
@@ -298,7 +299,6 @@ stages:
           runOnce:
             deploy:
               steps:
-
                 - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
@@ -429,7 +429,7 @@ stages:
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     testResultsFormat: VSTest
-                    testResultsFiles: '**/*.trx'
+                    testResultsFiles: "**/*.trx"
                     searchFolder: $(Pipeline.Workspace)/s/testresults
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Prod Functional Test Report

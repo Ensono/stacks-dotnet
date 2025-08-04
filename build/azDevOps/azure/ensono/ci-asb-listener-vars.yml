@@ -52,13 +52,6 @@ variables:
   - name: app_name
     value: yumido-netcore-asb-listener
 
-  # Agent configuration
-  - name: TaskctlVersion
-    value: 1.5.2
-  - name: pool_vm_image
-    value: ubuntu-20.04
-
-  # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
   - name: self_repo_src

@@ -13,6 +13,7 @@ trigger:
 
 variables:
   - template: ci-cosmosdb-worker-vars.yml
+  - template: ci-common-vars.yml
 
 resources:
   repositories:

@@ -11,11 +11,12 @@ variables:
   - name: Version.Revision
     value: $[counter(variables['Version.MajorMinor'], 0)]
   - name: Package.Path
-    value: 'src/api/xxENSONOxx.xxSTACKSxx.API.Models/'
+    value: "src/api/xxENSONOxx.xxSTACKSxx.API.Models/"
   - name: Package.Feed
-    value: 'packages-menu'
+    value: "packages-menu"
   - name: BuildPipeline.Path
     value: build/azDevOps/azure/packages-api-models.yml
+  - template: ci-common-vars.yml
 
 resources:
   - repo: self
@@ -26,14 +27,13 @@ trigger:
       - src/api/xxENSONOxx.xxSTACKSxx.API.Models/
       - build/azDevOps/azure/packages-api-models.yml
     exclude:
-      - '*'
+      - "*"
 
 pr:
   - master
 
-
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: $(pool_vm_image)
 
 steps:
   - script: echo '##vso[build.updatebuildnumber]$(Version.MajorMinor).$(Version.Revision)'
@@ -42,13 +42,13 @@ steps:
   # Pack NuGet packages.
   - task: DotNetCoreCLI@2
     inputs:
-      command: 'pack'
-      configuration: 'release'
+      command: "pack"
+      configuration: "release"
       versioningScheme: byPrereleaseNumber
-      majorVersion: '$(Version.Major)'
-      minorVersion: '$(Version.Minor)'
-      patchVersion: '$(Version.Revision)'
-      packagesToPack: '$(Package.Path)/*.csproj'
+      majorVersion: "$(Version.Major)"
+      minorVersion: "$(Version.Minor)"
+      patchVersion: "$(Version.Revision)"
+      packagesToPack: "$(Package.Path)/*.csproj"
 
   - task: DotNetCoreCLI@2
     inputs:
