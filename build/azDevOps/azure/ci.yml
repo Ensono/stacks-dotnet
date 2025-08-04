@@ -13,6 +13,7 @@ trigger:
 
 variables:
   - template: ci-vars.yml
+  - template: ensono/ci-common-vars.yml
 
 stages:
   - stage: Build
@@ -68,7 +69,7 @@ stages:
               BUILD_BUILDNUMBER: $(version_number)
 
           - task: Bash@3
-            displayName: 'Contract Tests: Pull Pact CLI Docker image'
+            displayName: "Contract Tests: Pull Pact CLI Docker image"
             condition: eq(variables.run_contract_tests, true)
             inputs:
               targetType: inline
@@ -76,7 +77,7 @@ stages:
                 docker pull pactfoundation/pact-cli:latest
 
           - task: Bash@3
-            displayName: 'Contract Tests: Publish OpenAPI spec to PactFlow'
+            displayName: "Contract Tests: Publish OpenAPI spec to PactFlow"
             condition: eq(variables.run_contract_tests, true)
             inputs:
               targetType: inline
@@ -141,7 +142,7 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: VSTest
-              testResultsFiles: '**/*.trx'
+              testResultsFiles: "**/*.trx"
               searchFolder: $(Pipeline.Workspace)/s/testresults
               failTaskOnFailedTests: true # Optional
               testRunTitle: Unit
@@ -170,14 +171,14 @@ stages:
         condition: eq(variables.run_contract_tests, true)
         steps:
           - task: Bash@3
-            displayName: 'Pull Pact CLI Docker image'
+            displayName: "Pull Pact CLI Docker image"
             inputs:
               targetType: inline
               script: |
                 docker pull pactfoundation/pact-cli:latest
 
           - task: Bash@3
-            displayName: 'Contract Tests: can-i-deploy to dev'
+            displayName: "Contract Tests: can-i-deploy to dev"
             inputs:
               targetType: inline
               script: |
@@ -392,13 +393,13 @@ stages:
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     testResultsFormat: VSTest
-                    testResultsFiles: '**/*.trx'
+                    testResultsFiles: "**/*.trx"
                     searchFolder: $(Pipeline.Workspace)/s/testresults
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Dev Functional Test Report
 
                 - task: Bash@3
-                  displayName: 'Contract Tests: Record-deployment to dev'
+                  displayName: "Contract Tests: Record-deployment to dev"
                   condition: and(succeeded(), eq(variables.run_contract_tests, true))
                   inputs:
                     targetType: inline
@@ -411,7 +412,6 @@ stages:
                         --pacticipant $(PACTICIPANT_NAME) \
                         --version $(version_number) \
                         --environment $(Environment.ShortName)
-
 
   - stage: Prod
     dependsOn: Build
@@ -429,14 +429,14 @@ stages:
         condition: eq(variables.run_contract_tests, true)
         steps:
           - task: Bash@3
-            displayName: 'Pull Pact CLI Docker image'
+            displayName: "Pull Pact CLI Docker image"
             inputs:
               targetType: inline
               script: |
                 docker pull pactfoundation/pact-cli:latest
 
-          - task: Bash@3S
-            displayName: 'Contract Tests: can-i-deploy to prod'
+          - task: Bash@3
+            displayName: "Contract Tests: can-i-deploy to prod"
             inputs:
               targetType: inline
               script: |
@@ -461,7 +461,6 @@ stages:
           runOnce:
             deploy:
               steps:
-
                 - template: ../templates/taskctl-setup.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
@@ -655,13 +654,13 @@ stages:
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     testResultsFormat: VSTest
-                    testResultsFiles: '**/*.trx'
+                    testResultsFiles: "**/*.trx"
                     searchFolder: $(Pipeline.Workspace)/s/testresults
                     failTaskOnFailedTests: true # Optional
                     testRunTitle: Prod Functional Test Report
 
                 - task: Bash@3
-                  displayName: 'Contract Tests: Record-deployment to prod'
+                  displayName: "Contract Tests: Record-deployment to prod"
                   condition: and(succeeded(), eq(variables.run_contract_tests, true))
                   inputs:
                     targetType: inline

@@ -15,10 +15,10 @@ pr:
 trigger:
   branches:
     include:
-      - 'master'
+      - "master"
   paths:
     include:
-      - '*'
+      - "*"
 
 resources:
   repositories:
@@ -34,6 +34,7 @@ resources:
 
 variables:
   - template: nuget-packages-api-vars.yml
+  - template: ci-common-vars.yml
 
 stages:
   - stage: Build
@@ -49,12 +50,12 @@ stages:
           # Updates the build number in Azure DevOps (requires refresh in the UI to see)
           - bash: |
               echo '##vso[build.updatebuildnumber]${{ variables.version_number }}'
-            displayName: 'Update: Build Number'
+            displayName: "Update: Build Number"
 
           - pwsh: |
               dotnet workload install aspire
               $(self_repo)/scripts/test-templates.ps1
-            displayName: 'Test Templates'
+            displayName: "Test Templates"
 
           # Copy the files into the correct place for packaging
           - task: Bash@3
@@ -77,7 +78,7 @@ stages:
           - template: azDevOps/azure/templates/v2/steps/build-pack-test-dotnet.yml@templates
             parameters:
               package_path: $(Agent.BuildDirectory)/s
-              dotnet_core_version: '8.0.100'
+              dotnet_core_version: "8.0.100"
               version_variable_name: version_number
 
           # Upload the packages as artefacts
@@ -105,7 +106,7 @@ stages:
           # Download the artefacts from the build to create the release from
           - task: DownloadPipelineArtifact@2
             inputs:
-              artifact: 'packages'
+              artifact: "packages"
               path: $(Build.ArtifactStagingDirectory)/packages
 
           # Create a tag in the code for this release
@@ -133,9 +134,9 @@ stages:
 
           # Push the package to Nuget
           - task: NuGetCommand@2
-            displayName: 'Publish: Push Packages Public'
+            displayName: "Publish: Push Packages Public"
             inputs:
-              command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.nupkg'
-              nuGetFeedType: 'external'
-              publishFeedCredentials: '${{variables.nuget_connection}}'
+              command: "push"
+              packagesToPush: "$(Build.ArtifactStagingDirectory)/packages/*.nupkg"
+              nuGetFeedType: "external"
+              publishFeedCredentials: "${{variables.nuget_connection}}"

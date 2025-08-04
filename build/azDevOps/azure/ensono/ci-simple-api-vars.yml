@@ -52,13 +52,6 @@ variables:
   - name: app_name
     value: yumido-netcore-api
 
-  # Agent configuration
-  - name: TaskctlVersion
-    value: 1.5.2
-  - name: pool_vm_image
-    value: ubuntu-20.04
-
-  # SelfConfig
   # If you haven't specified source_repo at cli runtime please ensure you replace it here
   # It is case sensitive for TFS based repos
   - name: self_repo_src
@@ -173,9 +166,9 @@ variables:
 
     # Pact Contract Tests
   - name: PACT_BROKER_BASE_URL
-    value: 'https://ensono-stacks.pactflow.io'
+    value: "https://ensono-stacks.pactflow.io"
   - name: PACTICIPANT_NAME
-    value: 'stacks-provider'
+    value: "stacks-provider"
   - name: OAS_FILE
     value: ./src/simple-api/contracts/openapi-v1.yaml
   - name: run_contract_tests

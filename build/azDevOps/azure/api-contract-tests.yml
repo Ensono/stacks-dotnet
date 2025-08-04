@@ -14,6 +14,10 @@ resources:
 variables:
   - group: ensono-stacks-infra-credentials-nonprod
 
+  # Common variables
+  - template: ci-vars.yml
+  - template: ensono/ci-common-vars.yml
+
   # Versioning
   - name: Version.Major
     value: 1
@@ -26,7 +30,7 @@ variables:
 
   # Tests
   - name: Test.ProviderContractTestProjectSourcePath
-    value: '$(Build.SourcesDirectory)/src/api/xxENSONOxx.xxSTACKSxx.API.ContractTests'
+    value: "$(Build.SourcesDirectory)/src/api/xxENSONOxx.xxSTACKSxx.API.ContractTests"
 
   # Docker Config
   - name: Docker.ImageTag
@@ -54,22 +58,21 @@ stages:
       - job: Build
         dependsOn: UpdateBuildNumber
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: $(pool_vm_image)
         continueOnError: False
         steps:
-
           - task: UseDotNet@2
-            displayName: 'Use .NET Core SDK 6.0.x'
+            displayName: "Use .NET Core SDK 6.0.x"
             inputs:
               packageType: sdk
               version: "6.0.x"
               installationPath: $(Agent.ToolsDirectory)/dotnet
 
           - task: DotNetCoreCLI@2
-            displayName: 'Run Provider Contract Tests'
+            displayName: "Run Provider Contract Tests"
             inputs:
               command: test
-              projects: '$(Test.ProviderContractTestProjectSourcePath)/*.csproj'
-              arguments: '-v n'
-              testRunTitle: 'Provider Contract Tests'
+              projects: "$(Test.ProviderContractTestProjectSourcePath)/*.csproj"
+              arguments: "-v n"
+              testRunTitle: "Provider Contract Tests"
             continueOnError: true

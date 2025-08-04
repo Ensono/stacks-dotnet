@@ -196,6 +196,7 @@ if (!$GenerateExpectedTrees) {
 
             Push-Location -Path $project.Path
             dotnet restore
+            dotnet workload restore
             dotnet build
             dotnet test --filter TestType!=IntegrationTests
             if ($LASTEXITCODE -ne 0) {
