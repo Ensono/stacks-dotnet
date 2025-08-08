@@ -15,7 +15,7 @@
 │   │   │       └── publish-release-notes.yml
 │   │   └── templates
 │   │       ├── legacy-deploy-functions.yml
-│   │       └── taskctl-setup.yml
+│   │       └── install-eirctl.yml
 │   ├── deployment_list.ps1
 │   ├── scripts
 │   │   └── .gitkeep

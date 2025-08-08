@@ -33,7 +33,7 @@ stages:
           vmImage: $(pool_vm_image)
 
         steps:
-          - template: ../../templates/taskctl-setup.yml
+          - template: ../../templates/install-eirctl.yml
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -149,7 +149,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../../templates/install-eirctl.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -226,7 +226,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../../templates/install-eirctl.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -306,7 +306,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../../templates/install-eirctl.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -383,7 +383,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../../templates/install-eirctl.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
