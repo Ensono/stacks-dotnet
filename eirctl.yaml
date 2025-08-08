@@ -1,4 +1,4 @@
-# Import contexts and tasks for Taskctl
+# Import contexts and tasks for eirctl
 import:
   - ./build/eirctl/contexts.yaml
   - ./build/eirctl/tasks.yaml

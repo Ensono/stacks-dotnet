@@ -1,10 +1,10 @@
-name: 'Install taskctl'
-description: 'Downloads and installs taskctl'
+name: 'Install eirctl'
+description: 'Downloads and installs eirctl'
 runs:
   using: 'composite'
   steps:
     - run: |
-        rm -rf /tmp/taskctl.tar.gz
-        wget https://github.com/Ensono/taskctl/releases/download/v${{ env.TaskctlVersion }}/taskctl_${{ env.TaskctlVersion }}_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
-        tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+        rm -rf /usr/loca/bin/eirctl
+        wget https://github.com/Ensono/eirctl/releases/download/${{ parameters.EirctlVersion }}/eirctl-linux-amd64 -O /usr/local/bin/eirctl
+        chmod +x /usr/local/bin/eirctl
       shell: bash

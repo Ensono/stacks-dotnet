@@ -19,7 +19,7 @@
 │   ├── deployment_list.ps1
 │   ├── scripts
 │   │   └── .gitkeep
-│   └── taskctl
+│   └── eirctl
 │       ├── contexts.yaml
 │       └── tasks.yaml
 ├── deploy
@@ -101,5 +101,5 @@
 │               ├── IQueryCriteria.cs
 │               └── IQueryHandler.cs
 ├── stackscli.yml
-├── taskctl.yaml
+├── eirctl.yaml
 └── yamllint.conf

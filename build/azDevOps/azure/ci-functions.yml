@@ -28,35 +28,35 @@ stages:
         steps:
           - template: ../templates/install-eirctl.yml
             parameters:
-              TaskctlVersion: ${{ variables.TaskctlVersion }}
+              EirctlVersion: ${{ variables.EirctlVersion }}
 
           - task: Bash@3
-            displayName: "TaskCTL: Pull images"
+            displayName: "eirctl: Pull images"
             inputs:
               targetType: inline
               script: |
-                taskctl image-pull
-                taskctl image-pull-dotnet
+                eirctl image-pull
+                eirctl image-pull-dotnet
 
           - task: Bash@3
-            displayName: "TaskCTL: Setup"
+            displayName: "eirctl: Setup"
             inputs:
               targetType: inline
-              script: taskctl setup
+              script: eirctl setup
             env:
               DOCKER_IMAGE_TAG: $(version_number)
 
           - task: Bash@3
-            displayName: "TaskCTL: Lint"
+            displayName: "eirctl: Lint"
             inputs:
               targetType: inline
-              script: taskctl lint
+              script: eirctl lint
 
           - task: Bash@3
-            displayName: "TaskCTL: Test"
+            displayName: "eirctl: Test"
             inputs:
               targetType: inline
-              script: taskctl test
+              script: eirctl test
             env:
               # Dotnet Build
               SELF_REPO_SRC: $(self_repo_src)
@@ -69,17 +69,17 @@ stages:
               BUILD_BUILDNUMBER: $(version_number)
 
           - task: Bash@3
-            displayName: "TaskCTL: Build Functional Tests"
+            displayName: "eirctl: Build Functional Tests"
             condition: and(succeeded(), eq(variables.run_functional_tests, true))
             inputs:
               targetType: inline
-              script: taskctl build:functional_tests
+              script: eirctl build:functional_tests
 
           - task: Bash@3
-            displayName: "TaskCTL: Build Container"
+            displayName: "eirctl: Build Container"
             inputs:
               targetType: inline
-              script: taskctl build:container
+              script: eirctl build:container
             env:
               # Dotnet Build
               SELF_REPO_SRC: $(self_repo_src)
@@ -144,19 +144,19 @@ stages:
               steps:
                 - template: ../templates/install-eirctl.yml
                   parameters:
-                    TaskctlVersion: ${{ variables.TaskctlVersion }}
+                    EirctlVersion: ${{ variables.EirctlVersion }}
 
                 - task: Bash@3
-                  displayName: "TaskCTL: Pull images"
+                  displayName: "eirctl: Pull images"
                   inputs:
                     targetType: inline
-                    script: taskctl image-pull
+                    script: eirctl image-pull
 
                 - task: Bash@3
-                  displayName: "Taskctl: Infrastructure"
+                  displayName: "eirctl: Infrastructure"
                   inputs:
                     targetType: inline
-                    script: taskctl infrastructure
+                    script: eirctl infrastructure
                     informationPreference: continue
                   env:
                     ENV_NAME: $(Environment.ShortName)
@@ -221,16 +221,16 @@ stages:
               steps:
                 - template: ../../templates/install-eirctl.yml
                   parameters:
-                    TaskctlVersion: ${{ variables.TaskctlVersion }}
+                    EirctlVersion: ${{ variables.EirctlVersion }}
 
                 - task: Bash@3
-                  displayName: "TaskCTL: Pull images"
+                  displayName: "eirctl: Pull images"
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     targetType: inline
                     script: |
-                      taskctl image-pull
-                      taskctl image-pull-dotnet
+                      eirctl image-pull
+                      eirctl image-pull-dotnet
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
@@ -253,11 +253,11 @@ stages:
                     function_resource_group: $(function_resource_group_dev) # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
                 - task: Bash@3
-                  displayName: "Taskctl: Functional Tests"
+                  displayName: "eirctl: Functional Tests"
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     targetType: inline
-                    script: taskctl functional_tests
+                    script: eirctl functional_tests
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     TF_STATE_CONTAINER: $(tf_state_container)
@@ -301,19 +301,19 @@ stages:
               steps:
                 - template: ../templates/install-eirctl.yml
                   parameters:
-                    TaskctlVersion: ${{ variables.TaskctlVersion }}
+                    EirctlVersion: ${{ variables.EirctlVersion }}
 
                 - task: Bash@3
-                  displayName: "TaskCTL: Pull images"
+                  displayName: "eirctl: Pull images"
                   inputs:
                     targetType: inline
-                    script: taskctl image-pull
+                    script: eirctl image-pull
 
                 - task: Bash@3
-                  displayName: "Taskctl: Infrastructure"
+                  displayName: "eirctl: Infrastructure"
                   inputs:
                     targetType: inline
-                    script: taskctl infrastructure
+                    script: eirctl infrastructure
                     informationPreference: continue
                   env:
                     ENV_NAME: $(Environment.ShortName)
@@ -378,16 +378,16 @@ stages:
               steps:
                 - template: ../../templates/install-eirctl.yml
                   parameters:
-                    TaskctlVersion: ${{ variables.TaskctlVersion }}
+                    EirctlVersion: ${{ variables.EirctlVersion }}
 
                 - task: Bash@3
-                  displayName: "TaskCTL: Pull images"
+                  displayName: "eirctl: Pull images"
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     targetType: inline
                     script: |
-                      taskctl image-pull
-                      taskctl image-pull-dotnet
+                      eirctl image-pull
+                      eirctl image-pull-dotnet
 
                 - task: DownloadPipelineArtifact@2
                   displayName: "Download: Test Artefacts"
@@ -410,11 +410,11 @@ stages:
                     function_resource_group: $(function_resource_group_prod) # TODO: This name is constructed in TF but we currently have no way of reading the output into the pipeline
 
                 - task: Bash@3
-                  displayName: "Taskctl: Functional Tests"
+                  displayName: "eirctl: Functional Tests"
                   condition: and(succeeded(), eq(variables.run_functional_tests, true))
                   inputs:
                     targetType: inline
-                    script: taskctl functional_tests
+                    script: eirctl functional_tests
                   env:
                     ENV_NAME: $(Environment.ShortName)
                     TF_STATE_CONTAINER: $(tf_state_container)
