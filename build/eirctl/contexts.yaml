@@ -6,13 +6,13 @@ contexts:
         - run
         - --rm
         - -v
-        - ${PWD}:/app
+        - ${PWD}:/eirctl
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
         - -e
         - PSModulePath=/modules
         - -w
-        - /app
+        - /eirctl
         - --env-file
         - envfile
         - ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.1.159
@@ -35,13 +35,13 @@ contexts:
         - run
         - --rm
         - -v
-        - ${PWD}:/app
+        - ${PWD}:/eirctl
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
         - -e
         - PSModulePath=/modules
         - -w
-        - /app
+        - /eirctl
         - --env-file
         - envfile
         - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.159
