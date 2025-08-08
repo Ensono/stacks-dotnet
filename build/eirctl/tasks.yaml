@@ -60,10 +60,10 @@ tasks:
         Invoke-SonarScanner -start &&
         Invoke-DotNet -Custom -arguments "workload install aspire" &&
         Invoke-DotNet -Build -Path . &&
-        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
-        Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
-        Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /app/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/app/coverage/" &&
-        Invoke-DotNet -Coverage -target /app/coverage -path /app/coverage &&
+        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/" &&
+        Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/" &&
+        Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/" &&
+        Invoke-DotNet -Coverage -target /eirctl/coverage -path /eirctl/coverage &&
         Remove-Item Env:\SONAR_PROPERTIES &&
         Invoke-SonarScanner -stop
     condition: exit $TEST_NO_RUN
@@ -128,7 +128,7 @@ tasks:
     context: powershell-dotnet
     description: Generate test coverage reports
     command:
-      - Invoke-DotNet -Coverage -target /app/coverage
+      - Invoke-DotNet -Coverage -target /eirctl/coverage
 
   # Compilation tasks
   build:container:
@@ -191,7 +191,7 @@ tasks:
     context: powershell-dotnet
     description: Run Functional Tests
     command:
-      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /app/testresults"
+      - Invoke-Dotnet -Tests -pattern "*FunctionalTests" -path ${env:FUNCTIONAL_TESTS_RUN_DIR} -arguments "--logger 'trx' --results-directory /eirctl/testresults"
 
   publish:github:
     context: powershell
