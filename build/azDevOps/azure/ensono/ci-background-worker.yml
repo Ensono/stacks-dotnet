@@ -33,7 +33,7 @@ stages:
           vmImage: $(pool_vm_image)
 
         steps:
-          - template: ../../templates/taskctl-setup.yml
+          - template: ../../templates/install-eirctl.yml
             parameters:
               TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -208,7 +208,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../../templates/install-eirctl.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -282,7 +282,7 @@ stages:
                 - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
                   name: SetEnv
 
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../../templates/install-eirctl.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -466,7 +466,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../../templates/install-eirctl.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
@@ -539,7 +539,7 @@ stages:
                 - script: echo "##vso[task.setvariable variable=core_environment;isOutput=true]$(core_environment)"
                   name: SetEnv
 
-                - template: ../../templates/taskctl-setup.yml
+                - template: ../../templates/install-eirctl.yml
                   parameters:
                     TaskctlVersion: ${{ variables.TaskctlVersion }}
 
