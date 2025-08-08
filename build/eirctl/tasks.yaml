@@ -3,13 +3,13 @@ tasks:
   # These `image-pull*` tasks are dummy tasks used for pulling
   # images in the Pipeline to help de-clutter the build logs:
   # e.g.:
-  # - run: taskctl image-pull
+  # - run: eirctl image-pull
 
-  # - run: taskctl lint
+  # - run: eirctl lint
   #   env:
   #     TF_FILE_LOCATION: deploy/aws/app/kube
 
-  # - run: taskctl image-pull-dotnet
+  # - run: eirctl image-pull-dotnet
   image-pull:
     context: powershell
     command: ""

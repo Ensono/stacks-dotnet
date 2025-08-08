@@ -19,7 +19,7 @@
 │   ├── deployment_list.ps1
 │   ├── scripts
 │   │   └── .gitkeep
-│   └── taskctl
+│   └── eirctl
 │       ├── contexts.yaml
 │       └── tasks.yaml
 ├── deploy
@@ -594,5 +594,5 @@
 │       ├── Ensono.Stacks.Packages.sln
 │       └── NuGet.config
 ├── stackscli.yml
-├── taskctl.yaml
+├── eirctl.yaml
 └── yamllint.conf

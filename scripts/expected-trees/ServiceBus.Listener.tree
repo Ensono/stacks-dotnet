@@ -19,7 +19,7 @@
 │   ├── deployment_list.ps1
 │   ├── scripts
 │   │   └── .gitkeep
-│   └── taskctl
+│   └── eirctl
 │       ├── contexts.yaml
 │       └── tasks.yaml
 ├── deploy
@@ -229,5 +229,5 @@
 │           ├── appsettings.integration.topics.json
 │           └── appsettings.json
 ├── stackscli.yml
-├── taskctl.yaml
+├── eirctl.yaml
 └── yamllint.conf

@@ -61,7 +61,7 @@
             "include": [
                 "build/**",
                 "deploy/**",
-                "taskctl.yaml",
+                "eirctl.yaml",
                 "stackscli.yml",
                 ".gitignore",
                 ".gitattributes",
