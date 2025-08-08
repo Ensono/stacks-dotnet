@@ -1,8 +1,8 @@
 contexts:
   powershell:
-    executable:
-      bin: docker
-      args:
+    container:
+      shell: pwsh
+      shell_args:
         - run
         - --rm
         - -v
@@ -12,48 +12,42 @@ contexts:
         - -e
         - PSModulePath=/modules
         - -w
-        - /eirctl
+        - /app
         - --env-file
         - envfile
         - ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.1.159
         - pwsh
         - -NoProfile
         - -Command
-    quote: "'"
     envfile:
-      generate: true
-      delay: 0
       exclude:
         - path
         - home
         - kubeconfig
 
   powershell-dotnet:
-    executable:
-      bin: docker
+    container:
+      shell: pwsh
       args:
         - run
         - --rm
         - -v
-        - ${PWD}:/eirctl
+        - ${PWD}:/app
         - -v
         - /var/run/docker.sock:/var/run/docker.sock
         - -e
         - PSModulePath=/modules
         - -w
-        - /eirctl
+        - /app
         - --env-file
         - envfile
         - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.159
         - pwsh
         - -NoProfile
         - -Command
-    quote: "'"
     env:
       DOTNET_ARGUMENTS: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
     envfile:
-      generate: true
-      delay: 0
       exclude:
         - path
         - home
