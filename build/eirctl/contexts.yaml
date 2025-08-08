@@ -1,22 +1,9 @@
 contexts:
   powershell:
     container:
+      name: ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.2.22
       shell: pwsh
       shell_args:
-        - run
-        - --rm
-        - -v
-        - ${PWD}:/eirctl
-        - -v
-        - /var/run/docker.sock:/var/run/docker.sock
-        - -e
-        - PSModulePath=/modules
-        - -w
-        - /app
-        - --env-file
-        - envfile
-        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.1.159
-        - pwsh
         - -NoProfile
         - -Command
     envfile:
@@ -27,22 +14,9 @@ contexts:
 
   powershell-dotnet:
     container:
+      name: ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.2.22
       shell: pwsh
-      args:
-        - run
-        - --rm
-        - -v
-        - ${PWD}:/app
-        - -v
-        - /var/run/docker.sock:/var/run/docker.sock
-        - -e
-        - PSModulePath=/modules
-        - -w
-        - /app
-        - --env-file
-        - envfile
-        - ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.1.159
-        - pwsh
+      shell_args:
         - -NoProfile
         - -Command
     env:
