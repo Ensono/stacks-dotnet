@@ -1,7 +1,7 @@
 contexts:
   powershell:
     container:
-      name: ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.2.22
+      name: ensonostackseuweirdfmu.azurecr.io/ensono/eir-infrastructure:1.2.25
       shell: pwsh
       shell_args:
         - -NoProfile
@@ -14,7 +14,7 @@ contexts:
 
   powershell-dotnet:
     container:
-      name: ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.2.22
+      name: ensonostackseuweirdfmu.azurecr.io/ensono/eir-dotnet:1.2.25
       shell: pwsh
       shell_args:
         - -NoProfile
