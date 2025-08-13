@@ -26,7 +26,7 @@ All applications contain build and cloud infrastructure and are currently hosted
 The application base is designed as a restaurant menu application. Users can create a Menu. Menus can hold one or more Categories, and a Category holds menu Items. The API provides an interface for clients to create/update and delete any or all of the menu components.
 
 TIP: **Demo**
-For a clearer understanding of the output, there is a demo API hosted link:https://dev-netcore-api.nonprod.amidostacks.com/api/menu/swagger/index.html[here].
+For a clearer understanding of the output, there is a demo API hosted link:https://dev-netcore-api.nonprod.ensonostacks.com/api/menu/swagger/index.html[here].
 
 As an example, below is a JSON response to illustrate the structure defined by the model.
 
@@ -58,4 +58,3 @@ As an example, below is a JSON response to illustrate the structure defined by t
 ----
 
 Even though the restaurant/menu context is used as the foundation for the templates, the .NET template engine provides us with the ability to change the domain with a simple command. The templates are highly customizable and modular, so a project can be generated with only what you need. Conditional compilation is used depending on the settings you provide to generate the minimal amount of code needed for your project.
-
