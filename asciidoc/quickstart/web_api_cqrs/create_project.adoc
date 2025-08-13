@@ -31,7 +31,7 @@ keywords:
 [discrete]
 === Install the package
 
-Access Ensono.Stacks.Template package page in Nuget https://www.nuget.org/packages/Amido.Stacks.Templates/[here]
+Access Ensono.Stacks.Template package page in Nuget https://www.nuget.org/packages/Ensono.Stacks.Templates/[here]
 Copy and execute the command displayed in the page (if you want to get the latest version).
 For example
 

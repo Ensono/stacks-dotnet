@@ -23,7 +23,7 @@ keywords:
 
 === Install the package
 
-Access Ensono.Stacks.Templates package page in Nuget https://www.nuget.org/packages/Amido.Stacks.Templates/[here]. Copy and execute the command displayed in the page (if you want to get the latest version). For example:
+Access Ensono.Stacks.Templates package page in Nuget https://www.nuget.org/packages/Ensono.Stacks.Templates/[here]. Copy and execute the command displayed in the page (if you want to get the latest version). For example:
 
 
 .Run the command to install the package

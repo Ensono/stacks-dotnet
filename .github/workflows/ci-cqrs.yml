@@ -347,7 +347,7 @@ jobs:
           K8S_CLUSTER_IDENTIFIER: "${{ env.REGION }}"
           NAMESPACE: "prod-${{ env.DOMAIN }}"
           # K8S Additional Deploy-Templater temporary var substitutions (should be from TF outputs and per env)
-          DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}"
+          DOCKER_REGISTRY: "${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN }}"
           DNS_BASE_DOMAIN: "prod.aws.stacks.ensono.com"
           TEMPLATER_FILE: "build/deployment_list.ps1"
 
