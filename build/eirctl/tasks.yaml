@@ -57,6 +57,8 @@ tasks:
     command:
       - $ErrorActionPreference = "Stop";
         cd $env:SELF_REPO_SRC &&
+        java -version &&
+        Write-Host ${env:JAVA_HOME} &&
         Invoke-SonarScanner -start &&
         Invoke-DotNet -Custom -arguments "workload install aspire" &&
         Invoke-DotNet -Build -Path . &&
