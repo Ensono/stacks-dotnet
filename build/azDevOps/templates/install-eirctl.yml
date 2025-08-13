@@ -7,6 +7,6 @@ steps:
     displayName: "Install: Eirctl"
     inputs:
       targetType: inline
-      script: \|
+      script: |
         sudo wget https://github.com/Ensono/eirctl/releases/download/${{ parameters.EirctlVersion }}/eirctl-linux-amd64 -O /usr/local/bin/eirctl
         sudo chmod +x /usr/local/bin/eirctl
