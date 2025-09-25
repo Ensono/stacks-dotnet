@@ -95,7 +95,7 @@ eirctl deploy           # With ENV_NAME=dev|prod
 - **.NET 8.0 SDK** (specified in `global.json`)
 - **PowerShell 7+** (required for eirctl tasks)
 - **Docker** (for containerization)
-- **eirctl** (build orchestration tool, version 0.7.6)
+- **eirctl** (build orchestration tool, version 0.7.10)
 
 ### Local Development Setup
 
