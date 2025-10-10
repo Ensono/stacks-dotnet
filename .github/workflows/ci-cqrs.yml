@@ -54,6 +54,12 @@ jobs:
 
       - uses: ./build/github/templates/install-eirctl
 
+      - name: Setup Java for SonarScanner
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - run: eirctl image-pull
 
       - run: eirctl lint
