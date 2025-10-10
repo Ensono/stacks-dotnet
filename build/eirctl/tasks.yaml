@@ -56,14 +56,12 @@ tasks:
     description: Run Tests
     command:
       - $ErrorActionPreference = "Stop";
-        $env:JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64";
-        $env:PATH = "/usr/lib/jvm/java-17-openjdk-amd64/bin:$env:PATH";
+        sudo rm -f /usr/local/java/bin/java;
+        sudo ln -s /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/local/java/bin/java;
         java -version;
+        which java;
         cd $env:SELF_REPO_SRC;
         Write-Host "Working directory:" $PWD;
-        Write-Host "JAVA_HOME:" $env:JAVA_HOME;
-        Write-Host "PATH:" $env:PATH;
-        Write-Host "Which java:" (Get-Command java).Source;
         Invoke-SonarScanner -start;
         Invoke-DotNet -Custom -arguments "workload install aspire";
         Invoke-DotNet -Build -Path .;
@@ -72,13 +70,6 @@ tasks:
         Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/";
         Invoke-DotNet -Coverage -target /eirctl/coverage -path /eirctl/coverage;
         Remove-Item Env:\SONAR_PROPERTIES;
-        $env:JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64";
-        $env:PATH = "/usr/lib/jvm/java-17-openjdk-amd64/bin:$env:PATH";
-        java -version;
-        Write-Host "JAVA_HOME before stop:" $env:JAVA_HOME;
-        Write-Host "PATH before stop:" $env:PATH;
-        Write-Host "Which java before stop:" (Get-Command java).Source;
-        $env:SONAR_SCANNER_JAVA_OPTS = "-Djava.home=/usr/lib/jvm/java-17-openjdk-amd64";
         Invoke-SonarScanner -stop;
     condition: exit $TEST_NO_RUN
 
