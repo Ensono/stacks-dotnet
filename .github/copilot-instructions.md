@@ -12,19 +12,21 @@ This is the **Ensono Stacks .NET Templates** repository that provides comprehens
 
 ### Key Architectural Patterns
 
-- **Simple API** (`src/simple-api/`) - Basic Web API with minimal complexity
-- **CQRS** (`src/cqrs/`) - Command Query Responsibility Segregation with Domain-Driven Design
-- **Background Workers** (`src/background-worker/`) - Service Bus message processing
-- **Azure Functions** (`src/func-*`) - Event-driven serverless functions (Event Hub, Service Bus, CosmosDB triggers)
+-   **Simple API** (`src/simple-api/`) - Basic Web API with minimal complexity
+-   **CQRS** (`src/cqrs/`) - Command Query Responsibility Segregation with Domain-Driven Design
+-   **Background Workers** (`src/background-worker/`) - Service Bus message processing
+-   **Azure Functions** (`src/func-*`) - Event-driven serverless functions (Event Hub, Service Bus, CosmosDB triggers)
 
 ### Build System: eirctl
 
 This repository uses **eirctl** (not taskctl) as the primary build orchestration tool. All pipeline tasks are defined in:
-- `eirctl.yaml` - Main configuration and pipeline definitions
-- `build/eirctl/tasks.yaml` - Task definitions
-- `build/eirctl/contexts.yaml` - Execution contexts
+
+-   `eirctl.yaml` - Main configuration and pipeline definitions
+-   `build/eirctl/tasks.yaml` - Task definitions
+-   `build/eirctl/contexts.yaml` - Execution contexts
 
 Common eirctl commands:
+
 ```bash
 eirctl setup              # Initialize build environment and set build number
 eirctl lint               # YAML and Terraform linting/validation
@@ -36,6 +38,7 @@ eirctl functional_tests   # Run end-to-end tests
 ```
 
 When debugging pipeline failures, check:
+
 1. Task definitions in `build/eirctl/tasks.yaml`
 2. Pipeline structure in `eirctl.yaml`
 3. Build logs from Azure DevOps using MCP tools
@@ -43,21 +46,23 @@ When debugging pipeline failures, check:
 ## Using MCP Server for Azure DevOps
 
 When getting work items using MCP Server for Azure DevOps:
-- Always use **batch tools** for updates (up to 200 items per batch)
-- Use `get_work_items_batch_by_ids` after getting work item IDs
-- Show fields: **ID, Type, Title, State** by default
-- Present results in **rendered markdown tables**
+
+-   Always use **batch tools** for updates (up to 200 items per batch)
+-   Use `get_work_items_batch_by_ids` after getting work item IDs
+-   Show fields: **ID, Type, Title, State** by default
+-   Present results in **rendered markdown tables**
 
 ### Azure DevOps Configuration
 
-- **Organization**: https://dev.azure.com/ensonodigitaluk
-- **Project**: [Stacks](https://dev.azure.com/ensonodigitaluk/Stacks)
-- **Pipeline Definitions**: `build/azDevOps/azure/` (located in [`dotnet`](https://dev.azure.com/ensonodigitaluk/Stacks/_build?definitionScope=%5Cdotnet) folder in Azure Pipelines)
-- **Common Variables**: `build/azDevOps/azure/ensono/ci-common-vars.yml`
+-   **Organization**: https://dev.azure.com/ensonodigitaluk
+-   **Project**: [Stacks](https://dev.azure.com/ensonodigitaluk/Stacks)
+-   **Pipeline Definitions**: `build/azDevOps/azure/` (located in [`dotnet`](https://dev.azure.com/ensonodigitaluk/Stacks/_build?definitionScope=%5Cdotnet) folder in Azure Pipelines)
+-   **Common Variables**: `build/azDevOps/azure/ensono/ci-common-vars.yml`
 
 ### Pipeline Structure
 
 All Azure DevOps pipelines follow this pattern:
+
 1. Install eirctl (template: `build/azDevOps/templates/install-eirctl.yml`)
 2. Pull Docker images (`eirctl image-pull`, `eirctl image-pull-dotnet`)
 3. Setup (`eirctl setup`)
@@ -72,15 +77,17 @@ All Azure DevOps pipelines follow this pattern:
 ### Token System
 
 All templates use consistent placeholder tokens:
-- `xxENSONOxx` → Company/Organization name
-- `xxSTACKSxx` → Project name
-- `xxDOMAINxx` → Domain object name
+
+-   `xxENSONOxx` → Company/Organization name
+-   `xxSTACKSxx` → Project name
+-   `xxDOMAINxx` → Domain object name
 
 When modifying templates, maintain token consistency across all files.
 
 ### Testing Templates
 
 Use the scripts in the `scripts/` directory:
+
 ```powershell
 # Test all templates
 ./scripts/test-templates.ps1
@@ -100,26 +107,29 @@ Expected tree files are stored in `scripts/expected-trees/` and used for validat
 ## Multi-Cloud Support
 
 ### Azure-Specific Components
-- **Data**: CosmosDB
-- **Messaging**: Azure Service Bus, Event Hubs
-- **Compute**: AKS (Azure Kubernetes Service) or ACA (Azure Container Apps)
-- **Registry**: ACR (Azure Container Registry)
+
+-   **Data**: CosmosDB
+-   **Messaging**: Azure Service Bus, Event Hubs
+-   **Compute**: AKS (Azure Kubernetes Service) or ACA (Azure Container Apps)
+-   **Registry**: ACR (Azure Container Registry)
 
 ### AWS-Specific Components
-- **Data**: DynamoDB
-- **Messaging**: SNS (Simple Notification Service)
-- **Compute**: EKS (Elastic Kubernetes Service)
-- **Registry**: ECR (Elastic Container Registry)
+
+-   **Data**: DynamoDB
+-   **Messaging**: SNS (Simple Notification Service)
+-   **Compute**: EKS (Elastic Kubernetes Service)
+-   **Registry**: ECR (Elastic Container Registry)
 
 When making changes, consider multi-cloud compatibility where applicable.
 
 ## Development Workflow
 
 ### Prerequisites
-- .NET 8.0 SDK (version specified in `global.json`)
-- PowerShell 7+
-- Docker
-- eirctl (version specified in pipeline variables, typically 0.7.10+)
+
+-   .NET 8.0 SDK (version specified in `global.json`)
+-   PowerShell 7+
+-   Docker
+-   eirctl (version specified in pipeline variables, typically 0.7.10+)
 
 ### Making Changes
 
@@ -146,39 +156,52 @@ dotnet new --uninstall Ensono.Stacks.Templates
 When investigating build failures:
 
 1. **Use Azure DevOps MCP tools** to retrieve build logs:
-   ```
-   mcp_ado_pipelines_get_builds - List recent builds
-   mcp_ado_pipelines_get_build_log - Get full build logs
-   mcp_ado_pipelines_get_build_status - Check specific build status
-   ```
+
+    ```
+    mcp_ado_pipelines_get_builds - List recent builds
+    mcp_ado_pipelines_get_build_log - Get full build logs
+    mcp_ado_pipelines_get_build_status - Check specific build status
+    ```
 
 2. **Common failure points**:
-   - Syntax errors in `build/eirctl/tasks.yaml` (PowerShell command syntax)
-   - Missing environment variables in pipeline YAML
-   - Terraform validation failures (check `deploy/` directories)
-   - Test failures (check test output in logs)
-   - Docker build failures (check `Dockerfile` in each template)
+
+    - Syntax errors in `build/eirctl/tasks.yaml` (PowerShell command syntax)
+    - Missing environment variables in pipeline YAML
+    - Terraform validation failures (check `deploy/` directories)
+    - Test failures (check test output in logs)
+    - Docker build failures (check `Dockerfile` in each template)
 
 3. **Check environment validation errors**:
-   - Azure DevOps environments may need to be created/authorized
-   - Look for "Environment prod could not be found" type messages
+
+    - Azure DevOps environments may need to be created/authorized
+    - Look for "Environment prod could not be found" type messages
 
 4. **For eirctl task failures**:
-   - Review command syntax in `build/eirctl/tasks.yaml`
-   - Check for proper use of PowerShell variables (`$env:VAR_NAME`)
-   - Verify context is correct (powershell vs powershell-dotnet)
+    - Review command syntax in `build/eirctl/tasks.yaml`
+    - Check for proper use of PowerShell variables (`$env:VAR_NAME`)
+    - Verify context is correct (powershell vs powershell-dotnet)
 
 ## Security
 
 This repository contains CI/CD configurations with sensitive data:
-- GitHub Actions workflows in `.github/workflows/`
-- Azure DevOps pipelines in `build/azDevOps/azure/`
-- Secrets are stored in GitHub repository settings and Azure DevOps variable groups
+
+-   GitHub Actions workflows in `.github/workflows/`
+-   Azure DevOps pipelines in `build/azDevOps/azure/`
+-   Secrets are stored in GitHub repository settings and Azure DevOps variable groups
 
 **Security Guidelines**:
-- Ensure sensitive information is not exposed in logs or outputs
-- Use MCP tools cautiously with sensitive data
-- Follow branch protection and PR approval workflows
-- **Never** disable GPG signing or bypass security controls
+
+-   Ensure sensitive information is not exposed in logs or outputs
+-   Use MCP tools cautiously with sensitive data
+-   Follow branch protection and PR approval workflows
+-   **Never** disable GPG signing or bypass security controls
 
 Please refer to [./copilot-security-instructions.md](./copilot-security-instructions.md) for comprehensive security requirements.
+
+## Long Term Support Version
+
+The Long Term Support (LTS) version of .NET supported by this repository is .NET 8.0. Ensure that all templates, build scripts, and CI/CD pipelines are compatible with .NET 8.0 to provide stability and support for users relying on LTS versions.
+
+Where possible new language features from .NET 8.0 should be used to ensure the templates remain succinct, modern and relevant.
+
+When updating dependencies ensure compatibility with .NET 8.0 is maintained, and avoid introducing updates to incompatible .NET 9.0 features or libraries.
