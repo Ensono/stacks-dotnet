@@ -56,11 +56,6 @@ tasks:
     description: Run Tests
     command:
       - $ErrorActionPreference = "Stop";
-        Write-Host "Installing Java 17 inside Docker container...";
-        bash -c 'apt-get update -qq && apt-get install -y -qq openjdk-17-jdk-headless > /dev/null 2>&1';
-        $env:JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64";
-        $env:PATH = "$env:JAVA_HOME/bin:$env:PATH";
-        Write-Host "Java installed successfully:";
         java -version;
         cd $env:SELF_REPO_SRC;
         Write-Host PWD $PWD;
