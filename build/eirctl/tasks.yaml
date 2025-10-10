@@ -69,8 +69,6 @@ tasks:
         Invoke-DotNet -Coverage -target /eirctl/coverage -path /eirctl/coverage &&
         Remove-Item Env:\SONAR_PROPERTIES &&
         java -version &&
-        cd $env:SELF_REPO_SRC &&
-        Write-Host PWD $PWD &&
         Write-Host ${env:JAVA_HOME} &&
         Invoke-SonarScanner -stop;
     condition: exit $TEST_NO_RUN
