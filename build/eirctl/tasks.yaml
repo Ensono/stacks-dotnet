@@ -56,20 +56,23 @@ tasks:
     description: Run Tests
     command:
       - $ErrorActionPreference = "Stop";
-        java -version;
-        cd $env:SELF_REPO_SRC;
-        Write-Host PWD $PWD;
-        Get-ChildItem $PWD;
-        Write-Host ${env:JAVA_HOME};
-        Invoke-SonarScanner -start;
-        Invoke-DotNet -Custom -arguments "workload install aspire";
+        java -version &&
+        cd $env:SELF_REPO_SRC &&
+        Write-Host PWD $PWD &&
+        Write-Host ${env:JAVA_HOME} &&
+        Invoke-SonarScanner -start &&
+        Invoke-DotNet -Custom -arguments "workload install aspire" &&
         Invoke-DotNet -Build -Path . &&
         Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/" &&
         Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/" &&
         Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/" &&
         Invoke-DotNet -Coverage -target /eirctl/coverage -path /eirctl/coverage &&
         Remove-Item Env:\SONAR_PROPERTIES &&
-        Invoke-SonarScanner -stop
+        java -version &&
+        cd $env:SELF_REPO_SRC &&
+        Write-Host PWD $PWD &&
+        Write-Host ${env:JAVA_HOME} &&
+        Invoke-SonarScanner -stop;
     condition: exit $TEST_NO_RUN
 
   # TODO: Not currently used
