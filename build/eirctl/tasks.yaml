@@ -56,8 +56,7 @@ tasks:
     description: Run Tests
     command:
       - $ErrorActionPreference = "Stop";
-        sudo rm -f /usr/local/java/bin/java;
-        sudo ln -s /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/local/java/bin/java;
+        sh -c 'rm -f /usr/local/java/bin/java && ln -s /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/local/java/bin/java';
         java -version;
         which java;
         cd $env:SELF_REPO_SRC;
