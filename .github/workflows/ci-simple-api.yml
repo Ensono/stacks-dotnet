@@ -60,6 +60,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Configure Java for eirctl Docker container
+        run: |
+          echo "DOCKER_JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+          echo "DOCKER_JAVA_PATH=$(dirname $JAVA_HOME)/bin" >> $GITHUB_ENV
+
       - run: eirctl image-pull
 
       - run: eirctl lint
