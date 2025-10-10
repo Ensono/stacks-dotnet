@@ -17,8 +17,12 @@ contexts:
       shell: pwsh
       shell_args:
         - -Command
+      volumes:
+        - ${DOCKER_JAVA_HOME}:${DOCKER_JAVA_HOME}:ro
     env:
       DOTNET_ARGUMENTS: "-v q /p:CollectCoverage=true /p:CoverletOutputFormat=opencover"
+      JAVA_HOME: ${DOCKER_JAVA_HOME}
+      PATH: ${DOCKER_JAVA_HOME}/bin:$$PATH
     envfile:
       exclude:
         - path
