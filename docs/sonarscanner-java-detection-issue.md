@@ -872,6 +872,59 @@ docker run --rm ensono/eir-dotnet:1.2.26 pwsh -c 'whoami; id; ls -la /usr/local/
 - Group memberships
 - File permissions on Java directories
 
+**Result**:
+
+```text
+Resolving "ensono/eir-dotnet" using unqualified-search registries (/etc/containers/registries.conf.d/999-podman-machine.conf)
+Trying to pull docker.io/ensono/eir-dotnet:1.2.26...
+Getting image source signatures
+Copying blob sha256:e6c4887b2e9f70427af49da755fb883fb9a2afe67e86439d9bc8345d9ff8bc58
+Copying blob sha256:fbf5e99d50121766d1d76b571f960337ce84f0dd025a906bfc938cba95613a51
+Copying blob sha256:af6eca94c8104c8e90d3f9efe59c2b3a02b20aad3d985e31c7cd009ea104c447
+Copying blob sha256:b8fb20ca8ef648e66d9500135d91c146d62327346ccbd1883a4a7a305f88dcec
+Copying blob sha256:3b7d3cb9fb9544692d890fdb278ff0d658bf355a7a7291f805e674cc4ff5afa0
+Copying blob sha256:06c6bc7158fe862e2a8aaaa432db4499a411d998a1bd09b61944a2202c43879a
+Copying blob sha256:54fd42dbc18ea14f9aeec410dd15d6c69b9d0b98cf353016e9afbe507f8ac281
+Copying blob sha256:e8616ddc95c64a52a3eb47b360786505feee24bafe98a4320275f30349a50b80
+Copying blob sha256:e4f5bc6e9bb2c6cd44cb30dc4fa55af065cecaad4849748acfb072819e1debb7
+Copying blob sha256:beb1e72bc412fbd5df74751074073a7d995b19e10847e0d44571dd6199ef2fe3
+Copying config sha256:802a91e2b312d899253a8103c407461658a85768c89cb9234bf8c3cf897bc2b0
+Writing manifest to image destination
+root
+uid=0(root) gid=0(root) groups=0(root)
+total 456
+drwxr-xr-x 2 root root  4096 Oct 15  2024 .
+drwxr-xr-x 9 root root  4096 Oct 15  2024 ..
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jar
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 jarsigner
+-rwxr-xr-x 1 root root 13152 Jul 11  2024 java
+-rwxr-xr-x 1 root root 13200 Jul 11  2024 javac
+-rwxr-xr-x 1 root root 13208 Jul 11  2024 javadoc
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 javap
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jcmd
+-rwxr-xr-x 1 root root 13240 Jul 11  2024 jconsole
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jdb
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 jdeprscan
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jdeps
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jfr
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jhsdb
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 jimage
+-rwxr-xr-x 1 root root 13200 Jul 11  2024 jinfo
+-rwxr-xr-x 1 root root 13200 Jul 11  2024 jlink
+-rwxr-xr-x 1 root root 13200 Jul 11  2024 jmap
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jmod
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 jpackage
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jps
+-rwxr-xr-x 1 root root 13208 Jul 11  2024 jrunscript
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 jshell
+-rwxr-xr-x 1 root root 13208 Jul 11  2024 jstack
+-rwxr-xr-x 1 root root 13168 Jul 11  2024 jstat
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 jstatd
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 keytool
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 rmiregistry
+-rwxr-xr-x 1 root root 13176 Jul 11  2024 serialver
+```
+
 ### 2. eirctl Environment Variable Propagation
 
 **Question**: How does eirctl actually pass environment variables into Docker containers?
