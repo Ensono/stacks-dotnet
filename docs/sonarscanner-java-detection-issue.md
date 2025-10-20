@@ -341,7 +341,7 @@ powershell-dotnet:
 
 ### Process Execution Chain
 
-```
+```text
 GitHub Actions Runner (Ubuntu)
   └─ eirctl binary (Go application)
       └─ Docker container (ensono/eir-dotnet:1.2.26)
@@ -381,6 +381,9 @@ PowerShell Core on Linux runs as a .NET process that spawns child processes usin
 ## Proposed Solutions
 
 ### Option 1: Fix Container Image (Recommended)
+
+> [!IMPORTANT]
+> The `stacks-docker-images` repository has been updated to use the latest version of SonarCloud and the coverage collector. However this did not change the way that Java is installed, only selected the latest stacks docker image.
 
 **Strategy**: Address the root cause by ensuring the `ensono/eir-dotnet` container image has correct Java configuration.
 
@@ -938,7 +941,6 @@ drwxr-xr-x 9 root root  4096 Oct 15  2024 ..
 **Test**:
 
 ```yaml
-
 # Add diagnostic task
 
 test:env-debug:
@@ -966,7 +968,6 @@ test:env-debug:
 **Investigation**:
 
 ```bash
-
 # Add to test task temporarily
 
 - java -XshowSettings:properties -version 2>&1 | grep -E 'java.home|user.dir|PATH'
