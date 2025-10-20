@@ -1,10 +1,10 @@
 # stacks-dotnet
 
-The full documentation on Ensono Stacks can be found [here](https://stacks.ensono.com/docs).
+The full documentation on Ensono Stacks can be found [on the stacks website](https://stacks.ensono.com/docs).
 
 Ensono Stacks targets different cloud providers.
 
-[Azure](https://amido.github.io/stacks/docs/workloads/azure/backend/netcore/introduction_netcore)
+[Azure](https://stacks.ensono.com/docs/workloads/azure/backend/netcore/introduction_netcore)
 
 ## Folders of interest in this repository
 
@@ -42,7 +42,7 @@ stacks-dotnet
 |   |             └─── other API related projects
 ```
 
-- The `background-worker` folder contains a background worker that listens to all event types from the ASB topic and shows example handlers for them and the use of the [Ensono.Stacks.Messaging.Azure.ServiceBus](https://github.com/amido/stacks-dotnet-packages-messaging-asb) package.
+- The `background-worker` folder contains a background worker that listens to all event types from the ASB topic and shows example handlers for them and the use of the [Ensono.Stacks.Messaging.Azure.ServiceBus](https://github.com/ensono/stacks-dotnet-packages-messaging-asb) package.
 - The `cqrs` folder contains everything related to a CQRS API and is a standalone executable
 - `func-aeh-listener` is an Azure Event Hub trigger that listens for `MenuCreatedEvent`
 - `func-asb-listener` is an Azure Service Bus subscription (filtered) trigger that listens for `MenuCreatedEvent`

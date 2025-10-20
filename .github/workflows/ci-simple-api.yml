@@ -29,7 +29,6 @@ env:
   #   AWS_TF_STATE_KEY
   #   AWS_TF_STATE_REGION
   CLOUD_PROVIDER: "aws"
-  TaskctlVersion: '1.5.2'
   DOCKER_IMAGE_TAG: "0.0.${{ github.RUN_NUMBER }}"
   OWNER: "stacks_team"
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
@@ -53,15 +52,15 @@ jobs:
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
-      - uses: ./build/github/templates/install-taskctl
+      - uses: ./build/github/templates/install-eirctl
 
-      - run: taskctl image-pull
+      - run: eirctl image-pull
 
-      - run: taskctl lint
+      - run: eirctl lint
         env:
           TF_FILE_LOCATION: deploy/aws/app/kube
 
-      - run: taskctl image-pull-dotnet
+      - run: eirctl image-pull-dotnet
 
       - name: Set Sonar PR Arguments
         id: sonar-pr
@@ -74,7 +73,7 @@ jobs:
 
           echo "arguments=${prArguments}" >> "${GITHUB_OUTPUT}"
 
-      - run: taskctl test
+      - run: eirctl test
         env:
           # Testing
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -85,9 +84,9 @@ jobs:
           PROJECT_NAME: ${{ env.SONAR_PROJECT_NAME }}
           BUILD_BUILDNUMBER: ${{ env.DOCKER_IMAGE_TAG }}
 
-      - run: taskctl build:functional_tests
+      - run: eirctl build:functional_tests
 
-      - run: taskctl build:container
+      - run: eirctl build:container
         env:
           # Docker
           DOCKER_CONTAINER_REGISTRY_NAME: ${{ secrets.AWS_ACCOUNT_ID }}.${{ env.ECR_DOMAIN}}
@@ -147,11 +146,11 @@ jobs:
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
-      - uses: ./build/github/templates/install-taskctl
+      - uses: ./build/github/templates/install-eirctl
 
-      - run: taskctl image-pull
+      - run: eirctl image-pull
 
-      - run: taskctl infrastructure
+      - run: eirctl infrastructure
         env:
           ENV_NAME: dev
           # AWS Environmental Config
@@ -184,12 +183,12 @@ jobs:
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
-      - name: Install TaskCTL
-        uses: ./build/github/templates/install-taskctl
+      - name: eirctl install
+        uses: ./build/github/templates/install-eirctl
 
-      - run: taskctl image-pull
+      - run: eirctl image-pull
 
-      - run: taskctl image-pull-dotnet
+      - run: eirctl image-pull-dotnet
 
       - name: Download Functional Tests
         uses: actions/download-artifact@v4
@@ -197,8 +196,8 @@ jobs:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
 
-      - name: TaskCTL Deploy
-        run: taskctl deploy
+      - name: eirctl Deploy
+        run: eirctl deploy
         env:
           ENV_NAME: dev
           # AWS Environmental Config
@@ -226,8 +225,8 @@ jobs:
           DNS_BASE_DOMAIN: "nonprod.aws.stacks.ensono.com"
           TEMPLATER_FILE: "build/deployment_list.ps1"
 
-      - name: TaskCTL Functional Tests
-        run: taskctl functional_tests
+      - name: eirctl Functional Tests
+        run: eirctl functional_tests
         env:
           ENV_NAME: dev
           # AWS Environmental Config
@@ -270,11 +269,11 @@ jobs:
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
-      - uses: ./build/github/templates/install-taskctl
+      - uses: ./build/github/templates/install-eirctl
 
-      - run: taskctl image-pull
+      - run: eirctl image-pull
 
-      - run: taskctl infrastructure
+      - run: eirctl infrastructure
         env:
           ENV_NAME: prod
           # AWS Environmental Config
@@ -306,12 +305,12 @@ jobs:
         run: |
           cat .github/workflows/simple-api.env >> $GITHUB_ENV
 
-      - name: Install TaskCTL
-        uses: ./build/github/templates/install-taskctl
+      - name: eirctl install
+        uses: ./build/github/templates/install-eirctl
 
-      - run: taskctl image-pull
+      - run: eirctl image-pull
 
-      - run: taskctl image-pull-dotnet
+      - run: eirctl image-pull-dotnet
 
       - name: Download Functional Tests
         uses: actions/download-artifact@v4
@@ -319,12 +318,12 @@ jobs:
           name: ${{ env.FUNCTIONAL_TESTS_ARTEFACT_NAME }}
           path: ${{ env.FUNCTIONAL_TESTS_RUN_DIR }}
 
-      - run: taskctl image-pull
+      - run: eirctl image-pull
 
-      - run: taskctl image-pull-dotnet
+      - run: eirctl image-pull-dotnet
 
-      - name: TaskCTL Deploy
-        run: taskctl deploy
+      - name: eirctl Deploy
+        run: eirctl deploy
         env:
           ENV_NAME: prod
           # AWS Environmental Config
@@ -352,8 +351,8 @@ jobs:
           DNS_BASE_DOMAIN: "prod.aws.stacks.ensono.com"
           TEMPLATER_FILE: "build/deployment_list.ps1"
 
-      - name: TaskCTL Functional Tests
-        run: taskctl functional_tests
+      - name: eirctl Functional Tests
+        run: eirctl functional_tests
         env:
           ENV_NAME: prod
           # AWS Environmental Config

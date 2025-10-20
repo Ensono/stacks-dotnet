@@ -52,7 +52,7 @@ To enable authentication on all endpoints with an `[Authorize]` attribute, set t
 
 | Audience | The expected value of the `aud` (audience) claim in the JWT bearer token. This is usually the identifier of the OAuth 2.0 authorization server from your identity provider. For Auth0, this is the identifier or the API. | link:https://api.stacks.com[https://api.stacks.com]
 
-| Authority | The expected value of the `iss` (issuer) claim in the JWT bearer token. This is usually the domain of the OAuth 2.0 authorization server from your identity provider. This is also used by the JWT bearer middleware to retrieve the public key from the identity provider (via standard OAuth 2.0 `.well-known` endpoints) which was used to sign the token to check it was signed by the correct authority. | link:https://stacks-amido.eu.auth0.com/[https://stacks-amido.eu.auth0.com/]
+| Authority | The expected value of the `iss` (issuer) claim in the JWT bearer token. This is usually the domain of the OAuth 2.0 authorization server from your identity provider. This is also used by the JWT bearer middleware to retrieve the public key from the identity provider (via standard OAuth 2.0 `.well-known` endpoints) which was used to sign the token to check it was signed by the correct authority. | link:https://stacks-ensono.eu.auth0.com/[https://stacks-ensono.eu.auth0.com/]
 |===
 
 By setting the `Enabled`, `Audience`, and `Authority` settings, this will be enough to secure your API endpoints.
@@ -66,11 +66,11 @@ To enable API users to authenticate on the Swagger documentation page via the Au
 |===
 | Settings | Description | Example
 
-| OpenApi.AuthorizationUrl | This URL is used to authenticate the user to the authorization server. The user is redirected to this URL where they log in and are redirected back to the Swagger page. This is used for both the Authorization Code with PKCE and Implicit flows. For Authorization Code with PKCE flow, a code is returned. For Implicit flow, a token is returned. | link:https://stacks-amido.eu.auth0.com/authorize?audience=https://api.stacks.com[https://stacks-amido.eu.auth0.com/authorize?audience=https://api.stacks.com]
+| OpenApi.AuthorizationUrl | This URL is used to authenticate the user to the authorization server. The user is redirected to this URL where they log in and are redirected back to the Swagger page. This is used for both the Authorization Code with PKCE and Implicit flows. For Authorization Code with PKCE flow, a code is returned. For Implicit flow, a token is returned. | link:https://stacks-ensono.eu.auth0.com/authorize?audience=https://api.stacks.com[https://stacks-ensono.eu.auth0.com/authorize?audience=https://api.stacks.com]
 
 | OpenApi.ClientId | The Client ID of the application configured in the identity provider. | C48xVvquFoi9KlgPc0JNBdmHVCJ5kxFL
 
-| OpenApi.TokenUrl | This URL is used to retrieve a JWT access token for the user using the code returned from the AuthorizationUrl. This is used for the Authorization Code with PKCE flow only. | link:https://stacks-amido.eu.auth0.com/oauth/token[https://stacks-amido.eu.auth0.com/oauth/token]
+| OpenApi.TokenUrl | This URL is used to retrieve a JWT access token for the user using the code returned from the AuthorizationUrl. This is used for the Authorization Code with PKCE flow only. | link:https://stacks-ensono.eu.auth0.com/oauth/token[https://stacks-ensono.eu.auth0.com/oauth/token]
 |===
 
 Once set, a padlock will appear on the Swagger UI next to any API endpoint secured with an `[Authorize]` attribute.
