@@ -56,14 +56,13 @@ tasks:
     description: Run Tests
     command:
       - $ErrorActionPreference = "Stop";
-        cd $env:SELF_REPO_SRC;
         Write-Host "Working directory:" $PWD;
         Invoke-SonarScanner -start;
         Invoke-DotNet -Custom -arguments "workload install aspire";
-        Invoke-DotNet -Build -Path .;
-        Invoke-DotNet -Tests -pattern "*UnitTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/";
-        Invoke-DotNet -Tests -pattern "*ComponentTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/";
-        Invoke-DotNet -Tests -pattern "*ContractTests" -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/";
+        Invoke-DotNet -Build -Path $env:SELF_REPO_SRC;
+        Invoke-DotNet -Tests -pattern "*UnitTests" -path $env:SELF_REPO_SRC -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/";
+        Invoke-DotNet -Tests -pattern "*ComponentTests" -path $env:SELF_REPO_SRC -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/";
+        Invoke-DotNet -Tests -pattern "*ContractTests" -path $env:SELF_REPO_SRC -arguments "--logger 'trx' --results-directory /eirctl/testresults -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=/eirctl/coverage/";
         Invoke-DotNet -Coverage -target /eirctl/coverage -path /eirctl/coverage;
         Remove-Item Env:\SONAR_PROPERTIES;
         Invoke-SonarScanner -stop;
