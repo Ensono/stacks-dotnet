@@ -20,7 +20,7 @@ keywords:
 │   ├── azDevOps: stores configuration, build steps and scripts used by Azure DevOps
 │   ├── github: stores configuration, build steps and scripts used by GitHub Actions
 │   ├── scripts: stores reusable scripts used by the build pipelines
-│   └── taskctl: stores configuration, build steps and scripts used by TaskCtl
+│   └── eirctl: stores configuration, build steps and scripts used by eirctl
 ├── deploy: stores deployment configurations
 │   ├── aws: stores deployment steps and scripts used by AWS
 │   ├── azure: stores deployment steps and scripts used by Azure DevOps
@@ -41,4 +41,3 @@ keywords:
 There is 1 repository available:
 
 [stacks-dotnet](https://github.com/Ensono/stacks-dotnet) for all available dotnet templates
-

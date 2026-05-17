@@ -79,7 +79,7 @@ This folder handles the settings for the tests.
 - `ConfigModel.cs`: Represents the settings (like URLs) in the `appsettings.json` file.
 - `ConfigAccessor.cs`: Reads the settings from `appsettings.json` and makes them usable in the tests. If the machine running the tests has specific environment variables (like a different URL), it will replace the settings in the file.
 
-For example, if the appsettings.json contains the base API URL `"BaseUrl":"http://dev.azure.amidostacks.com/api/menu/"`, but the environment variable on your computer uses a different URL, the environment variable will be used instead.
+For example, if the appsettings.json contains the base API URL `"BaseUrl":"http://dev.azure.ensonostacks.com/api/menu/"`, but the environment variable on your computer uses a different URL, the environment variable will be used instead.
 
 #### Models
 
