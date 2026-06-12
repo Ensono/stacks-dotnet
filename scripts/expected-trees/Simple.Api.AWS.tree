@@ -11,11 +11,11 @@
 │   │   ├── aws
 │   │   │   └── README.md
 │   │   └── templates
-│   │       └── install-taskctl
+│   │       └── install-eirctl
 │   │           └── action.yaml
 │   ├── scripts
 │   │   └── .gitkeep
-│   └── taskctl
+│   └── eirctl
 │       ├── contexts.yaml
 │       └── tasks.yaml
 ├── deploy
@@ -232,5 +232,5 @@
 │                   ├── Simple.Api.AWS.API.FunctionalTests.sln
 │                   └── templater.ps1
 ├── stackscli.yml
-├── taskctl.yaml
+├── eirctl.yaml
 └── yamllint.conf
