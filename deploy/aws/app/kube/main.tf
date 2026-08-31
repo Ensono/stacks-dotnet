@@ -1,7 +1,7 @@
 
 module "app_label" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   namespace  = "${var.name_company}-${var.name_project}"
   stage      = var.stage
   name       = "${lookup(var.location_name_map, var.region, "eu-west-2")}-${var.name_domain}"
